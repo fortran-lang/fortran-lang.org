@@ -35,4 +35,8 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
 
-If this command works then you are ready to [write and compile your first Fortran program](/learn/beginner).
+If this command works then you are ready to write and compile your first Fortran program.
+
+- [__Tutorial for beginners__](beginner): _for those with little or no programming experience_.
+
+- [__Quickstart tutorial__](quickstart): _for those with programming experience in another language_
