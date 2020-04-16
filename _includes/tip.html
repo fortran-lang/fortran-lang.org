@@ -1,5 +1,4 @@
 <div class="aside-tip">
-    <b> Tip: </b>
-    {{ include.content }}
-
+    {% capture mdcontent %}__{{include.title | default: "Tip:"}}__ {{include.content}}{% endcapture %}
+    {{ mdcontent | markdownify}}
 </div>
