@@ -1,0 +1,90 @@
+---
+layout: default
+---
+
+{% include nav.html %}
+
+<section class="masthead">
+    <h1>Explore Community Fortran Projects</h1>
+    <h3>A rich ecosystem of high-performance code</h3>
+  </section>
+  
+  <section class="front-section">
+    <div class="container">
+      <div class="col-wide">
+          
+          <a href='/explore'> < Back</a>
+
+          <h1>{{page.title}}</h1>
+          <p>
+              {{page.description}}
+          </p>
+  
+          <table class="projects-table">
+         
+          {% assign catProjects =  site.data.curated_projects | where_exp:"project", "project.categories contains page.code_category"%}
+          {% for project in catProjects %}
+          <tr>
+              {% if project.github %}
+              <td> <h4><a href="https://github.com/{{ project.github }}">{{ project.name }}</a></h4> </td>
+              <td> {% if project.version %}
+                  {% if project.version != 'none' %}
+                  <img src="https://img.shields.io/badge/Version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
+                  {% endif%}
+                  {% else %}
+                  <img src="https://img.shields.io/github/v/release/{{ project.github }}?color=green">
+              {% endif %}</td>
+              <td> {% if project.license %}
+                   {% if project.license != 'none' %}
+                   <img src="https://img.shields.io/badge/License-{{ project.license | replace: " ", "%20" | replace: "-", "--" }}-green">
+                   {% endif%}
+                   {% else %}
+                   <img src="https://img.shields.io/github/license/{{ project.github }}">
+               {% endif %}</td>
+              <td> <img src="https://img.shields.io/github/stars/{{ project.github }}?style=social"></td>
+              <td> <img src="https://img.shields.io/github/forks/{{ project.github }}?style=social&label=Fork"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/{{ project.github }}?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/{{ project.github }}"> </td>
+              {% else %}
+              <td> <h4><a href="{{ project.url }}">{{ project.name }}</a></h4> </td>
+              <td> {% if project.version %}
+                  <img src="https://img.shields.io/badge/Version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
+                  {% endif %}
+              </td>
+              <td> {% if project.license %}
+                  <img src="https://img.shields.io/badge/License-{{ project.license | replace: " ", "%20" | replace: "-", "--" }}-green">
+                  {% endif %}
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              {% endif %}
+          </tr>
+          <tr><td colspan="7" class="light">
+              {{ project.description }}
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>{{ project.tags }}
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          {% endfor %} 
+          
+          </table>        
+         
+      </div>
+  
+    </div>
+  </section>
+  
+  <section class="front-section shaded">
+    <div class="container">
+      <div class="col-wide">
+        <!-- <h2 id="faqs">FAQ</h2> -->
+        
+        Want your project listed or see a problem? Submit an issue
+        <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues">here</a>.
+  
+    </div>
+  </section>
+  

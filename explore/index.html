@@ -1,0 +1,91 @@
+---
+layout: default
+title: Explore Fortran Code
+description: 
+---
+
+{% include nav.html active='Home' %}
+
+<section class="masthead">
+  <h1>{{ page.title}}</h1>
+  <h3>A rich ecosystem of high-performance code</h3>
+</section>
+
+<section class="front-section shaded">
+    <div class="container">
+      <h2>Fortran-lang organisation projects</h2>
+  
+      <div class="col-narrow">
+        <h3>Fortran Standard Library (stdlib)</h3>
+        <p>
+        A community-driven project for a <i>de facto</i> "standard" library for Fortran.
+        The stdlib project is both a specification and a reference implementation, developed in
+        cooperation with the Fortran Standards Committee.
+        Find out more on
+        <a href="https://github.com/fortran-lang/stdlib" target="_blank">GitHub</a>.
+        </p>
+        <img src="https://img.shields.io/github/stars/fortran-lang/stdlib?style=social">
+        <img src="https://img.shields.io/github/forks/fortran-lang/stdlib?style=social&label=Fork"> 
+        <img src="https://img.shields.io/github/last-commit/fortran-lang/stdlib?color=blue">
+        <img src="https://img.shields.io/github/issues/fortran-lang/stdlib">
+        
+      </div>
+  
+      <div class="col-narrow">
+        <h3>Fortran Package Manager (fpm)</h3>
+        <p>
+        A prototype project to develop a common build system for Fortran packages
+        and their dependencies.
+        Find out more on
+        <a href="https://github.com/fortran-lang/fpm" target="_blank">GitHub</a>.
+        </p>
+        <img src="https://img.shields.io/github/stars/fortran-lang/fpm?style=social">
+        <img src="https://img.shields.io/github/forks/fortran-lang/fpm?style=social&label=Fork"> 
+        <img src="https://img.shields.io/github/last-commit/fortran-lang/fpm?color=blue">
+        <img src="https://img.shields.io/github/issues/fortran-lang/fpm">
+      </div>
+  
+    </div>
+  </section>
+
+<section class="front-section">
+  <div class="container">
+  <h1>Featured community projects</h1>
+
+  <form action="/explore/search" method="get">
+    <input type="text" name="query" class="search-box" placeholder="Search for a project">
+    <input type="submit" value="Search" class="search-btn">
+  </form>
+
+  <h2>Browse by category</h2>
+  <div class="container-flex">
+
+      {% for sitePage in site.pages %}
+
+      {% if sitePage.code_category %}
+      {% if sitePage.code_category != 'preview' %}
+      <div class="col-flex">
+          <a href="{{ sitePage.url }}" ><h3>{{ sitePage.title }}
+            {% assign catProjects =  site.data.curated_projects | where_exp:"project", "project.categories contains sitePage.code_category"%}
+            ({{ catProjects | size }})
+          </h3></a>
+          <p> {{ sitePage.description }} </p>
+        </div>
+      {% endif %}
+      {% endif %}
+
+      {% endfor%}
+    </div>
+    </div>
+</section>
+
+<section class="front-section shaded">
+  <div class="container">
+    <div class="col-wide">
+      
+      Want your project listed or see a problem? Submit an issue
+        <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues">here</a>.
+
+  </div>
+</section>
+
