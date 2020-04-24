@@ -1,0 +1,125 @@
+---
+layout: default
+title: Fortran Packages
+description: A rich ecosystem of high-performance code
+---
+
+{% include nav.html active='Packages' %}
+
+<section class="masthead">
+  <h1>{{ page.title }}</h1>
+  <h3>{{ page.description }}</h3>
+</section>
+
+<section class="front-section shaded">
+    <div class="container">
+      <h2>Fortran-lang community projects</h2>
+  
+      <div class="col-narrow">
+        <h3><i data-feather="database"></i>
+          Fortran Standard Library (stdlib)</h3>
+        <p>
+        A community-driven project for a <i>de facto</i> "standard" library for Fortran.
+        The stdlib project is both a specification and a reference implementation, developed in
+        cooperation with the Fortran Standards Committee.
+        Find out more on
+        <a href="https://github.com/fortran-lang/stdlib" target="_blank">
+          <i class="devicon-github-plain colored"></i> GitHub</a>.
+        </p>
+        {% include img_cached.html src="//img.shields.io/github/stars/fortran-lang/stdlib?style=social" %}
+        {% include img_cached.html src="//img.shields.io/github/forks/fortran-lang/stdlib?style=social&label=Fork" %}
+        {% include img_cached.html src="//img.shields.io/github/last-commit/fortran-lang/stdlib?color=blue" %}
+        {% include img_cached.html src="//img.shields.io/github/issues/fortran-lang/stdlib" %}
+
+      </div>
+      
+    </br>
+
+
+      <div class="col-narrow">
+        <h3><i data-feather="package"></i>
+          Fortran Package Manager (fpm)</h3>
+        <p>
+        A prototype project to develop a common build system for Fortran packages
+        and their dependencies.
+        Find out more on
+        <a href="https://github.com/fortran-lang/fpm" target="_blank">
+          <i class="devicon-github-plain colored"></i> GitHub</a>.
+        </p>
+        {% include img_cached.html src="//img.shields.io/github/stars/fortran-lang/fpm?style=social" %}
+        {% include img_cached.html src="//img.shields.io/github/forks/fortran-lang/fpm?style=social&label=Fork" %}
+        {% include img_cached.html src="//img.shields.io/github/last-commit/fortran-lang/fpm?color=blue" %}
+        {% include img_cached.html src="//img.shields.io/github/issues/fortran-lang/fpm" %}
+      </div>
+      <!-- //images.weserv.nl/?url=img.shields.io/github/forks/fortran-lang/stdlib%253Fstyle=social%2526label=Fork -->
+      
+    </br>
+      
+      <div class="col-narrow">
+        <h3><i data-feather="globe"></i>
+          fortran-lang.org</h3>
+        <p>
+        This website is open source and contributions are welcome!
+        Find out more on
+        <a href="https://github.com/fortran-lang/fortran-lang.github.io" target="_blank">
+          <i class="devicon-github-plain colored"></i> GitHub</a>.
+        </p>
+        {% include img_cached.html src="//img.shields.io/github/stars/fortran-lang/fortran-lang.github.io?style=social" %}
+        {% include img_cached.html src="//img.shields.io/github/forks/fortran-lang/fortran-lang.github.io?style=social&label=Fork" %}
+        {% include img_cached.html src="//img.shields.io/github/last-commit/fortran-lang/fortran-lang.github.io?color=blue" %}
+        {% include img_cached.html src="//img.shields.io/github/issues/fortran-lang/fortran-lang.github.io" %}
+      </div>
+      
+    </br>
+
+
+    </div>
+  </section>
+
+<section class="front-section">
+  <div class="container">
+  <h1>Featured open source projects</h1>
+
+  <form action="{{ site.baseurl }}/packages/search" method="get">
+    <input type="text" name="query" class="search-box" placeholder="Search for a project">
+    <input type="submit" value="Search" class="search-btn">
+  </form>
+
+  <h2>Browse by category</h2>
+  <div class="container-flex">
+
+      {% for sitePage in site.pages %}
+
+      {% if sitePage.code_category %}
+      {% if sitePage.code_category != 'preview' %}
+      <div class="col-flex">
+        <h3>
+          {% if sitePage.feather-icon %}
+            <i data-feather="{{ sitePage.feather-icon }}"></i>
+            {% endif %}
+          <a href="{{ site.baseurl }}{{ sitePage.url }}" >
+            {{ sitePage.title }}
+            {% assign catProjects =  site.data.package_index | where_exp:"project", "project.categories contains sitePage.code_category"%}
+            ({{ catProjects | size }})
+          </a></h3>
+          <p> {{ sitePage.description }} </p>
+        </div>
+      {% endif %}
+      {% endif %}
+
+      {% endfor%}
+    </div>
+    </div>
+</section>
+
+<section class="front-section shaded">
+  <div class="container">
+    <div class="col-wide">
+      
+      Want your project listed or see a problem? Submit an issue
+        <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues" target="_blank">
+          <i class="devicon-github-plain colored"></i> here</a>.
+
+  </div>
+</section>
+

@@ -2,31 +2,35 @@
 layout: default
 ---
 
-{% include nav.html %}
+{% include nav.html active='Packages' %}
 
 <section class="masthead">
-    <h1>Explore Community Fortran Projects</h1>
+    <h1>Featured Open Source Projects</h1>
     <h3>A rich ecosystem of high-performance code</h3>
   </section>
   
   <section class="front-section">
     <div class="container">
       <div class="col-wide">
-          
-          <a href='/explore'> < Back</a>
-
-          <h1>{{page.title}}</h1>
-          <p>
+        
+          <h2> <a href='{{ site.baseurl }}/packages'> Packages</a> / 
+            {% if page.feather-icon %}
+            <i data-feather="{{ page.feather-icon }}"></i>
+            {% endif %}
+            {{page.title}}</h2>
+          <h3>
               {{page.description}}
-          </p>
+          </h3>
   
           <table class="projects-table">
          
-          {% assign catProjects =  site.data.curated_projects | where_exp:"project", "project.categories contains page.code_category"%}
+          {% assign catProjects =  site.data.package_index | where_exp:"project", "project.categories contains page.code_category"%}
           {% for project in catProjects %}
           <tr>
               {% if project.github %}
-              <td> <h4><a href="https://github.com/{{ project.github }}">{{ project.name }}</a></h4> </td>
+              <td> <h3><a href="https://github.com/{{ project.github }}" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                {{ project.name }}</a></h3> </td>
               <td> {% if project.version %}
                   {% if project.version != 'none' %}
                   <img src="https://img.shields.io/badge/Version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
@@ -46,7 +50,14 @@ layout: default
               <td> <img src="https://img.shields.io/github/last-commit/{{ project.github }}?color=blue"> </td>
               <td> <img src="https://img.shields.io/github/issues/{{ project.github }}"> </td>
               {% else %}
-              <td> <h4><a href="{{ project.url }}">{{ project.name }}</a></h4> </td>
+              <td> <h3><a href="{{ project.url }}" target="_blank">
+                {% if project.url contains "gitlab.com" %}
+                  <i class="devicon-gitlab-plain colored"></i>
+                {% endif %}
+                {% if project.url contains "bitbucket.org" %}
+                <i class="devicon-bitbucket-plain colored"></i>
+                {% endif %}
+                {{ project.name }}</a></h3> </td>
               <td> {% if project.version %}
                   <img src="https://img.shields.io/badge/Version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
                   {% endif %}
@@ -83,7 +94,8 @@ layout: default
         <!-- <h2 id="faqs">FAQ</h2> -->
         
         Want your project listed or see a problem? Submit an issue
-        <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues">here</a>.
+        <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues" target="_blank">
+          <i class="devicon-github-plain colored"></i> here</a>.
   
     </div>
   </section>

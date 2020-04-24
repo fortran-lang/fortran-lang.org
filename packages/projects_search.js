@@ -1,3 +1,7 @@
+---
+layout: null
+---
+
 function findGetParameter(parameterName) {
     // Return a GET HTTP parameter
     var result = null,
@@ -108,25 +112,34 @@ function resultsToHTML(results){
             project = results[i];
     
             if (results[i].github != ""){
-                out += '<b><a href="https://github.com/'+project.github+'" target="_blank">'+project.name+'</a></b>';
-            } else{
-                out += '<b><a href="'+project.url+'" target="_blank">'+project.name+'</a></b>';
+                out += '<h3><a href="https://github.com/'+project.github+'" target="_blank">';
+                out += '<i class="devicon-github-plain colored"></i> '+project.name+'</a></h3>';
+            } else {
+                out += '<h3><a href="'+project.url+'" target="_blank">';
+                if (project.url.includes('gitlab.com')) {
+                    out += '<i class="devicon-gitlab-plain colored"></i> ';
+                } else if (project.url.includes('bitbucket.org')){
+                    out += '<i class="devicon-bitbucket-plain colored"></i> ';
+                }
+                out += project.name+'</a></h3>';
             }
-    
+            
+            out += '<p> '+project.description;
+
             var cats = project.categories.split(" ");
             out += ' ('
             var j;
             for (j=0;j<cats.length;j++){
-                out += '<a href="/explore/category/'+cats[j]+'">'+cats[j]+'</a>';
+                out += '<a href="{{ site.baseurl }}/packages/'+cats[j]+'">'+cats[j]+'</a>';
                 if (j<cats.length-1){
                     out += ', ';
                 }
             }
-            out += ')'
-    
-            out += '<p>'+project.description+'</p>';
-    
-            out += '<p class="light small"><b>Tags: </b>'+project.tags+'</p></br>';
+            out += ') </p>'
+            
+            
+
+            out += '<p class="light small"><b>Tags: </b>'+project.tags+'</p>';
     
         }
     

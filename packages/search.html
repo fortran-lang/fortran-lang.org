@@ -1,27 +1,26 @@
 ---
 layout: default
+title: Search
 ---
 
-{% include nav.html %}
+{% include nav.html active='Packages' %}
   
-<script src="/explore/projects_json.js"></script>
+<script src="{{ site.baseurl }}/packages/projects_json.js"></script>
 
 
   <section class="front-section">
     <div class="container">
       <div class="col-wide">
           
-          <a href='/explore'> < Back</a>
-
-          <h1>Search community projects</h1>
+          <h2> <a href='{{ site.baseurl }}/packages'> Packages</a> / {{page.title}}</h2>
           
-          <form action="/explore/search" method="get">
+          <form action="{{ site.baseurl }}/packages/search" method="get">
             <input type="text" name="query" id="search-query" class="search-box" placeholder="Search for a project">
             <input type="submit" value="Search" class="search-btn">
           </form>
         </br>
 
-        <div id="search-results"></div>
+        <div style="margin-left: 30px; margin-right: 100px;" id="search-results"></div>
 
       </div>
   
@@ -34,9 +33,10 @@ layout: default
         <!-- <h2 id="faqs">FAQ</h2> -->
         
         Want your project listed or see a problem? Submit an issue
-        <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues">here</a>.
+        <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues" target="_blank">
+          <i class="devicon-github-plain colored"></i> here</a>.
   
     </div>
   </section>
   
-  <script src="/explore/projects_search.js"></script>
+  <script src="{{ site.baseurl }}/packages/projects_search.js"></script>
