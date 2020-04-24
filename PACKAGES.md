@@ -42,7 +42,7 @@ package
 
 - __Tests__: any form of executable test(s) that can be used to verify the functionality of the package
 
-- __Portability__: no non-standard language extensions
+- __Portability__: no non-standard language extensions or proprietary dependencies
 
 - __FPM__: support installation by the Fortran Package Manager [fpm](https://github.com/fortran-lang/fpm)
 
