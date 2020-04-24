@@ -14,9 +14,9 @@ layout: default
       <div class="col-wide">
         
           <h2> <a href='{{ site.baseurl }}/packages'> Packages</a> / 
-
-          <h1>{{page.title}}</h1>
-          <p>
+            {% if page.feather-icon %}
+            <i data-feather="{{ page.feather-icon }}"></i>
+            {% endif %}
             {{page.title}}</h2>
           <h3>
               {{page.description}}
@@ -29,6 +29,7 @@ layout: default
           <tr>
               {% if project.github %}
               <td> <h3><a href="https://github.com/{{ project.github }}" target="_blank">
+                <i class="devicon-github-plain colored"></i>
                 {{ project.name }}</a></h3> </td>
               <td> {% if project.version %}
                   {% if project.version != 'none' %}
@@ -50,6 +51,12 @@ layout: default
               <td> <img src="https://img.shields.io/github/issues/{{ project.github }}"> </td>
               {% else %}
               <td> <h3><a href="{{ project.url }}" target="_blank">
+                {% if project.url contains "gitlab.com" %}
+                  <i class="devicon-gitlab-plain colored"></i>
+                {% endif %}
+                {% if project.url contains "bitbucket.org" %}
+                <i class="devicon-bitbucket-plain colored"></i>
+                {% endif %}
                 {{ project.name }}</a></h3> </td>
               <td> {% if project.version %}
                   <img src="https://img.shields.io/badge/Version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
@@ -88,6 +95,7 @@ layout: default
         
         Want your project listed or see a problem? Submit an issue
         <a href="https://github.com/fortran-lang/fortran-lang.github.io/issues" target="_blank">
+          <i class="devicon-github-plain colored"></i> here</a>.
   
     </div>
   </section>
