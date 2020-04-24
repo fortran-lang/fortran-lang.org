@@ -1,0 +1,16 @@
+<!-- {% comment %}
+  Attempt to include an image using the weserv
+   image cache service.
+
+  If weserv failed to access the image when caching
+   fall back on original url
+
+  Usage (jekyll):
+   {% include img_cached.html src="//website.com/image.jpg" %}
+
+{% endcomment %} -->
+
+<img 
+src="//images.weserv.nl/?url={{ include.src }}"
+onerror="this.onerror=null;this.src='{{ include.src }}';"
+/>
