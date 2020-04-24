@@ -16,10 +16,6 @@ free and open source compiler, part of the GNU Compiler Collection.
 around gfortran which enables the parallel programming features of Fortran 2018
 with gfortran.
 
-### LFortran
-
-[LFortran](https://lfortran.org) is a modern, interactive, LLVM-based Fortran
-compiler.
 
 ### LLVM Flang
 
@@ -34,6 +30,12 @@ This project is under active development.
 
 [Flang](https://github.com/flang-compiler/flang) is an open source compiler 
 based on the NVIDIA/PGI commercial compiler.
+
+
+### LFortran
+
+[LFortran](https://lfortran.org) is a modern, interactive, LLVM-based Fortran
+compiler.
 
 
 ## Commercial compilers
