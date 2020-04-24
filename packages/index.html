@@ -1,19 +1,19 @@
 ---
 layout: default
-title: Explore Fortran Code
-description: 
+title: Fortran Packages
+description: A rich ecosystem of high-performance code
 ---
 
-{% include nav.html active='Home' %}
+{% include nav.html active='Packages' %}
 
 <section class="masthead">
-  <h1>{{ page.title}}</h1>
-  <h3>A rich ecosystem of high-performance code</h3>
+  <h1>{{ page.title }}</h1>
+  <h3>{{ page.description }}</h3>
 </section>
 
 <section class="front-section shaded">
     <div class="container">
-      <h2>Fortran-lang organisation projects</h2>
+      <h2>Fortran-lang community projects</h2>
   
       <div class="col-narrow">
         <h3>Fortran Standard Library (stdlib)</h3>
@@ -30,7 +30,10 @@ description:
         <img src="https://img.shields.io/github/issues/fortran-lang/stdlib">
         
       </div>
-  
+      
+    </br>
+
+
       <div class="col-narrow">
         <h3>Fortran Package Manager (fpm)</h3>
         <p>
@@ -38,6 +41,16 @@ description:
         and their dependencies.
         Find out more on
         <a href="https://github.com/fortran-lang/fpm" target="_blank">GitHub</a>.
+      </div>
+    </br>
+      <div class="col-narrow">
+        <h3><i data-feather="globe"></i>
+          fortran-lang.org</h3>
+        <p>
+        This website is open source and contributions are welcome!
+        Find out more on
+        <a href="https://github.com/fortran-lang/fortran-lang.github.io" target="_blank">
+          <i class="devicon-github-plain colored"></i> GitHub</a>.
         </p>
         <img src="https://img.shields.io/github/stars/fortran-lang/fpm?style=social">
         <img src="https://img.shields.io/github/forks/fortran-lang/fpm?style=social&label=Fork"> 
@@ -45,14 +58,15 @@ description:
         <img src="https://img.shields.io/github/issues/fortran-lang/fpm">
       </div>
   
+    </br>
     </div>
   </section>
 
 <section class="front-section">
   <div class="container">
-  <h1>Featured community projects</h1>
+  <h1>Featured open source projects</h1>
 
-  <form action="/explore/search" method="get">
+  <form action="{{ site.baseurl }}/packages/search" method="get">
     <input type="text" name="query" class="search-box" placeholder="Search for a project">
     <input type="submit" value="Search" class="search-btn">
   </form>
@@ -65,10 +79,13 @@ description:
       {% if sitePage.code_category %}
       {% if sitePage.code_category != 'preview' %}
       <div class="col-flex">
-          <a href="{{ sitePage.url }}" ><h3>{{ sitePage.title }}
+        <h3>
             {% assign catProjects =  site.data.curated_projects | where_exp:"project", "project.categories contains sitePage.code_category"%}
+          <a href="{{ site.baseurl }}{{ sitePage.url }}" >
+            {{ sitePage.title }}
+            {% assign catProjects =  site.data.package_index | where_exp:"project", "project.categories contains sitePage.code_category"%}
             ({{ catProjects | size }})
-          </h3></a>
+          </a></h3>
           <p> {{ sitePage.description }} </p>
         </div>
       {% endif %}

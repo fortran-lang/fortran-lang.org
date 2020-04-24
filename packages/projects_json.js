@@ -3,7 +3,7 @@ layout: null
 ---
 
 projects = [
-      {% for project in site.data.curated_projects%}
+      {% for project in site.data.package_index%}
         {
           "name": "{{ project.name }}",
           "description": "{{ project.description }}",
