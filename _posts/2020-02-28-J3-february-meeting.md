@@ -82,7 +82,7 @@ This was on the plan but we did not get to it:
 
 
 More details available at
-[j3-fortran/fortran_proposals #155](https://github.com/j3-fortran/fortran_proposals/issues/155).
+[j3-fortran/fortran_proposals #155](https://github.com/j3-fortran/fortran_proposals/issues/155) and at the official [minutes](https://j3-fortran.org/doc/year/20/minutes221.txt) from the meeting.
 
 
 [#1]: https://github.com/j3-fortran/fortran_proposals/issues/1
