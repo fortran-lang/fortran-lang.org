@@ -18,24 +18,21 @@ Voting members:
 3. NVIDIA: Peter Klausler, Gary Klimowicz
 4. IBM: Daniel Chen
 5. ARM: Srinath Vadlamani
-6. NCAR: Dan Nagle
+6. NCAR: Dan Nagle, Magne Haveraaen
 7. NASA: Tom Clune
 8. JPL: Van Sneider
 9. LANL: Zach Jibben, Ondřej Čertík
 10. ORNL: Reuben Budiardja
 11. LBNL: Brian Friesen
 12. Sandia: Damian Rouson
-13. Lionel: Steven Lionel
+13. Lionel: Steven Lionel, Malcolm Cohen, Vipul Parekh
 14. Corbett: Bob Corbett
 
 Others:
 
-15. NAG: Malcolm Cohen
-16. AMD: Rich Bleikamp
+15. AMD: Richard Bleikamp
+16. WG23: Stephen Michell (convenor), Erhard Ploedereder (member)
 17. Structural Integrity: Brad Richardson
-18. WG23: Erhard Ploedereder, Stephen Michell
-19. Vipul Parekh
-20. Magne Haveraaen
 
 # Proposals Discussed at Plenary
 
