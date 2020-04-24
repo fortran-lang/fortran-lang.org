@@ -17,54 +17,412 @@
 #  'version'     (optional)
 #
 # Browsable category names (lowercase!):
-#   'numerical', 'libraries', 'programming', 'scientific'
+#   'numerical', 'libraries', 'scientific', 'examples', 'programming'
+#   'graphics', 'data-types', 'io', 'interfaces', 'strings'
 #
 # When adding a new library:
 #  - Check it shows up in the expected category page(s)
 #  - Temporarily use the category 'preview' and check 
 #     check the badges render correctly at /explore/category/preview
 #
+# No need to repeat keywords from 'description' in 'tags'
+#
+#
 
-# --- Libraries / Programming ---
+# --- General Libraries ---
 
 - name: functional-fortran
   github: wavebitscientific/functional-fortran
   description: Functional programming for modern Fortran
-  categories: libraries programming
+  categories: libraries
   tags: functional filter fold map
-
-- name: erloff
-  url: https://gitlab.com/everythingfunctional/erloff
-  description: Errors and logging for fortran
-  categories: libraries programming
-  tags: errors logging
-  license: "BSD 3-Clause"
-
-- name: json-fortran
-  github: jacobwilliams/json-fortran
-  description: A Fortran 2008 JSON API
-  categories: libraries programming
-  tags: json io
-  license: none
-
-- name: gtk-fortran
-  github: vmagnin/gtk-fortran
-  description: A cross-platform library to build Graphical User Interfaces (GUI)
-  categories: libraries programming
-  tags: gui gtk graphical user interface
 
 - name: fortran-utils
   github: certik/fortran-utils
   description: Various utilities for Fortran programs
-  categories: libraries programming
-  tags: constants types sorting io mesh spline ppm hdf5 lapack
+  categories: libraries io
+  tags: constants types sorting mesh spline ppm hdf5 lapack
   version: none
 
 - name: Open Coarrays
   github: sourceryinstitute/OpenCoarrays
   description: A parallel application binary interface for Fortran 2018 compilers.
-  categories: libraries programming
+  categories: libraries
   tags: mpi openshmem gfortran
+
+- name: FLAP
+  github: szaghi/FLAP
+  description: Fortran command Line Arguments Parser
+  categories: libraries
+  tags: command line cli argument parser
+  license: none
+
+- name: Fortran Standard Library (stdlib)
+  github: fortran-lang/stdlib
+  description: A community driven and agreed upon de facto standard library for Fortran
+  categories: libraries
+  version: none
+
+- name: coretran
+  github: leonfoks/coretran
+  description: Core fortran routines and object-oriented classes for sorting, kD-Trees, and other algorithms to handle scientific data and concepts
+  categories: libraries strings data-types programming
+  tags: dynamic array formatting debugging errors kdtree sorting random binary search strings unit testing timing
+
+- name: M_CLI
+  github: urbanjost/M_CLI
+  description: Unix-like command line argument parsing
+  categories: libraries
+  tags: namelist args
+  version: none
+
+- name: M_history
+  github: urbanjost/M_history
+  description: Subroutine to give a line-mode command history to interactive programs
+  categories: libraries
+  tags: redo
+  version: none
+
+# --- Interfaces ---
+
+- name: forpy
+  github: ylikx/forpy
+  description: allows you to use Python features in Fortran 
+  categories: interfaces
+  tags: dict list tuple numpy python matplotlib scipy
+  license: GNU GPL v3
+  version: none
+
+- name: tcp-client-server
+  github: modern-fortran/tcp-client-server
+  description: A minimal Fortran TCP client and server demonstrating c interoperability
+  categories: interfaces examples
+  tags: 
+  version: none
+
+- name: clfortran
+  github: cass-support/clfortran
+  description: Fortran interfaces to Khronos OpenCL 1.2 API
+  categories: interfaces
+  tags: gpu compute accelerator
+  version: none
+  license: GNU GPL v3
+
+- name: M_process
+  github: urbanjost/M_process
+  description: Read and write lines to or from a process from Fortran via a C wrapper
+  categories: interfaces
+  tags: 
+  version: none
+
+- name: M_system
+  github: urbanjost/M_system
+  description: Call C system routines from Fortran
+  categories: interfaces
+  tags: posix putenv getenv setenv environment file system mkdir rename rmdir chmod rand uname
+  version: none
+
+- name: Focal
+  github: LKedward/focal
+  description: A module library which wraps calls to the OpenCL runtime API with a higher abstraction level 
+  categories: interfaces
+  tags: gpu compute accelerator
+
+- name: foryxima
+  url: https://bitbucket.org/aradi/fortyxima/src/develop/
+  description: File system manipulation and unit testing framework
+  categories: interfaces programming
+  tags: posix libc
+  license: BSD 2-clause
+
+- name: sqliteff
+  url: https://gitlab.com/everythingfunctional/sqliteff
+  description: A thin wrapper around the SQLite library
+  categories: interfaces
+  tags: sql database
+  license: MIT
+
+
+# --- Programming utilities ---
+
+- name: FORD
+  github: Fortran-FOSS-Programmers/ford
+  description: Automatic documentation generator for modern Fortran programs
+  categories: programming preview
+  tags: documentation
+  
+
+- name: vegetables
+  url: https://gitlab.com/everythingfunctional/vegetables
+  description: A Fortran testing framework written using functional programming principles.
+  categories: programming 
+  tags: testing assert
+  license: MIT
+  version: 4.0
+
+- name: pFUnit
+  github: Goddard-Fortran-Ecosystem/pFUnit
+  description: Parallel Fortran Unit Testing Framework
+  categories: programming
+  tags: unit testing
+  license: none
+
+- name: erloff
+  url: https://gitlab.com/everythingfunctional/erloff
+  description: Errors and logging for fortran
+  categories: programming
+  tags: errors logging
+  license: "BSD 3-Clause"
+
+- name: fytest
+  url: https://bitbucket.org/aradi/fytest/src/develop/
+  description: a lightweight unit testing framework for Fortran
+  categories: programming
+  tags: unit testing
+  license: BSD 2-clause
+
+# --- Data types ---
+
+- name: Fortran template library
+  github: SCM-NV/ftl
+  description: Generic containers, versatile algorithms, easy string manipulation, and more
+  categories: data-types 
+  tags: resizeable array container linked list hash map regex string shared pointer
+  version: none
+  license: GNU GPL v3
+
+- name: PENF
+  github: szaghi/PENF
+  description: Provides portable kind-parameters and many useful procedures to deal with them
+  categories: data-types numerical
+  tags: kinds integer real ieee floating point floats precision
+  license: none
+
+- name: M_time
+  github: urbanjost/M_time
+  description: Procedures that expand on the Fortran DATE_AND_TIME intrinsic
+  categories: data-types
+  tags: date weekday unix epoch month convert moon phases duration
+  version: none
+
+- name: fdict
+  github: zerothi/fdict
+  description: Variable and type-free dictionary
+  categories: data-types
+  tags: hash table
+
+- name: kdtree2
+  github: jmhodges/kdtree2
+  description: A kd-tree implementation in fortran
+  categories: data-types
+  version: none
+  license: none
+
+- name: datetime-fortran
+  github: wavebitscientific/datetime-fortran
+  description: Date and time manipulation 
+  categories: data-types
+  tags: day year month calendar weekday clock
+  license: none
+  version: none
+
+- name: qContainers
+  github: darmar-lt/qcontainers
+  description: Store any intrinsic or derived data type to a container
+  categories: data-types
+  tags: qlibc tree table hash table linked list vector dynamic array unique set
+  license: none
+  version: none
+
+- name: Lookup Table Fortran
+  github: jannisteunissen/lookup_table_fortran
+  description: Linear lookup table implemented in modern Fortran
+  categories: data-types
+  tags: 
+  version: none
+
+- name: FyCollections
+  url: https://bitbucket.org/aradi/fycollections/src/develop/
+  description: generic collection templates for Fortran
+  categories: data-types
+  tags: 
+  license: BSD 2-Clause
+
+
+# --- Strings ---
+
+- name: StringiFor
+  github: szaghi/StringiFor
+  description: Fortran strings manipulator
+  categories: strings
+  tags: split join basename search concat
+  license: none
+
+- name: M_strings
+  github: urbanjost/M_strings
+  description: Fortran string manipulations
+  categories: strings
+  tags: upper lower quoted join replace white space string conversion tokens split 
+  version: none
+
+- name: Strings for Fortran
+  url: https://gitlab.com/everythingfunctional/strff
+  description: A library of string functions for Fortran.
+  categories: strings
+  tags: 
+  license: MIT
+
+- name: iso_varying_string
+  url: https://gitlab.com/everythingfunctional/iso_varying_string
+  description: Implementation of the Fortran ISO_VARYING_STRING module in accordance with the standard
+  categories: strings
+  tags: varying length character strings
+  license: MIT
+
+# --- File input / output ---
+
+- name: json-fortran
+  github: jacobwilliams/json-fortran
+  description: A Fortran 2008 JSON API
+  categories: io
+  tags: json io
+  license: none
+
+- name: VTKFortran
+  github: szaghi/VTKFortran
+  description: Library to parse and emit files conforming VTK (XML) standard
+  categories: io
+  tags: 
+  license: none
+  version: none
+
+- name: netCFD-Fortran
+  github: Unidata/netcdf-fortran
+  description: Fortran interfaces for netCFD C library.
+  categories: io
+  tags: netcdf
+  license: none
+
+- name: fox
+  github: andreww/fox
+  description: A Fortran XML library
+  categories: io
+  tags: 
+  license: none
+  version: none
+
+- name: FEconv
+  github: victorsndvg/FEconv
+  description: utility and library for converting between mesh and finite element field formats
+  categories: io
+  tags: ansys msh nastran bdf vtk 
+  version: none
+
+- name: h5fortran
+  github: scivision/h5fortran
+  description: Simple, robust, thin HDF5 polymorphic read/write interface
+  categories: io
+  tags: hdf5
+
+- name: nc4fortran
+  github: scivision/nc4fortran
+  description: Object-oriented interface for NetCDF4 in Fortran
+  categories: io
+  tags: netcdf
+
+- name: fortran-csv-module
+  github: jacobwilliams/fortran-csv-module
+  description: Read and write CSV Files using modern Fortran
+  categories: io
+  tags: 
+  license: none
+
+- name: M_IO
+  github: urbanjost/M_io
+  description: Fortran module for common I/O tasks
+  categories: io
+  tags: delete slurp swallow dirname split path 
+  license: Public domain
+  version: none
+
+- name: jsonff
+  url: https://gitlab.com/everythingfunctional/jsonff
+  description: Routines for building JSON structures in Fortran
+  categories: io
+  tags: 
+  license: MIT
+
+- name: NPY for Fortran
+  github: MRedies/NPY-for-Fortran
+  description: Allows saving numerical Fortran arrays in Numpy's .npy or .npz format
+  categories: io
+  tags: python
+
+- name: FiNeR
+  github: szaghi/FiNeR
+  description: INI ParseR and generator
+  categories: io 
+  tags: config
+  license: none
+
+- name: config_fortran
+  github: jannisteunissen/config_fortran
+  description: Configuration file parser for Fortran
+  categories: io
+  tags: 
+  version: none
+
+- name: Parser for Fortran
+  url: https://gitlab.com/everythingfunctional/parff
+  description: The foundations of a functional style parser combinator library
+  categories: io
+  tags: 
+  license: MIT
+
+
+# --- Graphics ---
+
+- name: pyplot-fortran
+  github: jacobwilliams/pyplot-fortran
+  description: For generating plots from Fortran using Python's matplotlib.pyplot
+  categories: graphics interfaces
+  tags: pyplot matplotlib contour histogram
+  license: none
+
+- name: ogpf
+  github: kookma/ogpf
+  description: Object based interface to GnuPlot for Fortran
+  categories: graphics interfaces
+  tags: animation plot surface contour 
+  license: none
+  version: none
+
+- name: gtk-fortran
+  github: vmagnin/gtk-fortran
+  description: A cross-platform library to build Graphical User Interfaces (GUI)
+  categories: graphics interfaces
+  tags: gui gtk graphical user interface
+
+- name: M_draw
+  github: urbanjost/M_draw
+  description: Low-level vector graphics library
+  categories: graphics
+  tags: 
+  version: none
+
+- name: fortran-xlib
+  github: interkosmos/fortran-xlib
+  description: A collection of ISO C binding interfaces to Xlib for Fortran 2003
+  categories: graphics interfaces
+  tags: x11 mandelbrot raycast wireframe
+  version: none
+
+- name: fortran-sdl2
+  github: interkosmos/fortran-sdl2
+  description: A collection of ISO C binding interfaces to Simple DirectMedia Layer 2.0 (SDL 2.0), for multimedia and game programming in Fortran
+  categories: graphics interfaces
+  tags: 
+  version: none
 
 # --- Numerical libraries ---
 
@@ -90,22 +448,105 @@
 - name: fortranlib
   github: astrofrog/fortranlib
   description: Collection of personal scientific routines in Fortran
-  categories: libraries numerical io
+  categories: libraries numerical io interfaces
   tags: solver integral integrate interpolation histogram constants hdf5 error random posix angles probability stokes vectors
   version: none
 
 - name: SHTOOLS
   github: SHTOOLS/SHTOOLS
   description: A Fortran-95/Python library that can be used to perform spherical harmonic transforms
-  categories: libraries numerical
+  categories: numerical
   tags: spectral analysis Slepian bases gravitational magnetic field openmp
 
 - name: ARPACK
   github: opencollab/arpack-ng
   description: Collection of Fortran77 subroutines designed to solve large scale eigenvalue problems.
-  categories: libraries numerical
+  categories: numerical
   tags: eigenvalue eigenvector singular value decomposition svd
   license: none
+  version: none
+
+- name: neural-fortran
+  github: modern-fortran/neural-fortran
+  description: A parallel neural net microframework.
+  categories: numerical
+  tags: back propagation coarray
+  version: none
+
+- name: bspline-fortran
+  github: jacobwilliams/bspline-fortran
+  description: Multidimensional B-Spline interpolation of data on a regular grid
+  categories: numerical
+  tags: spline interpolation extrapolation integration integral
+  license: none
+
+- name: FOODIE
+  github: Fortran-FOSS-Programmers/FOODIE
+  description: Fortran Object-Oriented Differential-equations Integration Environment
+  categories: numerical
+  tags: ode pde euler runge kutta
+  license: none
+
+- name: fgsl
+  github: reinh-bader/fgsl
+  description: Fortran interface to the GNU Scientific Library 
+  categories: numerical scientific
+  tags: 
+
+- name: SciFortran
+  github: aamaricci/SciFortran
+  description: collection of fortran modules and procedures for scientific calculations.
+  categories: numerical scientific
+  tags: 
+  version: none
+
+- name: Los Alamos Grid Toolbox (LaGriT)
+  github: lanl/LaGriT
+  description: a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance
+  categories: numerical
+  tags: 
+  license: BSD
+
+- name: DBCSR
+  github: cp2k/dbcsr
+  description: Distributed block compresseed sparse row matrix library
+  categories: numerical
+  tags: linear algebra parallel mpi openmp cuda hip
+
+- name: GALAHAD
+  github: ralna/GALAHAD
+  description: Modules for nonlinear optimization
+  categories: numerical
+  tags: least squares active set quadratic programming interior point convex programming linear programming
+  license: GNU LGPL v3
+
+- name: slsqp
+  github: jacobwilliams/slsqp
+  description: SLSQP nonlinear constrained optimizer
+  categories: numerical
+  tags: nonlinear programming equality inequality constraints 
+  license: none
+
+- name: NumDiff
+  github: jacobwilliams/NumDiff
+  description: a modern Fortran interface for computing the Jacobian (derivative) matrix of m nonlinear functions which depend on n variables
+  categories: numerical
+  tags: finite difference
+  license: none
+
+- name: quaff
+  url: https://gitlab.com/everythingfunctional/quaff
+  description: Quantities for Fortran. Make math with units more convenient
+  categories: numerical
+  tags: 
+  license: MIT
+
+- name: rng_fortran
+  github: jannisteunissen/rng_fortran
+  description: Pseudo random number generator in Fortran, internally using xoroshiro128+
+  categories: numerical
+  tags: uniform normal poisson distributed
+  license: GNU GPL v3
   version: none
 
 # --- Scientific codes ---
@@ -160,6 +601,22 @@
   license: none
   version: none
 
+- name: "OFF"
+  github: szaghi/OFF
+  description: Finite volume fluid dynamics
+  categories: scientific
+  tags: godunov riemann euler runge kutta structured
+  license: GNU GPL v3
+  version: none
+
+- name: freeCappuccino
+  github: nikola-m/freeCappuccino
+  description: A three-dimensional unstructured finite volume code for fluid flow simulations.
+  categories: scientific
+  tags: finite volume turbulent turbulence
+  license: GNU GPL v3
+  version: none
+
 
 # --- Examples / demos / templates ---
 
@@ -169,4 +626,17 @@
   categories: examples
   tags: block coarray contiguous mpi namelist openmp random submodule iso_fortran_env
   license: GNU GPL V2
+
+- name: Fortran patterns
+  github: farhanjk/FortranPatterns
+  description: Popular design patterns implemented in Fortran
+  categories: examples
+  tags:
+  version: none
   
+- name: Numerical methods in fortran
+  github: planelles20/numerical-methods-fortran
+  description: Solving linear, nonlinear equations, ordinary differential equations
+  categories: examples numerical
+  tags: ode pde integral stochastic quadrature plotting
+  version: none
