@@ -22,7 +22,7 @@ sudo gem install bundler
 or for the current user:
 
 ```
-gem install --user-install
+gem install --user-install bundler
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 ```
 
