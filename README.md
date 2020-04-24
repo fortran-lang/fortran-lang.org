@@ -11,6 +11,11 @@ Coming soon.
 
 This assumes that you already have a recent Ruby with RubyGems.
 
+For example on Ubuntu 18.04, do:
+```
+sudo apt install ruby-dev
+```
+
 ### Installing Ruby gems
 
 Install Bundler, either systemwide:
@@ -22,7 +27,7 @@ sudo gem install bundler
 or for the current user:
 
 ```
-gem install --user-install
+gem install --user-install bundler
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 ```
 
