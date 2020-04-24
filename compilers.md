@@ -21,10 +21,14 @@ with gfortran.
 [LFortran](https://lfortran.org) is a modern, interactive, LLVM-based Fortran
 compiler.
 
-### LLVM Flang (formerly F18)
+### Flang
 
-[Flang](https://github.com/llvm/llvm-project/tree/master/flang/#flang) is an open source compiler 
-and part of the LLVM project.
+[Flang](https://github.com/llvm/llvm-project/tree/master/flang/#flang) is an
+open source compiler and part of the LLVM project (formerly
+called [f18](https://github.com/flang-compiler/f18)).
+
+[Legacy Flang](https://github.com/flang-compiler/flang) is an open source
+compiler that targets LLVM, originally based on the PGI compiler frontend.
 
 ## Commercial compilers
 
