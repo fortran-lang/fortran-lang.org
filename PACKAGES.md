@@ -56,7 +56,7 @@ Fortran-lang package index, as written in this document
 
 3. At least three Fortran-lang community members shall review the request against the criteria above
 
-4. If three or more Fortran-lang community members agree that the package should be listed, then a pull
+4. If three or more Fortran-lang community members agree that the package should be listed and there is no significant objection, then a pull
 request can be opened updating `_data/package_index.yml` with the new package metadata
 
 
@@ -95,7 +95,6 @@ If the project is not hosted on github:
 - License and version information cannot be detected automatically for non-github repositories
 - if version is not specified, then no version information will be displayed
 - if license is not specified, then no license information will be displayed
-
 
 
 
