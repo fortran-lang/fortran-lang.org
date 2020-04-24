@@ -11,6 +11,11 @@ Coming soon.
 
 This assumes that you already have a recent Ruby with RubyGems.
 
+For example on Ubuntu 18.04, do:
+```
+sudo apt install ruby-dev
+```
+
 ### Installing Ruby gems
 
 Install Bundler, either systemwide:
