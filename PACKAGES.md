@@ -16,7 +16,7 @@ If the package is hosted on github or similar, it should have at least 5 'stars'
 - __Availability__: the package source shall be freely available for browsing online
 or cloning or downloading
 
-- __Open source__: the package shall be licensed under an appropriate open-source license
+- __Open source__: the package shall be licensed under an appropriate [open-source license](https://opensource.org/licenses)
 with the license file clearly included with the source code
 
 - __Uniqueness__: the package shall not be a fork or minor revision of existing packages
@@ -95,6 +95,5 @@ If the project is not hosted on github:
 - License and version information cannot be detected automatically for non-github repositories
 - if version is not specified, then no version information will be displayed
 - if license is not specified, then no license information will be displayed
-
 
 
