@@ -2,6 +2,7 @@
 layout: page
 title: J3 February 2020 Meeting
 category: newsletter
+author: Ondřej Čertík and Zach Jibben
 ---
 
 The J3 Fortran Committee meeting took place in Las Vegas, NV, on February 24-28,
