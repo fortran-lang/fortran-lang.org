@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Fortran Compilers
+navbar: Compilers
 ---
 
 Fortran has several open source and commercial compilers.
