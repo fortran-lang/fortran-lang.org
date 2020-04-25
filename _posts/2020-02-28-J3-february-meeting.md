@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: J3 February 2020 Meeting
 category: newsletter
 author: Ondřej Čertík and Zach Jibben

@@ -2,6 +2,7 @@
 layout: page
 title: Quickstart Fortran
 permalink: /learn/
+navbar: Learn
 ---
 
 This quickstart tutorial assumes familiarity with basic programming concepts such as types, variables, arrays, control flow and functions.

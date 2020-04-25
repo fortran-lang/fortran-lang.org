@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: Open Source Directions Fortran webinar
 category: newsletter
 ---

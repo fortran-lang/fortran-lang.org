@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: Announcing FortranCon 2020
 category: newsletter
 ---
