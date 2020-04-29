@@ -2,7 +2,7 @@
 layout: default
 ---
 
-{% include nav.html %}
+{% include nav.html active=page.navbar %}
 
 <section class="front-section">
   <div class="container">
@@ -12,6 +12,9 @@ layout: default
 
       <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
         <i>{{ page.date | date: "%B %d, %Y" }}</i>
+        {% if page.author != null %}
+          <p><i>Authors:</i> {{ page.author }}</p>
+        {% endif %}
       </div>
 
       {{ content }}
