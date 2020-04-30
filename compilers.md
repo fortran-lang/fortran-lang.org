@@ -111,3 +111,72 @@ Tailored for HPC and scientific codes, with support for popular Fortran and
 OpenMP standards and tuned for leading server-class Arm-based platforms. Built
 on the open source Flang front-end, and the LLVM‑based optimization and code
 generation back-end. Available as part of the Arm Compiler for Linux package.
+
+
+### Absoft
+
+[Our compilers](https://www.absoft.com/products/) build faster code more
+efficiently than ever before. Pro Fortran delivers Absoft’s exclusive AP load
+balancing (offering an increase in performance of up to 20%!), AVX, OpenMP 3.1,
+highly extended Fortran 95 compiler with F2003 and F2008 features,, FX3
+graphical debugger, native tool suite integration, AMDAL HPC scientific and
+engineering library, and much more. Plus, Pro Fortran is the only compiler with
+Fast Data Visualization, an Absoft exclusive technology for graphical rendering
+and data output.
+
+
+### Oracle / Sun
+
+[Oracle C, C++, Fortran Compiler](https://www.oracle.com/application-development/technologies/developerstudio-features.html)
+is highly optimized for Oracle systems, on-premise and in the cloud
+
+* Advanced code generation technology for the latest Oracle SPARC and x86 based systems
+* Support for the latest industry standards, including C++14, C++11, C11 and OpenMP 4.0 and extensive GCC compatibility features
+* Automatic code analysis during compilation and automatic stack overflow protection at application runtime
+
+
+### Lahey / Fujitsu
+
+Combining the 32/64-bit LGF Rainier compiler with the classic [Lahey/Fujitsu
+LF95](https://lahey.com/) compiler, LF Professional v7.8 delivers! LGF Rainier
+has full Fortran 95/90/77 compliance with extensive support for the Fortran 2003
+and 2008 standards. Lahey/Fujitsu LF95 offers best in class diagnostics.
+Includes the automatic-parallelizing GFortran compiler, Lahey/Fujitsu Fortran 95
+compiler, Visual Studio 2015 Shell (compatible with VS2017), Lahey's Exclusive
+Visual Studio Fortran support, Winteracter WiSK Graphics package, and more!
+
+
+### Silverfrost FTN95
+
+[Silverfrost FTN95](https://www.silverfrost.com/) is a full Fortran 95 standards
+compliant compiler, capable of producing fast executables for Win32 and for
+Microsoft .NET. FTN95 ships with the world's best runtime checking and a great
+range of supporting software. All standard and many vendor-specific legacy
+language features are supported, so that Fortran projects may be any combination
+of Fortran 77, Fortran 90 and Fortran 95.
+
+
+### NEC
+
+[The Fortran compiler](https://www.nec.com/en/global/solutions/hpc/sx/tools.html)
+conforms to the Fortran-2003 standard (ISO/IEC 1539-1:2004) and supports many
+features from Fortran-2008 (ISO/IEC 1539-1:2010).
+
+
+## Discountinued
+
+The following is a list of Fortran compilers that seem discontinued, so we do
+not list them above:
+
+* Hewlett Packard
+* Watcom
+* PathScale
+* G95
+* Open64
+* Unisys
+
+
+## Note
+
+Please let us know if there is any compiler that is not listed, or if we listed
+a compiler in the Discountinued section and it is in fact actively maintained.
