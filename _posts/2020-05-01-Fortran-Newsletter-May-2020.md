@@ -16,6 +16,7 @@ detailing Fortran news from the previous month.
 * [This website](#this-website)
 * [Standard Library](#standard-library)
 * [Package Manager](#package-manager)
+* [WG5 Convenor candidates](#wg5-convenor-candidates)
 * [Events](#events)
 * [Who's hiring?](#whos-hiring)
 
@@ -70,6 +71,23 @@ Here's how you can help today:
 The short term goal of FPM is to make development and installation of Fortran packages with dependencies easier.
 Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy 
 environment in which new open source Fortran projects are created and published with ease.
+
+## WG5 Convenor candidates
+
+This month was also the deadline for the [WG5](https://wg5-fortran.org/)
+convenor candidates to apply for the next 3-year term (2021-2024).
+There are two candidates:
+
+* [Steve Lionel](https://stevelionel.com), who is also the current WG5 convenor,
+announced running for another term.
+Read Steve's [announcement](https://stevelionel.com/drfortran/2020/04/25/doctor-fortran-in-forward).
+
+* [Ondřej Čertík](https://ondrejcertik.com) has also announced announced to run
+for the WG5 convenor.
+Read Ondřej's [announcement](https://ondrejcertik.com/blog/2020/04/running-for-wg5-convenor-announcement/)
+and [platform](https://github.com/certik/wg5_platform_2020)
+that detail current issues with Fortran language development and how to 
+overcome them going forward.
 
 ## Events
 
