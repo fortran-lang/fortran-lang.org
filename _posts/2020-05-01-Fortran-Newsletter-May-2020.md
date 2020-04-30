@@ -85,13 +85,14 @@ There are two candidates:
 
 * [Steve Lionel](https://stevelionel.com), who is also the current WG5 convenor,
 announced running for another term.
-Read Steve's [announcement](https://stevelionel.com/drfortran/2020/04/25/doctor-fortran-in-forward).
+Read Steve's [post](https://stevelionel.com/drfortran/2020/04/25/doctor-fortran-in-forward)
+about how he has guided the standardization process over the past three years and his direction for the future.
 
 * [Ondřej Čertík](https://ondrejcertik.com) has also announced announced to run
 for the WG5 convenor.
 Read Ondřej's [announcement](https://ondrejcertik.com/blog/2020/04/running-for-wg5-convenor-announcement/)
 and [platform](https://github.com/certik/wg5_platform_2020)
-that detail current issues with Fortran language development and how to 
+that detail current issues with Fortran language development and how to
 overcome them going forward.
 
 ## Events
