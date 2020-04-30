@@ -35,15 +35,20 @@ Please help us make them better!
 
 Here's what's new in Fortran Standard Library:
 
-* New function `cov` in the `stdlib_experimental_stats` module to compute covariance of array elements.
-Read the full specification [here](https://github.com/fortran-lang/stdlib/blob/master/src/stdlib_experimental_stats.md#cov---covariance-of-array-elements)
-([#172](https://github.com/fortran-lang/stdlib/pull/172)).
+* [#172](https://github.com/fortran-lang/stdlib/pull/172)
+New function `cov` in the `stdlib_experimental_stats` module to compute covariance of array elements.
+Read the full specification [here](https://github.com/fortran-lang/stdlib/blob/master/src/stdlib_experimental_stats.md#cov---covariance-of-array-elements).
 
-* Specify recommended order of attributes for dummy arguments in the 
-[Stdlib style guide](https://github.com/fortran-lang/stdlib/blob/master/STYLE_GUIDE.md) 
-([#168](https://github.com/fortran-lang/stdlib/pull/168)).
+* [#168](https://github.com/fortran-lang/stdlib/pull/168)
+Specify recommended order of attributes for dummy arguments in the 
+[Stdlib style guide](https://github.com/fortran-lang/stdlib/blob/master/STYLE_GUIDE.md).
 
-* Minor bug fix ([#173](https://github.com/fortran-lang/stdlib/pull/173)).
+* [#173](https://github.com/fortran-lang/stdlib/pull/173)
+Minor bug fix.
+
+* [#170](https://github.com/fortran-lang/stdlib/pull/170)
+WIP: Addition of `diag`, `eye`, and `trace` functions to make working with 
+matrices easier.
  
 ## Package Manager
 
