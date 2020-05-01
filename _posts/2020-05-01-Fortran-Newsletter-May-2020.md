@@ -52,7 +52,7 @@ matrices easier.
  
 ## Package Manager
 
-This month we've seen the first working implementation of the [Fortran Package Manager (FPM)](https://github.com/fortran-lang/fpm).
+In the past month we've seen the first working implementation of the [Fortran Package Manager (FPM)](https://github.com/fortran-lang/fpm).
 Specifically:
 
 * FPM supports three commands:
@@ -79,7 +79,7 @@ environment in which new open source Fortran projects are created and published 
 
 ## WG5 Convenor candidates
 
-This month was also the deadline for the [WG5](https://wg5-fortran.org/)
+Last month was also the deadline for the [WG5](https://wg5-fortran.org/)
 convenor candidates to apply for the next 3-year term (2021-2024).
 There are two candidates:
 
