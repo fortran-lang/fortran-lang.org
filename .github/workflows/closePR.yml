@@ -1,0 +1,44 @@
+# Github action to cleanup a PR preview
+#
+
+name: PR Preview Cleanup
+
+on:
+  pull_request:
+    types: [ closed ]
+
+env:
+  PUBLISH_DIR: gh-pages
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+
+    # Checkout existing gh-pages branch into PUBLISH_DIR
+    - name: Checkout gh-pages
+      uses: actions/checkout@v2
+      with:
+        path: ${{env.PUBLISH_DIR}}
+        ref: 'gh-pages' 
+    
+    # Sets Jekyll output directory using PR id
+    - name: Define output directory
+      run: echo "::set-env name=BUILD_DIR::pr/${{github.event.number}}"
+
+    # Cleanup preview files
+    - name: PR Cleanup
+      run: |
+        cd ${{env.PUBLISH_DIR}}
+        rm -rf ${{env.BUILD_DIR}}
+
+    # Commit and push changes to remote/gh-pages
+    - name: Commit and push to gh-pages
+      uses: EndBug/add-and-commit@master
+      with:
+        cwd: ${{env.PUBLISH_DIR}}
+        message: "Jekyll build, cleanup ${{env.BUILD_DIR}} (on:pr:close)"
+        ref: 'gh-pages'
+      env:  
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
