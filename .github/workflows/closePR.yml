@@ -1,11 +1,13 @@
 # Github action to cleanup a PR preview
 #
+#  Runs when a pull request comment contains '#delete_preview'
+#
 
 name: PR Preview Cleanup
 
 on:
-  pull_request:
-    types: [ closed ]
+  issue_comment:
+    types: [created]
 
 env:
   PUBLISH_DIR: gh-pages
@@ -13,6 +15,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && contains(github.event.comment.body,'#delete_preview')
     
     steps:
 
@@ -21,24 +24,27 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: ${{env.PUBLISH_DIR}}
-        ref: 'gh-pages' 
-    
-    # Sets Jekyll output directory using PR id
-    - name: Define output directory
-      run: echo "::set-env name=BUILD_DIR::pr/${{github.event.number}}"
+        ref: 'gh-pages'
 
     # Cleanup preview files
     - name: PR Cleanup
       run: |
         cd ${{env.PUBLISH_DIR}}
-        rm -rf ${{env.BUILD_DIR}}
+        rm -rf pr/${{github.event.issue.number}}
 
     # Commit and push changes to remote/gh-pages
     - name: Commit and push to gh-pages
       uses: EndBug/add-and-commit@master
       with:
         cwd: ${{env.PUBLISH_DIR}}
-        message: "Jekyll build, cleanup ${{env.BUILD_DIR}} (on:pr:close)"
+        message: "Jekyll build, cleanup pr/${{github.event.issue.number}}"
         ref: 'gh-pages'
       env:  
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    # Comment on pull request 
+    - name: Comment on pull request
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{github.event.issue.number}}
+        body: The preview build for this PR has now been deleted.
