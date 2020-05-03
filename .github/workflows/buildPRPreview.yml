@@ -53,6 +53,7 @@ jobs:
         grep baseurl _config.yml|grep -v "#" |awk -F : '{print $2}' | xargs > base_url
         sed -i '/baseurl:/d' _config.yml
         echo "baseurl: $(cat base_url)/${{env.BUILD_DIR}}" >> _config.yml
+        echo "pull_request: ${{github.event.number}}" >> _config.yml
 
     # Run Jekyll build and copy output to PUBLISH_DIR
     - name: Build Jekyll Site
