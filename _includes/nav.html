@@ -1,14 +1,27 @@
 <header class="navbar">
+	{% if site.pull_request %}
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.github.io/pull/{{site.pull_request}}" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request {{site.pull_request}}</a>
+		</h3>
+	</div></section>
+	{% endif %} 
     <div class="container">
         <nav class="navbar">
 	    <div class="container-fluid">
 	    <div class="navbar-header">
 		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
 		    <span class="sr-only">Toggle navigation</span>
-		    <img src="/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		    <img src="{{ site.baseurl }}/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
 		</button>
-		<a href="/" class="navbar-brand">
-		    <img src="/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		<a href="{{ site.baseurl }}/" class="navbar-brand">
+		    <img src="{{ site.baseurl }}/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
 		</a>
 	    </div>
 	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
@@ -19,12 +32,12 @@
 		    {% else %}
 		    <li>
 		    {% endif %}
-		    <a {% if nav.sections != null %}href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"{% else %}href="{{ nav.url }}"{% endif %}>{{ nav.title }}</a>
+		    <a {% if nav.sections != null %}href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"{% else %}href="{{ site.baseurl }}{{ nav.url }}"{% endif %}>{{ nav.title }}</a>
 		    {% if nav.sections != null %}
 			<ul class="dropdown-menu">
 			{% for section in nav.sections %}
 			    <li>
-				<a href="{{ section.url }}">{{ section.title }}</a>
+				<a href="{{ site.baseurl }}{{ section.url }}">{{ section.title }}</a>
 			    </li>
 			{% endfor %}
 			</ul>
