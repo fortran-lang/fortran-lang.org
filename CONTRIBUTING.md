@@ -50,6 +50,8 @@ This allows reviewers to directly view the generated result of your PR.
 
 __Note: Subsequent pushes to your pull request branch will trigger new builds of the pull request preview.__
 
+__Note: to disable pull request preview builds, place the string '#no_preview' within the pull request description.__
+
 After a pull request has been merged and successfully rendered, the preview build can be deleted by commenting on
 the pull request with the following keyword: `#delete_preview`.
 
