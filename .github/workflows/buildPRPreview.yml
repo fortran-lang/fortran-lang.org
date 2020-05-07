@@ -7,8 +7,8 @@
 name: Jekyll PR Preview
 
 on:
-  pull_request:
-    branches: [ master ]
+  issue_comment:
+    types: [created]
 
 env:
   SRC_DIR: src
@@ -18,12 +18,12 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.body,'#no_preview') == false
+    if: github.event.issue.pull_request && contains(github.event.comment.body,'#build_preview')
     
     steps:
 
     # Checkout PR branch into SRC_DIR
-    - name: Checkout pr/${{github.event.number}}
+    - name: Checkout pr/${{github.event.issue.number}}
       uses: actions/checkout@v2
       with:
         path: ${{env.SRC_DIR}}
@@ -45,7 +45,7 @@ jobs:
     
     # Sets Jekyll output directory using PR id
     - name: Define output directory
-      run: echo "::set-env name=BUILD_DIR::pr/${{github.event.number}}"
+      run: echo "::set-env name=BUILD_DIR::pr/${{github.event.issue.number}}"
 
     # Appends PR-based output directory to Jekyll baseurl variable
     - name: Update Jekyll site config
@@ -54,7 +54,7 @@ jobs:
         grep baseurl _config.yml|grep -v "#" |awk -F : '{print $2}' | xargs > base_url
         sed -i '/baseurl:/d' _config.yml
         echo "baseurl: $(cat base_url)/${{env.BUILD_DIR}}" >> _config.yml
-        echo "pull_request: ${{github.event.number}}" >> _config.yml
+        echo "pull_request: ${{github.event.issue.number}}" >> _config.yml
 
     # Run Jekyll build and copy output to PUBLISH_DIR
     - name: Build Jekyll Site
