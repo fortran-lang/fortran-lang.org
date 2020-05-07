@@ -24,10 +24,11 @@ jobs:
 
     # Checkout PR branch into SRC_DIR
     - name: Checkout pr/${{github.event.issue.number}}
-      uses: actions/checkout@v2
-      with:
-        path: ${{env.SRC_DIR}}
-        ref: ${{ github.event.issue.pull_request.head.sha }}
+      run: | 
+        cd ${{env.SRC_DIR}}
+        git clone https://github.com/${{github.repository}}
+        git fetch origin pull/${{github.event.issue.number}}/head:pr-${{github.event.issue.number}}
+        git checkout pr-${{github.event.issue.number}}
     
     # Checkout existing gh-pages branch into PUBLISH_DIR
     - name: Checkout gh-pages
