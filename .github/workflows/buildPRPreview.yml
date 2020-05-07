@@ -25,6 +25,7 @@ jobs:
     # Checkout PR branch into SRC_DIR
     - name: Checkout pr/${{github.event.issue.number}}
       run: | 
+        mkdir ${{env.SRC_DIR}}
         cd ${{env.SRC_DIR}}
         git clone https://github.com/${{github.repository}}
         git fetch origin pull/${{github.event.issue.number}}/head:pr-${{github.event.issue.number}}
