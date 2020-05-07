@@ -27,6 +27,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: ${{env.SRC_DIR}}
+        ref: ${{ github.event.issue.pull_request.head.sha }}
     
     # Checkout existing gh-pages branch into PUBLISH_DIR
     - name: Checkout gh-pages
@@ -74,9 +75,10 @@ jobs:
       env:  
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # Write comment to PR with preview link
-    - name: Comment on PR with preview link
-      uses: thollander/actions-comment-pull-request@master
+    # Comment on pull request 
+    - name: Comment on pull request
+      uses: peter-evans/create-or-update-comment@v1
       with:
-        message: "This PR has been built with Jekyll and can be previewed at: <${{env.SITE_URL}}/${{env.BUILD_DIR}}/>"
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        issue-number: ${{github.event.issue.number}}
+        body: "This PR has been built with Jekyll and can be previewed at: <${{env.SITE_URL}}/${{env.BUILD_DIR}}/>"
+
