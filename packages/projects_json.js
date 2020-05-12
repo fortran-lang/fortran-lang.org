@@ -811,6 +811,16 @@ projects = [
         },
       
         {
+          "name": "ABINIT",
+          "description": "ABINIT is a software suite to calculate the optical, mechanical, vibrational, and other observable properties of materials",
+          "github": "abinit/abinit",
+          "url": "",
+          "categories": "scientific",
+          "tags": "electronic structure calculations quantum chemistry physics molecular dynamics mpi",
+          "license": ""
+        },
+      
+        {
           "name": "NASTRAN 95",
           "description": "NASA Structural Analysis System, a finite element analysis program (FEA) completed in the early 1970's",
           "github": "nasa/NASTRAN-95",
