@@ -871,6 +871,16 @@ projects = [
         },
       
         {
+          "name": "Truchas",
+          "description": "3D Multiphysics Simulation of Metal Casting and Processing",
+          "github": "truchas/truchas-release",
+          "url": "",
+          "categories": "scientific",
+          "tags": "fluid dynamics metal casting multiphysics hpc",
+          "license": "BSD 3-Clause"
+        },
+      
+        {
           "name": "dftatom",
           "description": "Routines for Radial Integration of Dirac, Schrödinger, and Poisson Equations",
           "github": "certik/dftatom",
