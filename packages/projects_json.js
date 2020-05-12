@@ -617,7 +617,7 @@ projects = [
           "url": "",
           "categories": "numerical",
           "tags": "eigenvalue eigenvector singular value decomposition svd",
-          "license": "none"
+          "license": "BSD 3-Clause"
         },
       
         {
