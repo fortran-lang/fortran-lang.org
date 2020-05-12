@@ -481,6 +481,26 @@ projects = [
         },
       
         {
+          "name": "f03gl",
+          "description": "Fortran 2003 interface to OpenGL",
+          "github": "",
+          "url": "http://www-stone.ch.cam.ac.uk/pub/f03gl/index.xhtml",
+          "categories": "graphics interfaces",
+          "tags": "graphics interface opengl",
+          "license": "GNU GPL v3"
+        },
+      
+        {
+          "name": "PLplot",
+          "description": "Library for scientific plotting",
+          "github": "",
+          "url": "http://plplot.sourceforge.net/",
+          "categories": "graphics interfaces",
+          "tags": "plot surface contour interface",
+          "license": "GNU LGPL v3"
+        },
+      
+        {
           "name": "pyplot-fortran",
           "description": "For generating plots from Fortran using Python's matplotlib.pyplot",
           "github": "jacobwilliams/pyplot-fortran",
