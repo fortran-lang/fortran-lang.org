@@ -811,6 +811,16 @@ projects = [
         },
       
         {
+          "name": "Castro",
+          "description": "An adaptive mesh, astrophysical radiation hydrodynamics simulation code",
+          "github": "AMReX-Astro/Castro",
+          "url": "",
+          "categories": "scientific",
+          "tags": "adaptive mesh astrophysics radiation hydrodynamics",
+          "license": "BSD 3-Clause"
+        },
+      
+        {
           "name": "ABINIT",
           "description": "ABINIT is a software suite to calculate the optical, mechanical, vibrational, and other observable properties of materials",
           "github": "abinit/abinit",
