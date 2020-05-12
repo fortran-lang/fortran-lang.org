@@ -851,6 +851,16 @@ projects = [
         },
       
         {
+          "name": "dftatom",
+          "description": "Routines for Radial Integration of Dirac, Schrödinger, and Poisson Equations",
+          "github": "certik/dftatom",
+          "url": "",
+          "categories": "scientific",
+          "tags": "electronic structure calculations atomic",
+          "license": "MIT"
+        },
+      
+        {
           "name": "Fortran 2018 examples",
           "description": "Easy examples of scientific computing with modern, powerful, easy Fortran 2018 standard",
           "github": "scivision/fortran2018-examples",
