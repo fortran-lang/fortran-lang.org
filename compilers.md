@@ -163,7 +163,7 @@ conforms to the Fortran-2003 standard (ISO/IEC 1539-1:2004) and supports many
 features from Fortran-2008 (ISO/IEC 1539-1:2010).
 
 
-## Discountinued
+## Discontinued
 
 The following is a list of Fortran compilers that seem discontinued, so we do
 not list them above:
@@ -179,4 +179,4 @@ not list them above:
 ## Note
 
 Please let us know if there is any compiler that is not listed, or if we listed
-a compiler in the Discountinued section and it is in fact actively maintained.
+a compiler in the Discontinued section and it is in fact actively maintained.
