@@ -655,7 +655,7 @@ projects = [
           "description": "Fortran interface to the GNU Scientific Library",
           "github": "reinh-bader/fgsl",
           "url": "",
-          "categories": "numerical scientific",
+          "categories": "numerical interfaces",
           "tags": "",
           "license": ""
         },
@@ -665,7 +665,7 @@ projects = [
           "description": "collection of fortran modules and procedures for scientific calculations.",
           "github": "aamaricci/SciFortran",
           "url": "",
-          "categories": "numerical scientific",
+          "categories": "numerical",
           "tags": "",
           "license": ""
         },
