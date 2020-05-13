@@ -761,12 +761,12 @@ projects = [
         },
       
         {
-          "name": "QEF",
-          "description": "Codes for electronic-structure calculations and materials modeling at the nanoscale.",
+          "name": "Quantum ESPRESSO",
+          "description": "Quantum ESPRESSO is an integrated suite of Open-Source computer codes for electronic-structure calculations and materials modeling at the nanoscale",
           "github": "QEF/q-e",
           "url": "",
           "categories": "scientific",
-          "tags": "electron structure simulation physics",
+          "tags": "electronic structure calculations quantum chemistry physics molecular dynamics mpi",
           "license": ""
         },
       
