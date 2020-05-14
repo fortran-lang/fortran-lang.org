@@ -69,7 +69,7 @@ CUDA programs can run several times faster on a single Tesla V100 GPU compared
 to all the cores of a dual-socket server, and interoperate with MPI and OpenMP
 to deliver the full power of today’s multi-GPU servers.
 
-### Cray
+### HPE / Cray
 
 The [Cray Compiler Environment (CCE)](https://www.cray.com/sites/default/files/SB-Cray-Programming-Environment.pdf)
 is the cornerstone innovation of Cray's adaptive computing paradigm. CCE builds
