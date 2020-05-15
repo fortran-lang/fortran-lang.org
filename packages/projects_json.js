@@ -891,6 +891,16 @@ projects = [
         },
       
         {
+          "name": "MESA",
+          "description": "Modules for Experiments in Stellar Astrophysics",
+          "github": "",
+          "url": "http://mesa.sourceforge.net/",
+          "categories": "scientific",
+          "tags": "stellar astrophysics",
+          "license": "GNU GPL V2"
+        },
+      
+        {
           "name": "Fortran 2018 examples",
           "description": "Easy examples of scientific computing with modern, powerful, easy Fortran 2018 standard",
           "github": "scivision/fortran2018-examples",
