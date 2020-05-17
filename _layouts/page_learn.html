@@ -1,0 +1,30 @@
+---
+layout: default
+---
+
+{% include nav.html active=page.navbar %}
+
+<section class="front-section">
+  <div class="container">
+
+    {% include learn_nav_sidebar.html %}
+
+    <div class="newsletter col-right">
+
+      <h1>{{ page.title }}</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i>{{ page.date | date: "%B %d, %Y" }}</i>
+        {% if page.author != null %}
+          <p><i>Authors:</i> {{ page.author }}</p>
+        {% endif %}
+      </div>
+
+      {{ content }}
+
+    </div>
+
+    
+    
+  </div>
+</section>
