@@ -71,7 +71,7 @@ to deliver the full power of today’s multi-GPU servers.
 
 ### HPE / Cray
 
-The [Cray Compiler Environment (CCE)](https://www.cray.com/sites/default/files/SB-Cray-Programming-Environment.pdf)
+The [Cray Compiling Environment (CCE)](https://www.cray.com/sites/default/files/SB-Cray-Programming-Environment.pdf)
 is the cornerstone innovation of Cray's adaptive computing paradigm. CCE builds
 on a well-developed and sophisticated Cray technology base that identifies
 regions of computation that are either sequential scalar, vector parallel or
