@@ -631,6 +631,16 @@ projects = [
         },
       
         {
+          "name": "ParaMonte",
+          "description": "A general-purpose high-performance MPI/Coarray-parallel Monte Carlo simulation library implemented in Fortran 2018 with interfaces to C/C++/Fortran/MATLAB/Python",
+          "github": "cdslaborg/paramonte",
+          "url": "",
+          "categories": "numerical",
+          "tags": "parallel mpi coarray monte carlo mcmc c cpp matlab python statistics bayesian stochastic optimization sampling integration machine learning",
+          "license": ""
+        },
+      
+        {
           "name": "bspline-fortran",
           "description": "Multidimensional B-Spline interpolation of data on a regular grid",
           "github": "jacobwilliams/bspline-fortran",
