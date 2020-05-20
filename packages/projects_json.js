@@ -573,11 +573,11 @@ projects = [
         {
           "name": "LAPACK",
           "description": "Routines for numerical linear algebra",
-          "github": "xianyi/OpenBLAS",
+          "github": "Reference-LAPACK/lapack",
           "url": "",
           "categories": "numerical",
           "tags": "blas linear algera",
-          "license": ""
+          "license": "BSD 3-Clause"
         },
       
         {
