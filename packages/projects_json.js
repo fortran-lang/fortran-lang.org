@@ -831,6 +831,16 @@ projects = [
         },
       
         {
+          "name": "QUIP",
+          "description": "The QUIP package is a collection of software tools to carry out molecular dynamics simulations.",
+          "github": "libAtoms/QUIP",
+          "url": "",
+          "categories": "scientific",
+          "tags": "electronic structure calculations quantum chemistry physics molecular dynamics mpi qm-mm",
+          "license": "GNU GPL V2"
+        },
+      
+        {
           "name": "ABINIT",
           "description": "ABINIT is a software suite to calculate the optical, mechanical, vibrational, and other observable properties of materials",
           "github": "abinit/abinit",
