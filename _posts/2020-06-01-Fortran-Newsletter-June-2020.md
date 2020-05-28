@@ -17,7 +17,6 @@ detailing Fortran news from the previous month.
 * [Standard Library](#standard-library)
 * [Package Manager](#package-manager)
 * [Events](#events)
-* [Who's hiring?](#whos-hiring)
 
 ## This website
 
@@ -80,6 +79,9 @@ The short term goal of FPM is to make development and installation of Fortran pa
 Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
 environment in which new open source Fortran projects are created and published with ease.
 
+* [#82](https://github.com/fortran-lang/fpm/pull/82)
+New functionality to enable `git` dependencies.
+
 ## Events
 
 * [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) will take place on July 2-4 in Zurich, Switzerland.
@@ -89,11 +91,3 @@ Registration is free and due by June 1, 2020.
 You can submit a proposal for the Standards committee [here](https://github.com/j3-fortran/fortran_proposals).
 For reference, you can read the [notes from the February meeting](/newsletter/2020/02/28/J3-february-meeting).
 
-## Who's hiring?
-
-* [Intel Corporation (Santa Clara, CA): Software Engineer, Fortran](https://g.co/kgs/aogdeh)
-* [Intel Corporation (Hillsboro, OR): Software Engineer, Fortran](https://g.co/kgs/5X3d2Y)
-* [Pozent (York, PA): Fortran Technical Lead](https://g.co/kgs/yuaohU)
-* [American Cybersystems, Inc. (Binghamton, NY): Software Engineer (Fortran, C/C++, Ada, C#, Java, Radar)](https://g.co/kgs/VAWjWk)
-* [BravoTech (Dallas, TX): C++ / Fortran Developer](https://g.co/kgs/eLsn63)
-* [Siemens (Milford, OH): CAE Software Engineer (Fortran or C++) Design and Topology Optimization](https://g.co/kgs/eYftiA)
