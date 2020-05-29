@@ -54,33 +54,38 @@ Read the full specifications [here](https://stdlib.fortran-lang.org/page/specs/s
 
 ## Package Manager
 
-In the past months we've seen the first working implementation of the [Fortran Package Manager (FPM)](https://github.com/fortran-lang/fpm).
+In the past months we've seen the first working implementation of the [Fortran Package Manager (fpm)](https://github.com/fortran-lang/fpm).
 Specifically:
 
-* FPM supports three commands:
+* fpm supports three commands:
   - `fpm build`--compiles and links your application and/or library.
   - `fpm test`--runs tests if your package has any test programs.
   - `fpm run`--runs the application if your package has an executable program.
-* FPM can build an executable program, a library, or a combination of both.
-* Currently only gfortran is supported as the compiler backend. FPM will suport other compilers soon.
+* fpm can build an executable program, a library, or a combination of both.
+* fpm can fetch and compile other Fortran libraries using fpm that your project depends on
+* Currently only gfortran is supported as the compiler backend. fpm will suport other compilers soon.
 
-Read the [FPM packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md)
-to learn how to build your package with FPM.
+Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md)
+to learn how to build your package with fpm.
 
-FPM is still in very early development, and we need as much help as we can get.
+fpm is still in very early development, and we need as much help as we can get.
 Here's how you can help today:
 
 * Try to use it. Does it work? No? Let us know!
 * Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.
-* Adapt your Fortran package for FPM.
+* Adapt your Fortran package for fpm.
 * Improve the documentation.
 
-The short term goal of FPM is to make development and installation of Fortran packages with dependencies easier.
+The short term goal of fpm is to make development and installation of Fortran packages with dependencies easier.
 Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
 environment in which new open source Fortran projects are created and published with ease.
 
 * [#82](https://github.com/fortran-lang/fpm/pull/82)
-New functionality to enable `git` dependencies.
+New functionality to enable `git` dependencies. You can now specify a package, the
+path to its git repository, and (optionally) a tag, branch, or commit to use. fpm
+will then fetch, compile and link this library with your project, including any
+dependencies that package has specified. Check out an example [hello world package](https://gitlab.com/everythingfunctional/hello_fpm)
+that utilizes this functionality.
 
 ## Events
 
@@ -90,4 +95,3 @@ Registration is free and due by June 1, 2020.
 * J3/WG5 joint meeting will take place on October 12-16 in Las Vegas, Nevada.
 You can submit a proposal for the Standards committee [here](https://github.com/j3-fortran/fortran_proposals).
 For reference, you can read the [notes from the February meeting](/newsletter/2020/02/28/J3-february-meeting).
-
