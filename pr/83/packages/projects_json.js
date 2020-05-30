@@ -573,11 +573,11 @@ projects = [
         {
           "name": "LAPACK",
           "description": "Routines for numerical linear algebra",
-          "github": "xianyi/OpenBLAS",
+          "github": "Reference-LAPACK/lapack",
           "url": "",
           "categories": "numerical",
           "tags": "blas linear algera",
-          "license": ""
+          "license": "BSD 3-Clause"
         },
       
         {
@@ -627,6 +627,16 @@ projects = [
           "url": "",
           "categories": "numerical",
           "tags": "back propagation coarray",
+          "license": ""
+        },
+      
+        {
+          "name": "ParaMonte",
+          "description": "A general-purpose high-performance MPI/Coarray-parallel Monte Carlo simulation library implemented in Fortran 2018 with interfaces to C/C++/Fortran/MATLAB/Python",
+          "github": "cdslaborg/paramonte",
+          "url": "",
+          "categories": "numerical",
+          "tags": "parallel mpi coarray monte carlo mcmc c cpp matlab python statistics bayesian stochastic optimization sampling integration machine learning",
           "license": ""
         },
       
@@ -818,6 +828,16 @@ projects = [
           "categories": "scientific",
           "tags": "adaptive mesh astrophysics radiation hydrodynamics",
           "license": "BSD 3-Clause"
+        },
+      
+        {
+          "name": "QUIP",
+          "description": "The QUIP package is a collection of software tools to carry out molecular dynamics simulations.",
+          "github": "libAtoms/QUIP",
+          "url": "",
+          "categories": "scientific",
+          "tags": "electronic structure calculations quantum chemistry physics molecular dynamics mpi qm-mm",
+          "license": "GNU GPL V2"
         },
       
         {

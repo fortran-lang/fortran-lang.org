@@ -25,6 +25,42 @@ a {
   font-weight: bold;
 }
 
+.button {
+  background-color: #734f96;
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 8px;
+}
+
+.button.center {
+  display: block;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.button:hover {
+  background-color: #777;
+  color: white;
+  text-decoration: none;
+}
+
+.button.blue{
+  background-color: #008CBA;
+}
+
+.button.blue:hover{
+  background-color: #777;
+}
+
+#page-nav {
+  padding-left: 20px;
+}
+
 h1,
 h2,
 h3 {
@@ -53,6 +89,24 @@ h3 {
 a[target="_blank"]:after {
   content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==);
   margin: 0 3px 0 5px;
+}
+
+/* " except in the navbar and buttons*/
+.navbar a[target="_blank"]:after {
+  content:'';
+  margin: 0px;
+}
+.button[target="_blank"]:after {
+  content:'';
+  margin: 0px;
+}
+
+/* Hide text for social navbar icons 
+    if not on mobile device*/
+@media (min-width: 758px) {
+  .navbar .icon-link{
+    display: none;
+  }
 }
 
 blockquote {
@@ -92,7 +146,8 @@ pre {
 }
 
 .container-flex{
-  margin: 0 15px;
+  margin: 0 auto;
+  width: 90%;
   display: flex;
   flex-wrap: wrap;
 }
