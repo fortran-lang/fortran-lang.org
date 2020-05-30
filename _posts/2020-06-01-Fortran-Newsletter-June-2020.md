@@ -60,7 +60,7 @@ or a git repository (and optionally a specific branch, tag or commit) that
 contains the package. fpm will then take care of fetching the dependency for you
 (if necessary) and any packages it depends on, and compiling and linking it into
 your project. Check out an example [hello world package](https://gitlab.com/everythingfunctional/hello_fpm)
-that utilizes this functionality.
+that uses this functionality.
 
 fpm is still in very early development, and we need as much help as we can get.
 Here's how you can help today:
