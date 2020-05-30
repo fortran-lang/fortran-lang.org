@@ -2,7 +2,6 @@
 layout: book
 title: Quickstart tutorial
 permalink: /learn/quickstart
-navbar: Learn
 ---
 
 This quickstart tutorial gives an overview of the Fortran programming language

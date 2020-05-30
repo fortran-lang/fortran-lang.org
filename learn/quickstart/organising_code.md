@@ -2,7 +2,6 @@
 layout: book
 title: Organising code structure
 permalink: /learn/quickstart/organising_code
-navbar: Learn
 ---
 
 Most programming languages allow you to collect commonly-used code into

@@ -2,7 +2,6 @@
 layout: book
 title: Operators and Control Flow
 permalink: /learn/quickstart/operators_control_flow
-navbar: Learn
 ---
 
 One of the powerful advantages of computer algorithms, compared to simple mathematical formulae,

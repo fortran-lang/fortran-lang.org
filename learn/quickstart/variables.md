@@ -2,7 +2,6 @@
 layout: book
 title: Variables
 permalink: /learn/quickstart/variables
-navbar: Learn
 ---
 
 Variables store information that can be manipulated by the program.

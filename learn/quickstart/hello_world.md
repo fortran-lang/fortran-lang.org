@@ -2,7 +2,6 @@
 layout: book
 title: Hello World
 permalink: /learn/quickstart/hello_world
-navbar: Learn
 ---
 
 In this part of the tutorial, we will write our first Fortran program:

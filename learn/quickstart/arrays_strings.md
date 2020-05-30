@@ -2,7 +2,6 @@
 layout: book
 title: Arrays and strings
 permalink: /learn/quickstart/arrays_strings
-navbar: Learn
 ---
 
 
