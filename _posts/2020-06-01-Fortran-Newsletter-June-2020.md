@@ -32,6 +32,15 @@ Please help us make them better!
 * [#90](https://github.com/fortran-lang/fortran-lang.org/pull/90)
 WIP: Mini-book on building programs
 
+## Fortran Discourse
+
+On May 4 we launched the [Fortran Discourse](https://fortran-lang.discourse.group), an online discussion board
+for anything and everything Fortran related.
+You can use it discuss the Fortran language, ask for help, announce events and/or personal projects, or just lurk
+around. 
+There are already quite a few interesting discussions going on.
+Join us!
+
 ## Fortran Standard Library
 
 Here's what's new in Fortran Standard Library:
