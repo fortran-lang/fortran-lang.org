@@ -5,16 +5,13 @@ category: newsletter
 author: Jeremie Vandenplas, Brad Richardson, and Milan Curcic
 ---
 
-```fortran
-print *, 'Hello, World!'
-```
-
-Welcome to this monthly Fortran newsletter.
-It will come out on the first calendar day of every month,
-detailing Fortran news from the previous month.
+Welcome to the June 2020 edition of the monthly Fortran newsletter.
+The newsletter comes out on the first calendar day of every month
+and details Fortran news from the previous month.
 
 * [This website](#this-website)
-* [Standard Library](#standard-library)
+* [Fortran Discourse](#fortran-discourse)
+* [Standard Library](#fortran-standard-library)
 * [Package Manager](#package-manager)
 * [Events](#events)
 
