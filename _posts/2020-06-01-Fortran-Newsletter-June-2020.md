@@ -51,23 +51,20 @@ Join us!
 
 ## Fortran Standard Library
 
-Here's what's new in Fortran Standard Library:
+Here's what's new in the Fortran Standard Library:
 
 * [#191](https://github.com/fortran-lang/stdlib/pull/191)
 WIP: Function for computing Pearson correlations among elements of
-an array in the `stdlib_experimental_stats` module.
-
+an array in the `stdlib_experimental_stats` module
 * [#189](https://github.com/fortran-lang/stdlib/pull/189)
 WIP: Procedures for sparse matrices operations. Ongoing discussion on the API can be found
-[here](https://github.com/fortran-lang/stdlib/wiki/Stdlib-Sparse-matrix-API)
-
+[here](https://github.com/fortran-lang/stdlib/wiki/Stdlib-Sparse-matrix-API).
 * [#183](https://github.com/fortran-lang/stdlib/pull/183)
 Automatic API-doc generation and deployment of this [stdlib website](https://stdlib.fortran-lang.org)
-
 * [#170](https://github.com/fortran-lang/stdlib/pull/170)
 Addition of the new functions `diag`, `eye`, and `trace` functions to make working with
 matrices easier.
-Read the full specifications [here](https://stdlib.fortran-lang.org/page/specs/stdlib_experimental_linalg.html)
+Read the full specifications [here](https://stdlib.fortran-lang.org/page/specs/stdlib_experimental_linalg.html).
 
 ## Package Manager
 
