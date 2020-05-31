@@ -71,8 +71,9 @@ Read the full specifications [here](https://stdlib.fortran-lang.org/page/specs/s
 
 ## Package Manager
 
-In this past month support for dependencies between packages has been added. You
-can specify either a path to another folder on your machine with an fpm package,
+In this past month support for dependencies between packages has been added
+to the [Fortran Package Manager (fpm)](https://github.com/fortran-lang/fpm).
+You can specify either a path to another folder on your machine with an fpm package,
 or a git repository (and optionally a specific branch, tag or commit) that
 contains the package. fpm will then take care of fetching the dependency for you
 (if necessary) and any packages it depends on, and compiling and linking it into
@@ -90,6 +91,13 @@ Here's how you can help today:
 The short term goal of fpm is to make development and installation of Fortran packages with dependencies easier.
 Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
 environment in which new open source Fortran projects are created and published with ease.
+
+Specific items that are new this month:
+
+* [#82](https://github.com/fortran-lang/fpm/pull/82)
+You can now add remote git repositories as Fortran dependencies to your project
+* [#73](https://github.com/fortran-lang/fpm/pull/73)
+Improved output messages for the user
 
 ## Events
 
