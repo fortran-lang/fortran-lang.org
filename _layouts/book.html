@@ -1,0 +1,56 @@
+---
+layout: default
+---
+
+{% include nav.html active="Learn" %}
+
+<section class="front-section">
+  <div class="container">
+
+    {% include book_navbar.html %}
+
+    <div class="newsletter col-right">
+
+      <h1>{{ page.title }}</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i>{{ page.date | date: "%B %d, %Y" }}</i>
+        {% if page.author != null %}
+          <p><i>Authors:</i> {{ page.author }}</p>
+        {% endif %}
+      </div>
+
+      {{ content }}
+
+      <div class="container-flex">
+
+        {% if prevPage %}
+          {% if prevPage < 0 %}
+            <a href="{{ site.baseurl }}{{ book.link }}" style="margin-right: auto;">
+          {% else %}
+            <a href="{{ site.baseurl }}{{ book.pages[prevPage].link }}" style="margin-right: auto;">
+          {% endif %}
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        {% endif %}
+
+        {% if nextPage %}
+          {% if nextPage < nPage %}
+          <a href="{{ site.baseurl }}{{ book.pages[nextPage].link }}"
+          style="margin-left: auto;">
+            <h3>
+              Next
+              <i class="fas fa-arrow-circle-right"></i>
+            </h3>
+          </a>
+          {% endif %}
+        {% endif %}
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

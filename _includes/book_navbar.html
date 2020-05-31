@@ -1,0 +1,90 @@
+<div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  {% for book_i in site.data.learning.books %}
+    {% if book_i.link == page.permalink %}
+      {% assign book = book_i %}
+      {% break %}
+    {% endif %}
+    {% if book_i.pages %}
+      {% for bookPage in book_i.pages %}
+        {% if bookPage.link == page.permalink %}
+          {% assign book = book_i %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {% if book_i.link == page.permalink %}
+        {% assign book = book_i %}
+        {% break %}
+      {% endif %}
+    {% endif %}
+  {% endfor  %}
+
+  <a href="{{site.baseurl}}/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index 
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  {{ book.title }}</h3>
+
+  <div class="content">
+  {% if book.pages %} <!-- If this book has multiple pages -->
+
+    {% assign nPage = book.pages | size %}
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    {% if page.permalink == book.link %}
+      <li><b><a href="{{site.baseurl}}{{ book.link }}">
+        Introduction</a></b></li>
+        <ul id="page-nav"></ul>
+        {% assign nextPage = 0 %}
+    {% else %}
+      <li><a href="{{site.baseurl}}{{ book.link }}">
+        Introduction</a></li>
+    {% endif %}
+
+    <!-- List pages in this book -->
+    {% for page_link in book.pages %}
+    
+      <!-- Get page title from page metadata -->
+      {% for sitePage in site.pages %}
+        {% if sitePage.permalink == page_link.link %}
+          {% assign bookPage = sitePage %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% if bookPage.permalink == page.permalink %}
+        <li>
+          <b><a href="{{site.baseurl}}{{ bookPage.url }}">
+            {{ bookPage.title }}</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        {% assign prevPage = forloop.index | minus: 2 %}
+        {% assign nextPage = forloop.index %}
+        
+      {% else %}
+        <li><a href="{{site.baseurl}}{{ bookPage.url }}">
+          {{ bookPage.title }}</a></li>
+      {% endif %}
+
+    {% endfor %}
+    </ul>
+
+  {% else %}
+
+    <!-- If this book is single-page -->
+    <ul id="page-nav"></ul>
+
+  {% endif %}
+</div>
+
+</div>
+
