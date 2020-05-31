@@ -92,15 +92,27 @@ environment in which new open source Fortran projects are created and published 
 Specific items that are new this month:
 
 * [#82](https://github.com/fortran-lang/fpm/pull/82)
-You can now add remote git repositories as Fortran dependencies to your project
+You can now add remote git repositories as Fortran dependencies to your project.
 * [#73](https://github.com/fortran-lang/fpm/pull/73)
 Improved output messages for the user
 
 ## Events
 
+* We hosted the very first Fortran Monthly call on May 14.
+The turnout was astonishing--over 23 people joined.
+You can read the notes from the call [here](https://fortran-lang.discourse.group/t/fortran-monthly-call-may-2020).
+We'll have another one this month.
+Subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
+join the [Discourse](https://fortran-lang.discourse.group) to stay tuned.
 * [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) will take place on July 2-4 in Zurich, Switzerland.
 Virtual participation is enabled for both attendees and speakers.
 Registration is free and due by June 1, 2020.
+There are quite a few submissions from the fortran-lang community:
+A talk on [stdlib](https://github.com/fortran-lang/talks/tree/master/FortranCon2020-stdlib) by Jeremie Vandenplas,
+one about the [Fortran Package Manager (fpm)](https://github.com/fortran-lang/talks/tree/master/FortranCon2020-fpm) by Brad Richardson,
+a talk on [LFortran compiler](https://gitlab.com/lfortran/talks/fortrancon-2020-talk) by Ondřej Čertík,
+as well as one about [building the Fortran community](https://github.com/fortran-lang/talks/tree/master/FortranCon2020-community)
+by Milan Curcic.
 * J3/WG5 joint meeting, originally slated for October 12-16 in Las Vegas, Nevada, has been [cancelled](https://mailman.j3-fortran.org/pipermail/j3/2020-May/012034.html).
 However, the work on proposals for the Fortran Standard doesn't stop.
 You can submit a proposal for the Standards committee [here](https://github.com/j3-fortran/fortran_proposals).
