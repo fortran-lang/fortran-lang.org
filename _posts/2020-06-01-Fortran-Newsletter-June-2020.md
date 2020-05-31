@@ -79,6 +79,7 @@ environment in which new open source Fortran projects are created and published 
 * [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) will take place on July 2-4 in Zurich, Switzerland.
 Virtual participation is enabled for both attendees and speakers.
 Registration is free and due by June 1, 2020.
-* J3/WG5 joint meeting will take place on October 12-16 in Las Vegas, Nevada.
+* J3/WG5 joint meeting, originally slated for October 12-16 in Las Vegas, Nevada, has been [cancelled](https://mailman.j3-fortran.org/pipermail/j3/2020-May/012034.html).
+However, the work on proposals for the Fortran Standard doesn't stop.
 You can submit a proposal for the Standards committee [here](https://github.com/j3-fortran/fortran_proposals).
 For reference, you can read the [notes from the February meeting](/newsletter/2020/02/28/J3-february-meeting).
