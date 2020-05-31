@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: June 2020"
 category: newsletter
-author: Milan Curcic
+author: Jeremie Vandenplas, Brad Richardson, and Milan Curcic
 ---
 
 ```fortran
