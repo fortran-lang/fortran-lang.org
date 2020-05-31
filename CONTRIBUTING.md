@@ -5,15 +5,11 @@ The Fortran-lang site uses the Ruby-based [Jekyll static site generator](https:/
 To contribute you will therefore need to install Jekyll on your development computer.
 See [README.md](README.md) for how to setup Jekyll and build the site.
 
-This document details information for contributors and is broken into the following sections:
+* See [PACKAGES](./PACKAGES.md) for how to add an entry to the [Package index](https://fortran-lang.org/packages)
 
-1. [Contributor guide](#contributor-guide): information and guidelines for adding to and modifying existing site content
+* See [MINIBOOKS](./MINIBOOKS.md) for how to write and structure a mini-book tutorial for the [Learn](https://fortran-lang.org/learn) section
 
-2. [Developer information](#developer-information): detail on the structure of the site backend
-
-## Contributor guide
-
-### Workflow
+## Workflow
 
 Contributions to the site are made by pull request to the github repository: <https://github.com/fortran-lang/fortran-lang.github.io/>.
 
@@ -41,19 +37,25 @@ __Note: You can continue to push changes to your fork branch after you open a pu
 
 Once your pull request is approved, usually by at least two other community members, it will be merged into the fortran-lang.github.io master branch by the maintainers at which point it will be published to the fortran-lang.org site.
 
-
-### Pull request previews
-
-Once you open a pull request, a github action will execute and build your pull request branch to produce a public preview which will be available to view at `fortran-lang.org/pr/<pr_id>/` where `<pr_id>` is the numeric identifier of your pull request.
+If required, the repository maintainers can build a public preview of your proposed changes which will be available to view at `fortran-lang.org/pr/<pr_id>/` where `<pr_id>` is the numeric identifier of your pull request.
 
 This allows reviewers to directly view the generated result of your PR.
+After a pull request has been merged and successfully rendered, the maintainers will delete the preview build.
 
-__Note: Subsequent pushes to your pull request branch will trigger new builds of the pull request preview.__
 
-__Note: to disable pull request preview builds, place the string '#no_preview' within the pull request description.__
+## Style guide
 
-After a pull request has been merged and successfully rendered, the preview build can be deleted by commenting on
-the pull request with the following keyword: `#delete_preview`.
+### External links
+
+It is recommended practice for off-site hyperlinks to open in a new tab.
+On `Fortran-lang.org` all such links will automatically be suffixed with a new-tab icon;
+this gives site users prior expectation that the link will lead them off-site while
+keeping fortran-lang.org open in a previous tab.
+
+__Example:__ Open link in new tab (HTML or markdown)
+```html
+<a href="https://fortran-lang.discourse.group/" target="_blank">Discourse</a>
+```
 
 ### Internal site links
 
@@ -71,7 +73,64 @@ __Example:__ html link
 <a href="{{site.baseurl}}/Packages">Fortran packages</a>
 ```
 
+### Icon packs
 
-## Developer information
+Icons are an easy way to improve page aesthetic by breaking-up otherwise monotonic text passages
+and drawing attention to headings or key information.
 
-`Under development`
+Three icon packs are available for use on `fortran-lang.org`:
+
+* [Font awesome](https://fontawesome.com/icons?d=gallery) (CC BY 4.0 License)
+
+* [Feather](https://feathericons.com/) (MIT)
+
+* [Devicon](https://konpa.github.io/devicon/) (MIT)
+
+
+__Example:__ Font awesome
+```html
+<i class="fas fa-info-circle"></i>
+```
+
+__Example:__ Feather
+
+```html
+<i data-feather="globe"></i>
+```
+
+__Example:__ Devicon
+
+```html
+<i class="devicon-github-plain"></i>
+```
+
+Visit the respective websites to browse available icons.
+
+__Note:__ font-awesome icons currently appear to vertically-align with text better -
+we need to get feather icons to do the same.
+
+
+### Page contents
+
+It is sometimes useful to display a hyperlinked page contents for lengthy pages.
+There are two ways to do this on `fortran-lang.org`.
+
+__Option 1: Use the `book` layout__
+
+The `book` layout is the layout used for mini-book tutorials;
+it includes a non-scrolling sidebar which is automatically populated
+by the `<h2>` headings on the current page.
+
+__Option 2: __
+
+If you just want a list of headings at the top of your page,
+include the following snippet, which will be automatically
+populated by the `<h2>` headings on the current page.
+
+```html
+<ul id="page-nav"></ul>
+```
+
+__Implementation:__
+the functionality described above is implemented in the javascript file
+[assets/js/page_nav.js](./assets/js/page_nav.js).
