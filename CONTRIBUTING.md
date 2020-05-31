@@ -121,7 +121,7 @@ The `book` layout is the layout used for mini-book tutorials;
 it includes a non-scrolling sidebar which is automatically populated
 by the `<h2>` headings on the current page.
 
-__Option 2: __
+__Option 2:__
 
 If you just want a list of headings at the top of your page,
 include the following snippet, which will be automatically
