@@ -9,25 +9,36 @@ Welcome to the June 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month
 and details Fortran news from the previous month.
 
-* [This website](#this-website)
+* [fortran-lang.org](#fortran-lang.org)
 * [Fortran Discourse](#fortran-discourse)
 * [Standard Library](#fortran-standard-library)
 * [Package Manager](#package-manager)
 * [Events](#events)
 
-## This website
+## fortran-lang.org
 
-If you came to this newsletter from elsewhere, welcome to the new Fortran website.
-We built this site mid-April and hope for it to be _the_ home of Fortran on the internet,
-which traditionally there hasn't been any to date.
-Look around and [let us know](https://github.com/fortran-lang/fortran-lang.github.io/issues)
+The Fortran website has been up since mid-April, and we've already got great
+feedback from the community already.
+In the past month we've updated the [Compilers](/compilers) page which is now
+comprehensive and includes all major open source and commercial compilers.
+The [Learn](/learn) page has also seen significant updates—it's been
+reorganized for easier navigation and currently features a quickstart tutorial,
+Fortran books, and other online resources.
+
+If you haven't yet, please explore the website and [let us know](https://github.com/fortran-lang/fortran-lang.org/issues)
 if you have any suggestions for improvement.
-Specifically, [Learn](/learn) and [Packages](/packages) are the pages that
-we'll be focusing on in the coming months.
+Specifically, we'll be focusing on the [Learn](/learn) page and its mini-books
+in the coming months.
 Please help us make them better!
+
+Here are some specific items that we worked on:
 
 * [#90](https://github.com/fortran-lang/fortran-lang.org/pull/90)
 WIP: Mini-book on building programs
+* [#83](https://github.com/fortran-lang/fortran-lang.org/pull/83)
+Improving the structure and navigation of the [Learn](/learn) pages
+* [#46](https://github.com/fortran-lang/fortran-lang.org/pull/46)
+Build website previews from pull requests
 
 ## Fortran Discourse
 
