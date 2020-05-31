@@ -18,7 +18,7 @@ and details Fortran news from the previous month.
 ## fortran-lang.org
 
 The Fortran website has been up since mid-April, and we've already got great
-feedback from the community already.
+feedback from the community.
 In the past month we've updated the [Compilers](/compilers) page which is now
 comprehensive and includes all major open source and commercial compilers.
 The [Learn](/learn) page has also seen significant updates—it's been
