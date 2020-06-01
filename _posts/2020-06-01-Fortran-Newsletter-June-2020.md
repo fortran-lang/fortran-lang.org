@@ -130,31 +130,5 @@ commenting in any of the four repositories
 [fortran-lang/fpm](https://github.com/fortran-lang/fpm),
 [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org),
 [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
-  1. Ondřej Čertík ([@certik](https://github.com/certik))
-  2. Milan Curcic ([@milancurcic](https://github.com/milancurcic))
-  3. Laurence Kedward ([@LKedward](https://github.com/LKedward))
-  4. Jeremie Vandenplas ([@jvdp1](https://github.com/jvdp1))
-  5. Brad Richardson ([@everythingfunctional](https://github.com/everythingfunctional))
-  6. Izaak "Zaak" Beekman ([@zbeekman](https://github.com/zbeekman))
-  7. Martin Diehl ([@MarDiehl](https://github.com/MarDiehl))
-  8. [@arjenmarkus](https://github.com/arjenmarkus)
-  9. Van Snyder ([@vansnyder](https://github.com/vansnyder))
- 10. [@FortranFan](https://github.com/FortranFan)
- 11. [@epagone](https://github.com/epagone)
- 12. Ivan ([@ivan-pi](https://github.com/ivan-pi))
- 13. Neil Carlson ([@nncarlson](https://github.com/nncarlson))
- 14. Ashwin Vishnu ([@ashwinvis](https://github.com/ashwinvis))
- 15. Williams A. Lima ([@ghwilliams](https://github.com/ghwilliams))
- 16. Peter Klausler ([@klausler](https://github.com/klausler))
- 17. Chris MacMackin ([@cmacmackin](https://github.com/cmacmackin))
- 18. Pedro Costa ([@p-costa](https://github.com/p-costa))
- 19. [@mobius-eng](https://github.com/mobius-eng)
- 20. Salvatore Filippone ([@sfilippone](https://github.com/sfilippone))
- 21. [@ShamanTcler](https://github.com/ShamanTcler)
- 22. Amit Kumar ([@aktech](https://github.com/aktech))
- 23. Bálint Aradi ([@aradi](https://github.com/aradi))
- 24. Melissa Weber Mendonça ([@melissawm](https://github.com/melissawm))
- 25. Jacob Williams ([@jacobwilliams](https://github.com/jacobwilliams))
- 26. Rohit Goswami ([@HaoZeke](https://github.com/HaoZeke))
- 27. Amir Shahmoradi ([@shahmoradi](https://github.com/shahmoradi))
- 28. Bill Long ([@longb](https://github.com/longb))
+
+Ondřej Čertík ([@certik](https://github.com/certik)), Milan Curcic ([@milancurcic](https://github.com/milancurcic)), Laurence Kedward ([@LKedward](https://github.com/LKedward)), Jeremie Vandenplas ([@jvdp1](https://github.com/jvdp1)), Brad Richardson ([@everythingfunctional](https://github.com/everythingfunctional)), Izaak "Zaak" Beekman ([@zbeekman](https://github.com/zbeekman)), Martin Diehl ([@MarDiehl](https://github.com/MarDiehl)), [@arjenmarkus](https://github.com/arjenmarkus), Van Snyder ([@vansnyder](https://github.com/vansnyder)), [@FortranFan](https://github.com/FortranFan), [@epagone](https://github.com/epagone), Ivan ([@ivan-pi](https://github.com/ivan-pi)), Neil Carlson ([@nncarlson](https://github.com/nncarlson)), Ashwin Vishnu ([@ashwinvis](https://github.com/ashwinvis)), Williams A. Lima ([@ghwilliams](https://github.com/ghwilliams)), Peter Klausler ([@klausler](https://github.com/klausler)), Chris MacMackin ([@cmacmackin](https://github.com/cmacmackin)), Pedro Costa ([@p-costa](https://github.com/p-costa)), [@mobius-eng](https://github.com/mobius-eng), Salvatore Filippone ([@sfilippone](https://github.com/sfilippone)), [@ShamanTcler](https://github.com/ShamanTcler), Amit Kumar ([@aktech](https://github.com/aktech)), Bálint Aradi ([@aradi](https://github.com/aradi)), Melissa Weber Mendonça ([@melissawm](https://github.com/melissawm)), Jacob Williams ([@jacobwilliams](https://github.com/jacobwilliams)), Rohit Goswami ([@HaoZeke](https://github.com/HaoZeke)), Amir Shahmoradi ([@shahmoradi](https://github.com/shahmoradi)), Bill Long ([@longb](https://github.com/longb)).
