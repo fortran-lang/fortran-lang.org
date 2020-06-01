@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: June 2020"
 category: newsletter
-author: Jeremie Vandenplas, Brad Richardson, and Milan Curcic
+author: Jeremie Vandenplas, Brad Richardson, Milan Curcic and Ondřej Čertík
 ---
 
 Welcome to the June 2020 edition of the monthly Fortran newsletter.
@@ -121,3 +121,40 @@ by Milan Curcic.
 However, the work on proposals for the Fortran Standard doesn't stop.
 You can submit a proposal for the Standards committee [here](https://github.com/j3-fortran/fortran_proposals).
 For reference, you can read the [notes from the February meeting](/newsletter/2020/02/28/J3-february-meeting).
+
+## Contributors
+
+The following contributors commented in any of the four repositories
+[fortran-lang/stdlib](https://github.com/fortran-lang/stdlib),
+[fortran-lang/fpm](https://github.com/fortran-lang/fpm),
+[fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org),
+[j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
+  1.  [@certik](https://github.com/certik)
+  2.  [@milancurcic](https://github.com/milancurcic)
+  3.  [@LKedward](https://github.com/LKedward)
+  4.  [@jvdp1](https://github.com/jvdp1)
+  5.  [@everythingfunctional](https://github.com/everythingfunctional)
+  6.  [@zbeekman](https://github.com/zbeekman)
+  7.  [@MarDiehl](https://github.com/MarDiehl)
+  8.  [@arjenmarkus](https://github.com/arjenmarkus)
+  9.  [@vansnyder](https://github.com/vansnyder)
+ 10.  [@github-actions[bot]](https://github.com/github-actions[bot])
+ 11.  [@FortranFan](https://github.com/FortranFan)
+ 12.  [@epagone](https://github.com/epagone)
+ 13.  [@ivan-pi](https://github.com/ivan-pi)
+ 14.  [@nncarlson](https://github.com/nncarlson)
+ 15.  [@ashwinvis](https://github.com/ashwinvis)
+ 16.  [@ghwilliams](https://github.com/ghwilliams)
+ 17.  [@klausler](https://github.com/klausler)
+ 18.  [@cmacmackin](https://github.com/cmacmackin)
+ 19.  [@p-costa](https://github.com/p-costa)
+ 20.  [@mobius-eng](https://github.com/mobius-eng)
+ 21.  [@sfilippone](https://github.com/sfilippone)
+ 22.  [@ShamanTcler](https://github.com/ShamanTcler)
+ 23.  [@aktech](https://github.com/aktech)
+ 24.  [@aradi](https://github.com/aradi)
+ 25.  [@melissawm](https://github.com/melissawm)
+ 26.  [@jacobwilliams](https://github.com/jacobwilliams)
+ 27.  [@HaoZeke](https://github.com/HaoZeke)
+ 28.  [@shahmoradi](https://github.com/shahmoradi)
+ 29.  [@longb](https://github.com/longb)
