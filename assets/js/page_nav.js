@@ -1,7 +1,7 @@
-// If the current page contains an element with id="pagenav-sidebar"
+// If the current page contains an element with id="page-nav"
 //  then this script will populate it with <li> elements
 //  containing links to all the <h2> elements on the current page
-if (!!document.getElementById("pagenav-sidebar")){
+if (!!document.getElementById("page-nav")){
 
     var headings = document.querySelectorAll("h2[id]");
 
