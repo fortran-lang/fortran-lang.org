@@ -54,7 +54,7 @@ keeping fortran-lang.org open in a previous tab.
 
 __Example:__ Open link in new tab (HTML or markdown)
 ```html
-<a href="https://fortran-lang.discourse.group/" target="_blank">Discourse</a>
+<a href="https://fortran-lang.discourse.group/" target="_blank" rel="noopener">Discourse</a>
 ```
 
 ### Internal site links
