@@ -14,6 +14,7 @@ and details Fortran news from the previous month.
 * [Standard Library](#fortran-standard-library)
 * [Package Manager](#package-manager)
 * [Events](#events)
+* [Contributors](#contributors)
 
 ## fortran-lang.org
 
