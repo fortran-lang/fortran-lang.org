@@ -97,7 +97,25 @@ description: Collaboration for the advancement of Fortran
 <section class="front-section shaded">
   <div class="container">
     <h2>Fortran-lang Contributors</h2>
-    
+    <p>
+    <b>Filter by repository: </b>
+    <select id="repo-selector" onchange="repoSelector(this);">
+      <option value="">All</option>
+      <option value="fortran-lang/fpm">fortran-lang/fpm</option> 
+      <option value="fortran-lang/stdlib">fortran-lang/stdlib</option>
+      <option value="fortran-lang.org">fortran-lang.org</option>
+      <option value="j3-fortran/fortran_proposals">j3-fortran/fortran_proposals</option>
+  </select>
+
+  <b>Date range: </b>
+  <input type="text" id="amount" style="border: 0; color: #734f96; font-weight: bold;" size="30"/>
+  <b>User plots: </b>
+  <input type="checkbox" id="userPlots" value="1" onchange="generateContributorStats();">
+  </p>
+  <canvas id="chart-all" height="75px"></canvas>
+  <div id="slider-range" style="margin: 10px 30px;"></div>
+
+    <div class="container-flex" id="gh-contributors"></div>
 </div>
 </section>
 
