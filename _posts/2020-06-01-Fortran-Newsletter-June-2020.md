@@ -9,12 +9,7 @@ Welcome to the June 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month
 and details Fortran news from the previous month.
 
-* [fortran-lang.org](#fortran-lang.org)
-* [Fortran Discourse](#fortran-discourse)
-* [Standard Library](#fortran-standard-library)
-* [Package Manager](#package-manager)
-* [Events](#events)
-* [Contributors](#contributors)
+<ul id="page-nav"></ul>
 
 ## fortran-lang.org
 
@@ -125,11 +120,12 @@ For reference, you can read the [notes from the February meeting](/newsletter/20
 
 ## Contributors
 
-We thank everybody who contributed to fortran-lang in the past month by
-commenting in any of the four repositories
+We thank everybody who contributed to fortran-lang in the past month in any of the four repositories
 [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib),
 [fortran-lang/fpm](https://github.com/fortran-lang/fpm),
 [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org),
 [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
 
-Ondřej Čertík ([@certik](https://github.com/certik)), Milan Curcic ([@milancurcic](https://github.com/milancurcic)), Laurence Kedward ([@LKedward](https://github.com/LKedward)), Jeremie Vandenplas ([@jvdp1](https://github.com/jvdp1)), Brad Richardson ([@everythingfunctional](https://github.com/everythingfunctional)), Izaak "Zaak" Beekman ([@zbeekman](https://github.com/zbeekman)), Martin Diehl ([@MarDiehl](https://github.com/MarDiehl)), [@arjenmarkus](https://github.com/arjenmarkus), Van Snyder ([@vansnyder](https://github.com/vansnyder)), [@FortranFan](https://github.com/FortranFan), [@epagone](https://github.com/epagone), Ivan ([@ivan-pi](https://github.com/ivan-pi)), Neil Carlson ([@nncarlson](https://github.com/nncarlson)), Ashwin Vishnu ([@ashwinvis](https://github.com/ashwinvis)), Williams A. Lima ([@ghwilliams](https://github.com/ghwilliams)), Peter Klausler ([@klausler](https://github.com/klausler)), Chris MacMackin ([@cmacmackin](https://github.com/cmacmackin)), Pedro Costa ([@p-costa](https://github.com/p-costa)), [@mobius-eng](https://github.com/mobius-eng), Salvatore Filippone ([@sfilippone](https://github.com/sfilippone)), [@ShamanTcler](https://github.com/ShamanTcler), Amit Kumar ([@aktech](https://github.com/aktech)), Bálint Aradi ([@aradi](https://github.com/aradi)), Melissa Weber Mendonça ([@melissawm](https://github.com/melissawm)), Jacob Williams ([@jacobwilliams](https://github.com/jacobwilliams)), Rohit Goswami ([@HaoZeke](https://github.com/HaoZeke)), Amir Shahmoradi ([@shahmoradi](https://github.com/shahmoradi)), Bill Long ([@longb](https://github.com/longb)).
+See the [the community page]({{site.baseurl}}/community) for full stats.
+
+<div id="gh-contributors" data-startdate="May 01 2020" height="400px" data-enddate="May 31 2020"></div>
