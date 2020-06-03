@@ -1,31 +1,56 @@
 // 
 if (!!document.getElementById("gh-contributors")){
 
-    var repoFilter = "";
+    var topChart;
 
-    repos = ['fortran-lang-fortran-lang.org','fortran-lang-fpm','fortran-lang-stdlib','j3-fortran-fortran_proposals'];
+    var repoFilter = "all";
 
-    repoStats = repos.map( r => loadJSON('/community/github_stats_data/data-'+r+'.json') );
+    var repos = ['fortran-lang-fortran-lang.org','fortran-lang-fpm','fortran-lang-stdlib','j3-fortran-fortran_proposals'];
 
-    userComments = mapUserComments(repoStats);
+    var repoData = repos.map( r => loadJSON('/community/github_stats_data/data-'+r+'.json') );
 
-    dateBounds = getDateBounds(userComments);
+    var repoList = repoData.map(r=>r.name);
+
+    setupInterface(repoList);
+
+    var repoUserComments = new Map();
+    
+    for (var i = 0; i < repoData.length; i++){
+        repoUserComments.set(repoData[i].name, getUserComments(repoData[i]));
+    }
+    
+    var allUserComments = combineRepoData(repoData);
+    repoUserComments.set('all',allUserComments);
+    
+    var dateBounds = getDateBounds(allUserComments);
     
     var tmin0 = dateBounds[0];
     var tmax0 = dateBounds[1];
 
-    var tmin = tmin0;
-    var tmax = tmax0;
+    updateSliderDates(dateBounds);
+    
+    var oneday = Date.UTC(96, 1, 2) - Date.UTC(96, 1, 1);
+    var bucketSize0 = 7*oneday;
+
+    generateContributorStats();
+
+    console.log("Done.")
+
+}
+
+if (!!document.getElementById("gh-contributors-slider")){
+
+    setupSliderInterface();
 
     $(function() {
         $( "#slider-range" ).slider({
             range: true,
-            min: new Date(dateBounds[0]).getTime() / 1000,
-            max: new Date(dateBounds[1]).getTime() / 1000,
+            min: tmin0 / 1000,
+            max: tmax0 / 1000,
             step: 86400,
-            values: [ new Date(dateBounds[0]).getTime() / 1000, new Date(dateBounds[1]).getTime() / 1000 ],
+            values: [ tmin / 1000, tmax / 1000 ],
             slide: function( event, ui ) {
-                $( "#amount" ).val( (new Date(ui.values[ 0 ] *1000).toDateString() ) + " - " + (new Date(ui.values[ 1 ] *1000)).toDateString() );
+                $( "#amount" )[0].innerHTML = (new Date(ui.values[ 0 ] *1000).toDateString() ) + " - " + (new Date(ui.values[ 1 ] *1000)).toDateString() ;
             },
             stop: function( event, ui) {
                 tmin = ui.values[ 0 ] *1000;
@@ -33,60 +58,91 @@ if (!!document.getElementById("gh-contributors")){
                 generateContributorStats();
             }
         });
-        $( "#amount" ).val( (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toDateString()) +
-        " - " + (new Date($( "#slider-range" ).slider( "values", 1 )*1000)).toDateString());
+        $( "#amount" )[0].innerHTML = (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toDateString()) +
+        " - " + (new Date($( "#slider-range" ).slider( "values", 1 )*1000)).toDateString() ;
     });
 
-
-    generateContributorStats(); //,repo='fortran-lang',startDate=0,endDate=Infinity)
-
-    console.log("Done.")
+    plotAggregateData(allUserComments);
 
 }
 
 function repoSelector(selector){
 
     repoFilter = selector.value;
+
+    var userComments = repoUserComments.get(repoFilter)
+    
+    // Update date slider for selected repo
+    dateBounds = getDateBounds(userComments);
+    updateSliderDates(dateBounds);
+    
+    plotAggregateData(userComments)
+    
+    // Update user charts
     generateContributorStats(true);
+
+}
+
+function updateSliderDates(dateBounds){
+
+    if (!!document.getElementById("gh-contributors").hasAttribute("data-startdate")){
+        tmin = new Date(document.getElementById("gh-contributors").getAttribute("data-startdate")).getTime();
+    } else {
+        tmin = dateBounds[0];
+    }
+
+    if (!!document.getElementById("gh-contributors").hasAttribute("data-enddate")){
+        tmax = new Date(document.getElementById("gh-contributors").getAttribute("data-enddate")).getTime();
+    } else {
+        tmax = dateBounds[1];  
+    }
+
+    $( "#amount" )[0].innerHTML = (new Date(tmin).toDateString()) +
+        " - " + (new Date(tmax).toDateString()) ;
+
+    if (!!document.getElementById("gh-contributors-slider")){
+
+        $("#slider-range").slider("values",0,tmin/1000);
+        $("#slider-range").slider("values",1,tmax/1000);
+    }
+
+}
+
+
+// Plot aggregate chart at top
+//
+function plotAggregateData(userComments){
+
+    if (!!document.getElementById("gh-contributors-slider")){
+
+        userNames = [...userComments.keys()];
+        var allDates = [].concat(...userNames.map(u=>userComments.get(u)));
+        plotData = getUserPlotData(allDates,tmin0,tmax0,bucketSize0)
+
+        if (!!topChart){
+            topChart.destroy();
+        }
+        topChart = plotContributorChart('all',plotData,true);
+    }
 
 }
 
 function generateContributorStats(resetRange = false){
 
-    if (resetRange){
-
-        var filteredComments = filterComments(userComments,repoFilter);
-
-        dateBounds = getDateBounds(filteredComments);
-
-        tmin = dateBounds[0];
-        tmax = dateBounds[1];  
-
-        $("#slider-range").slider("values",0,dateBounds[0]/1000);
-        $("#slider-range").slider("values",1,dateBounds[1]/1000);
-
-    } else {
-
-        var filteredComments = filterComments(userComments,repoFilter,tmin,tmax);
-
-    }
+    var filteredComments = filterComments(repoUserComments.get(repoFilter),tmin,tmax);
 
     var userNames = [...filteredComments.keys()];
     
     var userSort = userNames.sort((u1,u2) => filteredComments.get(u2).length - filteredComments.get(u1).length);
 
-    document.getElementById("gh-contributors").innerHTML = '';
+    document.getElementById("gh-contributor-list").innerHTML = '';
     for (var i = 0; i < userSort.length; i++){ //userNames.length; i++){
 
         addContributorChart(userSort[i],filteredComments.get(userSort[i]).length,$('#userPlots')[0].checked);
     }
 
     var oneday = Date.UTC(96, 1, 2) - Date.UTC(96, 1, 1);
-    var bucketSize = 7*oneday;
-
-    var allDates = [].concat(...userNames.map(u=>filteredComments.get(u)));
-    plotData = getUserPlotData(allDates,tmin0,tmax0,bucketSize)
-    plotContributorChart('all',plotData,true);
+    var bucketSize = (tmax-tmin)/10;// 7*oneday;
 
     if ($('#userPlots')[0].checked){
 
@@ -114,22 +170,17 @@ function getDateBounds(userCommentData){
 
 }
 
-function filterComments(userCommentData,repo='fortran-lang',startDate=0,endDate=Infinity){
+function filterComments(userComments,startDate=0,endDate=Infinity){
 
-    userNames = [...userCommentData.keys()];
+    userCommentData2 = new Map(userComments);
+
+    userNames = [...userCommentData2.keys()];
     
-    userCommentData2 = new Map(userCommentData);
     for (var i=0; i< userNames.length; i++){
 
-        if (userNames[i].includes('[bot]')){
-            userCommentData2.delete(userNames[i]);
-            continue;
-        }
+        userData = userCommentData2.get(userNames[i]);
 
-        userData = userCommentData.get(userNames[i]);
-
-        userData = userData.filter(c => c.repo.includes(repo) && 
-                                        c.date.valueOf() >= startDate &&
+        userData = userData.filter(c => c.date.valueOf() >= startDate &&
                                         c.date.valueOf() <= endDate);
         
         if (userData.length > 0){
@@ -171,49 +222,63 @@ function getUserPlotData(userData,tmin,tmax,bucketSize){
 
 
 
-function mapUserComments(repoList){
+function getUserComments(repo){
 
     var userCommentData = new Map();
 
-    for (var k = 0; k < repoList.length; k++){
-        
-        let repo = repoList[k];
+    for (var i = 0; i < repo.issues.length; i++) {
 
-        for (var i = 0; i < repo.issues.length; i++) {
+        if (!userCommentData.has(repo.issues[i].user)){
+            userCommentData.set(repo.issues[i].user,[]);
+        }
 
-            if (!userCommentData.has(repo.issues[i].user)){
-                userCommentData.set(repo.issues[i].user,[]);
+        userData = userCommentData.get(repo.issues[i].user);
+        userData.push({repo: repo.name, date: new Date(repo.issues[i].date)});
+
+        let comments = repo.issues[i].comments;
+
+        for (var j = 0; j < comments.length; j++) {
+
+            if (comments[j].user.includes('[bot]')){
+                continue;
             }
 
-            userData = userCommentData.get(repo.issues[i].user);
-            userData.push({repo: repo.name, date: new Date(repo.issues[i].date)});
-
-            let comments = repo.issues[i].comments;
-
-            for (var j = 0; j < comments.length; j++) {
-
-                if (!userCommentData.has(comments[j].user)){
-                    userCommentData.set(comments[j].user,[]);
-                }
-
-                userData = userCommentData.get(comments[j].user);
-                userData.push({repo: repo.name, date: new Date(comments[j].date)});
-                
+            if (!userCommentData.has(comments[j].user)){
+                userCommentData.set(comments[j].user,[]);
             }
 
+            userData = userCommentData.get(comments[j].user);
+            userData.push({repo: repo.name, date: new Date(comments[j].date)});
+            
         }
 
     }
 
-    userNames = [...userCommentData.keys()];
-
-    for (var i = 0; i < userNames.length; i++){
-        userData = userCommentData.get(userNames[i]);
-        userData.sort((a,b) => a.date - b.date);
-    }
+    userCommentData = sortUserComments(userCommentData);
 
     return userCommentData;
 
+}
+
+
+function combineRepoData(repoData){
+
+    allRepoData = {issues: [].concat(...repoData.map(r => r.issues))}
+
+    return getUserComments(allRepoData);
+
+}
+
+function sortUserComments(userComments){
+
+    userNames = [...userComments.keys()];
+
+    for (var i = 0; i < userNames.length; i++){
+        userData = userComments.get(userNames[i]);
+        userData.sort((a,b) => a.date - b.date);
+    }
+
+    return userComments;
 }
 
 
@@ -228,7 +293,7 @@ function addContributorChart(userName, nComment, plot=true){
     //      '<canvas id="chart-'+userName+'" width="250" height="200"></canvas>'+
     //      '</div>';
 
-    document.getElementById("gh-contributors").innerHTML += 
+    document.getElementById("gh-contributor-list").innerHTML += 
         Mustache.render(`
         <div class="col-flex contributor"> 
         <img src="https://github.com/{{userName}}.png?size=40" width="40" style="border-radius: 7px;">
@@ -265,8 +330,48 @@ function plotContributorChart(userName,plotData_i,responsive=false){
         options: plotOptions(responsive)
     });
 
+    return charts_i;
 }
 
+
+function setupInterface(repoList){
+
+    console.log(repoList);
+    
+    var content = `
+    <b>Repository: </b>
+    <select id="repo-selector" onchange="repoSelector(this);">
+    <option value="all">All</option>
+    {{#repoList}}
+        <option value="{{name}}" >{{name}}</option>
+    {{/repoList}}
+    </select>
+    &emsp;
+    <b>User plots: </b>
+    <input type="checkbox" id="userPlots" value="1" onchange="generateContributorStats();">
+    &emsp;
+    <span id="amount" style="border: 0; color: #734f96; font-weight: bold;"></span>
+    `;
+
+    document.getElementById("gh-contributors").innerHTML = 
+        Mustache.render(content,{repoList: repoList.map(r => {return{name:r}})});
+    
+    document.getElementById("gh-contributors").innerHTML += 
+    `
+    <div class="container-flex" id="gh-contributor-list"></div>
+    `
+}
+
+function setupSliderInterface(){
+
+    var content = `
+    <canvas id="chart-all" height="75px"></canvas>
+    <div id="slider-range" style="margin: 10px 30px;"></div>
+    `;
+
+    document.getElementById("gh-contributors-slider").innerHTML = content;
+
+}
 
 // Configuration for chart.js
 //  https://www.chartjs.org/docs/latest/
