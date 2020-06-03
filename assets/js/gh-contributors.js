@@ -1,89 +1,71 @@
 // 
 if (!!document.getElementById("gh-contributors")){
 
+    // Other global variables
+    var oneday = Date.UTC(96, 1, 2) - Date.UTC(96, 1, 1);
     var topChart;
-
     var repoFilter = "all";
+    var tmin;
+    var tmax;
 
-    var repos = ['fortran-lang-fortran-lang.org','fortran-lang-fpm','fortran-lang-stdlib','j3-fortran-fortran_proposals'];
+    // Load JSON data
+    var repoFiles = ['j3-fortran-fortran_proposals','fortran-lang-stdlib','fortran-lang-fpm','fortran-lang-fortran-lang.org'];
+    var repoData = repoFiles.map( r => loadJSON('/community/github_stats_data/data-'+r+'.json') );
 
-    var repoData = repos.map( r => loadJSON('/community/github_stats_data/data-'+r+'.json') );
-
-    var repoList = repoData.map(r=>r.name);
-
-    setupInterface(repoList);
-
-    var repoUserComments = new Map();
-    
+    // Preprocess data
+    var repoUserContribs = new Map();    
     for (var i = 0; i < repoData.length; i++){
-        repoUserComments.set(repoData[i].name, getUserComments(repoData[i]));
+        repoUserContribs.set(repoData[i].name, getUserContribs(repoData[i]));
     }
     
-    var allUserComments = combineRepoData(repoData);
-    repoUserComments.set('all',allUserComments);
+    // Get combined dataset across all repos
+    var allRepoData = {issues: [].concat(...repoData.map(r => r.issues))}
+    var allUserContribs = getUserContribs(allRepoData);
+    repoUserContribs.set('all',allUserContribs);
     
-    var dateBounds = getDateBounds(allUserComments);
-    
-    var tmin0 = dateBounds[0];
-    var tmax0 = dateBounds[1];
+    // Setup HTML for interface
+    var repoList = repoData.map(r=>r.name);
+    makeContributorInterface(repoList);
 
-    updateSliderDates(dateBounds);
-    
-    var oneday = Date.UTC(96, 1, 2) - Date.UTC(96, 1, 1);
-    var bucketSize0 = 7*oneday;
+    var globalDateBounds = getDateBounds(allUserContribs);
+    resetDates(globalDateBounds);
 
     generateContributorStats();
-
-    console.log("Done.")
 
 }
 
 if (!!document.getElementById("gh-contributors-slider")){
 
-    setupSliderInterface();
+    makeSliderInterface();
 
-    $(function() {
-        $( "#slider-range" ).slider({
-            range: true,
-            min: tmin0 / 1000,
-            max: tmax0 / 1000,
-            step: 86400,
-            values: [ tmin / 1000, tmax / 1000 ],
-            slide: function( event, ui ) {
-                $( "#amount" )[0].innerHTML = (new Date(ui.values[ 0 ] *1000).toDateString() ) + " - " + (new Date(ui.values[ 1 ] *1000)).toDateString() ;
-            },
-            stop: function( event, ui) {
-                tmin = ui.values[ 0 ] *1000;
-                tmax = ui.values[ 1 ] *1000;
-                generateContributorStats();
-            }
-        });
-        $( "#amount" )[0].innerHTML = (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toDateString()) +
-        " - " + (new Date($( "#slider-range" ).slider( "values", 1 )*1000)).toDateString() ;
-    });
-
-    plotAggregateData(allUserComments);
+    plotAggregateData(allUserContribs);
 
 }
 
-function repoSelector(selector){
+
+
+// Called by repository dropdown box
+//  
+function onRepoSelect(selector){
 
     repoFilter = selector.value;
 
-    var userComments = repoUserComments.get(repoFilter)
+    var userContribs = repoUserContribs.get(repoFilter)
     
     // Update date slider for selected repo
-    dateBounds = getDateBounds(userComments);
-    updateSliderDates(dateBounds);
+    dateBounds = getDateBounds(userContribs);
+    resetDates(dateBounds);
     
-    plotAggregateData(userComments)
+    plotAggregateData(userContribs)
     
     // Update user charts
     generateContributorStats(true);
 
 }
 
-function updateSliderDates(dateBounds){
+// Set date bounds to either data-startdate/data-enddate if specified
+//  or the min/max dates of the selected repo otherwise
+function resetDates(dateBounds){
 
     if (!!document.getElementById("gh-contributors").hasAttribute("data-startdate")){
         tmin = new Date(document.getElementById("gh-contributors").getAttribute("data-startdate")).getTime();
@@ -111,45 +93,55 @@ function updateSliderDates(dateBounds){
 
 // Plot aggregate chart at top
 //
-function plotAggregateData(userComments){
+function plotAggregateData(userContribs){
 
     if (!!document.getElementById("gh-contributors-slider")){
 
-        userNames = [...userComments.keys()];
-        var allDates = [].concat(...userNames.map(u=>userComments.get(u)));
-        plotData = getUserPlotData(allDates,tmin0,tmax0,bucketSize0)
+        var bucketSize0 = 7*oneday;
+
+        var userNames = [...userContribs.keys()];
+        var allDates = [].concat(...userNames.map(u=>userContribs.get(u)));
+        var plotData = getUserPlotData(allDates,globalDateBounds[0],globalDateBounds[1],bucketSize0)
 
         if (!!topChart){
             topChart.destroy();
         }
-        topChart = plotContributorChart('all',plotData,true);
+        topChart = plotContributorChart('all',plotData,timeUnit='month');
     }
 
 }
 
+
+// Regenerate the individual contributor data boxes
+//  
 function generateContributorStats(resetRange = false){
 
-    var filteredComments = filterComments(repoUserComments.get(repoFilter),tmin,tmax);
+    var filteredContribs = filterContribs(repoUserContribs.get(repoFilter),tmin,tmax);
 
-    var userNames = [...filteredComments.keys()];
+    var userNames = [...filteredContribs.keys()];
     
-    var userSort = userNames.sort((u1,u2) => filteredComments.get(u2).length - filteredComments.get(u1).length);
+    var userSort = userNames.sort((u1,u2) => filteredContribs.get(u2).length - filteredContribs.get(u1).length);
 
     document.getElementById("gh-contributor-list").innerHTML = '';
-    for (var i = 0; i < userSort.length; i++){ //userNames.length; i++){
+    for (var i = 0; i < userSort.length; i++){
 
-        addContributorChart(userSort[i],filteredComments.get(userSort[i]).length,$('#userPlots')[0].checked);
+        addContributorChart(userSort[i],filteredContribs.get(userSort[i]).length,$('#userPlots')[0].checked);
     }
 
-    var oneday = Date.UTC(96, 1, 2) - Date.UTC(96, 1, 1);
-    var bucketSize = (tmax-tmin)/10;// 7*oneday;
+    var bucketSize = (tmax-tmin)/10;
+
+    if ((tmax-tmin) < 10*7*oneday){
+        var timeUnit = 'week';
+    } else {
+        var timeUnit = 'month';
+    }
 
     if ($('#userPlots')[0].checked){
 
         for (var i=0; i < userSort.length; i++){
 
-            plotData = getUserPlotData(filteredComments.get(userSort[i]),tmin,tmax,bucketSize)
-            plotContributorChart(userSort[i],plotData);
+            var plotData = getUserPlotData(filteredContribs.get(userSort[i]),tmin,tmax,bucketSize)
+            plotContributorChart(userSort[i],plotData,timeUnit);
 
         }
 
@@ -157,11 +149,14 @@ function generateContributorStats(resetRange = false){
 
 }
 
-function getDateBounds(userCommentData){
 
-    var userNames = [...userCommentData.keys()];
+// Get [min,max] date from userContrib data
+//
+function getDateBounds(userContribData){
 
-    var allDates = [].concat(...userNames.map(u=>userCommentData.get(u))).map(c => c.date.valueOf());
+    var userNames = [...userContribData.keys()];
+
+    var allDates = [].concat(...userNames.map(u=>userContribData.get(u))).map(c => c.date.valueOf());
 
     var tmin = Math.min(...allDates);
     var tmax = Math.max(...allDates);
@@ -170,30 +165,36 @@ function getDateBounds(userCommentData){
 
 }
 
-function filterComments(userComments,startDate=0,endDate=Infinity){
 
-    userCommentData2 = new Map(userComments);
+// Filter user contribution data based on date
+//
+function filterContribs(userContribs,startDate=0,endDate=Infinity){
 
-    userNames = [...userCommentData2.keys()];
+    var userContribData2 = new Map(userContribs);
+
+    var userNames = [...userContribData2.keys()];
     
     for (var i=0; i< userNames.length; i++){
 
-        userData = userCommentData2.get(userNames[i]);
+        var userData = userContribData2.get(userNames[i]);
 
         userData = userData.filter(c => c.date.valueOf() >= startDate &&
                                         c.date.valueOf() <= endDate);
         
         if (userData.length > 0){
-            userCommentData2.set(userNames[i],userData);
+            userContribData2.set(userNames[i],userData);
         } else {
-            userCommentData2.delete(userNames[i]);
+            userContribData2.delete(userNames[i]);
         }
 
     }
 
-    return userCommentData2;
+    return userContribData2;
 }
 
+
+/// Generate histogram plot data for a single user
+//
 function getUserPlotData(userData,tmin,tmax,bucketSize){
 
 
@@ -202,37 +203,39 @@ function getUserPlotData(userData,tmin,tmax,bucketSize){
 
     var bi = 0;
     var plotData = [];
-    plotData.push({x: tmin-bucketSize, y: 0});
+    plotData.push({x: tmin, y: 0});
     plotData.push({x: start-bucketSize, y: 0});
 
-    for (var d = start; d < end+bucketSize; d=d+bucketSize){
+    for (var d = start; d < end+1; d=d+bucketSize){
 
-        count = userData.map(c => c.date>=d && c.date < (d+bucketSize)).filter(Boolean).length;
+        count = userData.map(c => c.date>=d && c.date < Math.min(d+bucketSize,end+1) ).filter(Boolean).length;
 
-        plotData.push({x: new Date(d), y: count})
+        plotData.push({x: new Date(d+0.5*bucketSize), y: count})
 
         bi = bi + 1;
 
     }
     plotData.push({x: end+bucketSize, y: 0});
-    plotData.push({x: tmax+bucketSize, y: 0});
+    plotData.push({x: tmax, y: 0});
 
     return plotData;
 }
 
 
+// Preprocess json data to get
+//  username => [contributions] map
+//
+function getUserContribs(repo){
 
-function getUserComments(repo){
-
-    var userCommentData = new Map();
+    var userContribData = new Map();
 
     for (var i = 0; i < repo.issues.length; i++) {
 
-        if (!userCommentData.has(repo.issues[i].user)){
-            userCommentData.set(repo.issues[i].user,[]);
+        if (!userContribData.has(repo.issues[i].user)){
+            userContribData.set(repo.issues[i].user,[]);
         }
 
-        userData = userCommentData.get(repo.issues[i].user);
+        var userData = userContribData.get(repo.issues[i].user);
         userData.push({repo: repo.name, date: new Date(repo.issues[i].date)});
 
         let comments = repo.issues[i].comments;
@@ -243,64 +246,44 @@ function getUserComments(repo){
                 continue;
             }
 
-            if (!userCommentData.has(comments[j].user)){
-                userCommentData.set(comments[j].user,[]);
+            if (!userContribData.has(comments[j].user)){
+                userContribData.set(comments[j].user,[]);
             }
 
-            userData = userCommentData.get(comments[j].user);
+            userData = userContribData.get(comments[j].user);
             userData.push({repo: repo.name, date: new Date(comments[j].date)});
             
         }
 
     }
 
-    userCommentData = sortUserComments(userCommentData);
-
-    return userCommentData;
-
-}
-
-
-function combineRepoData(repoData){
-
-    allRepoData = {issues: [].concat(...repoData.map(r => r.issues))}
-
-    return getUserComments(allRepoData);
-
-}
-
-function sortUserComments(userComments){
-
-    userNames = [...userComments.keys()];
-
+    // Sort user contributions by date
+    userNames = [...userContribData.keys()];
     for (var i = 0; i < userNames.length; i++){
-        userData = userComments.get(userNames[i]);
+        userData = userContribData.get(userNames[i]);
         userData.sort((a,b) => a.date - b.date);
     }
 
-    return userComments;
+    return userContribData;
+
 }
 
 
 // Add a new contributor box
-//  to #gh-contributors element
+//  to #gh-contributors-list element
 //
-function addContributorChart(userName, nComment, plot=true){
-
-    // document.getElementById("gh-contributors").innerHTML += 
-    //      '<div class="col-flex"> <h3>'+
-    //      '<a href="https://github.com/"'+userName+'>' userName+'</h3>'+
-    //      '<canvas id="chart-'+userName+'" width="250" height="200"></canvas>'+
-    //      '</div>';
+function addContributorChart(userName, nContrib, plot=true){
 
     document.getElementById("gh-contributor-list").innerHTML += 
         Mustache.render(`
         <div class="col-flex contributor"> 
+        <div style="display: inline-block; min-width: max-content;">
         <img src="https://github.com/{{userName}}.png?size=40" width="40" style="border-radius: 7px;">
-        <div style="display: inline-block; vertical-align: middle; margin-left: 10px">
+        <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
         <a class="hidenewwindow" href="https://github.com/{{userName}}" target="_blank" rel="noopener" style="font-size:22px;">
         {{userName}} </a> </br>
-        <i><b> {{nComment}} comments </b></i>
+        <i><b> {{nContrib}} contributions </b></i>
+        </div>
         </div>
         {{#plot}}
         <div style="position: relative;">
@@ -308,75 +291,44 @@ function addContributorChart(userName, nComment, plot=true){
         </div>
         {{/plot}}
         </div>
-        `,{userName: userName, nComment:nComment, plot: plot});
+        `,{userName: userName, nContrib:nContrib, plot: plot});
 
 }
+
 
 // Populate contributor chart 
 //  with (x,y) plot data
 //
-function plotContributorChart(userName,plotData_i,responsive=false){
+function plotContributorChart(userName,plotData, timeUnit){
 
-    ctx_i= document.getElementById('chart-'+userName).getContext('2d');
+    var ctx= document.getElementById('chart-'+userName).getContext('2d');
 
-    charts_i = new Chart(ctx_i, {
+    var chart = new Chart(ctx, {
         type: 'scatter',
         data: {
             datasets: [{
                 label: 'Scatter Dataset',
-                data: plotData_i
+                data: plotData
             }]
         },
-        options: plotOptions(responsive)
+        options: plotOptions(timeUnit)
     });
 
-    return charts_i;
+    return chart;
 }
 
-
-function setupInterface(repoList){
-
-    console.log(repoList);
-    
-    var content = `
-    <b>Repository: </b>
-    <select id="repo-selector" onchange="repoSelector(this);">
-    <option value="all">All</option>
-    {{#repoList}}
-        <option value="{{name}}" >{{name}}</option>
-    {{/repoList}}
-    </select>
-    &emsp;
-    <b>User plots: </b>
-    <input type="checkbox" id="userPlots" value="1" onchange="generateContributorStats();">
-    &emsp;
-    <span id="amount" style="border: 0; color: #734f96; font-weight: bold;"></span>
-    `;
-
-    document.getElementById("gh-contributors").innerHTML = 
-        Mustache.render(content,{repoList: repoList.map(r => {return{name:r}})});
-    
-    document.getElementById("gh-contributors").innerHTML += 
-    `
-    <div class="container-flex" id="gh-contributor-list"></div>
-    `
-}
-
-function setupSliderInterface(){
-
-    var content = `
-    <canvas id="chart-all" height="75px"></canvas>
-    <div id="slider-range" style="margin: 10px 30px;"></div>
-    `;
-
-    document.getElementById("gh-contributors-slider").innerHTML = content;
-
-}
 
 // Configuration for chart.js
 //  https://www.chartjs.org/docs/latest/
 //
-function plotOptions(responsive=false) {
+function plotOptions(timeUnit) {
+
+    if (timeUnit == 'week'){
+        var minRotation = 10;
+    } else {
+        var minRotation = 0;
+    }
+
     return {
         responsive: true,
         aspectRatio: 2,
@@ -396,9 +348,12 @@ function plotOptions(responsive=false) {
             xAxes: [{
                 type: 'time',
                 time: {
-                    unit: 'month'
+                    unit: timeUnit
                 },
-                position: 'bottom'
+                position: 'bottom',
+                ticks:{
+                    minRotation: minRotation
+                }
             }],
             yAxes: [{
                 ticks:{
@@ -416,6 +371,82 @@ function plotOptions(responsive=false) {
 }
 
 
+// Add HTML to 'gh-contributors' element for interface
+//
+function makeContributorInterface(repoList){
+    
+    var content = `
+    <b>Repository: </b>
+    <select id="repo-selector" onchange="onRepoSelect(this);">
+    <option value="all">All</option>
+    {{#repoList}}
+        <option value="{{name}}" >{{name}}</option>
+    {{/repoList}}
+    </select>
+    &emsp;
+    <b>User plots: </b>
+    <input type="checkbox" id="userPlots" value="1" onchange="generateContributorStats();">
+    &emsp;
+    <span id="amount" style="border: 0; color: #734f96; font-weight: bold;"></span>
+    `;
+
+    document.getElementById("gh-contributors").innerHTML = 
+        Mustache.render(content,{repoList: repoList.map(r => {return{name:r}})});
+    
+    if (document.getElementById("gh-contributors").hasAttribute("height")){
+        document.getElementById("gh-contributors").innerHTML += 
+        Mustache.render(
+        `
+        <div style="overflow-x: auto; height: {{height}}"
+         class="container-flex" id="gh-contributor-list"></div>
+        `,{height: document.getElementById("gh-contributors").getAttribute("height")});
+    } else {
+        document.getElementById("gh-contributors").innerHTML += 
+    `
+    <div class="container-flex" id="gh-contributor-list"></div>
+    `
+    }
+    
+}
+
+
+// Add HTML to 'gh-contributors-slider'
+//  for aggregate graph with date slider
+//
+function makeSliderInterface(){
+
+    var content = `
+    <canvas id="chart-all" height="75px"></canvas>
+    <div id="slider-range" style="margin: 10px 30px;"></div>
+    `;
+
+    document.getElementById("gh-contributors-slider").innerHTML = content;
+
+    $(function() {
+        $( "#slider-range" ).slider({
+            range: true,
+            min: globalDateBounds[0] / 1000,
+            max: globalDateBounds[1] / 1000,
+            step: 86400,
+            values: [ tmin / 1000, tmax / 1000 ],
+            slide: function( event, ui ) {
+                $( "#amount" )[0].innerHTML = (new Date(ui.values[ 0 ] *1000).toDateString() ) + " - " + (new Date(ui.values[ 1 ] *1000)).toDateString() ;
+            },
+            stop: function( event, ui) {
+                tmin = ui.values[ 0 ] *1000;
+                tmax = ui.values[ 1 ] *1000;
+                generateContributorStats();
+            }
+        });
+        $( "#amount" )[0].innerHTML = (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toDateString()) +
+        " - " + (new Date($( "#slider-range" ).slider( "values", 1 )*1000)).toDateString() ;
+    });
+
+}
+
+
+// Load JSON data from url
+//
 function loadJSON(url) {
     var json = null;
     $.ajax({
