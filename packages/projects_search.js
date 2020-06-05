@@ -1,21 +1,3 @@
----
-layout: null
----
-
-function findGetParameter(parameterName) {
-    // Return a GET HTTP parameter
-    var result = null,
-        tmp = [];
-    location.search
-        .substr(1)
-        .split("&")
-        .forEach(function (item) {
-          tmp = item.split("=");
-          if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-        });
-    return result;
-}
-
 function getSubSentences(sentence) {
     // Return all permutations of contiguous sub sentences from a sentence
     var words = sentence.split(" ");
@@ -130,7 +112,7 @@ function resultsToHTML(results){
             out += ' ('
             var j;
             for (j=0;j<cats.length;j++){
-                out += '<a href="{{ site.baseurl }}/packages/'+cats[j]+'">'+cats[j]+'</a>';
+                out += '<a href="'+fortranLang.baseurl+'/packages/'+cats[j]+'">'+cats[j]+'</a>';
                 if (j<cats.length-1){
                     out += ', ';
                 }
@@ -150,7 +132,7 @@ function resultsToHTML(results){
 }
 
 // Perform search here onload
-var queryString = findGetParameter('query').replace(/\+/g," ").replace(/"/g,'');
+var queryString = fortranLang.findGetParameter('query').replace(/\+/g," ").replace(/"/g,'');
 document.getElementById('search-query').value = queryString;
 
 results = searchProjects(queryString,projects);

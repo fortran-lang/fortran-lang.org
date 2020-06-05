@@ -23,7 +23,7 @@ ghContributorStats = function() {
     if (!!document.getElementById(options.contributorsElementID)){
 
         // Load JSON data
-        var repoData = options.repoFiles.map( r => loadJSON(options.dataDir+r+'.json') );
+        var repoData = options.repoFiles.map( r => fortranLang.loadJSON(options.dataDir+r+'.json') );
     
         // Preprocess data
         var repoUserContribs = new Map();    
@@ -138,7 +138,7 @@ ghContributorStats = function() {
         var renderContent = '';
         for (var i = 0; i < userSort.length; i++){
 
-            renderContent += addContributorChart(userSort[i],filteredContribs.get(userSort[i]).length, document.getElementById('userPlots').checked);
+            renderContent += addContributorBox(userSort[i],filteredContribs.get(userSort[i]).length, document.getElementById('userPlots').checked);
 
         }
         document.getElementById("gh-contributor-list").innerHTML = renderContent;
@@ -290,7 +290,7 @@ ghContributorStats = function() {
     // Add a new contributor box
     //  to #gh-contributors-list element
     //
-    function addContributorChart(userName, nContrib, plot=true){
+    function addContributorBox(userName, nContrib, plot=true){
 
         return Mustache.render(`
             <div class="col-flex contributor"> 
@@ -462,21 +462,7 @@ ghContributorStats = function() {
     }
 
 
-    // Load JSON data from url
-    //
-    function loadJSON(url) {
-        var json = null;
-        $.ajax({
-            'async': false,
-            'global': false,
-            'url': url,
-            'dataType': "json",
-            'success': function (data) {
-                json = data;
-            }
-        });
-        return json;
-    }
+    
 
 
     // Exported functions
