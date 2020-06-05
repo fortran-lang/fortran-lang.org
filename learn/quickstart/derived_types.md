@@ -93,7 +93,7 @@ The _access-type_ attributes `public` and `private` if used, declare that all [m
 
 The attribute `bind(c)` is used to achieve compatibility between Fortran's derived type and C's struct.
 
-Example with 'bind(c)`:
+Example with `bind(c)`:
 ```fortran
 module mymod
 use iso_c_bindings
@@ -237,7 +237,7 @@ end type
 
 A derivd type is possible to contain procedures either `functions` or `subroutines` that are **bound** to this derived type. Type procedures must follow the `contains` statement that, in return, must be used within the derived type and after all [member-variables] have been declared. 
 
-{% include note.html content="It is impossible to describe type-bound procedures in their full syntax without delving into OOP features of modern Fortran. For that reason only a simple example is provided in this final part, to demostrante a very besic use." %}
+{% include note.html content="It is impossible to describe type-bound procedures in their full syntax without delving into OOP features of modern Fortran. For that reason only a simple example is provided in this final part, to demostrante a very basic use." %}
 
 Example of a derived type with basic bound-procedure:
 
