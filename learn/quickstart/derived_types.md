@@ -8,7 +8,7 @@ As discussed previously in [Variables]({{site.baseurl}}/learn/quickstart/variabl
 
 ## A quick take on derived types
 
-Example of a basic derived type is:
+Example of a basic derived type:
 
 ```fortran
 type :: my_type
