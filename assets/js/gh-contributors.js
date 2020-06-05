@@ -1,16 +1,29 @@
 ghContributorStats = function() {
-  
+    
+    var options = {
+        dataDir: '/community/github_stats_data/data-', // Prefix for locating repo json data files
+        repoFiles: ['j3-fortran-fortran_proposals',    // List of json data fiels for each repo
+                    'fortran-lang-stdlib',
+                    'fortran-lang-fpm',
+                    'fortran-lang-fortran-lang.org'],
+        contributorsElementID: "gh-contributors",       // HTML ID of element to fill with stats
+        globalBucketSize: 7,                            // Size, in weeks, of histogram buckets for aggregate plot
+        nUserBuckets: 10,                               // Number of histogram buckets to use for individual user plots
+        plotColor: 'rgba(115, 79, 150, 0.5)',           // Background fill of plots
+        minAxisRange: 10,                               // Minimum y-axis range
+        maxTicksLimit: 5                                // Maximum number of y-axis ticks
+    }
+
     var oneday = Date.UTC(96, 1, 2) - Date.UTC(96, 1, 1);
     var topChart;
     var repoFilter = "all";
     var tmin;
     var tmax;
 
-    if (!!document.getElementById("gh-contributors")){
+    if (!!document.getElementById(options.contributorsElementID)){
 
         // Load JSON data
-        var repoFiles = ['j3-fortran-fortran_proposals','fortran-lang-stdlib','fortran-lang-fpm','fortran-lang-fortran-lang.org'];
-        var repoData = repoFiles.map( r => loadJSON('/community/github_stats_data/data-'+r+'.json') );
+        var repoData = options.repoFiles.map( r => loadJSON(options.dataDir+r+'.json') );
     
         // Preprocess data
         var repoUserContribs = new Map();    
@@ -32,13 +45,14 @@ ghContributorStats = function() {
     
         generateContributorStats();
     
-        if (!!document.getElementById("gh-contributors-slider")){
+        if (!!document.getElementById(options.contributorsElementID+"-slider")){
         
             makeSliderInterface();
         
             plotAggregateData(allUserContribs);
         
         }
+
     }
 
 
@@ -65,22 +79,22 @@ ghContributorStats = function() {
     //  or the min/max dates of the selected repo otherwise
     function resetDates(dateBounds){
 
-        if (!!document.getElementById("gh-contributors").hasAttribute("data-startdate")){
-            tmin = new Date(document.getElementById("gh-contributors").getAttribute("data-startdate")).getTime();
+        if (!!document.getElementById(options.contributorsElementID).hasAttribute("data-startdate")){
+            tmin = new Date(document.getElementById(options.contributorsElementID).getAttribute("data-startdate")).getTime();
         } else {
             tmin = dateBounds[0];
         }
 
-        if (!!document.getElementById("gh-contributors").hasAttribute("data-enddate")){
-            tmax = new Date(document.getElementById("gh-contributors").getAttribute("data-enddate")).getTime();
+        if (!!document.getElementById(options.contributorsElementID).hasAttribute("data-enddate")){
+            tmax = new Date(document.getElementById(options.contributorsElementID).getAttribute("data-enddate")).getTime();
         } else {
             tmax = dateBounds[1];  
         }
 
-        $( "#amount" )[0].innerHTML = (new Date(tmin).toDateString()) +
+        document.getElementById("gh-date-range").innerHTML = (new Date(tmin).toDateString()) +
             " - " + (new Date(tmax).toDateString()) ;
 
-        if (!!document.getElementById("gh-contributors-slider")){
+        if (!!document.getElementById(options.contributorsElementID+"-slider")){
 
             $("#slider-range").slider("values",0,tmin/1000);
             $("#slider-range").slider("values",1,tmax/1000);
@@ -93,9 +107,9 @@ ghContributorStats = function() {
     //
     function plotAggregateData(userContribs){
 
-        if (!!document.getElementById("gh-contributors-slider")){
+        if (!!document.getElementById(options.contributorsElementID+"-slider")){
 
-            var bucketSize0 = 7*oneday;
+            var bucketSize0 = options.globalBucketSize*oneday;
 
             var userNames = [...userContribs.keys()];
             var allDates = [].concat(...userNames.map(u=>userContribs.get(u)));
@@ -120,13 +134,16 @@ ghContributorStats = function() {
         
         var userSort = userNames.sort((u1,u2) => filteredContribs.get(u2).length - filteredContribs.get(u1).length);
 
-        document.getElementById("gh-contributor-list").innerHTML = '';
+        document.getElementById("gh-contributor-list").innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        var renderContent = '';
         for (var i = 0; i < userSort.length; i++){
 
-            addContributorChart(userSort[i],filteredContribs.get(userSort[i]).length,$('#userPlots')[0].checked);
-        }
+            renderContent += addContributorChart(userSort[i],filteredContribs.get(userSort[i]).length, document.getElementById('userPlots').checked);
 
-        var bucketSize = (tmax-tmin)/10;
+        }
+        document.getElementById("gh-contributor-list").innerHTML = renderContent;
+
+        var bucketSize = (tmax-tmin)/options.nUserBuckets;
 
         if ((tmax-tmin) < 10*7*oneday){
             var timeUnit = 'week';
@@ -134,16 +151,19 @@ ghContributorStats = function() {
             var timeUnit = 'month';
         }
 
-        if ($('#userPlots')[0].checked){
+        if (document.getElementById('userPlots').checked){
 
             for (var i=0; i < userSort.length; i++){
 
                 var plotData = getUserPlotData(filteredContribs.get(userSort[i]),tmin,tmax,bucketSize)
-                plotContributorChart(userSort[i],plotData,timeUnit);
+                var yMax = Math.max(options.minAxisRange,...plotData.map(d=>d.y));
+                plotContributorChart(userSort[i],plotData,timeUnit,yMax);
 
             }
 
         }
+
+        document.getElementById("gh-contributor-list").scrollTop = 0;
 
     }
 
@@ -272,8 +292,7 @@ ghContributorStats = function() {
     //
     function addContributorChart(userName, nContrib, plot=true){
 
-        document.getElementById("gh-contributor-list").innerHTML += 
-            Mustache.render(`
+        return Mustache.render(`
             <div class="col-flex contributor"> 
             <div style="display: inline-block; min-width: max-content;">
             <img src="https://github.com/{{userName}}.png?size=40" width="40" style="border-radius: 7px;">
@@ -297,7 +316,7 @@ ghContributorStats = function() {
     // Populate contributor chart 
     //  with (x,y) plot data
     //
-    function plotContributorChart(userName,plotData, timeUnit){
+    function plotContributorChart(userName,plotData,timeUnit,yMax){
 
         var ctx= document.getElementById('chart-'+userName).getContext('2d');
 
@@ -309,7 +328,7 @@ ghContributorStats = function() {
                     data: plotData
                 }]
             },
-            options: plotOptions(timeUnit)
+            options: plotOptions(timeUnit,yMax)
         });
 
         return chart;
@@ -319,7 +338,7 @@ ghContributorStats = function() {
     // Configuration for chart.js
     //  https://www.chartjs.org/docs/latest/
     //
-    function plotOptions(timeUnit) {
+    function plotOptions(timeUnit,yMax) {
 
         if (timeUnit == 'week'){
             var minRotation = 10;
@@ -338,7 +357,7 @@ ghContributorStats = function() {
                     radius: 0
                 },
                 line: {
-                    backgroundColor: 'rgba(115, 79, 150, 0.5)',
+                    backgroundColor: options.plotColor,
                     cubicInterpolationMode: 'monotone'
                 }
             },
@@ -355,8 +374,8 @@ ghContributorStats = function() {
                 }],
                 yAxes: [{
                     ticks:{
-                        // max: 100
-                        maxTicksLimit: 5
+                        max: yMax,
+                        maxTicksLimit: options.maxTicksLimit
                     }
                 }]
             },
@@ -385,23 +404,23 @@ ghContributorStats = function() {
         <b>User plots: </b>
         <input type="checkbox" id="userPlots" value="1" onchange="ghContributorStats.generateContributorStats();">
         &emsp;
-        <span id="amount" style="border: 0; color: #734f96; font-weight: bold;"></span>
+        <span id="gh-date-range" style="border: 0; color: #734f96; font-weight: bold; display: inline-block"></span>
         `;
 
-        document.getElementById("gh-contributors").innerHTML = 
+        document.getElementById(options.contributorsElementID).innerHTML = 
             Mustache.render(content,{repoList: repoList.map(r => {return{name:r}})});
         
-        if (document.getElementById("gh-contributors").hasAttribute("height")){
-            document.getElementById("gh-contributors").innerHTML += 
+        if (document.getElementById(options.contributorsElementID).hasAttribute("height")){
+            document.getElementById(options.contributorsElementID).innerHTML += 
             Mustache.render(
             `
-            <div style="overflow-x: auto; height: {{height}}"
+            <div style="overflow-x: auto; height: {{height}}; margin-top:10px; background-color: #f4f4f4;"
             class="container-flex" id="gh-contributor-list"></div>
-            `,{height: document.getElementById("gh-contributors").getAttribute("height")});
+            `,{height: document.getElementById(options.contributorsElementID).getAttribute("height")});
         } else {
-            document.getElementById("gh-contributors").innerHTML += 
+            document.getElementById(options.contributorsElementID).innerHTML += 
         `
-        <div class="container-flex" id="gh-contributor-list"></div>
+        <div style="margin-top:10px; background-color: #f4f4f4;" class="container-flex" id="gh-contributor-list"></div>
         `
         }
         
@@ -418,7 +437,7 @@ ghContributorStats = function() {
         <div id="slider-range" style="margin: 10px 30px;"></div>
         `;
 
-        document.getElementById("gh-contributors-slider").innerHTML = content;
+        document.getElementById(options.contributorsElementID+"-slider").innerHTML = content;
 
         $(function() {
             $( "#slider-range" ).slider({
@@ -428,7 +447,7 @@ ghContributorStats = function() {
                 step: 86400,
                 values: [ tmin / 1000, tmax / 1000 ],
                 slide: function( event, ui ) {
-                    $( "#amount" )[0].innerHTML = (new Date(ui.values[ 0 ] *1000).toDateString() ) + " - " + (new Date(ui.values[ 1 ] *1000)).toDateString() ;
+                    document.getElementById("gh-date-range").innerHTML = (new Date(ui.values[ 0 ] *1000).toDateString() ) + " - " + (new Date(ui.values[ 1 ] *1000)).toDateString() ;
                 },
                 stop: function( event, ui) {
                     tmin = ui.values[ 0 ] *1000;
@@ -436,7 +455,7 @@ ghContributorStats = function() {
                     generateContributorStats();
                 }
             });
-            $( "#amount" )[0].innerHTML = (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toDateString()) +
+            document.getElementById("gh-date-range").innerHTML = (new Date($( "#slider-range" ).slider( "values", 0 )*1000).toDateString()) +
             " - " + (new Date($( "#slider-range" ).slider( "values", 1 )*1000)).toDateString() ;
         });
 
@@ -460,7 +479,10 @@ ghContributorStats = function() {
     }
 
 
+    // Exported functions
+    //
     return{
+        options: options,
         onRepoSelect: onRepoSelect,
         generateContributorStats: generateContributorStats
     }
