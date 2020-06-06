@@ -54,7 +54,7 @@ foo = my_type(i=2) ! foo%i gets a new value, but foo%x retains the default one.
 The full syntax of a derived type with all optional properties is presented below:
 
 ```fortran
-type [,attribute-list] :: name [(parameterized-decleration-list)]
+type [,attribute-list] :: name [(parameterized-declaration-list)]
     [parameterized-definition-statements]
     [private statement or sequence statement]
     [member-variables]
