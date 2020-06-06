@@ -23,7 +23,7 @@ ghContributorStats = function() {
     if (!!document.getElementById(options.contributorsElementID)){
 
         // Load JSON data
-        var repoData = options.repoFiles.map( r => fortranLang.loadJSON(options.dataDir+r+'.json') );
+        var repoData = options.repoFiles.map( r => fortranLang.loadJSON(fortranLang.baseurl+options.dataDir+r+'.json') );
     
         // Preprocess data
         var repoUserContribs = new Map();    
@@ -71,7 +71,7 @@ ghContributorStats = function() {
         plotAggregateData(userContribs)
         
         // Update user charts
-        generateContributorStats(true);
+        generateContributorStats();
 
     }
 
@@ -126,7 +126,7 @@ ghContributorStats = function() {
 
     // Regenerate the individual contributor data boxes
     //  
-    function generateContributorStats(resetRange = false){
+    function generateContributorStats(){
 
         var filteredContribs = filterContribs(repoUserContribs.get(repoFilter),tmin,tmax);
 
@@ -460,9 +460,6 @@ ghContributorStats = function() {
         });
 
     }
-
-
-    
 
 
     // Exported functions
