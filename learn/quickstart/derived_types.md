@@ -131,7 +131,7 @@ implicit none
 type(matrix(rows=5, cols=5)) :: m
 end program
  ```
-{% include note.html content="In this example the parameter **k** has already been assigned a default value of `kind(0.0)`, that is of floating point single precision, for that reason it can be ommited, as it is the case here in the declaration inside the main program." %}
+{% include note.html content="In this example the parameter **k** has already been assigned a default value of `kind(0.0)`, that is of floating point single precision. Therefore, it can be omitted, as it is the case here in the declaration inside the main program." %}
 
 {% include important.html content="By default derived types and their members are public. However, in this example the attribute `private` is used at the beginning of the module, therefore, everything within the module will be by default `private` unless, explicitly, declared as `public`. If the type **matrix** was not given the attribute `public` in the above example, then the compiler would throw an error inside **program test**." %}
 
