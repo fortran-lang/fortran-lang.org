@@ -162,7 +162,7 @@ type, extends(t_person)  :: t_employ
     character(len=:), allocatable   :: position
     real                            :: monthly_salary
 end type
-end module
+end module mymod
 
 program test
 use mymod
