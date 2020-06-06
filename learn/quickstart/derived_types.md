@@ -101,6 +101,7 @@ implicit none
 type, bind(c) :: mytype
     integer(c_int) :: i
 end type
+end module mymod
 ```
 matches the following C struct:
 ```c
