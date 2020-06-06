@@ -70,7 +70,7 @@ end type
 - _access-type_ that is either `public` or `private`
 - `bind(c)` offers interoperability with C programming language 
 - `extends(`_parent_`)` where _parent_ is the name of a previously declared derived type, from which, the current derived type will inherit all its members and functionality.
-- `abstract` an object orianted feature that is covered in the advanced programming tutorial.
+- `abstract` an object oriented feature that is covered in the advanced programming tutorial.
 
 {% include note.html content="If the `attribute: bind(c)` or the `statement: sequence` is used then a derived type cannot have the `attribute: extends` and visa-versa." %}
 
