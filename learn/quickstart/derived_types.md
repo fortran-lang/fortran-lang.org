@@ -227,7 +227,7 @@ type :: t_example
     real, allocatable :: z(:)[:] ! here the [:] is the [attr-dependent-spec] and implies the codimension[:].
 
     !6th case: contiguous
-    real, contigeous, pointer :: x(:)
+    real, contiguous, pointer :: x(:)
 end type
 ```
 
