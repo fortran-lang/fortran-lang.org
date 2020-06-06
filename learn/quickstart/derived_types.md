@@ -96,7 +96,7 @@ The attribute `bind(c)` is used to achieve compatibility between Fortran's deriv
 Example with `bind(c)`:
 ```fortran
 module mymod
-use iso_c_bindings
+use iso_c_bindings, only: c_int
 implicit none
 type, bind(c) :: mytype
     integer(c_int) :: i
