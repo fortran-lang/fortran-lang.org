@@ -34,7 +34,7 @@ To initialize the members of _my_type_ one can use either individual initializat
 Example using the assignment operator (=):
 ```fortran
 foo = my_type(1, 0.5)
-! or using F2003 stardard and on
+! or using F2003 standard and on
 foo = my_type(i=1, x=0.5)
 ```
 
