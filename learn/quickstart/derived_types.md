@@ -123,7 +123,7 @@ type, public :: matrix(rows, cols, k)
   integer, kind :: k = kind(0.0)
   real(kind = k), dimension(rows, cols) :: values
 end type matrix
-end module
+end module mymod
 
 program test
 use mymod
