@@ -87,7 +87,7 @@ end type
 type(foo) :: bar
 bar = foo(1, 0.5)
 ```
-{% include note.html content="The use of statement `sequence` presupposes that the data types defined below are neither of `allocatable` nor of `pointer` type. Furthermore, it does not imply that these data types  will be stored in memory in any particular form, there is no relation to `contigeous` attribute." %}
+{% include note.html content="The use of statement `sequence` presupposes that the data types defined below are neither of `allocatable` nor of `pointer` type. Furthermore, it does not imply that these data types  will be stored in memory in any particular form, there is no relation to `contiguous` attribute." %}
 
 The _access-type_ attributes `public` and `private` if used, declare that all [member-variables] declared below will be automatically assigned the attribute accordingly. 
 
