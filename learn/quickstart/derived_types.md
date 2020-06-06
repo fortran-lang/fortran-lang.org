@@ -63,7 +63,7 @@ type [,attribute-list] :: name [(parameterized-declaration-list)]
 end type
 ```
 
-### Part 1: Options to declare a derived type
+## Options to declare a derived type
 
 `attribute-list` may refer to the following:
 
@@ -111,9 +111,9 @@ struct{
 ```
 {% include note.html content="A fortran derived type with the attribute `bind(c)` cannot have the `sequence` and `extends` attributes. Furthermore it cannot contain any Fortran `pointer` or `allocatable` types." %}
 
-`parameterized-decleration-list`: is an optional feautre. If used, then the parameters must be listed in place of [parameterized-definition-statements] and must be either `len` or `kind` parameters or both. 
+`parameterized-declaration-list`: is an optional feature. If used, then the parameters must be listed in place of [parameterized-definition-statements] and must be either `len` or `kind` parameters or both. 
 
-Example of a derived type with `parameterized-decleration-list` and with the `attribute: public`:
+Example of a derived type with `parameterized-declaration-list` and with the `attribute: public`:
  ```fortran
 module mymod
 implicit none
@@ -174,7 +174,7 @@ type(t_employ) :: employ
 employ%hired_date%year  = 2020 ! t_employ has access to type(t_date) members not because of extends but because a type(t_date) was declared within t_employ
 employ%hired_date%month = 1
 employ%hired_date%day   = 20
-employ%first_name       = 'Johny' !t_employ has acces to t_person, and inherits its members due to extends 
+employ%first_name       = 'Johny' !t_employ has access to t_person, and inherits its members due to extends 
 employ%last_name        = 'Doe'
 employ%city             = 'London' ! t_employ has access to t_address, because it inherits from t_person, that in return inherits from t_address
 employ%road_name        = 'BigBen'
@@ -184,9 +184,9 @@ employ%monthly_salary   = 0.0
 end program test
 ``` 
 
-### Part 2: Options to declare members of a derived type
+## Options to declare members of a derived type
 
-`[member-variables]` refers to the decleration of all the member data types. These data types can be of any built-in data type, and/or of other derived types, as already show-cased in the above examples. However, member-variables can have their own extensive syntax, in form of:
+`[member-variables]` refers to the declaration of all the member data types. These data types can be of any built-in data type, and/or of other derived types, as already show-cased in the above examples. However, member-variables can have their own extensive syntax, in form of:
 `type [,member-attributes] :: name[attr-dependent-spec][init]`
 
 `type`: any built-in type or other derived type
@@ -198,11 +198,11 @@ end program test
 - `public` or `private` access attributes
 - `protected` access attribute
 - `codimension` to specify a coarray 
-- `contigeous`
+- `contiguous`
 
 {% include note.html content="`pointer` and `allocatable` cannot co-exist." %}
 
-{% include note.html content="`contigeous` requires an array with the `pointer` attribute." %}
+{% include note.html content="`contiguous` requires an array with the `pointer` attribute." %}
 
 Examples for common cases:
 
@@ -232,9 +232,9 @@ type :: t_example
 end type
 ```
 
-{% include note.html content="In the above example the cases 4, 5 and 6 make use of Fortran `pointer` and `coarray` features that have not been addressed in this quickstart tutorial. However, they are presented here, in order for the readers to know that these feautures do exist and be able to recognise them. These features will be covered in detail in the upcoming `Advanced programing` mini-book." %}
+{% include note.html content="In the above example the cases 4, 5 and 6 make use of Fortran `pointer` and `coarray` features that have not been addressed in this quickstart tutorial. However, they are presented here, in order for the readers to know that these features do exist and be able to recognize them. These features will be covered in detail in the upcoming `Advanced programing` mini-book." %}
 
-### Part 3: Type-bound procedures
+## Type-bound procedures
 
 A derived type is possible to contain procedures either `functions` or `subroutines` that are **bound** to this derived type. Type procedures must follow the `contains` statement that, in return, must be used within the derived type and after all [member-variables] have been declared. 
 
@@ -251,7 +251,7 @@ public t_square
 type :: t_square
     real :: side
     contains
-        procedure :: area !procedure decleration
+        procedure :: area !procedure declaration
 end type
 
 contains
@@ -265,7 +265,7 @@ end module
 program main
 use mymod
 implicit none
-! variables decleration
+! variables declaration
 type(t_square) :: sq
 real :: x, side
 
