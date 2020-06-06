@@ -31,7 +31,7 @@ foo%x   = 0.5
 To initialize the members of _my_type_ one can use either individual initialization as demonstrated in the above example, or the assignment operator (=), or the default initialization.
 
 
-Example using the assignement operator (=):
+Example using the assignment operator (=):
 ```fortran
 foo = my_type(1, 0.5)
 ! or using F2003 stardard and on
