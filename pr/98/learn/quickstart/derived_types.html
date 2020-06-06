@@ -451,9 +451,9 @@
 
 <p>To initialize the members of <em>my_type</em> one can use either individual initialization as demonstrated in the above example, or the assignment operator (=), or the default initialization.</p>
 
-<p>Example using the assignement operator (=):</p>
+<p>Example using the assignment operator (=):</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_type</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w">
-</span><span class="c1">! or using F2003 stardard and on</span><span class="w">
+</span><span class="c1">! or using F2003 standard and on</span><span class="w">
 </span><span class="n">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_type</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
@@ -471,7 +471,7 @@
 
 <p>The full syntax of a derived type with all optional properties is presented below:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">[,</span><span class="n">attribute</span><span class="o">-</span><span class="n">list</span><span class="p">]</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">[(</span><span class="n">parameterized</span><span class="o">-</span><span class="n">decleration</span><span class="o">-</span><span class="n">list</span><span class="p">)]</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">[,</span><span class="n">attribute</span><span class="o">-</span><span class="n">list</span><span class="p">]</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">[(</span><span class="n">parameterized</span><span class="o">-</span><span class="n">declaration</span><span class="o">-</span><span class="n">list</span><span class="p">)]</span><span class="w">
     </span><span class="p">[</span><span class="n">parameterized</span><span class="o">-</span><span class="n">definition</span><span class="o">-</span><span class="n">statements</span><span class="p">]</span><span class="w">
     </span><span class="p">[</span><span class="k">private</span><span class="w"> </span><span class="n">statement</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="k">sequence</span><span class="w"> </span><span class="n">statement</span><span class="p">]</span><span class="w">
     </span><span class="p">[</span><span class="n">member</span><span class="o">-</span><span class="n">variables</span><span class="p">]</span><span class="w">
@@ -480,7 +480,7 @@
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 </span></code></pre></div></div>
 
-<h3 id="part-1-options-to-declare-a-derived-type">Part 1: Options to declare a derived type</h3>
+<h2 id="options-to-declare-a-derived-type">Options to declare a derived type</h2>
 
 <p><code class="highlighter-rouge">attribute-list</code> may refer to the following:</p>
 
@@ -488,7 +488,7 @@
   <li><em>access-type</em> that is either <code class="highlighter-rouge">public</code> or <code class="highlighter-rouge">private</code></li>
   <li><code class="highlighter-rouge">bind(c)</code> offers interoperability with C programming language</li>
   <li><code class="highlighter-rouge">extends(</code><em>parent</em><code class="highlighter-rouge">)</code> where <em>parent</em> is the name of a previously declared derived type, from which, the current derived type will inherit all its members and functionality.</li>
-  <li><code class="highlighter-rouge">abstract</code> an object orianted feature that is covered in the advanced programming tutorial.</li>
+  <li><code class="highlighter-rouge">abstract</code> an object oriented feature that is covered in the advanced programming tutorial.</li>
 </ul>
 
 <div class="aside-note">
@@ -511,7 +511,7 @@
 </span></code></pre></div></div>
 <div class="aside-note">
     
-    <p><strong>Note:</strong> The use of statement <code class="highlighter-rouge">sequence</code> presupposes that the data types defined below are neither of <code class="highlighter-rouge">allocatable</code> nor of <code class="highlighter-rouge">pointer</code> type. Furthermore, it does not imply that these data types  will be stored in memory in any particular form, there is no relation to <code class="highlighter-rouge">contigeous</code> attribute.</p>
+    <p><strong>Note:</strong> The use of statement <code class="highlighter-rouge">sequence</code> presupposes that the data types defined below are neither of <code class="highlighter-rouge">allocatable</code> nor of <code class="highlighter-rouge">pointer</code> type. Furthermore, it does not imply that these data types  will be stored in memory in any particular form, there is no relation to <code class="highlighter-rouge">contiguous</code> attribute.</p>
 
 </div>
 
@@ -521,11 +521,12 @@
 
 <p>Example with <code class="highlighter-rouge">bind(c)</code>:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">mymod</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">iso_c_bindings</span><span class="w">
+</span><span class="k">use</span><span class="w"> </span><span class="n">iso_c_bindings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">c_int</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">mytype</span><span class="w">
     </span><span class="kt">integer</span><span class="p">(</span><span class="n">c_int</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">mymod</span><span class="w">
 </span></code></pre></div></div>
 <p>matches the following C struct:</p>
 <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span><span class="p">{</span>
@@ -538,9 +539,9 @@
 
 </div>
 
-<p><code class="highlighter-rouge">parameterized-decleration-list</code>: is an optional feautre. If used, then the parameters must be listed in place of [parameterized-definition-statements] and must be either <code class="highlighter-rouge">len</code> or <code class="highlighter-rouge">kind</code> parameters or both.</p>
+<p><code class="highlighter-rouge">parameterized-declaration-list</code>: is an optional feature. If used, then the parameters must be listed in place of [parameterized-definition-statements] and must be either <code class="highlighter-rouge">len</code> or <code class="highlighter-rouge">kind</code> parameters or both.</p>
 
-<p>Example of a derived type with <code class="highlighter-rouge">parameterized-decleration-list</code> and with the <code class="highlighter-rouge">attribute: public</code>:</p>
+<p>Example of a derived type with <code class="highlighter-rouge">parameterized-declaration-list</code> and with the <code class="highlighter-rouge">attribute: public</code>:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">mymod</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="k">private</span><span class="w">
@@ -550,7 +551,7 @@
   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="w">
   </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">values</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="n">matrix</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">mymod</span><span class="w">
 
 </span><span class="k">program</span><span class="w"> </span><span class="n">test</span><span class="w">
 </span><span class="k">use</span><span class="w"> </span><span class="n">mymod</span><span class="w">
@@ -560,7 +561,7 @@
 </span></code></pre></div></div>
 <div class="aside-note">
     
-    <p><strong>Note:</strong> In this example the parameter <strong>k</strong> has already been assigned a default value of <code class="highlighter-rouge">kind(0.0)</code>, that is of floating point single precision, for that reason it can be ommited, as it is the case here in the declaration inside the main program.</p>
+    <p><strong>Note:</strong> In this example the parameter <strong>k</strong> has already been assigned a default value of <code class="highlighter-rouge">kind(0.0)</code>, that is of floating point single precision. Therefore, it can be omitted, as it is the case here in the declaration inside the main program.</p>
 
 </div>
 
@@ -596,7 +597,7 @@
     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">position</span><span class="w">
     </span><span class="kt">real</span><span class="w">                            </span><span class="p">::</span><span class="w"> </span><span class="n">monthly_salary</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">mymod</span><span class="w">
 
 </span><span class="k">program</span><span class="w"> </span><span class="n">test</span><span class="w">
 </span><span class="k">use</span><span class="w"> </span><span class="n">mymod</span><span class="w">
@@ -607,19 +608,19 @@
 </span><span class="n">employ</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">year</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">2020</span><span class="w"> </span><span class="c1">! t_employ has access to type(t_date) members not because of extends but because a type(t_date) was declared within t_employ</span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">day</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w">
-</span><span class="n">employ</span><span class="o">%</span><span class="n">first_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s1">'Johny'</span><span class="w"> </span><span class="c1">!t_employ has acces to t_person, and inherits its members due to extends </span><span class="w">
+</span><span class="n">employ</span><span class="o">%</span><span class="n">first_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s1">'Johny'</span><span class="w"> </span><span class="c1">!t_employ has access to t_person, and inherits its members due to extends </span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">last_name</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="s1">'Doe'</span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">city</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s1">'London'</span><span class="w"> </span><span class="c1">! t_employ has access to t_address, because it inherits from t_person, that in return inherits from t_address</span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">road_name</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="s1">'BigBen'</span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">house_number</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">position</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s1">'Intern'</span><span class="w">
 </span><span class="n">employ</span><span class="o">%</span><span class="n">monthly_salary</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">test</span><span class="w">
 </span></code></pre></div></div>
 
-<h3 id="part-2-options-to-declare-members-of-a-derived-type">Part 2: Options to declare members of a derived type</h3>
+<h2 id="options-to-declare-members-of-a-derived-type">Options to declare members of a derived type</h2>
 
-<p><code class="highlighter-rouge">[member-variables]</code> refers to the decleration of all the member data types. These data types can be of any built-in data type, and/or of other derived types, as already show-cased in the above examples. However, member-variables can have their own extensive syntax, in form of:
+<p><code class="highlighter-rouge">[member-variables]</code> refers to the declaration of all the member data types. These data types can be of any built-in data type, and/or of other derived types, as already show-cased in the above examples. However, member-variables can have their own extensive syntax, in form of:
 <code class="highlighter-rouge">type [,member-attributes] :: name[attr-dependent-spec][init]</code></p>
 
 <p><code class="highlighter-rouge">type</code>: any built-in type or other derived type</p>
@@ -632,7 +633,7 @@
   <li><code class="highlighter-rouge">public</code> or <code class="highlighter-rouge">private</code> access attributes</li>
   <li><code class="highlighter-rouge">protected</code> access attribute</li>
   <li><code class="highlighter-rouge">codimension</code> to specify a coarray</li>
-  <li><code class="highlighter-rouge">contigeous</code></li>
+  <li><code class="highlighter-rouge">contiguous</code></li>
 </ul>
 
 <div class="aside-note">
@@ -643,7 +644,7 @@
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> <code class="highlighter-rouge">contigeous</code> requires an array with the <code class="highlighter-rouge">pointer</code> attribute.</p>
+    <p><strong>Note:</strong> <code class="highlighter-rouge">contiguous</code> requires an array with the <code class="highlighter-rouge">pointer</code> attribute.</p>
 
 </div>
 
@@ -669,24 +670,24 @@
     </span><span class="c1">!or </span><span class="w">
     </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">z</span><span class="p">(:)[:]</span><span class="w"> </span><span class="c1">! here the [:] is the [attr-dependent-spec] and implies the codimension[:].</span><span class="w">
 
-    </span><span class="c1">!6th case: contigeous</span><span class="w">
-    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="n">contigeous</span><span class="p">,</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w">
+    </span><span class="c1">!6th case: contiguous</span><span class="w">
+    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 </span></code></pre></div></div>
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> In the above example the cases 4, 5 and 6 make use of Fortran <code class="highlighter-rouge">pointer</code> and <code class="highlighter-rouge">coarray</code> features that have not been addressed in this quickstart tutorial. However, they are presented here, in order for the readers to know that these feautures do exist and be able to recognise them. These features will be covered in detail in the upcoming <code class="highlighter-rouge">Advanced programing</code> mini-book.</p>
+    <p><strong>Note:</strong> In the above example the cases 4, 5 and 6 make use of Fortran <code class="highlighter-rouge">pointer</code> and <code class="highlighter-rouge">coarray</code> features that have not been addressed in this quickstart tutorial. However, they are presented here, in order for the readers to know that these features do exist and be able to recognize them. These features will be covered in detail in the upcoming <code class="highlighter-rouge">Advanced programing</code> mini-book.</p>
 
 </div>
 
-<h3 id="part-3-type-bound-procedures">Part 3: Type-bound procedures</h3>
+<h2 id="type-bound-procedures">Type-bound procedures</h2>
 
-<p>A derivd type is possible to contain procedures either <code class="highlighter-rouge">functions</code> or <code class="highlighter-rouge">subroutines</code> that are <strong>bound</strong> to this derived type. Type procedures must follow the <code class="highlighter-rouge">contains</code> statement that, in return, must be used within the derived type and after all [member-variables] have been declared.</p>
+<p>A derived type is possible to contain procedures either <code class="highlighter-rouge">functions</code> or <code class="highlighter-rouge">subroutines</code> that are <strong>bound</strong> to this derived type. Type procedures must follow the <code class="highlighter-rouge">contains</code> statement that, in return, must be used within the derived type and after all [member-variables] have been declared.</p>
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> It is impossible to describe type-bound procedures in their full syntax without delving into OOP features of modern Fortran. For that reason only a simple example is provided in this final part, to demostrante a very basic use.</p>
+    <p><strong>Note:</strong> It is impossible to describe type-bound procedures in their full syntax without delving into OOP features of modern Fortran. For that reason only a simple example is provided in this final part, to demonstrate a very basic use.</p>
 
 </div>
 
@@ -700,7 +701,7 @@
 </span><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_square</span><span class="w">
     </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">side</span><span class="w">
     </span><span class="k">contains</span><span class="w">
-        </span><span class="k">procedure</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="c1">!procedure decleration</span><span class="w">
+        </span><span class="k">procedure</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="c1">!procedure declaration</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 
 </span><span class="k">contains</span><span class="w">
@@ -714,7 +715,7 @@
 </span><span class="k">program</span><span class="w"> </span><span class="n">main</span><span class="w">
 </span><span class="k">use</span><span class="w"> </span><span class="n">mymod</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="c1">! variables decleration</span><span class="w">
+</span><span class="c1">! variables declaration</span><span class="w">
 </span><span class="k">type</span><span class="p">(</span><span class="n">t_square</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">sq</span><span class="w">
 </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="w">
 
