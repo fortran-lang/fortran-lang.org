@@ -180,7 +180,7 @@ employ%road_name        = 'BigBen'
 employ%house_number     = 1
 employ%position         = 'Intern'
 employ%monthly_salary   = 0.0
-end program
+end program test
 ``` 
 
 ### Part 2: Options to declare members of a derived type
