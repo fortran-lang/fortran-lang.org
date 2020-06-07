@@ -298,4 +298,7 @@ In the above example, the type-bound procedure **area** is defined as a function
 call sq%area(x)
 ! do stuff with x...
  ```
- In this case there are two arguments in definition, one similar as before the **self** of type `t_square` and the second one a real variable **x** that should be assigned the calculated area and returned back for further use. 
+In contrast to the example with the type-bound function, we now have two arguments: 
+
+* `class(t_square), intent(in) :: self`, which is the instance of the derived type itself
+* `real, intent(out) :: x` which is used to store the calculated area into and return to the caller. 
