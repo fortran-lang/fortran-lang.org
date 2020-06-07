@@ -29,7 +29,7 @@ pair%x   = 0.5
 {% include note.html content="The percentage symbol `%` is used to access the members of a derived type." %}
 
 In the above snippet, we declared an instance of a derived type and initialized its members explicitly.
-You can also initialize derived type members by invoking the derived type constructor:
+You can also initialize derived type members by invoking the derived type constructor.
 
 
 Example using the derived type constructor:
