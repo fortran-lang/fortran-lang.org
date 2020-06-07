@@ -201,7 +201,7 @@ end program test_employee
 - `allocatable` with or without `dimension` to specify a dynamic array
 - `pointer`, `codimension`, `contiguous`, `volatile`, `asynchronous`
 
-Examples for common cases:
+Examples of common cases:
 
 ```fortran
 type :: t_example
