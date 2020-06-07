@@ -104,7 +104,7 @@ keeping fortran-lang.org open in a previous tab.
 
 __Example:__ Open link in new tab (HTML or markdown)
 ```html
-<a href="https://fortran-lang.discourse.group/" target="_blank">Discourse</a>
+<a href="https://fortran-lang.discourse.group/" target="_blank" rel="noopener">Discourse</a>
 ```
 
 ### Internal site links
@@ -168,7 +168,7 @@ The `book` layout is the layout used for mini-book tutorials;
 it includes a non-scrolling sidebar which is automatically populated
 by the `<h2>` headings on the current page.
 
-__Option 2: __
+__Option 2:__
 
 If you just want a list of headings at the top of your page,
 include the following snippet, which will be automatically

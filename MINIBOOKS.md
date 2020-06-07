@@ -1,4 +1,4 @@
-# Mini-book Tutorials on fortran-lang.github.io
+# Mini-book Tutorials on fortran-lang.org
 
 This guide will cover how to write mini-book tutorials for the [Learn](https://fortran-lang.org/learn)
 section of <https://fortran-lang.org>.
@@ -315,4 +315,3 @@ If successful, a new link should appear on the _Learn_ page with the title of yo
 
 Once you have completed your mini-book and added an entry to the `learning.yml` data file, open a pull request
 at <https://github.com/fortran-lang/fortran-lang.org> (see [CONTRIBUTING](./CONTRIBUTING.md)).
-
