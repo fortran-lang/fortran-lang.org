@@ -19,14 +19,41 @@ ghContributorStats = function() {
     var repoFilter = "all";
     var tmin;
     var tmax;
+    var repoUserContribs;
+    var globalDateBounds;
+
 
     if (!!document.getElementById(options.contributorsElementID)){
 
-        // Load JSON data
-        var repoData = options.repoFiles.map( r => fortranLang.loadJSON(fortranLang.baseurl+options.dataDir+r+'.json') );
-    
+        document.getElementById(options.contributorsElementID).innerHTML = 
+            '<i class="fas fa-spinner fa-spin"></i>';
+
+        // Load JSON data asynchronously
+        function getRepoJSON(N,i,repoData,onFinish){
+            
+            let url = fortranLang.baseurl+options.dataDir+options.repoFiles[i]+'.json';
+
+            fortranLang.loadJSON(url, function(data){
+                repoData.push(data);
+                if (i+1 < N){
+                    return getRepoJSON(N,i+1,repoData,onFinish);
+                } else {
+                    onFinish(repoData);
+                }
+            })
+
+        }
+
+        getRepoJSON(options.repoFiles.length,0,[],init);
+
+    }
+
+    // Called once, after all JSON data has loaded
+    // 
+    function init(repoData){
+
         // Preprocess data
-        var repoUserContribs = new Map();    
+        repoUserContribs = new Map();    
         for (var i = 0; i < repoData.length; i++){
             repoUserContribs.set(repoData[i].name, getUserContribs(repoData[i]));
         }
@@ -40,7 +67,7 @@ ghContributorStats = function() {
         var repoList = repoData.map(r=>r.name);
         makeContributorInterface(repoList);
     
-        var globalDateBounds = getDateBounds(allUserContribs);
+        globalDateBounds = getDateBounds(allUserContribs);
         resetDates(globalDateBounds);
     
         generateContributorStats();
