@@ -282,7 +282,8 @@ What is new:
 
  - **self** is a random name that was chosen to represent the derived type t_square that is passed as an argument to the bound-function in order to have access to its data-members. By passing it like that it is ensured that later during its use the t_square will be passed automatically and not by the client.
  - in order to have the above functionality the new keyword `class` replaced the `type` one. With `class` the OOP feature *polymorphism* is introduced. 
- - since the bound-procedure **area** was defined as a function it cannot be called by itself, it can only appear as **rhs** object, that is why it is used like `x = sq%area()`. The 'stand-alone' functionality is covered by a subroutine, and the above example should be modified like:
+
+In the above example, the type-bound procedure **area** is defined as a function and can be invoked only in an expression, for example `x = sq%area()` or `print *, sq%area()`. If you define it instead as a subroutine, you can invoke it from its own `call` statement:
 
  ```fortran
  ! change within module
