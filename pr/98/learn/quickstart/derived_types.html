@@ -637,7 +637,7 @@ You can also initialize derived type members by invoking the derived type constr
   <li><code class="highlighter-rouge">pointer</code>, <code class="highlighter-rouge">codimension</code>, <code class="highlighter-rouge">contiguous</code>, <code class="highlighter-rouge">volatile</code>, <code class="highlighter-rouge">asynchronous</code></li>
 </ul>
 
-<p>Examples for common cases:</p>
+<p>Examples of common cases:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_example</span><span class="w">
     </span><span class="c1">!1st case: simple built-in type with access attribute and [init]</span><span class="w">
@@ -661,15 +661,15 @@ You can also initialize derived type members by invoking the derived type constr
 
 <h2 id="type-bound-procedures">Type-bound procedures</h2>
 
-<p>A derived type is possible to contain procedures either <code class="highlighter-rouge">functions</code> or <code class="highlighter-rouge">subroutines</code> that are <strong>bound</strong> to this derived type. Type procedures must follow the <code class="highlighter-rouge">contains</code> statement that, in return, must be used within the derived type and after all [member-variables] have been declared.</p>
+<p>A derived type can contain functions or subroutines that are <strong>bound</strong> to it. We’ll refer to them as <em>type-bound procedures</em>. Type-bound procedures follow the <code class="highlighter-rouge">contains</code> statement that, in turn, follows all member variable declarations.</p>
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> It is impossible to describe type-bound procedures in their full syntax without delving into OOP features of modern Fortran. For that reason only a simple example is provided in this final part, to demonstrate a very basic use.</p>
+    <p><strong>Note:</strong> It is impossible to describe type-bound procedures in full without delving into OOP features of modern Fortran. For now we’ll focus on a simple example to show their basic use.</p>
 
 </div>
 
-<p>Example of a derived type with basic bound-procedure:</p>
+<p>Here’s an example of a derived type with a basic type-bound procedure:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">m_shapes</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
@@ -708,7 +708,7 @@ You can also initialize derived type members by invoking the derived type constr
 <p>What is new:</p>
 
 <ul>
-  <li><strong>self</strong> is a random name that was chosen to represent the derived type t_square that is passed as an argument to the bound-function in order to have access to its data-members. By passing it like that it is ensured that later during its use the t_square will be passed automatically and not by the client.</li>
+  <li><strong>self</strong> is an arbitrary name that we chose to represent the instance of the derived type t_square inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.</li>
   <li>We now use <code class="highlighter-rouge">class(t_square)</code> instead of <code class="highlighter-rouge">type(t_square)</code> in the interface of the <code class="highlighter-rouge">area</code> function. This allows us to invoke the <code class="highlighter-rouge">area</code> function with any derived type that extends <code class="highlighter-rouge">t_square</code>. The keyword <code class="highlighter-rouge">class</code> introduces the OOP feature, polymorphism.</li>
 </ul>
 
