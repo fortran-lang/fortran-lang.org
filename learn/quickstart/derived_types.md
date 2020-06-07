@@ -265,7 +265,7 @@ end program main
 ```
 What is new:
 
- - **self** is a random name that was chosen to represent the derived type t_square that is passed as an argument to the bound-function in order to have access to its data-members. By passing it like that it is ensured that later during its use the t_square will be passed automatically and not by the client.
+ - **self** is an arbitrary name that we chose to represent the instance of the derived type t_square inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.
  - We now use `class(t_square)` instead of `type(t_square)` in the interface of the `area` function. This allows us to invoke the `area` function with any derived type that extends `t_square`. The keyword `class` introduces the OOP feature, polymorphism.
 
 In the above example, the type-bound procedure **area** is defined as a function and can be invoked only in an expression, for example `x = sq%area()` or `print *, sq%area()`. If you define it instead as a subroutine, you can invoke it from its own `call` statement:
