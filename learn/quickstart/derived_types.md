@@ -226,7 +226,7 @@ A derived type can contain functions or subroutines that are **bound** to it. We
 
 {% include note.html content="It is impossible to describe type-bound procedures in full without delving into OOP features of modern Fortran. For now we'll focus on a simple example to show their basic use." %}
 
-Example of a derived type with basic bound-procedure:
+Here's an example of a derived type with a basic type-bound procedure:
 
 ```fortran
 module m_shapes
