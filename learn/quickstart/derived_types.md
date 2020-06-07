@@ -26,7 +26,7 @@ foo%i   = 1
 foo%x   = 0.5
 ```
 
-{% include note.html content="In Fortran the percentage symbol `%` is used to access the members of a derived type." %}
+{% include note.html content="The percentage symbol `%` is used to access the members of a derived type." %}
 
 To initialize the members of _my_type_ one can use either individual initialization as demonstrated in the above example, or the assignment operator (=), or the default initialization.
 
