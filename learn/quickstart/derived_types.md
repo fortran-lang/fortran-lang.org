@@ -11,19 +11,19 @@ As discussed previously in [Variables]({{site.baseurl}}/learn/quickstart/variabl
 Here's an example of a basic derived type:
 
 ```fortran
-type :: my_type
+type :: t_pair
     integer :: i
     real    :: x
 end type
 ```
 
-The syntax to create a variable of type _my_type_ and access its members is:
+The syntax to create a variable of type _t_pair_ and access its members is:
 ```fortran
 ! declare
-type(my_type) :: foo
+type(t_pair) :: pair
 ! initialize
-foo%i   = 1
-foo%x   = 0.5
+pair%i   = 1
+pair%x   = 0.5
 ```
 
 {% include note.html content="The percentage symbol `%` is used to access the members of a derived type." %}
@@ -32,22 +32,22 @@ In the above snippet, we declared an instance of a derived type and initialized 
 You can also initialize derived type members by invoking the derived type constructor:
 
 
-Example using the assignment operator (=):
+Example using the derived type constructor:
 ```fortran
-foo = my_type(1, 0.5)
+pair = t_pair(1, 0.5)
 ! or using F2003 standard and on
-foo = my_type(i=1, x=0.5)
+pair = t_pair(i=1, x=0.5)
 ```
 
 Example with default initialization:
 ```fortran
-type :: my_type
+type :: t_pair
     integer :: i = 1
     real    :: x = 0.5
 end type
 ! then it is possible to use as
-type(my_type) :: foo
-foo = my_type(i=2) ! foo%i gets a new value, but foo%x retains the default one.
+type(t_pair) :: pair
+pair = t_pair(i=2) ! pair%i gets a new value, but pair%x retains the default one.
 ```
 
 ## Derived types in detail
@@ -79,14 +79,14 @@ The `sequence` attribute may be used only to declare that the following  members
 
 Example with `sequence`:
 ```fortran
-type :: foo
+type :: t_pair
 sequence
-integer :: var1
-real    :: var2
+integer :: i
+real    :: x
 end type
 ! init
-type(foo) :: bar
-bar = foo(1, 0.5)
+type(t_pair) :: pair
+pair = t_pair(1, 0.5)
 ```
 {% include note.html content="The use of statement `sequence` presupposes that the data types defined below are neither of `allocatable` nor of `pointer` type. Furthermore, it does not imply that these data types  will be stored in memory in any particular form, there is no relation to `contiguous` attribute." %}
 
@@ -96,19 +96,19 @@ The attribute `bind(c)` is used to achieve compatibility between Fortran's deriv
 
 Example with `bind(c)`:
 ```fortran
-module mymod
+module f_to_c
 use iso_c_bindings, only: c_int
 implicit none
-type, bind(c) :: mytype
+type, bind(c) :: f_type
     integer(c_int) :: i
 end type
-end module mymod
+end module f_to_c
 ```
 matches the following C struct:
 ```c
 struct{
     int i
-}mytype;
+}c_struct;
 ```
 {% include note.html content="A fortran derived type with the attribute `bind(c)` cannot have the `sequence` and `extends` attributes. Furthermore it cannot contain any Fortran `pointer` or `allocatable` types." %}
 
@@ -116,22 +116,22 @@ struct{
 
 Example of a derived type with `parameterized-declaration-list` and with the `attribute: public`:
  ```fortran
-module mymod
+module m_matrix
 implicit none
 private
 
-type, public :: matrix(rows, cols, k)
+type, public :: t_matrix(rows, cols, k)
   integer, len :: rows, cols
   integer, kind :: k = kind(0.0)
   real(kind = k), dimension(rows, cols) :: values
-end type matrix
-end module mymod
+end type 
+end module m_matrix
 
-program test
-use mymod
+program test_matrix
+use m_matrix
 implicit none
-type(matrix(rows=5, cols=5)) :: m
-end program
+type(t_matrix(rows=5, cols=5)) :: m
+end program test_matrix
  ```
 {% include note.html content="In this example the parameter **k** has already been assigned a default value of `kind(0.0)`, that is of floating point single precision. Therefore, it can be omitted, as it is the case here in the declaration inside the main program." %}
 
@@ -141,10 +141,10 @@ The attribute `extends` was added in F2003 standard and introduces an important 
 
 Example with the attribute `extends`: 
 ```fortran
-module mymod
+module m_employee
 implicit none
 private
-public t_date, t_address, t_person, t_employ ! note another way of using the public attribute by gathering all public data types in one place
+public t_date, t_address, t_person, t_employee ! note another way of using the public attribute by gathering all public data types in one place
 
 type :: t_date
     integer                         :: year, month, day
@@ -159,30 +159,30 @@ type, extends(t_address) :: t_person
     character(len=:), allocatable   :: first_name, last_name, e_mail  
 end type
 
-type, extends(t_person)  :: t_employ
+type, extends(t_person)  :: t_employee
     type(t_date)                    :: hired_date
     character(len=:), allocatable   :: position
     real                            :: monthly_salary
 end type
-end module mymod
+end module m_employee
 
-program test
-use mymod
+program test_employee
+use m_employee
 implicit none
-type(t_employ) :: employ
+type(t_employee) :: employee
 
 ! initialization
-employ%hired_date%year  = 2020 ! t_employ has access to type(t_date) members not because of extends but because a type(t_date) was declared within t_employ
-employ%hired_date%month = 1
-employ%hired_date%day   = 20
-employ%first_name       = 'Johny' !t_employ has access to t_person, and inherits its members due to extends 
-employ%last_name        = 'Doe'
-employ%city             = 'London' ! t_employ has access to t_address, because it inherits from t_person, that in return inherits from t_address
-employ%road_name        = 'BigBen'
-employ%house_number     = 1
-employ%position         = 'Intern'
-employ%monthly_salary   = 0.0
-end program test
+employee%hired_date%year  = 2020 ! t_employee has access to type(t_date) members not because of extends but because a type(t_date) was declared within t_employee
+employee%hired_date%month = 1
+employee%hired_date%day   = 20
+employee%first_name       = 'John' !t_employee has access to t_person, and inherits its members due to extends 
+employee%last_name        = 'Doe'
+employee%city             = 'London' ! t_employee has access to t_address, because it inherits from t_person, that in return inherits from t_address
+employee%road_name        = 'BigBen'
+employee%house_number     = 1
+employee%position         = 'Intern'
+employee%monthly_salary   = 0.0
+end program test_employee
 ``` 
 
 ## Options to declare members of a derived type
@@ -194,16 +194,10 @@ end program test
 
 `member-attributes` (optional):
 
-- `pointer` to specify a pointer
-- `allocatable` with or without `dimension` to specify a dynamic array
 - `public` or `private` access attributes
 - `protected` access attribute
-- `codimension` to specify a coarray 
-- `contiguous`
-
-{% include note.html content="`pointer` and `allocatable` cannot co-exist." %}
-
-{% include note.html content="`contiguous` requires an array with the `pointer` attribute." %}
+- `allocatable` with or without `dimension` to specify a dynamic array
+- `pointer`, `codimension`, `contiguous`, `volatile`, `asynchronous`
 
 Examples for common cases:
 
@@ -212,28 +206,17 @@ type :: t_example
     !1st case: simple built-in type with access attribute and [init]
     integer, private :: i = 0 ! private hides it from use outside of the t_example's scope. The default initialization [=0] is the [init] part. 
 
-    !2nd case: dynamic 1d_array
-    real, allocatable, dimension(:) :: x
-    ! the same as
-    real, allocatable :: x(:) ! parenthesis implies dimension(:) and is one of the possible [attr-dependent-spec].
-
-    !3rd case: protected
+    !2nd case: protected
     integer, protected :: i ! In contrary to private, protected allows access to i assigned value outside of t_example but is not definable, i.e. a value may be assigned to i only within t_example.
 
-    !4th case: pointer, with [init]
-    real, pointer :: x(:) => null() ! the [init] part is the [=>null()], pointers are discussed in the Advanced programming mini-book. 
-
-    !5th case: coarray
-    real, allocatable, codimension[:] :: z(:) ! a 1d_dynamic array shared in all threads. Coarrays will be discussed in the Advanced programming mini-book.
-    !or 
-    real, allocatable :: z(:)[:] ! here the [:] is the [attr-dependent-spec] and implies the codimension[:].
-
-    !6th case: contiguous
-    real, contiguous, pointer :: x(:)
+    !3rd case: dynamic 1d_array
+    real, allocatable, dimension(:) :: x
+    ! the same as
+    real, allocatable :: x(:) ! parenthesis implies dimension(:) and is one of the possible [attr-dependent-spec]. 
 end type
 ```
 
-{% include note.html content="In the above example the cases 4, 5 and 6 make use of Fortran `pointer` and `coarray` features that have not been addressed in this quickstart tutorial. However, they are presented here, in order for the readers to know that these features do exist and be able to recognize them. These features will be covered in detail in the upcoming `Advanced programing` mini-book." %}
+{% include note.html content="The following attributes: `pointer`, `codimension`, `contiguous`, `volatile`, `asynchronous` are advanced features that will not be addressed in the *Quickstart* tutorial. However, they are presented here, in order for the readers to know that these features do exist and be able to recognize them. These features will be covered in detail in the upcoming *Advanced programing* mini-book." %}
 
 ## Type-bound procedures
 
@@ -244,7 +227,7 @@ A derived type is possible to contain procedures either `functions` or `subrouti
 Example of a derived type with basic bound-procedure:
 
 ```fortran
-module mymod
+module m_shapes
 implicit none
 private
 public t_square
@@ -259,12 +242,12 @@ contains
     ! procedure definition
     real function area(self) result(res)
         class(t_square), intent(in) :: self 
-        res = self%side * self%side
+        res = self%side**2
     end function
-end module
+end module m_shapes
 
 program main
-use mymod
+use m_shapes
 implicit none
 ! variables declaration
 type(t_square) :: sq
@@ -276,12 +259,12 @@ sq%side = side
 
 x       = sq%area() ! self does not appear here, it has been passed implicitly
 ! do stuff with x...
-end program
+end program main
 ```
 What is new:
 
  - **self** is a random name that was chosen to represent the derived type t_square that is passed as an argument to the bound-function in order to have access to its data-members. By passing it like that it is ensured that later during its use the t_square will be passed automatically and not by the client.
- - in order to have the above functionality the new keyword `class` replaced the `type` one. With `class` the OOP feature *polymorphism* is introduced. 
+ - We now use `class(t_square)` instead of `type(t_square)` in the interface of the `area` function. This allows us to invoke the `area` function with any derived type that extends `t_square`. The keyword `class` introduces the OOP feature, polymorphism.
 
 In the above example, the type-bound procedure **area** is defined as a function and can be invoked only in an expression, for example `x = sq%area()` or `print *, sq%area()`. If you define it instead as a subroutine, you can invoke it from its own `call` statement:
 
@@ -301,4 +284,4 @@ call sq%area(x)
 In contrast to the example with the type-bound function, we now have two arguments: 
 
 * `class(t_square), intent(in) :: self`, which is the instance of the derived type itself
-* `real, intent(out) :: x` which is used to store the calculated area into and return to the caller. 
+* `real, intent(out) :: x`, which is used to store the calculated area and return to the caller. 
