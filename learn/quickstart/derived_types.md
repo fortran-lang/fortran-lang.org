@@ -28,7 +28,8 @@ foo%x   = 0.5
 
 {% include note.html content="The percentage symbol `%` is used to access the members of a derived type." %}
 
-To initialize the members of _my_type_ one can use either individual initialization as demonstrated in the above example, or the assignment operator (=), or the default initialization.
+In the above snippet, we declared an instance of a derived type and initialized its members explicitly.
+You can also initialize derived type members by invoking the derived type constructor:
 
 
 Example using the assignment operator (=):
