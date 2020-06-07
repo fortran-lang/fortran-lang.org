@@ -4,7 +4,7 @@ title: Derived types
 permalink: /learn/quickstart/derived_types
 ---
 
-As discussed previously in [Variables]({{site.baseurl}}/learn/quickstart/variables) there are five built-in data types in Fortran. _Derived types_ is a special form of a data type that can encapsulate other built-in types as well as other _derived types_. It could be considered as the equivalent of _struct_ in the C/C++ programming languages.
+As discussed previously in [Variables]({{site.baseurl}}/learn/quickstart/variables) there are five built-in data types in Fortran. _Derived types_ is a special form of a data type that can encapsulate other built-in types as well as other derived types. It could be considered as the equivalent of _struct_ in the C and C++ programming languages.
 
 ## A quick take on derived types
 
