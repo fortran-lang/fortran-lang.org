@@ -453,9 +453,9 @@
 You can also initialize derived type members by invoking the derived type constructor:</p>
 
 <p>Example using the derived type constructor:</p>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w">
-</span><span class="c1">! or using F2003 standard and on</span><span class="w">
-</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w">       </span><span class="c1">! initialize with positional arguments</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="w">   </span><span class="c1">! initialize with keyword arguments</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">   </span><span class="c1">! keyword arguments can go in any order</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Example with default initialization:</p>
@@ -463,9 +463,11 @@ You can also initialize derived type members by invoking the derived type constr
     </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
     </span><span class="kt">real</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
-</span><span class="c1">! then it is possible to use as</span><span class="w">
+
 </span><span class="k">type</span><span class="p">(</span><span class="n">t_pair</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pair</span><span class="w">
-</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c1">! pair%i gets a new value, but pair%x retains the default one.</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">()</span><span class="w">         </span><span class="c1">! pair%i is 1, pair%x is 0.5</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w">      </span><span class="c1">! pair%i is 2, pair%x is 0.5</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">2.7</span><span class="p">)</span><span class="w">    </span><span class="c1">! pair%i is 1, pair%x is 2.7</span><span class="w">
 </span></code></pre></div></div>
 
 <h2 id="derived-types-in-detail">Derived types in detail</h2>
