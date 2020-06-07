@@ -224,7 +224,7 @@ end type
 
 A derived type can contain functions or subroutines that are **bound** to it. We'll refer to them as _type-bound procedures_. Type-bound procedures follow the `contains` statement that, in turn, follows all member variable declarations.
 
-{% include note.html content="It is impossible to describe type-bound procedures in their full syntax without delving into OOP features of modern Fortran. For that reason only a simple example is provided in this final part, to demonstrate a very basic use." %}
+{% include note.html content="It is impossible to describe type-bound procedures in full without delving into OOP features of modern Fortran. For now we'll focus on a simple example to show their basic use." %}
 
 Example of a derived type with basic bound-procedure:
 
