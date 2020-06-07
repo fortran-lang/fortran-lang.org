@@ -17,7 +17,7 @@ type :: my_type
 end type
 ```
 
-The syntax for creating a variable of type _my_type_ and accessing its members:
+The syntax to create a variable of type _my_type_ and access its members is:
 ```fortran
 ! declare
 type(my_type) :: foo
