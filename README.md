@@ -36,7 +36,8 @@ In the latter case, you might want to add the `PATH` update to `.bashrc` or your
 To install the dependencies of this project, use Bundler:
 
 ```
-bundle install --path .bundle
+bundle config set path '.bundle'
+bundle install
 ```
 
 ### Serving locally
