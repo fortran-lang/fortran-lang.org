@@ -291,7 +291,7 @@ In the above example, the type-bound procedure **area** is defined as a function
     subroutine area(self, x)
         class(t_square), intent(in)     :: self
         real,            intent(out) :: x
-        x = self%side * self%side
+        x = self%side**2
     end subroutine
 
 ! change within main program
