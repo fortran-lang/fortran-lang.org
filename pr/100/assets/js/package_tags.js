@@ -3,14 +3,22 @@
 //
 (function() {
 
+    var nTag = 50;
+
     if (!!document.getElementById('package-topics')){
 
-        var nTag = 50;
+        // Load projects from json asynchronously
+        fortranLang.loadJSON(fortranLang.baseurl+'/packages/package_index.json', makeTagCloud);        
+
+    }
+
+    // Called once after JSON data has loaded
+    //
+    function makeTagCloud(data){
 
         var tags = new Map();
 
-        // Load projects from json
-        var projects = fortranLang.loadJSON(fortranLang.baseurl+'/packages/package_index.json').projects;
+        projects = data.projects;
 
         var project_tags = [];
         for (var i = 0; i<projects.length; i++){

@@ -2,19 +2,27 @@
 
     if (!!document.getElementById('package-search-results')){
 
+        // Load packages from JSON asynchronously
+        fortranLang.loadJSON(fortranLang.baseurl+'/packages/package_index.json', search);
+
+    }
+
+    
+    function search(data){
+        // Called after json data is loaded
+        //
+        
+        projects = data.projects;
+
         // Get search string
         var queryString = fortranLang.findGetParameter('query').replace(/\+/g," ").replace(/"/g,'');
         document.getElementById('search-query').value = queryString;
-
-        // Load packages from JSON
-        projects = fortranLang.loadJSON(fortranLang.baseurl+'/packages/package_index.json').projects;
 
         results = searchProjects(queryString,projects);
         resultsHTML = resultsToHTML(results);
         document.getElementById('package-search-results').innerHTML = resultsHTML;
 
     }
-
 
     function getSubSentences(sentence) {
         // Return all permutations of contiguous sub sentences from a sentence

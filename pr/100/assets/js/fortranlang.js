@@ -19,20 +19,20 @@ findGetParameter:
 
 
 loadJSON:
-    (function loadJSON(url) {
+    (function loadJSON(url, onLoad) {
         // Load JSON data from url
     //
         var json = null;
         $.ajax({
-            'async': false,
             'global': false,
             'url': url,
             'dataType': "json",
-            'success': function (data) {
-                json = data;
+            'success': onLoad,
+            'error': function(jzXHR,status) {
+                console.log('Failed to load json file at '+url);
+                console.log(' Text status: '+status);
             }
         });
-        return json;
     })
 
 };
