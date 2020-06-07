@@ -34,9 +34,9 @@ You can also initialize derived type members by invoking the derived type constr
 
 Example using the derived type constructor:
 ```fortran
-pair = t_pair(1, 0.5)
-! or using F2003 standard and on
-pair = t_pair(i=1, x=0.5)
+pair = t_pair(1, 0.5)       ! initialize with positional arguments
+pair = t_pair(i=1, x=0.5)   ! initialize with keyword arguments
+pair = t_pair(x=0.5, i=1)   ! keyword arguments can go in any order
 ```
 
 Example with default initialization:
@@ -45,9 +45,11 @@ type :: t_pair
     integer :: i = 1
     real    :: x = 0.5
 end type
-! then it is possible to use as
+
 type(t_pair) :: pair
-pair = t_pair(i=2) ! pair%i gets a new value, but pair%x retains the default one.
+pair = t_pair()         ! pair%i is 1, pair%x is 0.5
+pair = t_pair(i=2)      ! pair%i is 2, pair%x is 0.5
+pair = t_pair(x=2.7)    ! pair%i is 1, pair%x is 2.7
 ```
 
 ## Derived types in detail
