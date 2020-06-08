@@ -35,7 +35,7 @@ can build the website on your computer and preview your changes.
 (The compiled website can be found in the `_site` folder.) 
 See [README.md](README.md) for how to setup Jekyll and build the site.
 
-The github repository master branch only ever contains the 'source code' for the website, not the final
+The GitHub repository master branch only ever contains the 'source code' for the website, not the final
 compiled result; an automated service compiles this source code every time an update is pushed and stores
 the compiled result on the [`gh-pages`](https://github.com/fortran-lang/fortran-lang.org/tree/gh-pages) branch
 which is served up at <https://fortran-lang.org>.
