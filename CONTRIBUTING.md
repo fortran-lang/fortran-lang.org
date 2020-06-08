@@ -29,7 +29,7 @@ The majority of the site content is written in [Markdown](https://github.com/ada
 __How is the site built?__
 
 The Fortran-lang site uses the Ruby-based [Jekyll static site generator](https://jekyllrb.com/)
-to compile the markdown and HTML files.
+to compile the Markdown and HTML files.
 To contribute you will therefore need to install Jekyll on your development computer, so that you
 can build the website on your computer and preview your changes.
 (The compiled website can be found in the `_site` folder.) 
