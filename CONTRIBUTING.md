@@ -40,7 +40,7 @@ compiled result; an automated service compiles this source code every time an up
 the compiled result on the [`gh-pages`](https://github.com/fortran-lang/fortran-lang.org/tree/gh-pages) branch
 which is served up at <https://fortran-lang.org>.
 
-Therefore, as a contributor you only need to upload changes to the site source code not the compiled result, because
+Therefore, as a contributor you only need to upload changes to the site source code and not the compiled result, because
 this is built automatically from the source code on the master branch.
 
 
