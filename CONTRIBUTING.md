@@ -18,7 +18,7 @@ The website is _static_ which means that once built, the content on the site is 
 this is in contrast to many websites that are _dynamic_, meaning they can serve different content 
 depending on the user and the inputs supplied by the user.
 
-Structural components of the website are written in the Jekyll [Liquid](https://github.com/Shopify/liquid/wiki) templating language for static features, and javascript for dynamic features.
+Structural components of the website are written in the Jekyll [Liquid](https://github.com/Shopify/liquid/wiki) templating language for static features, and JavaScript for dynamic features.
 
 
 __Do I need to know HTML to contribute?__
