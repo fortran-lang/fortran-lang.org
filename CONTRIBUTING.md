@@ -81,8 +81,8 @@ If required, the repository maintainers can build a public preview of your propo
 This allows reviewers to directly view the generated result of your PR.
 After a pull request has been merged and successfully rendered, the maintainers will delete the preview build.
 
-__Note:__ if your pull request preview link doesn't work or doesn't update after re-building, then try adding a random parameter to the end of the URL, _e.g._ `https://fortran-lang.org/pr/98?v=2` - the name and value of the parameter don't matter.
-This should force the github content delivery network to serve you an updated version instead of a cached version which is out-of-date.
+__Note:__ if your pull request preview link doesn't work or doesn't update after re-building, then try adding a random parameter to the end of the URL, _e.g._ `https://fortran-lang.org/pr/98?v=2` - the name and value of the parameter don't matter, but use different values for each update.
+This will force the github content delivery network to serve you an updated version instead of a cached version which is out-of-date.
 
 ## Style guide
 
@@ -92,7 +92,7 @@ This should force the github content delivery network to serve you an updated ve
   denoted by back ticks (```), to surround code excerpts, programming language keywords, variables names and file names.
 
 - Have no more than one sentence per source-code line, and break-up long sentences across multiples lines -
-   this helps with git diffs and code reviews on github.
+   this is important to avoid large git diffs and code review blocks on github.
 
 
 ### External links
