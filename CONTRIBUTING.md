@@ -11,7 +11,7 @@ Fortran-lang.github.io is open-source and contributions are welcome!
 
 __How is the site written?__
 
-The content of the website is primarily written in a combination of _markdown_, HTML and YAML (for data).
+The content of the website is primarily written in a combination of Markdown, HTML and YAML (for data).
 This source is compiled to produce pure HTML which is what you see on the final website.
 
 The website is _static_ which means that once built, the content on the site is the same for all users;
