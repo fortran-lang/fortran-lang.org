@@ -79,6 +79,10 @@ Once your pull request is approved, usually by at least two other community memb
 If required, the repository maintainers can build a public preview of your proposed changes which will be available to view at `fortran-lang.org/pr/<pr_id>/` where `<pr_id>` is the numeric identifier of your pull request.
 
 This allows reviewers to directly view the generated result of your PR.
+
+__Note:__ if you push subsequent commits to your pull request branch, you must rebuild the pull request preview by commenting on
+the pull request with '#build_preview'.
+
 After a pull request has been merged and successfully rendered, the maintainers will delete the preview build.
 
 __Note:__ if your pull request preview link doesn't work or doesn't update after re-building, then try adding a random parameter to the end of the URL, _e.g._ `https://fortran-lang.org/pr/98?v=2` - the name and value of the parameter don't matter, but use different values for each update.
