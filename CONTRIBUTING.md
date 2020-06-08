@@ -30,9 +30,9 @@ __How is the site built?__
 
 The Fortran-lang site uses the Ruby-based [Jekyll static site generator](https://jekyllrb.com/)
 to compile the markdown and HTML files.
-To contribute you will therefore need to install Jekyll on your development computer, so that you
-can build the website on your computer and preview your changes.
-(The compiled website can be found in the `_site` folder.) 
+It is recommended for contributors to install Jekyll on your development computer so that changes 
+can be previewed locally, however this is not mandatory since site previews can be generated during the
+pull request process (see below for more information).
 See [README.md](README.md) for how to setup Jekyll and build the site.
 
 The github repository master branch only ever contains the 'source code' for the website, not the final
