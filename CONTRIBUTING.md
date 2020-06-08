@@ -69,7 +69,7 @@ __Note: Before opening a pull request you must build your changes locally using 
 __Note: You can continue to push changes to your fork branch after you open a pull request  - the pull request will update accordingly__
 
 Your pull request will be reviewed by other members of the community who may request changes.
-Github provides an easy interface on it's website to apply (or reject) any reviewer-suggested changes with a click of a button.
+GitHub provides an easy interface on its website to apply (or reject) any reviewer-suggested changes with a click of a button.
 This avoids having to manually copy suggestions to your local copy and push back again.
 If you use the "Commit suggestion" button, you will need to update the local copy on your computer using `git pull` if you
 intend to push more edits from your computer.
