@@ -23,7 +23,7 @@ Structural components of the website are written in the Jekyll [Liquid](https://
 
 __Do I need to know HTML to contribute?__
 
-The majority of the site content is written in [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) which is a simplified markup language for formatting text - don't worry if you haven't used it before, it's very easy to pick up!
+The majority of the site content is written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet), a simple markup language for formatting text - don't worry if you haven't used it before, it's very easy to pick up!
 
 
 __How is the site built?__
