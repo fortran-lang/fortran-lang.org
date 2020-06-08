@@ -86,7 +86,7 @@ the pull request with '#build_preview'.
 After a pull request has been merged and successfully rendered, the maintainers will delete the preview build.
 
 __Note:__ if your pull request preview link doesn't work or doesn't update after re-building, try adding a random parameter to the end of the URL, _e.g._ `https://fortran-lang.org/pr/98?v=2` - the name and value of the parameter don't matter, but use different values for each update.
-This will force the github content delivery network to serve you an updated version instead of a cached version which is out-of-date.
+This will force the GitHub content delivery network to serve you an updated version instead of a cached version which is out-of-date.
 
 ## Style guide
 
