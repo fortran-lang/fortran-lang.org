@@ -22,7 +22,7 @@ which is part of the
 
 To install gfortran on Linux, use your system package manager.
 Otherwise, for macOS or Windows, refer to gfortran binaries from 
-[this page](https://gcc.gnu.org/install/binaries.html).
+[this page](http://www.equation.com/servlet/equation.cmd?fa=fortran).
 
 To check if you have _gfortran_ setup correctly, open a terminal and run the following command :
 
