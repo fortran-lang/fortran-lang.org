@@ -27,7 +27,7 @@ to look at the libraries and object files - are any out of date?
 make utility knows it has to compile the source file.
 
 * Integrated development tools take care of many of the above details. A
-popular tool on Windows is MicroSoft's Visual Studio, but others exist,
+popular cross-platform  tool is Microsoft's [Visual Studio Code](https://code.visualstudio.com/), but others exist,
 such as Eclipse (Photran) and Code::Blocks. They offer a graphical
 user-interface, but are often very specific for the compiler and
 platform.
@@ -75,4 +75,3 @@ again. You will see that only that file gets compiled again and then the
 program is built. The file "function.f90" was not changed, so the object
 file and the module intermediate file would remain unchanged, so there
 is no need to recompile it.
-
