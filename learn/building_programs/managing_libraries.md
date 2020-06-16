@@ -178,7 +178,7 @@ interface for this function. The compiler/linker are not invoked anymore, so the
 can do no checking.
 
 ## Windows and Intel Fortran
-The setup is the same as with GNU/Linux, but on Windows it is necessary
+The setup is the same as with Linux, but on Windows it is necessary
 to explicitly export the routines. And an import library is generated -
 this is the library that should be used in the link step.
 
