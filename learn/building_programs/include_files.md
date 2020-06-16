@@ -37,7 +37,8 @@ structure:
 
 Compiling the file "function.f90" with the commands
 
-'''shell
+```shell
+
     $ cd sub
     $ gfortran -c function.f90
 ```
@@ -88,4 +89,3 @@ files. For gfortran this is `-J`, for instance:
 same directory)
 * For large programs, consisting of many source files, it is important to
 think through what organisation to use.
-
