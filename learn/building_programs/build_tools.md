@@ -32,7 +32,7 @@ such as [Atom](https://atom.io/), [Eclipse Photran](https://www.eclipse.org/phot
 user-interface, but are often very specific for the compiler and
 platform.
 
-* Maintenance tools like autotools and CMake can generate makefiles or
+* Maintenance tools like autotools and CMake can generate Makefiles or
 Visual Studio project files via a high-level description. They abstract
 away from the compiler and platform specifics.
 
