@@ -83,7 +83,7 @@ On Linux:
 ```shell
     $ gfortran -fpic -c file1.f90 file2.f90
     $ gfortran -fpic -c file3.f90 ...
-    $ gfortran -shared --o supportlib.so file1.o file2.o file3.o ...
+   $ gfortran -shared -o supportlib.so file1.o file2.o file3.o ...
 ```
 
 On Windows, with the Intel Fortran compiler:
@@ -215,4 +215,3 @@ to "a" DLL, called "function.dll".
 You can replace the shared library "function.dll" by another one, but the same
 caution is required: while the implementation can be quite different, the
 function's interface must be the same.
-
