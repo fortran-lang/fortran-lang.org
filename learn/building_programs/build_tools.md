@@ -28,7 +28,7 @@ make utility knows it has to compile the source file.
 
 * Integrated development tools take care of many of the above details. A
 popular cross-platform  tool is Microsoft's [Visual Studio Code](https://code.visualstudio.com/), but others exist,
-such as Eclipse (Photran) and Code::Blocks. They offer a graphical
+such as [Atom](https://atom.io/), [Eclipse Photran](https://www.eclipse.org/photran/), and [Code::Blocks](http://www.codeblocks.org/). They offer a graphical
 user-interface, but are often very specific for the compiler and
 platform.
 
