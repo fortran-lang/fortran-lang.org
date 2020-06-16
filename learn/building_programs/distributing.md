@@ -4,7 +4,7 @@ title: Distributing your programs
 permalink: /learn/building_programs/distributing
 ---
 
-When you distributed your programs, there are a number of options you can
+When you distribute your programs, there are a number of options you can
 choose from:
 
 1. Distribute the entire source code
@@ -133,4 +133,3 @@ Then provide a skeleton main program:
 The advantage is that the compiler can check the interface of the
 function that is passed and that the user has more freedom in the use of the
 functionality provided by your library.
-
