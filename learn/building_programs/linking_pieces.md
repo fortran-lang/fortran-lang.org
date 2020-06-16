@@ -85,7 +85,7 @@ want a different name, use the option "-o").
 What you do not see in general is that the linker also adds a number of
 extra files in this link step, the run-time libraries. These run-time
 libraries contain all the "standard" stuff - low-level routines that do
-the input and output to screen, the `sine` function and much more.
+the input and output to screen, the `sin` function and much more.
 
 If you want to see the gory details, add the option "-v". This instructs
 the compiler to report all the steps that are in detail.
@@ -95,4 +95,3 @@ code and various auxiliary routines that make it work. It also contains
 references to so-called dynamic run-time libraries (in Windows: DLLs, in
 Linux: shared objects or shared libraries). Without these run-time
 libraries the program will not start.
-
