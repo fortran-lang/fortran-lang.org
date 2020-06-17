@@ -81,7 +81,7 @@ in a dynamic library. This enables you to:
         gfortran -o function.dll function.f90 -shared
 ```
 
-        or:
+or:
 
 ```shell
         ifort -exe:function.dll function.f90 -dll
