@@ -3,7 +3,7 @@ layout: book
 title: Building programs
 permalink: /learn/building_programs
 date: 2020-06-05
-author: Arjen Markus
+author: Arjen Markus, Ondřej Čertík, Milan Curcic, Laurence Kedward, Brad Richardson, Jeremie Vandenplas
 ---
 
 Languages like Fortran, C, C++ and Java, to name but a few, share
@@ -49,4 +49,3 @@ connection to the console etc.) it took.
 Fortunately, as a programmer in a high-level language you do not need to
 consider all these details. In fact, this is the sort of things that is
 taken care of by the build process: the compiler and the linker.
-
