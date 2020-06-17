@@ -11,7 +11,7 @@ choose from:
 2. Distribute a pre-built executable program
 3. Distribute static or dynamic libraries that people can use
 
-ad 1.
+__Option 1: Distribute the entire source code__
 
 By far the simplest - for you as a programmer - is this one: you leave it
 up to the user to build it on their own machine. Unfortunately, that
