@@ -19,7 +19,7 @@ means you will have to have a user-friendly build system in place and
 the user will have to have access to suitable compilers. For build systems:
 see the previous section.
 
-ad 2.
+__Option 2: Distribute a pre-built executable program__
 
 A pre-built program that does not need to be customised, other than via its
 input, will still need to come with the various run-time libraries and will
