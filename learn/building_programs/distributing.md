@@ -42,7 +42,7 @@ libraries are required and consult the documentation of the compiler.
 If your program does allow customisation, consider using dynamic libraries for this.
 More is said about this below.
 
-ad 3.
+__Option 3: Distribute static or dynamic libraries that people can use__
 
 This option is a combination of the first two options. It does put some burden on
 the user, as they must create a main program that calls your routines in the
