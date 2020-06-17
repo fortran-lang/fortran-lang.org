@@ -21,7 +21,7 @@ to transform the human-readable source code into an efficient program
 that can be run on the computer.
 
 Remark: this tutorial gives examples for the Windows and Linux operating
-systems, however the workflow and general principles still apply to MacOS.
+systems, however the workflow and general principles still apply to macOS.
 
 ## Compiled languages
 
