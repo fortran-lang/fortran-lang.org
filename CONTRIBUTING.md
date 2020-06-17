@@ -1,13 +1,48 @@
 # Contributing to fortran-lang.github.io
 
 Fortran-lang.github.io is open-source and contributions are welcome!
-The Fortran-lang site uses the Ruby-based [Jekyll static site generator](https://jekyllrb.com/).
-To contribute you will therefore need to install Jekyll on your development computer.
-See [README.md](README.md) for how to setup Jekyll and build the site.
 
 * See [PACKAGES](./PACKAGES.md) for how to add an entry to the [Package index](https://fortran-lang.org/packages)
 
 * See [MINIBOOKS](./MINIBOOKS.md) for how to write and structure a mini-book tutorial for the [Learn](https://fortran-lang.org/learn) section
+
+
+## Introduction
+
+__How is the site written?__
+
+The content of the website is primarily written in a combination of Markdown, HTML and YAML (for data).
+This source is compiled to produce pure HTML which is what you see on the final website.
+
+The website is _static_ which means that once built, the content on the site is the same for all users;
+this is in contrast to many websites that are _dynamic_, meaning they can serve different content 
+depending on the user and the inputs supplied by the user.
+
+Structural components of the website are written in the Jekyll [Liquid](https://github.com/Shopify/liquid/wiki) templating language for static features, and JavaScript for dynamic features.
+
+
+__Do I need to know HTML to contribute?__
+
+The majority of the site content is written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet), a simple markup language for formatting text - don't worry if you haven't used it before, it's very easy to pick up!
+
+
+__How is the site built?__
+
+The Fortran-lang site uses the Ruby-based [Jekyll static site generator](https://jekyllrb.com/)
+to compile the Markdown and HTML files.
+It is recommended for contributors to install Jekyll on your development computer so that changes 
+can be previewed locally, however this is not mandatory since site previews can be generated during the
+pull request process (see below for more information).
+See [README.md](README.md) for how to setup Jekyll and build the site.
+
+The GitHub repository master branch only ever contains the 'source code' for the website, not the final
+compiled result; an automated service compiles this source code every time an update is pushed and stores
+the compiled result on the [`gh-pages`](https://github.com/fortran-lang/fortran-lang.org/tree/gh-pages) branch
+which is served up at <https://fortran-lang.org>.
+
+Therefore, as a contributor you only need to upload changes to the site source code and not the compiled result, because
+this is built automatically from the source code on the master branch.
+
 
 ## Workflow
 
@@ -31,19 +66,38 @@ The workflow for doing so takes the following form:
 
 __Note: Before opening a pull request you must build your changes locally using Jekyll (see [README.md](README.md)) to verify that your changes build correctly and render as you expect.__
 
-Your pull request will be reviewed by other members of the community who may request changes.
-
 __Note: You can continue to push changes to your fork branch after you open a pull request  - the pull request will update accordingly__
+
+Your pull request will be reviewed by other members of the community who may request changes.
+GitHub provides an easy interface on its website to apply (or reject) any reviewer-suggested changes with a click of a button.
+This avoids having to manually copy suggestions to your local copy and push back again.
+If you use the "Commit suggestion" button, you will need to update the local copy on your computer using `git pull` if you
+intend to push more edits from your computer.
 
 Once your pull request is approved, usually by at least two other community members, it will be merged into the fortran-lang.github.io master branch by the maintainers at which point it will be published to the fortran-lang.org site.
 
 If required, the repository maintainers can build a public preview of your proposed changes which will be available to view at `fortran-lang.org/pr/<pr_id>/` where `<pr_id>` is the numeric identifier of your pull request.
 
 This allows reviewers to directly view the generated result of your PR.
+
+__Note:__ if you push subsequent commits to your pull request branch, you must rebuild the pull request preview by commenting on
+the pull request with '#build_preview'.
+
 After a pull request has been merged and successfully rendered, the maintainers will delete the preview build.
 
+__Note:__ if your pull request preview link doesn't work or doesn't update after re-building, try adding a random parameter to the end of the URL, _e.g._ `https://fortran-lang.org/pr/98?v=2` - the name and value of the parameter don't matter, but use different values for each update.
+This will force the GitHub content delivery network to serve you an updated version instead of a cached version which is out-of-date.
 
 ## Style guide
+
+### Markdown
+
+- Use [code blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code-and-syntax-highlighting),
+  denoted by back ticks (```), to surround code excerpts, programming language keywords, variables names and file names.
+
+- Have no more than one sentence per source-code line, and break-up long sentences across multiples lines -
+   this is important to avoid large git diffs and code review blocks on github.
+
 
 ### External links
 
@@ -105,9 +159,6 @@ __Example:__ Devicon
 ```
 
 Visit the respective websites to browse available icons.
-
-__Note:__ font-awesome icons currently appear to vertically-align with text better -
-we need to get feather icons to do the same.
 
 
 ### Page contents
