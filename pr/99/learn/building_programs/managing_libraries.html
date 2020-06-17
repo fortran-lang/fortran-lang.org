@@ -7,6 +7,7 @@
     <meta name="description" content="Fortran Programming Language">
     <title>Managing libraries (static and dynamic libraries) - Fortran Programming Language</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
@@ -15,6 +16,12 @@
     <link href="/pr/99/assets/css/syntax.css" rel="stylesheet">
     <link rel="canonical" href="https://fortran-lang.org/learn/building_programs/managing_libraries" />
     <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/99/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/99/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -62,6 +69,13 @@
 		    <li>
 		    
 		    <a href="/pr/99/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/99/community/">Community</a>
 		    
 			</li>
 		
@@ -118,6 +132,8 @@
   
     
     
+      
+        
       
         
       
@@ -241,6 +257,12 @@
         
       
         
+      
+        
+      
+        
+      
+        
           
           
 
@@ -252,6 +274,12 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
       
         
       
@@ -351,6 +379,10 @@
         
       
         
+      
+        
+      
+        
           
           
 
@@ -362,6 +394,14 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -444,6 +484,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -563,7 +605,7 @@ like <code class="highlighter-rouge">ar</code> or <code class="highlighter-rouge
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-fpic</span> <span class="nt">-c</span> file1.f90 file2.f90
     <span class="nv">$ </span>gfortran <span class="nt">-fpic</span> <span class="nt">-c</span> file3.f90 ...
-    <span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">--o</span> supportlib.so file1.o file2.o file3.o ...
+   <span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">-o</span> supportlib.so file1.o file2.o file3.o ...
 </code></pre></div></div>
 
 <p>On Windows, with the Intel Fortran compiler:</p>
@@ -654,7 +696,7 @@ interface for this function. The compiler/linker are not invoked anymore, so the
 can do no checking.</p>
 
 <h2 id="windows-and-intel-fortran">Windows and Intel Fortran</h2>
-<p>The setup is the same as with GNU/Linux, but on Windows it is necessary
+<p>The setup is the same as with Linux, but on Windows it is necessary
 to explicitly export the routines. And an import library is generated -
 this is the library that should be used in the link step.</p>
 
@@ -690,7 +732,6 @@ to “a” DLL, called “function.dll”.</p>
 <p>You can replace the shared library “function.dll” by another one, but the same
 caution is required: while the implementation can be quite different, the
 function’s interface must be the same.</p>
-
 
 
       <div class="container-flex">
@@ -739,6 +780,11 @@ function’s interface must be the same.</p>
         &middot;
       
     
+      <a href="/pr/99/community/">Community</a>
+      
+        &middot;
+      
+    
       <a href="/pr/99/packages">Packages</a>
       
         &middot;
@@ -757,10 +803,15 @@ function’s interface must be the same.</p>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
      
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/99/assets/js/fortranlang.js"></script>
     <script src="/pr/99/assets/js/page_nav.js"></script>
+    <script src="/pr/99/assets/js/gh-contributors.js"></script>
+    <script src="/pr/99/assets/js/package_search.js"></script>
+    <script src="/pr/99/assets/js/package_tags.js"></script>
     <script>
       feather.replace()
     </script>
