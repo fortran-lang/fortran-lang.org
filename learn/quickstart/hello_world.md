@@ -21,8 +21,8 @@ which is part of the
 [GNU Compiler Colection (GCC)](https://gcc.gnu.org/).
 
 To install gfortran on Linux, use your system package manager.
-Otherwise, for macOS or Windows, refer to gfortran binaries from 
-[this page](https://gcc.gnu.org/install/binaries.html).
+On macOS, you can install gfortran using [Homebrew](https://brew.sh/) or [MacPorts](https://www.macports.org/).
+On Windows, you can get native binaries [here](http://www.equation.com/servlet/equation.cmd?fa=fortran).
 
 To check if you have _gfortran_ setup correctly, open a terminal and run the following command :
 
