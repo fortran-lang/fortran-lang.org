@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Fortran Programming Language">
-    <title>Hello World - Fortran Programming Language</title>
+    <title>Building programs - Fortran Programming Language</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <link href="/assets/css/main.css" rel="stylesheet">
     <link href="/assets/css/syntax.css" rel="stylesheet">
-    <link rel="canonical" href="https://fortran-lang.org/learn/quickstart/hello_world" />
+    <link rel="canonical" href="https://fortran-lang.org/learn/building_programs" />
     <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
     <link rel="stylesheet" href="/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
@@ -122,16 +122,6 @@
     
       
         
-          
-          
-    
-  
-    
-    
-      
-        
-      
-        
       
         
       
@@ -145,6 +135,9 @@
       
     
   
+    
+      
+      
 
   <a href="/learn#book-index">
     <i class="fas fa-arrow-circle-left"></i>
@@ -153,7 +146,7 @@
 
   <h3>
   <i class="fas fa-book"></i>
-  Quickstart Fortran Tutorial</h3>
+  Building programs</h3>
 
   <div class="content">
    <!-- If this book has multiple pages -->
@@ -164,8 +157,10 @@
     
     <!-- Add link to book introduction (index) -->
     
-      <li><a href="/learn/quickstart">
-        Introduction</a></li>
+      <li><b><a href="/learn/building_programs">
+        Introduction</a></b></li>
+        <ul id="page-nav"></ul>
+        
     
 
     <!-- List pages in this book -->
@@ -184,6 +179,53 @@
         
       
         
+          
+          
+
+      
+        <li><a href="/learn/building_programs/compiling_source">
+          Compiling the source code</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -202,14 +244,8 @@
           
 
       
-        <li>
-          <b><a href="/learn/quickstart/hello_world">
-            Hello World</a></b>
-          <ul id="page-nav"></ul>
-        </li>
-        
-        
-        
+        <li><a href="/learn/building_programs/linking_pieces">
+          Linking the objects</a></li>
       
 
     
@@ -285,35 +321,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
-      
-        
           
           
 
       
-        <li><a href="/learn/quickstart/variables">
-          Variables</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/learn/quickstart/arrays_strings">
-          Arrays and strings</a></li>
+        <li><a href="/learn/building_programs/runtime_libraries">
+          Run-time libraries</a></li>
       
 
     
@@ -347,44 +360,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
           
           
 
       
-        <li><a href="/learn/quickstart/operators_control_flow">
-          Operators and Control Flow</a></li>
+        <li><a href="/learn/building_programs/include_files">
+          Include files and modules</a></li>
       
 
     
@@ -444,6 +425,17 @@
         
       
         
+          
+          
+
+      
+        <li><a href="/learn/building_programs/managing_libraries">
+          Managing libraries (static and dynamic libraries)</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
       
         
       
@@ -456,8 +448,8 @@
           
 
       
-        <li><a href="/learn/quickstart/organising_code">
-          Organising code structure</a></li>
+        <li><a href="/learn/building_programs/build_tools">
+          Build tools</a></li>
       
 
     
@@ -479,12 +471,14 @@
         
       
         
+      
+        
           
           
 
       
-        <li><a href="/learn/quickstart/derived_types">
-          Derived types</a></li>
+        <li><a href="/learn/building_programs/distributing">
+          Distributing your programs</a></li>
       
 
     
@@ -499,95 +493,68 @@
 
     <div class="newsletter col-right">
 
-      <h1>Hello World</h1>
+      <h1>Building programs</h1>
 
       <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
-        <i></i>
+        <i>June 05, 2020</i>
+        
+          <p><i>Authors:</i> Arjen Markus, Ondřej Čertík, Milan Curcic, Laurence Kedward, Brad Richardson, Jeremie Vandenplas</p>
         
       </div>
 
-      <p>In this part of the tutorial, we will write our first Fortran program:
-the ubiquitous <em>Hello World</em> example.</p>
+      <p>Languages like Fortran, C, C++ and Java, to name but a few, share
+certain characteristics: you write code in your language of choice but
+then you have to build an executable program from that source code.
+Other languages are interpreted - the source code is analysed by a
+special program and taken as direct instructions. Two very simple
+examples of that type of language: Windows batch files and Linux shell
+scripts.</p>
 
-<p>However before we can write our program, we need to ensure that we have
-a Fortran compiler set up.</p>
+<p>In this tutorial we concentrate on the first type of languages, with
+Fortran as the main example. One advantage of compiled languages is that
+the build process that you need to build an executable program, is used
+to transform the human-readable source code into an efficient program
+that can be run on the computer.</p>
 
-<div class="aside-note">
-    
-    <p><strong>Note:</strong> Fortran is a <b>compiled language</b> which means that once written, the source code must be passed through a
-compiler to produce a machine executable that can be run.</p>
+<p>Remark: this tutorial gives examples for the Windows and Linux operating
+systems, however the workflow and general principles still apply to macOS.</p>
 
-</div>
+<h2 id="compiled-languages">Compiled languages</h2>
 
-<h2 id="compiler-setup">Compiler setup</h2>
+<p>Let us have a look at a simple example:</p>
 
-<p>In this tutorial, we’ll work with the free and open source 
-<a href="https://gcc.gnu.org/fortran/">GNU Fortran compiler (gfortran)</a>, 
-which is part of the 
-<a href="https://gcc.gnu.org/">GNU Compiler Colection (GCC)</a>.</p>
-
-<p>To install gfortran on Linux, use your system package manager.
-On macOS, you can install gfortran using <a href="https://brew.sh/">Homebrew</a> or <a href="https://www.macports.org/">MacPorts</a>.
-On Windows, you can get native binaries <a href="http://www.equation.com/servlet/equation.cmd?fa=fortran">here</a>.</p>
-
-<p>To check if you have <em>gfortran</em> setup correctly, open a terminal and run the following command :</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$&gt;</span> gfortran <span class="nt">--version</span>
-</code></pre></div></div>
-
-<p>this should output something like:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GNU Fortran 7.5.0
-Copyright (C) 2017 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-</code></pre></div></div>
-
-<h2 id="hello-world">Hello world</h2>
-
-<p>Once you have setup up your compiler, open a new file in your favourite code editor and enter the following:</p>
-
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">hello</span><span class="w">
-  </span><span class="c1">! This is a comment line, it is ignored by the compiler</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Hello, World!'</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">hello</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">program</span><span class="w"> </span><span class="n">hello</span><span class="w">
+        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'Hello!'</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">hello</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Having saved your program to <code class="highlighter-rouge">hello.f90</code>, compile at the command line with:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$&gt;</span> gfortran hello.f90 <span class="nt">-o</span> hello
-</code></pre></div></div>
+<p>This is just about the simplest program you can write in Fortran and it
+is certainly a variation on one of the most famous programs. Even though
+it is simple to express in source code, a lot of things actually happen
+when the executable that is built from this code runs:</p>
 
-<div class="aside-note">
-    
-    <p><strong>Note:</strong> .f90 is the standard file extension for modern fortran source files.
-The 90 refers to the first modern fortran standard in 1990.</p>
+<ul>
+  <li>A process is started on the computer in such a way that it can write
+to the console - the window (DOS-box, xterm, …) at which you type the
+program’s name.</li>
+  <li>It writes the text “Hello!” to the console. To do so it must properly
+interact with the console.</li>
+  <li>When done, it finishes, cleaning up all the resources (memory,
+connection to the console etc.) it took.</li>
+</ul>
 
-</div>
-
-<p>To run your compiled program:</p>
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$&gt;</span> ./hello
-Hello, World!
-</code></pre></div></div>
-
-<p>Congratulations you’ve written, compiled and run your first Fortran program!
-In the next part of this tutorial we will introduce variables for storing data.</p>
+<p>Fortunately, as a programmer in a high-level language you do not need to
+consider all these details. In fact, this is the sort of things that is
+taken care of by the build process: the compiler and the linker.</p>
 
 
       <div class="container-flex">
 
         
-          
-            <a href="/learn/quickstart" style="margin-right: auto;">
-          
-            <h3><i class="fas fa-arrow-circle-left"></i>
-              Back
-            </h3>
-          </a>
-        
 
         
           
-          <a href="/learn/quickstart/variables"
+          <a href="/learn/building_programs/compiling_source"
           style="margin-left: auto;">
             <h3>
               Next
