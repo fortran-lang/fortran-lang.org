@@ -9,14 +9,14 @@ libraries, here is the output from the `ldd` utility that reports such
 dependencies:
 
 ```shell
-    $ ldd tabulate.exe
-            ntdll.dll => /cygdrive/c/WINDOWS/SYSTEM32/ntdll.dll (0x7ff88f2b0000)
-            KERNEL32.DLL => /cygdrive/c/WINDOWS/System32/KERNEL32.DLL (0x7ff88e450000)
-            KERNELBASE.dll => /cygdrive/c/WINDOWS/System32/KERNELBASE.dll (0x7ff88b9e0000)
-            cygwin1.dll => /usr/bin/cygwin1.dll (0x180040000)
-            cyggfortran-5.dll => /usr/bin/cyggfortran-5.dll (0x3efd20000)
-            cygquadmath-0.dll => /usr/bin/cygquadmath-0.dll (0x3ee0b0000)
-            cyggcc_s-seh-1.dll => /usr/bin/cyggcc_s-seh-1.dll (0x3f7000000)
+$ ldd tabulate.exe
+        ntdll.dll => /cygdrive/c/WINDOWS/SYSTEM32/ntdll.dll (0x7ff88f2b0000)
+        KERNEL32.DLL => /cygdrive/c/WINDOWS/System32/KERNEL32.DLL (0x7ff88e450000)
+        KERNELBASE.dll => /cygdrive/c/WINDOWS/System32/KERNELBASE.dll (0x7ff88b9e0000)
+        cygwin1.dll => /usr/bin/cygwin1.dll (0x180040000)
+        cyggfortran-5.dll => /usr/bin/cyggfortran-5.dll (0x3efd20000)
+        cygquadmath-0.dll => /usr/bin/cygquadmath-0.dll (0x3ee0b0000)
+        cyggcc_s-seh-1.dll => /usr/bin/cyggcc_s-seh-1.dll (0x3f7000000)
 ```
 
 Other compilers or other versions of the same compiler will probably

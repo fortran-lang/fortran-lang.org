@@ -33,7 +33,7 @@ above, that consists of one source file, you run the following command,
 assuming the source code is stored in the file "hello.f90":
 
 ```shell
-    $ gfortran -c hello.f90
+$ gfortran -c hello.f90
 ```
 
 This results in a file "hello.o" (as the gfortran compiler uses ".o" as
@@ -45,7 +45,7 @@ source file and start the linker to build the actual executable program.
 The command:
 
 ```shell
-    $ gfortran hello.f90
+$ gfortran hello.f90
 ```
 
 results in an executable file, "a.out" on Linux or "a.exe" on
@@ -60,18 +60,18 @@ not get an object file or an executable program. For instance, if
 the word "program" was inadvertently typed as "prgoram":
 
 ```shell
-        $ gfortran hello3.f90
-        hello.f90:1:0:
+$ gfortran hello3.f90
+hello.f90:1:0:
 
-            1 | prgoram hello
-              |
-        Error: Unclassifiable statement at (1)
-        hello3.f90:3:17:
+    1 | prgoram hello
+      |
+Error: Unclassifiable statement at (1)
+hello3.f90:3:17:
 
-            3 | end program hello
-              |                 1
-        Error: Syntax error in END PROGRAM statement at (1)
-        f951: Error: Unexpected end of file in 'hello.f90'
+    3 | end program hello
+      |                 1
+Error: Syntax error in END PROGRAM statement at (1)
+f951: Error: Unexpected end of file in 'hello.f90'
 ```
 
 Using this compilation report you can correct the source code and try
@@ -83,10 +83,10 @@ Otherwise the link step will complain about a missing "symbol", something
 along these lines:
 
 ```shell
-        $ gfortran hello2.f90
-        /usr/lib/../lib64/crt1.o: In function `_start':
-        (.text+0x20): undefined reference to `main'
-        collect2: error: ld returned 1 exit status
+$ gfortran hello2.f90
+/usr/lib/../lib64/crt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+collect2: error: ld returned 1 exit status
 ```
 
 The file "hello2.f90" is almost the same as the file "hello.f90", except

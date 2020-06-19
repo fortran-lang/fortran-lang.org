@@ -29,50 +29,55 @@ files and module intermediate files are to be found. Suppose we store
 the two files of our `tabulate` program in the following directory
 structure:
 
-    tabulate/
-        main/
-            tabulate.f90
-        sub/
-            function.f90
+```
+tabulate/
+    main/
+        tabulate.f90
+    sub/
+        function.f90
+```
 
 Compiling the file "function.f90" with the commands
 
 ```shell
-
-    $ cd sub
-    $ gfortran -c function.f90
+$ cd sub
+$ gfortran -c function.f90
 ```
 
 leads to this structure:
 
-        tabulate/
-            main/
-                tabulate.f90
-            sub/
-                function.f90
-                function.mod
-                function.o
+```
+tabulate/
+    main/
+        tabulate.f90
+    sub/
+        function.f90
+        function.mod
+        function.o
+```
 
 To successfully compile and subsequently build the program we need to
 tell the compiler where it can find the file "function.mod":
 
 ```shell
-    $ cd main
-    $ gfortran -c tabulate.f90 -I ../sub
-    $ gfortran -o tabulate tabulate.o ../sub/function.o
+$ cd main
+$ gfortran -c tabulate.f90 -I ../sub
+$ gfortran -o tabulate tabulate.o ../sub/function.o
 ```
 
 The result:
 
-    tabulate/
-        main/
-            tabulate.f90
-            tabulate.o
-            tabulate (or tabulate.exe on Windows)
-        sub/
-            function.f90
-            function.mod
-            function.o
+```
+tabulate/
+    main/
+        tabulate.f90
+        tabulate.o
+        tabulate (or tabulate.exe on Windows)
+    sub/
+        function.f90
+        function.mod
+        function.o
+```
 
 Notes:
 
