@@ -27,9 +27,9 @@ systems, however the workflow and general principles still apply to macOS.
 Let us have a look at a simple example:
 
 ```fortran
-    program hello
-        write(*,*) 'Hello!'
-    end program hello
+program hello
+    write(*,*) 'Hello!'
+end program hello
 ```
 
 This is just about the simplest program you can write in Fortran and it
