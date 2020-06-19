@@ -79,6 +79,7 @@ function vector_norm(n,vec) result(norm)
 
 end function vector_norm
 ```
+{% include tip.html content="In production code, the intrinsic function `norm2` should be used." %}
 
 To execute this function:
 
