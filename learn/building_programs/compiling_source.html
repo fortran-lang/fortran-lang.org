@@ -539,7 +539,7 @@ the GNU compiler collection. To compile a simple program as the one
 above, that consists of one source file, you run the following command,
 assuming the source code is stored in the file “hello.f90”:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-c</span> hello.f90
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-c</span> hello.f90
 </code></pre></div></div>
 
 <p>This results in a file “hello.o” (as the gfortran compiler uses “.o” as
@@ -550,7 +550,7 @@ leave it out, then the default action of the compiler is to compile the
 source file and start the linker to build the actual executable program.
 The command:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran hello.f90
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran hello.f90
 </code></pre></div></div>
 
 <p>results in an executable file, “a.out” on Linux or “a.exe” on
@@ -566,18 +566,18 @@ not get an object file or an executable program. For instance, if
 the word “program” was inadvertently typed as “prgoram”:</li>
 </ul>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="nv">$ </span>gfortran hello3.f90
-        hello.f90:1:0:
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran hello3.f90
+hello.f90:1:0:
 
-            1 | prgoram hello
-              |
-        Error: Unclassifiable statement at <span class="o">(</span>1<span class="o">)</span>
-        hello3.f90:3:17:
+    1 | prgoram hello
+      |
+Error: Unclassifiable statement at <span class="o">(</span>1<span class="o">)</span>
+hello3.f90:3:17:
 
-            3 | end program hello
-              |                 1
-        Error: Syntax error <span class="k">in </span>END PROGRAM statement at <span class="o">(</span>1<span class="o">)</span>
-        f951: Error: Unexpected end of file <span class="k">in</span> <span class="s1">'hello.f90'</span>
+    3 | end program hello
+      |                 1
+Error: Syntax error <span class="k">in </span>END PROGRAM statement at <span class="o">(</span>1<span class="o">)</span>
+f951: Error: Unexpected end of file <span class="k">in</span> <span class="s1">'hello.f90'</span>
 </code></pre></div></div>
 
 <p>Using this compilation report you can correct the source code and try
@@ -590,10 +590,10 @@ Otherwise the link step will complain about a missing “symbol”, something
 along these lines:</li>
 </ul>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="nv">$ </span>gfortran hello2.f90
-        /usr/lib/../lib64/crt1.o: In <span class="k">function</span> <span class="sb">`</span>_start<span class="s1">':
-        (.text+0x20): undefined reference to `main'</span>
-        collect2: error: ld returned 1 <span class="nb">exit </span>status
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran hello2.f90
+/usr/lib/../lib64/crt1.o: In <span class="k">function</span> <span class="sb">`</span>_start<span class="s1">':
+(.text+0x20): undefined reference to `main'</span>
+collect2: error: ld returned 1 <span class="nb">exit </span>status
 </code></pre></div></div>
 
 <p>The file “hello2.f90” is almost the same as the file “hello.f90”, except

@@ -518,21 +518,21 @@ more detail.</p>
 <p>Here is a general program for tabulating a function (source code in
 “tabulate.f90”):</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">program</span><span class="w"> </span><span class="n">tabulate</span><span class="w">
-        </span><span class="k">use</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">tabulate</span><span class="w">
+    </span><span class="k">use</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
 
-        </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-        </span><span class="kt">real</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">xbegin</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w">
-        </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+    </span><span class="kt">real</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">xbegin</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w">
+    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w">
 
-        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'Please enter the range (begin, end) and the number of steps:'</span><span class="w">
-        </span><span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w">  </span><span class="n">xbegin</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'Please enter the range (begin, end) and the number of steps:'</span><span class="w">
+    </span><span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w">  </span><span class="n">xbegin</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w">
 
-        </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="n">steps</span><span class="w">
-            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xbegin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">xend</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">xbegin</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="n">steps</span><span class="w">
-            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(2f10.4)'</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
-        </span><span class="k">enddo</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">tabulate</span><span class="w">
+    </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w">
+        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xbegin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">xend</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">xbegin</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="n">steps</span><span class="w">
+        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(2f10.4)'</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">tabulate</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Note the <code class="highlighter-rouge">use</code> statement - this will be where we define the function <code class="highlighter-rouge">f</code>.</p>
@@ -546,17 +546,16 @@ give the general program to a user and they provide a specific source code.</p>
 <p>Assume for the sake of the example that the function is implemented in a
 source file “function.f90” as:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
-        </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-    </span><span class="k">contains</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="k">contains</span><span class="w">
 
-    </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
-        </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="w">
 
-        </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
-
-    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
 </span></code></pre></div></div>
 
 <p>To build the program with this specific function, we need to compile two
@@ -565,8 +564,8 @@ program. Because the program “tabulate” depends on the module
 “function”, we need to compile the source file containing our module
 first. A sequence of commands to do this is:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-c</span> <span class="k">function</span>.f90
-    <span class="nv">$ </span>gfortran tabulate.f90 <span class="k">function</span>.o
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-c</span> <span class="k">function</span>.f90
+<span class="nv">$ </span>gfortran tabulate.f90 <span class="k">function</span>.o
 </code></pre></div></div>
 
 <p>The first step compiles the module, resulting in an object file

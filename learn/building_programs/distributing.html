@@ -581,30 +581,31 @@ in a dynamic library. This enables you to:</p>
   <li>Provide a skeleton version of the module, something like:</li>
 </ul>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">        </span><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
-            </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-        </span><span class="k">contains</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="k">contains</span><span class="w">
 
-        </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
-        </span><span class="c1">!DEC$ ATTRIBUTES DLLEXPORT :: f</span><span class="w">
-            </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
+</span><span class="c1">!DEC$ ATTRIBUTES DLLEXPORT :: f</span><span class="w">
+    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
 
-            </span><span class="err">...</span><span class="w"> </span><span class="n">TO</span><span class="w"> </span><span class="n">BE</span><span class="w"> </span><span class="n">FILLED</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="err">...</span><span class="w">
+    </span><span class="c1">! your function body goes here</span><span class="w">
 
-        </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="w">
-        </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">user_functions</span><span class="w">
 </span></code></pre></div></div>
 
 <ul>
   <li>Provide a basic build script with a command like:</li>
 </ul>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        gfortran <span class="nt">-o</span> <span class="k">function</span>.dll <span class="k">function</span>.f90 <span class="nt">-shared</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gfortran <span class="nt">-o</span> <span class="k">function</span>.dll <span class="k">function</span>.f90 <span class="nt">-shared</span>
 </code></pre></div></div>
 
 <p>or:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        ifort <span class="nt">-exe</span>:function.dll <span class="k">function</span>.f90 <span class="nt">-dll</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifort <span class="nt">-exe</span>:function.dll <span class="k">function</span>.f90 <span class="nt">-dll</span>
 </code></pre></div></div>
 
 <p>As said, you cannot control that the user has done the right thing - any
@@ -614,38 +615,41 @@ lead to a successful run.</p>
 <p>An alternative set-up would be to change the main program into a subroutine
 and have the function as an argument:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="n">tabulation</span><span class="w">
-        </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-    </span><span class="k">contains</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">tabulation</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="k">contains</span><span class="w">
 
-    </span><span class="k">subroutine</span><span class="w"> </span><span class="n">tabulate</span><span class="p">(</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="p">)</span><span class="w">
-        </span><span class="k">interface</span><span class="w">
-            </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
-                </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
-            </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="w">
-        </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
+</span><span class="k">subroutine</span><span class="w"> </span><span class="n">tabulate</span><span class="p">(</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="p">)</span><span class="w">
+    </span><span class="k">interface</span><span class="w">
+        </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
+            </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+        </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
 
-        </span><span class="err">...</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="n">implementation</span><span class="w">
+    </span><span class="c1">! your implementation goes here</span><span class="w">
 
-    </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">tabulate</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">tabulate</span><span class="w">
 
-    </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">tabulation</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">tabulation</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Then provide a skeleton main program:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">program</span><span class="w"> </span><span class="n">tabulate_f</span><span class="w">
-        </span><span class="k">use</span><span class="w"> </span><span class="n">tabulation</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">tabulate_f</span><span class="w">
+    </span><span class="k">use</span><span class="w"> </span><span class="n">tabulation</span><span class="w">
 
-        </span><span class="k">call</span><span class="w"> </span><span class="n">tabulate</span><span class="p">(</span><span class="w"> </span><span class="n">func1</span><span class="w"> </span><span class="p">)</span><span class="w">
-    </span><span class="k">contains</span><span class="w">
-    </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func1</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
-        </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="k">call</span><span class="w"> </span><span class="n">tabulate</span><span class="p">(</span><span class="w"> </span><span class="n">func1</span><span class="w"> </span><span class="p">)</span><span class="w">
 
-        </span><span class="err">...</span><span class="w"> </span><span class="n">TO</span><span class="w"> </span><span class="n">BE</span><span class="w"> </span><span class="n">FILLED</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="err">...</span><span class="w">
+</span><span class="k">contains</span><span class="w">
 
-    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func1</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">tabulate_f</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func1</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+
+    </span><span class="c1">! your function body goes here</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func1</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">tabulate_f</span><span class="w">
 </span></code></pre></div></div>
 
 <p>The advantage is that the compiler can check the interface of the

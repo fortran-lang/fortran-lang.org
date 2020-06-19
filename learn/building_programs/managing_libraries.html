@@ -526,28 +526,28 @@ create your own libraries.</p>
 <p>Libraries contain any number of object files in a compact form, so that
 the command-line becomes far shorter:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 <span class="k">function</span>.o supportlib.a
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 <span class="k">function</span>.o supportlib.a
 </code></pre></div></div>
 
 <p>where “supportlib.a” is a collection of one, two or many object files,
 all compiled and then put into a library. The extension “.a” is used by
 Linux and Linux-like platforms. On Windows the extension “.lib” is used.</p>
 
-<p>Creating your own libraries is not that complicated: you use a utility
-like <code class="highlighter-rouge">ar</code> or (on Windows) <code class="highlighter-rouge">lib</code> to achieve this:</p>
+<p>Creating your own libraries is not that complicated: 
+on Linux, you can achieve this using a utility like <code class="highlighter-rouge">ar</code>:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-c</span> file1.f90 file2.f90
-    <span class="nv">$ </span>gfortran <span class="nt">-c</span> file3.f90 ...
-    <span class="nv">$ </span>ar r supportlib.a file1.o file2.o
-    <span class="nv">$ </span>ar r supportlib.a file3.o ...
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-c</span> file1.f90 file2.f90
+<span class="nv">$ </span>gfortran <span class="nt">-c</span> file3.f90 ...
+<span class="nv">$ </span>ar r supportlib.a file1.o file2.o
+<span class="nv">$ </span>ar r supportlib.a file3.o ...
 </code></pre></div></div>
 
-<p>or, using the <code class="highlighter-rouge">lib</code> utility:</p>
+<p>or on Windows using the <code class="highlighter-rouge">lib</code> utility:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    c:<span class="se">\.</span>..&gt; ifort <span class="nt">-c</span> file1.f90 file2.f90
-    c:<span class="se">\.</span>..&gt; ifort <span class="nt">-c</span> file3.f90 ...
-    c:<span class="se">\.</span>..&gt; lib /out:supportlib.lib file1.obj file2.obj
-    c:<span class="se">\.</span>..&gt; lib supportlib.lib file3.obj ...
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>c:<span class="se">\.</span>..&gt; ifort <span class="nt">-c</span> file1.f90 file2.f90
+c:<span class="se">\.</span>..&gt; ifort <span class="nt">-c</span> file3.f90 ...
+c:<span class="se">\.</span>..&gt; lib /out:supportlib.lib file1.obj file2.obj
+c:<span class="se">\.</span>..&gt; lib supportlib.lib file3.obj ...
 </code></pre></div></div>
 
 <p>Note:</p>
@@ -591,16 +591,16 @@ like <code class="highlighter-rouge">ar</code> or <code class="highlighter-rouge
 
 <p>On Linux:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-fpic</span> <span class="nt">-c</span> file1.f90 file2.f90
-    <span class="nv">$ </span>gfortran <span class="nt">-fpic</span> <span class="nt">-c</span> file3.f90 ...
-   <span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">-o</span> supportlib.so file1.o file2.o file3.o ...
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-fpic</span> <span class="nt">-c</span> file1.f90 file2.f90
+<span class="nv">$ </span>gfortran <span class="nt">-fpic</span> <span class="nt">-c</span> file3.f90 ...
+<span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">-o</span> supportlib.so file1.o file2.o file3.o ...
 </code></pre></div></div>
 
 <p>On Windows, with the Intel Fortran compiler:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>ifort <span class="nt">-c</span> file1.f90 file2.f90
-    <span class="nv">$ </span>ifort <span class="nt">-c</span> file3.f90 ...
-    <span class="nv">$ </span>ifort <span class="nt">-dll</span> <span class="nt">-exe</span>:supportlib.dll file1.obj file2.obj file3.obj ...
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ifort <span class="nt">-c</span> file1.f90 file2.f90
+<span class="nv">$ </span>ifort <span class="nt">-c</span> file3.f90 ...
+<span class="nv">$ </span>ifort <span class="nt">-dll</span> <span class="nt">-exe</span>:supportlib.dll file1.obj file2.obj file3.obj ...
 </code></pre></div></div>
 
 <p>The differences are that:</p>
@@ -619,14 +619,14 @@ in the dynamic library. There are several ways - depending on the
 compiler you use - to achieve this. One method is via a so-called
 compiler directive:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">subroutine</span><span class="w"> </span><span class="n">myroutine</span><span class="p">(</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">)</span><span class="w">
-    </span><span class="c1">!GCC$ ATTRIBUTES DLLEXPORT:: myroutine</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">myroutine</span><span class="p">(</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">)</span><span class="w">
+</span><span class="c1">!GCC$ ATTRIBUTES DLLEXPORT:: myroutine</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Or, with the Intel Fortran compiler:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">subroutine</span><span class="w"> </span><span class="n">myroutine</span><span class="p">(</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">)</span><span class="w">
-    </span><span class="c1">!DEC$ ATTRIBUTES DLLEXPORT:: myroutine</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">myroutine</span><span class="p">(</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">)</span><span class="w">
+</span><span class="c1">!DEC$ ATTRIBUTES DLLEXPORT:: myroutine</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Besides a dynamic library (DLL), a so-called import library may be
@@ -649,21 +649,21 @@ Also, no import library is generated.</p>
 <p>Since our dynamic library can be built from a single source file, we
 can take a shortcut:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">-o</span> <span class="k">function</span>.dll <span class="k">function</span>.f90
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">-o</span> <span class="k">function</span>.dll <span class="k">function</span>.f90
 </code></pre></div></div>
 
 <p>This produces the files “function.dll” and “function.mod”. The
 utility <code class="highlighter-rouge">nm</code> tells us the exact name of the function <code class="highlighter-rouge">f</code>:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>nm <span class="k">function</span>.dll
-    ...
-    000000054f9d7000 B __dynamically_loaded
-                     U __end__
-    0000000000000200 A __file_alignment__
-    000000054f9d1030 T __function_MOD_f
-    000000054f9d1020 T __gcc_deregister_frame
-    000000054f9d1000 T __gcc_register_frame
-    ...
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nm <span class="k">function</span>.dll
+...
+000000054f9d7000 B __dynamically_loaded
+                 U __end__
+0000000000000200 A __file_alignment__
+000000054f9d1030 T __function_MOD_f
+000000054f9d1020 T __gcc_deregister_frame
+000000054f9d1000 T __gcc_register_frame
+...
 </code></pre></div></div>
 
 <p>It has received a prefix <code class="highlighter-rouge">__function_MOD_</code> to distinguish it from any
@@ -671,7 +671,7 @@ other routine “f” that might be defined in another module.</p>
 
 <p>The next step is to build the program:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 <span class="k">function</span>.dll
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 <span class="k">function</span>.dll
 </code></pre></div></div>
 
 <p>The DLL and the .mod file are used to build the executable program
@@ -691,13 +691,13 @@ this is the library that should be used in the link step.</p>
 <p>The source file must contain the compiler directive, otherwise the function <code class="highlighter-rouge">f</code>
 is not exported:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
-    </span><span class="c1">!DEC$ ATTRIBUTES DLLEXPORT :: f</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">
+</span><span class="c1">!DEC$ ATTRIBUTES DLLEXPORT :: f</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Again we take a shortcut:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>ifort <span class="nt">-exe</span>:function.dll <span class="k">function</span>.f90 <span class="nt">-dll</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ifort <span class="nt">-exe</span>:function.dll <span class="k">function</span>.f90 <span class="nt">-dll</span>
 </code></pre></div></div>
 
 <p>This produces the files “function.dll”, “function.mod” as well as “function.lib” (and two

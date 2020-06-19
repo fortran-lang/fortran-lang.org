@@ -528,21 +528,22 @@ We will not try and catalogue them, but give instead a very limited
 list of tools that you typically encounter:</p>
 
 <ul>
-  <li>
-    <p>The <code class="highlighter-rouge">make</code> utility is a classical tool that uses instructions about
+  <li>The <code class="highlighter-rouge">make</code> utility is a classical tool that uses instructions about
 how the various components of a program depend on each other to
 efficiently compile and link the program (or programs). It takes a
-so-called <code class="highlighter-rouge">Makefile</code> that contains the dependencies.</p>
+so-called <code class="highlighter-rouge">Makefile</code> that contains the dependencies.</li>
+</ul>
 
-    <p>Simply put:</p>
+<p>Simply put:</p>
 
-    <p>If a program file is older than any of the libraries and object files
+<p>If a program file is older than any of the libraries and object files
 it depends on, the make utility knows it has to rebuild it and goes on
 to look at the libraries and object files - are any out of date?</p>
 
-    <p>If an object file is older than the corresponding source file, the
+<p>If an object file is older than the corresponding source file, the
 make utility knows it has to compile the source file.</p>
-  </li>
+
+<ul>
   <li>
     <p>Integrated development tools take care of many of the above details. A
 popular cross-platform  tool is Microsoft’s <a href="https://code.visualstudio.com/">Visual Studio Code</a>, but others exist,
@@ -579,15 +580,15 @@ tabulate$(OBJ) : tabulate.f90 function.mod
 
 function$(OBJ) : function.f90
 {tab}$(FC) $(FCOPTS) function.f90
-</code></pre></div></div>
 
-<p>(A peculiarity of <code class="highlighter-rouge">make</code> is that in the input file, tab characters are used
-in several places - here indicated as “{tab}” - as significant whitespace.)</p>
+(A peculiarity of `make` is that in the input file, tab characters are used
+in several places - here indicated as "{tab}" - as significant whitespace.)
 
-<p>When stored in a file “Makefile” and “{tab}” replaced by a tab character,
-you can run it like:</p>
+When stored in a file "Makefile" and "{tab}" replaced by a tab character,
+you can run it like:
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>make
+```shell
+$ make
 </code></pre></div></div>
 
 <p>(the name <code class="highlighter-rouge">Makefile</code> is the default, otherwise use the option <code class="highlighter-rouge">-f</code> to specify
