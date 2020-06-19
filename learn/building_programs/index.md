@@ -2,7 +2,6 @@
 layout: book
 title: Building programs
 permalink: /learn/building_programs
-date: 2020-06-05
 author: Arjen Markus, Ondřej Čertík, Milan Curcic, Laurence Kedward, Brad Richardson, Jeremie Vandenplas
 ---
 
