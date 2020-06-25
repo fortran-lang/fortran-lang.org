@@ -62,7 +62,7 @@ jobs:
     - name: Build Jekyll Site
       run: |
         cd ${{env.SRC_DIR}}
-        bundle exec jekyll build -d _site/${BUILD_DIR}
+        bundle exec jekyll build --future -d _site/${BUILD_DIR}
         cp -r _site/* ../${{env.PUBLISH_DIR}}/
         touch ../${{env.PUBLISH_DIR}}/.nojekyll
 
