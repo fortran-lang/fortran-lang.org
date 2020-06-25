@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: July 2020"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Laurence Kedward
 ---
 
 Welcome to the July 2020 edition of the monthly Fortran newsletter.
@@ -17,11 +17,15 @@ and details Fortran news from the previous month.
 
 ## fortran-lang.org
 
-TODO:
+Work has continued on the Fortran-lang website, including a new community page and additional tutorial content:
 
-* New community page
-* New mini-book on building programs
-* New quickstart tutorial section on derived types
+* [#98](https://github.com/fortran-lang/fortran-lang.org/pull/98): updated the [Quickstart mini-book](https://fortran-lang.org/learn/quickstart/derived_types) tutorial with a comprehensive overview of derived types;
+
+* [#99](https://github.com/fortran-lang/fortran-lang.org/pull/99): added a second mini-book tutorial to the [Learn](https://fortran-lang.org/learn) page on building compiled programs and libraries;
+
+* [#100](https://github.com/fortran-lang/fortran-lang.org/pull/100): added a new top-level web-page for Fortran-lang community projects.
+The page gives useful information and links for new contributors, as well as acknowledging each of our many existing contributors.
+Check it out at <https://fortran-lang.org/community>.
 
 ## Fortran Standard Library
 
