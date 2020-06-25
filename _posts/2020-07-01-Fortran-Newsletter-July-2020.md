@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: July 2020"
 category: newsletter
-author: Milan Curcic, Laurence Kedward
+author: Milan Curcic, Laurence Kedward, and Jérémie Vandenplas
 ---
 
 Welcome to the July 2020 edition of the monthly Fortran newsletter.
