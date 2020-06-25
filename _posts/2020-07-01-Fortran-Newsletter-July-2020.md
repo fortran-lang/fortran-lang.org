@@ -46,11 +46,16 @@ Implements Simpson's rule for 1-d arrays (`simps` and `simps_weights`) in the
 quadrature module (`stdlib_experimental_quadrature`).
 * [#205](https://github.com/fortran-lang/stdlib/pull/205)
 Tests for and improved standard conformance.
+
+Some miscellaneous fixes and improvements:
+
+* [#208](https://github.com/fortran-lang/stdlib/pull/208)
+Fixes to support Intel Fortran compilers
+* [#210](https://github.com/fortran-lang/stdlib/pull/210)
+Fixes to support NAG compiler
 * [#207](https://github.com/fortran-lang/stdlib/pull/207)
-[#208](https://github.com/fortran-lang/stdlib/pull/208)
-[#210](https://github.com/fortran-lang/stdlib/pull/210)
 [#211](https://github.com/fortran-lang/stdlib/pull/211)
-Miscellaneous fixes and improvements.
+Other minor fixes and improvements
 
 ## Fortran Package Manager
 
