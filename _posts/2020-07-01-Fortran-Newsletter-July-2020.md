@@ -27,6 +27,20 @@ Work has continued on the Fortran-lang website, including a new community page a
 The page gives useful information and links for new contributors, as well as acknowledging each of our many existing contributors.
 Check it out at <https://fortran-lang.org/community>.
 
+Ongoing work:
+
+* [#101](https://github.com/fortran-lang/fortran-lang.org/issues/101): Code style for Fortran examples in the tutorials.
+See the corresponding community poll and discussion on [Discourse](https://fortran-lang.discourse.group/t/should-tutorials-on-fortran-lang-org-follow-a-consistent-style-for-code-listings/134);
+
+* [#112](https://github.com/fortran-lang/fortran-lang.org/issues/112): Plan for core language tutorials.
+
+[Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
+We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
+
+__Did you know__ you don't need to know HTML or any fancy languages to contribute to the website;
+all of the online tutorials and most of the website content are written in [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet), a simple markup language for formatting text - don't worry if you haven't used it before, it's very easy to pick up!
+
+
 ## Fortran Standard Library
 
 What's new in the Fortran Standard Library:
