@@ -9,11 +9,7 @@ Welcome to the July 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month
 and details Fortran news from the previous month.
 
-* [fortran-lang.org](#fortran-lang.org)
-* [Fortran Standard Library](#fortran-standard-library)
-* [Fortran Package Manager](#fortran-package-manager)
-* [Events](#events)
-* [Contributors](#contributors)
+<ul id="page-nav"></ul>
 
 ## fortran-lang.org
 
@@ -109,4 +105,5 @@ commenting in any of the four repositories:
 * [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org),
 * [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
 
-TODO (Ondrej): List of contributors
+TODO: update json datafiles.
+<div id="gh-contributors" data-startdate="June 01 2020" data-enddate="June 30 2020" height="500px"></div>
