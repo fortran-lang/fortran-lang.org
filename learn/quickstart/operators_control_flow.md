@@ -35,13 +35,13 @@ To form a logical expression the following set of relational operators are avail
 
 as well as the following logical operators:
 
-| Operator &nbsp; | Description                                                          |
-|:---------------------:|----------------------------------------------------------------|
-| `.and.`         | TRUE if both left and right operands are TRUE                        |
-| `.or.`          | TRUE if either left or right or both operands are TRUE               |
-| `.not.`         | TRUE if right operand is FALSE                                       |
-| `.eqv.`         | TRUE if left operand has same logical value as right operand         |
-| `.neqv.`        | TRUE if left operand has the opposite logical value as right operand |
+| Operator &nbsp;       | Description                                                          |
+|:---------------------:|----------------------------------------------------------------------|
+| `.and.`               | TRUE if both left and right operands are TRUE                        |
+| `.or.`                | TRUE if either left or right or both operands are TRUE               |
+| `.not.`               | TRUE if right operand is FALSE                                       |
+| `.eqv.`               | TRUE if left operand has same logical value as right operand         |
+| `.neqv.`              | TRUE if left operand has the opposite logical value as right operand |
 
 <br>
 
@@ -119,19 +119,58 @@ __Example:__ `do` loop with skip
 
 ```fortran
   integer :: i
-  do i=1,10,2    
+  do i=1,10,2
     print *, i   ! Print odd numbers
   end do
 ```
 
+### `do while()`
+
+A condition may be added to a `do` loop with the `while` keyword. The loop will be executed while the condition given
+in `while()` evaluates to `.true.`.
 
 __Example:__ `do while` loop
 
 ```fortran
   integer :: i
   i = 1
-  do while (i<11)   
+  do while (i<11)
     print *, i
     i = i + 1
+  end do
+  ! Here i = 11
+```
+
+### Finer loop control: (`exit`) and (`cycle`)
+
+Most often than not, loops need to be stopped if a condition is met. Fortran presents two reserved words to deal
+with such cases.
+
+`exit` is used to quit the loop prematurely. It is usually enclosed inside an `if`.
+
+__Example__ loop with `exit`
+
+```fortran
+  integer :: i
+  do i=1, 100
+    if (i .gt. 10) then
+      exit ! Stop printing numbers
+    end if
+    print *, i
+  end do
+  ! Here i = 11
+```
+
+On the other hand, `cycle` skips whatever is left of the loop and goes into the next cycle.
+
+__Example__ loop with `cycle`
+
+```fortran
+  integer :: i
+  do i=1,10
+    if (mod(i,2) .eq. 0) then
+	  cycle ! Don't print even numbers
+	end if
+    print *, i
   end do
 ```
