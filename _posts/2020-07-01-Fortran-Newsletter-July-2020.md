@@ -110,5 +110,6 @@ commenting in any of the four repositories:
 * [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org),
 * [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
 
-TODO: update json datafiles.
+
+
 <div id="gh-contributors" data-startdate="June 01 2020" data-enddate="June 30 2020" height="500px"></div>
