@@ -2,6 +2,707 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 108,
+            "user": "milancurcic",
+            "date": "2020-06-24 16:15:59+00:00",
+            "title": "rename reference to other fpm",
+            "text": "Minor change to the README to not use the word \"effing\" when referring to the other fpm.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-24 16:26:59+00:00",
+                    "text": "Merging as previously agreed on by @certik and @everythingfunctional ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-24 16:28:03+00:00",
+                    "text": "+1, thank you @milancurcic !"
+                }
+            ]
+        },
+        {
+            "number": 107,
+            "user": "ivan-pi",
+            "date": "2020-06-21 15:21:22+00:00",
+            "title": "Projects including legacy files",
+            "text": "I've been trying to get fpm to work with some old-school packages like MINPACK: https://github.com/certik/minpack. These projects are generally just a bunch of fixed format \".f\" files. For modern applications that rely on such legacy codes, an interface module is the first step towards safe function calls.\nTrying to run fpm build on @certik's MINPACK fails with errors akin to:\nfpm build --release\n# gfortran (for build/gfortran_release/minpack/rwupdt.o build/gfortran_release/minpack/rwupdt.mod)\n# gfortran (for build/gfortran_release/minpack/dmchar.o build/gfortran_release/minpack/dmchar.mod)\n# gfortran (for build/gfortran_release/minpack/lmpar.o build/gfortran_release/minpack/lmpar.mod)\n# gfortran (for build/gfortran_release/minpack/hybrd.o build/gfortran_release/minpack/hybrd.mod)\nfpm: Error when running Shake build system:\n  at want, called at src/Build.hs:205:11 in fpm-0.1.0.0-ExRRX9W2aflLvTBBChPpxh:Build\n* Depends on: build/gfortran_release/minpack/libminpack.a\n  at need, called at src/Build.hs:203:13 in fpm-0.1.0.0-ExRRX9W2aflLvTBBChPpxh:Build\n* Depends on: build/gfortran_release/minpack/rwupdt.o\n  at &%>, called at src/Build.hs:183:11 in fpm-0.1.0.0-ExRRX9W2aflLvTBBChPpxh:Build\n* Depends on: build/gfortran_release/minpack/rwupdt.o build/gfortran_release/minpack/rwupdt.mod\n  at error, called at src/Development/Shake/Internal/Rules/Files.hs:245:13 in shake-0.18.5-44KSA7uQF2VObxzEvLYZx:Development.Shake.Internal.Rules.Files\n* Raised the exception:\nError, &%> rule failed to produce 1 file (out of 2)\n  build/gfortran_release/minpack/rwupdt.o\n  build/gfortran_release/minpack/rwupdt.mod - MISSING\n\nI understand that fpm is expecting to find a module file for each single \".f\" file. Is it possible to somehow work around this? The farthest I could get it in the fpm source was to remove to the \"-Wimplicit-interface\" flag which was creating lots of warnings \ud83d\ude48 .\nAm I right to think fpm is currently most suitable for projects composed of multiple module files?",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-22 07:55:04+00:00",
+                    "text": "I was playing around with gtk-fortran and I found a work-around for non-module sources by renaming them to .in files so that fpm ignored them and including them with the include statement in a module.\nIt's not ideal and I'm not sure what the plan is for supporting non-module sources but I think they should be supported in some form.\nPerhaps the larger question is whether we will make fpm flexible enough to support legacy packages in their original form or require restructuring of such packages; this latter option is not as extreme as it sounds since for some packages, fpm support will be brought through a third-party fork anyway (i.e. not via the upstream repo)."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-22 21:47:46+00:00",
+                    "text": "At the moment, fpm is only really targeted at projects with modules. At some point we may support non-module sources, but it may be some time before we get to it.\n@LKedward , clever workaround. I may even suggest that as a recommended migration path.\nIn the mean time, there is always the out that fpm now supports custom build scripts or Makefiles (with some specific requirements)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-22 22:17:28+00:00",
+                    "text": "We have to support non-module sources. But this might be a feature to put into the Fortran based fpm to keep the Haskell based on minimal to be used in bootstrapping."
+                }
+            ]
+        },
+        {
+            "number": 106,
+            "user": "arjenmarkus",
+            "date": "2020-06-21 12:28:18+00:00",
+            "title": "Error message on Cygwin - \"pwd -W\"",
+            "text": "I have tried to build fpm on Windows/Cygwin and got an error message. The output to screen was:\n$ stack build\nPreparing to install GHC to an isolated location.\nThis will not interfere with any system-level installation.\nDownloaded ghc-8.6.5.\nAlready downloaded.\nAlready downloaded.\nDecompressing ghc-8.6.5.tar.xz...\n7-Zip 9.20  Copyright (c) 1999-2010 Igor Pavlov  2010-11-18\nProcessing archive: C:\\Users\\markus\\AppData\\Local\\Programs\\stack\\x86_64-windows\\ghc-8.6.5.tar.xz\nExtracting  ghc-8.6.5.tar\nEverything is Ok\nSize:       1773445120\nCompressed: 280280296\nExtracting ghc-8.6.5.tar...\nExtracted total of 9780 files from ghc-8.6.5.tar\nGHC installed to C:\\Users\\markus\\AppData\\Local\\Programs\\stack\\x86_64-windows\\ghc-8.6.5\nCloning 536a5e6ffb148d0dd4e4c4b120913a6744097676 from https://github.com/kowainik/tomland.git\nReceived ExitFailure 1 when running\nRaw command: \"C:\\cygwin\\bin\\git.EXE\" submodule update --init --recursive\nRun from: C:\\cygwin\\tmp\\with-repo1848\\cloned\nStandard error:\n/usr/libexec/git-core/git-sh-setup: line 344: pwd: -W: invalid option\npwd: usage: pwd [-LP]\nUnable to determine absolute path of git directory\nApparently, an option -W to the \"pwd\" command is being used that does not exist in the Cygwin version of \"pwd\".\nHow to proceed?",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-21 12:36:06+00:00",
+                    "text": "The Linux version requires that I install parts of \"stack\" in /usr/local/bin. Unfortunately, I do not have root/sudo access to the Linux systems I can log on to, so that makes it difficult for me to test fpm on Linux."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-22 07:57:57+00:00",
+                    "text": "Hi @arjenmarkus, if you don't have root access on linux, please follow the manual installation procedure for stack."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-22 08:28:32+00:00",
+                    "text": "The cygwin error appears to be a fundamental incompatibility between stack and the cygwin environment (at least for this command) - I've been able to run stack build successfully on Windows via command prompt after installing git for windows. I haven't verified stack test in command prompt because I use gfortran via msys2.\nI don't see any reason why fpm built in this manner won't subsequently work from within cygwin.\nAside: interestingly, stack appears to install the msys2 environment on windows when stack build is run. msys2 is a newer fork of cygwin which I switched to (from cygwin) a year ago - I find I have much fewer compatibility problems with msys2."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-22 09:26:05+00:00",
+                    "text": "Hi Laurence,\n\nthanks for that reference. I hoped this morning that I might be able to use\na VM for Linux, but that fails - sigh. Oh well, the instructions should\nhelp me solve that via the regular machine.\n\nRegards,\n\nArjen\n\nOp ma 22 jun. 2020 om 09:58 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n Hi @arjenmarkus <https://github.com/arjenmarkus>, if you don't have root\n access on linux, please follow the manual installation procedure\n <https://docs.haskellstack.org/en/stable/install_and_upgrade/#manual-download_2>\n for stack.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#106 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR7ROV7PMBUWOC2VIWDRX4FJHANCNFSM4OD2ZINA>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-22 09:28:31+00:00",
+                    "text": "Hi Laurence,\n\none reason for sticking to Cygwin for me is the better (?) support for\ninstalling packages. I have MinGW-w64/MSYS2 installed as well, perhaps\nI should indeed try it that way too.\n\nRegards,\n\nArjen\n\nOp ma 22 jun. 2020 om 10:28 schreef Laurence Kedward <notifications@github.com>:\n\u2026\n\n The cygwin error appears to be a fundamental incompatibility between stack and the cygwin environment (at least for this command) - I've been able to run stack build successfully on Windows via command prompt after installing git for windows. I haven't verified stack test in command prompt because I use gfortran via msys2.\n I don't see any reason why fpm built in this manner won't subsequently work from within cygwin.\n\n Aside: interestingly, stack appears to install the msys2 environment on windows when stack build is run. msys2 is a newer fork of cygwin which I switched to (from cygwin) a year ago - I find I have much fewer compatibility problems with msys2.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-22 09:57:24+00:00",
+                    "text": "Hi Arjen,\n\none reason for sticking to Cygwin for me is the better (?) support for installing packages.\n\nThis is a fair point - it would be good to support running fpm on Cygwin, even if that means building fpm outside of Cygwin as I demonstrated.\nLaurence"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-22 14:20:15+00:00",
+                    "text": "Hi Laurence,\n\njust tried this, but now the \"stack build\" command produces the following\noutput;\n stack build\nNo setup information found for ghc-8.6.5 on your platform.\nThis probably means a GHC bindist has not yet been added for OS key\n'linux64-gmp4'.\nSupported versions: ghc-7.8.4, ghc-7.10.2, ghc-7.10.3, ghc-8.0.1,\nghc-8.0.2, ghc-8.2.1, ghc-8.2.2, ghc-8.4.2\n\nI am not sure this is relevant, but the OS is fairly old - CentOS 6, if I\nam not mistaken.\n\nRegards,\n\nArjen\n\nOp ma 22 jun. 2020 om 09:58 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n Hi @arjenmarkus <https://github.com/arjenmarkus>, if you don't have root\n access on linux, please follow the manual installation procedure\n <https://docs.haskellstack.org/en/stable/install_and_upgrade/#manual-download_2>\n for stack.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#106 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR7ROV7PMBUWOC2VIWDRX4FJHANCNFSM4OD2ZINA>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-22 17:29:55+00:00",
+                    "text": "Well, the good news is that after installing the version of stack and git\nfor \"plain Windows\", building fpm went smoothly and I could build a simple\n(one-source-file) program. (Some juggling required: I have gfortran\ninstalled for Cygwin and MinGW-w64/MSYS2, not for \"plain Windows\", but from\na Cygwin command window, it works fine)\n\nRegards,\n\nArjen\n\n\n\n\nOp ma 22 jun. 2020 om 16:20 schreef Arjen Markus <arjen.markus895@gmail.com\n\u2026\n:\n Hi Laurence,\n\n just tried this, but now the \"stack build\" command produces the following\n output;\n\n > stack build\n No setup information found for ghc-8.6.5 on your platform.\n This probably means a GHC bindist has not yet been added for OS key\n 'linux64-gmp4'.\n Supported versions: ghc-7.8.4, ghc-7.10.2, ghc-7.10.3, ghc-8.0.1,\n ghc-8.0.2, ghc-8.2.1, ghc-8.2.2, ghc-8.4.2\n\n I am not sure this is relevant, but the OS is fairly old - CentOS 6, if I\n am not mistaken.\n\n Regards,\n\n Arjen\n\n Op ma 22 jun. 2020 om 09:58 schreef Laurence Kedward <\n ***@***.***>:\n\n> Hi @arjenmarkus <https://github.com/arjenmarkus>, if you don't have root\n> access on linux, please follow the manual installation procedure\n> <https://docs.haskellstack.org/en/stable/install_and_upgrade/#manual-download_2>\n> for stack.\n>\n> \u2014\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <#106 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR7ROV7PMBUWOC2VIWDRX4FJHANCNFSM4OD2ZINA>\n> .\n>"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-22 18:15:29+00:00",
+                    "text": "Hi Arjen,\nUnfortunately I won't be much help with the CentOS error but I'm glad you were able to get it working on Windows also.\nAre you able to run stack test in the fpm root folder under Cygwin? I was encountering an error with the makefile test case when I did this under msys2.\nLaurence\nFor future users: it seems stack build is incompatible with the Cygwin environment, but fpm can still be used in Cygwin if built in \"Plain Windows\" as done by myself and Arjen."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-22 18:56:58+00:00",
+                    "text": "Hi Laurence,\n\nI just ran \"stack test\" and I get errors as well:\n\ngfortran -c -J/fortran/fpm/fpm/test/example_packages/with_makefile/build/gfortran_debug/with_makefile\n -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g\n-fbounds-check -fcheck-array-temporaries -fbacktrace -o\n/fortran/fpm/fpm/test/example_packages/with_makefile/build/gfortran_debug/with_makefile/hello_makefile.o\nsrc/hello_makefile.f90\nf951: Warning: Nonexistent include directory\n\u2018/fortran/fpm/fpm/test/example_packages/with_makefile/build/gfortran_debug/with_makefile\u2019\n[-Wmissing-include-dirs]\nsrc/hello_makefile.f90:10:25:\n\n   10 | end module hello_makefile\n      |                         1\nFatal Error: Cannot open module file\n\u2018/fortran/fpm/fpm/test/example_packages/with_makefile/build/gfortran_debug/with_makefile/hello_makefile.mod0\u2019\nfor writing at (1): No such file or directory\ncompilation terminated.\n\nSo, indeed the same case is failing here as well.\n\nRegards,\n\nArjen\n\nOp ma 22 jun. 2020 om 20:15 schreef Laurence Kedward <notifications@github.com>:\n\u2026\n\n Hi Arjen,\n Unfortunately I won't be much help with the CentOS error but I'm glad you were able to get it working on Windows also.\n Are you able to run stack test in the fpm root folder under Cygwin? I was encountering an error with the makefile test case when I did this under msys2.\n\n Laurence\n\n For future users: it seems stack build is incompatible with the Cygwin environment, but fpm can still be used in Cygwin if built in \"Plain Windows\" as done by myself and Arjen.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-23 08:32:38+00:00",
+                    "text": "Hi Arjen,\nThanks for confirming - I wasn't sure if something was wrong with my msys2 setup.\nNot sure what the problem is, but it looks like it only affects the makefile builds.\nRegards,\nLaurence"
+                }
+            ]
+        },
+        {
+            "number": 105,
+            "user": "ivan-pi",
+            "date": "2020-06-21 09:20:09+00:00",
+            "title": "Projects with multiple drivers",
+            "text": "Following the discussion at the monthly call, I've installed fpm and am trying to convert a few of my Fortran projects to the recommended structure. These projects involve some legacy fixed-style functions and subroutines, an interface module, and several driver programs (tests). The folder structure is something like:\n.\n\u251c\u2500\u2500 drivers\n\u2502   \u251c\u2500\u2500 driver1.f90\n|   \u2514\u2500\u2500 driver2.f90\n\u251c\u2500\u2500 src\n\u2502   \u251c\u2500\u2500 legacy\n|   |   \u251c\u2500\u2500 legacy1.f\n|   |   \u2514\u2500\u2500 legacy2.f\n|   \u2514\u2500\u2500 interface.f90\n\u2514\u2500\u2500 fpm.toml\n\nDo I need to add multiple sections such as\n[[driver]]\nname = \"driver1\"\nsource-dir = \"drivers\"\nmain = \"driver1.f90\"\n\nto the TOML file? Right now my build just crashes because of multiple executable files.\nI think having multiple executable programs is a quite common type of package, say you have a library for building mesh triangulations, and then with it a small set of command line tools calling routines from this common library.\nAnother question is can I already specify dependencies on system-wide installed libraries. Say a project (or one of it's dependencies) needs to be linked with -llapack -lblas (with the actual LAPACK and BLAS libraries potentially in some non-default location). Does this fit under issue #99 of custom build scripts?\nI had a few other comments about the installation process, but they were already fixed in #101. A remaining point might be that after doing stack install in the fpm folder, the ${HOME}/.local/bin/ folder might not be on the path already, requiring an extra command export PATH=\"$PATH:$HOME/.local/bin/\".",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-21 13:50:08+00:00",
+                    "text": "Here is the project I am trying to convert to be fpm-usable: https://github.com/ivan-pi/fortran_lsp/tree/fpm"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-22 07:34:25+00:00",
+                    "text": "Hi @ivan-pi, regarding multiple drivers I believe the current fpm behaviour allows only one executable source file per folder, where any other Fortran files in that same folder are assumed to be modules; this is undocumented I think because the behaviour is still under discussion, see #91 - the suggestion there by @certik seems promising.\n\nA remaining point might be that after doing stack install in the fpm folder, the ${HOME}/.local/bin/ folder might not be on the path already, requiring an extra command export PATH=\"$PATH:$HOME/.local/bin/\".\n\nThis is a good point and should probably be added to the README."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-22 09:27:29+00:00",
+                    "text": "Thanks @LKedward  for pointing me to the previous discussion. It seems that this issue is then a duplicate. @everythingfunctional and @certik, should I close this issue and comment in #91 instead?\n\nThis is a good point and should probably be added to the README.\n\nI will create a pull request in the next day or two."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-22 22:06:03+00:00",
+                    "text": "Hi @ivan-pi , thanks for trying out fpm with your project. You can have more than one executable per project, but as @LKedward pointed out you must have them in separate folders. Not that the entry in the toml file starts as [[executable]] instead of [[driver]], or it seemed like you considered these to be test programs, so you may want to specify them with [[test]].\nAs for the compiler flags, we haven't really gotten a good handle on how to deal with those. The problem mostly comes from what to do with them in terms of dependencies. Does a project's dependencies get compiled with the flags it specified? What about projects that depend on it? What about if you switch compilers? It's on our radar, it's just a really hard problem that we haven't tackled yet.\nYou can close this issue if you feel the other adequately covers it. Also, feel free to open up other issues if you want make sure we keep track of anything else you asked here."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-22 22:20:36+00:00",
+                    "text": "I believe Cargo supports to have multiple main programs in the bin directory. I think we agreed to use an app directory instead of bin. Is there a reason why fpm cannot compile those automatically?\nIt is intuitive and natural. I would expect it to work also."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-22 22:35:36+00:00",
+                    "text": "It's not that we can't support it, it just makes things more complicated than \"everything else in this folder is a module that should be compiled and linked in\".\nWe (sort of) support having multiple programs in the app directory, they just have to be in separate sub-folders and have explicit entries in fpm.toml."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-22 22:39:44+00:00",
+                    "text": "Yes, it's a little more complicated, but it makes life so much easier for the end user. That is the whole point of fpm. :)"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-22 23:54:46+00:00",
+                    "text": "Yeah, that's probably true."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-23 16:07:50+00:00",
+                    "text": "fpm init could generate the appropriate [[executable]] sections for the user. Just throwing an idea out there, not something that I think is a priority."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-23 18:18:43+00:00",
+                    "text": "Cargo does not require any modifications to Cargo.toml to have executables. We should not either. So fpm init just produces the default initial fpm.toml, and users don't need to touch it, they just create the app dir and put programs in it."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-23 18:43:16+00:00",
+                    "text": "Yes, the sane default of multiple programs in app/ is what we should aim for.\nMy comment about fpm init was specific to the scenario of multiple programs in custom (non-default) location, which needs to be specified in the toml file, just like Cargo does.\nI actually didn't know (or forgot) that we supported multiple executables by specifying them in fpm.toml, so I was happy to read about it in this thread."
+                }
+            ]
+        },
+        {
+            "number": 104,
+            "user": "certik",
+            "date": "2020-06-20 23:01:41+00:00",
+            "title": "Remove the space before comma",
+            "text": "This is a fixup of #101.",
+            "comments": []
+        },
+        {
+            "number": 103,
+            "user": "EverLookNeverSee",
+            "date": "2020-06-20 19:53:09+00:00",
+            "title": "ENH: Using OpenMP in stdlib",
+            "text": "Hi there\nI started learning OpenMP couple weeks ago and would like to use it to parallelize and speed up fortran standard library codebase.",
+            "comments": []
+        },
+        {
+            "number": 102,
+            "user": "everythingfunctional",
+            "date": "2020-06-19 03:36:59+00:00",
+            "title": "Enable fpm to create a new package",
+            "text": "This is just the bare minimum I would say is necessary for fpm new.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 13:56:15+00:00",
+                    "text": "A minor observation: I expected the behaviour to be to initialise a project in the current directory (like git init), as opposed to the command creating a new directory - but I think that is just something that needs documenting somewhere for users.\n\nThis (fpm new) behaviour is analogous to cargo new, and what you describe is analogous to cargo init. So if we wanted to have this, it would be covered by fpm init."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-19 14:56:51+00:00",
+                    "text": "Yeah, I'll add some documentation to the README, and maybe PACKAGING.md"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 17:33:44+00:00",
+                    "text": "I believe this should be called init.\n\nFurthermore, it should initialize in the current directory without an argument, or create a new directory with an argument, just like git or Cargo.\n\nLet's keep the UI as similar to others established tools as possible.\n\u2026\nOn Fri, Jun 19, 2020, at 8:57 AM, Brad Richardson wrote:\n\n\n Yeah, I'll add some documentation to the README, and maybe PACKAGING.md\n\n \u2014\n You are receiving this because your review was requested.\n Reply to this email directly, view it on GitHub\n <#102 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWHVVJAAHKPTZZ565HTRXN4EFANCNFSM4OCLLZMQ>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 18:03:24+00:00",
+                    "text": "@certik, see cargo new and cargo init.\nIn short, cargo new (and likewise, fpm new) creates a new directory and initializes the TOML and starter source files. I think this is what this PR implements, but again, without a PR description or some example in the documentation, hard to say. @everythingfunctional can you please describe the behavior with a small example? How is this invoked? What files are created?\ncargo init initializes the package in an existing directory with existing source files. So fpm init will be used to \"fpm-ize\" an existing package that obeys the fpm layout. fpm new is used to bootstrap a new empty package. They're different.\nAt least this is my understanding of it."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 18:04:54+00:00",
+                    "text": "@everythingfunctional can you please describe the behavior with a small example? How is this invoked? What files are created?\n\nSorry, I didn't mean to nag. :) I saw your earlier response after writing this."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 18:26:07+00:00",
+                    "text": "No, cargo init creates a new package in the current directory and cargo init b creates a new package in a new directory b. I am not sure what the difference is to cargo new. But I've only used cargo init and it creates a new package from scratch."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 18:27:04+00:00",
+                    "text": "See #96 where I go into all the details. See also #96 (comment)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 18:31:06+00:00",
+                    "text": "Both cargo new and cargo init seem identical to me. They both initialize in you current directory, or in a new directory if you provide it as an argument. The initialized files seem identical. What is the difference between the two?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 19:19:21+00:00",
+                    "text": "cargo new only creates a new directory and initializes a project in it.\ncargo init initializes a project in an existing directory, and optionally does what cargo new does.\nFor cargo new, PATH is required. For cargo init, PATH is optional.\nIndeed, if starting from scratch, they appear very much the same and redundant.\nHowever, if there is anything special about the directory layout (multiple binaries, tests etc.) and contents that would be reflected in Cargo.toml, I would expect cargo init to do that. But I don't think it does, at least in the simple example I tried.\nFor fpm it should. For example, if you have a package layout with multiple programs, fpm init should be able to output a correct fpm.toml according to the special layout.\nfpm new simply bootstraps something from scratch.\nIt's very nice and useful to use Cargo and Rust for reference, but it's not an end all. We're not targeting Rust users. What we make should make sense to us. fpm new for a new project very much makes sense, and fpm init makes more sense for initializing an existing project."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 20:45:20+00:00",
+                    "text": "For me it makes sense to use \"fpm init\" like \"git init\". Create a new project from scratch.\n\nI don't think by default it should do something different based on an existing project. However let's have it as an option.\n\nWe should optimize for the most common use case. I think that would be to start a new project from scratch.\n\nAlso, let's have only one command, init. Having two seems redundant and confusing.\n\u2026\nOn Fri, Jun 19, 2020, at 1:19 PM, Milan Curcic wrote:\n\n\n `cargo new` only creates a new directory and initializes a project in it.\n\n `cargo init` initializes a project in an existing directory, and\n optionally does what `cargo new` does.\n\n For `cargo new`, `PATH` is required. For `cargo init`, `PATH` is optional.\n\n Indeed, if starting from scratch, they appear very much the same and redundant.\n\n However, if there is anything special about the directory layout\n (multiple binaries, tests etc.) and contents that would be reflected in\n Cargo.toml, I would expect `cargo init` to do that. But I don't think\n it does, at least in the simple example I tried.\n\n For fpm it should. For example, if you have a package layout with\n multiple programs, `fpm init` should be able to output a correct\n fpm.toml according to the special layout.\n\n `fpm new` simply bootstraps something from scratch.\n\n It's very nice and useful to use Cargo and Rust for reference, but it's\n not an end all. We're not targeting Rust users. What we make should\n make sense to us. `fpm new` for a new project very much makes sense,\n and `fpm init` makes more sense for initializing an existing project.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#102 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWBLCKEQ6AJ52AAUTJLRXO24NANCNFSM4OCLLZMQ>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 21:19:46+00:00",
+                    "text": "For me it makes sense to use \"fpm init\" like \"git init\". Create a new project from scratch.\n\ngit init actually does not only create a new project from scratch. It initializes existing files in the directory into the git repository if there are any. It does also create a new git repository. I think it's difficult to argue that the word \"init\" is more intuitive for creating something new than the word \"new\". To me \"init\" means initialize, which means enable some capability in existing directory+files. In the context of fpm, that would mean simply create fpm.toml given existing pakage layout.\nBut I agree that we shouldn't have redundant commands like Cargo does. It looks like the choice is whether we want to have one command that does multiple things or two narrowly-scoped commands.\n\nWe implement just fpm init which can both create a new empty project and \"fpm-ize\" an existing non-fpm package (basically generate a correct fpm.toml);\nWe implement fpm new that creates an empty project and fpm init to initialize an existing package.\n\nI think @certik prefers option 1. I prefer option 2. as it's easier to understand to me. There may be some other options I missed. @everythingfunctional @LKedward what do you prefer?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 21:24:07+00:00",
+                    "text": "An argument for fpm init over fpm new (all else being equal) is that init is a verb and new is a noun. Using a verb would be more consistent with our existing commands (build, install, run, test), and semantically makes more sense (do this with that).\nSo I am not opposed to the word \"init\". But I do prefer smaller utility commands over more general ones that would behave differently depending on current directory."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-19 22:24:39+00:00",
+                    "text": "Technically, giti init doesn't create a new project from scratch. It initializes an existing project's git configuration.\nI like having two different commands because they do two different things. fpm new for new projects, and fpm init for existing projects.\nSince the most common use case would be to start a new project from scratch, that's why I implemented it first."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 23:06:05+00:00",
+                    "text": "How often do you expect to initialize fpm for an existing project? I don't ever expect to do that, after I convert my existing projects. So I don't think we should optimize for this rare case.\n\nSo I vote to rename new to init and we are in agreement.\n\u2026\nOn Fri, Jun 19, 2020, at 4:24 PM, Brad Richardson wrote:\n\n\n Technically, `giti init` doesn't create a new project from scratch. It\n initializes an existing project's git configuration.\n\n I like having two different commands because they do two different\n things. `fpm new` for new projects, and `fpm init` for existing\n projects.\n\n Since the most common use case would be to start a new project from\n scratch, that's why I implemented it first.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#102 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWFIEEUF4HMPJRLSMM3RXPQTHANCNFSM4OCLLZMQ>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 23:24:53+00:00",
+                    "text": "How often do you expect to initialize fpm for an existing project? I don't ever expect to do that, after I convert my existing projects.\n\nI expect that we'll use fpm init quite often in the early days, perhaps even more often than fpm new, as we'll work hard on adapting existing Fortran packages (ours and those of others) into fpm. In the long run, I expect fpm new would be used more often.\nIt also depends how you're used to doing things. I never ever ran git init to create a new repo from scratch. I always run it after I've written and played with some code and want to make a git repo out of it. Same with fpm. For any more complex layout package, I'd much rather run fpm init and have fpm write the fpm.toml for me, than me editing it by hand every time I add a new file.\nEven if it's an edge case and something that we'd want down the road, I think it's useful to carefully design and name things early on."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 23:53:03+00:00",
+                    "text": "I always indeed run \"git init\" on an empty repository to start a new project.\n\nRegarding adding new files, you don't modify fpm.toml when you do that.\n\u2026\nOn Fri, Jun 19, 2020, at 5:25 PM, Milan Curcic wrote:\n\n\n > How often do you expect to initialize fpm for an existing project? I don't ever expect to do that, after I convert my existing projects.\n\n I expect that we'll use `fpm init` quite often in the early days,\n perhaps even more often than `fpm new`, as we'll work hard on adapting\n existing Fortran packages (ours and those of others) into fpm. In the\n long run, I expect `fpm new` would be used more often.\n\n It also depends how you're used to doing things. I never ever ran git\n init to create a new repo from scratch. I always run it after I've\n written and played with some code and want to make a git repo out of\n it. Same with fpm. For any more complex layout package, I'd much rather\n run `fpm init` and have fpm write the fpm.toml for me, than me editing\n it by hand every time I add a new file.\n\n Even if it's an edge case and something that we'd want down the road, I\n think it's useful to carefully design and name things early on.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#102 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWDWQADEDJQCBLH5LDLRXPXVDANCNFSM4OCLLZMQ>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-19 23:54:59+00:00",
+                    "text": "More generally, let's follow what Rust does, it's a well tested approach. Once we use it and don't like it, then let's discuss to do something else.\n\u2026\nOn Fri, Jun 19, 2020, at 5:52 PM, Ond\u0159ej \u010cert\u00edk wrote:\n I always indeed run \"git init\" on an empty repository to start a new project.\n\n Regarding adding new files, you don't modify fpm.toml when you do that.\n\n On Fri, Jun 19, 2020, at 5:25 PM, Milan Curcic wrote:\n >\n >\n > > How often do you expect to initialize fpm for an existing project? I don't ever expect to do that, after I convert my existing projects.\n >\n > I expect that we'll use `fpm init` quite often in the early days,\n > perhaps even more often than `fpm new`, as we'll work hard on adapting\n > existing Fortran packages (ours and those of others) into fpm. In the\n > long run, I expect `fpm new` would be used more often.\n >\n > It also depends how you're used to doing things. I never ever ran git\n > init to create a new repo from scratch. I always run it after I've\n > written and played with some code and want to make a git repo out of\n > it. Same with fpm. For any more complex layout package, I'd much rather\n > run `fpm init` and have fpm write the fpm.toml for me, than me editing\n > it by hand every time I add a new file.\n >\n > Even if it's an edge case and something that we'd want down the road, I\n > think it's useful to carefully design and name things early on.\n >\n > \u2014\n > You are receiving this because you were mentioned.\n > Reply to this email directly, view it on GitHub\n > <#102 (comment)>,\n > or unsubscribe\n > <https://github.com/notifications/unsubscribe-auth/AAAFAWDWQADEDJQCBLH5LDLRXPXVDANCNFSM4OCLLZMQ>.\n >"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-20 02:42:07+00:00",
+                    "text": "I honestly didn't even know that git init directory was a valid command. I learned something new today! I always thought you just had to git init inside a directory, existing files or not.\nI still think that the command that makes the most sense for creating a new project is fpm new, even if that's not what Cargo does. Although I will note the following output from cargo, which would seem to suggest that cargo somewhat agrees with me. cargo new is for a new cargo package and cargo init is for in an existing directory.\n[darter:~] cargo help new\ncargo-new \nCreate a new cargo package at <path>\n\nUSAGE:\n    cargo new [OPTIONS] <path>\n\n[darter:~] cargo help init\ncargo-init \nCreate a new cargo package in an existing directory\n\nUSAGE:\n    cargo init [OPTIONS] [--] [path]"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-20 17:04:23+00:00",
+                    "text": "Here is the guide for Cargo:\nhttps://doc.rust-lang.org/cargo/guide/creating-a-new-project.html\nit seems they recommend cargo new also.\nI explained my position above, Milan and Brad explained theirs, and it looks like they prefer to use fpm new instead of fpm init to start a new package. So unless more people have an opinion right now, let's go with fpm new and move on.\nHowever, I reserve the right to run a poll later on, and if more people prefer fpm init, let's reconsider. Until then, let's do fpm new."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-20 18:21:39+00:00",
+                    "text": "However, I reserve the right to run a poll later on, and if more people prefer fpm init, let's reconsider. Until then, let's do fpm new.\n\nDefinitely, we don't have a majority agreement right now."
+                }
+            ]
+        },
+        {
+            "number": 101,
+            "user": "EverLookNeverSee",
+            "date": "2020-06-17 11:51:54+00:00",
+            "title": "Optional Fix for README",
+            "text": "Separating navigating to stack directory and Adding to PATH\nBecause some of users may navigate to stack directory first and and enter this command(export PATH=\"$PATH:pwd/stack-2.1.3-linux-x86_64-static/)  in order to install stack command that causes error below in $PATH:\nNo such file or directory",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 12:13:30+00:00",
+                    "text": "@everythingfunctional This reminds me of a question I wanted to ask about the instructions for installing stack: why does the README recommend following the 'Manual Download' instructions as opposed to using the simpler install script or distribution package managers? I used the Ubuntu distribution package followed by running $ stack upgrade which was much simpler and works fine.\nThe instructions for installing stack are pleasantly comprehensive (and cross-platform!) and I think we should simply refer users to this page and allow them to choose their preferred installation method."
+                },
+                {
+                    "user": "EverLookNeverSee",
+                    "date": "2020-06-17 14:40:43+00:00",
+                    "text": "I think this is a positive change, as our specific instruction was Linux only.\n\nThank you @milancurcic for approving this PR."
+                },
+                {
+                    "user": "EverLookNeverSee",
+                    "date": "2020-06-17 14:45:34+00:00",
+                    "text": "Thanks @EverLookNeverSee , I agree this is an improvement.\nUnless Brad had a specific reason for recommending the manual installation method, I think this is good to merge with one change: can you revert 7ee74b1?\n\nOk, I'll revert it."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-17 16:20:15+00:00",
+                    "text": "@certik wanted to support people who didn't have sudo access to install system wide. I agree that the official stack install instructions are generally the preferred way, so I support this change. We may  want to have a separate section to put the manual install instructions somewhere just in case."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-17 20:34:11+00:00",
+                    "text": "I would like to keep it in some form, as requiring a sudo access is a non-starter on almost any machine where I would like to use fpm (I don't have sudo access)."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-17 20:50:39+00:00",
+                    "text": "I would like to keep it in some form, as requiring a sudo access is a non-starter on almost any machine where I would like to use fpm (I don't have sudo access).\n\nI agree. Could this link  just be mentioned to replace the deleted section. Furthermore, all OS are described there."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-17 21:43:57+00:00",
+                    "text": "I think that link would work."
+                },
+                {
+                    "user": "EverLookNeverSee",
+                    "date": "2020-06-20 07:59:48+00:00",
+                    "text": "@certik\nWhat should we do for this PR?"
+                },
+                {
+                    "user": "EverLookNeverSee",
+                    "date": "2020-06-21 06:52:32+00:00",
+                    "text": "@certik Thanks for merging."
+                }
+            ]
+        },
+        {
+            "number": 100,
+            "user": "milancurcic",
+            "date": "2020-06-16 17:52:56+00:00",
+            "title": "add a note about Effing Package Management and elaborate on prototype",
+            "text": "This PR:\n\nAdds a clarification about the other fpm\nExpands the note on fpm being an early prototype\n\nFixes #90",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-16 18:09:05+00:00",
+                    "text": "Minor wording change suggestion, but other than that this looks good. Thanks for tackling this one."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-16 18:29:33+00:00",
+                    "text": "I would also add at the end:\nAs the prototype matures and we enter production, we will do our best to stay backwards compatible.\n(Otherwise looks good, thanks!)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-16 18:51:40+00:00",
+                    "text": "Thank you, both. Merging."
+                }
+            ]
+        },
+        {
+            "number": 99,
+            "user": "everythingfunctional",
+            "date": "2020-06-15 00:11:07+00:00",
+            "title": "Add support for Makefiles and generic build scripts",
+            "text": "",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-15 00:33:29+00:00",
+                    "text": "I think I might need some help from somebody who understands Windows a bit better to help me with the issue there. I'm guessing either something with the absolute paths is screwing up make, or the environment variables aren't working properly. I'm leaning towards the former, but I don't have access to a Windows machine to test it with at the moment."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-15 01:00:39+00:00",
+                    "text": "The windows error is:\n# gfortran (for build/gfortran_debug/test/main.o)\n# gfortran (for build/gfortran_debug/test/runTests.exe)\n Hello, from test!\nmingw32-make: *** No rule to make target 'D:\\a\\fpm\\fpm\\test\\example_packages\\with_makefile\\build\\gfortran_debug\\with_makefile\\libwith_makefile.a'.  Stop.\nmingw32-make: *** No rule to make target 'D:\\a\\fpm\\fpm\\test\\example_packages\\makefile_complex\\build\\gfortran_debug\\with_makefile\\libwith_makefile.a'.  Stop.\nmingw32-make: *** No rule to make target 'D:\\a\\fpm\\fpm\\test\\example_packages\\makefile_complex\\build\\gfortran_debug\\makefile_complex\\libmakefile_complex.a'.  Stop."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-15 04:20:47+00:00",
+                    "text": "I am worried it's going to mess up buildsystems. Cargo is not using such variables either.\n\u2026\nOn Sun, Jun 14, 2020, at 9:53 PM, Brad Richardson wrote:\n\n\n ***@***.**** commented on this pull request.\n\n In test/example_packages/makefile_complex/Makefile\n <#99 (comment)>:\n\n > @@ -0,0 +1,9 @@\n +INCLUDE_FLAGS = $(addprefix -I,$(INCLUDE_DIRS))\n +\n +$(BUILD_DIR)/libmakefile_complex.a: $(BUILD_DIR)/wrapper_mod.o\n The ones I used are actually the standard environment variables for\n Makefiles. You (almost) can use an empty Makefile and these would\n actually work. We can use prefixed variables, but it's one extra\n difference from what a lot of people will already have and be used to.\n\n \u2014\n You are receiving this because your review was requested.\n Reply to this email directly, view it on GitHub\n <#99 (comment)>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWGC5W5YVTCC3G5C4JDRWWLMJANCNFSM4N5VZI5A>."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-15 04:53:46+00:00",
+                    "text": "I am worried it's going to mess up buildsystems. Cargo is not using such variables either.\n\nI'm not sure I understand. The environment variables are only set while fpm is running. Can you give me an example of a situation that might break?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-15 05:58:10+00:00",
+                    "text": "I'm not sure I understand. The environment variables are only set while fpm is running. Can you give me an example of a situation that might break?\n\nI don't know for sure, but an example would be an autotools build system, that reads these common environment variables, and if they are set by fpm it might break the build. I've definitely seen build systems where things break if you set these variables. So then the user would have to unset them before running autotools.\nIt seems that prefixing them with FPM_, it would ensure that as we expose more variables in the future, things that already work will continue working.\nHowever, one variable I would set automatically, and that is CMAKE_PREFIX_PATH. I think Spack does it, and that makes any CMake project to easily find all the fpm dependencies without the user having to do anything.\nI think your idea is to follow a similar philosophy for raw Make also.\nAlso as a documentation, it's hard to tell from looking at the script who sets the BUILD_DIR variable. But if it is FPM_BUILD_DIR, then it is clear that it is set by fpm.\nI don't know. Let's try this, and keep our options open to possibly prefix it if we run into problems?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-15 06:16:40+00:00",
+                    "text": "My thinking is that if having those environment variables set means your build script doesn't work, that your build script isn't compatible with fpm, and you need a different one for fpm to use. Since the variables aren't persistent after fpm is done running, it won't break existing build systems. They can coexist side by side.\nIf we use prefixed variables, then users are practically guaranteed to have to write a new build script for fpm to use. If we use commonly used ones, there's a chance their existing one might actually work.\nI agree, let's see how this works out, and if we have to change it later, we can.\nI'm not all that familiar with CMake, but we can always do different things for different build tools when we add support for them."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-15 14:53:04+00:00",
+                    "text": "My only minor nitpick is with the compounding of Makefiles and build scripts / executables in the fpm.toml definition\n\nI hadn't really thought about it that hard. It's worth considering. Usually I'd agree, but somehow this seemed simpler from a user and documentation stand point. If you have a custom build process, there's one way/place to specify it, and fpm just knows what to do with it.\n@milancurcic or @certik , do you guys have an opinion on this?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-15 17:07:21+00:00",
+                    "text": "These are all really tough questions with good arguments on both sides. My only suggestion is to be open and open to change things if things don't feel right. I think the way forward is to insist that we are still in a prototype phase, and so things can (and will) change --- let's put this in bold in the README? And in a prototype phase, let's just try it, and get more experience, and be ready to change things. Only after we declare we are in production, we should be backwards compatible as  much as possible.\nIn general, I was hoping that fpm would simply execute the \"script\" as an executable, and always pass the same environment variables. I feel it is ok for fpm to know how to execute the script properly, so a bash script using bash, a Xonsh script using Xonsh, Make file using make, and an executable as an executable.\nI think it is absolutely ok for users to write a short build script. You will have to do it anyway for cmake projects."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-15 18:10:22+00:00",
+                    "text": "I don't see issues with this. Like @certik said, let's try it and we can revise if there's need for it. We can't think of all correct answers ahead of time without trying things first in practice.\nMinor nit pick: As a user I didn't expect that for using make the build_script value would be Makefile or *.mk. build_script = \"make\" or build_script = \"make target\" seems more intuitive, because that's what I would've typed otherwise. However, this is also perhaps problematic because neither Makefile nor make are scripts (Makefile is a specification file and make is a command/tool). Perhaps a build_command parameter would be more appropriate if both arbitrary scripts and make are to be invoked with it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-15 19:47:09+00:00",
+                    "text": "One issue with build_command is that we need to specify the shell. So it could be Bash on Linux/macOS and PowerShell on Windows. Simple commands like make target would work in both. More advanced things, such as referencing an environment variable will not work cross-platform. Essentially the issue is a lack of cross-platform shell.\nRust / Cargo goes around this by simply writing the \"build script\" in Rust itself, thus making it cross-platform.\nI think there is a huge need for a cross-platform native shell. We even started one: https://github.com/xonsh/minixonsh (Xonsh itself is one, but being a Python program, it has the typical Python issues related to distribution and speed).\nBut until there is one (and well supported), I think we should not just pick one and require it.\nSo given all of this, the two option are:\n\n\nbuild_script would be directly executed in Bash / PowerShell, so you have to use a subset that works in both, such as make or make target. Or bash my_buildscript.sh.\n\n\nbuild_script points to a script or executable that gets executed. So Makefile gets executed via make, as fpm knows this.\n\n\nI still think 2. seems better.\nBut overall, I don't know what the best way forward is. So let's just try something to get moving, and iterate."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-16 02:48:48+00:00",
+                    "text": "I think there will be some packages which are just not supported on all platforms, and that's ok. As a community we can encourage that and provide support when we're able, but that's going to be a big hurdle in some instances.\nAs everybody seems to agree, let's try this PR out and see how it goes."
+                }
+            ]
+        },
+        {
+            "number": 98,
+            "user": "epagone",
+            "date": "2020-06-13 18:35:35+00:00",
+            "title": "Add pre-requisites to `stack build` in `README`",
+            "text": "On my Ubuntu 20.04 machine, I have installed Haskell Stack unpacking the tarball and adding it to my PATH, as described in the README. After having cloned the fpm repository, stack build failed because I did not have the developers library of gmp (the package libgmp-dev, in my case). I have created PR #97 to add this information to the README (plus the fix to a trivial typo).\nHowever, I believe that we should provide the user with info to cover far more cases (consider also that my test did not start from a \"vanilla\" Ubuntu 20.04 and it is likely that I had already some required packages installed without knowing it). Ideally, I think that the following should be covered in the README:\n\npackages required for all the major GNU/Linux distributions\npre-requisites on Windows 8 and 10\npre-requisites on Apple OSs\n\nConsidering that I have no clue on how to action the above points, I wonder if the CI tools could help. (Disclaimer: I only vaguely know what CI is.)\nPS: just for the records, I was temporary stopped also by the following error in my attempts to complete stack build\n$ stack build\nLinking /home/emanuele/.stack/setup-exe-cache/x86_64-linux-tinfo6/tmp-Cabal-simple_mPHDZzAJ_2.4.0.1_ghc-8.6.5 ...\nclock               > configure         \nclock               > Configuring clock-0.8...\nclock               > build             \ncolour              > configure         \nclock               > Preprocessing library for clock-0.8..\nclock               > Building library for clock-0.8..\nclock               > [1 of 1] Compiling System.Clock\ncolour              > Configuring colour-2.3.5...\ncolour              > build             \nfile-embed          > configure         \ncolour              > Preprocessing library for colour-2.3.5..\ncolour              > Building library for colour-2.3.5..\ncolour              > [ 1 of 14] Compiling Data.Colour.CIE.Chromaticity\nfile-embed          > Configuring file-embed-0.0.11.1...\nfile-embed          > build             \nfile-embed          > Preprocessing library for file-embed-0.0.11.1..\nfile-embed          > Building library for file-embed-0.0.11.1..\ncolour              > [ 2 of 14] Compiling Data.Colour.CIE.Illuminant\nfile-embed          > [1 of 1] Compiling Data.FileEmbed\ncolour              > [ 3 of 14] Compiling Data.Colour.Chan\ncolour              > [ 4 of 14] Compiling Data.Colour.Internal\ncolour              > [ 5 of 14] Compiling Data.Colour.Matrix\ncolour              > [ 6 of 14] Compiling Data.Colour.RGB\nclock               > copy/register     \nclock               > Installing library in /home/emanuele/.stack/snapshots/x86_64-linux-tinfo6/49a576afeb5ab2de0c5f11799c421ee126e112c03a2f7d31c3261efc00737d53/8.6.5/lib/x86_64-linux-ghc-8.6.5/clock-0.8-H1S1zDefxirImaRbI6ITNv\nclock               > Registering library for clock-0.8..\ncolour              > [ 7 of 14] Compiling Data.Colour.RGBSpace.HSL\nfile-embed          > copy/register\nfile-embed          > Installing library in /home/emanuele/.stack/snapshots/x86_64-linux-tinfo6/49a576afeb5ab2de0c5f11799c421ee126e112c03a2f7d31c3261efc00737d53/8.6.5/lib/x86_64-linux-ghc-8.6.5/file-embed-0.0.11.1-1DkjC7VmQhQFLvxtpUIE3o\ncolour              > [ 8 of 14] Compiling Data.Colour.RGBSpace.HSV\ncolour              > [ 9 of 14] Compiling Data.Colour.SRGB.Linear\nfile-embed          > Registering library for file-embed-0.0.11.1..\ncolour              > [10 of 14] Compiling Data.Colour.RGBSpace\ncolour              > [11 of 14] Compiling Data.Colour.SRGB\ncolour              > [12 of 14] Compiling Data.Colour\ncolour              > [13 of 14] Compiling Data.Colour.Names\ncolour              > [14 of 14] Compiling Data.Colour.CIE\ncolour              > copy/register\ncolour              > Installing library in /home/emanuele/.stack/snapshots/x86_64-linux-tinfo6/49a576afeb5ab2de0c5f11799c421ee126e112c03a2f7d31c3261efc00737d53/8.6.5/lib/x86_64-linux-ghc-8.6.5/colour-2.3.5-y0xjV3ONUd40VuBtReEvC\ncolour              > Registering library for colour-2.3.5..\nHttpExceptionRequest Request {\n  host                 = \"casa.fpcomplete.com\"\n  port                 = 443\n  secure               = True\n  requestHeaders       = []\n  path                 = \"/v1/pull\"\n  queryString          = \"\"\n  method               = \"POST\"\n  proxy                = Nothing\n  rawBody              = False\n  redirectCount        = 10\n  responseTimeout      = ResponseTimeoutDefault\n  requestVersion       = HTTP/1.1\n}\n (ConnectionFailure Network.Socket.getAddrInfo (called with preferred socket type/protocol: AddrInfo {addrFlags = [AI_ADDRCONFIG], addrFamily = AF_UNSPEC, addrSocketType = Stream, addrProtocol = 0, addrAddress = <assumed to be undefined>, addrCanonName = <assumed to be undefined>}, host name: Just \"casa.fpcomplete.com\", service name: Just \"443\"): does not exist (Try again))\nProgress 4/30\n\nbut simply running stack build again solved magically the issue (I don't know what that is).",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-06-14 04:37:30+00:00",
+                    "text": "I see, thanks.\nWe are planning to actually implement the production version of fpm in Fortran itself, and distribute it as a binary. So most of these issue will not be issues in the future. But in order to bootstrap fpm, we will keep the Haskell verison with minimal features (roughly as it is now), so that we can use it to actually develop the Fortran version of fpm.\nThanks for submitting this."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-15 13:15:48+00:00",
+                    "text": "We are planning to actually implement the production version of fpm in Fortran itself, and distribute it as a binary.\n\nWas this mentioned somewhere previously? I recall reading it would be done in C++ for performance. If we could set up stdlib to work with the current fpm, and get the necessary string and system routines in stdlib it would be a nice test of the entire project."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-15 14:07:34+00:00",
+                    "text": "If we could set up stdlib to work with the current fpm\n\nDo you mean building stdlib using fpm? I think this is a good short-term goal for fpm - I believe the prerequisites before we can do this are #78 (preprocessor support) and #86 (submodules support).\nIf fpm is implemented in Fortran, then using stdlib for this would also be a good demonstration of stdlib."
+                }
+            ]
+        },
+        {
+            "number": 97,
+            "user": "epagone",
+            "date": "2020-06-13 18:33:53+00:00",
+            "title": "add Ubuntu 20.04 package pre-requisite to `README`",
+            "text": "Testing the building process, I have identified a pre-requisite on my machine with Ubuntu 20.04. Fixed a trivial typo, too.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-16 17:38:03+00:00",
+                    "text": "Merging, thank you @epagone!"
+                }
+            ]
+        },
+        {
+            "number": 96,
+            "user": "certik",
+            "date": "2020-06-12 17:08:54+00:00",
+            "title": "Implement \"fpm init\" to create the initial project skeleton",
+            "text": "It would work just like cargo init:\n$ cargo init myproject1\n     Created binary (application) package\n$ tree -a myproject1\nmyproject1\n\u251c\u2500\u2500 Cargo.toml\n\u251c\u2500\u2500 .git\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 config\n\u2502   ...\n\u251c\u2500\u2500 .gitignore\n\u2514\u2500\u2500 src\n    \u2514\u2500\u2500 main.rs\n\n10 directories, 18 files\n\nAs you can see, it starts a git repository, and so on. It is ready to compile, so:\n~$ cd myproject1\nmyproject1(master)$ cat src/main.rs \nfn main() {\n    println!(\"Hello, world!\");\n}\nmyproject1(master)$ cargo run\n   Compiling myproject1 v0.1.0 (/tmp/myproject1)\n    Finished dev [unoptimized + debuginfo] target(s) in 1.25s\n     Running `target/debug/myproject1`\nHello, world!\n\nIf you just call cargo init, then it creates a new project in the current directory. Similar to git init.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-12 18:24:33+00:00",
+                    "text": "I might split the two use cases and not actually run git init.\nfpm new name creates a folder name with contents fpm.toml, .gitignore and src\\name.f90. Maybe app\\main.f90 instead? Or maybe both? I'll come up with a specific proposal. But yeah, fpm build and maybe fpm run should work from the get go.\nfpm init uses the name of the current folder as the name of the project and just creates fpm.toml. Maybe append build/* to the end of .gitignore.\nI think we want people to be able to create new projects even if they don't already have git installed."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-12 18:49:31+00:00",
+                    "text": "Yes, we should allow options to configure things, so all of the above will be possible with the proper options. For example to initialize without git:\ncargo init --vcs none myproject1\n\n(Obviously you can use other vcs also such as hg.) People that do not have git can always use this option.\nThe default (with no options provided) should be the ones that people use the most often as well as a \"default\" workflow that we want to encourage. I think that we absolutely want to encourage to use git and upload to GitHub or GitLab. I think that should be the default workflow to encourage.\nBut for people who are perhaps new to programming and just want to use a few dependencies and write some simple app and do not want to learn git at the moment, those would initialize with git init --vcs none myproject1.\n$ cargo init -h\ncargo-init \nCreate a new cargo package in an existing directory\n\nUSAGE:\n    cargo init [OPTIONS] [--] [path]\n\nOPTIONS:\n    -q, --quiet                  No output printed to stdout\n        --registry <REGISTRY>    Registry to use\n        --vcs <VCS>              Initialize a new repository for the given version control system (git, hg, pijul, or\n                                 fossil) or do not initialize any version control at all (none), overriding a global\n                                 configuration. [possible values: git, hg, pijul, fossil, none]\n        --bin                    Use a binary (application) template [default]\n        --lib                    Use a library template\n        --edition <YEAR>         Edition to set for the crate generated [possible values: 2015, 2018]\n        --name <NAME>            Set the resulting package name, defaults to the directory name\n    -v, --verbose                Use verbose output (-vv very verbose/build.rs output)\n        --color <WHEN>           Coloring: auto, always, never\n        --frozen                 Require Cargo.lock and cache are up to date\n        --locked                 Require Cargo.lock is up to date\n        --offline                Run without accessing the network\n    -Z <FLAG>...                 Unstable (nightly-only) flags to Cargo, see 'cargo -Z help' for details\n    -h, --help                   Prints help information\n\nARGS:\n    <path>     [default: .]"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-12 20:47:11+00:00",
+                    "text": "I see, I was not aware of those options for cargo. With that, I'm fine with defaulting to using git. There is certainly value in having the defaults set to the most common use case and the one we want to encourage.\nI would still prefer init and new as two different commands."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-12 21:09:38+00:00",
+                    "text": "Cargo also has init and new. They have similar but complementary roles. I see value in having both."
+                }
+            ]
+        },
+        {
+            "number": 95,
+            "user": "everythingfunctional",
+            "date": "2020-06-11 21:43:54+00:00",
+            "title": "Fix ordering for library archive list",
+            "text": "Found a bug in how the library archive paths are kept. Caused a link time error for complicated dependency trees.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-12 16:23:29+00:00",
+                    "text": "I had a test that I thought tested this, but apparently the dependency tree wasn't deep/complicated enough. It took a real world, complicated usage to finally uncover it."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-12 17:01:03+00:00",
+                    "text": "Sounds good. I don't understand the fix, but it should go forward.\nWhat's the example that didn't work and that this PR fixes? It's helpful to know so that if the same or similar scenario causes an issue again, we'll know where to look. It's good to document these things at least in the PR thread. I agree with @certik regarding tests."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-12 17:01:16+00:00",
+                    "text": "Merging."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-12 18:29:53+00:00",
+                    "text": "I started a simple executable project with matterff and a few other of its dependencies as dependencies, and it barfed at the link command. Unfortunately it was in a work repo, so I can't provide a link, but I should be able to relatively easily put together a separate example repo if needed."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-12 18:32:12+00:00",
+                    "text": "The problem was that it was keeping the first instance of duplicate entries in the list, but it needed to keep the last one. The fix is to just reverse the list before removing the duplicates and then reverse it back once that's done."
+                }
+            ]
+        },
+        {
+            "number": 94,
+            "user": "certik",
+            "date": "2020-06-08 16:48:21+00:00",
+            "title": "Implement a build script",
+            "text": "I would do exactly what Cargo does: https://doc.rust-lang.org/cargo/reference/build-scripts.html\nOnly I would allow the build script to be any of: any binary, cmake, make, Bash script.\nOtherwise the following I would do exactly the same:\n\n\nInputs: environment variables\n\n\nOutputs: the build script prints to stdout with lines starting with fpm:, everything else is ignored. At the beginning, I would support the following, and we can add more later:\n\nfpm:fc-link-lib=[KIND=]NAME --- Adds a library to link (doc)\nfpm:fc-flags=FLAGS --- Passes certain flags to the compiler (doc).\n\nThat should be enough to get us started. One of the environment variables passed to the build script is which Fortran compiler is being used, so the build script would know what compiler parameters to pass back (for example ifort in general might require different flags than gfortran). In the same way, the flags might depend on the platform (macOS vs Linux vs Windows), so one of the input variables can be what platform we run on.",
+            "comments": []
+        },
+        {
+            "number": 93,
+            "user": "epagone",
+            "date": "2020-06-07 12:22:50+00:00",
+            "title": "Run dependencies tests",
+            "text": "Use case: I'd like to build my program or library that depends on FGSL with fpm. I know how to specify such dependency (in theory, at least) and let's assume that there are no issues in fetching, compiling and linking.\nThe issue I'm raising here is: what if I want to make sure that the fetched and compiled dependency passes its tests on my machine before proceeding with linking and building my own program or library? How can I do that with fpm?\nI believe it's a non-trivial problem considering that each external dependency does not conform to fpm specs. Off the top of my head: maybe an additional key in the TOML file can be specified by the user that specifies how to test the dependency (e.g. make test)? However, I think that it is a sub-optimal solution because requires the user to gain this information for each dependency but it would be hard to have a general reliable method otherwise. Please correct me if I'm off-track.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 19:36:31+00:00",
+                    "text": "@epagone good question. Here is how I think we are imagining this will work:\n\nyour program depends on FGSL.\nFGSL will be an fpm package. As such, when you execute fpm test in the FGSL repository, it will test it. (Currently FGSL is not an fpm package. We envision that eventually people would like to make all such libraries an fpm package, but until then, somebody can create simple repository that will be the fpm package for it, and it would fetch the FGSL sources and build it correctly with fpm, and it would ensure that fpm test works.)\nIn your program, you would just depend on the FGSL as an fpm package.\n\nTo run tests for FGSL, there are two options, you either checkout the FGSL repository and execute fpm test there. Or we can add an option to fpm test, such as fpm test -p FGSL that would execute the tests for FGSL.\nI just checked how Cargo does it. And while Cargo has the -p option for cargo test, it only works with local packages in a workspace (one can have multiple packages in a git repository), but it doesn't seem to work for dependencies that are not in the current repository.\nWe can discuss this more."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-06-08 00:55:40+00:00",
+                    "text": "Thanks for the explanation @certik, I understand now the logic better. However, I went back to re-read the packaging guide and I think the requirement that the dependency has to be already an fpm package is not stated:\n\nInevitably you'll want to be able to include other libraries in your project. fpm makes this incredibly simple, by taking care of fetching and compiling your dependencies for you. You just tell it what your dependencies are, and where to find them.\n\nProbably the assumption that the dependency has been already packaged with fpm is implied. Thinking about it, I guess it should not be a big deal to re-package existing libraries in fpm: it's a matter of swapping files in the right directories and writing the fpm.toml file (if I'm not missing anything major)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-08 02:26:54+00:00",
+                    "text": "@epagone yes, that's the most natural approach."
+                }
+            ]
+        },
+        {
+            "number": 92,
+            "user": "certik",
+            "date": "2020-06-07 04:32:52+00:00",
+            "title": "Behavior of `fpm build` and `fpm test`",
+            "text": "cargo build does not build tests. You have to do cargo build --tests to also build tests.\ncargo test build tests (if needed) and runs them.\nI suggest we follow the same approach.",
+            "comments": []
+        },
+        {
+            "number": 91,
+            "user": "everythingfunctional",
+            "date": "2020-06-07 03:59:40+00:00",
+            "title": "Multiple executables or tests in the same directory",
+            "text": "Right now, program source files can not be placed in the same folder. The build system sees the other program source files and assumes they are modules. We should discuss whether this restriction should be clearly identified in the user documentation, or whether we want to try and support having multiple program sources in the same folder.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-07 04:03:29+00:00",
+                    "text": "The main use case I can see for allowing this would be to have modules common to multiple programs or tests, but not included in the library. I would generally be of the opinion that such a situation calls for either putting those modules in the library, or putting them into their own separate library. And by not supporting it, it encourages users to do things the right way."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 04:23:46+00:00",
+                    "text": "I think Cargo allows to have programs in subdirectories of bin/, and I think it's one executable per subdirectory, and other files are just linked to it. I think that's fine.\nFinally, all programs in bin/ directory directly are all separate programs and I think only programs are allowed there.\nI think we can follow exactly the same approach."
+                }
+            ]
+        },
+        {
+            "number": 90,
+            "user": "certik",
+            "date": "2020-06-04 20:55:38+00:00",
+            "title": "The name fpm is used by another package manager",
+            "text": "It was just pointed out to me that fpm is used by another project: https://github.com/jordansissel/fpm. Unfortunately it is in a similar field (also a package manager).\nHere are some options going forward (I'll update this list if there are more):\n\nRename our fpm\nKeep the name fpm and ensure that people do not mistake the two projects (what's the best way?)\n\nAs to myself, I really like the name fpm to mean a Fortran Package Manager. So I vote for 2., if there is a way to do it.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-04 21:13:50+00:00",
+                    "text": "I vote for 2 as well. I think the two are sufficiently different, but knowing it's out there we can be conscious to avoid confusion as much as possible.\nOn a side note, should we use that tool to create our Linux packages?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-04 21:24:35+00:00",
+                    "text": "This is unfortunate, though not surprising.\nAs the originator of the name, I'm sorry. I should've done better research. :(\nMy preference is also for 2, because I like the name. However I see issues ahead of us, and it will only be more difficult to rename later. Issues are:\n\nConfusion\nConflict (both CLI tools are called fpm)\nBad look on us as the community, as we are a younger project\n\n\nOn a side note, should we use that tool to create our Linux packages?\n\nThough it sounds like a good idea, now we're really screwed: \"So fpm will package fpm for Linux. Wait, which fpm is this? Is it this fpm or the other fpm?\". I'm confused already. :)\n\nSo I vote for 2., if there is a way to do it.\n\nLet's discuss how we could do it. This would probably mean putting a large disclaimer at the top of our README, saying \"This fpm is not the other fpm\", or similar. What else?\n@jordansissel Do you have any advice for us?"
+                },
+                {
+                    "user": "jordansissel",
+                    "date": "2020-06-05 00:59:34+00:00",
+                    "text": "I ran into this myself shorty after releasing (my) fpm! I learned there\u2019s a\ntool PHP-FPM That many folks call FPM.\n\nNaming is hard. It\u2019s hard to know if conflicting names will cause\ndifficulties.\n\nI\u2019ve run into weirdness myself with things on Debian like \u201cdocker\u201d package\nnot being the container runtime tool.\n\nI think my advice is this: if you feel fpm is the right name for your tool,\nthen please keep the name. Computers and humans will likely figure this out\non their own with their own workarounds that aren\u2019t too harmful. Examples\nabound, like you can\u2019t really search for \u201cgo\u201d so while the language is Go\nyou gotta search golang. It\u2019s a weird workaround but it works most of the\ntime.\n\nIs this a bad look? I don\u2019t think so!\n\n+1 for a clarification at the top of the README. I\u2019d be happy to include a\nsimilar clarification in my fpm readme and docs. Something short and direct\nthat describes the project (FORTRAN for this one) and offers disambiguation\nlinks to help any wayward travelers.\n\nI agree with concern about command line name conflicts, but it\u2019s unclear\nwhat negative impact this will have. Again here we have examples like\ndownstream OS calling \u201cpip\u201d executable \u201cpython3-pip\u201d or similar naming\nsolutions. That said, it\u2019s probably fine to keep the cli name the same?\n\nAs for search/discovery, \u201cfpm\u201d plus any context should help search engines\nfind the right place for users.\n\nThoughts? Having the project and cli name be the same has low risk in my\nopinion.\n\u2026\nOn Thu, Jun 4, 2020 at 2:24 PM Milan Curcic ***@***.***> wrote:\n This is unfortunate, though not surprising.\n\n As the originator of the name\n <fortran-lang/stdlib#44 (comment)>,\n I'm sorry. I should've done better research. :(\n\n My preference is also for 2, because I like the name. However I see issues\n ahead of us, and it will only be more difficult to rename later. Issues are:\n\n    - Confusion\n    - Conflict (both CLI tools are called fpm)\n    - Bad look on us as the community, as we are a younger project\n\n On a side note, should we use that tool to create our Linux packages?\n\n Though it sounds like a good idea, now we're really screwed: \"So fpm will\n package fpm for Linux. Wait, which fpm is this? Is it this fpm or the other\n fpm?\". I'm confused already. :)\n\n So I vote for 2., if there is a way to do it.\n\n Let's discuss how we could do it. This would probably mean putting a large\n disclaimer at the top of our README, saying \"This fpm is not the other\n fpm\", or similar. What else?\n\n @jordansissel <https://github.com/jordansissel> Do you have any advice\n for us?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#90 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AABAF2WIFDF5BRL244MHV4LRVAGKDANCNFSM4NS7GCRA>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-05 02:54:11+00:00",
+                    "text": "Jordan, thanks a lot. With your encouragement I now feel more comfortable keeping the name, and making it clear in the README to avoid confusion.\nSo if @certik and @everythingfunctional agree, we'll add the clarification and link to the top of the README."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-05 04:11:25+00:00",
+                    "text": "@jordansissel thank you for your nice comment. Since you are ok with us keeping the name, I am too. @milancurcic yes, let's send a PR with a clarification at the top of our README and docs. That should make it clear to users.\nI agree with Jordan that there are ways around it. For example Debian has the alternatives system, so users will be able to choose what they want to run as fpm."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-05 04:43:29+00:00",
+                    "text": "I am in agreement. Good call just reaching out and asking, and thank you @jordansissel for your understanding and encouragement."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-05 21:49:37+00:00",
+                    "text": "Here is an example how Spack disambiguates the name:\nhttps://spack.readthedocs.io/en/latest/\nThey write:\n\nThese are docs for the Spack package manager. For sphere packing, see pyspack."
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-13 23:23:01+00:00",
+                    "text": "The fpm help text gave me an idea for an alternate name.\nwwf - working with Fortran\nIt seems like the naming crises has passed, but I'm just too tickled by the idea of scientists and engineers co-opting \"WWF\" to mean their package manager."
+                }
+            ]
+        },
+        {
+            "number": 89,
+            "user": "everythingfunctional",
+            "date": "2020-06-02 15:12:27+00:00",
+            "title": "Add ability to specify which test or program to run and their args",
+            "text": "This adds some command line arguments to allow specifying which executable or test you would like to run, and any command line arguments you would like to pass on.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-04 20:15:45+00:00",
+                    "text": "At this stage I (we) haven't really talked about whether executables should be in their own directory. So that is kind of a current edge case bug.\nRight now it just assumes that for a given executable, everything else in that directory is a module meant to be included with it. So while trying to compile one executable it saw the source for the other, assumed it was a module, and failed when compiling it didn't result in the appropriate mod file (or at least I'm guessing that's what happened).\nI'd suggest creating an issue so we can discuss and decide whether this should be documented as a limitation/requirement or marked as a bug to fix later."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 20:36:36+00:00",
+                    "text": "Right. We should also consult how Rust does it.\n+1 to merge this PR."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-04 20:40:13+00:00",
+                    "text": "I now see approval from @certik, so I agree to merge this, and we can add some basic instructions to the README in a separate PR."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 20:44:53+00:00",
+                    "text": "See #83 for improving the tests in general. We have to add a lot more tests, that would serve as the \"spec\" of how fpm is expected to work."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-04 21:08:43+00:00",
+                    "text": "I'll go ahead and add stuff to the README for this PR. No sense leaving it half done.\nAs for the testing, I think there's just one last thing I'd like to take a crack. I want to get support for using a build script or makefile. That shouldn't take much time to implement. Then yes, we should focus our efforts on writing as many tests (both happy path and error conditions) as we can think of.\nUp to this point, this has been a prototype. I think we've been incredibly successful with it, and it's functionality is pretty much right where we want. So now we just put some tests around it to make sure nothing breaks while we pretty up the insides."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-05 07:55:12+00:00",
+                    "text": "Right now it just assumes that for a given executable, everything else in that directory is a module meant to be included with it. So while trying to compile one executable it saw the source for the other, assumed it was a module, and failed when compiling it didn't result in the appropriate mod file (or at least I'm guessing that's what happened).\nI'd suggest creating an issue so we can discuss and decide whether this should be documented as a limitation/requirement or marked as a bug to fix later.\n\nThanks for the explanation, this behaviour makes more sense to me now; I don't think it's a bug but it is definitely something that needs to be documented in PACKAGING.md."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 04:26:03+00:00",
+                    "text": "So cargo build does not build tests. You have to do cargo build --tests to also build tests.\ncargo test build tests (if needed) and runs them.\nI suggest we follow the same approach."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-07 04:30:09+00:00",
+                    "text": "Ok. That will require some (minor) refactoring to get working properly. Open an issue and I can fix it in another PR."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 04:33:08+00:00",
+                    "text": "Sure: #92."
+                }
+            ]
+        },
+        {
             "number": 88,
             "user": "LKedward",
             "date": "2020-05-31 10:23:57+00:00",
@@ -41,6 +742,16 @@
                     "user": "milancurcic",
                     "date": "2020-06-01 18:18:03+00:00",
                     "text": "Let's not forget fpm update. This is something I'd expect as a user. fpm should be able to update itself.\nI'm not a target audience for Docker image but I see its value.\nLinux system package managers like apt and dnf I use occasionally, but I can't take them seriously because so many packages are out of date, so they're mostly good for mature (stable) packages. I agree one should be able to get fpm using those. Then also consider Homebrew, Linuxbrew, and Snapcraft."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-02 13:25:26+00:00",
+                    "text": "I quickly slapped together a docker image here. I scheduled the CI to update weekly as well.\nAt some point this will deserve some effort to trim down the size of the resulting image. Right now I based it on Ubuntu and built fpm in the image. It should be possible to use a more lightweight starting point (like Alpine) and just copy in the fpm executable. Then we should create a more official one and publish it on docker hub."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-02 13:51:37+00:00",
+                    "text": "Great! I think it's a good start. I suggest adding the Dockerfile (and associated instructions in the README.md) to the fpm repo."
                 }
             ]
         },
@@ -626,7 +1337,7 @@
                 {
                     "user": "certik",
                     "date": "2020-05-13 16:35:13+00:00",
-                    "text": "Regarding C support: a full solution there is this: QuantStack/mamba#223.\nWhat we could do for fpm is not the full solution, but provide functionality for simple C source files, not full packages with a complicated build system.\nWe have to decide on a layout for C sources:\n\n\nShould the .c files be simply files in src/ folder? (I vote yes.)\n\n\nWhere should the header files be? Either in src/ or in include/.\n\n\nWhat about dependencies and their header files? (I would suggest Conda and that you can use anything from there, so fpm will create an internal environment and you can use any header file from there.)\n\n\nWhat about linking of dependencies?\n\n\nGiven that we will support C, why not C++ also? Supporting C++ would be very useful to provide Fortran wrappers: we would write a simple C wrapper that calls into a 3rd party C++ library, and call that C wrapper from Fortran, so it requires compiling of a C++ code.\n\n\nAlso one needs to link libc properly for C, and libc++ properly for C++. I think we have to do this anyway anytime we depend on a C or C++ library.\n\n\nThere will be more issues. Some of them similar to what we have to deal with anyway for Fortran sources. So I think let's keep this option open when we are designing fpm, although I still suggest to concentrate on Fortran sources first."
+                    "text": "Regarding C support: a full solution there is this: TheSnakePit/mamba#223.\nWhat we could do for fpm is not the full solution, but provide functionality for simple C source files, not full packages with a complicated build system.\nWe have to decide on a layout for C sources:\n\n\nShould the .c files be simply files in src/ folder? (I vote yes.)\n\n\nWhere should the header files be? Either in src/ or in include/.\n\n\nWhat about dependencies and their header files? (I would suggest Conda and that you can use anything from there, so fpm will create an internal environment and you can use any header file from there.)\n\n\nWhat about linking of dependencies?\n\n\nGiven that we will support C, why not C++ also? Supporting C++ would be very useful to provide Fortran wrappers: we would write a simple C wrapper that calls into a 3rd party C++ library, and call that C wrapper from Fortran, so it requires compiling of a C++ code.\n\n\nAlso one needs to link libc properly for C, and libc++ properly for C++. I think we have to do this anyway anytime we depend on a C or C++ library.\n\n\nThere will be more issues. Some of them similar to what we have to deal with anyway for Fortran sources. So I think let's keep this option open when we are designing fpm, although I still suggest to concentrate on Fortran sources first."
                 },
                 {
                     "user": "milancurcic",

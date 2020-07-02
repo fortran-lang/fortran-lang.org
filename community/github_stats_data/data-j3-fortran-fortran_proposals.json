@@ -2,6 +2,14 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 173,
+            "user": "Libavius",
+            "date": "2020-06-04 13:37:07+00:00",
+            "title": "[Syntactic Sugar] chained comparisons",
+            "text": "Allow for writing\nif (1 < 2 < 3)\ninstead of\nif (1 < 2 .and. 2 < 3)\nSimilar to python https://docs.python.org/3/reference/expressions.html#comparisons.\nI think, this is very much in the spirit of \"formula translation\" =)\n(Yup, this is nothing but syntactic sugar, but sugar is sweet)",
+            "comments": []
+        },
+        {
             "number": 172,
             "user": "vansnyder",
             "date": "2020-05-09 20:23:56+00:00",
@@ -203,6 +211,16 @@
                     "user": "certik",
                     "date": "2020-03-23 22:16:52+00:00",
                     "text": "The Fortran community has historically been agnostic if you use mixed case or upper case or lower case, so from this perspective, you can use whatever you prefer.\nHowever, instead of each of us using incompatible naming conventions, I would like if we can come together as a community, and agree on a more unified style that we all follow. And then provide tooling (compilers) that can enforce it. Similar to Python's PEP8.\nI like the Python's approach: https://www.python.org/dev/peps/pep-0008/#function-and-variable-names:\n\nmixedCase is allowed only in contexts where that's already the prevailing style (e.g. threading.py), to retain backwards compatibility.\n\nand I suggest we follow the same.\nSee also the discussion at:\nfortran-lang/stdlib#3\nwhich lead to:\nhttps://github.com/fortran-lang/stdlib/blob/5d1e09131cad56467549ecd9d6b977cec19b2f35/STYLE_GUIDE.md\nAlso https://www.fortran90.org/src/best-practices.html#naming-convention. One can browse current open source Fortran codes here: https://github.com/fortran-lang/stdlib/wiki/List-of-popular-open-source-Fortran-projects. Some codes use mixedCase, but most codes seem to use lower_case_with_underscores."
+                },
+                {
+                    "user": "Libavius",
+                    "date": "2020-06-04 13:48:27+00:00",
+                    "text": "This is a related to #118\nI also like Pythons approach, and my Fortran programming is atm close to pythons PEP8:\n\nvariables in lower_case_with_underscores\ntypes in CapWords convention\nparameters in SCREAMCASE\n\nAdditionally, I follow two advises from the book 'Modern Fortran: Style and Usage':\n\nroutines in Upper_case_with_underscores. This is helpful to distinguish arrays from functions (which is not needed in python, because array access is with [ ]). In Fortran, for a = electrons(3), electrons could be both, an array and a function (although one with a stupid name).\nIf the type has only one word (i.e. Circle), I add an _t (i.e. Circle_t) this way, I can still use circle for an instance of Circle_t. Again in python due to case sensitivity, this is not needed. This way, I can also distinguish a type constructor from one-word functions."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-05 05:03:31+00:00",
+                    "text": "I think what we need here is an automatic formatter that can enforce these things. For things where there are multiple opinions, we can allow it to be configurable, so that each project can set it up the way they like, similar to clang-format.\nI like all your suggestions, except the subroutines where I personally prefer all lowercase (but I understand your argument about arrays). But this can be configurable in the formatter."
                 }
             ]
         },
@@ -890,6 +908,121 @@
                     "user": "klausler",
                     "date": "2020-04-06 23:45:25+00:00",
                     "text": "Here's another test for your enjoyment.  Of the compilers that I have on site, only ifort and xlf seem to finalize in a non-surprising order (1-10, or 6-10/1-5).  I will ensure that f18 is also non-surprising.\nmodule m\n  type :: t1\n    integer :: n1\n   contains\n    final :: finalt1Elem, finalt1Vec\n  end type\n  type :: t2\n    integer :: n2\n    type(t1), allocatable :: a2(:)\n   contains\n    final :: finalt2Elem, finalt2Vec\n  end type\n  type, extends(t2) :: t3\n    integer :: n3\n    type(t2), allocatable :: a3(:)\n   contains\n    final :: finalt3Elem, finalt3Vec\n  end type\n contains\n  impure elemental subroutine finalt1Elem(x)\n    type(t1), intent(inout) :: x\n    print *, \"finalt1Elem\", x%n1\n  end subroutine\n  subroutine finalt1Vec(x)\n    type(t1), intent(inout) :: x(:)\n    print *, \"finalt1Vec\", x(:)%n1\n  end subroutine\n  impure elemental subroutine finalt2Elem(x)\n    type(t2), intent(inout) :: x\n    print *, \"finalt2Elem\", x%n2\n  end subroutine\n  subroutine finalt2Vec(x)\n    type(t2), intent(inout) :: x(:)\n    print *, \"finalt2Vec\", x(:)%n2\n  end subroutine\n  impure elemental subroutine finalt3Elem(x)\n    type(t3), intent(inout) :: x\n    print *, \"finalt3Elem\", x%n3\n  end subroutine\n  subroutine finalt3Vec(x)\n    type(t3), intent(inout) :: x(:)\n    print *, \"finalt3Vec\", x(:)%n3\n  end subroutine\nend module\n\nsubroutine test\n  use m\n  type(t3) :: x0, x1(1)\n  integer :: n\n  n = 1\n  call populatet3(x0)\n  call populatet3(x1(1))\n  print *, 'expect ', n-1, ' finalizations'\n contains\n  integer function next()\n    next = n\n    n = n + 1\n  end function\n  subroutine populatet1(x)\n    type(t1), intent(inout) :: x\n    x%n1 = next()\n  end subroutine\n  subroutine populatet2(x)\n    class(t2), intent(inout) :: x\n    x%n2 = next()\n    allocate(x%a2(1))\n    call populatet1(x%a2(1))\n  end subroutine\n  subroutine populatet3(x)\n    type(t3), intent(inout) :: x\n    x%n3 = next()\n    allocate(x%a3(1))\n    call populatet2(x%a3(1))\n    call populatet2(x)\n  end subroutine\nend subroutine\n\nprogram main\n  call test\nend program"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-04 18:37:12+00:00",
+                    "text": "Does anybody understand the change that's out for letter ballot at the moment for this problem?\nI think it precludes multiple finalization of A, which is good, but would allow a compiler to implement any of CABP, CBAP, and CBPA call orders (in terms of the original example), if I understand it accurately.\nA program could force CABP by explicitly deallocating the allocatable component in the final procedure for the containing object, yes?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 18:38:27+00:00",
+                    "text": "@klausler that is my understanding, but I am going to ask at the J3 mailinglist to clarify this. Update: submitted here: https://mailman.j3-fortran.org/pipermail/j3/2020-June/012101.html"
+                },
+                {
+                    "user": "reubendb",
+                    "date": "2020-06-04 18:42:56+00:00",
+                    "text": "@klausler Those are my understanding as well (see my comments above). Some of us worked this out in our subgroup and I believe came out with the same conclusion."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-04 18:48:50+00:00",
+                    "text": "Ok, thanks.  I want f18 to do CBAP to be least surprising to those familiar with C++ destructors; does that sound okay?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 18:51:02+00:00",
+                    "text": "@klausler that sounds like what all compilers should do, as that is what users expect."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-06 20:32:48+00:00",
+                    "text": "Malcolm just posted a partial and a full analysis of @nncarlson's code above. The answer is as @klausler wrote, i.e., if the interp is accepted, all three of the answers are valid: CABP or CBAP or CBPA. And yes, one can force CABP by explicitly deallocating the allocatable component in the final procedure for the containing object."
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2020-06-06 23:16:26+00:00",
+                    "text": "As someone who uses Fortran, I find the behaviour CBPA to be bizarre and unacceptable. Has anyone stepped forward (Malcolm?) to defend that behavior as sensible? Sure I can live with it by writing a final procedure that I otherwise would not have had to do, but if this goes through it's going to be another black mark on the language compared to other alternative languages."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 00:05:06+00:00",
+                    "text": "I think there is a wide agreement that CBPA is not wanted, and so I am going to vote NO for LANL on this interp.\n\u2026\nOn Sat, Jun 6, 2020, at 5:16 PM, Neil Carlson wrote:\n\n\n As someone who uses Fortran, I find the behaviour CBPA to be bizarre\n and unacceptable. Has anyone stepped forward (Malcolm?) to defend that\n behavior as sensible? Sure I can live with it by writing a final\n procedure that I otherwise would not have had to do, but if this goes\n through it's going to be another black mark on the language compared to\n other alternative languages.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#146 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWCPTFBQAXQ6FE4QTZLRVLE5NANCNFSM4KZKUGPQ>."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-06-07 13:19:00+00:00",
+                    "text": "@nncarlson wrote June 6, 2020 7:16 PM PDT:\n\nAs someone who uses Fortran, I find the behaviour CBPA to be bizarre and unacceptable. Has anyone stepped forward (Malcolm?) to defend that behavior as sensible? Sure I can live with it by writing a final procedure that I otherwise would not have had to do, but if this goes through it's going to be another black mark on the language compared to other alternative languages.\n\nThe \"full' analysis mentioned by @certik above attempts to explain how the standard permits 'CBPA'.  The rationale appears to again come back to the major role played by backwards compatibility (#79) in Fortran, this time with the semantics of auto-deallocation of ALLOCATABLEs whose introduction preceded by well over a decade that of the finalization facility.  To allow 'CBPA' appears to have consequences with ALLOCATABLEs.\nALLOCATABLEs is among the most valuable features in the language and Fortran is rather unique in providing such support intrinsically..  This allows programmers to get closer to formula translation rather than deal with memory management, GC (garbage collection), etc. in the codes toward scientific and technical computing.\nGiven the use case provided by OP in #146 (comment) with AMReX, implementing a finalizer for the case at hand appears a safe approach regardless of the language standard.  And which then would avoid the concerns with this particular situation."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-06-07 13:24:50+00:00",
+                    "text": "@certik wrote June 6, 2020 8:05 PM PDT:\n\nI think there is a wide agreement that CBPA is not wanted, and so I am going to vote NO for LANL on this interp.\n\n@certik ,  as I mentioned in #146 (comment), please review the full analysis on the J3 mailing list with your colleagues at LANL wrt the history and semantics of ALLOCATABLEs in Fortran.  Perhaps that might change your vote?"
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2020-06-07 15:59:49+00:00",
+                    "text": "@FortranFan, yes I have studied Malcolm's analysis. He does a nice job of explaining how allocatables and finalization evolved separately and how we arrived at the state things are today. It also explains how some compilers have arrived at implementing Strategy One, including presumably NAG's, and that the goal of his proposed interp is to preserve such implementations. However as a user looking from the outside, that internal implementation detail carries little weight with me.  To me the fundamental question is does it make sense for A to be finalized after P, and in particular does it make sense for A to be finalized after P when its sibling component B is finalized before merely because one is allocatable and one is not.  I find that behavior to be very surprising and at odds with C++, for example, and I would imagine other OO languages.\nYou specifically called out allocatable.  I wholeheartedly agree about their value, but I don't see that an alternative interp that would reject the CBPA order (implemented using Malcolm's Strategy Two perhaps) would need to do anything whatsoever to damage them or change their semantics. Am I mistaken there? Nor would it break code that used to be unambiguously valid; this is not a backwards compatibility question that I can see.\nPerhaps I overlooked something in Malcolm's analysis that you think should sway my opinion; if so, please point it out to me."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 16:17:37+00:00",
+                    "text": "@FortranFan from a user perspective it does not seem to break backwards compatibility to exclude CBPA, because users couldn't have relied on that anyway, given that CABP has always been allowed.\nThe main argument here is that Fortran does something unexpected, forcing users to force de-allocation order, that in other languages such as C++ works out of the box. We don't want users to move to C++, we want to keep them in Fortran. Allowing CBPA would hurt the cause here. I am sure @nncarlson is not the only one that got surprised by it."
+                },
+                {
+                    "user": "pbrady",
+                    "date": "2020-06-08 15:13:54+00:00",
+                    "text": "Anything that makes c++ more intuitive than Fortran is very, very bad"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-08 16:01:50+00:00",
+                    "text": "Is there any existing Fortran compiler or runtime that implements the CBPA order?  Is there any current application that relies on the CBPA order?  I'm struggling to understand why the language standard would need to preserve that option."
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2020-06-08 16:03:48+00:00",
+                    "text": "NAG implements CBPA."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-08 16:11:20+00:00",
+                    "text": "NAG implements CBPA.\n\nWell, a lot of pieces just fell into place with my understanding of this problem."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-08 16:33:13+00:00",
+                    "text": "I just asked at the J3 mailinglist if there are other arguments to allow the CBPA order. (The last line in my email starting with >From the user perspective has a quote > at front that was added by Mailman, the online email archive. It is not there in my original email...)"
+                },
+                {
+                    "user": "nSircombe",
+                    "date": "2020-06-09 06:30:50+00:00",
+                    "text": "Ok, thanks. I want f18 to do CBAP to be least surprising to those familiar with C++ destructors; does that sound okay?\n\n@klausler - just to check (since much of the discussion in the tread appears to favour CABP) did you mean CBAP, or CABP?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-09 15:30:38+00:00",
+                    "text": "did you mean CBAP, or CABP?\n\nHi @nSircombe nice to see you here. My understanding is that both CBAP and CABP are acceptable from the user perspective, I don't think there is any ordering between A and B based on the semantics. The key is that P is at the end. Maybe @klausler can correct me."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-09 15:33:18+00:00",
+                    "text": "C++ destructors are invoked in the opposite order of constructors.  If the component order is AB, then it makes sense to me to deallocate &/or finalize B before A for least surprise."
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2020-06-09 23:17:36+00:00",
+                    "text": "In 7.5.6.1 p2 it says: \"A derived type is finalizable if and only if it has a final subroutine or a nonpointer, nonallocatable component of finalizable type.\"\nDoes any one understand why allocatable components were excluded in the definition of \"finalizable\"?"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-06-13 00:18:03+00:00",
+                    "text": "Malcolm replied today on the J3 list:\n\nHi folks,\nSome probably-final comments from me on this topic\nThere is no doubt in my mind that finalization was not intended to, and does not cause deallocation (evidence: the standard does not say that it does).\nThere is equally no doubt in my mind that deallocation of allocatable and pointer entities was intended to, and does cause finalization (evidence: the standard says that).\nThere is similarly no doubt in my mind that allocatable components were not intended to be finalized as part of the containing object finalization, but as part of the automatic deallocation process (evidence: the definition of finalizable in the standard ignores allocatable components).\nThus I think the interp should remain as it is now.\nInterestingly, of the four compilers that I have access to and which support FINAL, two out of the four produce CBPA for Ondrej\u2019s example, and two produce CABP. Changing the A component to \u201cCLASS(*)\u201d and the allocation to allocate it as type OBJECTA, the two CBPA-producing compilers remain producing CBPA (as one might expect if they\u2019re following the deallocation-causes-finalization model), but one of the other two now produces CBP which is clearly erroneous.\nI am not necessarily opposed in principle to the idea of changing finalization to cause deallocation of allocatable components, though it seems to me that the user already has the tools available to force an ordering when he wants to, so I am yet to be convinced of its usefulness. I do however, think this would be a significant change to the design (virtually a new feature), and so should be considered (should we decide that it is in fact desirable) in a future revision."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-06-13 00:23:19+00:00",
+                    "text": "FWIW, it's ifort that gives CBP in the revision Malcolm mentions. I will let them know."
                 }
             ]
         },
@@ -1283,6 +1416,11 @@
                     "user": "ghwilliams",
                     "date": "2020-05-18 13:22:36+00:00",
                     "text": "What about arrays of pointers for derived types. For example:\ntype, abstract :: base_class\nend type base_class\ntype, extends (base_class) :: class_a\nend type class_a\ntype, extends (base_class) :: class_b\nend type class_b\n... later\n! currently allocatable conflicts with pointer. In a new standard it would be understood as an array of pointers.\nclass (base_class),  allocatable, pointer :: obj_list(:)\nallocate(obj_list(2))\nallocate(obj_list(1), source = class_a)\nallocate(obj_list(2), source = class_b)\nthis is the basic idea."
+                },
+                {
+                    "user": "thoth291",
+                    "date": "2020-06-25 00:19:31+00:00",
+                    "text": "@rjfarmer for functions it could be done like this:\n      interface\n         function proc_int()\n            real :: proc_int\n         end function proc_int\n      end interface\n\n      type proc_pointer\n         sequence\n         procedure(proc_int),pointer, nopass :: ptr\n      end type\n\n      type(proc_pointer),dimension(1:NFUNKS) :: procs\n      \n      real function custom_func(n)\n         integer :: n\n         double precision :: tsum\n         custom_func = 0.0D0\n         tsum = 0.0D0\n         do k = 1,n\n            tsum = tsum + k\n         enddo\n         custom_func = tsum\n         return\n      end function custom_func\n      \n      i=0 !for example\n      procs(i)%ptr=>custom_func\nHaven't tried it for subroutines, though..."
                 }
             ]
         },
@@ -1653,6 +1791,41 @@
                     "user": "certik",
                     "date": "2020-01-08 16:21:44+00:00",
                     "text": "@FortranFan I can see both sides and I don't currently know if we should have it or not.\nAs I posted in #40, I use C++ often, and I do not like the auto keyword for simple types such as integer or float. I use auto for complicated iterators, as that simplifies the code a lot (e.g., in \"for auto\"). But otherwise whenever I can, I try to list the type explicitly, because it makes the code a lot more readable --- the reader can immediately see the types of everything. With auto everywhere, the code starts looking like Python. And Python, while I like it and have been using for 20 years, I find it much less readable than C++ or Fortran, precisely for the lack of visible types. But Python is the best for quickly prototyping an application. Much better than C++.\nMore generally, I think auto makes it easier to quickly prototype. For example it would be ideal for LFortran in the Jupyter notebook setting. In production code, on the other hand, I think it makes things harder to read and maintain. So I don't know what the best approach is."
+                },
+                {
+                    "user": "Libavius",
+                    "date": "2020-06-04 14:54:33+00:00",
+                    "text": "But otherwise whenever I can, I try to list the type explicitly, because it makes the code a lot more readable --- the reader can immediately see the types of everything.\n\nI think I would disagree, that no explicit listing of the type makes the code necessarily much less readable for two reasons:\n\nWith good naming of variables, the type should be obvious from the variable name. i.e. variables ending with _count or _index are integers. Having the type written explicitly is then just redundant information\nMost of the C++ code is nowadays written with powerful IDEs, where you can just hover over a variable to see the type. So if you are not able to deduce the type from the name, there is a fast way to look it up (other than going to some functions definition)\n\nHowever, there are no powerful native Fortran IDEs out there. I for instance use Clion with the Fortran plugin, which works okayish, but not as good as for C++ (especially the refactoring)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 15:38:58+00:00",
+                    "text": "@Libavius I think you would agree that with no explicit typing, you need an IDE to help you. We should (and we will) have an IDE for Fortran, for example Flang or LFortran will in the future provide the language server for VSCode.\nBut there is a beauty of not needing an IDE to write and to read code. That's what I mean by simple."
+                },
+                {
+                    "user": "Libavius",
+                    "date": "2020-06-04 17:05:28+00:00",
+                    "text": "@certik the prospect of a Fortran IDE sounds really promising =).\nI agree, that in many cases, explicit typing improves readability. In addition to the IDE stuff, I wanted to point out, that this is not necessarily always the case and that good naming can (sometimes) make explicit typing redundant.\nThe option of having an auto keyword would give programmers the freedom to avoid this redundancy, while still using explicit types where they improve the readability."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-04 17:14:29+00:00",
+                    "text": "@Libavius I think you would agree that with no explicit typing, you need an IDE to help you. We should (and we will) have an IDE for Fortran, for example Flang or LFortran will in the future provide the language server for VSCode.\nBut there is a beauty of not needing an IDE to write and to read code. That's what I mean by simple.\n\nIt's not all-or-nothing, IDE or not (I do all my programming with a simple editory).  Haskell programmers know the power of type inference and are accustomed to adding explicit type signatures where they improve readability, and avoiding them when they don't, for example.  And C++ programmers learn where auto does and does not make sense.  The circumstances matter."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 17:57:59+00:00",
+                    "text": "@klausler I think you are right. As long as we provide guidelines how to use auto, I think it would be very useful."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-04 20:24:09+00:00",
+                    "text": "My understanding is that one of the biggest powers of auto in C++ is that you get proper static typing of local variables in template instantiation. I think the biggest driver for auto in Fortran will come from the generics efforts. Although typeof and classof may diminish that need."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-04 20:36:16+00:00",
+                    "text": "auto is extremely useful in templatized C++ code to avoid having to explicitly write out complicated type expressions (or to avoid using type aliases), yes.  And auto is absolutely essential when declaring things whose types are hidden in the compiler (e.g., lambda as local variables for use as internal functions) or polymorphic (e.g., a lambda like [](const auto &x){...} with a hidden template implementation).\nBut sometimes it's great to have around just to save some completely redundant verbiage in C++.  const auto *p{std::get_if<VerboseButInformativeTypeName>(&u)}; isn't made any more readable if the auto is replaced with the long type name, I think.  And that's why I think it would be useful in Fortran today -- when there's an initializer with an obvious type."
                 }
             ]
         },
@@ -2556,7 +2729,7 @@
             "user": "Libavius",
             "date": "2019-12-16 12:49:09+00:00",
             "title": "Augmented assignment",
-            "text": "allow writing\na += b\ninstead of\na = a + b\nand\na *= b\ninstead of\na = a * b\nI think this feature is quite important, since the lack of it misleads programmers towards the use of (too) short variable names:\nI would write like to write this:\nelectrons_number += charge\nBut maybe prefer this\nen = en + charge\nover this abomination of a line =)\nelectrons_number = electrons_number + charge\nThis should not end in a discussion whether to use long variable names or not, let's just agree, that they are better sometimes.\nThis is an additional use case",
+            "text": "allow writing\na += b\ninstead of\na = a + b\nand\na *= b\ninstead of\na = a * b\nI think this feature is quite important, since the lack of it misleads programmers towards the use of (too) short variable names:\nI would write like to write this:\nelectrons_number += charge\nBut maybe prefer this\nen = en + charge\nover this abomination of a line =)\nelectrons_number = electrons_number + charge\nThis should not end in a discussion whether to use long variable names or not, let's just agree, that they are better sometimes.\nThis is a second use case\nThis is a third (and fourth) use case",
             "comments": [
                 {
                     "user": "certik",
@@ -2671,7 +2844,7 @@
                 {
                     "user": "Libavius",
                     "date": "2019-12-27 10:56:20+00:00",
-                    "text": "As for the syntax, what about Espen Myklebusts proposal in #80, using the @ operator representing the LHS of an assignment? So @septcolor s example could be writen as\nmy_data(idat) % its_sub_obj(iobj) % another_sub_obj(isubobj) = @ + 1\n\nIt would not cause any conflicts with current operators, so it could be also used for division (I would find it really strange, if *= were introduced but in place division won't work...). And it had the benefit, that the @ operator (representing the LHS) could appear even more than once on the RHS, as in\narray(i,j)%comp1(k,l)%value1 = abs(@ - sqrt(@))\n\n(example by Espen Myklebust).\n\nI think this'd be superb elegant =)"
+                    "text": "As for the syntax, what about Espen Myklebusts proposal in #80, using the @ operator representing the LHS of an assignment? So @septcolor s example could be writen as\nmy_data(idat) % its_sub_obj(iobj) % another_sub_obj(isubobj) = @ + 1\n\nIt would not cause any conflicts with current operators, so it could be also used for division (I would find it really strange, if *= were introduced but in place division won't work...). And it had the benefit, that the @ operator (representing the LHS) could appear even more than once on the RHS, as in\narray(i,j)%comp1(k,l)%value1 = abs(@ - sqrt(@))\n\n(example by Espen Myklebust).\n\nI think this'd be superb elegant =)\nEDIT: After some time, I'm not so sure anymore. It is also a bit of syntactic overload..."
                 },
                 {
                     "user": "klausler",
@@ -6420,6 +6593,16 @@
                     "user": "sblionel",
                     "date": "2019-12-02 20:04:19+00:00",
                     "text": "Why not?\n\nBecause I don't head J3, nor even the HPC subgroup under whose purview this would fall.\nAs I wrote above, I do not consider myself an expert on the parallel features - I have a general understanding but that is all. Bill Long of Cray is the person I consider most knowledgeable about parallelism, though there are others on the committee who seem to understand it well.\nI will ask Bill to take a look at this thread and see if he wants to offer an opinion."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-06-25 16:34:28+00:00",
+                    "text": "@klausler your paper is written more as a feature request (this is the language of the standard, this is how I interpret the language, this is how it should be changed) when I think an interpretation request (this is the language of the standard, this is how I interpret the language, is my interpretation correct for that language, is my interpretation what was intended) would get more prompt attention."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-06-25 17:47:15+00:00",
+                    "text": "@klausler your paper is written more as a feature request (this is the language of the standard, this is how I interpret the language, this is how it should be changed) when I think an interpretation request (this is the language of the standard, this is how I interpret the language, is my interpretation correct for that language, is my interpretation what was intended) would get more prompt attention.\n\nIt's been 16 months, so prompt attention is a lost cause at this point.  As is J3.  I've removed myself from membership on that committee."
                 }
             ]
         },
@@ -9376,6 +9559,11 @@
                     "user": "certik",
                     "date": "2019-10-27 21:58:30+00:00",
                     "text": "That's fine with me, you can remove the [META] label."
+                },
+                {
+                    "user": "Libavius",
+                    "date": "2020-06-04 16:08:55+00:00",
+                    "text": "What about adding labels for different types of proposals (i.e. 'syntactic sugar', 'C interoperability', 'coding convention', 'efficiency improvement', 'new feature', 'enhanced feature'...)? In a way, this has already been done with the 'meta' label."
                 }
             ]
         },
