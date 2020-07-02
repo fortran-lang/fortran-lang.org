@@ -96,7 +96,7 @@ You can read watch the recording below:
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
 
-* [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) begins tomorrow (July 2),
+* [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) began today (July 2),
 with many interesting talks.
 See the talk schedule [here](https://tcevents.chem.uzh.ch/event/12/timetable/#20200702.detailed).
 
