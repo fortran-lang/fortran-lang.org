@@ -2,6 +2,330 @@
     "name": "fortran-lang/stdlib",
     "issues": [
         {
+            "number": 214,
+            "user": "ivan-pi",
+            "date": "2020-06-23 16:46:09+00:00",
+            "title": "Cube root of a real number",
+            "text": "Related to #150 (non-special mathematical functions)\ncbrt - Cube root of a real number\nDescription\nReturns the cube root of the real number (x), that is a number (y) such that (y^3 = x).\nSyntax\ny = cbrt(x)\nArguments\nx: A real number (x).\nReturn value\nReturns the value (\\sqrt[3]{x}), the result is of the type real and has the same kind as x.\nExample\nprogram demo_cbrt\nuse stdlib_experimental_math, only: cbrt\nprint *, cbrt(27.), cbrt(-27.)  ! outputs 3, -3\nend program\n\nAs seen from the discussion on Discourse this function is semantically more accurate than writing  x**(1./3.) which only works for positive real numbers and returns NaN otherwise.\nA possible extension would be to allow complex arguments, the return value would then be an array with 3 elements for the 3 cube roots (if the number is real and non-zero, there is one real root and a conjugate pair of complex roots; a complex non-zero value will have three distinct cube roots)",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-23 16:50:09+00:00",
+                    "text": "I've already got an implementation ready based upon the NSWC Mathematical Library version and using Fypp for templating of different real kinds."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-23 17:15:41+00:00",
+                    "text": "Thanks.\n\nA possible extension would be to allow complex arguments, the return value would then be an array with 3 elements for the 3 cube roots (if the number is real and non-zero, there is one real root and a conjugate pair of complex roots; a complex non-zero value will have three distinct cube roots)\n\nI don't use usually complex numbers, neither cube roots. However, to be in agreement with the intrinsic function sqrt, I think it should accept complex arguments. In this case, is a function still possible, or should it be a subroutine?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-23 19:46:00+00:00",
+                    "text": "Personally, I also don't have a foreseeable usage for complex cube roots.\nIt should however, be possible to have the the same interface for real and complex cube roots:\ninterface cbrt\nfunction cbrt_sp(x) result(cbrt)\n  complex(sp), intent(in) :: x\n  complex(sp) :: cbrt\nend function\nfunction cbrt_complex_sp(x) result(cbrt)\n  complex(sp), intent(in) :: x\n  complex(sp) :: cbrt(3)\nend function\nend interface\nA better option might be to follow the IMSL library CBRT(X) function:\n\nFor complex arguments, the branch cut for the cube root is taken along the negative real axis. The argument of the result, therefore, is greater than \u2013\u03c0/3 and less than or equal to \u03c0/3. The other two roots are obtained by rotating the principal root by 3 \u03c0/3 and \u03c0/3.\n\nLahey/Fujitsu Fortran also provides a CBRT function, which returns a single number for real or complex variables.\nIn a thread on the Intel Fortran Forum, @sblionel shows the compiler does in fact call a special cube root routine for a**(1./3.), but this only works for a positive argument. This makes me wonder whether a simple implementation for real numbers could be simply:\nfunction cbrt_v1(x) result(cbrt)\n  real, intent(in) :: x\n  real :: cbrt\n  if (x >= 0.0) then\n    cbrt = x**(1.0/3.0)\n  else\n    cbrt = -((-x)**(1.0/3.0))\n  end if\nend function\nDigging back further, the behavior of the a**(1./3.) has changed on occasion in the Intel Fortran compiler:\n\nChange in floating point rounding between Versions 11 and 12 of Fortran compiler\nWhy does Version 19 change how cube root is calculated?\n\nAlso the gfortran mailing list contains an interesting discussion on cbrt:\n\nGfortran and using C99 cbrt for X ** (1./3.)\n\n@certik Do you have an opinion on this one? My understanding is that the goal of providing a CBRT function is to be \"mathematically\" correct, in the sense that it can also accept negative arguments. The problem however is can the behavior of CBRT differ from X**(1./3.) in terms of representation/accuracy/speed."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-24 05:03:54+00:00",
+                    "text": "See my comment on precisely this issue (and the subsequent discussion there): symengine/symengine#1644 (comment)\nWe should do whatever is the most consistent and document it well. It could be that we need two cbrt functions for the two most common conventions."
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-24 17:14:12+00:00",
+                    "text": "How about an optional argument to decide which branch you want?\nf = cbrt(z) always has 0 <= arg(f) < 2*pi/3\nf = cbrt(z, k) has 2*pi*k/3 <= arg(f) < 2*pi*(k+1)/3"
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-24 18:38:33+00:00",
+                    "text": "As for negative real arguments, I am inclined to have cbrt(-x) == -cbrt(x) (for positive x).\nUpshot: this is what we learn in school before getting introduced to complex numbers. It's what most people would expect when working with reals only.\nDrawback: introduces some \"gotcha\" potential for people who use mix reals and complex numbers without reading the docs."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-24 19:00:47+00:00",
+                    "text": "How about an optional argument to decide which branch you want?\nf = cbrt(z) always has 0 <= arg(f) < 2*pi/3\nf = cbrt(z, k) has 2*pi*k/3 <= arg(f) < 2*pi*(k+1)/3\n\nWith an elemental procedure, you could pass an array of k's if you wanted different branches. Not sure, if it is useful in practice."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-24 22:35:19+00:00",
+                    "text": "The c++ cbrt has the property of cbrt(-x) == -cbrt(x) for positive x, which makes it not compatible with complex functions. It is equivalent to the Surd function in Mathematica, and specifically to the CubeRoot function. So one option is to simply have cbrt to do the same thing, returning a real number.\nAnd if you want the complex number, you can just use **, as in cmplx(x, dp)**(1._dp/3) where x is some real (or complex) variable."
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-24 23:59:34+00:00",
+                    "text": "Or better yet, cast it to complex first. I have in mind:\ncbrt(-8.) == -2.\ncbrt(cmplx(-8.)) == (1., sqrt(3.))\ncbrt(cmplx(-8.), k=1) == (-2., 0.)"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-25 05:32:47+00:00",
+                    "text": "The c++ cbrt has the property of cbrt(-x) == -cbrt(x) for positive x, which makes it not compatible with complex functions. It is equivalent to the Surd function in Mathematica, and specifically to the CubeRoot function. So one option is to simply have cbrt to do the same thing, returning a real number.\nAnd if you want the complex number, you can just use **, as in cmplx(x, dp)**(1._dp/3) where x is some real (or complex) variable.\n\nThis is also the behavior of Octave cbrt"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-26 13:13:27+00:00",
+                    "text": "MATLAB on the other hand does not provide a cbrt function (see How do you enter the command for a cube root?). It does however have the following behavior:\n>> (8)^(1/3)\n\nans =\n\n     2\n\n>> (-8)^(1/3)\n\nans =\n\n   1.0000 + 1.7321i\n\n>> nthroot(-8,3)\n\nans =\n\n    -2\n\n>> help nthroot\n nthroot Real n-th root of real numbers.\n \n    nthroot(X, N) returns the real Nth root of the elements of X.\n    Both X and N must be real, and if X is negative, N must be an odd integer.\n \n    Class support for inputs X, N:\n       float: double, single"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-26 15:33:11+00:00",
+                    "text": "It seems Matlab's ^ operator behaves like Fortran's ** operator for complex numbers. The nthroot seems to be like like Mathematica's Surd."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-28 12:15:43+00:00",
+                    "text": "Let's keep the ball rolling. The way I see it now, there are essentially two choices:\n\nSimple version (no branch argument) - Code example\nWith optional branch variable - Code example\n\nComments:\n\nFor a complex root of a real variable the cbrt is more compact than using the power operator\n\ny = cbrt(cmplx(x))\ny = cmplx(x)**(1._sp/3)\n\ny = cbrt(z)\ny = z**(1._sp/3)\n\nIf we go with the 1st option the user can always retrieve the other two complex roots by rotating the principal root by 3\u03c0/3 and \u03c0/3. This can be documented with an example:\n\nr = cmplx(-1.,sqrt(3.))/2.\nj = cmplx(0.,1.)\n\nz = -8 + 0*j\n\ny1 = cbrt(z)       !  1.0000 + 1.7321i \ny2 = y1 * r        ! -2.0000 - 0.0000i\ny3 = y1 * conjg(r) !  1.0000 - 1.7321i \n\nWith the second option,  users who know exactly what they want, can easily recover a complex root from a either real or complex number, e.g.\n\n  write(*,'(A)')  \"real to real\"\n  \n  write(*,fmtr) \"cbrt( 8._sp) = \", cbrt(8._sp)\n  write(*,fmtr) \"cbrt(-8._sp) = \", cbrt(-8._sp)\n\n  write(*,'(/,A)')  \"real to complex\"\n\n  write(*,fmtc) \"cbrt(8._sp,k=0) = \", cbrt(8._sp,k=0)\n  write(*,fmtc) \"cbrt(8._sp,k=1) = \", cbrt(8._sp,k=1)\n  write(*,fmtc) \"cbrt(8._sp,k=2) = \", cbrt(8._sp,k=2)\n\n  write(*,'(/,A)')  \"complex to complex\"\n\n  z = cmplx(-8._sp)\n  write(*,fmtc) \"z = \", z\n  write(*,fmtc) \"cbrt(z) = \", cbrt(z)\n  write(*,fmtc) \"cbrt(z,k=0) = \",cbrt(z,k=0)\n  write(*,fmtc) \"cbrt(z,k=1) = \",cbrt(z,k=1)\n  write(*,fmtc) \"cbrt(z,k=2) = \",cbrt(z,k=2)\n  write(*,fmtc) \"cbrt(z,k=3) = \",cbrt(z,k=3)\nproduces the following output:\nreal to real\ncbrt( 8._sp) =  2.0000\ncbrt(-8._sp) = -2.0000\n\nreal to complex\ncbrt(8._sp,k=0) =  2.0000+0.0000j\ncbrt(8._sp,k=1) = -1.0000+1.7321j\ncbrt(8._sp,k=2) = -1.0000-1.7321j\n\ncomplex to complex\nz = -8.0000+0.0000j\ncbrt(z) =  1.0000+1.7321j\ncbrt(z,k=0) =  1.0000+1.7321j\ncbrt(z,k=1) = -2.0000-0.0000j\ncbrt(z,k=2) =  1.0000-1.7321j\ncbrt(z,k=3) =  1.0000+1.7321j"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-28 12:44:31+00:00",
+                    "text": "There is acbrt() function in Java, described here:\nhttps://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Math.html#cbrt(double)\n\nReturns the cube root of a double value. For positive finite x, cbrt(-x) == -cbrt(x); that is, the cube root of a negative value is the negative of the cube root of that value's magnitude. Special cases:\nIf the argument is NaN, then the result is NaN.\nIf the argument is infinite, then the result is an infinity with the same sign as the argument.\nIf the argument is zero, then the result is a zero with the same sign as the argument. \n\nThe computed result must be within 1 ulp of the exact result."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-28 12:53:16+00:00",
+                    "text": "Thanks @vmagnin, we should also have tests for the special cases."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-28 19:18:19+00:00",
+                    "text": "@ivan-pi\nA simple implementation could be something like:\nmodule functions\n    use iso_fortran_env, only: dp=>real64\n    implicit none\n\n    contains\n\n    pure real(dp) function cbrt(x)\n        real(dp), intent(in) :: x\n        cbrt = sign(abs(x)**(1.0_dp / 3.0_dp), x)\n    end function\nend module functions\n\nprogram main\n    use functions\n    real(dp) :: x\n\n    x = 27.0_dp\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n\n    x = -27.0_dp\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n\n    x = -0.0_dp\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n    x = 0.0_dp\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n\n    ! Infinity:\n    x = 1.0_dp/x\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n\n    ! NaN:\n    x = sqrt(-x)\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n\n    ! -Infinity:\n    x = 0.0_dp\n    x = -1.0_dp/x\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\nend program main\nwhich yields the following results in agreement with the Java specifications:\n$ gfortran essai_cbrt.f90 && ./a.out\n   27.000000000000000        3.0000000000000000        27.000000000000000     \n  -27.000000000000000       -3.0000000000000000       -27.000000000000000     \n  -0.0000000000000000       -0.0000000000000000       -0.0000000000000000     \n   0.0000000000000000        0.0000000000000000        0.0000000000000000     \n                  Infinity                  Infinity                  Infinity\n                       NaN                       NaN                       NaN\n                 -Infinity                 -Infinity                 -Infinity\nBut I don't know if it would be the fastest implementation. We call three functions in each case: SIGN(), ABS(), **\nTreating each case, from the most probables to the least, with an if...else if... structure would perhaps be faster."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-28 21:06:46+00:00",
+                    "text": "That looks good. My naive implementation would be:\n  pure real function cbrt(x)\n    real, intent(in) :: x\n    if (x >= 0.) then\n      cbrt = x**(1./3)\n    else\n      cbrt = -((-x)**(1./3))\n    end if\n  end function\nUnfortunately, for the value zero it does not preserve the sign:\n   27.0000000       3.00000000       27.0000000    \n  -27.0000000      -3.00000000      -27.0000000    \n  -0.00000000       0.00000000       0.00000000    \n   0.00000000       0.00000000       0.00000000    \n         Infinity         Infinity         Infinity\n              NaN              NaN              NaN\n        -Infinity        -Infinity        -Infinity\n\nConcerning speed, I've prepared a small benchmark and the difference is not that large. I've used Fypp to create some simple benchmarking macros:\n#:def NTIC(n=1000)\n  #:global BENCHMARK_NREPS\n  #:set BENCHMARK_NREPS = n\n  block\n    use, intrinsic :: iso_fortran_env, only: int64, dp => real64\n    integer(int64) :: benchmark_tic, benchmark_toc, benchmark_count_rate\n    integer(int64) :: benchmark_i\n    real(dp) :: benchmark_elapsed\n    call system_clock(benchmark_tic,benchmark_count_rate)\n    do benchmark_i = 1, ${BENCHMARK_NREPS}$\n#:enddef\n\n#:def NTOC(*args)\n    #:global BENCHMARK_NREPS\n    end do\n    call system_clock(benchmark_toc)\n    benchmark_elapsed = real(benchmark_toc - benchmark_tic)/real(benchmark_count_rate)\n    benchmark_elapsed = benchmark_elapsed/${BENCHMARK_NREPS}$\n  #:if len(args) > 0\n    ${args[0]}$ = benchmark_elapsed\n  #:else\n    write(*,*) \"Average time is \",benchmark_elapsed,\" seconds.\"\n  #:endif\n  end block\n  #:del BENCHMARK_NREPS\n#:enddef\n\nmodule cbrt_mod\n\n  implicit none\n  public\n\ncontains\n\n  elemental real function cbrt1(x)\n    real, intent(in) :: x\n    if (x >= 0.) then\n      cbrt1 = x**(1./3)\n    else\n      cbrt1 = -((-x)**(1./3))\n    end if\n  end function\n\n  elemental real function cbrt2(x)\n    real, intent(in) :: x\n    cbrt2 = sign(abs(x)**(1.0 / 3.0), x)\n  end function\n\nend module\n\nprogram main\n\n  use cbrt_mod\n  implicit none\n  integer, parameter :: n = 1000000\n  real :: x(n), y(n), z(n)\n\n  call random_number(x)\n\n  @:NTIC(1000)\n  y = cbrt1(x)\n  @:NTOC()\n\n  @:NTIC(1000)\n  z = cbrt2(x)\n  @:NTOC()\n\n  ! We need to print something, otherwise the compiler\n  ! seems to skip the calculation completely...\n  print *, maxval(abs(y-z)), sum(abs(y-z))\n\nend program\nOutput:\n$ fypp cbrt_benchmark.fypp > cbrt_benchmark.f90\n$ gfortran -Wall -O3 ./cbrt_benchmark.f90 -o cbrt_benchmark\n$ ./cbrt_benchmark \n Average time is    1.4338764190673828E-002  seconds.\n Average time is    1.6593759536743163E-002  seconds.\n   0.00000000       0.00000000"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-28 21:14:24+00:00",
+                    "text": "With the Intel Fortran compiler there is practically no difference:\n$ fypp cbrt_benchmark.fypp > cbrt_benchmark.f90\n$ ifort -O3 ./cbrt_benchmark.f90 -o cbrt_benchmark\n$ ./cbrt_benchmark \n Average time is   3.396259069442749E-003  seconds.\n Average time is   3.438067913055420E-003  seconds.\n  0.0000000E+00  0.0000000E+00\n\nEdit: I realized I was only sampling positive values... If I add an extra line with x = 54*x - 27 after the call to random_number to make the x values span the range [-27,27), I get slightly different timings:\n$ fypp cbrt_benchmark.fypp > cbrt_benchmark.f90\n$ gfortran -O3 ./cbrt_benchmark.f90 -o cbrt_benchmark\n$ time ./cbrt_benchmark \n Average time is    1.7529647827148439E-002  seconds.\n Average time is    1.6589702606201170E-002  seconds.\n   0.00000000       0.00000000    \n\nreal\t0m34,137s\nuser\t0m34,131s\nsys\t0m0,004s\n$ ifort -O3 ./cbrt_benchmark.f90 -o cbrt_benchmark\n$ time ./cbrt_benchmark \n Average time is   1.533928298950195E-002  seconds.\n Average time is   3.471867084503174E-003  seconds.\n  0.0000000E+00  0.0000000E+00\n\nreal\t0m18,838s\nuser\t0m18,821s\nsys\t0m0,008s\n\nYour sign/abs/** version looks like the clear winner now. :)"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-29 07:11:09+00:00",
+                    "text": "Very counter-intuitive... We don't know what do exactly the compilers. With -O3 there is probably inlining in cbrt2().\nConsidering only ifort, my cbrt2() does not change with negative values. Normal.\nBut why your cbrt1() is x5 longer !? There is a jump to the negative case, and two sign changes, but 5x times longer seems unreasonable... The gfortran behavior seems therefore OK, but ifort ???\nIt is also amazing that in most cases ifort gives a 5x faster code than gfortran for such simple calculations. Does ifort forces some kind of parallelism inside the processor ? (SSE vectorisation ?)\nPerhaps it could be interesting to add -mtune=native -march=native to the gfortran command."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-29 08:54:49+00:00",
+                    "text": "Precision loss with very big and small values:\n    x = 1d300\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n\n    x = 1d-300\n    print *, x, cbrt(x), cbrt(x)*cbrt(x)*cbrt(x)\n   1.0000000000000001E+300   9.9999999999998719E+099   9.9999999999996154E+299\n   1.0000000000000000E-300   1.0000000000000128E-100   1.0000000000000385E-300"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-29 09:02:44+00:00",
+                    "text": "Which version of ifort are you running @ivan-pi?\nPlaying around on godbolt.org (https://godbolt.org/z/ZLaUcW) shows ifort vectorizing over 4 elements by calling a cbrtf4 function (presumably from the Intel library) for both implementations. For some reason the branching implementation appears to call cbrtf4 twice?\ngfortran (https://godbolt.org/z/PYTBfE) calls powf and compiling with -fopt-info-vec-missed shows that neither implementation is vectorized.\nApart from any clever compiler optimisations, I would expect the sign(abs(x)) implementation to be faster since it does not require a conditional. Branch prediction isn't possible for this random test case, so there will be many branch mispredictions which each stall the CPU pipeline. This may be hurting the vectorized version more in ifort than the unvectorized version in gfortran maybe?"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-29 10:13:08+00:00",
+                    "text": "@LKedward\nthank you, very interesting!\nYes, if the sign is always changing ifort can't use vectors with the branching version...\nIt's amazing to see what such a simple example can reveal !\nhttps://arcb.csc.ncsu.edu/~mueller/cluster/ps3/SDK3.0/docs/accessibility/simdmath/ppu_spu/cbrtf4.html\n\nThe cbrtf4 function computes the real cube root of each element in the input vectors.\n\nhttps://www.ibm.com/support/knowledgecenter/en/SSGH4D_15.1.2/com.ibm.xlf151.aix.doc/proguide/mass_simd.html"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-29 11:36:13+00:00",
+                    "text": "It reveals also the limits of benchmarking: one implementation could be better with some compilers, some CPU but not with other (Intel, AMD, ARM...). And worse, one implementation could be better with deterministic algorithm, and another implementation with Monte Carlo algorithms... Those branch prediction mechanisms not only introduce security problems but also make benchmarking very delicate...."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-29 11:54:53+00:00",
+                    "text": "Nice findings!\nIndeed, apart from different processors and compiler settings there are also more subtle issues with benchmarking related to noise and measurement statistics and how the process interacts with the operating system. The README of the BenchmarkingTools.jl Julia package contains some information.\nAs @certik has said in a few earlier issues, but I've come to understand now, it is important we agree on an intuitive API and provide a reference implementation with the correct behavior. Optimized implementations for different platforms will hopefully come in later as more users or even hardware vendors get involved."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-29 13:24:09+00:00",
+                    "text": "Yes, if the sign is always changing ifort can't use vectors with the branching version\n\nInterestingly, it looks like the ifort version is actually able to vectorise the branching version, using a mask (cbrtf4_mask); but this means calling cbrtf4 twice with branching logic which together probably causes the slow down.\n\nIt reveals also the limits of benchmarking: one implementation could be better with some compilers\n\nYep, this is a good point.\n\nAs @certik has said in a few earlier issues, but I've come to understand now, it is important we agree on an intuitive API and provide a reference implementation with the correct behavior. Optimized implementations for different platforms will hopefully come in later as more users or even hardware vendors get involved.\n\nI agree, optimization isn't the focus for stdlib currently, but as @vmagnin has pointed out different numerical implementations may also have different edge-case behaviours such as loss of precision which are worth being aware of."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-29 13:52:39+00:00",
+                    "text": "different numerical implementations may also have different edge-case behaviours such as loss of precision which are worth being aware of.\n\nIt implies that if a \"naive\" implementation is used at first, its limits should be clearly stated in the source code and documentation.\nPrecision problems caused the Patriot missile bug: http://www-users.math.umn.edu/~arnold/disasters/patriot.html"
+                }
+            ]
+        },
+        {
+            "number": 213,
+            "user": "EverLookNeverSee",
+            "date": "2020-06-20 19:55:26+00:00",
+            "title": "ENH: Using OpenMP",
+            "text": "Hi there\nI started learning OpenMP library couple weeks ago and would like to parallelize and speed up fortran standard library codebase.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-06-20 20:13:20+00:00",
+                    "text": "OpenMP is specified using pragmas which are comments, so if the file is compiled without openmp enabled, it will just be ignored. So I think it's fine if we allow openmp in our code base, because if users do not want stdlib to be parallelized using openmp, they'll just compile the stdlib files without openmp enabled.\nHowever, some others think that stdlib should not use openmp, and rather users should parallelize themselves:\nhttps://github.com/fortran-lang/stdlib/pull/189/files#r426173077\nAlthough it's not clear to me how to do it in the context of the csr_matvec routine, as if it is to run in parallel, it needs to be parallelized from inside. Perhaps we could provide two versions of the subroutine, one serial, one parallel.\n@zerothi, do you want to discuss it more here?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-20 20:25:02+00:00",
+                    "text": "If OpenMP is used in stdlib, I think it should be with orphaned procedures. The user can then control the parallelization (e.g. to call a stdlib procedure inside or outside a parallel region). Using parallel regions inside stdlib procedures will limit their utility."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-20 20:28:03+00:00",
+                    "text": "Can you give an example? What is an orphaned procedure?\n\u2026\nOn Sat, Jun 20, 2020, at 2:25 PM, Jeremie Vandenplas wrote:\n\n\n If OpenMP is used in `stdlib`, I think it should be with orphaned\n procedures. The user can then control the parallelization (e.g. to call\n a `stdlib` procedure inside or outside a parallel region). Using\n parallel regions inside `stdlib` procedures will limit their utility.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#213 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWG6DMCQRHLS6B6Y6CDRXULKTANCNFSM4ODQTKIA>."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-20 20:47:04+00:00",
+                    "text": "Here is an example with an orphaned subroutine (the example is stupid but it is to illustrate an OpenMP orphaned procedure):\nprogram test\n  !$ use omp_lib\n  implicit none\n  integer :: i\n  real :: a(5)\n\n  a = [(i, i=1, 5)]\n\n  print*,' Outside a parallel region'\n  call printa(a)\n\n  print*,' Inside a parallel region'\n  !$omp parallel\n  call printa(a)\n  !$omp end parallel\n\ncontains\n\nsubroutine printa(a)\n  real, intent(in) :: a(:) \n\n  integer :: i, rang\n\n  rang = -1\n\n  !$omp do\n  do i=1,size(a)\n    !$ rang =  omp_get_thread_num()\n    print*,'value: ',a(i),' at thread ', rang\n  end do\n  !$omp end do\n\nend subroutine\n\nend program\nCompiled without OpenMP, the output is:\n Outside a parallel region\n value:    1.00000000      at thread           -1\n value:    2.00000000      at thread           -1\n value:    3.00000000      at thread           -1\n value:    4.00000000      at thread           -1\n value:    5.00000000      at thread           -1\n  Inside a parallel region\n value:    1.00000000      at thread           -1\n value:    2.00000000      at thread           -1\n value:    3.00000000      at thread           -1\n value:    4.00000000      at thread           -1\n value:    5.00000000      at thread           -1\n\nCompiled with OpenMP (and run with 3 threads):\n Outside a parallel region\n value:    1.00000000      at thread            0\n value:    2.00000000      at thread            0\n value:    3.00000000      at thread            0\n value:    4.00000000      at thread            0\n value:    5.00000000      at thread            0\n  Inside a parallel region\n value:    3.00000000      at thread            1\n value:    4.00000000      at thread            1\n value:    1.00000000      at thread            0\n value:    2.00000000      at thread            0\n value:    5.00000000      at thread            2"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-20 20:53:31+00:00",
+                    "text": "Ah I see, that's what @zerothi meant in the comment at https://github.com/fortran-lang/stdlib/pull/189/files#r426173077. The idea is to use openmp, but never to use the omp parallel pragma inside stdlib and always compile with openmp. That way, if users just call stdlib, it will run in serial. But if they introduce a parallel region themselves, then stdlib will run parallel out of the box. I like this approach a lot."
+                },
+                {
+                    "user": "EverLookNeverSee",
+                    "date": "2020-06-21 07:25:28+00:00",
+                    "text": "Here is an example with an orphaned subroutine (the example is stupid but it is to illustrate an OpenMP orphaned procedure):\nprogram test\n  !$ use omp_lib\n  implicit none\n  integer :: i\n  real :: a(5)\n\n  a = [(i, i=1, 5)]\n\n  print*,' Outside a parallel region'\n  call printa(a)\n\n  print*,' Inside a parallel region'\n  !$omp parallel\n  call printa(a)\n  !$omp end parallel\n\ncontains\n\nsubroutine printa(a)\n  real, intent(in) :: a(:) \n\n  integer :: i, rang\n\n  rang = -1\n\n  !$omp do\n  do i=1,size(a)\n    !$ rang =  omp_get_thread_num()\n    print*,'value: ',a(i),' at thread ', rang\n  end do\n  !$omp end do\n\nend subroutine\n\nend program\nCompiled without OpenMP, the output is:\n Outside a parallel region\n value:    1.00000000      at thread           -1\n value:    2.00000000      at thread           -1\n value:    3.00000000      at thread           -1\n value:    4.00000000      at thread           -1\n value:    5.00000000      at thread           -1\n  Inside a parallel region\n value:    1.00000000      at thread           -1\n value:    2.00000000      at thread           -1\n value:    3.00000000      at thread           -1\n value:    4.00000000      at thread           -1\n value:    5.00000000      at thread           -1\n\nCompiled with OpenMP (and run with 3 threads):\n Outside a parallel region\n value:    1.00000000      at thread            0\n value:    2.00000000      at thread            0\n value:    3.00000000      at thread            0\n value:    4.00000000      at thread            0\n value:    5.00000000      at thread            0\n  Inside a parallel region\n value:    3.00000000      at thread            1\n value:    4.00000000      at thread            1\n value:    1.00000000      at thread            0\n value:    2.00000000      at thread            0\n value:    5.00000000      at thread            2\n\n\nThat's exactly what i meant so that our stdlib subroutines has parallel features but without using parallel region in order to control parallelism by user."
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2020-06-22 07:21:38+00:00",
+                    "text": "Agreed, this was my idea, let the user decide how parallelism is enabled :)"
+                }
+            ]
+        },
+        {
+            "number": 212,
+            "user": "nshaffer",
+            "date": "2020-06-12 13:32:48+00:00",
+            "title": "Handling runtime errors/exceptions",
+            "text": "This issue is to discuss approaches to handle runtime errors and exceptions in stdlib. I have in mind scenarios such as\n\nAn iterative solver algorithm fails to converge\nA negative number is passed to a routine that requires a nonnegative one\nNot enough memory for an array allocation\n\nThese are conditions which cannot be identified at compile time, but if left alone will either cause user code to crash or be erroneous. Currently in stdlib, we have check, which can print error messages and optionally terminate execution. I think it is not sufficient for general-purpose runtime checking. To me, there are a few major considerations when thinking about runtime checking\n\n\nUsers must be given the opportunity to recover from the error if at all possible. This is especially important for library code, which may be difficult to debug depending on the installation/distribution. It is also generally rude for library code to kill execution without giving the user any say in the matter.\n\n\nIt should be possible to recover from runtime errors without sacrificing purity. If a routine is manifestly pure, then it should not have to sacrifice the pure attribute just to have some error checking. If I write a factorial function, making it pure and handling negative arguments should not have to be an either/or proposition.\n\n\nChecking and handling errors should not be unduly burdensome to users. If a function call requires one line, and handling its possible error conditions requires ten, users will simply not bother with error checking.\n\n\nThis list of criteria is not exhaustive, but they are the three that are most important to me. That stated, here are the runtime checking approaches I am most familiar with and how they stack up:\n\n\nReturn error code and message as optional out-params.\n\nDoes not play nicely with pure functions (pure subroutines OK, though)\nIntrinsic functions do not do this (but statements do, e.g., iostat, iomsg)\nPasses the buck to the user to interpret and handle the error code/message\n\n\n\nDie with error stop\n\nAs of f2018, can be used in pure functions\nKind of rude for library code to kill execution without chance of recovery\n\n\n\nReturn a special value\n\nThis is what intrinsics usually do, e.g., index returning -1\nSome algorithms may not have a natural \"obviously wrong\" value (maybe NaN?)\nWorks with pure functions/subroutines\n\n\n\nRaise an exception\n\nMaybe in 2045?\n\n\n\nOf these, my preference is strongly toward approach 3 whenever possible.",
+            "comments": [
+                {
+                    "user": "epagone",
+                    "date": "2020-06-12 19:00:35+00:00",
+                    "text": "Very nice description and, FWIW, I prefer approach 3 as well.\nOne problem that I have faced a few times in the design of such routines is how this API communicates when nested at multiple levels of depth. Say the user is running a numerical integrator within a root-finding problem that is, in turn, used to solve a system of a differential equations. We might have three levels of depth in this case (admittedly, probably rare and fictitious), but I have personally used (within the scope of stdlib) two levels of depth in several cases. I'd guess OO design would help in this sense (with separate instances of the \"error handler class\") but I know it is discouraged in stdlib."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-12 19:15:55+00:00",
+                    "text": "One thing that we should try to avoid is to force every user to be checking every single function from stdlib to ensure it succeeded. We should figure out how to allow users to check it if they want to and handle the error themselves, but we should also allow users to just call a given stdlib function and it would fail with a nice error message if something goes wrong.\nSo I would say a combination of 3. and 1. is the way to go.\nThe option 2. should be combined with the option 1. I.e., if the optional stat argument is not present, then it will fail with error stop. If stat is present, it would allow the user to handle the error. This is great for functions such as open or allocate.\nThe option 3. is great for functions such as find to find an element in an array or a string, and return -1 if it does not exist."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-15 21:11:16+00:00",
+                    "text": "Thank you for these clear propositions. It is related to #95 too.\nThe options 1., 2., and 3. could be used for different purposes/procedures. For example, returning -1 or even NaN for one of the statistical procedure when a dim > 15 is provided would make no sense, and would not help the user. In such a case, I think it is better that the program fails with error stop and an informative message."
+                }
+            ]
+        },
+        {
+            "number": 211,
+            "user": "jvdp1",
+            "date": "2020-06-04 16:43:24+00:00",
+            "title": "Remove some unused variables and simplify use of ieee_value",
+            "text": "I removed some unused variables and I modified the call to ieee_value in stdlib_experimental_stats_mean.fypp to be in agreement with the other submodules.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-05 15:39:45+00:00",
+                    "text": "Thanks @certik .\nBecause it only removes some unused variables and fixes an issue for ifort, I'll merge it after solving the conflicting file."
+                }
+            ]
+        },
+        {
+            "number": 210,
+            "user": "sakamoti",
+            "date": "2020-06-04 15:26:08+00:00",
+            "title": "fix build failure with nagfor7.0 because of using \"complex\" function",
+            "text": "\"complex\" function which is not a fortran standard causes an error like below in nagfor.\n(for example)\n\"Error: test_linalg.f90, line 445: Implicit type for COMPLEX in TEST_TRACE_CQP\"\nSo, \"complex\" is replaced with \"cmplx\" which is one of the fortran standard function.\nAt the same time, I specified the \"kind\" value so that it has the same precision as the \"cmplx\" function argument.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-04 16:00:21+00:00",
+                    "text": "Thank you @sakamoti! This is in part covered by #205, and to your PR also adds the explicit kind parameter to cmplx.\nI suggest we wait to merge #205, then rebase this with master and merge. @certik does this sound reasonable?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 16:04:40+00:00",
+                    "text": "@sakamoti thank you for the fixes! I apologize that it took us longer to merge #205. We just did. Is there anything still failing in the latest master? If so, would you mind sending a PR or rebasing this one?\nI apologize for this. Thank you again for our PR. Let me know if you need any help."
+                },
+                {
+                    "user": "sakamoti",
+                    "date": "2020-06-04 21:09:04+00:00",
+                    "text": "The latest version \"48b28e8\" resolved compilation error. But some \"Questionable\" message appeare from nagfor.\n(example)\n\"Questionable: fortran-lang_stdlib/src/tests/io/test_savetxt.f90, line 106: Intrinsic function CMPLX with double precision argument and no KIND= argument returns single precision result\"\nSo, adds the explicit kind parameter to cmplx is still meaningfull I think. How do you think about this?\nIf it is preffer to add kind parameter, I'll try it according to compiler message and send new PR."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 21:11:53+00:00",
+                    "text": "Yes, I think if the standard says that the result can be single precision (I think that's correct), we have to add the kind parameters. If you wouldn't mind doing it, we would really appreciate it. Thank you!"
+                },
+                {
+                    "user": "sakamoti",
+                    "date": "2020-06-04 22:32:24+00:00",
+                    "text": "Please wait a moment, I just editing. (It is my first time to rebase...)\nwhen finish, I will add the comment."
+                },
+                {
+                    "user": "sakamoti",
+                    "date": "2020-06-04 23:23:57+00:00",
+                    "text": "Rebase is over. Please review."
+                }
+            ]
+        },
+        {
+            "number": 209,
+            "user": "nshaffer",
+            "date": "2020-06-03 06:06:11+00:00",
+            "title": "Quadrature: spec tweaks & Simpson's rule",
+            "text": "Implementation of simps and simps_weights\nInterfaces and implementations are for 1d real arrays. The included tests exercise the routines for integrands which are (analytically) exactly integrated by Simpson's rule. Known edge cases (length 0, 1, or 6) arrays are explicitly tested as well. There is a lot of new code, and it is not always simple, but hopefully the tests stand as an empirical demonstration of correctness.\nQ: To simplify the implementation, simps and simps_weights have been made recursive. This is only an implementation detail. Am I right to think pure recursive does not limit the routines' usability any more than just pure, e.g., in do concurrent or where constructs?\nChanges to simps and simps_weights optional argument even\nIn the current spec, the optional argument even is an integer that is supposed to let the user specify the index at which to insert a Simpson's 3/8 rule so that even-length arrays can be treated. In implementation, this introduced too many corner cases to be worthwhile. In this implementation, even is still an integer, but its meaning is different. If it is negative, the 3/8 rule is used for the leftmost abscissas. If it is positive, the 3/8 rule is used for the rightmost abscissas. If it is zero or absent, the result is as if the even<0 and even>0 cases were averaged. There are still corner cases and complicated control flow, but it's much simpler than the alternative. The spec has been revised to reflect this new behavior.\nImproved fypp style\nLooking toward future extensions to complex types and multiple ranks, the fypp style has been changed to more closely match that of other heavily preprocessed modules.\ntrapz_weights example \"bugfix\"\nIn the spec for trapz_weights, the example had a typo and also used dot_product to evaluate the integral. Looking toward implementation for complex integrands, this seems wrong (introduces a complex conjugate), so the example is changed to use sum instead.",
+            "comments": [
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-03 06:12:04+00:00",
+                    "text": "It looks like the error tolerance is too strict in some of the tests in the CI. Of course they all pass on my machine ;) (resolved)"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-03 14:46:02+00:00",
+                    "text": "Thanks for the answers. I have additional minor comments. In the specs, could you:\n\nremove \"to be implemented\" in the titles?\nreplace simps in result = simps... by something like result = [[stdlib_experimental_quadrature(module):simps(interface)]](....) for the docs?"
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-04 14:10:14+00:00",
+                    "text": "Thanks for the answers. I have additional minor comments. In the specs, could you:\n* remove \"to be implemented\" in the titles?\n\n* replace `simps` in `result = simps...` by something like `result = [[stdlib_experimental_quadrature(module):simps(interface)]](....)` for the docs?\n\n\nSure, no problemo. I see that there are now also links for the docs in stdlib_experimental_quadrature.fypp for the trapz and trapz_weights interfaces. I suppose we want the same for simps and simps_weights, but I don't know how to get the URL right. Do you know what to do?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-04 14:22:15+00:00",
+                    "text": "I suppose we want the same for simps and simps_weights\n\nIt would be good, indeed. You can use a similar link as for trapz:\n        !! Integrates sampled values using trapezoidal rule\n        !! ([Specification](../page/specs/stdlib_experimental_quadrature.html#description))\t\nThe word description must be adapted (e.g., description_2)"
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-04 14:48:28+00:00",
+                    "text": "I suppose we want the same for simps and simps_weights\n\nIt would be good, indeed. You can use a similar link as for trapz:\n        !! Integrates sampled values using trapezoidal rule\n        !! ([Specification](../page/specs/stdlib_experimental_quadrature.html#description))\t\nThe word description must be adapted (e.g., description_2)\n\nCool beans, made sense after I installed FORD and built the docs. Should be taken care of now."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-04 18:09:57+00:00",
+                    "text": "Cool beans, made sense after I installed FORD and built the docs. Should be taken care of now.\n\nNote that you can load it from here."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 17:55:53+00:00",
+                    "text": "I would recommend to recommend to use error_stop and open another issue to get rid of it all over stdlib, if desired.\n\u2026\nOn Sun, Jun 7, 2020, at 10:04 AM, Jeremie Vandenplas wrote:\n\n\n ***@***.**** commented on this pull request.\n\n In src/stdlib_experimental_quadrature_simps.fypp\n <#209 (comment)>:\n\n > +#:for k1, t1 in REAL_KINDS_TYPES\n +\n +    pure recursive module function simps_x_${k1}$(y, x, even)\n result(integral)\n +        ${t1}$, dimension(:), intent(in) :: y\n +        ${t1}$, dimension(:), intent(in) :: x\n +        integer, intent(in), optional :: even\n +        ${t1}$ :: integral\n +\n +        integer :: i\n +        integer :: n\n +\n +        ${t1}$ :: h1, h2\n +        ${t1}$ :: a, b, c\n +\n +        n = size(y)\n +        if (size(x) /= n) error stop \"simps: Arguments `x` and `y`\n must be the same size.\"\n I don't think reverting to declaring `x` to be `dimension(size(y))` is\n a good idea, as mentioned in earlier comments.\n\n It has been agreed that Gfortran <=7 were not supported for stdlib.\n However, recent versions of other compilers may not support the 2018\n `error stop` yet. I am perfectly ok to use the 2018 `error stop`, but\n this will restrict stdlib to very recent compilers.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#209 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWHJR7OUKKKYDXBNKUDRVO3B3ANCNFSM4NRLGEBA>."
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-07 23:24:54+00:00",
+                    "text": "I would recommend to recommend to use error_stop and open another issue to get rid of it all over stdlib, if desired.\n\u2026\nOn Sun, Jun 7, 2020, at 10:04 AM, Jeremie Vandenplas wrote: @.**** commented on this pull request. In src/stdlib_experimental_quadrature_simps.fypp <#209 (comment)>: > +#:for k1, t1 in REAL_KINDS_TYPES + + pure recursive module function simps_x_${k1}$(y, x, even) result(integral) + ${t1}$, dimension(:), intent(in) :: y + ${t1}$, dimension(:), intent(in) :: x + integer, intent(in), optional :: even + ${t1}$ :: integral + + integer :: i + integer :: n + + ${t1}$ :: h1, h2 + ${t1}$ :: a, b, c + + n = size(y) + if (size(x) /= n) error stop \"simps: Arguments x and y must be the same size.\" I don't think reverting to declaring x to be dimension(size(y)) is a good idea, as mentioned in earlier comments. It has been agreed that Gfortran <=7 were not supported for stdlib. However, recent versions of other compilers may not support the 2018 error stop yet. I am perfectly ok to use the 2018 error stop, but this will restrict stdlib to very recent compilers. \u2014 You are receiving this because you commented. Reply to this email directly, view it on GitHub <#209 (comment)>, or unsubscribe https://github.com/notifications/unsubscribe-auth/AAAFAWHJR7OUKKKYDXBNKUDRVO3B3ANCNFSM4NRLGEBA.\n\nOk, done. I've replaced the size check using error_stop with a call to check and dropped the pure attributed from simps_x_* and trapz_x_*."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-15 21:21:14+00:00",
+                    "text": "All comments were answered. I'll merge it.\nThank you @nshaffer"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-15 21:22:17+00:00",
+                    "text": "@nshaffer do you want to open a new issue for the \"error_stop\" thing we discussed above?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-15 21:30:41+00:00",
+                    "text": "@nshaffer do you want to open a new issue for the \"error_stop\" thing we discussed above?\n\nRelated to #212"
+                }
+            ]
+        },
+        {
             "number": 208,
             "user": "jvdp1",
             "date": "2020-05-30 21:48:09+00:00",
@@ -26,7 +350,13 @@
             "date": "2020-05-30 20:37:20+00:00",
             "title": "explicitly state that unit tests are required",
             "text": "@milancurcic\nas discussed in #5",
-            "comments": []
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-04 16:02:14+00:00",
+                    "text": "There haven't been objections to this so I will merge it."
+                }
+            ]
         },
         {
             "number": 206,
@@ -148,6 +478,11 @@
                     "user": "jvdp1",
                     "date": "2020-06-01 07:29:24+00:00",
                     "text": "For the false positives, would it be possible/adequate to output a warning for the users?\nWhich false positives do you mean?\n\nFrom my side, it was just a general comment that sometimes compilers give warnings despite the code is valid code. For example there are warnings about uninitialized variables even though the the choice of variables of the calling function makes it impossible to use a variable without initialization.\n\n# prevent false positive (https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95446)\nif(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)\n  set_source_files_properties(\"test_optval.f90\" PROPERTIES COMPILE_FLAGS \"-Wno-error=pedantic\")\nendif()\n\nI meant such false positives, that are due to, e.g. a bug in the compiler. If someone introduces new procedures in this test, he/she might want to know that these warnings are removed. However, if there is no warnings, he will need to check the CMakefile to know it.\n\nThere are at least three ways to solve this:\n\nWrite some boilerplate code that silences the compiler\nTurn off the warning selectively (not always possible)\nHave two build configurations. A picky one for development (developers need to get used to a certain amount of warnings) and one for production that does not scares normal users.\n\n\nIMO we should go for the 3rd option. The 1st option should never be taken, and the 2nd option should be avoided as much as possible."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-04 16:03:03+00:00",
+                    "text": "3 positive reviews, merging."
                 }
             ]
         },
@@ -254,6 +589,36 @@
                     "user": "milancurcic",
                     "date": "2020-05-30 17:44:38+00:00",
                     "text": "#22 for POSIX systems is also related."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2020-06-03 21:43:11+00:00",
+                    "text": "I have thought a little bit about a possible contribution from my side, and I propose to add general path related functionality. Since the other language I am frequently using is python, I got my inspiration from\n\nos.path\npathlib\n\nIn python, the object oriented approach of pathlib is often favored over os.path. However, unless I overlooked something, I believe that the os.path approach is better suited for Fortran because one can not chain function calls.\n\nPython: p = path.absolute(),is_file()\nFortran: p = path_is_file(path_absolute(Str))\n\nWith Fortran variable length strings (allocatable), most operations are easily performed. However, there is one exception:\nos.path.commonpath(paths) takes a list of strings, in Fortran this would be an array of strings/characters and all of them would need to have the same length. Alternatively, one can use an interface for a series of fpp generated functions with signatures of type path_commonpath(path1,path2),  path_commonpath(path1,path2,path3), ...\nWhile most functionality will be implemented in pure Fortran, certain operations require file system functions from C.\nThere is one more thing I need to mention: If Windows support is needed, someone else has to provide it. I've never compiled a Fortran program on windows and the path operations differ significantly. pathlib has essentially two implementations and I assume we are in the same situation. If someone volunteers, I would prefer that we work in parallel on both implementation. My time budget is about 4h/week and I would hope to finish the whole implementation in 3 months."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-06-03 22:10:22+00:00",
+                    "text": "With Fortran variable length strings (allocatable), most operations are easily performed. However, there is one exception:\nos.path.commonpath(paths) takes a list of strings, in Fortran this would be an array of strings/characters and all of them would need to have the same length. Alternatively, one can use an interface for a series of fpp generated functions with signatures of type path_commonpath(path1,path2), path_commonpath(path1,path2,path3), ...\n\nOr it can be solved by an implementation of the iso_varying_string module or advanced libraries of string handling routines as summarised in this other issue."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-15 21:35:42+00:00",
+                    "text": "However, there is one exception:\nos.path.commonpath(paths) takes a list of strings, in Fortran this would be an array of strings/characters and all of them would need to have the same length. Alternatively, one can use an interface for a series of fpp generated functions with signatures of type path_commonpath(path1,path2), path_commonpath(path1,path2,path3), ...\n\nfypp could be used for that too.\nHowever, implementing and using iso_varying_string module would be the best option IMO."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-06-19 21:11:08+00:00",
+                    "text": "FYI:\nI have some related modules (M_path, M_io, and M_system) in the GPF\n(General Purpose Fortran) site on github if you are looking for ideas\non how the API might look from a Fortran perspective.\nhttps://github.com/urbanjost\nInstead of the entire GPF, self-contained subsets of two of the modules\nare available:\nhttps://github.com/urbanjost/M_io\nhttps://github.com/urbanjost/M_system\nThe M_path module description (actually all the GPF routines) can be\nfound in the manpage index:\nGPF manpages\nI do not have a stand-alone M_path.f90. It is currently only in the GPF\ncollection, as it uses a number of string routines from M_strings.f90."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2020-06-21 10:29:31+00:00",
+                    "text": "@urbanjost Nice code, thanks for the hint."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-06-21 18:31:19+00:00",
+                    "text": "Thanks. No problem. Some is better than others.  Seeded it with a lot of code I had around with the hopes of getting a development community started to expand it and clean it up but it did not catch on as I had hoped. stdlib(3f) seems to have far more momentum behind it. If you find anything useful in it feel free to use it for stdlib(3f)."
                 }
             ]
         },
@@ -496,6 +861,21 @@
                     "user": "certik",
                     "date": "2020-05-28 19:22:22+00:00",
                     "text": "@nncarlson's design seems fine to me."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-19 19:05:31+00:00",
+                    "text": "I think that this could move to the step 2 of the workflow: API proposal.\n@mobius-eng  would you like to open a PR with an initial implementation to discuss the API?"
+                },
+                {
+                    "user": "mobius-eng",
+                    "date": "2020-06-23 09:50:01+00:00",
+                    "text": "Yes. Never done the PR thing before. Just need to figure out the technicalities."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-06-23 15:16:51+00:00",
+                    "text": "I have my own journal/logger/unit test routines, but they are in need of an update. I find it very useful to use class(*) and some optional variables to simplify putting variable values into the messages without having to do internal writes first.  If class(*) is not supported by enough variables I had an older generic routine that optionally did not generate a line terminator that let you compose a longer message with multiple values. Just to give a sense of what I mean I included an example program that uses the same concept. It works quite nicely for standard scalar types and is easily extended for other types.  So is something using class(*) in the running?\nmodule m_debug\nuse, intrinsic :: iso_fortran_env, only : ERROR_UNIT,OUTPUT_UNIT \nimplicit none\nprivate\npublic stderr\ncontains\nsubroutine stderr(msg, generic0, generic1, generic2, generic3, generic4, generic5, generic6, generic7, generic8, generic9)\nimplicit none\nclass(*),intent(in),optional :: msg\nclass(*),intent(in),optional :: generic0, generic1, generic2, generic3, generic4\nclass(*),intent(in),optional :: generic5, generic6, generic7, generic8, generic9\ninteger                      :: ios\n   if(present(msg))     call print_generic(msg)\n   if(present(generic0))call print_generic(generic0)\n   if(present(generic1))call print_generic(generic1)\n   if(present(generic2))call print_generic(generic2)\n   if(present(generic3))call print_generic(generic3)\n   if(present(generic4))call print_generic(generic4)\n   if(present(generic5))call print_generic(generic5)\n   if(present(generic6))call print_generic(generic6)\n   if(present(generic7))call print_generic(generic7)\n   if(present(generic8))call print_generic(generic8)\n   if(present(generic9))call print_generic(generic9)\n   write(error_unit,'(a)',iostat=ios)\n   flush(unit=output_unit,iostat=ios)\n   flush(unit=error_unit,iostat=ios)\ncontains\n!===================================================================================================================================\nsubroutine print_generic(generic)\n!use, intrinsic :: iso_fortran_env, only : int8, int16, int32, biggest=>int64, real32, real64, dp=>real128\nuse,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64, real32, real64, real128\nclass(*),intent(in) :: generic\n   write(error_unit,'(1x)',advance='no')\n   select type(generic)\n      type is (integer(kind=int8));     write(error_unit,'(i0)',advance='no') generic\n      type is (integer(kind=int16));    write(error_unit,'(i0)',advance='no') generic\n      type is (integer(kind=int32));    write(error_unit,'(i0)',advance='no') generic\n      type is (integer(kind=int64));    write(error_unit,'(i0)',advance='no') generic\n      type is (real(kind=real32));      write(error_unit,'(1pg0)',advance='no') generic\n      type is (real(kind=real64));      write(error_unit,'(1pg0)',advance='no') generic\n      type is (real(kind=real128));     write(error_unit,'(1pg0)',advance='no') generic\n      type is (logical);                write(error_unit,'(1l)',advance='no') generic\n      type is (character(len=*));       write(error_unit,'(a)',advance='no') trim(generic)\n      type is (complex);                write(error_unit,'(\"(\",1pg0,\",\",1pg0,\")\")',advance='no') generic\n      class default\n         stop 'unknown type in *print_generic*'\n   end select\nend subroutine print_generic\nend subroutine stderr\nend module m_debug\nprogram demo_stderr\nuse M_debug, only: stderr\nimplicit none\ninteger :: least=10, most=999, ival=-10\n    call stderr('A simple message')\n    call stderr('error: RVALUE=', 3.0/4.0, 'IVALUE=', 123456789, 'LVALUE=', .true.)\n    call stderr('error: value',ival,'should be between',least,'and',most)\nend program demo_stderr"
                 }
             ]
         },
@@ -519,7 +899,18 @@
             "date": "2020-05-17 13:32:37+00:00",
             "title": "Pearson correlation among elements of an array",
             "text": "Related to the functions cov and var\nAs usual, everything can/must be discussed.\nOther implementations\n\nOctave corr\nMatlab corr\nR cor\nJulia cor\nNumpy corrcoef\n\nSpecs:\ncorr - Pearson correlation of array elements\nDescription\nReturns the Pearson correlation of the elements of array along dimension dim if the corresponding element in mask is true.\nThe Pearson correlation between two rows (or columns), say x and y, of array is defined as:\n corr(x, y) = cov(x, y) / sqrt( var(x) * var(y))\n\nSyntax\nresult = corr(array, dim [, mask])\nArguments\narray: Shall be a rank-1 or a rank-2 array of type integer, real, or complex.\ndim: Shall be a scalar of type integer with a value in the range from 1 to n, where n is the rank of array.\nmask (optional): Shall be of type logical and either a scalar or an array of the same shape as array.\nReturn value\nIf array is of rank 1 and of type real or complex, the result is of type real corresponding to the type of array.\nIf array is of rank 2 and of type real or complex, the result is of the same type as array.\nIf array is of type integer, the result is of type real(dp).\nIf array is of rank 1 and of size larger than 1, a scalar equal to 1 is returned. Otherwise, IEEE NaN is returned.\nIf array is of rank 2, a rank-2 array  with the corresponding correlations is returned.\nIf mask is specified, the result is the Pearson correlation of all elements of array corresponding to true elements of mask. If every element of mask is false, the result is IEEE\nNaN.\nExample\nprogram demo_corr\n    use stdlib_experimental_stats, only: corr\n    implicit none\n    real :: x(1:6) = [ 1., 2., 3., 4., 5., 6. ]\n    real :: y(1:2, 1:3) = reshape([ -1., 40., -3., 4., 10., 6. ], [ 2, 3])\n    print *, corr(x, 1)           !returns 1.\n    print *, corr(y, 2)           !returns reshape([ 1., -.32480, -.32480, 1. ], [ 2, 3])\nend program demo_corr",
-            "comments": []
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-08 05:27:04+00:00",
+                    "text": "If there are no other objections/comments to this PR, I will then merge this evening."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-08 19:21:05+00:00",
+                    "text": "Thank you for your inputs. I'll merge."
+                }
+            ]
         },
         {
             "number": 190,
@@ -985,6 +1376,26 @@
                     "user": "certik",
                     "date": "2020-05-07 16:51:22+00:00",
                     "text": "@ivan-pi nice find. Initially indeed we should focus on functionality, but later our goal should definitely be to be as fast or faster than Julia. It might be a nice benchmark for Flang and LFortran also."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-21 20:32:52+00:00",
+                    "text": "As my weekend project, I had a go at implementing Horner's algorithm with fypp (see mentioned issue aradi/fypp#8). This way polynomials can be efficiently inlined.\nThe syntax looks like\n        @:horner(p,t,0.160304955844066229311e2,&\n                      -0.90784959262960326650e2,&\n                       0.18644914861620987391e3,&\n                      -0.16900142734642382420e3,&\n                       0.6545466284794487048e2,&\n                      -0.864213011587247794e1,&\n                       0.1760587821390590,prec=dp)\n\nand gets expanded into\n  p = ((((((0.1760587821390590_dp*t + (-0.864213011587247794e1_dp))*t + (0.6545466284794487048e2_dp))*t +&\n      & (-0.16900142734642382420e3_dp))*t + (0.18644914861620987391e3_dp))*t + (-0.90784959262960326650e2_dp))*t +&\n      & (0.160304955844066229311e2_dp))\n\nThere is still some space for improvement with respect to the preprocessor syntax.\nI've implemented the inverse error function using the Horner macro. The expanded code is:\nelemental function erfinv(x) result(res)\n    use, intrinsic:: ieee_arithmetic, only: ieee_value, &\n      ieee_positive_inf, ieee_negative_inf, ieee_quiet_nan\n    real(dp), intent(in) :: x\n    real(dp) :: a, t, res, p, q\n\n    a = abs(x)\n    if (a >= 1.0_dp) then\n      if (x == 1.0_dp) then\n        res = ieee_value(1._dp, ieee_positive_inf)\n      else if (x == -1.0_dp) then\n        res = ieee_value(1._dp, ieee_negative_inf)\n      else\n        ! domain error\n        res = ieee_value(1._dp,ieee_quiet_nan)\n      end if\n    else if (a <= 0.75_dp) then ! Table 17 in Blair et al.\n        t = x*x - 0.5625_dp\n  p = ((((((0.1760587821390590_dp*t + (-0.864213011587247794e1_dp))*t + (0.6545466284794487048e2_dp))*t +&\n      & (-0.16900142734642382420e3_dp))*t + (0.18644914861620987391e3_dp))*t + (-0.90784959262960326650e2_dp))*t +&\n      & (0.160304955844066229311e2_dp))\n  q = ((((((0.1e1_dp*t + (-0.206010730328265443e2_dp))*t + (0.10760453916055123830e3_dp))*t + (-0.22210254121855132366e3_dp))*t +&\n      & (0.21015790486205317714e3_dp))*t + (-0.91374167024260313936e2_dp))*t + (0.147806470715138316110e2_dp))\n        res = x * p / q\n    else if (a <= 0.9375) then ! Table 37 in Blair et al.\n        t = x*x - 0.87890625_dp\n  p = (((((((0.237516689024448_dp*t + (-0.5478927619598318769e1_dp))*t + (0.19121334396580330163e2_dp))*t +&\n      & (-0.22655292823101104193e2_dp))*t + (0.11763505705217827302e2_dp))*t + (-0.29344398672542478687e1_dp))*t +&\n      & (0.3444556924136125216_dp))*t + (-0.152389263440726128e-1_dp))\n  q = (((((((0.1e1_dp*t + (-0.10014376349783070835e2_dp))*t + (0.24640158943917284883e2_dp))*t + (-0.23716715521596581025e2_dp))*t&\n      & + (0.10695129973387014469e2_dp))*t + (-0.24068318104393757995e1_dp))*t + (0.2610628885843078511_dp))*t +&\n      & (-0.108465169602059954e-1_dp))\n        res = x * p/q\n    else ! Table 58 in Blair et al.\n      t = 1.0_dp / sqrt(-log(1.0_dp - a))\n  p = ((((((((((0.22419563223346345828e-2_dp*t + (-0.177910045751117599791e-1_dp))*t + (0.668168077118049895750e-1_dp))*t +&\n      & (0.72718806231556811306121_dp))*t + (0.207897426301749172289354e1_dp))*t + (0.262556728794480727266643e1_dp))*t +&\n      & (0.283026779017544899742694e1_dp))*t + (0.1042615854929826612283637e1_dp))*t + (0.129695500997273524030254_dp))*t +&\n      & (0.5350414748789301376564e-2_dp))*t + (0.56451977709864482298e-4_dp))\n  q = ((((((((0.1e1_dp*t + (0.203724318174121779298258e1_dp))*t + (0.387828582770420112635182e1_dp))*t +&\n      & (0.376311685364050289010232e1_dp))*t + (0.303793311735222062372456e1_dp))*t + (0.105429322326264911952443e1_dp))*t +&\n      & (0.129866154169116469345513_dp))*t + (0.5350558706793065395335e-2_dp))*t + (0.56451699862760651514e-4_dp))\n        res = p / (sign(t,x) * q)\n    end if\nend function\n\nEdit: there was an error in my erfinv version near the ends of the domain (-1,1), that I've now replaced.\nSwapping axes to compare with the error function in gnuplot I can see the code works correctly:"
+                },
+                {
+                    "user": "vansnyder",
+                    "date": "2020-06-22 18:26:23+00:00",
+                    "text": "On Sun, 2020-06-21 at 13:33 -0700, Ivan wrote:\n Swapping axes to compare with the error function in gnuplot I can see\n the code works correctly:\n\n\nThis is reassuring, but wouldn't be adequate justification to publish\nin a professional journal.\n\nFor mathematical function testing, one method uses a higher-precision\nreference that is computed using a different algorithm, that can be\nimplemented in a transparently-correct way. Run the function, and the\nreference, using randomly-selected values in thousands or millions of\nlittle boxes, over the range of applicability (or several sub ranges).\nThen tabulate the fraction that are correct within 1/2 unit in the last\nposition (ULP), 1 ULP, 2 ULP, ....\n\nFor inverses, such as ERF and ERFINV, one can compute and tabulate\nERF(ERFINV(X)) - X, using a higher-precision and previously-verified\nversion of ERF.\n\nWhen implementing a published approximation, not verifying that the\napproximation computes the desired function, testing would verify that\nyou've correctly transcribed the constants. Errors other than the most\negregious ones wouldn't be visible on a plot."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-06-23 01:29:01+00:00",
+                    "text": "Curious. Did you time your example against any intrinsics?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-23 10:38:50+00:00",
+                    "text": "Thanks @vansnyder for the suggestions. After tabulating the error, I found the precision dropped slightly in one of the intervals. I replaced the code above now with some slightly more accuracte coefficients. After tabulating ERF(ERFINV(X)) - X (calculated in double precision) over the range (-0.995,0.995), the error does not exceed 2.e-16, but I will do more tests before making this a pull request.\n\nCurious. Did you time your example against any intrinsics?\n\nNot yet. I went down the rabbit-hole so to say, and started designing some benchmarking macros similar to those in BenchmarkTools.jl.\nFor comparison, the inverse error function is available in\n\nMATLAB - erfinv\nJulia - erfinv\nScipy - erfinv (through the Cephes library and the inverse of the normal distribution, see here)\nIntel MKL - v?ErfInv (vector version)\nNSWC Library - DERFI (this one also uses the rational approximations by Blair et al. (1976)  that appear in Julia and my code above; the polynomial coefficients however, are loaded from a table)"
                 }
             ]
         },
@@ -1745,6 +2156,11 @@
                     "user": "certik",
                     "date": "2020-05-24 23:40:40+00:00",
                     "text": "The CI fails on Windows, so that has to be fixed.\nIt adds a lot more complexity to the CMake, hundreds of new lines to maintain. I feel we should just let cmake do its thing, and keep the number of lines that we have to write and maintain to a minimum.\nAnd ultimately, we are hoping to switch to the Fortran Package Manager for stdlib once it is ready, and fpm will be able to automatically generate the CMake files.\nfortran-lang/fpm#69"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-23 16:15:14+00:00",
+                    "text": "@leonfoks How would you like to proceed with this PR? Can you make it work on Windows? There are still quite a few unresolved suggestions.\nAlso, can you reduce the added code to a minimum, as per @certik's suggestion?\nI wish I could provide more feedback here, but CMake is really not in my wheelhouse."
                 }
             ]
         },
@@ -1978,6 +2394,26 @@
                     "user": "leonfoks",
                     "date": "2020-03-01 20:47:04+00:00",
                     "text": "If a \u201dmath\u201d module is reserved for the elemental functions, Perhaps cumsum cumprod etc. Could go in a \u201cnumerical\u201d module?\nSince we are talking about summation,  do we want to provide more robust implementations of sum and cumsum? The Kahan summation (and variants) spring to mind.  I can reserve this discussion for the actual cumsum proposal too if need be. Related to #134  about multiple implementations of a  concept."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-23 13:23:05+00:00",
+                    "text": "Do we have a name for this module already? Would stdlib_<experimental>_math be too broad?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-23 13:39:43+00:00",
+                    "text": "expm1(x) and log1p(x) - I suspect that many compilers detect exp(x) - 1.0/log(1.0 + x) and call appropriate library routines, but I'd like to provide these explicitly.\n\n\nThese functions are available in the NSWC Library under the following names:\n\nREXP/DREXP for computing exp(x) - 1\nREXP1/DREXP1 for computing (exp(x) - 1)/x\nALNREL/DLNREL for computing log(1 + a) for a > -1\nRLOG/DRLOG for computing x - 1 - log(x) for x > 0\nRLOG1/DRLOG1 for computing x - log(1 + x) for x > -1\n\nThe CBRT/DCBRT function is also available."
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2020-06-23 14:52:31+00:00",
+                    "text": "Yeah, NSWC has a lot of nice functionality, as long as you don't need complex numbers. But their implementations may still be useful reference material, especially for things like error tolerances for Taylor series approximations and the like.\nAs for the name, stdlib_experimental_math seems fine. Something more specific like mathutils also seems suitable. If we want to roll these in with special functions, that's fine too.\nA good next step would be to write the markdown API for some obviously useful functions and implement the interfaces for them in a module (to be implemented later in submodules). I would take this up myself, but I have a new baby at home."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-23 19:52:10+00:00",
+                    "text": "A good next step would be to write the markdown API for some obviously useful functions and implement the interfaces for them in a module (to be implemented later in submodules). I would take this up myself, but I have a new baby at home.\n\nI've already started with the cube root function, see #214. Congrats! \ud83c\udf89"
                 }
             ]
         },
@@ -2175,6 +2611,11 @@
                     "user": "jvdp1",
                     "date": "2020-02-28 18:51:06+00:00",
                     "text": "Question:\nWhich compilers do not support IEEE NaN? (to test a few things)\nhttp://fortranwiki.org/fortran/show/Fortran+2003+status"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-06-20 22:58:46+00:00",
+                    "text": "FWIW the standard does not define a function ISNAN. In the module IEEE_ARITHMETIC it defines the functions: IEEE_IS_FINITE, IEEE_IS_NAN, IEEE_IS_NEGATIVE, and IEEE_IS_NORMAL as inquiry functions, and IEEE_VALUE to generate values in the different IEEE classes."
                 }
             ]
         },
@@ -2218,6 +2659,11 @@
                     "user": "masuday",
                     "date": "2020-02-06 16:48:45+00:00",
                     "text": "@aradi Julia also uses a similar function. Personally, for a quick comparison, I am using the following function (as suggested by Tamas_Papp).\nabs(x - y) < reltol * (1+abs(x)+abs(y))"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-06-20 17:17:17+00:00",
+                    "text": "I suggest is_within."
                 }
             ]
         },
@@ -2572,6 +3018,16 @@
                     "user": "dev-zero",
                     "date": "2020-05-04 15:36:09+00:00",
                     "text": "As for the OO-API: I've ported CP2K's parallel stream PRNG to OO. As  PRNGs go it is probably a very specific case and unimportant for most other applications, but already before I ported it there was a possibility to dump & load the state."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-09 15:39:45+00:00",
+                    "text": "@masuday do you want to open a PR with initial implementation of this?\nI think there is a broad agreement that we want this, and it's just about agreeing on an API that would work for everybody."
+                },
+                {
+                    "user": "masuday",
+                    "date": "2020-06-09 17:41:23+00:00",
+                    "text": "@certik Thank you for chiming. I agree with you, and I am making a PR in a couple of days."
                 }
             ]
         },
@@ -7492,6 +7948,11 @@
                     "user": "urbanjost",
                     "date": "2020-01-27 00:48:18+00:00",
                     "text": "M_pixel\nwas designed as a simple self-contained vector library for PPM files for use in a graphics class.  The Fortran-based GIF utilities mentioned previously worked great in conjunction with it for making simple GIF and animated GIF examples.   PPM is very good (of course) for programs that are basically manipulating pixels; this could use some polish and needs a higher-level axis routine added, and prettier fonts but if anyone ones something in self-contained Fortran to start with feel free to take a look.\nIn a batch environment the venerable NetPBM and ImageMagik filters worked seamlessly to convert the PPM files to just about any image file format around. With command-level packages like that the PPM format was basically just as good for single-image graphics files as any other, and easiest to convert to other formats. It is a bit verbose so it was almost always converted to something else on the spot.  We actually let the programs write multiple images sequentially to a single file and then split them with a post-processor to make multi-plot formats like Adobe PDF. The main irritation with PPM files is they are only designed to represent one frame.\nIt was designed to be compatible (Originally) with the VOGLE/M_graph library, which supports a lot of vector output formats but very little pixel-level graphics; so anyone that used VOGLE in the past\nshould find it very familiar."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2020-06-28 13:11:05+00:00",
+                    "text": "2\\. Let's start using external libraries optionally to implement as many formats as we can.\n\n\nThe C GdkPixbuf library can save files in \"jpeg\", \"png\", \"tiff\", \"ico\" or \"bmp\":\nhttps://developer.gnome.org/gdk-pixbuf/stable/\nSee my Discourse post for a Fortran example:\nhttps://fortran-lang.discourse.group/t/making-computer-graphics-in-fortran-without-gui-just-creating-a-png/"
                 }
             ]
         },
@@ -9590,6 +10051,16 @@
                     "user": "MarDiehl",
                     "date": "2020-05-31 21:15:37+00:00",
                     "text": "Another possibility would be to provide a conda forge package and use their well developed CI (windows, Mac, Linux). Since this could be seen as a misuse of resources, we should ask beforehand."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-05 06:14:11+00:00",
+                    "text": "Another possibility would be to provide a conda forge package and use their well developed CI (windows, Mac, Linux). Since this could be seen as a misuse of resources, we should ask beforehand.\n\nI think this is the way to go for the long term. But I guess that we should have first a first version/release, right?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-05 06:16:19+00:00",
+                    "text": "For Intel oneAPI, I ran across a GitHub repo that was demoing using Intel oneAPI no-cost compiler in GitHub Actions. Intel provide oneAPI Docker container but this repo was using the PPA / apt install method that they claimed was faster.\nUnfortunately I didn't bookmark that GitHub repo but I could probably find it again if this is of interest.\n\n@scivision Thank you for this input. It could be a possiblity, at least for the short term. It would be nice if you could find back the GitHub repo :)"
                 }
             ]
         },
