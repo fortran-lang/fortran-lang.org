@@ -2,6 +2,835 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 115,
+            "user": "LKedward",
+            "date": "2020-06-25 13:13:35+00:00",
+            "title": "Fix: README link to CONTRIBUTING.md",
+            "text": "",
+            "comments": []
+        },
+        {
+            "number": 114,
+            "user": "LKedward",
+            "date": "2020-06-25 13:08:03+00:00",
+            "title": "Update: preview action for future posts.",
+            "text": "Build PR previews with --future flag to allow previewing of future newsletters.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-25 21:57:44+00:00",
+                    "text": "I'll merge so we can try it for the newsletter."
+                }
+            ]
+        },
+        {
+            "number": 113,
+            "user": "milancurcic",
+            "date": "2020-06-23 17:48:47+00:00",
+            "title": "Begin draft of the July newsletter",
+            "text": "Will merge on July 1. Please review, edit, and approve before then.\nIf you make edits, please also add your name to the Authors list.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-23 17:49:20+00:00",
+                    "text": "Assigned @certik for generating the contributors list."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-25 21:59:16+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-25 22:00:11+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/113/"
+                }
+            ]
+        },
+        {
+            "number": 112,
+            "user": "milancurcic",
+            "date": "2020-06-23 16:03:06+00:00",
+            "title": "Language tutorial topics",
+            "text": "We discussed website tutorials on our June 19 call and we tentatively agreed to organize the mini-books that teach the language itself around topics, rather than skill level. Each mini-book would then cover the topic with increasing skill level, starting from the most basic concepts and building toward more advanced.\nThis is specific to the mini-books that teach the language itself. We'd still have other mini-books that cover other topics like building programs, best practices, Rosetta code and similar.\nOn the call a few people suggested that we discuss what should be the topics to cover. I think we should aim to define topics that are mostly complementary, have little overlap between each other (but it's impossible to completely avoid overlap). Here are the topics that I think would work well:\n\nBuilt-in types and operators\nControl flow\nProcedures\nModules\nArrays\nStrings\nDerived types\nI/O\nOOP\nParallel programming\nC-interop\n\nAs an example of building skill level within a topic, mini-book on parallel programming would cover all parallel concepts, from basic to advanced: Images, synchronization, coarrays, collectives, teams, events, and perhaps even some example parallel algorithms.\nIn this approach, a user of any skill level who wants to learn or refresh memory on any aspect of the language, knows where to look for it because the mini-books are organized by topic. Once in the mini-book, they can skip forward to more advanced aspects of a topic if needed.\nHow this all evolves exactly in practice, I don't know. Perhaps @LKedward will have some ideas. Perhaps we just expand the sections in the existing Quickstart until they become complete enough to warrant transitioning them into a dedicated mini-book.\nWhat do you think?",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-24 12:30:12+00:00",
+                    "text": "This sounds good @milancurcic! I like your topic breakdown - this gives us a good starting point!\nWhere there is overlap between topics, will we be referring the reader to the corresponding mini-book (as a recommended prerequisite) or will we be repeating the content in both mini-books? The obvious examples I can think of are Procedures/Interfaces being prerequisite for Modules/C-interop and Derived types being prerequisite to OOP.\nThe problem with repeated content is increased maintainer workload and potential confusion for readers as to where best to go for a topic. The former problem can probably be solved by sharing pages between mini-books in the yaml file but I feel this exacerbates the latter issue of confusing readers.\nIMO, I think for these situations it is best not to repeat content and to recommend pre-requisite mini-books in the introduction of the dependent mini-book. The disadvantage of this approach is that the mini-books are not perfectly self-contained but partially interdependent.\nThere is a question about the future of the Quickstart mini-book - I would prefer to keep the mini-book as a brief overview of the main language features but with links to the other mini-books for each topic in detail. The Quickstart mini-book would not be part of the core language mini-books but the 'Other' mini-books.\nFinally, your proposed Parallel Programming book is a Coarray Parallel Programming book - I want to ask whether we are going to additionally cover MPI, OpenMP, and OpenACC as well. IMO we should include these, each in a separate mini-book, because they are well-established standards and I don't see any reason to arbitrarily limit the tutorial content to just the Fortran standard."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-06-24 13:16:15+00:00",
+                    "text": "Finally, your proposed Parallel Programming book is a Coarray Parallel Programming book - I want to ask whether we are going to additionally cover MPI, OpenMP, and OpenACC as well. IMO we should include these, each in a separate mini-book, because they are well-established standards and I don't see any reason to arbitrarily limit the tutorial content to just the Fortran standard.\n\n+1. Recently I was at an OpenMP training course where I discovered they have a lot of nice training material also for Fortran. The book by Dragos B. Chirila also contains an OpenMP chapter in the context of Fortran.\nAn overview of solutions for GPU programming including CUDA, OpenCL, OpenMP, and OpenACC from the Fortran perspective would also be nice. I understand however, that the goal of coarrays was exactly to remove the burden of having to learn all of these standards and focus instead on the actual problem. There is a recent paper where they attempted to use coarrays on GPUs.\nWe could also ask the developers of these standards if they are willing to contribute a mini-book."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-24 14:54:13+00:00",
+                    "text": "An overview of solutions for GPU programming including CUDA, OpenCL, OpenMP, and OpenACC from the Fortran perspective would also be nice.\n\nYes this is what I would like, though I am also aware that there is a lot of good preexisting material on these topics already.\n\nI understand however, that the goal of coarrays was exactly to remove the burden of having to learn all of these standards and focus instead on the actual problem.\n\nIt's great to have coarrays in the standard and I'm hopeful about their future, but unfortunately I'm not currently convinced of their maturity and portability (I can't yet find a native Windows version* except for ifort). Thanks for the paper link!\n\nWe could also ask the developers of these standards if they are willing to contribute a mini-book.\n\nGood idea!\n(edit: *I have not tried building OpenCoarrays from source on Windows.)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-24 15:58:31+00:00",
+                    "text": "Where there is overlap between topics, will we be referring the reader to the corresponding mini-book (as a recommended prerequisite) or will we be repeating the content in both mini-books? The obvious examples I can think of are Procedures/Interfaces being prerequisite for Modules/C-interop and Derived types being prerequisite to OOP.\n\nI also think referring the reader to other mini-books, rather than repetition, is better. One technique I learned from Manning is that if a mini-book (chapter) strongly depends on another, for example the way OOP depends on derived types, then at the beginning of the mini-book we can state clearly:\n\nThis tutorial assumes that you have a good grasp of the derived types. If you don't, please work through the derived types mini-book first.\n\nor similar. Another technique is to add a reference to a definition whenever we first bring up a term that we won't define here. For example, in OOP, when we first show a listing with a derived type in it, we can say something like:\n\nThis is a derived type, which is described in <link to derived type mini-book>.\n\n\nFinally, your proposed Parallel Programming book is a Coarray Parallel Programming book - I want to ask whether we are going to additionally cover MPI, OpenMP, and OpenACC as well. IMO we should include these, each in a separate mini-book, because they are well-established standards and I don't see any reason to arbitrarily limit the tutorial content to just the Fortran standard.\n\nYes, I meant it to cover only concepts that are part of the language, and I'd also like us to have separate mini-books on MPI, OpenMP, and OpenACC each."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-24 16:00:38+00:00",
+                    "text": "It's great to have coarrays in the standard and I'm hopeful about their future, but unfortunately I'm not currently convinced of their maturity and portability (I can't yet find a native Windows version* except for ifort).\n\nI can confirm OpenCoarrays build and work well in WSL. I didn't try other Windows approaches."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-24 16:29:27+00:00",
+                    "text": "I second that a tutorial how to use Fortran on GPUs efficiently would be key to help users around me stay in Fortran instead of moving to C++."
+                }
+            ]
+        },
+        {
+            "number": 111,
+            "user": "sblionel",
+            "date": "2020-06-20 16:23:45+00:00",
+            "title": "Add Doctor Fortran blog to learning.yml",
+            "text": "Add Steve Lionel's \"Doctor Fortran\" blog to the list of external resources on the Fortran language",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-20 16:26:24+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-20 16:27:33+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/111/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-20 16:54:28+00:00",
+                    "text": "Thanks!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-20 17:00:39+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-20 17:01:03+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 110,
+            "user": "sblionel",
+            "date": "2020-06-19 17:26:27+00:00",
+            "title": "Add link to Doctor Fortran blog?",
+            "text": "On the Learn page, please add a link under Other Resources > On the Web as follows:\nDoctor Fortran blog Posts about various aspects, features and misconceptions of the Fortran language\nI tried to figure out how to do this myself, but could not locate the source that has the list of links.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 17:49:35+00:00",
+                    "text": "I agree. It needs to be added as an entry here."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-19 17:50:30+00:00",
+                    "text": "Steve, give it a try adding it through a PR, otherwise I can help."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-06-19 18:24:08+00:00",
+                    "text": "I have never done this before and the help isn't helping. I gather I need to create a branch first, but I never see the option to create a new branch when I type a branch name from the main page. If you can lead me through the steps, I'll give it another go."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-20 16:08:39+00:00",
+                    "text": "If you use git on your local machine, use this workflow:\n\nNavigate to https://github.com/fortran-lang/fortran-lang.org\nClick on \"Fork\" in the upper-right corner. This will create a fork of this repository under your account at https://github.com/sblionel/fortran-lang.org.\nClone your fork to your local machine:\n\ngit clone https://github.com/sblionel/fortran-lang.org\n\nif you're using username+password to authenticate with GitHub, or:\ngit clone git@github.com:sblionel/fortran-lang.org\n\nif you're using an SSH key for a password-less auth.\n\nIn your local copy of the repo, create and checkout a new branch that will serve for this contribution:\n\ncd fortran-lang.org\ngit branch 110-add-drfortran-blog # creates a new branch with the name 110-add-drfortran-blog\ngit checkout 110-add-drfortran-blog # switch to the new branch\n\nYou can name the branch anything you want, but generally it's helpful to put which issue it fixes (110) and a short description in the name.\n\nMake changes to _data/learning.yml in your local copy.\nStage, commit, and push your changes to GitHub:\n\ngit add _data/learning.yml # this stages the changes in this file\ngit commit -m \"add Dr. Fortran blog entry to the resources\" # this commits the change to the repository on your local machine\ngit push origin 110-add-drfortran-blog # this will push your updated branch to your fork on GitHub at sblionel/fortran-lang.org\n\n\nNow navigate to https://github.com/fortran-lang/fortran-lang.org again. Near the top of the page you'll see a yellow box with a suggestion to open a PR with your recent contribution. There will be a button there that says \"Compare and open PR\" or something similar. Click on it. This will take you to a PR dialog that looks very much like opening a new issue, and you should be good from there.\n\nThis approach is tedious and has many steps, but becomes really useful when you need to develop and test on your local machine, and make changes to many files.\n\nAlternatively, if you don't use git on your local machine, there is a simpler workflow through GitHub, although I think it's useful only for smaller, single file contributions. For what you want to do here, it should suffice. I am less clear about this approach but I will try.\n\nNavigate to https://github.com/fortran-lang/fortran-lang.org/blob/master/_data/learning.yml, that's the file you want to edit.\nIn the upper-right corner, click on the little pencil (\"Edit\") button. This will take you to the in-browser editor to make changes directly. Because you don't have permissions to write to the file directly, GitHub will automatically create a fork for you, but you don't have to worry about doing anything with it.\nOnce you made the changes, somewhere at the bottom there will be a prompt to open a pull request. This is the part I'm less clear about how it looks exactly because I did this myself only a few times. But the UI should be able to guide you.\n\nLet me know how it goes or if anything's unclear. I recently guided Arjen in #77 to do the same. It seems that it would be useful that we have these notes somewhere prominent on the website, as these steps apply to all projects."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-20 16:21:35+00:00",
+                    "text": "I realize now that in the first (longer) workflow, you can skip steps 3 through 6, and edit the file in your fork directly on GitHub, then go straight to step 7."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-06-20 16:25:09+00:00",
+                    "text": "Thanks! I chose the simpler route of doing it through Github, but I will keep this in mind for the future. The UI was straightforward."
+                }
+            ]
+        },
+        {
+            "number": 109,
+            "user": "MarDiehl",
+            "date": "2020-06-19 16:16:08+00:00",
+            "title": "better not write all functions again",
+            "text": "just a small hint that I find helpful",
+            "comments": [
+                {
+                    "user": "MarDiehl",
+                    "date": "2020-06-19 17:54:43+00:00",
+                    "text": "I also thought about changing the example, but then decided this is pedagogical not bad: Learn the manual implementation and learn that there is an intrinsic. I also could not think of a good example for a vector reduction to a scalar. min and max are also intrinsic.\nThe example is anyways really basic, I would never make the size of the array an extra argument."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-22 21:48:42+00:00",
+                    "text": "Small PR with no objections, merging. Thank you, Martin!"
+                }
+            ]
+        },
+        {
+            "number": 108,
+            "user": "milancurcic",
+            "date": "2020-06-19 01:17:32+00:00",
+            "title": "Fix indenting and few other minor things in the building programs mini-book",
+            "text": "This PR makes a few aesthetic fixes to the building programs mini-book:\n\nRemove date from the top page\nFix code indentation throughout\nOne or two other miscellaneous things",
+            "comments": []
+        },
+        {
+            "number": 107,
+            "user": "GS76",
+            "date": "2020-06-15 20:59:28+00:00",
+            "title": "Update hello_world.md",
+            "text": "Replacing the original link to the Windows binaries with the following link:\nhttp://www.equation.com/servlet/equation.cmd?fa=fortran",
+            "comments": [
+                {
+                    "user": "GS76",
+                    "date": "2020-06-16 09:16:21+00:00",
+                    "text": "@LKedward\nI was able to install the gfortran.\nI then checked the version in a different path and it worked.\nI did not need to define the environment variables.\nRegards."
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-17 05:46:11+00:00",
+                    "text": "Hi all,\nI am unsure what I should do now as I do not see this change live on fortran-lang.org?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 06:15:00+00:00",
+                    "text": "Hi @GS76, we haven't merged this yet hence why it isn't on the site.\nEverything looks good to merge except I notice you haven't committed Milan's suggestion for macOS - if you've done this locally on your computer, don't forget to push again to the same branch. Otherwise you can also commit the change via the web interface."
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-17 06:57:58+00:00",
+                    "text": "Hi @GS76, we haven't merged this yet hence why it isn't on the site.\nEverything looks good to merge except I notice you haven't committed Milan's suggestion for macOS - if you've done this locally on your computer, don't forget to push again to the same branch. Otherwise, you can also commit the change via the web interface.\n\nHi @LKedward\nHow are you?\nI do not have access to a macOS machine so I can not test this.\nThank you."
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-17 07:05:01+00:00",
+                    "text": "Hi @LKedward\nApologies, did I do the wrong thing by closing this as it is unmerged.\nI am inexperienced with Github.\nHow can I correct this"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 08:03:00+00:00",
+                    "text": "Apologies, did I do the wrong thing by closing this as it is unmerged.\n\nNot to worry, PR is reopened now.\n\nI am inexperienced with Github.\n\ngit and github have a bit of a learning curve but I promise it doesn't take long to become familiar with the processes. We really appreciate the effort on your part in learning these tools and contributing to the site \ud83d\udc4d\n\n...\nHow can I correct this\n\nYou won't have permission to merge this pull request yourself - I hope you can understand my reluctance to merge it since, as Milan pointed out, the text currently points macOS users to the site for windows binaries.\n\nI do not have access to a macOS machine so I can not test this.\n\nI agree this is important and, while I also cannot test this, Milan's suggestion for macOS is exactly what is recommended on the gcc binaries page: https://gcc.gnu.org/install/binaries.html.\nFinally, I have confidence in the Homebrew system since it is currently used by the stdlib continuous integration tests (which run after each commit)."
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-17 08:12:59+00:00",
+                    "text": "Apologies, did I do the wrong thing by closing this as it is unmerged.\n\nNot to worry, PR is reopened now.\n\nI am inexperienced with Github.\n\ngit and github have a bit of a learning curve but I promise it doesn't take long to become familiar with the processes. We really appreciate the effort on your part in learning these tools and contributing to the site \ud83d\udc4d\n\n...\nHow can I correct this\n\nYou won't have permission to merge this pull request yourself - I hope you can understand my reluctance to merge it since, as Milan pointed out, the text currently points macOS users to the site for windows binaries.\n\nI do not have access to a macOS machine so I can not test this.\n\nI agree this is important and, while I also cannot test this, Milan's suggestion for macOS is exactly what is recommended on the gcc binaries page: https://gcc.gnu.org/install/binaries.html.\nFinally, I have confidence in the Homebrew system since it is currently used by the stdlib continuous integration tests (which run after each commit).\n\n@LKedward\nI am in complete agreement.\nWe should do it once correctly.\nThat macOS project looks like the right way to go. Now to just find an Apple user to help us test."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 09:02:30+00:00",
+                    "text": "Thanks @GS76.\nTo be clear, I think this PR can be merged with Milan's suggestion included, since the site already recommends these macOS solutions indirectly by referencing the link to gcc binaries page.\nHowever if you would prefer to hold off until they have been tested by the community, then I have no objection to that.\nWhat do you think @milancurcic?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-17 13:10:19+00:00",
+                    "text": "Sorry @GS76 and @LKedward for not responding sooner to this.\n@zbeekman and @scivision can either of you confirm that the following instruction is accurate:\n\nOn macOS, you can install gfortran using Homebrew or MacPorts."
+                },
+                {
+                    "user": "scivision",
+                    "date": "2020-06-17 13:15:44+00:00",
+                    "text": "Yes I tell everyone to use Homebrew for Mac OS. I think we should note that the user \"brew install gcc\" with homebrew"
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-17 13:25:12+00:00",
+                    "text": "Thank you @milancurcic, @LKedward and @scivision.\nLet me know how I can help to close this out.\nI will then continue testing the tutorials on the site."
+                },
+                {
+                    "user": "scivision",
+                    "date": "2020-06-17 14:00:02+00:00",
+                    "text": "The issue is that if users do brew install gfortran they're getting not the latest binaries. The main package is brew install gcc"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-17 14:07:38+00:00",
+                    "text": "Thank you @scivision. We should definitely add the specific Homebrew instructions, though this belongs to a dedicated section on how to install gfortran, with subsections for Homebrew, Ubuntu, Fedora, Windows, etc. Let's tackle these in a separate PR.\nThank you @GS76, I will merge now."
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-17 14:36:40+00:00",
+                    "text": "Hi all,\nIs this complete? What is remaining now? Sorry, new to Github?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-17 14:43:18+00:00",
+                    "text": "Yes, it's merged (which automatically closes the PR) and your changes are live on the website. \ud83c\udf89"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 14:43:24+00:00",
+                    "text": "Hi @GS76, yes this has been merged and published successfully! Many thanks \ud83d\udc4d\n(Note that the site can take some time to update - see the CONTRIBUTOR guide for how to force a  refresh)"
+                }
+            ]
+        },
+        {
+            "number": 106,
+            "user": "GS76",
+            "date": "2020-06-15 20:02:21+00:00",
+            "title": "Quickstart tutorial: Replacing the link for Windows version of gfortran",
+            "text": "The \"Quickstart Fortran tutorial\" works well.\nHowever, the link to the Windows install for gfortran should be updated to the following link:\nhttp://www.equation.com/servlet/equation.cmd?fa=fortran\nThere is a 32-bit and 64-bit versions of the latest as well as weekly versions of the GNU gcc builds, including OpenMP and other libraries.\nIt has been tested and works.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-06-15 20:13:00+00:00",
+                    "text": "@GS76 thanks for opening an issue for this. Would you mind submitting a pull request (PR) for this?"
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-15 20:50:07+00:00",
+                    "text": "@certik, no problem. I will do so."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-18 12:56:31+00:00",
+                    "text": "Closing, fixed by #107. Thanks again @GS76"
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-18 14:03:16+00:00",
+                    "text": "My pleasure. Thank you for everyone's assistance."
+                }
+            ]
+        },
+        {
+            "number": 105,
+            "user": "certik",
+            "date": "2020-06-08 18:06:53+00:00",
+            "title": "Contributor graph does not work on mobile",
+            "text": "The contributor graph at https://fortran-lang.org/community/ does not work on my iPhone:\n\nI have iPhone 10 and Firefox. I also tried Safari, the same result.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-08 18:10:59+00:00",
+                    "text": "FWIW, it works on Android 9 and Chrome."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-08 18:12:28+00:00",
+                    "text": "Thanks for the report @certik - I will look into this.\n(I only tested with Android + Chrome on mobile)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-08 18:13:10+00:00",
+                    "text": "@LKedward thanks. Let me know if you want me to test something, I am happy to do that."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-10 08:22:58+00:00",
+                    "text": "I've been able to reproduce in the Midori web browser (on Ubuntu) which I think uses the same Webkit engine as Safari.\nThe problem appears to be with parsing the date string from the JSON files with the Javascript Date object where some browsers implement more supported date formats in addition to the standard format.\n@certik can you test a simple fix that I'm trialling here: https://lkedward.github.io/fortran-lang.github.io/community/. Can you check both Safari and Firefox on your iPhone?\nThere may still be a few formatting issues but if it works I will open a PR.\nThanks \ud83d\udc4d"
+                }
+            ]
+        },
+        {
+            "number": 104,
+            "user": "LKedward",
+            "date": "2020-06-08 15:44:21+00:00",
+            "title": "Update contributor guide",
+            "text": "Add introduction to CONTRIBUTING.md about how the site works\nMinor updates to workflow and style guide\nUpdate README with links to contributor documentation\nReplace deprecated bundle syntax in README",
+            "comments": [
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-08 17:46:39+00:00",
+                    "text": "Hi @LKedward, great work. As a beginner, myself, that went through this process only a couple of days ago, there is still one thing that I haven't figured out, and it's not clear (to me) in your updated guide. The build preview process. Does a preview need to be built only once, and all subsequent commits/pushes are updated automatically in the preview, or a new preview needs to be built after each new push?\nAlso, great that you noted the issue with the cashed preview not updating and providing a solution! Small details like that make difference... e.g. I wouldn't have spammed so many build-previews in my PR :)."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-08 18:03:55+00:00",
+                    "text": "Thanks for the feedback @smeskos!\n\nDoes a preview need to be built only once, and all subsequent commits/pushes are updated automatically in the preview, or a new preview needs to be built after each new push?\n\nGood question. No, the preview builds must be triggered manually with '{hash}build_preview' whenever you push updated commits. This may be updated in the future to provide a more automated workflow - I just need to learn how GitHub permissions work first.\nI will update the workflow text with this explanation."
+                }
+            ]
+        },
+        {
+            "number": 103,
+            "user": "LKedward",
+            "date": "2020-06-08 15:40:12+00:00",
+            "title": "Add: .gitignore to repo.",
+            "text": "Fixes #97",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-08 18:12:25+00:00",
+                    "text": "Thank you, this solves for most of our needs. This PR is straightforward and doesn't affect the website so I'll go ahead and merge it."
+                }
+            ]
+        },
+        {
+            "number": 102,
+            "user": "LKedward",
+            "date": "2020-06-08 07:41:23+00:00",
+            "title": "External dependencies",
+            "text": "PR #100 adds a Javascript library and JSON data files - as discussed in this PR, these are best left out of the main repository. In the case of the JSON files, this is because of their file size.\nTwo solutions I can think of:\n\n\nAdd a shell script for cloning and updating dependencies from their respective repositories -\nscript is run in CI and by contributors at checkout;\n\n\nUse git submodules.\n\n\nMy preference is for submodules:\n\nSubmodules are designed specifically for this purpose\nI don't like the idea of maintaining a shell script\nChecking-out submodules is a simpler workflow than requiring contributors to run a shell script\n\nMy impression is that the issues people face with submodules are usually when pushing commits to repositories from submodules - we won't be doing that.",
+            "comments": []
+        },
+        {
+            "number": 101,
+            "user": "jvdp1",
+            "date": "2020-06-07 10:50:20+00:00",
+            "title": "Code style for Fortran examples in the tutorials?",
+            "text": "In both #99 and #96 the code style is mentioned. Should we use the same code style as for stdlib?",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-07 11:01:37+00:00",
+                    "text": "It makes sense to adopt the same code style guidelines for all Fortran-lang projects.\nUnfortunately I have a strong gripe with the stdlib code style which is the 4-space indentation.\nI realise the time has passed for me to voice my opinion on this, however my reasoning is that limiting line lengths to 80 characters is really useful for readability and side-by-side editing, but 4-space indentation massively reduces the amount of usable line length and leads to many line-continuations which greatly reduce readability. 2-spaces are perfectly sufficient for indentation and don't eat-up your usable characters."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-07 11:24:56+00:00",
+                    "text": "Laurence, I also oppose the 4-spaces indent. I can't find the original poll now, but I vaguely recall that it was about 50-50 between 2 and 4 spaces, perhaps slightly in favor of 2. It may be time for another vote.\nBut we need a dedicated style guide for the tutorials (you'll see that many items in the stdlib guide don't apply here), and be consistent with it."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-07 12:02:26+00:00",
+                    "text": "Here are the issues related to this topic in stdlib: [#57](https://github.com/fortran-lang/stdlib/pull/57] and #3\nIt is indeed maybe worthwhile to re-open it."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-07 12:35:48+00:00",
+                    "text": "Thanks for the links @jvdp1 - I would support re-opening the discussion on spaces, but that is for another thread.\nPS. I also notice that the line limit problem is made worse in stdlib by needing to also indent preprocessor blocks."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-07 21:54:25+00:00",
+                    "text": "I have a suggestion on how we should work through defining a style guide. Lot's of people are going to have very strong opinions on the subject, and on each aspect of code style. We should have some example code (several probably), format it according to various styles, and have a community wide poll on what people find most readable. Hopefully this can minimize the arguing."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-08 02:45:50+00:00",
+                    "text": "We went with 4 spaces with the idea that we can re-evaluate in few months.\nLet's do what @everythingfunctional suggested. So let's take representative codes, indent them with the various way, and let the community vote.\nIf there is a clear winner, let's go with that. If there is not a clear winner, then we'll have to decide what to do. We spent a lot of time on this before, so I would prefer, if possible, that we don't waste weeks of time on this again. I understand if the current setup is irritating, that people are unhappy. If we switch, it will be irritating to some others. I personally definitely prefer 4 spaces, just like in Python and C++ (however I do not indent inside modules and subroutines, to save horizontal space), but I will go with whatever the community prefers based on the votes, and if it's 2 spaces, we can do that."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-20 17:00:24+00:00",
+                    "text": "I suggest that we move forward with a poll to decide whether people want a code style or not. If yes, we should proceed asap with a survey on the details. I mentioned this issue yesterday at the monthly call, and I insist again, here, because now is the time to decide while the project is still young with only a few lines of code uploaded, and while the main contributors are all active and can quickly refactor their codes. If it takes 6 months or more, it might be too late. Also, to prevent long debates and misunderstandings, we should definitely emphasize that whatever coding style is chosen, it will merely be for the sake of consistency of the tutorials and by no means something official."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-20 20:25:18+00:00",
+                    "text": "I agree, let's start a poll if we want a coding style to be used in tutorials.\n\nI vote yes.\n\u2026\nOn Sat, Jun 20, 2020, at 11:00 AM, smeskos wrote:\n\n\n I suggest that we move forward with a poll to decide whether people\n want a code style or not. If yes, we should proceed asap with a survey\n on the details. I mentioned this issue yesterday at the monthly call,\n and I insist again, here, because now is the time to decide while the\n project is still young with only a few lines of code uploaded, and\n while the main contributors are all active and can quickly refactor\n their codes. If it takes 6 months or more, it might be too late. Also,\n to prevent long debates and misunderstandings, we should definitely\n emphasize that whatever coding style is chosen, it will merely be for\n the sake of consistency of the tutorials and by no means something\n official.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#101 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWF6K4NPM6IMNDTAE3DRXTTLHANCNFSM4NXCUEKA>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-20 20:30:10+00:00",
+                    "text": "To clarify the question I am voting yes is:\n\nDo I prefer to have a coding style agreed upon by the community even if it might contain some things that I personally do not like?\n\u2026\nOn Sat, Jun 20, 2020, at 2:24 PM, Ond\u0159ej \u010cert\u00edk wrote:\n I agree, let's start a poll if we want a coding style to be used in tutorials.\n\n I vote yes.\n\n On Sat, Jun 20, 2020, at 11:00 AM, smeskos wrote:\n >\n >\n > I suggest that we move forward with a poll to decide whether people\n > want a code style or not. If yes, we should proceed asap with a survey\n > on the details. I mentioned this issue yesterday at the monthly call,\n > and I insist again, here, because now is the time to decide while the\n > project is still young with only a few lines of code uploaded, and\n > while the main contributors are all active and can quickly refactor\n > their codes. If it takes 6 months or more, it might be too late. Also,\n > to prevent long debates and misunderstandings, we should definitely\n > emphasize that whatever coding style is chosen, it will merely be for\n > the sake of consistency of the tutorials and by no means something\n > official.\n >\n > \u2014\n > You are receiving this because you commented.\n > Reply to this email directly, view it on GitHub\n > <#101 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWF6K4NPM6IMNDTAE3DRXTTLHANCNFSM4NXCUEKA>.\n >"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-21 15:41:31+00:00",
+                    "text": "I think the response will be unanimous, but we need to document it. To do that, I created a poll here:\nhttps://fortran-lang.discourse.group/t/style-guide-for-fortran-lang-org-do-we-want-a-style-guide/134\nPlease cast your vote there. Don't vote in GitHub issues, it doesn't scale well for voting."
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2020-06-21 22:49:24+00:00",
+                    "text": "No, I don't think it will be unanimous.  What is the proposed scope of the coding style? There's a whole spectrum of things that could potentially be specified, to the point of being overbearing. Some amount of consistency across the tutorials is clearly good, but if it's too overbearing you may find that you've selected away potential contributors. I know I've seen some coding styles that I find horrendous and could not bring myself to follow."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-21 23:17:57+00:00",
+                    "text": "I agree. The question is unfortunately formulated. I think it should ask: should we try to agree on code formatting conventions for tutorials?\n\nSo voting yes can still mean voting no later if the convention that most voted for is unacceptable to you. And if we can't reach a consensus I don't think we should be forcing it on everybody.\n\nThe question is, should we even try to find a consensus?\n\u2026\nOn Sun, Jun 21, 2020, at 4:49 PM, Neil Carlson wrote:\n\n\n No, I don't think it will be unanimous. What is the proposed scope of\n the coding style? There's a whole spectrum of things that could\n potentially be specified, to the point of being overbearing. Some\n amount of consistency across the tutorials is clearly good, but if it's\n too overbearing you may find that you've selected away potential\n contributors. I know I've seen some coding styles that I find\n horrendous and could not bring myself to follow.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#101 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWAFXR6ISATHM2UTXK3RX2FABANCNFSM4NXCUEKA>."
+                }
+            ]
+        },
+        {
+            "number": 100,
+            "user": "LKedward",
+            "date": "2020-06-06 10:31:06+00:00",
+            "title": "Add community section",
+            "text": "This PR creates a new top-level page called 'Community' for the Fortran-lang projects in order to:\n\nProvide instructions & links for (new) contributors\nLink to project documentation\nList and acknowledge contributors\n\nThe PR includes json data files from https://gitlab.com/fortran-lang/github_stats_data which is used to generate the contributor lists and plots. On the new community page you can use the slider beneath the aggregate plot to filter contributions by a specific date range.\nThe contributions list can also be incorporated into newsletters with a fixed date range, which I have done for the June newsletter as an example.\nWork for future PRs will be:\n\nincluding commit data into contributions;\nusing github actions to update json data periodically.\n\nAs always, I value feedback on this - my focus has been on the structure and implementation, so any suggestions for the text content are especially welcome.\n(Apologies for the size of this PR, it grew to more than I was initially planning to organise and cleanup the javascript files.)",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-06 10:31:17+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-06 10:32:17+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/100/"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-06 10:49:35+00:00",
+                    "text": "Great new page!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-06 19:45:39+00:00",
+                    "text": "This is excellent, thank you Laurence. Very nice contribution graphs. Are contributions == commits + comments?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-06 20:11:03+00:00",
+                    "text": "This is excellent, thank you Laurence. Very nice contribution graphs. Are contributions == commits + comments?\n\nThanks!\nNo, I should have said: currently it's just comments because that's what's in the json files currently - when Ond\u0159ej updates his stats scripts, it will include commits as well.\n@certik"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-07 03:30:01+00:00",
+                    "text": "This is really cool. I think it helps to gameify things enough to keep us all coming back and contributing. And the more we keep contributing the better it will get and the more it will grow and then turn into a virtuous cycle. Great addition."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 04:34:22+00:00",
+                    "text": "@everythingfunctional you got the idea. We want people to feel proud and excited to be visible there."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-07 10:20:41+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-07 10:21:36+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/100/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-07 10:30:58+00:00",
+                    "text": "Thanks for the feedback!\nRegarding the javascript library and JSON data files, I agree that these should ideally be left out of this repository - CI downloading is an option, but we also don't want the CI environment to be able to diverge from the local clones, i.e. we need a solution that brings dependencies into the local repos as well.\nMy preferred solution to this would be to use git submodules, however I'm aware that some people do not like submodules. I personally have never had any problems with submodules and the advantage here is that it minimally affects contributor workflow while also allowing dependencies in separate repos.\nDoes anyone have a strong preference not to use git submodules?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-07 16:35:13+00:00",
+                    "text": "I think this can be merged as far as I am concerned.\nI personally am not a big fan of submodules, it's an extra struggle. But I am also not against it, and I think it technically does what we need: keeping the big files out of the repository. And since you are @LKedward the main contributor to this website (as apparent from the statistics in this PR:), and you like submodules, then let's use them.\nIf too many people struggle with them, we can always move to another solution later.\nThanks again for this PR."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-07 22:00:38+00:00",
+                    "text": "I have good success using submodules as a dependency management strategy. I would vote for using them. As @certik said, we can move to something else later if need be."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-08 07:24:26+00:00",
+                    "text": "Okay I will merge and open a new issue for the external dependencies."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-08 07:27:16+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-08 07:27:37+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 99,
+            "user": "arjenmarkus",
+            "date": "2020-06-05 19:23:56+00:00",
+            "title": "Update of the minibook on building programs:",
+            "text": "Text split into separate \"chapters\"/\"sections\"\nApplying consistent mark-up for code sections and keywords and such\nApplying most suggestions from the reviews (I have kept the \"tabulate.f90\"\nmostly as it was, but I have changed the name of the module to make it\na bit clearer.\nSmall textual changes in places",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-05 19:36:47+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-05 19:37:36+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/99/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-05 19:46:05+00:00",
+                    "text": "@arjenmarkus does this PR supersede the previous one (#90)?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-05 19:57:04+00:00",
+                    "text": "@LKedward do you know why this preview didn't build? The preview site doesn't load for me."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-05 20:17:17+00:00",
+                    "text": "@LKedward do you know why this preview didn't build? The preview site doesn't load for me.\n\nIt's working for me - can you try on another device, maybe with mobile internet?\nI've had this issue before; I think there may be some kind of caching issue with github pages where if you visit the new address too soon, it caches the 404 and keeps serving you with it."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-05 20:18:52+00:00",
+                    "text": "@milancurcic - also give https://fortran-lang.org/pr/99/index.html a try."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-05 20:21:45+00:00",
+                    "text": "I think this looks great, thank you.\nOnce fpm is more usable, we can update the tutorial to show how to do this using fpm."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-05 20:32:00+00:00",
+                    "text": "Hi Milan,\n\nyes, this is the result of the suggestions made earlier by J\u00e9r\u00e9mie and\nothers, and of splitting up the text based on the recipe by Laurence.\n\nRegards,\n\nArjen\n\nOp vr 5 jun. 2020 om 21:46 schreef Milan Curcic <notifications@github.com>:\n\u2026\n @arjenmarkus <https://github.com/arjenmarkus> does this PR supersede the\n previous one (#90\n <#90>)?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRYX6AKRXFY6MBYLTJDRVFDSFANCNFSM4NU76QZQ>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-06 20:09:15+00:00",
+                    "text": "@arjenmarkus As you review the suggestions, click on \"Commit suggestion\" to automatically incorporate it in this PR, or just \"Resolve conversation\" to dismiss it."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-08 06:43:13+00:00",
+                    "text": "Hi everyone,\n\nThanks for the suggestions and the approval. I hope to find time in the\nnext few days (let's be careful with promises) to incorporate these\nsuggestions. (I confess being a trifle lazy when it comes to hunting down\nthe relevant URLs :)).\n\nRegards,\nArjen\n\n\nOp zo 7 jun. 2020 om 13:04 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n *@LKedward* approved this pull request.\n\n Thanks Arjen for your work on this - it's looking really good \ud83d\udc4d\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6AIQVUPIOUL34AS2TRVNX2XANCNFSM4NU76QZQ>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-08 06:45:57+00:00",
+                    "text": "Hi Milan,\n\nwrt the indentation, hm, no, not really - at least I guess they are\nsuperfluous now that the blocks are marked with the programming language. I\ndid not realise the indentation could be removed. That could certainly be a\ncosmetic update.\n\nRegards,\n\nArjen\n\nOp za 6 jun. 2020 om 22:08 schreef Milan Curcic <notifications@github.com>:\n\u2026\n ***@***.**** approved this pull request.\n\n @arjenmarkus <https://github.com/arjenmarkus> Thanks a lot. I love your\n writing style. I left several minor suggestions.\n\n I noticed that many code listings/snippets are entirely indented by 4 or 8\n spaces. Are these indentations necessary?\n ------------------------------\n\n In learn/building_programs/build_tools.md\n <#99 (comment)>\n :\n\n > +* The `make` utility is a classical tool that uses instructions about\n\n +how the various components of a program depend on each other to\n\n +efficiently compile and link the program (or programs). It takes a\n\n +so-called `Makefile` that contains the dependencies.\n\n +\n\n +    Simply put:\n\n +\n\n +    If a program file is older than any of the libraries and object files\n\n +it depends on, the make utility knows it has to rebuild it and goes on\n\n +to look at the libraries and object files - are any out of date?\n\n +\n\n +    If an object file is older than the corresponding source file, the\n\n +make utility knows it has to compile the source file.\n\n +\n\n +* Integrated development tools take care of many of the above details. A\n\n +popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n\n\n \u2b07\ufe0f Suggested change\n\n -popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n\n +popular cross-platform  tool is Microsoft's [Visual Studio Code](https://code.visualstudio.com/), but others exist,\n\n\n ------------------------------\n\n In learn/building_programs/build_tools.md\n <#99 (comment)>\n :\n\n > +how the various components of a program depend on each other to\n\n +efficiently compile and link the program (or programs). It takes a\n\n +so-called `Makefile` that contains the dependencies.\n\n +\n\n +    Simply put:\n\n +\n\n +    If a program file is older than any of the libraries and object files\n\n +it depends on, the make utility knows it has to rebuild it and goes on\n\n +to look at the libraries and object files - are any out of date?\n\n +\n\n +    If an object file is older than the corresponding source file, the\n\n +make utility knows it has to compile the source file.\n\n +\n\n +* Integrated development tools take care of many of the above details. A\n\n +popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n\n +such as Eclipse (Photran) and Code::Blocks. They offer a graphical\n\n\n \u2b07\ufe0f Suggested change\n\n -such as Eclipse (Photran) and Code::Blocks. They offer a graphical\n\n +such as [Atom](https://atom.io/), [Eclipse Photran](https://www.eclipse.org/photran/), and [Code::Blocks](http://www.codeblocks.org/). They offer a graphical\n\n\n ------------------------------\n\n In learn/building_programs/build_tools.md\n <#99 (comment)>\n :\n\n > +    Simply put:\n\n +\n\n +    If a program file is older than any of the libraries and object files\n\n +it depends on, the make utility knows it has to rebuild it and goes on\n\n +to look at the libraries and object files - are any out of date?\n\n +\n\n +    If an object file is older than the corresponding source file, the\n\n +make utility knows it has to compile the source file.\n\n +\n\n +* Integrated development tools take care of many of the above details. A\n\n +popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n\n +such as Eclipse (Photran) and Code::Blocks. They offer a graphical\n\n +user-interface, but are often very specific for the compiler and\n\n +platform.\n\n +\n\n +* Maintenance tools like autotools and CMake can generate makefiles or\n\n\n \u2b07\ufe0f Suggested change\n\n -* Maintenance tools like autotools and CMake can generate makefiles or\n\n +* Maintenance tools like autotools and CMake can generate Makefiles or\n\n\n ------------------------------\n\n In learn/building_programs/distributing.md\n <#99 (comment)>\n :\n\n > @@ -0,0 +1,136 @@\n\n +---\n\n +layout: book\n\n +title: Distributing your programs\n\n +permalink: /learn/building_programs/distributing\n\n +---\n\n +\n\n +When you distributed your programs, there are a number of options you can\n\n\n \u2b07\ufe0f Suggested change\n\n -When you distributed your programs, there are a number of options you can\n\n +When you distribute your programs, there are a number of options you can\n\n\n ------------------------------\n\n In learn/building_programs/distributing.md\n <#99 (comment)>\n :\n\n > @@ -0,0 +1,136 @@\n\n +---\n\n +layout: book\n\n +title: Distributing your programs\n\n +permalink: /learn/building_programs/distributing\n\n +---\n\n +\n\n +When you distributed your programs, there are a number of options you can\n\n +choose from:\n\n +\n\n +1. Distribute the entire source code\n\n +2. Distribute a pre-built executable program\n\n +3. Distribute static or dynamic libraries that people can use\n\n +\n\n +ad 1.\n\n\n What does ad. 1 (and so on) mean? Perhaps better to explicitly type out\n each item for each explanation\n ------------------------------\n\n In learn/building_programs/linking_pieces.md\n <#99 (comment)>\n :\n\n > +the function in the right way. It might be that you made a mistake and\n\n +called the function with two arguments instead of one. If the compiler\n\n +does not know anything about the function's interface, then it cannot\n\n +check anything.\n\n +\n\n +The second step invokes the compiler in such a way that:\n\n +\n\n +* it compiles the file \"tabulate.f90\" (using the module file);\n\n +* it invokes the linker to combine the object files tabulate.o and function.o into an\n\n +executable program - with the default name \"a.out\" or \"a.exe\" (if you\n\n +want a different name, use the option \"-o\").\n\n +\n\n +What you do not see in general is that the linker also adds a number of\n\n +extra files in this link step, the run-time libraries. These run-time\n\n +libraries contain all the \"standard\" stuff - low-level routines that do\n\n +the input and output to screen, the `sine` function and much more.\n\n\n \u2b07\ufe0f Suggested change\n\n -the input and output to screen, the `sine` function and much more.\n\n +the input and output to screen, the `sin` function and much more.\n\n\n ------------------------------\n\n In learn/building_programs/managing_libraries.md\n <#99 (comment)>\n :\n\n > +libraries remain outside the executable program and as a consequence\n\n +can be replaced without rebulding the entire program. Compilers and\n\n +indeed the operating system itself rely heavily on such dynamic\n\n +libraries. You could consider dynamic libraries as a sort of executable\n\n +programs that need a bit of help to be run.\n\n +\n\n +Building dynamic libraries works slightly differently from building\n\n +static libraries: you use the compiler/linker instead of a tool\n\n +like `ar` or `lib`.\n\n +\n\n +On Linux:\n\n +\n\n +```shell\n\n +    $ gfortran -fpic -c file1.f90 file2.f90\n\n +    $ gfortran -fpic -c file3.f90 ...\n\n +    $ gfortran -shared --o supportlib.so file1.o file2.o file3.o ...\n\n\n \u2b07\ufe0f Suggested change\n\n -    $ gfortran -shared --o supportlib.so file1.o file2.o file3.o ...\n\n +   $ gfortran -shared -o supportlib.so file1.o file2.o file3.o ...\n\n\n ------------------------------\n\n In learn/building_programs/managing_libraries.md\n <#99 (comment)>\n :\n\n > +\n\n +```shell\n\n +    $ gfortran -o tabulate tabulate.f90 function.dll\n\n +```\n\n +\n\n +The DLL and the .mod file are used to build the executable program\n\n +with checks on the function's interface, the right name and the reference\n\n +to \"a\" DLL, called \"function.dll\".\n\n +\n\n +You can replace the shared library \"function.dll\" by another one, implementing\n\n +a different function \"f\". Of course, you need to be careful to use the correct\n\n +interface for this function. The compiler/linker are not invoked anymore, so they\n\n +can do no checking.\n\n +\n\n +## Windows and Intel Fortran\n\n +The setup is the same as with GNU/Linux, but on Windows it is necessary\n\n\n \u2b07\ufe0f Suggested change\n\n -The setup is the same as with GNU/Linux, but on Windows it is necessary\n\n +The setup is the same as with Linux, but on Windows it is necessary\n\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRYLJAJZQDC6GSNHXVLRVKO2NANCNFSM4NU76QZQ>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-16 17:08:08+00:00",
+                    "text": "How to resolve this conflict?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-16 17:09:52+00:00",
+                    "text": "Hi everyone,\n\njust did my best to get the remaining suggestions in. I do not know exactly\nwhat to do with the conflict in learn.yml, so I would like your advice on\nthis.\n\nRegards,\n\nArjen\n\nOp ma 8 jun. 2020 om 08:45 schreef Arjen Markus <arjen.markus895@gmail.com>:\n\u2026\n Hi Milan,\n\n wrt the indentation, hm, no, not really - at least I guess they are\n superfluous now that the blocks are marked with the programming language. I\n did not realise the indentation could be removed. That could certainly be a\n cosmetic update.\n\n Regards,\n\n Arjen\n\n Op za 6 jun. 2020 om 22:08 schreef Milan Curcic ***@***.***\n >:\n\n> ***@***.**** approved this pull request.\n>\n> @arjenmarkus <https://github.com/arjenmarkus> Thanks a lot. I love your\n> writing style. I left several minor suggestions.\n>\n> I noticed that many code listings/snippets are entirely indented by 4 or\n> 8 spaces. Are these indentations necessary?\n> ------------------------------\n>\n> In learn/building_programs/build_tools.md\n> <#99 (comment)>\n> :\n>\n> > +* The `make` utility is a classical tool that uses instructions about\n>\n> +how the various components of a program depend on each other to\n>\n> +efficiently compile and link the program (or programs). It takes a\n>\n> +so-called `Makefile` that contains the dependencies.\n>\n> +\n>\n> +    Simply put:\n>\n> +\n>\n> +    If a program file is older than any of the libraries and object files\n>\n> +it depends on, the make utility knows it has to rebuild it and goes on\n>\n> +to look at the libraries and object files - are any out of date?\n>\n> +\n>\n> +    If an object file is older than the corresponding source file, the\n>\n> +make utility knows it has to compile the source file.\n>\n> +\n>\n> +* Integrated development tools take care of many of the above details. A\n>\n> +popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n>\n>\n> \u2b07\ufe0f Suggested change\n>\n> -popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n>\n> +popular cross-platform  tool is Microsoft's [Visual Studio Code](https://code.visualstudio.com/), but others exist,\n>\n>\n> ------------------------------\n>\n> In learn/building_programs/build_tools.md\n> <#99 (comment)>\n> :\n>\n> > +how the various components of a program depend on each other to\n>\n> +efficiently compile and link the program (or programs). It takes a\n>\n> +so-called `Makefile` that contains the dependencies.\n>\n> +\n>\n> +    Simply put:\n>\n> +\n>\n> +    If a program file is older than any of the libraries and object files\n>\n> +it depends on, the make utility knows it has to rebuild it and goes on\n>\n> +to look at the libraries and object files - are any out of date?\n>\n> +\n>\n> +    If an object file is older than the corresponding source file, the\n>\n> +make utility knows it has to compile the source file.\n>\n> +\n>\n> +* Integrated development tools take care of many of the above details. A\n>\n> +popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n>\n> +such as Eclipse (Photran) and Code::Blocks. They offer a graphical\n>\n>\n> \u2b07\ufe0f Suggested change\n>\n> -such as Eclipse (Photran) and Code::Blocks. They offer a graphical\n>\n> +such as [Atom](https://atom.io/), [Eclipse Photran](https://www.eclipse.org/photran/), and [Code::Blocks](http://www.codeblocks.org/). They offer a graphical\n>\n>\n> ------------------------------\n>\n> In learn/building_programs/build_tools.md\n> <#99 (comment)>\n> :\n>\n> > +    Simply put:\n>\n> +\n>\n> +    If a program file is older than any of the libraries and object files\n>\n> +it depends on, the make utility knows it has to rebuild it and goes on\n>\n> +to look at the libraries and object files - are any out of date?\n>\n> +\n>\n> +    If an object file is older than the corresponding source file, the\n>\n> +make utility knows it has to compile the source file.\n>\n> +\n>\n> +* Integrated development tools take care of many of the above details. A\n>\n> +popular tool on Windows is MicroSoft's Visual Studio, but others exist,\n>\n> +such as Eclipse (Photran) and Code::Blocks. They offer a graphical\n>\n> +user-interface, but are often very specific for the compiler and\n>\n> +platform.\n>\n> +\n>\n> +* Maintenance tools like autotools and CMake can generate makefiles or\n>\n>\n> \u2b07\ufe0f Suggested change\n>\n> -* Maintenance tools like autotools and CMake can generate makefiles or\n>\n> +* Maintenance tools like autotools and CMake can generate Makefiles or\n>\n>\n> ------------------------------\n>\n> In learn/building_programs/distributing.md\n> <#99 (comment)>\n> :\n>\n> > @@ -0,0 +1,136 @@\n>\n> +---\n>\n> +layout: book\n>\n> +title: Distributing your programs\n>\n> +permalink: /learn/building_programs/distributing\n>\n> +---\n>\n> +\n>\n> +When you distributed your programs, there are a number of options you can\n>\n>\n> \u2b07\ufe0f Suggested change\n>\n> -When you distributed your programs, there are a number of options you can\n>\n> +When you distribute your programs, there are a number of options you can\n>\n>\n> ------------------------------\n>\n> In learn/building_programs/distributing.md\n> <#99 (comment)>\n> :\n>\n> > @@ -0,0 +1,136 @@\n>\n> +---\n>\n> +layout: book\n>\n> +title: Distributing your programs\n>\n> +permalink: /learn/building_programs/distributing\n>\n> +---\n>\n> +\n>\n> +When you distributed your programs, there are a number of options you can\n>\n> +choose from:\n>\n> +\n>\n> +1. Distribute the entire source code\n>\n> +2. Distribute a pre-built executable program\n>\n> +3. Distribute static or dynamic libraries that people can use\n>\n> +\n>\n> +ad 1.\n>\n>\n> What does ad. 1 (and so on) mean? Perhaps better to explicitly type out\n> each item for each explanation\n> ------------------------------\n>\n> In learn/building_programs/linking_pieces.md\n> <#99 (comment)>\n> :\n>\n> > +the function in the right way. It might be that you made a mistake and\n>\n> +called the function with two arguments instead of one. If the compiler\n>\n> +does not know anything about the function's interface, then it cannot\n>\n> +check anything.\n>\n> +\n>\n> +The second step invokes the compiler in such a way that:\n>\n> +\n>\n> +* it compiles the file \"tabulate.f90\" (using the module file);\n>\n> +* it invokes the linker to combine the object files tabulate.o and function.o into an\n>\n> +executable program - with the default name \"a.out\" or \"a.exe\" (if you\n>\n> +want a different name, use the option \"-o\").\n>\n> +\n>\n> +What you do not see in general is that the linker also adds a number of\n>\n> +extra files in this link step, the run-time libraries. These run-time\n>\n> +libraries contain all the \"standard\" stuff - low-level routines that do\n>\n> +the input and output to screen, the `sine` function and much more.\n>\n>\n> \u2b07\ufe0f Suggested change\n>\n> -the input and output to screen, the `sine` function and much more.\n>\n> +the input and output to screen, the `sin` function and much more.\n>\n>\n> ------------------------------\n>\n> In learn/building_programs/managing_libraries.md\n> <#99 (comment)>\n> :\n>\n> > +libraries remain outside the executable program and as a consequence\n>\n> +can be replaced without rebulding the entire program. Compilers and\n>\n> +indeed the operating system itself rely heavily on such dynamic\n>\n> +libraries. You could consider dynamic libraries as a sort of executable\n>\n> +programs that need a bit of help to be run.\n>\n> +\n>\n> +Building dynamic libraries works slightly differently from building\n>\n> +static libraries: you use the compiler/linker instead of a tool\n>\n> +like `ar` or `lib`.\n>\n> +\n>\n> +On Linux:\n>\n> +\n>\n> +```shell\n>\n> +    $ gfortran -fpic -c file1.f90 file2.f90\n>\n> +    $ gfortran -fpic -c file3.f90 ...\n>\n> +    $ gfortran -shared --o supportlib.so file1.o file2.o file3.o ...\n>\n>\n> \u2b07\ufe0f Suggested change\n>\n> -    $ gfortran -shared --o supportlib.so file1.o file2.o file3.o ...\n>\n> +   $ gfortran -shared -o supportlib.so file1.o file2.o file3.o ...\n>\n>\n> ------------------------------\n>\n> In learn/building_programs/managing_libraries.md\n> <#99 (comment)>\n> :\n>\n> > +\n>\n> +```shell\n>\n> +    $ gfortran -o tabulate tabulate.f90 function.dll\n>\n> +```\n>\n> +\n>\n> +The DLL and the .mod file are used to build the executable program\n>\n> +with checks on the function's interface, the right name and the reference\n>\n> +to \"a\" DLL, called \"function.dll\".\n>\n> +\n>\n> +You can replace the shared library \"function.dll\" by another one, implementing\n>\n> +a different function \"f\". Of course, you need to be careful to use the correct\n>\n> +interface for this function. The compiler/linker are not invoked anymore, so they\n>\n> +can do no checking.\n>\n> +\n>\n> +## Windows and Intel Fortran\n>\n> +The setup is the same as with GNU/Linux, but on Windows it is necessary\n>\n>\n> \u2b07\ufe0f Suggested change\n>\n> -The setup is the same as with GNU/Linux, but on Windows it is necessary\n>\n> +The setup is the same as with Linux, but on Windows it is necessary\n>\n>\n> \u2014\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <#99 (review)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YRYLJAJZQDC6GSNHXVLRVKO2NANCNFSM4NU76QZQ>\n> .\n>"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 08:13:17+00:00",
+                    "text": "Hi @arjenmarkus, many thanks.\nI've resolved the conflict on github - you will need to run git pull on your local copy if you intend to do any more edits in your local copy.\nI will update the #build_preview with the latest changes for a final check."
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-17 08:14:29+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/99/"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-17 11:02:24+00:00",
+                    "text": "Hi @LKedward, thanks - got the copy now. (I am still learning the workflow\n:))\n\nRegards,\n\nArjen\n\nOp wo 17 jun. 2020 om 10:13 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n Hi @arjenmarkus <https://github.com/arjenmarkus>, many thanks.\n I've resolved the conflict on github - you will need to run git pull on\n your local copy if you intend to do any more edits in your local copy.\n I will update the #build_preview with the latest changes for a final check.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4TEBNL4IAIFOCOLLDRXB3KXANCNFSM4NU76QZQ>\n ."
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-17 11:03:17+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/99/"
+                },
+                {
+                    "user": "GS76",
+                    "date": "2020-06-17 13:37:25+00:00",
+                    "text": "Thank you for everything."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-17 14:23:23+00:00",
+                    "text": "Hi everyone,\n\njust committed the changes - I should now close the pull request, I guess?\n\nRegards,\n\nArjen\n\nOp wo 17 jun. 2020 om 15:46 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n *@LKedward* commented on this pull request.\n ------------------------------\n\n In learn/building_programs/distributing.md\n <#99 (comment)>\n :\n\n > +        !DEC$ ATTRIBUTES DLLEXPORT :: f\n\n +            real, intent(in) :: x\n\n +\n\n +            ... TO BE FILLED IN ...\n\n +\n\n +        end function f\n\n +        end module user_functions\n\n +```\n\n +\n\n +* Provide a basic build script with a command like:\n\n +\n\n +```shell\n\n +        gfortran -o function.dll function.f90 -shared\n\n +```\n\n +\n\n +        or:\n\n\n Okay, removing the indent fixes it.\n \u2b07\ufe0f Suggested change\n\n -        or:\n\n +or:\n\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZMTE2CNKZKBI4LU33RXDCMHANCNFSM4NU76QZQ>\n ."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 14:27:34+00:00",
+                    "text": "Thanks @arjenmarkus - this looks good! Since you're happy with it, I will merge."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-17 14:29:44+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-17 14:30:12+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-17 14:43:53+00:00",
+                    "text": "Nice to see this on the website :).\n\nRegards,\n\nArjen\n\nOp wo 17 jun. 2020 om 16:30 schreef github-actions[bot]\n<notifications@github.com>:\n\u2026\n\n The preview build for this PR has now been deleted.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe."
+                }
+            ]
+        },
+        {
+            "number": 98,
+            "user": "smeskos",
+            "date": "2020-06-05 19:19:04+00:00",
+            "title": "New page in quickstart derived types",
+            "text": "I am attempting the same PR, as before, hopefully, this time correctly, without the _site directory.",
+            "comments": [
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-05 19:21:47+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-05 19:22:47+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/98/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-05 20:35:33+00:00",
+                    "text": "Thanks @smeskos !"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-06 10:19:01+00:00",
+                    "text": "@jvdp1, @LKedward thank you both for your suggestions!\n\n@LKedward: Finally, just in case you are not aware: github provides an easy interface on it's website to apply (or reject) any suggested changes with a click of a button - this avoids you having to manually copy them to your local copy and push back again. (But please use the workflow you are most comfortable with).\n\nI am learning git/Github as we speak, this is my first participation in a public repo. Everything is new to me and feel free to give all advice you think may help me. Speaking of which, I simply used the \"commit suggestion\" button to commit the changes you two suggested so far. What I have to do next for these commits to appear in the branch?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-06 10:24:11+00:00",
+                    "text": "I am learning git/Github as we speak, this is my first participation in a public repo. Everything is new to me and feel free to give all advice you think may help me.\n\n\ud83d\udc4d\n\n... Speaking of which, I simply used the \"commit suggestion\" button to commit the changes you two suggested so far. What I have to do next for these commits to appear in the branch?\n\nYes that's the button I was referring to. To see these changes in your local copy I think you just need to pull again, try git pull"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-06 12:53:53+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-06 12:54:48+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/98/"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-06 12:57:49+00:00",
+                    "text": "How to make the new commits to show in the preview?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-06 13:20:25+00:00",
+                    "text": "Hi @smeskos, can you try this link:\nhttps://fortran-lang.org/pr/98/learn/quickstart/derived_types?v=2.\nI can see your updated commits in the preview."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-06 14:28:21+00:00",
+                    "text": "Thanks for your updates @smeskos - this is looking good! \ud83d\udc4d"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-06-07 02:44:43+00:00",
+                    "text": "I think this looks pretty good. My only comment is with regards to code style. We haven't officially settled on one yet (I don't think), so no need to worry about it as part of this PR. Once we can settle on one we should go through and make sure all the code examples on the site comply with it."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-06-07 10:47:59+00:00",
+                    "text": "I think this looks pretty good. My only comment is with regards to code style. We haven't officially settled on one yet (I don't think), so no need to worry about it as part of this PR. Once we can settle on one we should go through and make sure all the code examples on the site comply with it.\n\nHere is the code style for stdlib. Should we use the same one in these tutorials?"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-07 11:06:00+00:00",
+                    "text": "Thank you, Milan for all your suggestions.\nRegarding your second suggestion: Move Derived types in detail to the advanced tutorial.\nDo you mean everything from this header and on? That would leave very little information regarding derived types in this Quickstart tutorial and personally, I am not agreeing to this. My thinking is that this Quickstart tutorial is meant for people who already know how to program, they are most probably experienced programmers in another language and want a quick \"get up to speed\" with modern Fortran.  In that sense everyone, more or less is accustomed with OOP features, and would expect to learn how to implement the basic OOP features in Fortran syntax."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-07 11:34:17+00:00",
+                    "text": "Yes, I meant that whole section. But we can keep it for now because we don't have an advanced tutorial yet. When we do, I will propose to move it and we'll put it to a vote. You can't assume the level of reader here. Being experienced with OOP is quite advanced.\nBut it's not even the OOP, but more that it lists a set of rules and syntaxes in standardese-like format, without concrete examples. It reads more like reference than learning material."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-07 15:46:04+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-07 15:46:55+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/98/"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-07 15:59:05+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-07 16:00:00+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/98/"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-07 16:15:08+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-07 16:16:05+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/98/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-07 16:33:20+00:00",
+                    "text": "With 5 approvals, I will now merge this into master. Great work, @smeskos !"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-07 16:34:28+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-07 16:34:45+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 97,
+            "user": "LKedward",
+            "date": "2020-06-05 17:57:22+00:00",
+            "title": "Add .gitignore to repo",
+            "text": "To avoid problems like in #96.\nMine currently has:\n.bundle*\n_site*",
+            "comments": []
+        },
+        {
+            "number": 96,
+            "user": "smeskos",
+            "date": "2020-06-05 17:23:11+00:00",
+            "title": "New page in quickstart derived types",
+            "text": "A new introductory tutorial about derived types placed as the last page in the Quickstart tutorial.",
+            "comments": [
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-05 17:31:54+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-06-05 17:32:46+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/96/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-05 17:39:22+00:00",
+                    "text": "Hi @smeskos, this is great! Many thanks for adding this. I will go over and review in detail soon \ud83d\udc4d\nQuick observation: one of your commits seems to modify a lot of files, and I can't work out why?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-05 17:44:17+00:00",
+                    "text": "Thanks a lot, Stavros! This is a great addition.\nHowever, I'm sorry if this wasn't clear (we need to improve the contributing guide): _site/* directory and any files built by Jekyll shouldn't be committed to the repo. They are built and deployed automatically by GitHub.\nI think the easiest way to fix this is to close this PR and open a new one which would include only your additions to the Markdown file where the tutorial is, and the associated metadata (.yml)."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-05 17:53:05+00:00",
+                    "text": "Ah I see what's happended.\n_site/ files are added in 82487ce.\nSo git revert 82487ce should fix this branch."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-06-05 18:47:42+00:00",
+                    "text": "I will try to fix this."
+                }
+            ]
+        },
+        {
+            "number": 95,
+            "user": "milancurcic",
+            "date": "2020-06-01 23:03:05+00:00",
+            "title": "add Contributors section to TOC",
+            "text": "We forgot to add Contributors to the TOC.",
+            "comments": []
+        },
+        {
             "number": 94,
             "user": "LKedward",
             "date": "2020-06-01 09:43:16+00:00",
@@ -138,6 +967,71 @@
                     "user": "certik",
                     "date": "2020-06-01 15:30:05+00:00",
                     "text": "I am working on the scripts now."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 21:44:35+00:00",
+                    "text": "I extracted all the data and posted it here:\nhttps://gitlab.com/fortran-lang/github_stats_data\nnow I am working on extracting contributor names in the range:\nhttps://gitlab.com/fortran-lang/github_stats/-/merge_requests/2"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 22:27:38+00:00",
+                    "text": "This is a first draft of the contributors. I am now working on adding names next to their GitHub IDs. This was automatically generated by a script in this MR:\nhttps://gitlab.com/fortran-lang/github_stats/-/merge_requests/2\nSo you can see exactly how it works.\nPatches / ideas welcome how to improve this."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 22:29:24+00:00",
+                    "text": "I can see we should remove the github-actions[bot] user."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-01 22:36:50+00:00",
+                    "text": "Great, thank you @certik!\nI have a few suggestions, feel free to apply them as you see fit:\n\nRather than saying \"The following contributors commented on any of the four repositories...\", I suggest a more personal message, something like: \"We thank everybody who contributed to fortran-lang in the past month: \". Currently the message is quite dry and impersonal. It's quite ironic that github-actions[bot] got included :).\nSimilar to 1), I suggest renaming the section title from \"Contributors\" to either \"Thank you\" or \"Acknowledgements\". (maybe I like \"Contributors\" on second read)\nRemove the numbering and the \"@\" and simply list names, comma-separated, for example (keep the hyperlinks):\n\n\ncertik, milancurcic, LKedward, ..."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 22:40:33+00:00",
+                    "text": "I posted how the markdown looks like now, but realized it probably sent an email to all the people using a mention...; So I deleted my comment, don't know if that will fix it. If anyone of you got tagged by a mistake, I apologize.\nHere is how it looks like:\nhttps://gitlab.com/fortran-lang/github_stats/-/merge_requests/2#note_353238748"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 22:46:02+00:00",
+                    "text": "Thanks @milancurcic for the suggestions. I updated the wording. I think I would like to spell which repositories are counted, and that this lists people who commented.\nCurrently it looks like this:\n\nOnd\u0159ej \u010cert\u00edk (@certik)\nMilan Curcic (@milancurcic)\nLaurence Kedward (@LKedward)\n...\n\nShould we change it to:\nOnd\u0159ej \u010cert\u00edk (@certik), Milan Curcic (@milancurcic), Laurence Kedward (@LKedward), ...\nOr some other formatting?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-01 22:48:45+00:00",
+                    "text": "I personally like this best:\n\nOnd\u0159ej \u010cert\u00edk (@certik), Milan Curcic (@milancurcic), Laurence Kedward (@LKedward), ..."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 22:49:04+00:00",
+                    "text": "Ok, let me change it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 22:52:33+00:00",
+                    "text": "@milancurcic like this?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-01 22:54:55+00:00",
+                    "text": "@milancurcic go ahead and merge this."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-01 22:55:05+00:00",
+                    "text": "Excellent, thank you very much @certik! This is a huge improvement to our newsletter."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-02 07:11:48+00:00",
+                    "text": "Thanks @certik for this! It's great also to see the number of people getting involved!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-02 18:39:37+00:00",
+                    "text": "Yes. We should figure out how to share this in some nice graphs also. But for now this is good enough."
                 }
             ]
         },
@@ -175,6 +1069,31 @@
                     "user": "certik",
                     "date": "2020-05-25 19:15:40+00:00",
                     "text": "Just a note regarding the platform: I strongly propose that our long term goal should be to run natively on all platforms (Linux, macOS, Windows natively as well as in Cygwin and WSL, HPC, ...) using native tools where applicable. We should have some tutorial \"how to get started on each platform\", and how to do the basic things for each platform. That way the actual tutorial such as this PR can be written for one particular platform (Cygwin in this case) and people would know how to execute the commands on other platforms using the \"how to get started on each platform\" tutorial.\nSo I think it's perfectly fine if this tutorial sticks with Cygwin."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-03 11:04:07+00:00",
+                    "text": "Hi everyone,\n\nI plan to work through the suggestions by J\u00e9r\u00e9mie tomorrow. I noticed that\nthe tutorial has been split into separate chapters. I can do that with this\nminibook as well.\n\nIf you have more comments/suggestions, let me know.\n\nRegards,\n\nArjen\n\nOp ma 25 mei 2020 om 21:15 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com>:\n\u2026\n Just a note regarding the platform: I strongly propose that our long term\n goal should be to run natively on all platforms (Linux, macOS, Windows\n natively as well as in Cygwin and WSL, HPC, ...) using native tools where\n applicable. We should have some tutorial \"how to get started on each\n platform\", and how to do the basic things for each platform. That way the\n actual tutorial such as this PR can be written for one particular platform\n (Cygwin in this case) and people would know how to execute the commands on\n other platforms using the \"\"how to get started on each platform\" tutorial.\n\n So I think it's perfectly fine if this tutorial sticks with Cygwin.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#90 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6EHDDRNKMDLC6PIQDRTK7WRANCNFSM4NICRNUA>\n ."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-03 18:27:16+00:00",
+                    "text": "Thanks for the update @arjenmarkus.\nJust to let you know that there is now a guide in the repository for how to use the new multi-page mini-book format. Do let me know if anything isn't clear or you need further assistance.\nLooking forward to seeing your mini-book published on site.\nLaurence"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-04 06:51:33+00:00",
+                    "text": "Hi Laurence,\n\ngreat - that should be helpful indeed. I was going to do it with the\ntutorial's sources as an example but this is much better.\n\nRegards,\n\nArjen\n\nOp wo 3 jun. 2020 om 20:27 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n Thanks for the update @arjenmarkus <https://github.com/arjenmarkus>.\n Just to let you know that there is now a guide\n <https://github.com/fortran-lang/fortran-lang.org/blob/master/MINIBOOKS.md>\n in the repository for how to use the new multi-page mini-book format. Do\n let me know if anything isn't clear or you need further assistance.\n Looking forward to seeing your mini-book published on site.\n Laurence\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#90 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR46J6WYRKX3VMZRIXDRU2IZFANCNFSM4NICRNUA>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-06-05 19:27:59+00:00",
+                    "text": "Okay, just created a new pull request for this minibook. I have tried to be\naccurate wrt the mark-up and the suggested changes. A few improvements I am\nthinking of:\n- Clearer characterisation of the platforms\n- The tabulate.f90 source should probably be revised. I have left it mostly\nas it was, but the suggestions made me think a bit.\n\nOh, and perhaps add the source code as examples for people to work with.\n\nRegards,\n\nArjen\n\nOp do 4 jun. 2020 om 08:51 schreef Arjen Markus <arjen.markus895@gmail.com>:\n\u2026\n Hi Laurence,\n\n great - that should be helpful indeed. I was going to do it with the\n tutorial's sources as an example but this is much better.\n\n Regards,\n\n Arjen\n\n Op wo 3 jun. 2020 om 20:27 schreef Laurence Kedward <\n ***@***.***>:\n\n> Thanks for the update @arjenmarkus <https://github.com/arjenmarkus>.\n> Just to let you know that there is now a guide\n> <https://github.com/fortran-lang/fortran-lang.org/blob/master/MINIBOOKS.md>\n> in the repository for how to use the new multi-page mini-book format. Do\n> let me know if anything isn't clear or you need further assistance.\n> Looking forward to seeing your mini-book published on site.\n> Laurence\n>\n> \u2014\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <#90 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR46J6WYRKX3VMZRIXDRU2IZFANCNFSM4NICRNUA>\n> .\n>"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-06 09:05:12+00:00",
+                    "text": "Closing, superseded by #99."
                 }
             ]
         },
@@ -386,7 +1305,63 @@
             "date": "2020-05-17 14:19:00+00:00",
             "title": "Update Quickstart tutorial",
             "text": "#7 (comment)\nWe can discuss what needs to be done here.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "Irvise",
+                    "date": "2020-06-13 21:13:59+00:00",
+                    "text": "I have a proposal that I want to explain here to get some feedback before making any pull request.\nIn the control flow section only if-else, do and do-while are discussed.\nI propose to add a small footnote to indicate the existence of cycle, exit, where, forall? and do concurrent. Just like in derived types with the comment of pointer, codimension, etc. This will make the reader aware that fortran supports more than just the \"common\" flow instructions\nPS: it is great idea to have a \"modern\" place to get into/discuss fortran. Tank you!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-14 04:34:20+00:00",
+                    "text": "@Irvise I think that's a great idea. Go ahead and submit a PR."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-14 09:28:26+00:00",
+                    "text": "Hi @Irvise, you're absolutely right; there should definitely be a mention and explanation of those control flow statements. The control flow page is a little sparse currently and I think there could probably be a bit more explanative text there (#99 is a good example of the writing style for these tutorials).\nThe Quickstart tutorial is by no means a finished product so any more suggestions and contributions are certainly welcome!"
+                },
+                {
+                    "user": "Irvise",
+                    "date": "2020-06-14 09:50:49+00:00",
+                    "text": "@certik @LKedward would you like it to be a very short note commenting their existence or would you prefer to have a small sentence explaining what each of them are supposed to do?\nI personally think cycle and exit are \"basic\" control flow key words. Maybe they deserve their own section to be properly discussed?\nAnd regarding the more \"advance\" features. Are there any plans to make an \"Intermediate fortran\" page? I have seen that you are discussing a Rust-style book, will it be a complete language introduction?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-14 11:08:56+00:00",
+                    "text": "I think we should actually explain what cycle and exit do since they are quite fundamental to loop operations; if you think they need their own section (on the same page) then I have no objection to that.\nThere could probably be another section on the Loops page about implied do loops and the where statement. I'm not sure about including the forall statement since this is now an obsolescent feature.\nDo concurrent could be be mentioned perhaps, but detail deferred to a future tutorial?\nWe've moved away from the idea of a single monolithic Rust-style book in favour of many smaller books on different topics - as part of this, I think an \"Intermediate Fortran\" book makes sense as a next step after the Quickstart guide. Do you have any thoughts on what could go in this? Perhaps we should open an issue to discuss that."
+                },
+                {
+                    "user": "Irvise",
+                    "date": "2020-06-14 15:21:39+00:00",
+                    "text": "Okay, I will start to write in a week or two (a bit too much work now).\nHas the proposal to have something similar to Ada's learn page been discussed? I think it solves most of the points mentioned (plus it is interactive). However, I know this is not the issue to discuss this point. In order to keep the issue on point, could you point me to where the current discussion taking place?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-14 16:09:00+00:00",
+                    "text": "Hi @Irvise, that would be a great addition.\n\n@certik @LKedward would you like it to be a very short note commenting their existence or would you prefer to have a small sentence explaining what each of them are supposed to do?\n\nWe should have at least a complete small example showing how they work and a paragraph describing each feature. So, considerably more than a note or a sentence. While you're at it, if you can help expand the existing https://fortran-lang.org/learn/quickstart/operators_control_flow#loop-constructs-do section, that would be great.\n\nI personally think cycle and exit are \"basic\" control flow key words. Maybe they deserve their own section to be properly discussed?\n\nI think they should be in this section, and each should probably have its own subsection. Something like this (and separated from logical operators which don't belong with control flow):\n# Control flow (chapter)\n## if-branches (section)\n...\n## do-loops (section)\n### regular do (subsection)\n### do while() (subsection)\n### do concurrent() (subsection)\n### cycle, exit (subsection)\nI agree that we shouldn't include forall for the reason that Laurence mentioned. We should include where, but not in control flow, as it's an array assignment construct. So it belongs in the Arrays chapter, which should be separated from strings."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-06-14 16:39:27+00:00",
+                    "text": "We've moved away from the idea of a single monolithic Rust-style book in favour of many smaller books on different topics - as part of this, I think an \"Intermediate Fortran\" book makes sense as a next step after the Quickstart guide. Do you have any thoughts on what could go in this? Perhaps we should open an issue to discuss that.\n\n@LKedward I think you refer to this. I apologize that I didn't provide feedback back in that thread. I didn't in part because I haven't gotten clear my self with the best way forward, and this in a difficult problem to solve.\nI like the approach of mini-books over one large monolithic book. However, we're currently unclear what the specific mini-books are and what separates them. When you separate a subject matter into multiple parts (mini-books) you need to decide how to separate them. You can do it in different ways:\n\nBy topic (compiling and linking, arrays, control flow, OOP, etc.)\nBy reader skill level (intro, advanced, expert)\nBy teaching method (tutorial, reference, cookbook, FAQ, best practices)\n\nDifferent teaching methods serve different purposes, so I think we all agree we need separation by teaching method (e.g. we'll have best practices from fortran90.org etc.). There are kind of a neutral ground mini-books, because they will tend to touch on all of the topics, and be useful to programmers of all skill levels.\nHowever, please, please be cautious of separating mini-books by both topic and skill level at the same time. By doing that you have to assume which topics are basic or advanced. And by assuming that you're assuming about what the reader needs. Which I don't think we can or should assume.\nAnother problem is overlap in content. Inevitably, both the intro and advanced mini-books will cover I/O, arrays, derived types etc. There will be a lot of repetition and cross-referencing. An average reader won't know ahead of time where the specific feature they're looking for is described.\nI urge everybody here to discuss and decide whether to separate by topic or by skill level, but please don't do both. We'll end up with many messy and complicated books.\nMy preference is to separate by topic (e.g. mini-book on arrays, I/O, OOP, parallelism, interop etc.), and each successive section of a mini-book builds gradually in depth and skill level. Of course, some topics will depend on others, and we'll end up with a natural sequence of mini-books that form a nice, coherent, large book, just like the Rust book. Which is what we wanted in the first place. :)"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-14 18:08:24+00:00",
+                    "text": "However, we're currently unclear what the specific mini-books are and what separates them.\n\nWe briefly discussed this (in the first tutorial PR I think) and I recall that we agreed to avoid separation by skill level, due to the issues you discuss, and primarily go for separation by topic + other formats (FAQ etc.). Based off this previous conversation, this is also my preferred method of separation.\n@milancurcic, my mention of an \"Intermediate Fortran\" book may have caused confusion - by this I meant that it would be good to have a follow-on book from the Quickstart tutorial that covers more advanced topics that are not already contained within the Quickstart tutorial. i.e. they are split by topic where multiple topics are grouped within a book. This would be more of a \"Further Fortran\" book.\nI realise that it may be preferable to have more topic granularity at the book level (one topic per book), however I also don't think we should have ~10 books each consisting of ~3 paragraphs to start off with.\n\nthis in a difficult problem to solve.\n\nAbsolutely, the idea behind the mini-books is to give us as much flexibility in structuring the content while also enabling us to publish content incrementally instead of in large tranches.\nMy idea was that topics can start off as sections and be expanded to pages and then broken-out into stand-alone books, as more content is added."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-14 18:17:19+00:00",
+                    "text": "Okay, I will start to write in a week or two (a bit too much work now).\n\nThanks @Irvise ! Any help with the tutorials would be greatly appreciated!\n\nHas the proposal to have something similar to Ada's learn page been discussed? I think it solves most of the points mentioned (plus it is interactive). However, I know this is not the issue to discuss this point. In order to keep the issue on point, could you point me to where the current discussion taking place?\n\nWe have a general discussion for the Learn section in #7 - I'll take a look at the Ada page.\nI had considered including interactivity using compiler explorer: you can essentially store code snippets on it using the short urls; it can be configured to just show compilation and execution output without the assembly dump and it can be embedded via an iframe (see the 'share' menu)."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-14 18:49:50+00:00",
+                    "text": "it would be good to have a follow-on book from the Quickstart tutorial that covers more advanced topics that are not already contained within the Quickstart tutorial. i.e. they are split by topic where multiple topics are grouped within a book. This would be more of a \"Further Fortran\" book.\n\nFollow-up: I realise the idea of grouping topics into books still suffers from the underlying issue of making an assumption about the skill level of the topics and so isn't really a good idea.\nBest to keep to one topic per book."
+                }
+            ]
         },
         {
             "number": 81,
@@ -595,6 +1570,11 @@
                     "user": "milancurcic",
                     "date": "2020-05-22 19:41:31+00:00",
                     "text": "@arjenmarkus Yes, that worked! Thank you! I will review it in detail over the weekend."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-18 12:58:04+00:00",
+                    "text": "Closing, completed by #99."
                 }
             ]
         },
@@ -837,7 +1817,13 @@
             "date": "2020-05-12 19:31:19+00:00",
             "title": "Add a CI",
             "text": "When a new PR is submitted a CI should run to check that the website can be built. This is especially critical for new package submissions to ensure the yaml is properly formatted.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-06-18 12:59:07+00:00",
+                    "text": "Another task for the CI is to check for broken links (both internal and external)."
+                }
+            ]
         },
         {
             "number": 63,
