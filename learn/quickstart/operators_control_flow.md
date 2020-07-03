@@ -129,7 +129,7 @@ __Example:__ `do` loop with skip
 A condition may be added to a `do` loop with the `while` keyword. The loop will be executed while the condition given
 in `while()` evaluates to `.true.`.
 
-__Example:__ `do while` loop
+__Example:__ `do while()` loop
 
 ```fortran
   integer :: i
@@ -139,6 +139,33 @@ __Example:__ `do while` loop
     i = i + 1
   end do
   ! Here i = 11
+```
+
+### `do concurrent()`
+
+The `do concurrent` loop is used to specify that the _inside of the loop has no interdependencies_. By this, it is indicated
+that any loop does not depend on the loops before it. It is also necessary that any state changes that may occur must only
+happen within each `do concurrent` loop. Because of these requirements, it is important to be carful with what is written inside the loop.
+
+However, the true nature of the `do concurrent` construct may not be fully understood by the paragraph above. `do concurrent`
+was specifically created to tell the compiler that it may parallelize/_SIMD_ what is inside the `do concurrent`,
+which could potentially lead to faster code. The intention of the programmer is also conveyed more clearly.
+
+{% include important.html content="`do concurrent` is not a basic feature of Fortran. The explanation given does not detail
+all the requirements that need to be met in order to write a correct `do concurrent` loop. Compilers are also free to do as they see fit,
+which means they may not optimize the loop."}
+
+__Example__ `do concurrent()` loop
+
+```fortran
+  real, parameter :: pi = 3.14159265
+  integer, parameter :: n = 10
+  real :: result_sin(n)
+  integer :: i
+  do concurrent (i=1:n) ! Careful, the syntax is slightly different
+    result_sin(i) = sin(i*pi/4.)
+  end do
+  print *, result_sin
 ```
 
 ### Finer loop control: (`exit`) and (`cycle`)
@@ -173,4 +200,23 @@ __Example__ loop with `cycle`
 	end if
     print *, i
   end do
+```
+### Even finer loop control: tags
+
+A recurring case in any programming language is the use of nested loops. Nested loops refer to loops that exist within another loop. Fortran allows the programmer to _tag_ or _name_ each loop. If loops are tagged, there are two potential benefits:
+1. The readability of the code may be improved (when the naming is meaningful).
+2. `exit` and `cycle` may be used with tags, which allows for a very fine-grained control of the loops.
+
+__Example__ tagged nested loops
+
+```fortran
+  integer :: i,j
+  outer_loop: do i=1,10
+    inner_loop: do j=1,10
+      if((j+i) .gt. 10) then ! Print only pairs of i and j that add up to 10
+	    cycle outer_loop     ! Go to the next iteration of the outer loop
+	  end if
+	  print *, 'I=', i, ' J=', j, ' Sum=', j+i
+    end do inner_loop
+  end do outer_loop
 ```
