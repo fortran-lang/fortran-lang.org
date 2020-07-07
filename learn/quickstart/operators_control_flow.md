@@ -198,7 +198,7 @@ __Example__ loop with `cycle`
     print *, i
   end do
 ```
-{% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the inner-most loop."}
+{% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the inner-most loop." %}
 
 ### Nested loop control: tags
 
