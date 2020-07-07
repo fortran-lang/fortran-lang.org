@@ -124,7 +124,7 @@ __Example:__ `do` loop with skip
   end do
 ```
 
-### `do while()`
+### Conditional loop (`do while`)
 
 A condition may be added to a `do` loop with the `while` keyword. The loop will be executed while the condition given
 in `while()` evaluates to `.true.`.
