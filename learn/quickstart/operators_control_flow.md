@@ -167,7 +167,7 @@ __Example__ `do concurrent()` loop
 
 ### Loop control statements (`exit` and `cycle`)
 
-Most often than not, loops need to be stopped if a condition is met. Fortran presents two reserved words to deal
+Most often than not, loops need to be stopped if a condition is met. Fortran provides two executable statements to deal
 with such cases.
 
 `exit` is used to quit the loop prematurely. It is usually enclosed inside an `if`.
