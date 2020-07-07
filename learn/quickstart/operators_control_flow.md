@@ -198,7 +198,9 @@ __Example__ loop with `cycle`
     print *, i
   end do
 ```
-### Even finer loop control: tags
+{% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the inner-most loop."}
+
+### Nested loop control: tags
 
 A recurring case in any programming language is the use of nested loops. Nested loops refer to loops that exist within another loop. Fortran allows the programmer to _tag_ or _name_ each loop. If loops are tagged, there are two potential benefits:
 1. The readability of the code may be improved (when the naming is meaningful).
