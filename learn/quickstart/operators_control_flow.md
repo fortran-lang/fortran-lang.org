@@ -150,7 +150,7 @@ These requirements place restrictions on what can be placed within the loop body
 
 {% include important.html content="`do concurrent` is not a basic feature of Fortran. The explanation given does not detail
 all the requirements that need to be met in order to write a correct `do concurrent` loop. Compilers are also free to do as they see fit,
-which means they may not optimize the loop."}
+which means they may not optimize the loop." %}
 
 __Example__ `do concurrent()` loop
 
