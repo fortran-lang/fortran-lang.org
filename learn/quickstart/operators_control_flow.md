@@ -165,7 +165,7 @@ __Example__ `do concurrent()` loop
   print *, result_sin
 ```
 
-### Finer loop control: (`exit`) and (`cycle`)
+### Loop control statements (`exit` and `cycle`)
 
 Most often than not, loops need to be stopped if a condition is met. Fortran presents two reserved words to deal
 with such cases.
