@@ -141,7 +141,7 @@ __Example:__ `do while()` loop
   ! Here i = 11
 ```
 
-### `do concurrent()`
+### Parallelizable loop (`do concurrent`)
 
 The `do concurrent` loop is used to explicitly specify that the _inside of the loop has no interdependencies_; this informs the compiler that it may use parallelization/_SIMD_ to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
 that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop. 
