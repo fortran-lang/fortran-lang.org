@@ -147,9 +147,6 @@ The `do concurrent` loop is used to explicitly specify that the _inside of the l
 that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop. 
 These requirements place restrictions on what can be placed within the loop body.
 
-However, the true nature of the `do concurrent` construct may not be fully understood by the paragraph above. `do concurrent`
-was specifically created to tell the compiler that it may parallelize/_SIMD_ what is inside the `do concurrent`,
-which could potentially lead to faster code. The intention of the programmer is also conveyed more clearly.
 
 {% include important.html content="`do concurrent` is not a basic feature of Fortran. The explanation given does not detail
 all the requirements that need to be met in order to write a correct `do concurrent` loop. Compilers are also free to do as they see fit,
