@@ -141,30 +141,6 @@ __Example:__ `do while()` loop
   ! Here i = 11
 ```
 
-### Parallelizable loop (`do concurrent`)
-
-The `do concurrent` loop is used to explicitly specify that the _inside of the loop has no interdependencies_; this informs the compiler that it may use parallelization/_SIMD_ to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
-that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop. 
-These requirements place restrictions on what can be placed within the loop body.
-
-
-{% include important.html content="`do concurrent` is not a basic feature of Fortran. The explanation given does not detail
-all the requirements that need to be met in order to write a correct `do concurrent` loop. Compilers are also free to do as they see fit,
-which means they may not optimize the loop."}
-
-__Example__ `do concurrent()` loop
-
-```fortran
-  real, parameter :: pi = 3.14159265
-  integer, parameter :: n = 10
-  real :: result_sin(n)
-  integer :: i
-  do concurrent (i=1:n) ! Careful, the syntax is slightly different
-    result_sin(i) = sin(i*pi/4.)
-  end do
-  print *, result_sin
-```
-
 ### Loop control statements (`exit` and `cycle`)
 
 Most often than not, loops need to be stopped if a condition is met. Fortran provides two executable statements to deal
@@ -218,4 +194,28 @@ __Example__ tagged nested loops
 	print *, 'I=', i, ' J=', j, ' Sum=', j+i
     end do inner_loop
   end do outer_loop
+```
+
+### Parallelizable loop (`do concurrent`)
+
+The `do concurrent` loop is used to explicitly specify that the _inside of the loop has no interdependencies_; this informs the compiler that it may use parallelization/_SIMD_ to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
+that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop.
+These requirements place restrictions on what can be placed within the loop body.
+
+
+{% include important.html content="`do concurrent` is not a basic feature of Fortran. The explanation given does not detail
+all the requirements that need to be met in order to write a correct `do concurrent` loop. Compilers are also free to do as they see fit,
+which means they may not optimize the loop."}
+
+__Example__ `do concurrent()` loop
+
+```fortran
+  real, parameter :: pi = 3.14159265
+  integer, parameter :: n = 10
+  real :: result_sin(n)
+  integer :: i
+  do concurrent (i=1:n) ! Careful, the syntax is slightly different
+    result_sin(i) = sin(i*pi/4.)
+  end do
+  print *, result_sin
 ```
