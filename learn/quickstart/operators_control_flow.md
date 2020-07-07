@@ -143,9 +143,9 @@ __Example:__ `do while()` loop
 
 ### `do concurrent()`
 
-The `do concurrent` loop is used to specify that the _inside of the loop has no interdependencies_. By this, it is indicated
-that any loop does not depend on the loops before it. It is also necessary that any state changes that may occur must only
-happen within each `do concurrent` loop. Because of these requirements, it is important to be carful with what is written inside the loop.
+The `do concurrent` loop is used to explicitly specify that the _inside of the loop has no interdependencies_; this informs the compiler that it may use parallelization/_SIMD_ to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
+that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop. 
+These requirements place restrictions on what can be placed within the loop body.
 
 However, the true nature of the `do concurrent` construct may not be fully understood by the paragraph above. `do concurrent`
 was specifically created to tell the compiler that it may parallelize/_SIMD_ what is inside the `do concurrent`,
