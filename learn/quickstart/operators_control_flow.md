@@ -169,8 +169,8 @@ __Example__ loop with `cycle`
   integer :: i
   do i=1,10
     if (mod(i,2) == 0) then
-	  cycle ! Don't print even numbers
-	end if
+       cycle  ! Don't print even numbers
+    end if
     print *, i
   end do
 ```
@@ -188,10 +188,10 @@ __Example__ tagged nested loops
   integer :: i,j
   outer_loop: do i=1,10
     inner_loop: do j=1,10
-      if((j+i) > 10) then ! Print only pairs of i and j that add up to 10
-	  cycle outer_loop     ! Go to the next iteration of the outer loop
-	end if
-	print *, 'I=', i, ' J=', j, ' Sum=', j+i
+      if ((j+i) > 10) then  ! Print only pairs of i and j that add up to 10
+         cycle outer_loop  ! Go to the next iteration of the outer loop
+      end if
+      print *, 'I=', i, ' J=', j, ' Sum=', j+i
     end do inner_loop
   end do outer_loop
 ```
