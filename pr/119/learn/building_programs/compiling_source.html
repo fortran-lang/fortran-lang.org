@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Compiling the source code - Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/119/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/119/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/building_programs/compiling_source" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/119/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/119/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.github.io/pull/119" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 119</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/119/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/119/" class="navbar-brand">
+		    <img src="/pr/119/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/119/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/119/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/119/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/119/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/119/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/119/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+          
+          
+    
+  
+
+  <a href="/pr/119/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index 
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Building programs</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><a href="/pr/119/learn/building_programs">
+        Introduction</a></li>
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li>
+          <b><a href="/pr/119/learn/building_programs/compiling_source">
+            Compiling the source code</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/119/learn/building_programs/linking_pieces">
+          Linking the objects</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/119/learn/building_programs/runtime_libraries">
+          Run-time libraries</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/119/learn/building_programs/include_files">
+          Include files and modules</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/119/learn/building_programs/managing_libraries">
+          Managing libraries (static and dynamic libraries)</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/119/learn/building_programs/build_tools">
+          Build tools</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/119/learn/building_programs/distributing">
+          Distributing your programs</a></li>
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Compiling the source code</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+      </div>
+
+      <p>The first step in the build process is to compile the source code. The
+output from this step is generally known as the object code - a set of
+instructions for the computer generated from the human-readable source
+code. Different compilers will produce different object codes from the
+same source code and the naming conventions are different.</p>
+
+<p>The consequences:</p>
+
+<ul>
+  <li>If you use a particular compiler for one source file, you need to use
+the same compiler (or a compatible one) for all other pieces. After
+all, a program may be built from many different source files and the
+compiled pieces have to cooperate.</li>
+  <li>Each source file will be compiled and the result is stored in a file
+with an extension like “.o” or “.obj”. It is these object files that are
+the input for the next step: the link process.</li>
+</ul>
+
+<p>Compilers are complex pieces of software: they have to understand the
+language in much more detail and depth than the average programmer. They
+also need to understand the inner working of the computer. And then,
+over the years they have been extended with numerous options to
+customise the compilation process and the final program that will be
+built.</p>
+
+<p>But the basics are simple enough. Take the gfortran compiler, part of
+the GNU compiler collection. To compile a simple program as the one
+above, that consists of one source file, you run the following command,
+assuming the source code is stored in the file “hello.f90”:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-c</span> hello.f90
+</code></pre></div></div>
+
+<p>This results in a file “hello.o” (as the gfortran compiler uses “.o” as
+the extension for the object files).</p>
+
+<p>The option “-c” means: only compile the source files. If you were to
+leave it out, then the default action of the compiler is to compile the
+source file and start the linker to build the actual executable program.
+The command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran hello.f90
+</code></pre></div></div>
+
+<p>results in an executable file, “a.out” on Linux or “a.exe” on
+Windows.</p>
+
+<p>Some remarks:</p>
+
+<ul>
+  <li>The compiler may complain about the contents of the source file, if it
+finds something wrong with it - a typo for instance or an unknown
+keyword. In that case the compilation process is broken off and you will
+not get an object file or an executable program. For instance, if
+the word “program” was inadvertently typed as “prgoram”:</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran hello3.f90
+hello.f90:1:0:
+
+    1 | prgoram hello
+      |
+Error: Unclassifiable statement at <span class="o">(</span>1<span class="o">)</span>
+hello3.f90:3:17:
+
+    3 | end program hello
+      |                 1
+Error: Syntax error <span class="k">in </span>END PROGRAM statement at <span class="o">(</span>1<span class="o">)</span>
+f951: Error: Unexpected end of file <span class="k">in</span> <span class="s1">'hello.f90'</span>
+</code></pre></div></div>
+
+<p>Using this compilation report you can correct the source code and try
+again.</p>
+
+<ul>
+  <li>The step without “-c” can only succeed if the source file contains a
+main program - characterised by the <code class="highlighter-rouge">program</code> statement in Fortran.
+Otherwise the link step will complain about a missing “symbol”, something
+along these lines:</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran hello2.f90
+/usr/lib/../lib64/crt1.o: In <span class="k">function</span> <span class="sb">`</span>_start<span class="s1">':
+(.text+0x20): undefined reference to `main'</span>
+collect2: error: ld returned 1 <span class="nb">exit </span>status
+</code></pre></div></div>
+
+<p>The file “hello2.f90” is almost the same as the file “hello.f90”, except
+that the keyword <code class="highlighter-rouge">program</code> has been replaced by the keyword <code class="highlighter-rouge">subroutine</code>.</p>
+
+<p>The above examples of output from the compiler will differ per compiler
+and platform on which it runs. These examples come from the gfortran
+compiler running in a Cygwin environment on Windows.</p>
+
+<p>Compilers also differ in the options they support, but in general:</p>
+
+<ul>
+  <li>Options for optimising the code - resulting in faster programs or
+smaller memory footprints;</li>
+  <li>Options for checking the source code - checks that a variable is not
+used before it has been given a value, for instance or checks if some
+extension to the language is used;</li>
+  <li>Options for the location of include or module files, see below;</li>
+  <li>Options for debugging.</li>
+</ul>
+
+
+
+      <div class="container-flex">
+
+        
+          
+            <a href="/pr/119/learn/building_programs" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        
+
+        
+          
+          <a href="/pr/119/learn/building_programs/linking_pieces"
+          style="margin-left: auto;">
+            <h3>
+              Next
+              <i class="fas fa-arrow-circle-right"></i>
+            </h3>
+          </a>
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/119/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/119/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/119/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/119/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/119/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.github.io/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/119/assets/js/fortranlang.js"></script>
+    <script src="/pr/119/assets/js/page_nav.js"></script>
+    <script src="/pr/119/assets/js/gh-contributors.js"></script>
+    <script src="/pr/119/assets/js/package_search.js"></script>
+    <script src="/pr/119/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
