@@ -684,19 +684,109 @@ to specify the start value and final value of our counting variable.</p>
 <p><strong>Example:</strong> <code class="highlighter-rouge">do</code> loop with skip</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="w">    
+  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="w">
     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">   </span><span class="c1">! Print odd numbers</span><span class="w">
   </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
 </span></code></pre></div></div>
 
-<p><strong>Example:</strong> <code class="highlighter-rouge">do while</code> loop</p>
+<h3 id="conditional-loop-do-while">Conditional loop (<code class="highlighter-rouge">do while</code>)</h3>
+
+<p>A condition may be added to a <code class="highlighter-rouge">do</code> loop with the <code class="highlighter-rouge">while</code> keyword. The loop will be executed while the condition given
+in <code class="highlighter-rouge">while()</code> evaluates to <code class="highlighter-rouge">.true.</code>.</p>
+
+<p><strong>Example:</strong> <code class="highlighter-rouge">do while()</code> loop</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
   </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">11</span><span class="p">)</span><span class="w">   
+  </span><span class="k">do</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span><span class="w">
     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
     </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+  </span><span class="c1">! Here i = 11</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="loop-control-statements-exit-and-cycle">Loop control statements (<code class="highlighter-rouge">exit</code> and <code class="highlighter-rouge">cycle</code>)</h3>
+
+<p>Most often than not, loops need to be stopped if a condition is met. Fortran provides two executable statements to deal
+with such cases.</p>
+
+<p><code class="highlighter-rouge">exit</code> is used to quit the loop prematurely. It is usually enclosed inside an <code class="highlighter-rouge">if</code>.</p>
+
+<p><strong>Example</strong> loop with <code class="highlighter-rouge">exit</code></p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+      </span><span class="k">exit</span><span class="w"> </span><span class="c1">! Stop printing numbers</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+  </span><span class="c1">! Here i = 11</span><span class="w">
+</span></code></pre></div></div>
+
+<p>On the other hand, <code class="highlighter-rouge">cycle</code> skips whatever is left of the loop and goes into the next cycle.</p>
+
+<p><strong>Example</strong> loop with <code class="highlighter-rouge">cycle</code></p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+       </span><span class="k">cycle</span><span class="w">  </span><span class="c1">! Don't print even numbers</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+</span></code></pre></div></div>
+<div class="aside-note">
+    
+    <p><strong>Note:</strong> When used within nested loops, the <code class="highlighter-rouge">cycle</code> and <code class="highlighter-rouge">exit</code> statements operate on the inner-most loop.</p>
+
+</div>
+
+<h3 id="nested-loop-control-tags">Nested loop control: tags</h3>
+
+<p>A recurring case in any programming language is the use of nested loops. Nested loops refer to loops that exist within another loop. Fortran allows the programmer to <em>tag</em> or <em>name</em> each loop. If loops are tagged, there are two potential benefits:</p>
+<ol>
+  <li>The readability of the code may be improved (when the naming is meaningful).</li>
+  <li><code class="highlighter-rouge">exit</code> and <code class="highlighter-rouge">cycle</code> may be used with tags, which allows for a very fine-grained control of the loops.</li>
+</ol>
+
+<p><strong>Example</strong> tagged nested loops</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="w">
+  </span><span class="n">outer_loop</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
+    </span><span class="n">inner_loop</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
+      </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">j</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">  </span><span class="c1">! Print only pairs of i and j that add up to 10</span><span class="w">
+         </span><span class="k">cycle</span><span class="w"> </span><span class="n">outer_loop</span><span class="w">  </span><span class="c1">! Go to the next iteration of the outer loop</span><span class="w">
+      </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'I='</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">' J='</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="s1">' Sum='</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="n">i</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">inner_loop</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">outer_loop</span><span class="w">
+</span></code></pre></div></div>
+
+<h3 id="parallelizable-loop-do-concurrent">Parallelizable loop (<code class="highlighter-rouge">do concurrent</code>)</h3>
+
+<p>The <code class="highlighter-rouge">do concurrent</code> loop is used to explicitly specify that the <em>inside of the loop has no interdependencies</em>; this informs the compiler that it may use parallelization/<em>SIMD</em> to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
+that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each <code class="highlighter-rouge">do concurrent</code> loop.
+These requirements place restrictions on what can be placed within the loop body.</p>
+
+<div class="aside-important">
+    
+    <p><strong>Important:</strong> <code class="highlighter-rouge">do concurrent</code> is not a basic feature of Fortran. The explanation given does not detail
+all the requirements that need to be met in order to write a correct <code class="highlighter-rouge">do concurrent</code> loop. Compilers are also free to do as they see fit,
+which means they may not optimize the loop.</p>
+
+</div>
+
+<p><strong>Example</strong> <code class="highlighter-rouge">do concurrent()</code> loop</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159265</span><span class="w">
+  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">result_sin</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c1">! Careful, the syntax is slightly different</span><span class="w">
+    </span><span class="n">result_sin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">pi</span><span class="p">/</span><span class="mf">4.</span><span class="p">)</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">result_sin</span><span class="w">
 </span></code></pre></div></div>
 
 
