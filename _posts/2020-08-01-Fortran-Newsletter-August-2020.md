@@ -21,6 +21,8 @@ Work has continued on the Fortran-lang website, including:
   [Book section](https://fortran-lang.org/learn/) with a comprehensive list of
   books about Fortran
 
+* [#121](https://github.com/fortran-lang/fortran-lang.org/pull/121), [#122](https://github.com/fortran-lang/fortran-lang.org/pull/122), [#127](https://github.com/fortran-lang/fortran-lang.org/pull/127), [#128](https://github.com/fortran-lang/fortran-lang.org/pull/128): additional packages added to the Fortran-lang.org [packages](https://fortran-lang.org/packages) page
+  
 Ongoing work:
 
 * [#117](https://github.com/fortran-lang/fortran-lang.org/issues/117): Adding a
