@@ -13,7 +13,9 @@ and details Fortran news from the previous month.
 
 ## fortran-lang.org
 
-Work has continued on the Fortran-lang website, including a new community page and additional tutorial content:
+Work has continued on the Fortran-lang website, including:
+
+* [#116](https://github.com/fortran-lang/fortran-lang.org/pull/116): updates to the Quickstart tutorial on loop control and syntax
 
 * [#120](https://github.com/fortran-lang/fortran-lang.org/pull/120): updated the
   [Book section](https://fortran-lang.org/learn/) with a comprehensive list of
