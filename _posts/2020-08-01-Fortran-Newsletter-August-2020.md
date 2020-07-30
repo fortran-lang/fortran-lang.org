@@ -66,9 +66,9 @@ See the talk schedule
 FIXME: is recordings available?
 
 * We had our second Fortran Monthly call on July 16.
-You can read watch the recording below (FIXME update link):
+You can read watch the recording below:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/i-gRNGRzugc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_ojLReFvjbs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
