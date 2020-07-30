@@ -41,7 +41,6 @@ We welcome any new contributors to the website and the tutorials page in particu
 What's new in the Fortran Standard Library:
 [#223](https://github.com/fortran-lang/stdlib/pull/223): the structure of the Fortran Standard Library has been modified for clarity and ease of use. With these changes, both experimental and stable procedures will reside together in the same modules. The status of the procedures (experimental vs stable) are documented in the code, in the specs, and in the [website](https://stdlib.fortran-lang.org/)
 
-Some miscellaneous fixes and improvements:
 
 
 ## Fortran Package Manager
