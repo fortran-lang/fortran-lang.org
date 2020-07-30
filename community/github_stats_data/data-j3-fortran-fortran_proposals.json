@@ -2,6 +2,112 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 176,
+            "user": "milancurcic",
+            "date": "2020-07-20 22:38:14+00:00",
+            "title": "Add namespace modules proposal revision by @wclodius2",
+            "text": "Uploaded for @wclodius2. Related to issue #1.",
+            "comments": []
+        },
+        {
+            "number": 175,
+            "user": "wclodius2",
+            "date": "2020-07-12 04:31:06+00:00",
+            "title": "Revised version of the default arguments proposal",
+            "text": "I have written a revision of the paper by @milancurcic, @jvdp1, and @zjibben that attempts to address most of the issues raised at the Feb. 25 meeting, and a few other issues that have come to my mind. The paper differs from the original primarily by:\nRestricting optional arguments to arguments with the INTENT(IN), VALUE, or no intent attributes.\nRequiring arguments with a default assignment to be explicitly given the DEFAULT attribute.\nForbidding arguments from having both the DEFAULT and OPTIONAL attributes so that the PRESENT function retains its semantics.\nAllowing the expression on the right of the default assignment be a restricted expression and not just a constant expression.\nStrongly encouraging that the default assignment be in the FUNCTION or SUBROUTINE statement (and not the TYPE declaration statement) as probably being easier to parse.\nDiscussing the implications of the constraints on intrinsic assignment, 10.2.1.2, their interpretation, 10.2.1.3, and the constraints on defined assignment, 10.2.1.4, and their interpretation, 10.2.1.5 on default array assignments.\nBriefly discussing the implications of an argument with the DEFAULT attribute also having any one of the POINTER, VOLATILE, ASYNCHRONOUS, or TARGET attributes.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-12 04:58:56+00:00",
+                    "text": "Thanks for submitting this!\n\nI like this. The only thing I am not sure is to specify the default expression in the subroutine statement. Indeed that is how other languages do that, but those languages also define the type there. In Fortran we define types separately from the subroutine line. So I think the default value should be initialized at the declaration also.\n\nNote also that in your proposal the default keyword is redundant. If you remove it, you arrive at the initial proposal from Milan. See the discussion at the original issue.\n\u2026\nOn Sat, Jul 11, 2020, at 10:31 PM, William B. Clodius wrote:\n I have written a revision of the paper by @milancurcic\n <https://github.com/milancurcic>, @jvdp1 <https://github.com/jvdp1>,\n and @zjibben <https://github.com/zjibben> that attempts to address most\n of the issues raised at the Feb. 25 meeting, and a few other issues\n that have come to my mind. The paper differs from the original\n primarily by:\n\n Restricting optional arguments to arguments with the INTENT(IN), VALUE,\n or no intent attributes.\n\n Requiring arguments with a default assignment to be explicitly given\n the DEFAULT attribute.\n\n Forbidding arguments from having both the DEFAULT and OPTIONAL\n attributes so that the PRESENT function retains its semantics.\n\n Allowing the expression on the right of the default assignment be a\n restricted expression and not just a constant expression.\n\n Strongly encouraging that the default assignment be in the FUNCTION or\n SUBROUTINE statement (and not the TYPE declaration statement) as\n probably being easier to parse.\n\n Discussing the implications of the constraints on intrinsic assignment,\n 10.2.1.2, their interpretation, 10.2.1.3, and the constraints on\n defined assignment, 10.2.1.4, and their interpretation, 10.2.1.5 on\n default array assignments.\n\n Briefly discussing the implications of an argument with the DEFAULT\n attribute also having any one of the POINTER, VOLATILE, ASYNCHRONOUS,\n or TARGET attributes.\n\n You can view, comment on, or merge this pull request online at:\n\n #175\n\n Commit Summary\n\n  * Revised version of the default arguments proposal\n File Changes\n\n  * *A* proposals/default_optional_arguments/revised_proposal.txt\n <https://github.com/j3-fortran/fortran_proposals/pull/175/files#diff-0f4b23a04e6db2e930f7b3c74a4ee745> (356)\n Patch Links:\n\n  * https://github.com/j3-fortran/fortran_proposals/pull/175.patch\n  * https://github.com/j3-fortran/fortran_proposals/pull/175.diff\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#175>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWB4FNJQ3V2VYWYLKOTR3E4BNANCNFSM4OXT2LXA>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-12 05:28:27+00:00",
+                    "text": "OTOH I suspect that overriding the default assignment will normally be done by \u201cassignment\" to the named argument in the procedure call. The similarity to the usage I find attractive. I also find it very awkward attempting to distinguish between the constant assignment that gives the save attribute to local variables, and the proposed default assignment to arguments. The definition of an entity declaration in the TYPE declaration statement will become even more complex.\n\nThe DEFAULT keyword is redundant in the same sense that the OPTIONAL keyword is redundant. Fortran could have implicitly assigned the default attribute to any argument that is used with the PRESENT() function. I find the DEFAULT keyword very useful in distinguishing between arguments with the DEFAULT and OPTIONAL attributes. Redundancy isn\u2019t always bad. See what happened to the SAVE attribute.\n\u2026\n On Jul 11, 2020, at 10:59 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n Thanks for submitting this!\n\n I like this. The only thing I am not sure is to specify the default expression in the subroutine statement. Indeed that is how other languages do that, but those languages also define the type there. In Fortran we define types separately from the subroutine line. So I think the default value should be initialized at the declaration also.\n\n Note also that in your proposal the default keyword is redundant. If you remove it, you arrive at the initial proposal from Milan. See the discussion at the original issue.\n\n On Sat, Jul 11, 2020, at 10:31 PM, William B. Clodius wrote:\n > I have written a revision of the paper by @milancurcic\n > <https://github.com/milancurcic>, @jvdp1 <https://github.com/jvdp1>,\n > and @zjibben <https://github.com/zjibben> that attempts to address most\n > of the issues raised at the Feb. 25 meeting, and a few other issues\n > that have come to my mind. The paper differs from the original\n > primarily by:\n >\n > Restricting optional arguments to arguments with the INTENT(IN), VALUE,\n > or no intent attributes.\n >\n > Requiring arguments with a default assignment to be explicitly given\n > the DEFAULT attribute.\n >\n > Forbidding arguments from having both the DEFAULT and OPTIONAL\n > attributes so that the PRESENT function retains its semantics.\n >\n > Allowing the expression on the right of the default assignment be a\n > restricted expression and not just a constant expression.\n >\n > Strongly encouraging that the default assignment be in the FUNCTION or\n > SUBROUTINE statement (and not the TYPE declaration statement) as\n > probably being easier to parse.\n >\n > Discussing the implications of the constraints on intrinsic assignment,\n > 10.2.1.2, their interpretation, 10.2.1.3, and the constraints on\n > defined assignment, 10.2.1.4, and their interpretation, 10.2.1.5 on\n > default array assignments.\n >\n > Briefly discussing the implications of an argument with the DEFAULT\n > attribute also having any one of the POINTER, VOLATILE, ASYNCHRONOUS,\n > or TARGET attributes.\n >\n > You can view, comment on, or merge this pull request online at:\n >\n > #175\n >\n > Commit Summary\n >\n > * Revised version of the default arguments proposal\n > File Changes\n >\n > * *A* proposals/default_optional_arguments/revised_proposal.txt\n > <https://github.com/j3-fortran/fortran_proposals/pull/175/files#diff-0f4b23a04e6db2e930f7b3c74a4ee745> (356)\n > Patch Links:\n >\n > * https://github.com/j3-fortran/fortran_proposals/pull/175.patch\n > * https://github.com/j3-fortran/fortran_proposals/pull/175.diff\n > \u2014\n > You are receiving this because you are subscribed to this thread.\n > Reply to this email directly, view it on GitHub\n > <#175>, or\n > unsubscribe\n > <https://github.com/notifications/unsubscribe-auth/AAAFAWB4FNJQ3V2VYWYLKOTR3E4BNANCNFSM4OXT2LXA>.\n >\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub <#175 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOXGU3FXEWTOBNP6WS3R3E7JZANCNFSM4OXT2LXA>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-12 13:27:09+00:00",
+                    "text": "After checking my Ada textbook, I found that one thing I wrote about Ada is wrong so I am going to correct the proposal."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-12 13:36:44+00:00",
+                    "text": "Removed the comment implying Ada was the exception in having a specification part."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-12 18:03:59+00:00",
+                    "text": "Restricting optional arguments to arguments with the INTENT(IN), VALUE, or no intent attributes.\n\nThis would invalidate existing code, yes?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-12 18:26:56+00:00",
+                    "text": "@klausler I'm pretty sure @wclodius2 meant \"Restricting default arguments...\". This proposal won't invalidate existing code. If it does, we will fix it."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-07-12 18:42:41+00:00",
+                    "text": "This would invalidate existing code, yes?\n\nAfter having read the document, you should indeed read \"Restricting default arguments...\"."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-12 19:44:09+00:00",
+                    "text": "A thinko. The proposal talks about restricting **default** arguments to arguments with the INTENT(IN), VALUE, or no intent attributes, which doesn\u2019t invalidate existing code.\n\u2026\n On Jul 12, 2020, at 12:04 PM, Peter Klausler ***@***.***> wrote:\n\n\n Restricting optional arguments to arguments with the INTENT(IN), VALUE, or no intent attributes.\n\n This would invalidate existing code, yes?\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub <#175 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOX2O63XOWBLYBUV523R3H3JZANCNFSM4OXT2LXA>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-12 19:53:13+00:00",
+                    "text": "Unfortunately no intent is not equivalent to intent(inout), though I wouldn\u2019t object strongly if the revised proposal dropped allowing default assignment for no intent. INTENT(INOUT) means that the input value is always intended to be used and an output value is always expected. No INTENT could behave as an INTENT(IN), INTENT(OUT), or INTENT(INOUT), and its behavior could depend dynamically on the other arguments.\n\u2026\n On Jul 12, 2020, at 12:40 PM, Jeremie Vandenplas ***@***.***> wrote:\n\n\n @jvdp1 commented on this pull request.\n\n Thank you for this revision.\n I added minor comments around \"no intent\" and intent(inout). I am not sure what the issues are.\n\n In proposals/default_optional_arguments/revised_proposal.txt <#175 (comment)>:\n\n > +\n +1. Introduction\n +\n +This paper contains a proposal for Fortran 202y, to allow a programmer\n +to specify a default value for a subset of optional dummy\n +arguments. This would allow the programmer to then safely reference\n +such arguments in expressions regardless of whether the actual\n +argument is present or not.\n +\n +\n +2. Problem\n +\n +Fortran 2018 does not allow setting a default value for optional\n +arguments. A default value is the value that the dummy argument\n +would take if the corresponding actual argument is not present. If a\n +dummy argument of INTENT(IN) or VALUE, or no intent is declared as\n Is no intent equivalent to intent(inout)?\n\n In proposals/default_optional_arguments/revised_proposal.txt <#175 (comment)>:\n\n > +\n +This differs from the INTENT(IN), VALUE, and no intent case: first,\n +because one assigns the default value with INTENT(OUT) when the actual\n +argument is present, not when it is absent; and second, because the\n +assignment of a default involves only one statement rather than the\n +three statements for the helper variable of INTENT(IN), VALUE, and no\n +intent. For INTENT(INOUT), one typically makes the argument optional\n +to avoid the computational expense of calculating the out result, but\n +having a default value makes it awkward to determine the presence of\n +an optional argument, so the primary purpose of having it be optional\n +is defeated.\n +\n +This proposal addresses the issue for INTENT(IN), VALUE, and no intent\n +arguments that checking for the presence of the optional dummy\n +argument and using a helper variable is cumbersome and error-prone. We\n +will not address default values for INTENT(OUT) OR INTENT(INOUT)\n I am not sure to understand why intent(inout) is not considered.If no argument is passed, then intent(inout) would behave as intent(in)?\n\n In proposals/default_optional_arguments/revised_proposal.txt <#175 (comment)>:\n\n > +greatest in scenarios where the optional argument is used in many\n +places in the procedure, and a helper variable is used for its value\n +instead. Reduction in needed source code would result in more readable\n +and more correct programs.\n +\n +\n +3. Prior art\n +\n +We are not aware of any Fortran compiler that has implemented default\n +arguments. However it is a very common feature of other languages. Of\n +interpreted languages widely used in the scientific community:\n +Python, IDL, R, and Matlab all have default arguments. Of compiled\n +languages C++ and Ada may be the best known with default arguments. Of\n +these languages, Ada may be the most pertinent as it has INTENT\n +arguments similar to Fortran's. Ada has only defined default arguments\n +useful for INTENT(IN), and has not defined it for INTENT(OUT) or\n I don't know Ada. What does it implement for \"no intent\"?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#175 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOVNQNPJVPHR7QL5F5DR3H7SVANCNFSM4OXT2LXA>."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-07-12 20:06:53+00:00",
+                    "text": "Unfortunately no intent is not equivalent to intent(inout), though I wouldn\u2019t object strongly if the revised proposal dropped allowing default assignment for no intent. INTENT(INOUT) means that the input value is always intended to be used and an output value is always expected. No INTENT could behave as an INTENT(IN), INTENT(OUT), or INTENT(INOUT), and its behavior could depend dynamically on the other arguments.\n\nThank you for the precisions. Therefore, because \"no intent\" could behave as an intent(out), wouldn't it make sense to not allowing default assignment for \"no intent\"? Otherwise, users could just drop \"intent(out)\" and add a default value for an argument actually behaving as intent(out)"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-12 20:19:04+00:00",
+                    "text": "Like I said I have no strong feelings about no intent. The users can do a lot of things in almost any programming language that I would consider foolish. With no intent the user could also write the code in such a way that when he provides no argument so the default is used, the routine behaves like an INTENT(IN) and behaves like INTENT(INOUT) otherwise.. Whatever we decide we should discuss the implications for no intent, either requiring that an argument with the DEFAULT may not have the INTENT(INOUT) or INTENT(OUT) (implicitly allowing no intent), or require that arguments with the DEFAULT attribute must have  one of the attributes INTENT(IN) or VALUE (implicitly disallowing no intent).\n\u2026\n On Jul 12, 2020, at 2:07 PM, Jeremie Vandenplas ***@***.***> wrote:\n\n\n Unfortunately no intent is not equivalent to intent(inout), though I wouldn\u2019t object strongly if the revised proposal dropped allowing default assignment for no intent. INTENT(INOUT) means that the input value is always intended to be used and an output value is always expected. No INTENT could behave as an INTENT(IN), INTENT(OUT), or INTENT(INOUT), and its behavior could depend dynamically on the other arguments.\n\n Thank you for the precisions. Therefore, because \"no intent\" could behabe as an intent(out), wouldn't it make sense to not allowing default assignment for \"no intent\"? Otherwise, users could just drop \"intent(out)\" and add a default value for an argument actually behaving as intent(out)\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#175 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDORHEY47PL72S6NERJLR3IJWTANCNFSM4OXT2LXA>."
+                }
+            ]
+        },
+        {
+            "number": 174,
+            "user": "certik",
+            "date": "2020-07-03 21:40:31+00:00",
+            "title": "Proposals from Amir Shahmoradi",
+            "text": "@shahmoradi posted the following issues at #162, but I am moving them here. Let's create individual issues out of those, or add the comments there to already existing issues.\n\n@certik Ondrej, I am not sure where my requests for enhancements should go on the J3 repository. So I am going to list it here and hopefully you will know much better or help realize where I should submit them:\n\n\n\nCoarray slicing (equivalent of MPI_gather)\nreal :: co_Vector[*]\nreal, allocatable :: LocalVector(:)\n...\nLocalVector = co_Vector[ 1 : num_images() ]\n...\nAs far as I am aware, coarray slicing is currently not supported in Fortran 2018. This feature, however, is highly desired for writing a more concise code and potentially enabling more compiler optimization. The equivalent standard-conforming code would be:\ninteger :: i\nreal :: co_Vector[*]\nreal, allocatable :: LocalVector(:)\n...\nallocate( LocalVector(1 : num_images()) )\ndo i = 1, num_images()\n    LocalVector(i) = co_Vector[i]\nend do\n...\n\n\nthe ability to use dummy optional arguments when not present in a procedure:\nfunction runSampler(chainSize)\n    integer, intent(in), optional :: chainSize\n    if (.not.present(chainSize)) chainSize = 10000\n    ...\nThis is similar to the RFE by Curcic et al, so I won't explain it further here.\n\n\nstandardized support for a minimal healthy subset of the C/Fortran preprocessing features. preprocessors are essential for writing scalable code and many compilers are fully or partially support some level of preprocessing. C has this as part of the language. Adding preprocessors to Fortran would ensure that the community's use of preprocessors is more disciplined and supported by the language standard.\n\n\nfurther support for template metaprogramming. I know that this is already a highly popular RFE. So I just suffice to mention my strong support for it.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-03 21:45:09+00:00",
+                    "text": "@shahmoradi, here are my comments:\n\n\nCan you create a new issue just for this? I don't think that's been proposed yet.\n\n\nI think that might be a duplicate of #22. If so, please make sure you voice your support there and add a thumbs up for it.\n\n\nI think that might be a duplicate of #65. If so, please make sure you voice your support there and add a thumbs up for it.\n\n\nThank you for our support. Some relevant issues are: #29, #4, #125 and many others. @tclune is officially leading an effort to make progress on this."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-03 21:53:09+00:00",
+                    "text": "I'd like to see item 1 as well and it could be a candidate for stdlib or standalone library. Why wait for it to be standardized? Let's make it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-03 21:53:51+00:00",
+                    "text": "Let's discuss item 1. in its dedicated issue."
+                },
+                {
+                    "user": "shahmoradi",
+                    "date": "2020-07-04 04:53:36+00:00",
+                    "text": "@certik Thanks Ondrej. So should I create a new issue for coarray slicing then? (or is there already one?) I think the other items are well discussed in the issues you mentioned."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-04 04:58:25+00:00",
+                    "text": "@shahmoradi yes, please create a new issue for coarray slicing."
+                }
+            ]
+        },
+        {
             "number": 173,
             "user": "Libavius",
             "date": "2020-06-04 13:37:07+00:00",
@@ -380,6 +486,16 @@
                     "user": "zjibben",
                     "date": "2020-03-02 23:12:33+00:00",
                     "text": "Here is the list of items, with added issue numbers where I found them. Some work needs to be done yet to add issues or find ones I missed, then making sure the background papers are listed in the related issues. We might also update the issue names to include the USxx item number. Feel free to edit this comment to add new info.\n\nUK01 - Extend procedure C_F_POINTER to allow a Fortran array pointer to have lower bounds other than 1.\nUS01 - Allow much longer statement lines and overall statement length.\nUS02 - Require the processor to report cases where over-long lines or statements result in lost information.\nUS03 - SPLIT string intrinsic (original proposal was to keep all module intrinsics from the withdrawn Part 2 (ISO_VARYING_STRINGS).\n#164 US04 - Trig functions with arguments in degrees and arc versions with results in degrees.\nUS05 - Trig functions with arguments implicitly scaled by PI.\nUS06 - SELECTED_LOGICAL_KIND to return a KIND of logical based on its minimum storage size.\nUS07 - Additional named constants, LOGICAL8, LOGICAL16, LOGICAL32, LOGICAL64, in ISO_FORTRAN_ENV to specify KINDS supported for type LOGICAL.\n#13 US08 - Additional named constant, REAL16, in ISO_FORTRAN_ENV to specify whether the processor supports a 16-bit REAL KIND.\nUS09 - Intrinsics for converting between C strings and Fortran strings.\nUS10 - AT format editing specifier. Has the effect of TRIM on the corresponding character list item before output.\nUS11 - Control over leading zeros in output of REAL values.\nUS12 - Allow an array of a type that has an allocatable coarray component.\n#20 US13 - Syntax and semantics for a \"Put with Notify\" operation.\n#160 US14 - Allow deferred-length character variables in more locations, including as actual arguments corresponding to IOMSG and ERRMSG arguments for similar variables in specifiers.  Also allow for internal I/O.\n#161 US15 - SIMPLE procedures. A form of Super-Pure that disallows references to global data.\n#158 US16 - TYPEOF and CLASSOF type declarations to indicate the object being declared has the same type/class as another object. Useful to ensure a local variable in a procedure has the same type as a dummy argument, or that two dummy arguments have the same type.\n#157 US17 - Syntax to specify an element or section of an array with arbitrary rank.\n#157 US18 - Syntax for generic specification of rank and bounds of an object.\n#156 #16 US19 - Protected components.\n#17 US20 - Reduction specifier for DO CONCURRENT.\n#11 US21 - Typed enumerators.\nUS22 - Conditional expressions. (alternatively: #19 US26 - Short-circuit logical operators.)\n#18 US23 - Enhancements to BOZ constants.\n#5 US27 - Syntax to specify that the target of a dummy argument pointer is not to be changed (INTENT applies to the pointer, not its target)"
+                },
+                {
+                    "user": "shahmoradi",
+                    "date": "2020-07-03 20:58:43+00:00",
+                    "text": "@certik Ondrej, I am not sure where my requests for enhancements should go on the J3 repository. So I am going to list it here and hopefully you will know much better or help realize where I should submit them:\n\n\nCoarray slicing (equivalent of MPI_gather)\nreal :: co_Vector[*]\nreal, allocatable :: LocalVector(:)\n...\nLocalVector = co_Vector[ 1 : num_images() ]\n...\nAs far as I am aware, coarray slicing is currently not supported in Fortran 2018. This feature, however, is highly desired for writing a more concise code and potentially enabling more compiler optimization. The equivalent standard-conforming code would be:\ninteger :: i\nreal :: co_Vector[*]\nreal, allocatable :: LocalVector(:)\n...\nallocate( LocalVector(1 : num_images()) )\ndo i = 1, num_images()\n    LocalVector(i) = co_Vector[i]\nend do\n...\n\n\nthe ability to use dummy optional arguments when not present in a procedure:\nfunction runSampler(chainSize)\n    integer, intent(in), optional :: chainSize\n    if (.not.present(chainSize)) chainSize = 10000\n    ...\nThis is similar to the RFE by Curcic et al, so I won't explain it further here.\n\n\nstandardized support for a minimal healthy subset of the C/Fortran preprocessing features. preprocessors are essential for writing scalable code and many compilers are fully or partially support some level of preprocessing. C has this as part of the language. Adding preprocessors to Fortran would ensure that the community's use of preprocessors is more disciplined and supported by the language standard.\n\n\nfurther support for template metaprogramming. I know that this is already a highly popular RFE. So I just suffice to mention my strong support for it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-03 21:41:11+00:00",
+                    "text": "@shahmoradi I moved your comment to #174, let's discuss there. This issue #162 is for proposals that are already approved for 202X."
                 }
             ]
         },
@@ -1850,6 +1966,16 @@
                     "user": "FortranFan",
                     "date": "2020-01-04 22:40:58+00:00",
                     "text": "@klausler wrote:\n\nYou probably don't want to use both real(wp) and result(r) on the same function statement.\nLet me suggest this revision:\nfunction log10(x) result(r)\n  real(kind=*), intent(in) :: x ! <- note the \"assumed kind\" type parameter\n  ..\n\n\nThough I don't have ready references at the moment, indications are the Fortran standard committee has disfavored the \"assumed kind\" option, that they have insisted the kind type parameter to be either defaulted or be given by a constant expression.  One can see evidence of this with parameterized derived type (PDT) facility starting Fortran 2003 that introduced assumed length parameter option with derived types but no assumed kind; and with assumed type ( TYPE(*) ) and assumed rank ( DIMENSION(..) ) options starting Fortran 2018.  It's unclear whether such a position against assumed kind can change in the future.\nNote the original post here is but one use case for proper GENERICS in Fortran.  Toward generics, it appears the committee is open to the notion of certain UTILITIES e.g., TYPEOF/CLASSOF intrinsic inquiry functions that can employed in dummy argument declarations.  In the same vein, I wonder if might be feasible to consider another utility, say ALL_OF, that can be allowed in constant expressions.\nConsidering the standard states in the context of standard intrinsic modules, \"The processor shall provide the named constants, derived types, and procedures described in 16.10.2\" and among the constants listed include the KINDs of intrinsinc types such as REAL_KINDS, INTEGER_KINDS, CHARACTER_KINDS, etc., a utility such as ALL_OF can make feasible the following which might make it easier for processors to do the needful, meaning put together all the necessary wiring toward the generic interface needed by a coder, as illustrated in the original post.\nfunction log10(x) result(r)\n   use, intrinsic :: iso_fortran_env, only : REAL_KINDS\n   real(kind=ALL_OF(REAL_KINDS)), intent(in) :: x \n   integer, parameter :: wp = kind(x) ! no longer a forward reference to x\n   real(kind=wp) :: r\n   r = log(x) / log(10._wp)\nend"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-06-30 19:40:56+00:00",
+                    "text": "The TYPE_OF facility plans for 202X would simplify this usage."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-07-01 13:41:15+00:00",
+                    "text": "@wclodius2 wrote June 30, 2020 3;40 PM EDT:\n\nThe TYPE_OF facility plans for 202X would simplify this usage.\n\nNo, it won't - see my earlier reply."
                 }
             ]
         },
@@ -4236,6 +4362,11 @@
                     "user": "ivan-pi",
                     "date": "2020-04-30 18:41:02+00:00",
                     "text": "Perhaps of interest: Algorithm 1005: Fortran Subroutines for Reverse Mode Algorithmic Differentiation of BLAS Matrix Operations. I could not find the actual Fortran routines. But it shows at least there is still large interest in having the possibility to automatically differentiate Fortran programs that rely on BLAS. Hopefully, LAPACK follows (in the paper they already show discuss algorithmic differentiation of the Cholesky decomposition).\nThis blog post by Christopher Rackauckas, The Essential Tools of Scientific Machine Learning (Scientific ML), also offers a summary of the automatic differentiation field with a focus on bringing together machine learning and ODE/PDE solvers."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-07-28 11:52:27+00:00",
+                    "text": "The ISO C++ committee is looking at differentiable programming in one of their study groups: https://docs.google.com/document/d/1_5TJCBvI6fZSdyuK7_Cpo5XwdoIS24DDbEPh2JjqQsg/edit?ts=5cf823e2#heading=h.t1fxx74w88nq\nIt seems as if the Fortran community is starting to fall behind on this issue compared to Julia and C++."
                 }
             ]
         },
@@ -5742,6 +5873,11 @@
                     "user": "aradi",
                     "date": "2019-11-15 23:05:24+00:00",
                     "text": "@FortranFan You are right, then we should allow for enumerating the varargs in the call to be similar to already existing intrinsic functions:\nsubroutine testvariadic(posarg1, posarg2, vararg)\n  integer, intent(in) :: posarg1, posarg2\n  integer, intent(in), variadic :: vararg\nend subroutine testvariadic\n\ncall testvariadic(1, vararg1=3, vararg2=4, vararg129=5, posarg2=2)\ncall testvariadic(posarg2=2, vararg1=3, vararg2=4, vararg129=5, posarg1=1)"
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2020-07-07 16:54:19+00:00",
+                    "text": "FYI: here's another example where this would be handy: https://github.com/urbanjost/M_msg/blob/master/src/M_msg.f90"
                 }
             ]
         },
@@ -6603,6 +6739,156 @@
                     "user": "klausler",
                     "date": "2020-06-25 17:47:15+00:00",
                     "text": "@klausler your paper is written more as a feature request (this is the language of the standard, this is how I interpret the language, this is how it should be changed) when I think an interpretation request (this is the language of the standard, this is how I interpret the language, is my interpretation correct for that language, is my interpretation what was intended) would get more prompt attention.\n\nIt's been 16 months, so prompt attention is a lost cause at this point.  As is J3.  I've removed myself from membership on that committee."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-07-04 13:48:08+00:00",
+                    "text": "I raised this question again yesterday on the J3 email list. You can read the thread here.  If I understand it correctly, these issues have been known for a while and are what prompted the addition in F2018 of the DEFAULT(NONE) locality specifier, as requiring the compiler to analyze the loop for possible sharing was difficult. The general opinion seems to be that explicitly specifying the locality of all variables is needed to enable parallelization, but that changing the F2008 behavior would break programs."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-04 16:28:27+00:00",
+                    "text": "If anybody had tried to solve the problem of my specific example, they would have learned that the recently added locality clauses are not sufficient to its needs.  They accept only the names of whole variables (and, less important, can't distinguish between a pointer and its target)."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-04 17:46:34+00:00",
+                    "text": "DO CONCURRENT's locality rules are broken even apart from parallelization concerns.\nIs the following a conforming program under Fortran 2018?\nPROGRAM ONE\nREAL :: A(2) = 0.\nINTEGER :: J\nDO CONCURRENT (J=1:2) SHARED(A)\nA(J) = A(J) + 1.\nEND DO\nPRINT *, A\nEND\nQuoting 11.1.7.5(3):\nIf a variable has SHARED locality, appearances of the variable within\nthe DO CONCURRENT construct refer to the variable in the innermost\nexecutable construct or scoping unit that includes the DO CONCURRENT\nconstruct. If it is defined or becomes undefined during any iteration,\nit shall not be referenced, defined, or become undefined during any\nother iteration.\nA has SHARED locality but is both defined and referenced in all iterations.\nIf A had unspecified locality (no SHARED(A) locality specifier), then\nparagraph (4) (first bullet point) would apply:\nIf a variable has unspecified locality, if it is referenced in an iteration\nit shall either be previously defined during that iteration, or shall not be\ndefined or become undefined during any other iteration; if it is defined or\nbecomes undefined by more than one iteration it becomes undefined when the\nloop terminates;\nAnd the program would not be conforming, both for referencing A in each\niteration without a prior definition, and for using the undefinied\nvariable after the termination of the loop.\nCan the word \"variable\" possibly refer to the elements of A, rather than\nto its entirety?  Elsewhere in subclause 11.1.7, there are sites in\nwhich the word \"variable\" clearly refers to whole arrays:\n11.1.7.5(2), emphasis added\nA variable that has LOCAL or LOCAL_INIT locality is a construct entity with\nthe same type, type parameters, and rank as the variable with the same\nname in the innermost executable construct or scoping unit that includes\nthe DO CONCURRENT construct, and the outside variable is inaccessible by\nthat name within the construct. ... If it is not a pointer, it has the\nsame bounds as the outside variable.\n11.1.7.5(4)\nIf a variable has unspecified locality, ... if it is noncontiguous and\nis supplied as an actual argument corresponding to a contiguous\nINTENT (IN OUT) dummy argument in an iteration, it shall either be\npreviously defined in that iteration or shall not be defined in any\nother iteration;"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-07-04 18:05:04+00:00",
+                    "text": "Peter, would you please ask this on the J3 email list, of which you're still a member? I think you'd get a more authoritative response there. But to answer the question, \"Can the word variable possibly refer to the elements of A\", the answer is yes. R902 defines variable as including designator and designator (R901) includes array-element.\nI admit it can be a bit confusing where sometimes variable names are mentioned (and thus excluding array elements), but in the places where it just says variable, then an array element qualifies. In your example, the variable reference is A(J), not A, and hence I would say that your example conforms, since no element of A is referenced or defined in more than one iteration."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-04 18:21:05+00:00",
+                    "text": "Thanks for the reminder."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-06 15:51:43+00:00",
+                    "text": "I just asked on the J3 mailinglist to clarify the main problem raised in this issue:\nhttps://mailman.j3-fortran.org/pipermail/j3/2020-July/012241.html"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 03:08:51+00:00",
+                    "text": "@klausler here is an answer by Malcolm:\nhttps://mailman.j3-fortran.org/pipermail/j3/2020-July/012244.html\nIf I understand it correctly, he says that to get maximum performance, one has to do DEFAULT(SHARED). He provided some background and motivation why things are designed the way they are. He said \"We discussed them at great length.\" I wish the discussion was archived somewhere, so that we don't need to repeat it. But at least we are discussing this now and it is archived now."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-07 16:06:41+00:00",
+                    "text": "@klausler here is an answer by Malcolm:\nhttps://mailman.j3-fortran.org/pipermail/j3/2020-July/012244.html\nIf I understand it correctly, he says that to get maximum performance, one has to do DEFAULT(SHARED). He provided some background and motivation why things are designed the way they are. He said \"We discussed them at great length.\" I wish the discussion was archived somewhere, so that we don't need to repeat it. But at least we are discussing this now and it is archived now.\n\nThere is no DEFAULT(SHARED) in Fortran.  It might be a good idea, but it's not in the language."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-07-07 16:18:19+00:00",
+                    "text": "Right - to me, DEFAULT(SHARED) is as bad as IMPLICIT. Much better to explicitly specify the localities of all the variables in the block."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-07 16:45:49+00:00",
+                    "text": "The value of a DEFAULT(SHARED), if it actually were in the language, is that it would apply to variables that can't be named in an explicit locality specifier."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 19:55:14+00:00",
+                    "text": "@klausler I am still confused: with the current Fortran Standard and your example, compilers are required to put in (potentially) costly runtime checks, or is there a way to write it using explicit locality specifiers to parallelize efficiently?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-07 21:00:54+00:00",
+                    "text": "@klausler I am still confused: with the current Fortran Standard and your example, compilers are required to put in (potentially) costly runtime checks, or is there a way to write it using explicit locality specifiers to parallelize efficiently?\n\nIt depends.   If the loop is safe to parallelize in a straightforward manner -- any object that is modified is neither referenced nor modified in any other iteration -- and any potential cases that might be ambiguous due to the crazy default localization rule are confined to objects with simple names, then an explicit SHARED locality specifier would resolve the problem and permit parallelization.  That probably covers my original example, depending on the contents of the indirect indexing arrays.\nFor cases involving objects that don't have simple names, it's not clear.  (Take my original example, but make T a  component.)  This is why I said that the DEFAULT(SHARED) that Malcolm told you to use would be an improvement, if it existed in the language.\nIf there were a locality specifier (or other syntax) that changed the treatment of variables with unspecified locality so that the compiler would automatically localize only variables that were simple names of scalars, that would solve the problem."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-07-13 02:51:35+00:00",
+                    "text": "@klausler  I'm teaching two Fortran training courses over the next 4 weeks and would greatly benefit from hearing any advice I could give attendees regarding do concurrent.  I was planning to recommend that every do concurrent contain a default(none), but I see your comment above that this is insufficient because of limitations on what can appear in the locality specifiers.  Is there some non-trivial class of problems for which users can reasonably expect a compiler to be able to optimize do concurrent, whether by vectorization, parallelization, or offloading?   For example, I think you've mentioned in separate correspondence with me that the problem that arises in the code you provided in comment 560517989 above would not occur in code that makes no use of indirect addressing or pointers.  I think there are many structured-grid scientific computing calculations that can be done without such features so it's not a severe restriction.  (By contrast, it's probably very hard to write unstructured-grid codes without indirect addressing or pointers.) Could a programmer reasonably expect that a compiler could effectively optimize  a do concurrent loop with no indirect addressing, no pointers, and with a default(none) clause?  If not, is there any class of problems for which developers can reasonably expect a compiler to optimize do concurrent or are all bets off because of the issues discussed in this thread?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-13 15:45:22+00:00",
+                    "text": "I don't know of a Fortran compiler that recognizes the locality specifiers yet; the latest Intel compiler doesn't, anyway.  So even if they fixed the problems with default locality, your students would probably have to wait to use them.  This also applies to Malcolm Cohen's suggestion to use DEFAULT(SHARED), which isn't even in the language.\nI suggest that you treat DO CONCURRENT as a convenience for writing multidimensional iteration spaces with a single construct, no more.  I don't think that the implementations or standard for Fortran can help your parallelize sparse matrix codes without recourse to directive-based solutions.  For codes without pointers or indirection, one can try DO CONCURRENT and see if it works, but be ready to resort to directives on good old DO where it doesn't.  It's not performance portable."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-13 16:04:04+00:00",
+                    "text": "@klausler so coming to your original example, the following code would require runtime checks (thus not efficient), but it would work for any arrays K and L:\nSUBROUTINE FOO(N, A, B, T, K, L)\n  IMPLICIT NONE\n  INTEGER, INTENT(IN) :: N, K(N), L(N)\n  REAL, INTENT(IN) :: A(N)\n  REAL, INTENT(OUT) :: B(N)\n  REAL, INTENT(INOUT) :: T(N)\n  INTEGER :: J\n  DO CONCURRENT (J=1:N)\n    T(K(J)) = A(J)\n    B(J) = T(L(J))\n  END DO\nEND SUBROUTINE FOO\nOn the other hand, the following code would parallelize well, but it is now the responsibility of the user to ensure that the arrays K and L do not introduce data races (e.g., are not of the type K=[1,1,2],L=[1,1,2]and similar):\nSUBROUTINE FOO(N, A, B, T, K, L)\n  IMPLICIT NONE\n  INTEGER, INTENT(IN) :: N, K(N), L(N)\n  REAL, INTENT(IN) :: A(N)\n  REAL, INTENT(OUT) :: B(N)\n  REAL, INTENT(INOUT) :: T(N)\n  INTEGER :: J\n  DO CONCURRENT (J=1:N) DEFAULT(NONE) SHARED(T, A, B, K, L, N) LOCAL(J)\n    T(K(J)) = A(J)\n    B(J) = T(L(J))\n  END DO\nEND SUBROUTINE FOO\nIs the above analysis correct?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-13 16:16:16+00:00",
+                    "text": "Surely you don't need to specifiy locality for K, L, or A -- they are not defined in the loop.  I don't read DEFAULT(NONE) to mean that the locality of variables that are merely referenced, not defined, has to be specified -- if so, it's crazy.  I'm also not sure whether it's allowed or necessary to specify the name of a loop index like LOCAL(J) -- that is at best redundant.\nDeclaring SHARED(T) makes a promise that T is not defined in any iteration and then referenced or defined in any other.  Whether that applies to the elements of T is not explicit in the standard, but it should be.  T is obviously defined and referenced in every iteration.  But if we use the obvious intent of the standard rather than the actual wording, and if it is true that no element of T (or B) that is defined in one iteration is referenced or defined in another, then the loop is trivially parallelizable."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-07-13 16:28:00+00:00",
+                    "text": "@klausler Intel recently issued a beta release that is fully Fortran 2018 compliant so should support the locality specifiers.  For anyone interested in testing it, Intel's beta release includes two compilers:\n\nifort: Fortran 2018 compiler (the final release in this product line), which is in the oneAPI beta07.\nifx: LLVM-based Fortran 90 compiler (the beginning of a new product line).\n\nBelow are the links you'll need to access the beta compilers.  There is no license needed.   You will need two toolkits:\n\n\nFirst install \"Intel(R) oneAPI Base Toolkit(Beta)\":\nhttps://software.intel.com/content/www/us/en/develop/tools/oneapi/base-toolkit.html\n\n\nThen install \"Intel(R) oneAPI HPC Toolkit\":\nhttps://software.intel.com/content/www/us/en/develop/tools/oneapi/hpc-toolkit.html"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-13 16:40:53+00:00",
+                    "text": "@klausler it seems there is confusion about the meaning of the Fortran Standard. But if we rewrite the code to use OpenMP:\nSUBROUTINE FOO(N, A, B, T, K, L)\n  IMPLICIT NONE\n  INTEGER, INTENT(IN) :: N, K(N), L(N)\n  REAL, INTENT(IN) :: A(N)\n  REAL, INTENT(OUT) :: B(N)\n  REAL, INTENT(INOUT) :: T(N)\n  INTEGER :: J\n  !$OMP PARALLEL DEFAULT(NONE) SHARED(T, A, B, K, L, N) PRIVATE(J)\n  !$OMP DO\n  DO J = 1, N\n    T(K(J)) = A(J)\n    B(J) = T(L(J))\n  END DO\n  !$OMP END PARALLEL\nEND SUBROUTINE FOO\nThen we can use, e.g., GFortran with the -fopenmp option to compile it. With GFortran, you can remove the PRIVATE(J), but if you remove any of the K, L or A, you will get an error like:\na.f90:11:0:\n\n     T(K(J)) = A(J)\n \nError: \u2018a\u2019 not specified in enclosing \u2018parallel\u2019\na.f90:8:0:\n\n   !$OMP PARALLEL DEFAULT(NONE) SHARED(T, B, K, L, N)\n \nError: enclosing \u2018parallel\u2019\n\nBut this issue aside, in the above code, does the SHARED(T) apply to elements of T? If so, then the user is responsible to ensure that elements of T \"are not defined in any iteration and then referenced or defined in any other\", and the compiler will parallelize this efficiently?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-13 16:50:53+00:00",
+                    "text": "But this issue aside, in the above code, does the SHARED(T) apply to elements of T? If so, then the user is responsible to ensure that elements of T \"are not defined in any iteration and then referenced or defined in any other\", and the compiler will parallelize this efficiently?\n\nDoes SHARED(T) apply to the elements of T?  Clearly that's the intent, but I'm not sure whether the specification in the standard makes that clear.  What if T were a derived type with an array component -- would the locality specifier apply to the component?  What if T were a pointer -- would it apply to the pointer, or its target, or both?  It needs further work.\nIs the user guaranteeing to the compiler that the stores to the elements are safe to parallelize?  Yes, that's the point.\nWill the compiler parallelize it efficiently?  That's up to the implementation, of course.  But at least there shouldn't be any remaining need to generate code to resolve ambiguous \"all equals\" data dependences at runtime -- forwarding from stores to loads in the same iteration will either be via localized names or nonconflicting shared elements."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-13 17:09:36+00:00",
+                    "text": "Even the assignment to B(J) = ... assumes that SHARED(B) applies to elements of B (as guaranteed by the user), doesn't it? Otherwise the compiler would either have to figure out that the elements are independent (which in this case it can, but not in general), or insert runtime checks.\nRegarding the derived type, I would assume as the user that the locality specifier applies to all components."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-13 18:19:49+00:00",
+                    "text": "Even the assignment to B(J) = ... assumes that SHARED(B) applies to elements of B (as guaranteed by the user), doesn't it? Otherwise the compiler would either have to figure out that the elements are independent (which in this case it can, but not in general), or insert runtime checks.\n\nB is not referenced in the loop, and if (an element of) B is defined by more than iteration of the loop it may not be referenced afterwards the termination of the loop -- so there's really nothing for a compiler to do with it."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-07-14 02:57:44+00:00",
+                    "text": "@sblionel Do you think there would be any support for designing a new feature that would be trivially distinct from do concurrent syntactically but would have semantics that compiler developers agree would be more amenable to optimization?  I'm imagining something like simply replacing concurrent with independent or some other word but keeping the syntax otherwise identical,  changing the default localization rules, and adding any other semantic restrictions that compiler developers agree would facilitate  optimizations such as vectorization, parallelization, or offloading are feasible."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-07-14 02:59:44+00:00",
+                    "text": "@certik  I wonder if it would make sense to prototype my above suggestion in an open-source compiler or interpreter?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-14 03:08:39+00:00",
+                    "text": "Yes! I am sure Peter would be happy to help with Flang also. I have two summer students working on this very exact issue also for LFortran. Peter, Damian and Steve, would you be interested in a video call to get us on the same page?\n\nIn general this is one of the most important issues to get right in Fortran, and the main reason why people move away from Fortran around me.\n\u2026\nOn Mon, Jul 13, 2020, at 8:59 PM, Damian Rouson wrote:\n\n\n @certik <https://github.com/certik> I wonder if it would make sense to\n prototype my above suggestion in an open-source compiler or interpreter?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#62 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWFQYD3MQJT57YNSPRLR3PC2ZANCNFSM4JHVFRYA>."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-07-14 03:15:39+00:00",
+                    "text": "@certik yes, I would be very interested in joining a call.  Scheduling it will be challenging: if it's not within the next 2 days, I probably won't be able to join until the week after next.  There's also a new gfortran developer who expressed interest in working on do concurrent so we should invite him too."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-14 16:42:33+00:00",
+                    "text": "We're still figuring out how we're going to move ahead on this in f18 given J3's lack of a useful response.  Options range from command-line flags and inline directives to new syntax.  For example, f18 could assume better default locality rules by default and add a -fstd-do-concurrent flag to opt out.  Or add a DO PARALLEL with the fixed semantics and let the user use the preprocessor to port to it (-Dconcurrent=parallel) or away (-Dparallel=concurrent).  We'll keep you posted.  I don't think that a call would be terribly helpful at this point."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-07-14 17:06:28+00:00",
+                    "text": "@klausler To quote a feature request that I once submitted to Intel, \"Please, I'm\nbegging you to make standard behavior the default.\"  I can't count how many\nhours of my life I've lost searching for a bug that turned out not to be a\nbug but was instead a compiler making non-standard behavior the default\nbehavior.  It's really frustrating for anyone who uses multiple compilers\nand expects the compiler to support the standard without the programmer\nhaving to search for the proper flag to enforce the standard.  At an\nabsolute minimum, I'd hope there would be one all-encompassing flag like\nIntel has \"--standard-semantics,\" but even that only reduces the\nfrustration rather than eliminating it because one still has to remember to\nadd that to every project in which one uses a given compiler."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-07-14 17:30:36+00:00",
+                    "text": "@klausler , what exactly would be a \"useful response\" from J3? Three J3 members have explained in detail the situation and how the F18 locality specs essentially solve the problem, if programmers use them. It was also explained that the issues you raised had previously been discussed in detail. I'm failing to understand the continued antipathy here.\n@rouson , I have said often that parallelism is not one of my strengths, so I rely on the advice and opinions of others who live this stuff. My (perhaps flawed) understanding is that as of F18, DO CONCURRENT enables more parallelism than F08 did. I know it is following what OpenMP did, and I have to believe that the folks developing OpenMP know what they are doing. I also have faith in J3, with representatives from multiple HPC compiler vendors, that DO CONCURRENT does what compiler vendors want for parallelism.\nI have not yet seen any evidence that yet another parallel construct adds any value. The Fortran standard does not attempt to solve 100% of any possible programmer need. There is a balance between complexity and usability. Consider RANDOM_NUMBER, for an example of something I understand better. Does the spec for RANDOM_NUMBER satisfy every numerical analysis or statistical developer? Of course not, as some might want different distributions, etc., but it works well for a lot of cases. For those where it doesn't, there are libraries.\nRegarding your asking Intel to make standard-conforming behavior the default - you're unlikely to get that from a long-history commercial compiler, as the howls from paying customers will be loud. As you note, Intel has a single flag that does what you want, and even offers a way to set this system-wide (or user wide). Intel has changed defaults in places where it could be done transparently, such as automatic reallocation on assignment.\nThere's a related discussion going on in comp.lang.fortran where a couple of users are bashing the (few remaining) gfortran developers for having the temerity to have the compiler check by default for violation of standard rules that have been in place since F66. At least these are compile-time messages for violations of the standard - think of what the response would be if programs that were standard-conforming before (because the standard didn't specify something) behaved differently at run-time without any obvious cause.\nThe Fortran standard has always been in the position of asking the programmer to follow certain rules, and if they do, then they are rewarded with expected behavior. The rules for DO CONCURRENT about definition changes across iterations are there to allow compilers to parallelize, and there exist compilers that can and do parallelize these when the rules are followed. I don't pretend to claim that every possible loop body can be parallelized, but my understanding is that the current syntax and rules are good enough for most usages. If one wants even more control, then look at OpenMP. I can't find much enthusiasm for examples of constructs that have always been difficult to parallelize, even with the most capable of methods."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-14 19:01:43+00:00",
+                    "text": "The response that came closest to a solution involved syntax (DEFAULT(SHARED)) that strengthens the stipulations from the program(mer) about the lack of any need for the default localization rules in order to safely execute iterations in parallel.  But DEFAULT(SHARED) doesn't exist in the language, and would necessitate wordy and error-prone LOCAL() specifiers for non-shared variables (or BLOCK).  A DO CONCURRENT plus DEFAULT(SHARED) with further automatic localization for the obvious scalar variable names that are unconditionally defined in each iteration would solve the problem.  DEFAULT(SHARED_EXCEPT_NO_BRAINER_SCALARS) seems like too much typing, though.\nThe discussion on comp.lang.fortran about extant code that associates scalar actual arguments with dummy arrays across implicit interfaces exposes the distinction between de facto and de jure standards.   IMO, something that's worked for decades with mulitple compilers is not something that should be messed with absent very good reasons.  Nobody really benefits when something universally used like NetCDF stops compiling."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-07-14 23:41:45+00:00",
+                    "text": "@klausler if the problems you raised could be addressed by adding a new default(...) clause, then that seems like a lot of bang for the buck.   My understanding is that it was once common for features to start as compiler extensions before entering the standard.   I would definitely give such an extension a try if it appears in a compiler.  It seems like something that would be very easy to incorporate via preprocessor macros when working with a compiler that supports it. I would also back a proposal for such a feature at the appropriate time (presumably 202Y)."
                 }
             ]
         },
@@ -9041,6 +9327,86 @@
                     "user": "jvdp1",
                     "date": "2020-02-26 20:26:38+00:00",
                     "text": "Thanks @certik and @zjibben for presenting and leading the discussion, and reporting back the discussion. It is really encouraging."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-10 20:25:29+00:00",
+                    "text": "I have written a revision of the paper by @milancurcic, @jvdp1, and @zjibben that attempts to address most of the issues raised at the Feb. 25 meeting, and a few other issues that have come to my mind. The paper differs from the original primarily by:\n\n\nRestricting optional arguments to arguments with the INTENT(IN), VALUE, or no intent attributes.\n\n\nRequiring arguments with a default assignment to be explicitly given the DEFAULT attribute.\n\n\nForbidding arguments from having both the DEFAULT and OPTIONAL attributes so that the PRESENT function retains its semantics.\n\n\nAllowing the expression on the right of the default assignment be a restricted expression and not just a constant expression.\n\n\nStrongly encouraging that the default assignment be in the FUNCTION or SUBROUTINE statement (and not the TYPE declaration statement) as probably being easier to parse.\n\n\nDiscussing the implications of the constraints on intrinsic assignment, 10.2.1.2, their interpretation, 10.2.1.3, and the constraints on defined assignment, 10.2.1.4, and their interpretation, 10.2.1.5 on default array assignments.\n\n\nBriefly discussing the implications of an argument with the DEFAULT attribute also having any one of the POINTER, VOLATILE, ASYNCHRONOUS, or TARGET attributes."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-07-10 20:38:15+00:00",
+                    "text": "This sounds great - when can we see the paper? The changes you propose are all those I support."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-10 20:45:03+00:00",
+                    "text": "I am a novice to GitHub. The introductory material on GitHub does a good job of telling me how to start my own project, but not how to participate in someone else's project. What steps do I need to take to upload the paper named revised_proposal.txt?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-10 21:05:28+00:00",
+                    "text": "William, great. If you navigate here:\nhttps://github.com/j3-fortran/fortran_proposals/blob/master/proposals/default_optional_arguments/proposal.txt\nIn the upper right corner of the UI there is an \"Edit\" button. If you click on it, it will take you to an editor which you can use to replace the existing paper with yours. Submitting the change will open a new Pull Request in which we will then discuss and edit the revised version.\nThe above flow assumes that we edit existing proposal txt files. @certik @zjibben should we instead keep the old versions as separate files and add the new one in its own file (like J3 does)?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-10 21:10:12+00:00",
+                    "text": "FWIW I named my version revised_proposl.txt in the expectation that we would retain original, proposal.txt, for the records.\n\u2026\n On Jul 10, 2020, at 3:05 PM, Milan Curcic ***@***.***> wrote:\n\n\n William, great. If you navigate here:\n\n https://github.com/j3-fortran/fortran_proposals/blob/master/proposals/default_optional_arguments/proposal.txt <https://github.com/j3-fortran/fortran_proposals/blob/master/proposals/default_optional_arguments/proposal.txt>\n In the upper right corner of the UI there is an \"Edit\" button. If you click on it, it will take you to an editor which you can use to replace the existing paper with yours. Submitting the change will open a new Pull Request in which we will then discuss and edit the revised version.\n\n The above flow assumes that we edit existing proposal txt files. @certik <https://github.com/certik> @zjibben <https://github.com/zjibben> should we instead keep the old versions as separate files and add the new one in its own file (like J3 does)?\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub <#22 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDORHHFYI4SZXSHT3AGTR257CRANCNFSM4JCMOXGQ>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-11 02:21:22+00:00",
+                    "text": "FWIW trying to add a file at https://github.com/j3-fortran/fortran_proposals/tree/master/proposals/default_optional_arguments\ngives the message: Uploads are disabled.\nFile uploads require push access to this repository."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-11 04:25:57+00:00",
+                    "text": "I am thinking of preserving the original paper, as the discussion is based on that. But let's have a dedicated directory for all the papers and documents related to this feature.\n\u2026\nOn Fri, Jul 10, 2020, at 3:05 PM, Milan Curcic wrote:\n\n\n William, great. If you navigate here:\n\n https://github.com/j3-fortran/fortran_proposals/blob/master/proposals/default_optional_arguments/proposal.txt\n\n In the upper right corner of the UI there is an \"Edit\" button. If you\n click on it, it will take you to an editor which you can use to replace\n the existing paper with yours. Submitting the change will open a new\n Pull Request in which we will then discuss and edit the revised version.\n\n The above flow assumes that we edit existing proposal txt files.\n @certik <https://github.com/certik> @zjibben\n <https://github.com/zjibben> should we instead keep the old versions as\n separate files and add the new one in its own file (like J3 does)?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#22 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWFMV63Z2B7JFOA3NO3R257CPANCNFSM4JCMOXGQ>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-11 14:36:19+00:00",
+                    "text": "You already have such a directory\nhttps://github.com/j3-fortran/fortran_proposals/tree/master/proposals/default_optional_arguments\nthe one I need push access to"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-11 16:36:43+00:00",
+                    "text": "William, here's what you need to do:\n\nFork this repository by navigating to https://github.com/j3-fortran/fortran_proposals and clicking on \"Fork\" in the upper-right corner.\nYou now have a fork here: https://github.com/wclodius2/fortran_proposals. Add your paper here: https://github.com/wclodius2/fortran_proposals/tree/master/proposals/default_optional_arguments (you will have push access to your fork of this repo).\nNow navigate back to https://github.com/j3-fortran/fortran_proposals. Near the top of the page there will be a UI element asking if you want to submit a Pull Request with the changes in your fork. Click on it, edit if needed, and click on \"open pull request\" (or similar, I forget the exact words)."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-12 13:42:09+00:00",
+                    "text": "The revised_proposal.txt has been checked into the repository."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-13 16:11:00+00:00",
+                    "text": "Just a comment. Keeping old files around with a naming convention for revisions kind of misses the point of having a version control system (the old versions can still be accessed if desired). But since not everyone interested in the project will be familiar with git, it's probably best to do it anyway."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-13 22:38:36+00:00",
+                    "text": "@everythingfunctional I think we should work on just one file and add changes to it (e.g. in #175), but once we submit it to the J3 meeting for consideration, I think it's good to keep a copy around, so that you don't have to go into git history all the time to see what the original was that the J3 discussion is based upon."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-26 00:22:51+00:00",
+                    "text": "FWIW I have changed how the proposal discusses arguments with no intent. Instead of assuming that such arguments will be treated the same as INTENT(IN) or VALUE, I call no intent out separately and note how the wording in the standard should be phrased to either treat them the same as INTENT(IN) or VALUE or treat them like INTENT(INOUT) or INTENT(OUT)."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-07-26 03:12:35+00:00",
+                    "text": "I was assuming that the default value is relevant only for dummy arguments with INTENT(IN) explicitly specified. On the other hand, if the dummy arguments with no intent are automatically given some different attributes in future (say, intent(OUT) or VALUE), doesn't it mean that it silently breaks existing codes? (For example, INTENT(OUT) deallocates allocatable dummy arrays automatically, while VALUE changes the semantics from pass-by-reference to pass-by-value (in practice), which is crucial for foreign language interface. (And, I am sorry if I misunderstand the above discussions because I have not been able to follow the contexts yet...)\nPersonally, I feel it would already be extremely useful to be able to specify the default value for only the case where INTENT(IN), VALUE is explicitly specified, while no default value is allowed otherwise. At the moment, I need to use PRESENT() and declare additional local variables to set the default value, which is very inconvenient (as compared to other languages)."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-26 13:26:43+00:00",
+                    "text": "My revised proposal was that default values are relevant for dummy arguments with INTENT(IN) or VALUE explicity specified. It originally had no intent as an option, but consistently repeating \u201cINTENT(IN), or, VALUE, or no intent\u201d was awkward, and there was the problem that many people assume the no intent was,ery similar to INtENT(INOUT). It did not propose to \u201cautomatically\u201d give some different attributes to no intent arguments. Users would have to explicitly give the DEFAULT attribute, and write out the DEFAULT assignment.\n\u2026\n On Jul 25, 2020, at 9:12 PM, septcolor ***@***.***> wrote:\n\n\n I was assuming that the default value is relevant only for dummy arguments with INTENT(IN) explicitly specified. On the other hand, if the dummy arguments with no intent are automatically given some different attributes in future (say, intent(OUT) or VALUE), doesn't it mean that it silently breaks existing codes? (For example, INTENT(OUT) deallocates allocatable dummy arrays automatically, while VALUE changes the semantics from pass-by-reference to pass-by-value (in practice), which is crucial for foreign language interface.\n\n I guess it would already be extremely useful to be able to specify the default value for only the case where INTENT(IN), VALUE is explicitly specified, while no default value is allowed otherwise. At the moment, I need to use PRESENT() and declare additional local variables to set the default value, which is very inconvenient (as compared to other languages).\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub <#22 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOVDYPMAWERFPLL6Q3TR5ONLBANCNFSM4JCMOXGQ>."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-07-27 03:22:01+00:00",
+                    "text": "@wclodius2 Thanks very much for clarification! I will read the original and revised drafts (and this thread) more carefully..."
                 }
             ]
         },
@@ -10103,6 +10469,61 @@
                     "user": "certik",
                     "date": "2020-05-03 23:13:04+00:00",
                     "text": "Yes, I agree. Thanks for bringing this idea up.\n\u2026\nOn Sun, May 3, 2020, at 4:58 PM, Ivan wrote:\n\n\n Essentially, you would need to place the entire contents of the module\n in the derived type and bind all the procedures. It is not a good\n solution, but for modules which only declare functions (e.g. blas or\n lapack) the functionality is similar (if you can live without being\n able to import the procedures directly).\n\n I was hoping to show with my example, that similar functionality can\n already be achieved in Fortran by \"misusing\" derived types, but as you\n say the approach is so complicated, it would be better off to develop\n this into a true language feature.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWBMCPSFPBANRU3LGQDRPXZIDANCNFSM4JBFRGNA>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-16 00:09:44+00:00",
+                    "text": "I have written a modified version of your 20-108.txt proposal. While I added some words that I think more clearly expressed the intent of the proposal, and added some use cases, the main change is I have replaced the NAMESPACE attribute for modules with a WITH attribute. I find WITH to be at least as intuitive as NAMESPACE and its brevity more user friendly FWIW I took the WITH attribute from Ada. Is it OK if I upload the revision as revised_namespace_proposal.txt?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-16 00:12:28+00:00",
+                    "text": "@wclodius2 yes, please do! Upload it as a new merge request. Let me know if you need any help with git or github. Thanks for bringing fresh ideas into this."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-17 17:02:59+00:00",
+                    "text": "How do I do a merge request?\n\u2026\n On Jul 15, 2020, at 6:12 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n @wclodius2 <https://github.com/wclodius2> yes, please do! Upload it as a new merge request. Let me know if you need any help with git or github. Thanks for bringing fresh ideas into this.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOWDISOFCNLTHXJGMULR3ZAXXANCNFSM4JBFRGNA>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-17 17:07:51+00:00",
+                    "text": "@wclodius2 Follow steps 2 and 3 from here, but adjust the filename/directory for this proposal.\n(merge request is same as pull request--the former is git/GitLab jargon, the latter is GitHub jargon \ud83e\udd2a)"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-17 18:34:10+00:00",
+                    "text": "I thought I did that properly, but I am having the following oddities:\n\n1. My list of pull requests is showing one request with two files: proposals/default_optional_arguments/revised_proposal.txt, and proposals/namespace_modules/revised_namespace_proposal.txt,\n2. The master directory for proposals/default_optional_arguments/ is not showing revised_proposal.txt though I thought Ond\u0159ej approved its pull request.\n\u0161. The list of pull request is showing not only my request, but an old one from February by Marshallward.\n\u2026\n On Jul 17, 2020, at 11:08 AM, Milan Curcic ***@***.***> wrote:\n\n\n @wclodius2 Follow steps 2 and 3 from here, but adjust the filename/directory for this proposal.\n\n (merge request is same as pull request--the former is git/GitLab jargon, the latter is GitHub jargon \ud83e\udd2a)\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-18 17:26:16+00:00",
+                    "text": "My list of pull requests is showing one request with two files: proposals/default_optional_arguments/revised_proposal.txt, and proposals/namespace_modules/revised_namespace_proposal.txt,\n\n\n@wclodius2 I'm sorry. You did that properly, but my instructions were incorrect in the sense that they don't work if you have 2 concurrent PRs open. I only realize this now. To have 2 or more concurrent PRs, the commits (file additions) you made to your fork need to be made to separate branches. Currently, both proposals you committed to the master branch on your fork, and that's why both proposals now appear in #175.\n\n\nThe master directory for proposals/default_optional_arguments/ is not showing revised_proposal.txt though I thought Ond\u0159ej approved its pull request.\n\n\nThis is expected. The PR has not been merged yet, so the file still exists only in your fork. The PR will stay open while we discuss it and edit it in the PR thread, and it will only be merged when it's ready to be uploaded to J3. @certik is this the correct workflow?\n\n\nThe list of pull request is showing not only my request, but an old one from February by Marshallward.\n\n\nThis is also expected. There can be many open PRs at any time.\nSo, how do you proceed? You need to commit the revised namespace proposal to a new branch on your fork. Perhaps the easiest way to do this is from the GitHub UI. Navigate here and in the upper-right corner click on Add file -> Upload files. Because you don't have write permissions to this repo, GitHub will automatically create a new branch on your fork to which the files will be uploaded. Once done, navigate to https://github.com/j3-fortran/fortran_proposals and near the top there should be a yellow prompt from GitHub asking if you want to open a new PR from the new branch on your fork.\nGive it a try, and if there are issues I'd be happy to get on a Zoom call with you to do it together via shared screen."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-19 19:06:50+00:00",
+                    "text": "Don\u2019t I have to first remove /revised_namespace_proposal.txt, from the initial PR?\n\u2026\n On Jul 18, 2020, at 11:26 AM, Milan Curcic ***@***.***> wrote:\n\n\n My list of pull requests is showing one request with two files: proposals/default_optional_arguments/revised_proposal.txt, and proposals/namespace_modules/revised_namespace_proposal.txt,\n @wclodius2 <https://github.com/wclodius2> I'm sorry. You did that properly, but my instructions were incorrect in the sense that they don't work if you have 2 concurrent PRs open. I only realize this now. To have 2 or more concurrent PRs, the commits (file additions) you made to your fork need to be made from separate branches. Currently, both proposals you committed to the master branch on your fork, and that's why both proposals now appear in #175 <#175>.\n\n The master directory for proposals/default_optional_arguments/ is not showing revised_proposal.txt though I thought Ond\u0159ej approved its pull request.\n This is expected. The PR has not been merged yet, so the file still exists only in your fork. The PR will stay open while we discuss it and edit it in the PR thread, and it will only be merged when it's ready to be uploaded to J3. @certik <https://github.com/certik> is this the correct workflow?\n\n The list of pull request is showing not only my request, but an old one from February by Marshallward.\n This is also expected. There can be many open PRs at any time.\n\n So, how do you proceed? You need to commit the revised namespace proposal to a new branch on your fork. Perhaps the easiest way to do this is from the GitHub UI. Navigate here <https://github.com/j3-fortran/fortran_proposals/tree/master/proposals/namespace_modules> and in the upper-right corner click on Add file -> Upload files. Because you don't have write permissions to this repo, GitHub will automatically create a new branch on your fork to which the files will be uploaded. Once done, navigate to https://github.com/j3-fortran/fortran_proposals <https://github.com/j3-fortran/fortran_proposals> and near the top there should be a yellow prompt from GitHub asking if you want to open a new PR from the new branch on your fork.\n\n Give it a try, and if there are issues I'd be happy to get on a Zoom call with you to do it together via shared screen.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOSAJ5KXMKH4XQSZFYLR4HLMNANCNFSM4JBFRGNA>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-20 17:22:28+00:00",
+                    "text": "@wclodius2 You don't have to do it first, but yes, revised_namespace_proposal.txt should be removed from the master branch in your fork (wcloudius2/fortran_proposals)."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-20 21:20:01+00:00",
+                    "text": "On Jul 18, 2020, at 11:26 AM, Milan Curcic ***@***.***> wrote:\n\n So, how do you proceed? You need to commit the revised namespace proposal to a new branch on your fork. Perhaps the easiest way to do this is from the GitHub UI. Navigate here <https://github.com/j3-fortran/fortran_proposals/tree/master/proposals/namespace_modules> and in the upper-right corner click on Add file -> Upload files.\n\nDid that and get the error message\nUploads are disabled.\nFile uploads require push access to this repository.\n\nI didn\u2019t see anything indicating that GitHub automatically created a branch.\n Because you don't have write permissions to this repo, GitHub will automatically create a new branch on your fork to which the files will be uploaded. Once done, navigate to https://github.com/j3-fortran/fortran_proposals <https://github.com/j3-fortran/fortran_proposals> and near the top there should be a yellow prompt from GitHub asking if you want to open a new PR from the new branch on your fork.\n\n\nNavigated to https://github.com/j3-fortran/fortran_proposals <https://github.com/j3-fortran/fortran_proposals> and didn\u2019t see a yellow prompt.\n\nNavigated to https://github.com/wclodius2/fortran_proposals/tree/master/proposals/namespace_modules <https://github.com/wclodius2/fortran_proposals/tree/master/proposals/namespace_modules> and there is no option to create a new branch and creating a new fork is disabled with the message \u201cCannot fork because you own this repository and are not a member of any organizations\""
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-20 22:40:00+00:00",
+                    "text": "@wclodius2 Sorry, I thought that would work but it seems like GitHub UI is not as flexible for uploading new files as for editing files in-browser. I went ahead and uploaded your revision in #176 ."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-20 23:11:53+00:00",
+                    "text": "Thanks!\n\u2026\n On Jul 20, 2020, at 4:40 PM, Milan Curcic ***@***.***> wrote:\n\n\n @wclodius2 <https://github.com/wclodius2> Sorry, I thought that would work but it seems like GitHub UI is not as flexible for uploading new files as for editing files in-browser. I went ahead and uploaded your revision in #176 <#176> .\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOWMMNFFRMDYRGV2CG3R4TBU7ANCNFSM4JBFRGNA>."
                 }
             ]
         }

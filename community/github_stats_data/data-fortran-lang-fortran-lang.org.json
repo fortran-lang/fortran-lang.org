@@ -2,6 +2,481 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 128,
+            "user": "dev-zero",
+            "date": "2020-07-30 12:49:51+00:00",
+            "title": "package_index: FortranCallGraph and Serialbox",
+            "text": "While looking for a callgraph generator I stumbled over the FortranCallGraph project (a static callgrapher), from there you can find the FortranTestGenerator (unittest framework based on Capture & Replay via Serialbox), and the serialization library Serialbox (from Swiss Meteo).\nThe FortranTestGenerator I'm not yet adding due to lack of documentation example code.",
+            "comments": []
+        },
+        {
+            "number": 127,
+            "user": "schoonovernumerics",
+            "date": "2020-07-27 14:24:20+00:00",
+            "title": "Add Fortran Equation Parser",
+            "text": "",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-27 14:35:09+00:00",
+                    "text": "+1 to add. I haven't checked if the categories exist.\n\u2026\nOn Mon, Jul 27, 2020, at 8:24 AM, Joseph Schoonover wrote:\n\n You can view, comment on, or merge this pull request online at:\n\n   #127\n\n Commit Summary\n\n  * Add Fortran Equation Parser\n File Changes\n\n  * *M* _data/package_index.yml\n <https://github.com/fortran-lang/fortran-lang.org/pull/127/files#diff-ffb54f73abb65351a6456a90b3972a91> (8)\n Patch Links:\n\n  * https://github.com/fortran-lang/fortran-lang.org/pull/127.patch\n  * https://github.com/fortran-lang/fortran-lang.org/pull/127.diff\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#127>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWC3N2EKILH44XN3VX3R5WE2HANCNFSM4PI2IXYA>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-28 17:29:19+00:00",
+                    "text": "Thanks! Merging."
+                }
+            ]
+        },
+        {
+            "number": 126,
+            "user": "certik",
+            "date": "2020-07-24 15:57:31+00:00",
+            "title": "Tutorial: how to deal with strings",
+            "text": "I am to this day struggling how to deal with strings in modern Fortran. I would be happy to contribute a tutorial, once I learn what the best practice is.\nFunction accepting a string\ninteger function f(s)\ncharacter(*), intent(in) :: s\nf = len(s)\nend function\nNote: the first argument in character(...) is len, so the above is equivalent to character(len=*). I think it is ok to not specify len, as things are shorter then.\nSubroutine returning a string\nsubroutine f(s)\ncharacter(:), allocatable, intent(out) :: s\ns = \"Some text\"\nend subroutine\nNote: This automatically allocate the LHS, so s will get allocated to the length of the string, no white space padding.\nQuestion 1\nIn fpm, the following code:\nsubroutine cmd_build()\ntype(string_t), allocatable :: files(:)\ncharacter(:), allocatable :: basename, pkg_name, linking\ninteger :: i, n    \nprint *, \"# Building project\"\ncall list_files(\"src\", files)\nlinking = \"\"\ndo i = 1, size(files)\n    if (str_ends_with(files(i)%s, \".f90\")) then\n        n = len(files(i)%s)\n        basename = files(i)%s(1:n-4)\n        call run(\"gfortran -c src/\" // basename // \".f90 -o \" // basename // \".o\")    \n        linking = linking // \" \" // basename // \".o\"\n    end if    \nend do\ncall run(\"gfortran -c app/main.f90 -o main.o\")\ncall package_name(pkg_name)\ncall run(\"gfortran main.o \" // linking // \" -o \" // pkg_name)\nend subroutine\nGives a warning:\n# gfortran (for build/gfortran_debug/fpm/fpm.o build/gfortran_debug/fpm/fpm.mod)\nsrc/fpm.f90:163:0:\n\n linking = \"\"\n \nWarning: \u2018.linking\u2019 may be used uninitialized in this function [-Wmaybe-uninitialized]\n\nWhat am I doing wrong? How do I initialize an empty string?\nQuestion 2\nHow do you return a string from a function as a return value?\n\nI will probably have more questions. These are the most pressing.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-24 16:04:15+00:00",
+                    "text": "This would be a good tutorial to have as a reference \ud83d\udc4d\nI cannot find a reference right now, but I believe the maybe-uninitialized error in gfortran occurs spuriously for allocatable strings. I have the same warning in gfortran when I use allocatable strings, but not with ifort or new flang."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-24 16:07:45+00:00",
+                    "text": "I do exactly the same thing as your examples of function accepting and subroutine returning strings. I imagine this is common use.\nQuestion 1: You're doing nothing wrong. Gfortran is warning about correct Fortran.\nQuestion 2:\nmodule mod_str\ncontains\n  pure function str()\n    character(:), allocatable :: str\n    str = 'hello'\n  end function str\nend module mod_str\n\n\nprogram test_str\n  use mod_str, only: str\n  print *, str()\nend program test_str"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-24 16:17:45+00:00",
+                    "text": "Continuing Milan's example:\nprogram test_str\n  use mod_str, only: str\n  character(:), allocatable :: my_string\n  my_string = str()\nend program test_str\nMy understanding about this usage is that there are two allocation-on-assignments happening: one in the function for the function result; and one for the assignment at program level.\nSo in comparison to a subroutine implementation, functions returning allocatables incur an extra allocation and, in this example, an extra copy during assignment."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-24 16:19:04+00:00",
+                    "text": "(sorry, closed by mistake)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 16:29:45+00:00",
+                    "text": "@LKedward that is precisely why I asked about this. If that is the case, that seems like a big downside and our string routines in stdlib should return the strings via arguments as subroutines, not as return values from functions."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-24 16:36:39+00:00",
+                    "text": "If that is the case, that seems like a big downside and our string routines in stdlib should return the strings via arguments as subroutines, not as return values from functions.\n\nYep, I haven't benchmarked it but this is why I generally avoid functions for returning non-scalars. You can use pointers to return allocated arrays from functions more efficiently, but I also avoid using pointers.\nNB: Allocation on assignment\nAnother useful thing to note, which I only learned recently, is that allocation-on-assignment doesn't occur for colon subscripts ((:)).\nSo this doesn't work:\nprogram test_str\n  use mod_str, only: str\n  character(:), allocatable :: my_string\n  my_string(:) = str()\nend program test_str\nBased on this, I would consider it good practice to use the colon subscript to explicitly indicate where there is assignment only and to avoid accidental reallocation.\nQuestion: filling a character string\nI have my own related question for strings: Is there a one-liner for filling a character(*) with a non-space character(1)?\nExample case is for filling a string with all zeros."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-24 17:03:31+00:00",
+                    "text": "My understanding about this usage is that there are two allocation-on-assignments happening: one in the function for the function result; and one for the assignment at program level.\n\nYes, I think this is true for any function returning anything allocatable. It's especially penalizing for large arrays. Don't do it if you care about high performance.\nI have a toy wave physics project that did this for everything, including large arrays. I was optimizing for functional API and UI, although at the time I didn't understand the implications of functions returning allocatable arrays. Later I heard from a person who found the code to do exactly what they needed but it was too inefficient so they rewrote everything to subroutines to make it fast :)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 17:13:33+00:00",
+                    "text": "Regarding functions returning allocatable --- is this mandated by the Fortran Standard to allocate twice, or are compilers permitted to make it as efficient as intent(out) for subroutines? (It's just that some or most compilers currently don't optimize it out, but they could in the future.)"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-24 17:26:33+00:00",
+                    "text": "Regarding functions returning allocatable --- is this mandated by the Fortran Standard to allocate twice, or are compilers permitted to make it as efficient as intent(out) for subroutines? (It's just that some or most compilers currently don't optimize it out, but they could in the future.)\n\nIt would make sense that if the function is able to be inlined, then one allocation could be optimized out, but I'm no expert here.\nI think that in general, the function result needs to be a distinct memory location because it may be used subsequently in an expression; i.e. there is a fundamental difference between a function result and a subroutine intent(out) dummy arg - the former is returned by value whereas the latter is essentially a pointer.\nNote 1, section 15.6.2.2 from the interpretation doc:\nThe function result is similar to any other entity (variable or procedure pointer) local to a function sub-\nprogram. Its existence begins when execution of the function is initiated and ends when execution of the\nfunction is terminated. However, because the final value of this entity is used subsequently in the evaluation\nof the expression that invoked the function, an implementation might defer releasing the storage occupied\nby that entity until after its value has been used in expression evaluation."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 18:10:06+00:00",
+                    "text": "My understanding of the text you posted is that the Standard allows the result of the function to be as efficient as an intent(out) dummy argument if the compiler chooses to do that."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-24 19:40:13+00:00",
+                    "text": "Would such an optimization be prevented by the requirement that the RHS is evaluated before the assignment occurs?\nFrom 10.2.1.3:\nThe execution of the assignment shall have the same effect as if the evaluation of\nexpr and the evaluation of all expressions in variable occurred before any portion\nof the variable is defined by the assignment.\n\nfor\nvariable = expr"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 20:04:56+00:00",
+                    "text": "I don't know. We might need to ask at the committee. My understanding of it is that the key is \"shall have the same effect\", in other words, it does not actually have to happen that way, only have the same effect. So the question then becomes if double allocation has the same effect as single allocation. For a string, it seems the logic of the code would be the same. For user derived types perhaps the user requires the finalizer to be called twice."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-24 20:53:07+00:00",
+                    "text": "Regarding Question1:\nIgnore the warning, this is one of the flags, and actually for the same particular use case, that I suppress with -Wno-maybe-uninitialized, and if you recall one of the reasons I raised an issue here fpm. Also, take a look at Steve Kargl's post in our discourse here. Finally, another similar discussion can be found here.\nRegarding Question2:\nI personally follow the way presented by @milancurcic :\n\nI do exactly the same thing as your examples of function accepting and subroutine returning strings. I imagine this is common use.\nQuestion 1: You're doing nothing wrong. Gfortran is warning about correct Fortran.\nQuestion 2:\nmodule mod_str\ncontains\n  pure function str()\n    character(:), allocatable :: str\n    str = 'hello'\n  end function str\nend module mod_str\n\n\nprogram test_str\n  use mod_str, only: str\n  print *, str()\nend program test_str\n\nHowever, since we are into this discussion, I also have something to add about the behavior of allocatable characters that may be relevant.\nThe following compiles with no warnings or errors but abords at runtime with a segmentation error:\ncharacter(len=:),allocatable :: str\n\nsubroutine init_string(filename, str)\n    character(len=*),intent(in) :: filename\n    character(len=:),allocatable, intent(out) :: str\n    open(file...)\n    read(unit,*)str\n    close(file...)\nend subroutine init_string\nwhile this is correct:\ncharacter(len=:),allocatable :: str\n\nsubroutine init_string(filename, str)\n    character(len=*),intent(in) :: filename\n    character(len=:),allocatable, intent(out) :: str\n    character(len=50) :: temp ! 50 is just a random number for demonstration purposes\n    open(file...)\n    read(unit,*)temp\n    str = trim(temp)\n    close(file...)\nend subroutine init_string\nAnother interesting behavior is when the allocatable character in the above example is part of a derived type eg:\ntype  t_gas\n    character(len=:),allocatable :: name\n    double :: mass\n    etc...\nend type t_gas\nNow assume we defined a type(t_gas)::gas and tried to read gas%name as we did in the first nonworking example then the program runs without any error but in reality name%gas remains uninitialized, you can print it and it just returns blank but NO error!!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 21:32:09+00:00",
+                    "text": "@smeskos I think you cannot read into an allocatable character type. I vaguely remember this being discussed in the standards committee how to improve the standard to allow this. Until then I think it is not allowed."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-24 23:45:58+00:00",
+                    "text": "I've generally just resorted to using a string type for everything, and then for intent(in) arguments just using an interface to allow people to also pass in character literals (or just character variables)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-07-25 11:56:19+00:00",
+                    "text": "Question: filling a character string\nI have my own related question for strings: Is there a one-liner for filling a character(*) with a non-space character(1)?\nExample case is for filling a string with all zeros.\n\ncharacter(len=:), allocatable :: s\ns = repeat('0',10)\nwrite(*,*) s\n\nwill output 0000000000"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-25 12:45:35+00:00",
+                    "text": "Perfect, thank you @ivan-pi!"
+                }
+            ]
+        },
+        {
+            "number": 125,
+            "user": "certik",
+            "date": "2020-07-21 14:42:55+00:00",
+            "title": "WIP: Add the initial draft of the August Newsletter",
+            "text": "TODO:\n\n I left the word FIXME in the text for things that we still need to update\n @jvdp1 is there anything in stdlib that you would like to highlight?\n @everythingfunctional would you mind filling out the fpm section?\n Update contributor json data (@LKedward)\n\nIn general, do we want to get more news from more projects, such as compilers?",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 14:47:27+00:00",
+                    "text": "@certik thank you for starting it!"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-07-28 18:18:31+00:00",
+                    "text": "I'll look tomorrow to write a small section on the changes of the structure of stdlib.\nIs it an idea to have a section Ongoing discussion inside the sdtlib section? It could highlight them to the community and maybe re-stimulate some of them."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-28 18:21:44+00:00",
+                    "text": "Yes, ongoing discussion seems like a good idea to mention in the newsletter."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-30 09:05:49+00:00",
+                    "text": "I'll rerun and upload the contributor json data-files this afternoon."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-30 09:10:26+00:00",
+                    "text": "In general, do we want to get more news from more projects, such as compilers?\n\nI have no objection to this - any interesting updates from LFortran?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-30 09:20:36+00:00",
+                    "text": "I read in the Slack page that they are still working on it (wednesday 22\njuly) - it is taking them more time than anticipated, as this is all new.\n\nMaybe Tiziano can provide an estimate?\n\nOp do 30 jul. 2020 om 11:03 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n *@LKedward* commented on this pull request.\n ------------------------------\n\n In _posts/2020-08-01-Fortran-Newsletter-August-2020.md\n <#125 (comment)>\n :\n\n > +* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm.\n +* Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.\n +* Adapt your Fortran package for fpm.\n +* Improve the documentation.\n +\n +The short term goal of fpm is to make development and installation of Fortran packages with dependencies easier.\n +Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy\n +environment in which new open source Fortran projects are created and published with ease.\n +\n +## Events\n +\n +* [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) was held July 2 - 4.\n +with many interesting talks.\n +See the talk schedule\n +[here](https://tcevents.chem.uzh.ch/event/12/timetable/#20200702.detailed).\n +FIXME: is recordings available?\n\n They said they would be made available on their SWITCHtube\n <https://tube.switch.ch/organizations/5>, but nothing there yet.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#125 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6RDIIBR3XNZNEJNZDR6EZNPANCNFSM4PDVP3PQ>\n ."
+                }
+            ]
+        },
+        {
+            "number": 124,
+            "user": "nncarlson",
+            "date": "2020-07-16 14:51:12+00:00",
+            "title": "Update Truchas URL",
+            "text": "",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-16 15:06:58+00:00",
+                    "text": "Thanks for merging @LKedward !"
+                }
+            ]
+        },
+        {
+            "number": 123,
+            "user": "LKedward",
+            "date": "2020-07-14 13:20:33+00:00",
+            "title": "Add: license info to Futility package entry.",
+            "text": "License info is not detected automatically for this package, so add explicitly.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-14 15:45:53+00:00",
+                    "text": "+1"
+                }
+            ]
+        },
+        {
+            "number": 122,
+            "user": "Romendakil",
+            "date": "2020-07-13 21:57:52+00:00",
+            "title": "Adding WHIZARD as a Fortran project.",
+            "text": "Proposal to add WHIZARD as a Fortran project. We are a High Energy Physics Monte Carlo Event Generator, so a scientific code, predominantly in Fortran up to F03 and F08 standard. The project ships with a code generator that is written in OCaml and generates Fortran code compiled and linked as shared libraries. Our development is done in a (non-openly visible) gitlab server at the University of Siegen, whose reviewed merge requests are mirrored to our public gitlab server in Siegen and an svn repository at Hepforge. Distribution tarballs are also available via http://launchpad.net/whizard. We are using both OpenMP and MPI for parallelized Monte Carlo integration and simulation, in our development version using also non-blocking communication. Two of our team members, Wolfgang Kilian and J\u00fcrgen Reuter, are relatively active on c.l.f., the Intel forum, and the gfortran bugzilla.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-13 22:34:37+00:00",
+                    "text": "Thanks @Romendakil for submitting it!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-13 22:48:22+00:00",
+                    "text": "Thank you!"
+                }
+            ]
+        },
+        {
+            "number": 121,
+            "user": "aarograh",
+            "date": "2020-07-13 19:28:12+00:00",
+            "title": "Add CASL/Futility to package index",
+            "text": "",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-13 19:37:39+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-13 19:38:39+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/121/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-13 19:41:46+00:00",
+                    "text": "I verified that this satisfies all 6 criteria. Thank you @aarograh!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-13 19:42:03+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-13 19:42:26+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 120,
+            "user": "LKedward",
+            "date": "2020-07-08 10:01:54+00:00",
+            "title": "Add learn books",
+            "text": "Additional print resources as discussed on discourse\nCloses #118.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-08 10:02:11+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-08 10:03:10+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/120/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-08 18:21:57+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-08 18:22:18+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 119,
+            "user": "LKedward",
+            "date": "2020-07-08 08:43:05+00:00",
+            "title": "Fix: broken contributor plots on safari.",
+            "text": "Fixes #105.\nThere are still some formatting issues on mobile, but those can be addressed in a separate issue.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-08 08:43:40+00:00",
+                    "text": "#build_preview\n@certik, can you check on your iPhone?"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-08 08:44:37+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/119/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-08 15:08:51+00:00",
+                    "text": "I just checked both Safari and Firefox on iPhone and it works now! Thank you for fixing it @LKedward."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-13 08:59:05+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-13 08:59:29+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 118,
+            "user": "LKedward",
+            "date": "2020-07-06 09:55:10+00:00",
+            "title": "Additional books for learning",
+            "text": "See discussion at https://fortran-lang.discourse.group/t/books-for-the-learn-page/177/6",
+            "comments": []
+        },
+        {
+            "number": 117,
+            "user": "certik",
+            "date": "2020-07-03 20:57:02+00:00",
+            "title": "Add Benchmarks sections",
+            "text": "I suggest that we have to have and maintain our own benchmarks and have a dedicated section for it.\nAs an example, the Julia page has benchmarks against Fortran, but unfortunately they do not enable all optimization flags in gfortran, and when I pointed that to them, they said that they do not want to do that because they have different priorities in what they want to benchmark: JuliaLang/julia#24568, which is fine, they have the right to do that. But it is then misleading to users when they think that Fortran is not that fast.\nTo fix that, we have to maintain our own benchmarks, and test them with several Fortran compilers, and ensure that all optimization options are enabled. And we should benchmark against other languages.\nThis will also provide motivation for Fortran compiler vendors to speed up some of these benchmarks if Fortran is not the fastest.\nHere are some ideas for benchmarks to include:\n\nhttps://julialang.org/benchmarks/\nhttps://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/fortran.html\nhttps://github.com/ParRes/Kernels\n...",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-03 21:10:58+00:00",
+                    "text": "Furthermore, I suggest to set objectives of what code we will accept:\n\nMust only use the given language, for example Fortran or C++, and it should not use any assembly directly.\n\nAs an example, for the n-body problem, this code is fine for Fortran: https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-ifc-6.html, readable, maintainable. For C++, we should include an equivalent code, we specifically should not allow to include assembly instrinsics like this one: https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-gpp-7.html, full of assembly intrinsics. More specifically, we should mention it that you can of course write this in assembly (or inline it in C++ in various ways), but in our main benchmarks, we should put code that people would actually write to solve the problem in the given language itself without resolving to assembly. The same with the Rust version that currently is the fastest: https://benchmarksgame-team.pages.debian.net/benchmarksgame/program/nbody-rust-7.html, it's full of assembly intrinsics.\nThen we can have a section where anything is allowed, including assembly.\nThe idea is that with enough expertise, the best is to optimize in assembly. For example OpenBLAS is mostly in assembly. But the point of the benchmarks is to see how fast can you get if you only stick to the language and canonical ways of doing things in the language.\nTo put it another way: our benchmarks should show, that Fortran is an excellent choice for this mission:\n\nenable scientists, engineers, and other domain experts to write programs that naturally express the mathematics and algorithms employed, are portable across HPC systems, remain viable over decades of use, and extract a high percentage of performance from the underlying hardware."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-03 21:20:23+00:00",
+                    "text": "Yes, it's paramount that we set the objectives ahead of time so we're clear ourselves what is it that we want to measure. Considering the scope of the project, I think this issue calls for a dedicated repo, fortran-lang/benchmarks."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-03 21:26:27+00:00",
+                    "text": "Yes, definitely a dedicated repository, so that people can easily run the benchmarks on their systems. Only the results can be shown at fortran-lang.org."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-06 09:24:11+00:00",
+                    "text": "+1 for a benchmarks repo!\nIdeally, for the web-published results we would have a dedicated machine for automation and consistency of test-environment, but I guess this isn't strictly necessary if we're interested in relative comparisons.\nDo we only test free compilers like gfortran and flang or can we get a license for ifort and others?\n\nThis will also provide motivation for Fortran compiler vendors to speed up some of these benchmarks if Fortran is not the fastest.\n\nI agree, it will also identify any areas where Fortran is lagging behind; in the Julia benchmarks, Fortran seems to be let down by the integer parsing and the file io benchmarks (implementation here)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-06 16:16:19+00:00",
+                    "text": "The Debian shootout page is using Intel Fortran, so I suggest we use all Fortran compilers that are available to us. In fact, this can be a nice opportunity to compare the various Fortran compilers themselves. We can have different sections in the benchmarks, such as:\n\nFortran only (Fortran compilers comparison)\nLanguages comparison (the best is probably to show various Fortran and C++ and other languages' compilers); inline assembly and intrinsics are not allowed\nAssembly section (where any code in any form is allowed)\n\nThe \"Languages comparison\" section can also have subsections, like\n\nall optimizations on (the default section)\n-ffast-math not allowed (that's essentially the Julia benchmarks page), which has its merits, but I would argue most Fortran users care more about the \"all optimizations on\" section"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-09 15:25:15+00:00",
+                    "text": "See also a related thread at https://fortran-lang.discourse.group/t/improving-fortran-results-in-the-julia-micro-benchmarks/198.\nLet's start the repository.\nHow about https://github.com/fortran-lang/benchmarks?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-09 15:56:16+00:00",
+                    "text": "Sounds good! We can then discuss various options for implementation in the dedicated repo."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-09 16:00:44+00:00",
+                    "text": "\ud83d\udc4d for fortran-lang/benchmarks"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-09 16:02:34+00:00",
+                    "text": "Done, the repository is up, @LKedward you should have maintainer access. Go ahead and start it."
+                }
+            ]
+        },
+        {
+            "number": 116,
+            "user": "Irvise",
+            "date": "2020-07-02 10:49:33+00:00",
+            "title": "Expand do loops with cycle and exit",
+            "text": "This is a minor expansion of the tutorial page on control flow.\nI am not entirely happy with the current result, but I cannot figure out why (probably because it is very short when compared to the rest of the file). So any comments on these changes are welcome.\nI expect to continue expanding this with do concurrent and tags. However, some initial feedback will be beneficial.\nThis pull is related to the discussion in #82.\nRegards,\nFernando",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-02 11:06:12+00:00",
+                    "text": "This looks great @Irvise, definitely an improvement!\nThanks \ud83d\udc4d"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-02 15:43:58+00:00",
+                    "text": "Thanks @Irvise, looks great!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-02 17:39:29+00:00",
+                    "text": "I agree, great addition, thank you!\n#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-02 17:40:30+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/116/"
+                },
+                {
+                    "user": "Irvise",
+                    "date": "2020-07-03 10:52:01+00:00",
+                    "text": "I suppose this marks the end of the changes.\nPlease, check do concurrent since I am not well versed with it and I may have committed some mistakes.\nMore comments are welcome."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-06 09:53:06+00:00",
+                    "text": "Apologies for the delay @Irvise, I will review this today with specific feedback."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-07 09:34:35+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-07 09:37:40+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-07 09:41:30+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-07 09:42:36+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/116/"
+                },
+                {
+                    "user": "Irvise",
+                    "date": "2020-07-07 10:01:12+00:00",
+                    "text": "I have moved  do concurrent to the bottom and I have updated some comparison symbols to a more \"modern\" standard.\nI would say LGTM. Thanks @LKedward for the improvements!"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-07 10:16:16+00:00",
+                    "text": "Great stuff! \ud83d\udc4d  (Sorry for the conflicts!)\n#build_preview"
+                },
+                {
+                    "user": "Irvise",
+                    "date": "2020-07-07 13:55:07+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-07 13:56:07+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/116/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-08 08:25:02+00:00",
+                    "text": "One last thing @Irvise, some of the indentation is rendering incorrectly for the cycle example, and the tagged nested loop example; the end if is not aligned with the opening if and the loop body has extra indentation. Can you make sure you're not using any tab characters, only spaces?"
+                },
+                {
+                    "user": "Irvise",
+                    "date": "2020-07-08 16:52:47+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-08 16:53:37+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/116/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-13 08:55:07+00:00",
+                    "text": "I will merge as no other comments. Great addition @Irvise, thanks!"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-13 08:58:35+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-13 08:58:57+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
             "number": 115,
             "user": "LKedward",
             "date": "2020-06-25 13:13:35+00:00",
@@ -44,6 +519,66 @@
                     "user": "github-actions[bot]",
                     "date": "2020-06-25 22:00:11+00:00",
                     "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/113/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-06-30 19:47:43+00:00",
+                    "text": "I'll update the data files either tonight or tomorrow."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-01 15:49:52+00:00",
+                    "text": "@certik Sounds good. Whenever you get to update the data, check the newsletter that it looks good, add your edits and name to the list of authors, and merge. IMO it's good to go."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-02 04:28:52+00:00",
+                    "text": "Didn't get to it today. Do you need this before your presentation, or can I do it some time tomorrow when I have time?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-02 08:05:32+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-02 08:06:23+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/113/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-02 08:40:05+00:00",
+                    "text": "I'll update the data files either tonight or tomorrow.\n\nI'll move the data files out to a separate repo this month and set up a github action so we don't have to do this manually in future."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-02 12:34:32+00:00",
+                    "text": "@certik I don't need it for the talk, please do it when it's convenient for you."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-02 12:40:20+00:00",
+                    "text": "@certik, @milancurcic, I pushed updated json data files this morning."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-02 13:25:34+00:00",
+                    "text": "+1 to merge. Just a note that if we change the contributors section, we need to update all the newsletter with the new code."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-02 17:42:10+00:00",
+                    "text": "Merging, thank you all!"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-13 08:58:07+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-13 08:58:29+00:00",
+                    "text": "The preview build for this PR has now been deleted."
                 }
             ]
         },
@@ -819,6 +1354,16 @@
                     "user": "smeskos",
                     "date": "2020-06-05 18:47:42+00:00",
                     "text": "I will try to fix this."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-13 08:59:38+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-07-13 09:00:01+00:00",
+                    "text": "The preview build for this PR has now been deleted."
                 }
             ]
         },

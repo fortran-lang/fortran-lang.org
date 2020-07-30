@@ -2,6 +2,1332 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 150,
+            "user": "everythingfunctional",
+            "date": "2020-07-25 20:13:20+00:00",
+            "title": "Propogate exit codes from tests and executables",
+            "text": "Fix #143",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-25 21:06:41+00:00",
+                    "text": "+1 to merge. I don't have time right now to test it, but the change looks good.\n\nEventually we have to add tests for all these things.\n\u2026\nOn Sat, Jul 25, 2020, at 2:47 PM, Milan Curcic wrote:\n\n\n ***@***.**** approved this pull request.\n\n \u2014\n You are receiving this because your review was requested.\n Reply to this email directly, view it on GitHub\n <#150 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWE4ZBYFMVPNLA4BNKLR5NAGRANCNFSM4PHTX5DA>."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-26 20:53:23+00:00",
+                    "text": "I tried it out a couple of different ways and it worked, so I'm going to go ahead and merge."
+                }
+            ]
+        },
+        {
+            "number": 149,
+            "user": "milancurcic",
+            "date": "2020-07-24 18:18:32+00:00",
+            "title": "TOML parser",
+            "text": "Part of #136\nI found 2, both support TOML v0.5 spec:\n\ntoml-f which is pure Fortran, but unfortunately GPLv3-licensed. We could ask the author to offer a more permissive license beside GPL.\nf_tomlc99 which interfaces a C parser. MIT-licensed.\n\nSo each presents an integration challenge.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 19:45:25+00:00",
+                    "text": "In terms of easiness of use, we should try to stick to pure Fortran packages for fpm dependencies, since the non Fortran dependencies must be built somehow on all platforms for all users, and that can get messy --- we discussed just loading such packages from Conda as binaries on all platforms, which I think is preferable, but I was hoping to integrate with Conda in the Fortran fpm, and not worry about it for haskell fpm.\nAs such, we can probably quite easily improve haskell fpm to be able to compile C or C++ files inside an fpm package if we have to. But 3rd party non-Fortran dependencies will cause more issues I feel.\nConclusion: We have to tackle robust building / using of non Fortran dependencies, but I would worry about it a bit later, once Fortran fpm works well. So I would just stick to pure Fortran for now."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 19:58:23+00:00",
+                    "text": "I asked the author of toml-f at awvwgk/toml-f#1 if he would be willing to relicence. If he would, that would be awesome, I think it's exactly what we are looking for."
+                }
+            ]
+        },
+        {
+            "number": 148,
+            "user": "milancurcic",
+            "date": "2020-07-24 16:57:00+00:00",
+            "title": "fpm command placeholders and expand help message",
+            "text": "To warm up my Fortran fingers before the workday, I made a few benign UI improvements:\n\nExpand the print message, borrowing from fpm-haskell and Cargo\nAdd placeholder new, install, run, test commands and \"not implemented\" messages",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 18:04:10+00:00",
+                    "text": "What GFortran version do you have? I have 7.5.0 and it returns a non zero exit value, as can be verified by:\n~/.../fpm/fpm(master)$ ./fpm \n Fortran Package Manager (fpm)\n OS Type: Linux\n~/.../fpm/fpm(master)$ echo $?\n0\n~/.../fpm/fpm(master)$ ./fpm xx\n Unknown command: xx                                                                                                  \nERROR STOP \n\nError termination. Backtrace:\n#0  0x7fd711f9b32a\n#1  0x7fd711f9bed5\n#2  0x7fd711f9cf86\n#3  0x555e59a321c7\n#4  0x555e59a32273\n#5  0x7fd711bb0b96\n#6  0x555e59a31fd9\n#7  0xffffffffffffffff\n~/.../fpm/fpm(master)$ echo $?\n1"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-24 18:07:42+00:00",
+                    "text": "@LKedward I don't remember if we discussed fpm help, but it will sure be useful to display command-specific help messages, e.g. fpm help build (Cargo has it).\n@certik Never mind, now I can't reproduce it, which means that I mistakenly tested the exit code of something else that had it as 0. Are you fine with explicit error stop 1 or should I revert that one? I think at least this way the code will be consistent across compilers, if it's not already."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 18:11:52+00:00",
+                    "text": "I don't mind what is in there, as it will get rewritten anyway eventually. I only don't like your commit message, as it implies that somehow error stop is bad, while my understanding of it is that it will always exit the program with non zero exit code."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-24 18:28:48+00:00",
+                    "text": "@certik Now I'm confused. Does \"add exit code to error stop\" imply that it's bad? It merely states what was added to the code.\nBut more importantly, do you not think that error stop 1 is more robust than error stop? The standard recommends that error stop causes a non-zero exit code, so I think we can confidently trust that all compilers will do that. However, I don't know what error codes various compilers return, so even after the fact about my mistake I think this is an improvement."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 19:38:57+00:00",
+                    "text": "I think you posted it in the comment not a commit log, my apologies. It's fine to merge as it is, so I am going to merge it.\nI am not sure if error stop 1 is more robust than error stop, unless you care about the value of the non zero code."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-24 19:43:58+00:00",
+                    "text": "@certik Ah, okay, got it, all clear now. I agree, that comment was a mistake. I went back and crossed it over so it doesn't confuse anybody else.\nYes for explicit error stop code it will matter only when we want to set different codes. As you say, these are just placeholders so it doesn't matter for now."
+                }
+            ]
+        },
+        {
+            "number": 147,
+            "user": "certik",
+            "date": "2020-07-22 22:19:30+00:00",
+            "title": "Execute the newly built fpm",
+            "text": "On all platforms.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-23 16:08:34+00:00",
+                    "text": "This is just a simple addition to the CI, tests work, I am going to merge it."
+                }
+            ]
+        },
+        {
+            "number": 146,
+            "user": "certik",
+            "date": "2020-07-22 21:07:45+00:00",
+            "title": "Design a model that captures fpm's understanding of the project",
+            "text": "The Fortran fpm should have a module that represents the semantics of all the information that fpm gathers about the project. Here is the pipeline of fpm build:\n\n\nParse: read fpm.toml, read src/*, read app/* (later also tests/*, examples/*, ...), read every Fortran file, determine if it is a program or a module, note module / program name, note all Fortran module dependencies.\n\n\nSemantics: checks that all the information is consistent: that module / program name is consistent with the filename, that module and package dependencies are present, that info in fpm.toml is consistent with the files that are present. In this phase we check for all errors and report nice error messages to the user if something is wrong. After this phase is over, the project is correct and can be compiled (there can be compiler error messages later on, but no fpm error messages).\n\n\nModel: The result of the phase 2. is saved in a standalone representation that we should be able to print out. This representation has all the information that later phases will require. And it is checked, in other words, all fpm errors are already reported. It is possible to print this representation out. I can imagine a lot of our tests can simply be to run fpm build --show-model that will only print the model out, but not do any build, and we check it against reference results, to ensure that fpm was able to gather and check all the information correctly.\n\n\nBackends:\na. Build backend: takes the Model (and nothing else) and builds the project\nb. CMake backend: takes the Model (and nothing else) and generates a CMake build system (#69) or a standalone tarball with all dependencies and a CMake build system (#123).\n\n\nThis design will ensure that the initially possibly messy and error prone parts in 1. and 2. are completely separated from the actual build or cmake backends, and that we can test each part separately. Also, even for our users it would be very helpful if fpm can print the Model in a nice form, so that users can check that fpm was able to understand their project correctly, before attempting to do any build. If the Model is not what users expected, then they know that fpm didn't understand their project correctly and they can report a bug, or rearrange their files or fpm.toml.\n\n@milancurcic, @everythingfunctional let me know if you want to do a quick phone call about this.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 21:17:02+00:00",
+                    "text": "Regarding package dependencies: to have a complete Model without any missing Fortran modules, one might need to checkout every dependency (recursively) and execute 1. and 2. on it, to figure out what Fortran modules the dependency has, and then one can ensure that there are (globally) no missing modules.\nSo executing 1. and 2. on a given package will create a Model with possible missing Fortran modules. But downloading & executing 1. and 2. on each dependency (before building) we can construct a Model for each package and ensure that all the Models are consistent.\nSo part of the Model can be a structure like Package, and a full Model would then have a set of Packages with dependencies between them, etc. This full Model will then be an input to #123. Also one can then use this full Model to design a good parallel Build backend.\n\nI think from a practical perspective, it makes sense if a Model's Package structure is constructed locally for a given package, and checked for everything except missing Fortran modules. This can then be (even in parallel) repeated for each dependency, as this process is independent of order. Finally, at the end, this set of Packages is taken and checked that all missing modules resolve correctly according to the Package dependencies, and this resolved set of Packages then comprises the finished Model as part of step 3. Then one can hand it over to the backends  in 4.\nEach Package would know where on the disk the files are checked out. So when the backends in 4. start the work, no internet connection is needed, everything is checked out.\nThe only possible improvement is to start building while other packages are still downloading, but that's going to mess up the separation of things, so we might want to do it like Debian/Ubuntu, which first downloads all packages, and only then installs them in the correct order. So besides this very minor lack of optimization, this seems like a very clean design, that will allow us to maintain clean code and be very transparent to users."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-23 19:18:13+00:00",
+                    "text": "@certik , I think this is a very good design. There are some details to flesh out (obviously), but this is quite similar to the way it's done in the Haskell version.\nI might add a step 0, parse the command line, as some commands do not require reading the fpm.toml or doing all (or even any) of the following steps. fpm new for example.\nWe probably should schedule a call. I'm swamped today and tomorrow, but should be able to squeeze it some time after that."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-23 19:27:30+00:00",
+                    "text": "It looks good, I'm down for a call next week. Please email a few time slots for next week. It'd be good to also entrain anybody who's interested in getting more involved with fpm development."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-23 23:33:50+00:00",
+                    "text": "Ok, the call is set for Tuesday 1pm PDT. If anyone else wants to join this discussion, you can, just comment here so that we can invite you."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-24 09:59:53+00:00",
+                    "text": "I'm interested in getting more involved with fpm development so would be interested in joining that call."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-24 10:07:28+00:00",
+                    "text": "Same here :).\n\nOp vr 24 jul. 2020 om 12:00 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n I'm interested in getting more involved with fpm development so would be\n interested in joining that call.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#146 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5XJRXIPRZBWFSRA5LR5FLSRANCNFSM4PFDFI3Q>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 15:33:45+00:00",
+                    "text": "@LKedward, @arjenmarkus perfect, thanks. I will post the meeting information here, so that you can join also."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-28 17:36:26+00:00",
+                    "text": "Here is the Zoom meeting invitation at 1pm Pacific Time today.\nOnd\u0159ej \u010cert\u00edk is inviting you to a scheduled Zoom meeting.\nTopic: FPM Design Discussion\nTime: Jul 28, 2020 02:00 PM Mountain Time (US and Canada)\nJoin Zoom Meeting\nhttps://zoom.us/j/99897479516?pwd=UnpBL05la3YyYmVSdEo1T0VSVmJwUT09\nMeeting ID: 998 9747 9516\nPasscode: YY1XEv"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-28 19:57:18+00:00",
+                    "text": "Just a reminder that the meeting starts in 3 minutes."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-28 21:13:15+00:00",
+                    "text": "Summary of our meeting:\n\nLooks like we all agreed on the general design above.\nWe discussed some details such as:\n\nHow to test this: integration tests vs unit tests, vs integration tests with specific features to test. We will iterate as we go. We can use Vegetables for unit testing.\nHow to link C dependencies: include the linking information in the Model, backend links\nThe Model includes everything, including command line options\nAllow the Model to print to the screen (for testing and informational purposes)\nThat it is probably a good idea as a start to download all dependencies and figure out a Model that includes all the dependencies, and only then pass it over to the backend. Later we can investigate whether the backend cannot start building some files speculatively sooner.\n\n\nStep forward: refactor our current fpm to follow the design above: construct a Model, pass it to the backend."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-29 06:40:54+00:00",
+                    "text": "Hi Ondrej, all,\n\nsorry I missed the meeting - I was home rather late and I did not see any\nmessage with a link to the meeting ;). I will try and catch up with the\nmaterial so far.\n\nRegards,\n\nArjen\n\nOp di 28 jul. 2020 om 23:13 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com\n\u2026\n:\n Summary of our meeting:\n\n    - Looks like we all agreed on the general design above.\n    - We discussed some details such as:\n       - How to test this: integration tests vs unit tests, vs integration\n       tests with specific features to test. We will iterate as we go. We can use\n       Vegetables for unit testing.\n       - How to link C dependencies: include the linking information in\n       the Model, backend links\n       - The Model includes everything, including command line options\n       - Allow the Model to print to the screen (for testing and\n       informational purposes)\n       - That it is probably a good idea as a start to download all\n       dependencies and figure out a Model that includes all the dependencies, and\n       only then pass it over to the backend. Later we can investigate whether the\n       backend cannot start building some files speculatively sooner.\n    - Step forward: refactor our current fpm to follow the design above:\n    construct a Model, pass it to the backend.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#146 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZLWWNL4YBLV3QGJIDR545PVANCNFSM4PFDFI3Q>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-29 06:58:40+00:00",
+                    "text": "No worries! I am sure we'll have another development meeting soon.\n\u2026\nOn Wed, Jul 29, 2020, at 12:41 AM, Arjen Markus wrote:\n\n\n Hi Ondrej, all,\n\n sorry I missed the meeting - I was home rather late and I did not see any\n message with a link to the meeting ;). I will try and catch up with the\n material so far.\n\n Regards,\n\n Arjen\n\n Op di 28 jul. 2020 om 23:13 schreef Ond\u0159ej \u010cert\u00edk ***@***.***\n >:\n\n > Summary of our meeting:\n >\n > - Looks like we all agreed on the general design above.\n > - We discussed some details such as:\n > - How to test this: integration tests vs unit tests, vs integration\n > tests with specific features to test. We will iterate as we go. We can use\n > Vegetables for unit testing.\n > - How to link C dependencies: include the linking information in\n > the Model, backend links\n > - The Model includes everything, including command line options\n > - Allow the Model to print to the screen (for testing and\n > informational purposes)\n > - That it is probably a good idea as a start to download all\n > dependencies and figure out a Model that includes all the dependencies, and\n > only then pass it over to the backend. Later we can investigate whether the\n > backend cannot start building some files speculatively sooner.\n > - Step forward: refactor our current fpm to follow the design above:\n > construct a Model, pass it to the backend.\n >\n > \u2014\n > You are receiving this because you were mentioned.\n > Reply to this email directly, view it on GitHub\n > <#146 (comment)>,\n > or unsubscribe\n > <https://github.com/notifications/unsubscribe-auth/AAN6YRZLWWNL4YBLV3QGJIDR545PVANCNFSM4PFDFI3Q>\n > .\n >\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#146 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWBXYJLYFELAQTY7UT3R57AAHANCNFSM4PFDFI3Q>."
+                }
+            ]
+        },
+        {
+            "number": 145,
+            "user": "certik",
+            "date": "2020-07-22 20:10:35+00:00",
+            "title": "Read the source files automatically",
+            "text": "",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 20:43:05+00:00",
+                    "text": "This obviously needs a lot more testing, but as a proof of concept it's good enough. It reads the files from the src/ directory if it exists and builds them. It seems to work on all platforms. Still no module dependency resolution."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 21:30:42+00:00",
+                    "text": "I rebased on top of the latest master to simplify the history."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 22:17:30+00:00",
+                    "text": "Thanks for the review. Merging."
+                }
+            ]
+        },
+        {
+            "number": 144,
+            "user": "certik",
+            "date": "2020-07-22 15:03:08+00:00",
+            "title": "fpm should detect operating system",
+            "text": "Given the issues in #141 to determine the OS type, I think the most robust is to do it like CMake: fpm will detect / know the operating system that it is on, and it will pass this information down the source files, for example in terms of macro definitions, such as:\n\nFPM_OS_LINUX\nFPM_OS_MACOS\nFPM_OS_WINDOWS\n\nOr something like that. We might be even more specific than that if needed. This seems to be the most robust and cross-platform way to do it that will work with all Fortran compilers.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 15:11:20+00:00",
+                    "text": "I tried various ways using macros in #142, and none of them seem to work with gfortran. So that's why I think having fpm define those macros is the way to go."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-22 15:16:58+00:00",
+                    "text": "Right, so if fpm itself can detect the operating system, what do you need the macros for? I thought the macros are only useful when your software doesn't have the information you need. Or am I missing something?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 15:23:55+00:00",
+                    "text": "It's a chicken and an egg. The fpm implementation in Fortran needs to know the system type so that we know what command to use to get the directory content. The most robust seems to be if the build system (whether cmake or fpm) passes this information in as macro definitions."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-22 15:31:07+00:00",
+                    "text": "Okay, so the bootstrap Haskell fpm will know the OS and pass the macros down to Fortran fpm. Then in the future when you want to bootstrap Fortran fpm using Fortran fpm, then the OS information will already be available in the boostrap Fortran fpm binary. It made me dizzy for a little bit, but I think it works."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 15:34:47+00:00",
+                    "text": "Right. The other way to bootstrap fpm down the road will be via cmake (#123), so the cmake build system that fpm will generate will have to detect the OS type (which cmake knows how to do) and then create the proper FPM_OS_* macro defines."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-23 11:50:39+00:00",
+                    "text": "You could use the commands that come with the operating system (for instance this website gives some indicators.\nWhile this will not be waterproof, the module may simply test the various commands - whichever succeeds is the one we want.\nI can give this a try."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-23 12:32:31+00:00",
+                    "text": "I just tried:\nver in a Windows command box gives the indication of the Windows version\nThis does not work with MinGW or Cygwin, even though they are Windows-based OSes.\nuname -a succeeds on MinGW, Cygwin and Linux with proper indications of all OS types.\nI have no access to MacOS but I imagine that uname -a work fine there as well.\n(Something to check: whether ver is not a haphazard program - for uname I guess /usr/bin/uname is restrictive enough?)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-23 14:59:22+00:00",
+                    "text": "Here is how we currently do this using environment variables: \n  \n    \n      fpm/fpm/src/fpm.f90\n    \n    \n         Line 16\n      in\n      6ef2546\n    \n    \n    \n    \n\n        \n          \n           integer function get_os_type() result(r)"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-23 17:16:20+00:00",
+                    "text": "Hm, the environment variable HOMEPATH is set to \"\\Users\\markus\" on my Cygwin and MinGW/w-64 installations. So, with the current procedure that would boil down to \"Windows\"."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-23 17:19:54+00:00",
+                    "text": "It looks like we may have to combine the current HOMEPATH query with a ver test suggested by @arjenmarkus if we want to differentiate MinGW or Cygwin from Windows."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-23 17:23:10+00:00",
+                    "text": "Since they represent very different operating environments, I think we\ncannot ignore the difference ;). For instance: \"dir\" does not work under\nCygwin or MinGW.\n\nRegards,\n\nArjen\n\nOp do 23 jul. 2020 om 19:20 schreef Milan Curcic <notifications@github.com>:\n\u2026\n It looks like we may have to combine the current HOMEPATH query with a ver\n test suggested by @arjenmarkus <https://github.com/arjenmarkus> if we\n want to differentiate MinGW or Cygwin from Windows.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#144 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR2ZDUGZDNVZCMXWNUDR5BWMXANCNFSM4PEZSOMQ>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-23 17:26:10+00:00",
+                    "text": "Oops, I was too hasty: \"dir\" does actually work and \"dir -b\" also. But then\n\"dir /b\" does not and, vice versa, under a Windows command box \"dir -b\"\ndoes not work - it looks for a file \"-b\".\n\nRegards,\n\nArjen\n\nOp do 23 jul. 2020 om 19:22 schreef Arjen Markus <arjen.markus895@gmail.com\n\u2026\n:\n Since they represent very different operating environments, I think we\n cannot ignore the difference ;). For instance: \"dir\" does not work under\n Cygwin or MinGW.\n\n Regards,\n\n Arjen\n\n Op do 23 jul. 2020 om 19:20 schreef Milan Curcic ***@***.***\n >:\n\n> It looks like we may have to combine the current HOMEPATH query with a\n> ver test suggested by @arjenmarkus <https://github.com/arjenmarkus> if\n> we want to differentiate MinGW or Cygwin from Windows.\n>\n> \u2014\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <#144 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR2ZDUGZDNVZCMXWNUDR5BWMXANCNFSM4PEZSOMQ>\n> .\n>"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-23 17:34:15+00:00",
+                    "text": "Right, dir is part of GNU Coreutils, so it works on most Linux systems, but not on macOS for example. Best to stay away from it for making important decisions :)."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-23 18:25:21+00:00",
+                    "text": "I have experimented a bit: the attached code correctly identifies the\nfour OSes I have access to. It cannot rely on \"ver\", because that is\nalso supported by MinGW and Cygwin, so instead I use \"uname\". However,\nMinGW gives odd results - /usr/bin/uname was not found (presumably the\ndirectory is not properly substituted). So, it also tries \"uname\"\nwithout the path.\n\nThe executable I created with Intel Fortran gives the right (!)\nidentification under a Windows command box, MinGW and Cygwin. I have\nnot tested the MinGW/Cygwin variants under the others.\n\n(Attaching it to an email was the fastest way, but of course I can\nalso put it in a pull request)\n\nRegards,\n\nArjen\n\nOp do 23 jul. 2020 om 19:34 schreef Milan Curcic <notifications@github.com>:\n\n Right, dir is part of GNU Coreutils, so it works on most Linux systems, but not on macOS for example. Best to stay away from it for making important decisions :).\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe.\n! getos.f90 --\n!     Attempt to characterise the operating system\n!\nmodule getos\n    implicit none\n\n    integer, parameter :: OS_WINDOWS = 1\n    integer, parameter :: OS_LINUX   = 2\n    integer, parameter :: OS_MACOS   = 3\n    integer, parameter :: OS_CYGWIN  = 4\n    integer, parameter :: OS_MINGW   = 5\n\ncontains\n\n! get_os --\n!     Identify the operating system\n!\n! Arguments:\n!     None\n!\n! Note:\n!     Linux is used as the fallback option. Should we distinguish this from a positive identification?\n!\ninteger function get_os()\n    character(len=80) :: val\n    character(len=20) :: os_id\n    integer           :: lun\n    integer           :: stat\n\n    !\n    ! Try the environment variable\n    !\n    call get_environment_variable( \"HOMEPATH\", val, status = stat )\n\n    if ( stat == 0 .and. val(1:7) == \"\\Users\\\" ) then\n        !\n        ! We may be on Windows, probably, but what flavour? Windows, Cygwin or MinGW?\n        !\n        ! First try \"uname\"\n        !\n        ! Note: MinGW gives an error when using the full path ...\n        !\n        call execute_command_line( \"/usr/bin/uname -a > fpm_tmp.out 2>&1\", exitstat = stat )\n        if ( stat /= 0 ) then\n            call execute_command_line( \"uname -a > fpm_tmp.out 2>&1\", exitstat = stat )\n        endif\n\n        if ( stat /= 0 ) then\n            !\n            ! This seems to be Windows\n            !\n            get_os = OS_WINDOWS\n        else\n            open( newunit = lun, file = \"fpm_tmp.out\" )\n            read( lun, * ) os_id\n            close( lun, status = 'delete' )\n\n            get_os = merge( OS_CYGWIN, OS_MINGW, os_id(1:6) == 'CYGWIN' )\n        endif\n    else\n        !\n        ! We are on Linux or MacOS\n        !\n        call get_environment_variable( \"HOME\", val, status = stat )\n\n        if ( stat == 0 ) then\n            if ( val(1:7) == \"/Users/\" ) then\n                get_os = OS_MACOS\n            else\n                get_os = OS_LINUX\n            endif\n        else\n            !\n            ! Use Linux as fallback option\n            !\n            get_os = OS_LINUX\n        endif\n    endif\nend function get_os\n\nend module getos\n\n! test ...\n!\nprogram test_get_os\n    use getos\n\n    integer :: id\n\n    character(len=10), dimension(5) :: os_identification = &\n        ['Windows   ', 'Linux     ', 'MacOS     ', 'Cygwin    ', 'MinGW     ']\n\n    id = get_os()\n    write(*,*) id, os_identification(id)\n\nend program test_get_os"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-23 23:37:46+00:00",
+                    "text": "Thanks @arjenmarkus, much appreciated. We should incorporate this into fpm."
+                }
+            ]
+        },
+        {
+            "number": 143,
+            "user": "certik",
+            "date": "2020-07-22 14:41:32+00:00",
+            "title": "`fpm run` does not propagate exit code",
+            "text": "fpm run does not return with error if the program fails, as can be checked by:\n$ fpm run && echo \"OK\"\nERROR STOP \n\nError termination. Backtrace:\n#0  0x7ff9ae8262ed in ???\n#1  0x7ff9ae826ed5 in ???\n#2  0x7ff9ae827f86 in ???\n#3  0x55ee5e99e013 in get_os\n\tat src/fpm.F90:22\n#4  0x55ee5e99df25 in __fpm_MOD_print_help\n\tat src/fpm.F90:28\n#5  0x55ee5e99daa2 in MAIN__\n\tat app/main.f90:7\n#6  0x55ee5e99dc43 in main\n\tat app/main.f90:2\nOK\n\nThis causes CI tests to pass even though they should fail, e.g.:\nhttps://github.com/fortran-lang/fpm/pull/142/checks?check_run_id=897192409\nwhich should have failed, but happily continues:\n...\n# gfortran (for build/gfortran_debug/app/main.o)\n# gfortran (for build/gfortran_debug/app/fpm)\n+ fpm run\nERROR STOP \n\nError termination. Backtrace:\n#0  0x7fc9615aaaed in ???\n#1  0x7fc9615ab605 in ???\n#2  0x7fc9615acc93 in ???\n#3  0x55b23ed92014 in get_os\n\tat src/fpm.F90:22\n#4  0x55b23ed91f21 in __fpm_MOD_print_help\n\tat src/fpm.F90:28\n#5  0x55b23ed91a7d in MAIN__\n\tat app/main.f90:7\n#6  0x55b23ed91c28 in main\n\tat app/main.f90:2\n+ fpm run --args build\n # Building project\n + gfortran -c src/fpm.F90 -o fpm.o\n + gfortran -c app/main.f90 -o main.o\n...\n\nThis is quite high priority, as we need our CI to be reliable with regards to these things.\n@everythingfunctional do you  know how to fix it?",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-23 16:34:48+00:00",
+                    "text": "I see. I expected the function used to run external commands to propagate that automatically, but I guess I was wrong. It should just be a matter of catching the return status and manually doing something with it. I should have some time to look into it this weekend."
+                }
+            ]
+        },
+        {
+            "number": 142,
+            "user": "certik",
+            "date": "2020-07-22 05:24:08+00:00",
+            "title": "Initial implementation of get_os()",
+            "text": "It might be difficult to get this working via pre-processor.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 14:43:10+00:00",
+                    "text": "This PR actually fails tests, but they look like they passed due to #143."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 15:07:46+00:00",
+                    "text": "@milancurcic the tests are currently failing, even though they are green. The macros do not work, if you click on the output when we just run fpm, you can see that you get a stacktrace and \"error stop\"."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 15:09:06+00:00",
+                    "text": "The latest commit prints os type 1 (Linux) on all platforms. Ok, I think the macros do not work at all. I am going to use an alternative implementation using environment variables."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-07-22 15:28:47+00:00",
+                    "text": "The latest commit prints os type 1 (Linux) on all platforms. Ok, I think the macros do not work at all. I am going to use an alternative implementation using environment variables.\n\nHow did you pass the macro to gfortran? as -DFMP_OS_xxxx?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-07-22 15:39:56+00:00",
+                    "text": "The latest commit prints os type 1 (Linux) on all platforms. Ok, I think the macros do not work at all. I am going to use an alternative implementation using environment variables.\n\nIf it could help, fpp and macros seem to work when compiling manually:\n gfortran -cpp -D_WIN32 fpm.F90\n$ ./a.out \n Fortran Package Manager (fpm)\n OS Type:            3"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 15:44:36+00:00",
+                    "text": "@jvdp1 the issue is that those macros do not seem to be defined by default on any platform with gfortran (and obviously we need to support all Fortran compilers down the road, each defining slightly different macros).\nThe current solution as of (a1dc068) seems to work. It's obviously not super robust, but it will get us started, and we can design the correct full solution in #144."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 15:53:53+00:00",
+                    "text": "Everything works except Windows. It just occurred tome that if $HOME doesn't exist, then we can assume Windows. I am going to rework it."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-22 16:05:40+00:00",
+                    "text": "The problem now is that if a Windows user defines %HOME% for any reason, the function will fail.\nI think the original %HOMEPATH% approach is more robust, but you also need to test the value:\ncall get_environment_variable(\"HOMEPATH\", val, status=stat)\nif (stat == 0 .and. val(1:7) == \"\\Users\\\") then\n    r = OS_WINDOWS\n    return\nend if"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 16:16:52+00:00",
+                    "text": "So when I first implemented $HOMEPATH for Windows, it failed: https://github.com/fortran-lang/fpm/runs/899185101, but then the later commit which didn't touch it, succeeded: https://github.com/fortran-lang/fpm/runs/899226753. This is infuriating, I spent hours yesterday due to this fragility of the GitHub Actions. I think they sometimes test a previous commit, even though they claim to test the latest commit. This is really bad from a reliability perspective.\nAnyway, the latest commit (only using $HOME) also seems to work, but who know knows if it actually got tested?\nI can put in back the $HOMEPATH if you prefer. This is all fragile and can easily break anyway, if somebody declares HOMEPATH on linux for example."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-22 16:20:49+00:00",
+                    "text": "This is all fragile and can easily break anyway, if somebody declares HOMEPATH on linux for example.\n\nYes, but testing for the value (\"\\Users\\\") greatly reduces the chance of collision. I don't think we should excuse the code to be fragile if the CI is already fragile."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 16:25:46+00:00",
+                    "text": "Right. I did it as you suggested, but I just don't know which of the two is more robust (will succeed in more cases):\n\nTest for $HOMEPATH=\\Users\\\nTest that $HOME does not exist\n\nBecause I do not know if $HOMEPATH on Windows can be set to other paths than \\Users\\ quite often, or not. And compared to that how often do users define $HOME on Windows."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 16:36:14+00:00",
+                    "text": "I checked the CI manually, it still seems to work (assuming the CI tested the latest commit). But given the fact that the previous commit seems to work, then if the master fails after this is merged, we can always revert the latest commit.\nThis is ready for a final review and merge as far as I am concerned."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 20:25:06+00:00",
+                    "text": "@milancurcic, @everythingfunctional is this ok to go in? I have another PR (#145) that depends on this."
+                }
+            ]
+        },
+        {
+            "number": 141,
+            "user": "certik",
+            "date": "2020-07-21 22:04:55+00:00",
+            "title": "How to list directory content",
+            "text": "In order to move beyond #137, we need a cross-platform way to read all the *.f90 files in a directory. What is the best way to do that in Fortran?",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 22:11:27+00:00",
+                    "text": "For cross-platform you need this.\nOtherwise, I think the next best kludge would be to call execute_command_line('ls > tmp.txt'), then parse tmp.txt, and equivalent on Windows."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 22:20:55+00:00",
+                    "text": "We need a temporary solution so that we are not stuck on this, and can move on, and in the meantime we can work on the full general solution."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 22:27:50+00:00",
+                    "text": "I agree. I think wrapping around the shell commands on each OS is the way to go."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 22:34:23+00:00",
+                    "text": "It seems like it. How do you determine which OS you are on from Fortran?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 22:45:23+00:00",
+                    "text": "Perhaps we can test the value of an environment variable (get_environment_variable) that we know will be different between systems? Perhaps HOME, and then detect based on whether the value has forward slashes (Linux and macOS) or backslashes (Windows)? Just an idea, I've never done this myself."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 22:59:23+00:00",
+                    "text": "Good idea, the GET_ENVIRONMENT_VARIABLE intrinsic will do this. That will get us started, and we can make this more robust / general later."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-21 23:23:50+00:00",
+                    "text": "I'd put it behind a function and just use preprocessor directives. Something like:\nfunction is_windows()\n    logical :: is_windows\n\n#ifdef (WIN_32)\n    is_windows = .true.\n#elif\n    is_windows = .false.\n#endif\nObviously you'll need to look up the proper syntax and tests, but that way, even if you change the way it's done, it shouldn't require changing any other code anywhere."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 23:28:01+00:00",
+                    "text": "@everythingfunctional ah that's right, I think that should work."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 23:37:52+00:00",
+                    "text": "I didn't know fpm supported preprocessing. \ud83d\udc4d in that case."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-21 23:43:41+00:00",
+                    "text": "fpm isn't doing any preprocessing, but our currently only supported compiler does a bit ;). Should be enough to solve at least the \"Is this Windows or not?\" question."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-22 09:00:36+00:00",
+                    "text": "I just tried: on Windows \"dir /b\" gives the bare list of file names, just as \"ls\". That means that only the command is different - not the format of the output (with out \"/b\" you get a lot of rubbish ;))."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 14:46:18+00:00",
+                    "text": "@everythingfunctional so the ifdef trick does not work with gfortran to determine the OS, I tried that in #142, and it does not work on linux, nor anywhere else... Let's further discuss this OS determination in #144."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 16:31:03+00:00",
+                    "text": "Thanks @arjenmarkus. I will try to do this once #142 is merged, as I need to determine the OS type first to know which command to run."
+                }
+            ]
+        },
+        {
+            "number": 140,
+            "user": "certik",
+            "date": "2020-07-21 21:58:03+00:00",
+            "title": "Build hello_world",
+            "text": "The build is hardwired, but it works. This is mainly useful to setup our CI.\nOnce we implement a more general solution, we just need to keep our CI passing.\nFixes #137.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 22:10:24+00:00",
+                    "text": "Weird. The Linux CI didn't execute the additional lines I added in this PR: https://github.com/fortran-lang/fpm/pull/140/checks?check_run_id=896195075"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 22:29:50+00:00",
+                    "text": "I extracted the tests into separate files, now they are executed properly. Don't know what the problem was, it looks like a bug at the CI."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 22:32:55+00:00",
+                    "text": "The CI is not executing the latest version of the files at a given commit. That's a bug, which makes it pretty hard to Debug."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 22:56:18+00:00",
+                    "text": "It finally works, all tests pass and are executed properly. Hello World test now works on all platforms."
+                }
+            ]
+        },
+        {
+            "number": 139,
+            "user": "certik",
+            "date": "2020-07-21 20:13:34+00:00",
+            "title": "Minimal `fpm build` implementation",
+            "text": "Very minimal fpm build now works, it can only build fpm itself, but it can do it on all platforms, which is nice.\nAfter this is in, the next step is to make it more general and build the hello_world example, and then execute this test also.\nTowards #137.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 21:39:02+00:00",
+                    "text": "Finally some code I can contribute! I am going to merge, the change is simple, so I think one positive review is enough."
+                }
+            ]
+        },
+        {
+            "number": 138,
+            "user": "certik",
+            "date": "2020-07-21 19:56:40+00:00",
+            "title": "`fpm run --args \"a b c\"` should become `fpm run -- a b c`",
+            "text": "As in Cargo.\nCurrently you must use \" as in:\nfpm run --args \"a b c\"\n\nRather, one should just do:\nfpm run -- a b c",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-21 23:29:56+00:00",
+                    "text": "I agree, just couldn't figure out how to make that work with the command line parser I was using in Haskell."
+                }
+            ]
+        },
+        {
+            "number": 137,
+            "user": "certik",
+            "date": "2020-07-21 19:52:41+00:00",
+            "title": "Minimal version working",
+            "text": "This minimal version will:\n\ncompile test/example_packages/hello_world\nrun this particular test\n\nTo get this working, we do not need any of the 3rd party packages as listed in #136, we only need to implement fpm build, fpm run, we do not need to read the toml file for now, so we can get it working quite quickly.\nThe main goal is to start testing this as part of our testing. Then later we can swap a proper CLI library, a proper TOML reading library, etc.",
+            "comments": []
+        },
+        {
+            "number": 136,
+            "user": "certik",
+            "date": "2020-07-21 19:45:52+00:00",
+            "title": "Roadmap for Fortran implementation",
+            "text": "We need libraries for the following functionality (any help appreciated with any of these):\n\n CLI (#135)\n TOML parser (#149)\n execute gfortran on all platforms\n download using git and tarballs (http)\n list directory content (#141)\n\nRoadmap:\n\n Good tests and spec (#133)\n A minimal version working that can compile test/example_packages/hello_world, which does not require 3rd party packages, run this particular test (#137)\n Get more and more tests working\n\nIf anything else comes up, I will update this issue.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 20:58:43+00:00",
+                    "text": "Fortran interface to curl for http requests: https://github.com/interkosmos/fortran-curl\nIf we end up needing more advanced git stuff than just downloading the code, we can wrap libgit2."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-24 20:14:28+00:00",
+                    "text": "Per my comment in #149 (comment), it seems all of these can in principle be done in pure Fortran, except the internet download of tarballs. For git repositories, we'll just assume that the git executable is installed, as we already do in haskell fpm. To be able to bootstrap fpm easily, we can just have all dependencies as git repositories and assume git is present on all platforms. Then in principle everything can be done in pure Fortran, which I think might be very helpful at least initially.\nThen we can implement robust support for 3rd party non Fortran dependencies in the fortran fpm. Eventually we can then depend on curl or any other library (but if we do for fpm itself, it will always be more challenging to install it from source, say on HPC machines than if every dependency is pure Fortran)."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2020-07-26 19:08:37+00:00",
+                    "text": "FYI...somewhere i have a Fortran interface to WinINet that i wrote years ago. I think it was pretty rudimentary but it could be used to download files (on windows only of course). I can dig that up, but maybe you just want to stick with curl on all platforms?"
+                }
+            ]
+        },
+        {
+            "number": 135,
+            "user": "milancurcic",
+            "date": "2020-07-21 15:45:53+00:00",
+            "title": "Command line interface (CLI)",
+            "text": "How to implement the CLI in fpm-fortran? We can use:\n\nIntrinsics command_argument_count and get_command_argument (lowest level, no dependencies)\nFLAP by @szaghi (library, pure Fortran, I've used it a bit with good experience)\nM_cli by @urbanjost (library, pure Fortran, no personal experience with it)\nSome other library I'm not aware of?\n\nI think we should go with a library and both FLAP and M_cli seem to do what we need (positional arguments + optional flags). What do you think?",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 15:52:02+00:00",
+                    "text": "I would go with FLAP. But we have to make it an fpm package first, so that we can use it as a dependency. Update: that actually might not be as easy without refactoring... Looking at M_cli, it actually seems much easier to create an fpm package out of it. So we might start with M_cli, and then if FLAP can be made an fpm package, we can switch to it."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 19:05:56+00:00",
+                    "text": "M_cli is already an fpm package (I tried it--it works). However, after reviewing M_cli in more detail, I'm quite strongly in favor of FLAP. It seems more mature and powerful while in my opinion having a simpler API.\n@szaghi would you accept a PR to FLAP that would make it an fpm package? We'd make sure that your existing build systems  (CMake, Make, Fobis) still work. This would require adding an fpm.toml file to the top-level directory, and some adjustments to module names or source file names, but otherwise it would be backward compatible from user's point of view. Best part, it would make FLAP part of a rapidly growing fpm ecosystem of packages."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-21 19:33:31+00:00",
+                    "text": "I haven't had a chance to look at either of the libraries, but that is definitely the way to go. We need to do whatever can help us bootstrap this faster.\nNote: the command line for fpm is quite complicated; subcommands, flags that are only applicable for a subset of them, some flags which may be mutually exclusive, etc.\nI think the first step, before we start implementing the command line interface is to clearly spec it out. Then we can pick a library and start implementing."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-07-21 19:59:02+00:00",
+                    "text": "I am aware of two more libraries for command line interfaces:\n\ncommand_args from @arjenmarkus\nFTN_Getopt by Reinhold Bader (author of FGSL). I like the simplicity of this one (it is a single module). Unfortunately, the source code is not publicly available at the moment. I have a copy of the code and the author has indicated to me I can share it under GPL and the condition of preserving the authorship."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 20:18:30+00:00",
+                    "text": "I would like all fpm dependencies to be MIT or BSD licensed, because we are linking everything statically into one executable, so GPL (and even LGPL) would prohibit us to license fpm under the MIT license."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-07-21 20:24:29+00:00",
+                    "text": "Wouldn't it be useful to integrate such a library first (or simultaneously) in stdlib?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-07-21 20:24:39+00:00",
+                    "text": "One more library I learned of recently is libSUFR (libSUFR is a library containing Some Useful Fortran Routines). It is also GPL.\nThe M_cli module from @urbanjost is licensed under the Unlicense.\nThe way I understand the licensing system of FLAP:\n\nfor FOSS projects:\n    GPL v3;\nfor closed source/commercial projects:\n    BSD 2-Clause;\n    BSD 3-Clause;\n    MIT.\n\n\nfpm would count as a FOSS project, since the source is public. Am I correct?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 20:31:51+00:00",
+                    "text": "fpm would count as a FOSS project, since the source is public. Am I correct?\n\nI think that strictly only GPL family of software is FOSS. We are just OSS :)\nI'm pretty sure that @szaghi meant \"use whatever license you want\". He can confirm this."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 20:32:58+00:00",
+                    "text": "@jvdp1 yes, stdlib should have basic command line parsing, just like Python has it. But we can wait with stdlib's integration until we get more experience what API makes the most sense."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-07-21 20:47:13+00:00",
+                    "text": "Just as an alternative idea, we could also wrap one of the many existing C and C++ libraries:\n\ndocopt.c, docopt.cpp\ncommander\nCLI11 (I noticed @certik is a contributor \ud83d\udc4d ) Edit: It also has a partial TOML parser.\ncxxopts\n\nI think with the current Haskell version of fpm this would require a custom Makefile."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 21:42:07+00:00",
+                    "text": "Yes, I investigated all options for C++, and most of them work, and I settled with using CLI11 for LFortran. Works great."
+                }
+            ]
+        },
+        {
+            "number": 134,
+            "user": "certik",
+            "date": "2020-07-21 15:36:57+00:00",
+            "title": "Haskell fails to install on macOS at our CI",
+            "text": "The error is:\nRun curl --insecure -L https://get.haskellstack.org/stable/osx-x86_64.tar.gz | tar xz --strip-components=1 --include '*/stack' -C /Users/runner/.local/bin\n  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\ncurl: (35) Server aborted the SSL handshake\n\nSee e.g. https://github.com/fortran-lang/fpm/pull/131/checks?check_run_id=894840007",
+            "comments": []
+        },
+        {
+            "number": 133,
+            "user": "milancurcic",
+            "date": "2020-07-21 15:34:59+00:00",
+            "title": "Draft an fpm specification",
+            "text": "I want us to get started on the specification document. It would describe the expected behavior of fpm. It wouldn't be a user documentation, although users could use it to diagnose fpm bugs. A spec would help define much needed tests that would catch various recently reported unhandled exceptions.\nRather than us writing a spec and then an implementation following that spec, I think the spec should evolve side-by-side as we implement and discover the preferred ways to do things. So it will very much be a living document.\nI'm happy to start the first draft. In this issue, I'm merely asking for thumbs up if you agree, and if not let me know why.\n@certik @everythingfunctional @LKedward @arjenmarkus @smeskos",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 16:08:21+00:00",
+                    "text": "If it was me, I would be fine with the spec simply being the tests themselves. But I am not against having a separate document also, but in either case, from a practical perspective, we need the tests for sure. That is how we will ensure that the Haskell and Fortran versions actually work."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 17:30:50+00:00",
+                    "text": "I agree about tests, but to write tests you need to know the expected behavior of the program. Writing a spec would force us to get clear on the expected behavior."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 17:59:20+00:00",
+                    "text": "That's fine with me."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-21 19:23:37+00:00",
+                    "text": "To the extent we can, the tests should read very much like the spec. But I am in favor of starting with a spec right now, mostly because I believe there are aspects of the Haskell version that do not function exactly as we want. We should have a discussion about how to handle these situations before we start writing the tests."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-22 06:29:15+00:00",
+                    "text": "I agree: having worked with fpm a bit more, I see how it works currently\nand how it sometimes conflicts with things I am used to. It is not so bad\nthat fpm enforces a particular practice, but it should be clear what it\naccepts and that should match our intentions.\n\nRegards,\n\nArjen\n\nOp di 21 jul. 2020 om 21:23 schreef Brad Richardson <\nnotifications@github.com>:\n\u2026\n To the extent we can, the tests should read very much like the spec. But I\n am in favor of starting with a spec right now, mostly because I believe\n there are aspects of the Haskell version that do not function exactly as we\n want. We should have a discussion about how to handle these situations\n before we start writing the tests.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#133 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRY7GDQKFTCYFW3S2GTR4XTMVANCNFSM4PDXFU6A>\n ."
+                }
+            ]
+        },
+        {
+            "number": 132,
+            "user": "certik",
+            "date": "2020-07-21 15:28:57+00:00",
+            "title": "Fix tests on macOS",
+            "text": "It turns out there were several problems on the macOS runner, all of which this PR fixes:\n\nthe download of the Haskell binary failed due to some SSL handshake error\nthe \"bin\" directory which would host the stack binary does not exist\nthe gfortran binary is no longer pre-installed on macOS (only gfortran-9)\n\nFixes #134.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 17:46:52+00:00",
+                    "text": "@everythingfunctional you might want to figure out how to install Haskell on macOS, right now I just downloaded the macOS tarball on my linux, uploaded it to a gist, and let it download from the gist by the CI, so that it works, as we need the CI to be working."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-21 19:20:24+00:00",
+                    "text": "I don't have access to a mac to test this out, but I suspect it is something that the stack maintainers will fix. They're install script is supposed to support most platforms."
+                }
+            ]
+        },
+        {
+            "number": 131,
+            "user": "certik",
+            "date": "2020-07-21 15:11:33+00:00",
+            "title": "Initial Fortran infrastructure",
+            "text": "This PR moves the Haskell version into a bootstrap directory and creates a new fpm package called fpm, which is the Fortran based fpm. For now the Fortran fpm is just the default \"new\" template, but I modified the print statement. The important part is that it is tested by the CI to build and run on all platforms (Linux, macOS and Windows). This provides the initial infrastructure needed so that others can now start working on the Fortran based fpm, and things will get tested by the CI. Once this is merged, we can send subsequent PRs to depend on other Fortran fpm packages for command line, internet access etc., and slowly start building the functionality that we need.\nPlan for this PR:\n\n Move Haskell based version to a dedicated directory (CI test still builds and tests this version)\n Add initial Fortran version as an fpm package\n\n Make CI test to build the Fortran version using the Haskell version\n\n\n\nEverything that I wanted to get done is implemented. This is ready for review.\nFixes #124.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 15:40:40+00:00",
+                    "text": "The macOS failure is unrelated (#134)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 18:58:42+00:00",
+                    "text": "The CI gave me a lot of issues today, but I finally got everything building and passing on all platforms. This is ready for review."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 19:29:19+00:00",
+                    "text": "Thanks @everythingfunctional for the review. If it looks good to you, then I am going to go ahead and merge this, so that we can start improving various parts of this in subsequent PRs."
+                }
+            ]
+        },
+        {
+            "number": 130,
+            "user": "milancurcic",
+            "date": "2020-07-21 15:09:02+00:00",
+            "title": "Catch module+program or multiple modules in a source file and print a helpful message to the user",
+            "text": "See #126. fpm currently allows either a single module or a single program in a source file. However, Fortran allows having:\n\nMultiple modules per source file\nModule + program in a source file\nProcedures without modules in a source file\n\nfpm should catch these scenarios and print a helpful error message for the user.",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-22 06:21:28+00:00",
+                    "text": "Just a comment: I noticed that fpm does allow more than one module in a file - and it seems to work: one of the source files I experimented with has a small module to define a type and then a module with the same name as the source file that uses it. So not two independent ones, I agree."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-22 16:46:10+00:00",
+                    "text": "For simplicity, I think by default fpm should simply expect one module per file, and impose the naming consistency convention. We can discuss if we should implement optional options in fpm.toml to allow more modules per file."
+                }
+            ]
+        },
+        {
+            "number": 129,
+            "user": "milancurcic",
+            "date": "2020-07-21 15:04:59+00:00",
+            "title": "Handle module name - source file name mismatch and print helpful message to the user",
+            "text": "See #128. Currently fpm does not help the user figure out what went wrong if the module name / file name convention is not followed. fpm should detect this and print a helpful message to the user, for example:\nfpm error: I noticed that you defined a module `my` in file `src/mx.f90`. The module name must match the source (path) name. Either rename your module to `mx`, or place it in `src/my.f90`.\n\nor similar.",
+            "comments": []
+        },
+        {
+            "number": 128,
+            "user": "arjenmarkus",
+            "date": "2020-07-21 09:19:20+00:00",
+            "title": "Implicit relationship between the names of a module and the source file that contains it assumed",
+            "text": "I have run into a problem that is illustrated with the attached project:\n`\n$ d:/fortran/fpm/fpm.exe build\ngfortran (for build/gfortran_debug/mxmy/mx.o build/gfortran_debug/mxmy/mx.mod)\nfpm.exe: Error when running Shake build system:\nat want, called at src\\Build.hs:205:11 in fpm-0.1.0.0-9a29EtwrI5D7C1C0BiAJeV:Build\n\nDepends on: build/gfortran_debug/mxmy/libmxmy.a\nat need, called at src\\Build.hs:203:13 in fpm-0.1.0.0-9a29EtwrI5D7C1C0BiAJeV:Build\nDepends on: build/gfortran_debug/mxmy/mx.o\nat &%>, called at src\\Build.hs:183:11 in fpm-0.1.0.0-9a29EtwrI5D7C1C0BiAJeV:Build\nDepends on: build/gfortran_debug/mxmy/mx.o build/gfortran_debug/mxmy/mx.mod\nat error, called at src\\Development\\Shake\\Internal\\Rules\\Files.hs:245:13 in shake-   0.18.5-7VS8ovPeUeSCopHgkQQ1Vu:Development.Shake.Internal.Rules.Files\nRaised the exception:\nError, &%> rule failed to produce 1 file (out of 2)\nbuild/gfortran_debug/mxmy/mx.o\nbuild/gfortran_debug/mxmy/mx.mod - MISSING\n`\n\nThe source file is called \"mx.f90\" but it contains a module \"my\". Apparently this is not currently supported, whether by design or otherwise. It seems to me to be a bug.\ntest-fpm-mxmy.zip",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 14:51:12+00:00",
+                    "text": "Hi Arjen, yes, it's by design, see https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md#single-module-library.\nThe rationale is that if we have higher constraints on the user application or library structure, we can design a more robust build system that has a \"sane default\" with fewer edge cases.\nDo you think the packaging guide could be improved in any way?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 14:55:06+00:00",
+                    "text": "However, the unhelpful response from fpm is not by design, but is due to this exception handling not being implemented. In scenarios like this fpm must be helpful to the user, for example:\nfpm error: I noticed that you defined a module `my` in file `src/mx.f90`. The module name must match the source (path) name. Either rename your module to `mx`, or place it in `src/my.f90`.\n\nor similar."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 14:56:14+00:00",
+                    "text": "Yes, the default layout that fpm expects is on purpose restricted, similar to how Cargo does it. The module names must be consistent with the filename.\nHowever, I am all for allowing exceptions, which you could specify by hand in fpm.toml. We should do that.\nThe error message is not helpful. But we should work on fixing both of these things in the Fortran implementation (see #124)."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-21 15:02:18+00:00",
+                    "text": "It is not criticism :) - just a user experience. I understand the\nlimitations, but an innocent user may run into this sort of things and not\nbe able to pinpoint the cause (as I was not with my other problem).\n\nRegards,\n\nArjen\n\nOp di 21 jul. 2020 om 16:56 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com\n\u2026\n:\n Yes, the default layout that fpm expects is on purpose restricted, similar\n to how Cargo does it. The module names must be consistent with the filename.\n\n However, I am all for allowing exceptions, which you could specify by hand\n in fpm.toml. We should do that.\n\n The error message is not helpful. But we should work on fixing both of\n these things in the Fortran implementation (see #124\n <#124>).\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#128 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5JSM22HTKDFHJED3TR4WUB7ANCNFSM4PDLQ2RQ>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 15:11:32+00:00",
+                    "text": "@certik I opened #129 and #130 to track these specific exception handling and error message issues.\nI also created the fpm-fortran tag so that we can tag any issue to be specific to the Fortran implementation and not Haskell. You'll notice that I didn't initially tag #129 and #130 as fpm-fortran, as I'm unsure whether we should leave these unattended for a long time before fpm-fortran is up to speed. I think they're quite critical UI issues."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 19:27:12+00:00",
+                    "text": "And I implemented the initial infrastructure for Fortran at #131 to start getting things moving."
+                }
+            ]
+        },
+        {
+            "number": 127,
+            "user": "urbanjost",
+            "date": "2020-07-19 12:33:17+00:00",
+            "title": "Should fpm automatically make stdlib available, plus some notes on trying the fpm prototype",
+            "text": "July 18, 2020\n\n[  ]  I think stdlib should be available via fpm and possibly included by default. It would\nbe a shame if there were not some integration between the projects.\n\nA few comments on fpm (Fortran Package Manager)\n\n\nI could not find a way using \"fpm build\" or \"fpm run\" to work with\nprograms that required external libraries (not always available\nstatically) like X11 Windows and ncurses and various math libraries\ninstalled on my machine. Is there some description of how to set\ncompiler options I missed?\n\n\nI could not get an \"fpm\" command to recognize any compiler except\ngfortran(1).\n\n\nSome type of \"install\" mode is highly desirable to place files in a single location.\nIt should include some way to handle data and documentation files\nas well as the *.a and *.mod files and executables. Otherwise, seperate program\ndevelopment ends up producing a lot of duplication if each program requires the\nsame packages, or you are forced to keep all development in the same file tree.\n\n\nFor builds that build many programs having to put each one in a seperate directory\ncreates a very awkward file layout. Some type of option for executables where\nyou could give a list of specific files to use for building a program might be\na solution. Automatically assuming all files at or below the path is not always\ndesirable even though it makes some cases very simple to configure.\n\n\nThe \"run\" subcommand is fine for a single program, but if you have a number of\ntests or programs it would be nice if it had a \"list\" option.\n\n\nbeing able to search and list entries in a central registry is apparently planned (?)\nbut it would at least be nice if\npackages listed at\nhttps://fortran-lang.org were marked as to whether fpm support\nwas enabled.  As a substitute for a search/list feature I did a\nglobal search (on just github) of the filename \"fpm.toml\" and at\nleast on that site there were not many hits, so maybe this is too\nearly anyway.\n\n\nThe install of fpm(1) required way too much infrastructure. A Fortran-based version\nis planned?\n\n\nHere is a list of my public repositories that are fpm-enabled:\n\n    [dependencies]\n    # worked well with simple single-module projects\n     M_kracken95   = { git = \"https://github.com/urbanjost/M_kracken95.git\" }\n     M_cli         = { git = \"https://github.com/urbanjost/M_cli.git\"  }\n     M_calculator  = { git = \"https://github.com/urbanjost/M_calculator.git\" }\n     M_change      = { git = \"https://github.com/urbanjost/M_change.git\" }  \n     M_color       = { git = \"https://github.com/urbanjost/M_color.git\" }\n     M_history     = { git = \"https://github.com/urbanjost/M_history.git\" }\n     M_io          = { git = \"https://github.com/urbanjost/M_io.git\" }\n     M_msg         = { git = \"https://github.com/urbanjost/M_msg.git\" }\n     M_time        = { git = \"https://github.com/urbanjost/M_time.git\" }\n     M_strings     = { git = \"https://github.com/urbanjost/M_strings.git\" }\n     # uses ISO_C_BINDING but no C wrapper code. fpm(1) worked well\n     M_process     = { git = \"https://github.com/urbanjost/M_process.git\" }\n     #\n     # required creating makefiles:\n     M_system      = { git = \"https://github.com/urbanjost/M_system.git\" }\n     # this did not work satisfactorily ...\n     M_draw        = { git = \"https://github.com/urbanjost/M_draw.git\" }\n\nFor projects not requiring other libraries or C wrappers and just comprised of\na few modules I had no problems.\nAs soon as I needed some C wrappers or needed to build A C library as part of\nthe project it got very difficult. I really could not come up with a satisfactory\nbuild of the M_draw.f90 module, as it requires data files and C routines; and I\ntried a lot of variations. It is not clearly shown in the documentation just how\nyou can use a customized build script or makefile and still have it work cleanly\nwith fpm.\n\n\nInitializing an existing .git directory with \"fpm init\" was problematic as it\nalways tries to initialize git and overwrites README.md. To use \"fpm\ninit\" required Moving the original directory; making new one with\n\"fpm init\"; removing .git and them moving files back.  Would be\nnice if instead of the \"Jane Doe\" fpm.toml file created that it\nuse names from .gitconfig for initial values, and not overwrite\nexisting files like README.md or initialize git(1) if .git exists\nif you run it in an existing directory.\n\n\nIt should at least be noted in the documentation that there is no \"fpm clean\"\noption\n\n\n.F90 files appear to be supported, but with no way to specify preprocessor\noptions; since preprocessors vary between compilers this could get complicated\nbut I was wondering whether a specific preprocessor would be supported in the\nfuture and how options can be passed to one now.\n\n\nIt was easier to just create a Makefile for any legacy codes with routines not\nin modules or when C wrappers were needed, but worked quite well for single-module\nprojects. It was nice to be able to write a program that needed access to file\nsystem information, manipulated strings, printed date and time information and",
+            "comments": []
+        },
+        {
+            "number": 126,
+            "user": "arjenmarkus",
+            "date": "2020-07-18 15:11:25+00:00",
+            "title": "Complaints about recursive rules",
+            "text": "I tried to use fpm on a somewhat more complex collection of Fortran modules and their test programs. They are all part of my Flibs project (http://flibs.sf.net). I copied the source files for the modules to a directory src and the sources for the test programs to test/xxx (well, for two test programs, to get started). Then I set up a fpm.toml file. All have been attached.\nfpm gave me an error message:\nBuild system error - recursion detected:\nKey type:   FilesQ\nKey value:  build/gfortran_debug/computing/combinations.o build/gfortran_debug/computing/combinations.mod\nRules may not be recursive\nAs all the modules are standalone I am not sure what went wrong. Also, I noticed that with my first attempt it complained about a different (!) module than when I redirected the output.\nIt may be that the problem has already been solved - my version of fpm is one month old.\ntest-fpm-flibs.zip",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-20 23:25:52+00:00",
+                    "text": "Some of the source files contain a program at the end which uses the module. This use statement signals to the fpm build system that the module depends on itself. Thus, the recursive rule error message.\nBasic fix, remove the example programs from the end of the module source files."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-21 06:34:17+00:00",
+                    "text": "Hi Brad,\n\noh, I will have to check that - I was rather certain there was nothing like\nthat ... Thanks for looking into this.\n\nRegards,\n\nArjen\n\nOp di 21 jul. 2020 om 01:26 schreef Brad Richardson <\nnotifications@github.com>:\n\u2026\n Some of the source files contain a program at the end which uses the\n module. This use statement signals to the fpm build system that the module\n depends on itself. Thus, the recursive rule error message.\n\n Basic fix, remove the example programs from the end of the module source\n files.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#126 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRYYYOIWSM7W3KDR5WLR4THA3ANCNFSM4PAASMNA>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-21 09:15:18+00:00",
+                    "text": "Yes, two of the source files contained a test program (I should have a look at those :)). But when I removed them and tried again, I ran into another issue: a presumed relation between the names of the module and the source file that contains it. I will report it as a separate issue."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-21 14:57:56+00:00",
+                    "text": "Especially because this (module + program in a source file) is valid, fpm needs to be able to detect this and print a helpful message to the user."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-21 15:03:58+00:00",
+                    "text": "Yes, the error message was puzzling. If you know the design decisions\nand usage constraints it is probably easy enough to locate the cause,\nbut for a novice user it will not immediately be clear.\n\nRegards,\n\nArjen\n\nOp di 21 jul. 2020 om 16:58 schreef Milan Curcic <notifications@github.com>:\n\u2026\n\n Especially because this (module + program in a source file) is valid, fpm needs to be able to detect this and print a helpful message to the user.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub, or unsubscribe."
+                }
+            ]
+        },
+        {
+            "number": 125,
+            "user": "arjenmarkus",
+            "date": "2020-07-17 07:42:10+00:00",
+            "title": "Not so trivial program: Fortran with a bit of C and a prebuilt library",
+            "text": "After this month's call, I looked for a small but not entirely trivial program to try fpm with (not trivial in the sense that it consists of several source files, rather than a single one). I found one that is a trifle more complex than any of the examples I have seen and I would like advice on how to deal with it:\n\nIt consists of several Fortran source files and a single C source file\nSome of the Fortran source files require preprocessing (the extension is .F90, so some compilers will do that automatically)\nThe program needs to be linked to a (C) library that has been installed on the system\n\nThe trivial way I build it is via a bunch of compile commands with the required options, so ultimately that could function as a custom build script, but the above set-up seems a fairly common situation.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-17 19:58:55+00:00",
+                    "text": "With current functionality, your only option for this is a custom build script. At some point in the future we'll have the capabilities built into fpm to handle linking to a system library and (hopefully) compiling C code, but we aren't there yet."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-07-18 14:06:12+00:00",
+                    "text": "I understand - I already thought that would be the answer :). Consider it another likely scenario that - at some point in time - needs to be supported.."
+                }
+            ]
+        },
+        {
+            "number": 124,
+            "user": "certik",
+            "date": "2020-07-16 22:11:29+00:00",
+            "title": "Create the infrastructure for the Fortran version",
+            "text": "Per our discussion on the phone call:\n\nUse this repository\ncreate a directory \"fortran\" and \"haskell\" (we can call it differently) and put the haskell version into the \"haskell\" directory and start a Fortran version in the \"fortran\" directory\nUse fpm to build the \"fortran\" directory --- it will be just an fpm package\nEnsure haskell fpm can build it\nReuse the test suite for both haskell and fortran\n\nThis is probably the highest priority issue now so I pinned it.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 18:59:55+00:00",
+                    "text": "I think the PR #131 that I just finished fixes this issue."
+                }
+            ]
+        },
+        {
+            "number": 123,
+            "user": "certik",
+            "date": "2020-07-16 20:07:51+00:00",
+            "title": "Allow to generate a standalone tarball with all dependencies",
+            "text": "fpm should have a feature like fpm tarball --include-deps that will create a tarball of the current fpm package together with all dependencies and a build system such as CMake (#69), so that one can unpack this tarball at a machine without internet connection, and build everything from scratch (all the dependencies and the main application).\nThere are many usages of this feature:\n\nan application that must run on an HPC machine without internet connection, and I want to distribute it as a tarball that is built using cmake (a common expectation)\nfpm itself --- we can distribute fpm source code like this, and anybody with cmake can then build it from source (no other dependencies needed)",
+            "comments": []
+        },
+        {
+            "number": 122,
+            "user": "ivan-pi",
+            "date": "2020-07-16 19:20:29+00:00",
+            "title": "Have fpm define precision",
+            "text": "Recent Fortran language resources usually recommend defining a module with constants defining the precision that are later reused throughout the code, for example:\nmodule precision\n  integer, parameter :: sp = kind(1.0)\n  integer, parameter :: dp = kind(1.0d0)\n  integer, parameter :: wp = dp\nend module\nThese kinds of modules are duplicated throughout libraries. This can potentially lead to incompatibilities, i.e. if library 1 uses single precision as default, and library 2 uses double precision. The user is then faced with the problem of either adapting library 1, or making library 2 use the precision module from library 1.\nWould it make sense to have some mechanism to give fpm the \"power\" of enforcing a certain default precision? Hopefully in the long-term most Fortran programmers would default to just using constants from the stdlib precision module. This might not always be enough (i.e. interfacing with C, or perhaps using fpm on some non x86_64 architectures).",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-16 19:25:27+00:00",
+                    "text": "Great question. I don't know, I am hoping we will encourage the community to use stdlib to get precision. Fpm has the \"power\" to do anything, but the question is how it would work and if it makes sense. Like the promoting of single precision to double?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-07-17 09:46:23+00:00",
+                    "text": "Yes, the entire situation is kind of messy. I have seen some codes which rely on the compiler flags such as -fdefault-real-8 to automatically upgrade real literals such as 1.0 to double precision.\nIn the Fortran METIS interface I used the C preprocessor:\n#ifdef REAL64\n    integer, parameter, public :: real_t = c_double\n#else\n    integer, parameter, public :: real_t = c_float\n#endif\nto allow users to select the precision depending on the version of METIS installed on their system.\nI think it would be good if we could establish some guidelines for package developers whether such precision choices are responsibility of the package developer or the package user, and whether it should be done by 1) a preprocessor (C, fypp) + build system, or 2) the package manager."
+                }
+            ]
+        },
+        {
+            "number": 121,
+            "user": "MarkWieczorek",
+            "date": "2020-07-15 21:46:49+00:00",
+            "title": "github dependencies are never updated",
+            "text": "One method for downloading dependencies is to specify a github project, and optionally a specific branch, tag, or commit. However, once the entire git project is cloned, it is never updated.\nAn option should be provided to allow to update the dependencies when they change at github. In my opinion, if a specific tag or commit is not specified, the default behavior should in fact be to check for updates automatically.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-15 23:16:10+00:00",
+                    "text": "Actually I think we should do it like Cargo --- fpm determines a particular version that satisfies your fpm.toml, and generates fpm.lock. Then it never checks or updates any dependencies, it simply uses fpm.lock which has the exact dependency pinned down. But you can run fpm update command that will update your dependencies (and updates your fpm.lock file). More info:\nhttps://doc.rust-lang.org/cargo/commands/cargo-update.html"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-15 23:47:29+00:00",
+                    "text": "Right now it's not doing anything to check that the version that is there is the right version, that it was cloned and checked-out correctly, etc, just that there is something there.\nWe haven't come up with a coherent strategy for version constraint checking, let alone version constraint solving, so I've just punted on doing anything for now. We'll probably look at what Cargo's solution was.\nThe solution that @certik described is what many (most?) language specific package managers have settled on. It prevents things in your code from breaking randomly because somebody pushed a bug to their repository."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-16 09:27:03+00:00",
+                    "text": "A related feature request is the following: Instead of cloning the entire repo, it would be useful in many instances (to speed up the download process) to only do a shallow clone (with git clone --depth=1). I'm not sure what the default beviour should be, but it would be useful to at least have the option."
+                }
+            ]
+        },
+        {
+            "number": 120,
+            "user": "MarkWieczorek",
+            "date": "2020-07-14 12:30:13+00:00",
+            "title": "\"name\" should not be a required fpm.toml keyword for files that do not link to an fpm library",
+            "text": "In the current configuration, it is necessary to specify a name keyword at the top of the fpm.toml file. This name is used to name the directory that contains the .mod, .a, and .o files that are used to generate a static library.\nHowever, if you have a project with only a single file in the app folder, there is no need to have a src folder nor to compile a library at all. In this case, however, if you omit the name keyword, fpm will exit with the error tomland decode error:  Key name is not found\nFurthermore, in my opinion, the name keyword should not be at the head of the file, but should more logically be under the [library] heading, as this is where all the information about the compiled archive is listed. (This would be analogous to name in [[executable]]).",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-14 15:48:46+00:00",
+                    "text": "If you create a new package with Cargo, say cargo new y, then you get the following Cargo.toml:\n[package]\nname = \"y\"\nversion = \"0.1.0\"\nauthors = [\"Ond\u0159ej \u010cert\u00edk <ondrej@certik.us>\"]\nedition = \"2018\"\n\n# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html\n\n[dependencies]\n\nSo the name is simply the name of the package. Even if it is just a simple executable. So I think the name should stay, it's the name of the project."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-14 16:36:06+00:00",
+                    "text": "name is used as the default for many things, so you do need it. Otherwise, you'd need to be explicit about everything and likely repeat yourself, which we're trying to avoid for common use cases."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-14 17:05:03+00:00",
+                    "text": "If that is the case, shouldn't\n[[executable]]\nname =\n\nbe set by default to name? If you don't set the executable name, you get a similar error.\nEncountering this project for the first time, it wasn't really obvious what the parameters in the fpm.toml file mean. In addition to this, there is also\n[library]\nsource-dir\n\nwhich is the directory for files used to compile .mod and .a files. However\n[[executabe]]\nsource-dir\n\nCorresponds only to the name of the directory in build/gfortran_debug  where you find the compiled executable."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-14 18:22:59+00:00",
+                    "text": "Yeah, we haven't worked through all of the possible combinations of fpm.toml inputs and under what combinations defaults should work. For example\n[[executable]]\nsource-dir = \"app1\"\nshould probably work with the \"defaults\" for name and main, but\n[[executable]]\nsource-dir = \"app1\"\n\n[[executable]]\nsource-dir = \"app2\"\nwould need to complain about conflicting names for the executables.\nThe documentation almost certainly needs work and clarification."
+                }
+            ]
+        },
+        {
+            "number": 119,
+            "user": "MarkWieczorek",
+            "date": "2020-07-14 12:16:41+00:00",
+            "title": "Link to precompiled system-wide archives",
+            "text": "fpm is great for including external fortran projects as dependencies (typically downloaded at github).\nHowever, it often arises that a fortran project needs to link to an already compiled system-wide archive, such as lapack or fftw. At present, to the best of my knowledge, there is no simple way to link to such files in fpm. It is possible that this might be possible using a Makefile, but that would be non-optimal.\nIdeally, the libraries to link to would be placed in the fpm.toml file,  something like this:\nlink = 'fftw, lapack'",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-14 16:13:16+00:00",
+                    "text": "This is certainly on our radar. We just haven't gotten to it yet."
+                }
+            ]
+        },
+        {
+            "number": 118,
+            "user": "MarkWieczorek",
+            "date": "2020-07-10 21:14:34+00:00",
+            "title": "Compile archive using pre-existing Makefile",
+            "text": "I have a somewhat complicated archive that is compiled with a pre-existing Makefile, and I would like to make this more accessible to those who might want to use it as a fpm dependency.\nBased on the documentation, I thought that I would just need to specify the name of the Makefile in the fpm.toml file, but this obviously didn't work.\nI think that it would be very useful for fpm to have have the option of simply executing a pre-existing makefile, and then placing the compiled .mod and .a files wherever it is that they are needed. Ideally, this would be specified in the fpm.toml file something like this:\n[library]\nmakefile = \"make all F95=$(FC) DIR=$(BUILD_DIR)\"\n\nAlternatively, given that the .mod and .a files are initially found in the src directory, instead of having the makefile manually move them to $(BUILD_DIR), this could be done by fpm itself after the makefile successfully terminates.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-11 00:33:19+00:00",
+                    "text": "We certainly want to try and make migrating existing projects to fpm as easy as possible. The questions that need to be answered to solve this problem are:\n\nHow does fpm figure out how to call the makefile? You're example shows something that might be workable\nHow does fpm figure out where the makefile put the stuff it needs to copy? This one's a bit harder\n\nOn the other hand, you could write a script that manually runs the makefile and does the appropriate copy commands. It's a tad less portable, but a pretty straightforward workaround."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-11 09:40:46+00:00",
+                    "text": "On the other hand, you could write a script that manually runs the makefile and does the appropriate copy commands.\n\nIs it possible for fpm to run a script now (without compiling files) ? That would probably work for me."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-13 14:45:56+00:00",
+                    "text": "@MarkWieczorek, yes. Check out the details here. Let us know if anything is unclear or you get stuck."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-13 20:52:32+00:00",
+                    "text": "I am starting to make some progress.\nFirst, it turns out that if you have your own Makefile from a pre-existing project\n[library]\nsource-dir=\"src\"\nbuild-script = \"make all\"\n\nand\n[library]\nsource-dir=\"src\"\nbuild-script = \"Makefile\"\n\ndo not do the same thing. The first example actually does what I want (i.e., just do a make all in shell) but the second seems to try compile my source files using fpm.\nSecond, if you exclude the src-dir line, the following doesn't work as expected:\n[library]\nbuild-script = \"make all\"\n\nThis suprises me, because fpm doesn't need to know where my source files are, given that everything is to be compiled by my pre-existing makefile.\nI think that part of the solution will be to refactor the documentation, and describe what is actually happening with the above commands. It would be very useful to have a section in the documentation describing how to port a pre-existing project to fpm."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-13 20:54:57+00:00",
+                    "text": "We should have tests for all of the above, then it will at least be clear what is supposed to work."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-13 21:25:29+00:00",
+                    "text": "One final thing:\nEverything works when using\nname = \"project\"\n[library]\nsource-dir=\"src\"\nbuild-script=make all F95=$FC\n\nHowever,  fpm build ends with the error/warning\nmake: *** No rule to make target `/path/build/gfortran_debug/project/libproject.a'.  Stop.\n\nThis is because (as stated in the docs) \"Additionally, script will be called with the name of the archive (*.a file) that should be produced as the command line argument.\"\nIs there a way to disable this behavior?"
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-14 11:52:41+00:00",
+                    "text": "I've encountered one final problem, which unfortunately is the most important for me.\nFirst, I can successfully compile my project locally using a pre-existing makefile, as described above. The makefile moves all the .mod and .a files to BUILD_DIR, which is located in the main directory at\ngfortran_debub/project/\n\nHowever, if I try to use my project as a dependency (downloaded from github) in another project, the .mod and .a files are located at\nbuild/dependencies/project/build/gfortran_debug/project/\n\nand the following directory is empty:\nbuild/gfortran_debug/prioject/\n\nWhen building the code that makes use of the dependencies, fpm can no longer find where the dependency .a and .mod files are located.\nDoes anyone have any ideas on how to solve this problem? Obviously the files from build/dependencies/project/build/gfortran_debug/project/ need to be copied to build/gfortran_debug/prioject/, but I don't see how to do this."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-14 16:22:17+00:00",
+                    "text": "In your case, I'd recommend using a wrapper script to make doing things properly a bit easier. Something like\n#!/bin/bash\n\nexpected_archive=$1\n\nmake all F95=$FC\ncp where/your/*.mod $BUILD_DIR\ncp where/your/archive.a $expected_archive\nbecause, as you've noticed, the build directory will be different when included as a dependency. If you can, you should try and make use of the FFLAGS environment variable as well, so in the future, projects using yours can try out different compiler flags."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-14 20:09:30+00:00",
+                    "text": "That might work, but what would I use as the argument to the script ($1) ?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-14 22:01:13+00:00",
+                    "text": "fpm calls that script with the appropriate argument. So assuming your script is called build_script.sh, your fpm.toml would look like\n...\n[library]\nsource-dir = \"src\" # presumably\nbuild_script = \"build_script.sh\"\n...\nand fpm will call your script (effectively) like\nFC=gfortran FFLAGS=\"-some -flags ...\" BUILD_DIR=\"wherever/fpm/decides\" INCLUDE_DIRS=\"build/thing1 build/package2 ...\" build_script.sh some/where/libpackage.a"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-14 22:25:11+00:00",
+                    "text": "@everythingfunctional why not pass everything as environment variables?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-14 23:05:22+00:00",
+                    "text": "I'm not sure I have a thoroughly compelling answer, but my thinking is along the lines of the following:\n\nWe should conform to common practices in existing build systems\nCommon build commands (or at least the ones I'm used to) are of the form build_script what_I_would_like_built\nA common practice for overriding build parameters is via environment variables\n\nI'd agree it's not the most elegant and consistent design, but if our goal is to make migrating to fpm easier, conforming to existing practices is probably the way to go."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-14 23:23:38+00:00",
+                    "text": "I would suggest to follow Cargo's approach, and not invent our own conventions.\n\u2026\nOn Tue, Jul 14, 2020, at 5:05 PM, Brad Richardson wrote:\n\n\n I'm not sure I have a thoroughly compelling answer, but my thinking is\n along the lines of the following:\n\n  * We should conform to common practices in existing build systems\n  * Common build commands (or at least the ones I'm used to) are of the\n form `build_script what_I_would_like_built`\n  * A common practice for overriding build parameters is via environment\n variables\n I'd agree it's not the most elegant and consistent design, but if our\n goal is to make migrating to fpm easier, conforming to existing\n practices is probably the way to go.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#118 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWEBAUPZFHBQJ6YSGPTR3TQD7ANCNFSM4OW6ADFA>."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-15 07:47:26+00:00",
+                    "text": "some/where/libpackage.a\n\nAnd what about the .mod files?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-15 18:34:25+00:00",
+                    "text": "The mod files need to go in the same place."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-15 18:41:02+00:00",
+                    "text": "I would suggest to follow Cargo's approach, and not invent our own conventions.\n\u2026\nOn Tue, Jul 14, 2020, at 5:05 PM, Brad Richardson wrote: I'm not sure I have a thoroughly compelling answer, but my thinking is along the lines of the following: * We should conform to common practices in existing build systems * Common build commands (or at least the ones I'm used to) are of the form build_script what_I_would_like_built * A common practice for overriding build parameters is via environment variables I'd agree it's not the most elegant and consistent design, but if our goal is to make migrating to fpm easier, conforming to existing practices is probably the way to go. \u2014 You are receiving this because you commented. Reply to this email directly, view it on GitHub <#118 (comment)>, or unsubscribe https://github.com/notifications/unsubscribe-auth/AAAFAWEBAUPZFHBQJ6YSGPTR3TQD7ANCNFSM4OW6ADFA.\n\nI think Cargo's approach is really good, and we should strive for it. In the mean time, we don't yet support using Fortran as a build script, and their approach doesn't support any other custom (or existing) build scripts, like we would (maybe) like to support."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-15 20:03:47+00:00",
+                    "text": "Cargo requires to write Rust code for the script. We should allow other scripts such as Bash or Makefile, as we discussed. But they should be treated exactly the same as the (future) Fortran script (if we decide to allow that, or just require Bash or Makefile).\nThe API is described here:\nhttps://doc.rust-lang.org/cargo/reference/build-scripts.html\nThe script is run as is (with no arguments) and everything is passed using environment variables:\nhttps://doc.rust-lang.org/cargo/reference/build-scripts.html#inputs-to-the-build-script\nAnd the outputs are communicated by printing to stdout using the \"cargo:...\" encoding:\nhttps://doc.rust-lang.org/cargo/reference/build-scripts.html#outputs-of-the-build-script\nCan we do the same for fpm?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-15 21:06:55+00:00",
+                    "text": "I think we should move towards Cargo's API design. Then the communication mechanism can be the same for any build script; inputs as environment variables, outputs as prefixed lines on stdout.\nThere is a subtle distinction between Bash, Makefile, and Fortran build scripts though that they aren't treated exactly the same. Fortran must be compiled first, potentially with some dependencies if we're following Cargo's design. Bash scripts are executed directly, and Makefiles must be executed with make.\nI also don't know that this design will make it any easier to transition existing projects to fpm. There is virtually no chance that an existing build system will \"just work\" with this design, but that chance was probably pretty small with my design anyway."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-15 21:16:43+00:00",
+                    "text": "Perfect, thanks. Yes, I agree it won't make it easier for other projects to port, but by using the same design as Rust, at least they don't have to update their build scripts once they port (currently they will have to update the makefile / bash script after we change the API).\nUsing Fortran as a script sound weird at first, but make sense from a multiplatform perspective, as it would run natively on Windows and other platforms, while Bash typically does not run natively, but requires a linux subsystem on Windows. I think that's why Cargo chose Rust as the script."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-15 21:39:52+00:00",
+                    "text": "I think that there is a very simple solution for projects that compile with pre-existing makefiles: We just need to define two environment variables.\n\nBUILD_DIR is already defined, and tells where to put the .mod and .a files within the original project. This would either be in the directory build/gfortran_debug/project if you were simply building the project by itself, or in build/dependencies/gfortran_debug/project if you were installing it as a dependency.\nINSTALL_DIR, which is where the contents of BUILD_DIR get copied when the project is installed as a dependency. This corresponds to BUILD_DIR/../../gfortran_debug/project.\n\nIn practice, the makefile would compile all the .mod and .a files in BUILD_DIR, and only if INSTALL_DIR is defined would they then get copied to INSTALL_DIR."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-15 23:23:58+00:00",
+                    "text": "Something like that. Here is the list of environment variables that Cargo defines:\nhttps://doc.rust-lang.org/cargo/reference/environment-variables.html#environment-variables-cargo-sets-for-build-scripts\nnote that most are prefixed with CARGO_, but some are not. I suspect the ones that are not are due to historical reasons. I very strongly suggest we prefix all our environment variables by FPM_, so it would be FPM_BUILD_DIR and FPM_INSTALL_DIR. The reason is that it is very easy to make complex 3rd party build systems fail if you define an environment variable with a common name like BUILD_DIR or INSTALL_DIR, because the customized 3rd party build system can easily do something different if this variable is defined. By prefixing all variables, we ensure that our environment variables do not clash with user defined variables. It's a good habit to do that, not to pollute the environment namespace."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-15 23:55:50+00:00",
+                    "text": "A quick note, BUILD_DIR is always build/<compiler>_<debug_or_release>/project, whether it's building your project standalone or as a dependency. So when building your project as a dependency, the BUILD_DIR is not within your project's directory. Thus, no need for the INSTALL_DIR variable."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2020-07-16 08:48:18+00:00",
+                    "text": "Thanks for all the help: I turns out that I was misinterpreting how BUILD_DIR was being set for stand-alone projects and dependencies. (I also made a dumb choice to hardcode the variable build/gfortran_debug/myproject in the makefile for the standalone project). Using\nbuild-script = \"make all F95=$FC LIBPATH=$BUILD_DIR MODPATH=$BUILD_DIR\"\n\nnow works for both cases :) The only thing I need to do to make this work is to be able to link to system-wide libraries.\nOne final question: how do I change debug to release ?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-07-29 20:17:34+00:00",
+                    "text": "Could the Makefile of stdlib be already used to compile stdlib with fpm?"
+                }
+            ]
+        },
+        {
+            "number": 117,
+            "user": "everythingfunctional",
+            "date": "2020-07-08 18:25:48+00:00",
+            "title": "Fix bug with case in program source file name.",
+            "text": "Fix #116\nI guess up to now nobody had tried using uppercase in the name of their program source file. This fixes it.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2020-07-11 21:47:28+00:00",
+                    "text": "Nice timing. This was vexing me and I had just found the work-around and was going to report the bug.  Guess it is time to update my copy of fpm(1). That raises the question of whether there should be a line to put in the input files indicating what version of fpm(1) was tested with (which might produce a warning) and what version is at (at least) required? \\\nI would change the pathname back to containing uppercase letters but I am  afraid it would confuse anyone attempting to use the repository with an older version of fpm(1), for example.\nI was working on setting up the following for use with fpm(1) when I hit the problem:\n[dependencies]\n M_process      = { git = \"https://github.com/urbanjost/M_process.git\" }\n\nC SUPPORT?\nI see others have mentioned at least supporting C wrappers for use with the intrinsic module ISO_C_BINDING; but unless that is imminent does anyone have an example using a custom build script that does that? I have a bunch of stuff (M_system, M_draw, M_ncurses, ... that has C wrappers or bindings that I wanted to try with fpm(1) but that is a show stopper; whereas STACK has good multi-language support, etc..\nREVIEW?\nI have a bunch of stuff I was trying with fpm(1) so if anyone has time to comment on how I have used (abused?) it so far, M_process and M_time are about done as far as what I was planning on.\nPRETTY PICTURE WANTED?\nAny kind of an image to place on pages that support fpm(1)? A glowing box with light coming out of it with a big \"F\" above the box?  Anyone feeling artistic?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-13 16:05:55+00:00",
+                    "text": "@urbanjost , I have an example wrapping a C library here.\nIf I can find some free time I'll try and give your project a look."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-13 18:45:36+00:00",
+                    "text": "@certik can you please review this or approve without review? This fix allows some users to build their packages."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-13 20:06:53+00:00",
+                    "text": "This looks good, the fix is simple and tests pass."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-07-16 01:39:47+00:00",
+                    "text": "The C wrapper and Makefile and fpm example project file are great. It was not clear from the documentation I had found so far how to do that. I wil see how far I get in the next few days.  Not knowing how to do this was preventing me from going much further with my fpm experiments."
+                }
+            ]
+        },
+        {
+            "number": 116,
+            "user": "lauvergn",
+            "date": "2020-07-08 12:03:45+00:00",
+            "title": "fortran main name file",
+            "text": "I found an issue related to the name of the main fortran file.\nWhen main.f90 is in the app directory, the executable is created nicely. Part of the fpm.toml file is:\n\n[[executable]]\nname=\"TEST_dnS.x\"\nsource-dir=\"app\"\nmain=\"main.f90\"\n\nHowever, when, I'm using another name (TEST_dnS.f90)\n\n[[executable]]\nname=\"TEST_dnS.x\"\nsource-dir=\"app\"\nmain=\"TEST_dnS.f90\"\n\nI've got some errors:\n\nfpm: Error when running Shake build system:\nat want, called at src/Build.hs:114:11 in fpm-0.1.0.0-ExRRX9W2aflLvTBBChPpxh:Build\n\nDepends on: build/gfortran_debug/app/TEST_dnS.x\nat need, called at src/Build.hs:120:13 in fpm-0.1.0.0-ExRRX9W2aflLvTBBChPpxh:Build\nDepends on: build/gfortran_debug/app/test_dns.o\nat &%>, called at src/Build.hs:137:11 in fpm-0.1.0.0-ExRRX9W2aflLvTBBChPpxh:Build\nDepends on: build/gfortran_debug/app/test_dns.o build/gfortran_debug/app/test_dns.mod\nat undefined, called at src/Build.hs:142:25 in fpm-0.1.0.0-ExRRX9W2aflLvTBBChPpxh:Build\nat error, called at libraries/base/GHC/Err.hs:78:14 in base:GHC.Err\nRaised the exception:\nPrelude.undefined",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-08 15:16:36+00:00",
+                    "text": "That looks to me like it's expecting a test_dns module. Perhaps there is a uppercase/lowercase mismatch in the file name? Maybe try deleting the build directory to start fresh?\nI can maybe try and dig deeper later today if none of those work."
+                },
+                {
+                    "user": "lauvergn",
+                    "date": "2020-07-08 15:24:22+00:00",
+                    "text": "Perhaps there is a uppercase/lowercase mismatch in the file name?\n\nI thought about that too, but it is not that.\n\nMaybe try deleting the build directory to start fresh?\n\nI've tried that as well (several times!!)"
+                },
+                {
+                    "user": "lauvergn",
+                    "date": "2020-07-08 16:33:34+00:00",
+                    "text": "I can maybe try and dig deeper later today if none of those work.\n\nThanks, you can get the full test here:\nhttps://github.com/lauvergn/test-fpm"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-08 18:18:53+00:00",
+                    "text": "Figured out the problem. The build process for the executable isn't handling upper-case vs lower-case correctly for the name of the source file vs the name of the object file. I'll get a fix put together shortly."
+                },
+                {
+                    "user": "lauvergn",
+                    "date": "2020-07-08 18:21:15+00:00",
+                    "text": "Figured out the problem. The build process for the executable isn't handling upper-case vs lower-case correctly for the name of the source file vs the name of the object file. I'll get a fix put together shortly.\n\nThanks"
+                },
+                {
+                    "user": "lauvergn",
+                    "date": "2020-07-09 12:58:04+00:00",
+                    "text": "Thnanks"
+                }
+            ]
+        },
+        {
+            "number": 115,
+            "user": "lauvergn",
+            "date": "2020-07-08 07:50:32+00:00",
+            "title": "Moving a fpm package structure to another one",
+            "text": "In a way, it is not an issue about the actual fpm tool, but something which might be annoying in the future.\nLet assume, you have package with one or several libraries, so the fpm tree is:\n\nsrc/math_constants/\nsrc/phys_constants/\n\nSo a fortran files is math_constants_xxx.f90 and its corresponding module name is math_constants_xxx.\nNow, if one wants to move this structure to a more complex one (or it is taken from another package):\n\nsrc/Util/math_constants/\nsrc/Util/phys_constants/\n\nThen it means, you have to change:\n\nall module names inside the library and also in the other part of the code (much more complex, although with some ide it is doable)\n\nI think fpm needs some tools to perform such features.\nalias gardhor",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-08 15:11:00+00:00",
+                    "text": "Yes, we discussed this exact issue in the past and we all agree that fpm should be able to fix up your code when you move files around."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-08 15:13:28+00:00",
+                    "text": "Yeah, I could definitely see that being a desired refactoring, and it certainly would be a chore to do manually.\nSolving this properly will involve a more complete Fortran parser than we've needed so far. This and other desired features are making it pretty clear that we're going to need one.\nSome thoughts on what the user interface might look like:\n\nfpm move <old-name> <new-name>\nfpm rename <old-name> <new-name>\nMaybe have a separate tool?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-08 15:19:00+00:00",
+                    "text": "Actually the API I was thinking of would be:\n\nfpm fix_module_names or something like that, and it would go into each file and ensure the module name corresponds to the path.\n\nBut I can see that fpm move would also be useful to fix all use statements.\nThese are all things that we should do in the Fortran version of fpm."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-08 15:32:49+00:00",
+                    "text": "Just an idea. Could it be part of fpm build? Example:\n$ fpm build\n...\n...\nfpm error: I found inconsistent module name in src/a/b/util.f90. Do you want me to fix it? [y/n/a]\n\nSo an error would trigger a prompt from user, which could be overriden with a flag like fpm build --fix-all or similar.\nLike with many other software things, it's a design compromise between many small commands versus fewer more general commands. I don't know what's nicer for the average user."
+                },
+                {
+                    "user": "lauvergn",
+                    "date": "2020-07-08 15:44:12+00:00",
+                    "text": "fpm fix_module_names or something like that, and it would go into each file and ensure the module name corresponds to the path.\n\n\nA tool like that will be great also to move (or to help moving) a none-fpm package to a fpm one."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-08 15:47:03+00:00",
+                    "text": "@milancurcic and @lauvergn yes to both. For fpm build, perhaps with an option fpm build -i (as in interactive), since I think the build should not wait for user input by default, as it would stall on CIs."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-08 15:49:51+00:00",
+                    "text": "Yep, I agree. Both of those would also be useful additions. To the extent possible fpm should provide meaningful error messages and help the user fix any problems related to the conventions/restrictions that it imposes."
+                }
+            ]
+        },
+        {
+            "number": 114,
+            "user": "smeskos",
+            "date": "2020-07-07 13:05:05+00:00",
+            "title": "module naming issue",
+            "text": "I found out after a lot of trouble that I couldn't build my project because I had all the modules files in src/ in the form mod_name.f90, when I renamed all files to m_name.f90 and the modules to module m_name respectively, it recognized them all and built successfully.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-07 14:06:09+00:00",
+                    "text": "Right, it's an important detail. :)\nI'm curious, did you read the Packaging Guide beforehand? If not, perhaps we need to link to it more prominently from the README. Currently it's at the bottom. If you did read it, was any part of the guide confusing?"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-07 15:11:10+00:00",
+                    "text": "Yes, I read it. Let me rephrase, the problem was not with the same name, I already had my files and modules named the same. The problem is with the particular style: mod_name.f90 and module mod_name. It couldn't recognize modules starting with the prefix mod_."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-07 15:17:44+00:00",
+                    "text": "Okay, I see. I don't think that should be the case. @everythingfunctional can you confirm this behavior? Is it expected?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 15:34:49+00:00",
+                    "text": "We discussed the naming convention in #39 a bit.\nI think the above seems to be a bug either way, but in general, we were thinking that we could simply name the modules by a name, and then fpm would enforce the directory structure in the name. So if you are calling your module as mod_name, and put it into src/a/b/mod_name.f90, then fpm would enforce that the module is called a_b_mod_name, but the filename is just mod_name.f90. That way we are essentially allowing to have namespaces."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 15:36:38+00:00",
+                    "text": "The other issue related to this is that all modules should probably be prefixed by the name of the package, again, enforced by fpm. That way when you depend on it in other dependencies, the modules do not clash. So src/mymod.f90 would start with module mypackage_mymod."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 15:41:29+00:00",
+                    "text": "CCing @everythingfunctional, it's important that we get this right soon.\nI think the way we could do it is to implement what I described above by default and fpm would give an error if the modules are not named correctly. But users could override this in fpm.toml, if they really do not want to use this convention, say with module_naming_convention = false or something like that.\nFor example, in stdlib we already are naming modules like stdlib_experimental_io. After we move stdlib to use fpm, we would have a directory structure: src/experimental/io.f90, and since the package is called stdlib and since io.f90 is in the experimental directory, the file would start with module stdlib_experimental_io (as it already does). After the module graduates to stable, we move it to src/io.f90 and it would start with module stdlib_io."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-07 15:50:48+00:00",
+                    "text": "The other issue related to this is that all modules should probably be prefixed by the name of the package, again, enforced by fpm. That way when you depend on it in other dependencies, the modules do not clash. So src/mymod.f90 would start with module mypackage_mymod.\n\nI agree that we need some solution to prevent name clash with dependencies, but this solution doesn't look like a good one to me. Consider datetime-fortran, which has the package name \"datetime\", and one module that contains a derived type datetime. How do you suggest I name the module?\nThe way it's named currently (datetime_module), this would require that I rename the module source file to src/module.f90. It works but it's very awkward to me."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-07 16:52:55+00:00",
+                    "text": "If  mod_name as the name of a module was not working but m_name was, that's a bug. I'm not sure what the problem is offhand.\nI think enforcing modules in a library be prefixed by the project name is probably overkill. If namespacing is needed, we have a way to do that. Just put everything in a folder with the name of the library. I'm not sure having that be the default is necessary."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-07 20:02:58+00:00",
+                    "text": "I tried to replicate my issue with a smaller test case, and I couldn't, this time, fpm worked fine with modules with prefix mod_.  I also tried https://github.com/wavebitscientific/functional-fortran from  @milancurcic (since his modules are with mod_) and it also worked fine. I can only guess that I am missing something in my main project. I am going to look into it and will come back when I figure it out. Sorry for this false alarm. Regardless, your comments were very interesting and helpful. Thank you all!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 20:28:42+00:00",
+                    "text": "@smeskos I am glad it works!\n@everythingfunctional I don't know. We should discuss it. I feel module names without prefixes should be reserved for the main (user) application. Libraries should hide their modules behind a prefix. That is the common convention in C, which has the same problem (all functions being global). So if we agree that is a good convention, then we should enforce it (users can opt-out)."
+                }
+            ]
+        },
+        {
+            "number": 113,
+            "user": "smeskos",
+            "date": "2020-07-07 12:57:28+00:00",
+            "title": "preprocessor directives",
+            "text": "I am trying to build a simple logging library I wrote some time ago. In order to get file names and current line number I use a small preprocessor file: macros.h that only contains:\n#ifndef FL\n#define FL __FILE__\n#endif\n\n#ifndef LN\n#define LN __LINE__\n#endif\nand I include it at the beginning of the file I want to use it like #include \"macros.h\"\nI get this error when I am trying to build with fpm:\nExit code: 1\nStderr:\ntest/main.f90:1:2:\n\n    1 | #include \"marcos.h\"\n      |  1\nWarning: Illegal preprocessor directive\ntest/main.f90:8:20:\n\n    8 |     call log%info(FL, LN, 'Passed')\n      |                    1\nError: Symbol \u2018fl\u2019 at (1) has no IMPLICIT type\ncompilation terminated due to -fmax-errors=1.\nNote that this is with main.f90\nWhen I changed the name to main.F90and the fpm.toml file accordingly:\n[[test]]\nname=\"runTests\"\nsource-dir=\"test\"\nmain=\"main.F90\"\nThen I got this error:\nExit code: 1\nStderr:\ntest/main.F90:2:2:\n\n    2 | program test\n      |  1~~~~~~~~~\nFatal Error: marcos.h: No such file or directory\ncompilation terminated.\nAny suggestions of what I may be doing wrong?",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-07 14:08:37+00:00",
+                    "text": "Is your include file macros.h or marcos.h? Currently your f90 file tries to include marcos.h but perhaps the file is called macros.h."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 14:30:27+00:00",
+                    "text": "As discussed in #78, the .f90 files should also be run through the pre-processor, perhaps no by default (for speed reasons), but if you enable it in the fpm.toml."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-07 15:06:36+00:00",
+                    "text": "@milancurcic You are correct that was a typo, but the problem persists after correcting it."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-07 15:17:42+00:00",
+                    "text": "Hi @smeskos, is the macros.h file in the same folder as the .f90 files that include it?"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-07 15:32:22+00:00",
+                    "text": "@LKedward right, that was the problem. I had this in src/ but I wanted to use it in test/. Thank you!!"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-07 16:27:33+00:00",
+                    "text": "Glad that fixed it!\nWe may potentially need an option to manually specify an include path or have a standard include folder (include/) which contains text inclusions; consider the case if you needed to use macros.h from both src/ and test/"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-07 19:46:06+00:00",
+                    "text": "Thank you again. I am closing this."
+                }
+            ]
+        },
+        {
+            "number": 112,
+            "user": "smeskos",
+            "date": "2020-07-07 12:39:16+00:00",
+            "title": "Managing flags",
+            "text": "Is it possible to add/remove flags and reset back to defaults if needed?\nIs there an option to display flags (before building)? (eg. fpm show flags)",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 14:31:37+00:00",
+                    "text": "@smeskos what flags do you have in mind? Compiler flags?"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-07 14:58:42+00:00",
+                    "text": "Yes I mean compiler flangs."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 15:10:20+00:00",
+                    "text": "I don't think it's possible currently, but we need to have it.\nProbably fpm.toml should allow to set flags for specific compilers per file.\nHowever, even more important is to extract common flags into general settings that work across compilers.\nWhat flags would you like to set @smeskos ?"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-07-07 15:22:19+00:00",
+                    "text": "I would like to set -cpp, -Wconversion and -std=f2018.  But most importantly to suppress warnings (per case), eg. many times when I am still testing something and is under-development I set -Wno-uninitialized-variables and others as well, the reason is that I don't want to pollute the output with dozens non-relevant warnings."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-07-07 15:28:07+00:00",
+                    "text": "+1 for customising compile flags for debug/release.\nAlso need an option for specifying link flags for linking against external libs like BLAS etc."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-07 15:29:00+00:00",
+                    "text": "Ok, so let's take it on a case by case:\n\n\n-cpp should be done in a general manner as discussed in #78.\n\n\n-std=f2018 should also be done in a general manner (that works with all compilers), probably an fpm.toml setting such as \"standard = F2018\" or something like that.\n\n\nThe -Wconversion should be enabled by default, together with all other common warnings\n\n\n-Wno-uninitialized-variables this is the one where we need to allow to set a specific option per file. It could also be done from a command line.\n\n\nSo we need a general solution, but the most common use cases (such as 1., 2. and 3. above) should be abstracted out and fpm should know how to deal with those."
+                }
+            ]
+        },
+        {
+            "number": 111,
+            "user": "certik",
+            "date": "2020-07-06 20:09:15+00:00",
+            "title": "Introduce --lib to initalize a project with a library",
+            "text": "Currently this is the default, but there should be an option for the default value also (in addition I propose that this should not be the default in #109).",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-06 21:22:27+00:00",
+                    "text": "I would combine this, #109, and #110 into a single issue, as these are all related.\nFor renaming the command line flags, I'm open to that. I tend to lean towards the more verbose to help make things more \"self documenting\", but understand that's not always the most popular way for everything.\nIn general, there are 3 (partially) independent pieces that fpm might create for a new project: src/project.f90, app/main.f90, and test/main.f90. Let's say the command line flags for each are --app, --lib, and --test.\nIf I understand correctly, you're suggesting that the default should be fpm new --app --lib name.\nIn order to not include an app, you'd then want a --no-app flag. So, should we have both flags, or just the ones for the opposite of the default? Having both would imply a total of 6 flags, each of which is mutually exclusive with the other; --app or --no-app, --lib or --no-lib, and --test or --no-test. But, we only really need the flags --no-app, --no-lib, and --test. And then a user can't actually specify contradictory flags, because there aren't any.\nExcept for one question. Should we allow fpm new --no-lib --test name? It doesn't actually break anything, but is kind of strange, because at that point what are you going to be testing?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-06 22:16:39+00:00",
+                    "text": "Good point. In Cargo, the --lib and --bin (as Cargo calls it) are mutually exclusive, so specifying --lib means no --bin.\nGiven the slight differences in Fortran and Rust and how modules are called, we can change this and figure out what makes sense for Fortran.\nBut the naming and default I think can be the same. \"fpm new\" would create the default app / executable. In addition, it can still create a library. Perhaps we'll always create a library, so perhaps --lib will always be on.\nAs long as:\nfpm new x\ncd x\nfpm run\n\nworks and executes the executable, then I am fine. The above I feel will be a very common workflow to test something out, whether to test out some library, or some Fortran construct, or some quick idea.\nI think you start a new Fortran library much less often. Sort of like writing a Python script vs starting a new Python library that you upload on pypi. I do the script much more often.\nLet's get an agreement on that first. Since you agree with the renaming of the options, those are the two main things I care about. We can discuss how exactly the --lib works later as we gain more experience with fpm."
+                }
+            ]
+        },
+        {
+            "number": 110,
+            "user": "certik",
+            "date": "2020-07-06 20:07:33+00:00",
+            "title": "Rename --with-executable to --bin (or --app)",
+            "text": "So that it is easier to type. Although in #109 I argue it should be the default.",
+            "comments": []
+        },
+        {
+            "number": 109,
+            "user": "certik",
+            "date": "2020-07-06 20:05:55+00:00",
+            "title": "fpm new should do --with-executable by default",
+            "text": "That is what Cargo does and what I also find intuitive. Very common when I want to just try something out in Fortran.",
+            "comments": []
+        },
+        {
             "number": 108,
             "user": "milancurcic",
             "date": "2020-06-24 16:15:59+00:00",
@@ -169,6 +1495,11 @@
                     "user": "milancurcic",
                     "date": "2020-06-23 18:43:16+00:00",
                     "text": "Yes, the sane default of multiple programs in app/ is what we should aim for.\nMy comment about fpm init was specific to the scenario of multiple programs in custom (non-default) location, which needs to be specified in the toml file, just like Cargo does.\nI actually didn't know (or forgot) that we supported multiple executables by specifying them in fpm.toml, so I was happy to read about it in this thread."
+                },
+                {
+                    "user": "lauvergn",
+                    "date": "2020-07-07 18:08:02+00:00",
+                    "text": "Yes, it's a little more complicated, but it makes life so much easier for the end user. That is the whole point of fpm. :)\n\nYes, that will great !!\nalias gardhor"
                 }
             ]
         },
@@ -1289,6 +2620,11 @@
                     "user": "certik",
                     "date": "2020-04-30 23:27:47+00:00",
                     "text": "I agree. I only posted it here to keep it in mind."
+                },
+                {
+                    "user": "lauvergn",
+                    "date": "2020-07-07 18:00:39+00:00",
+                    "text": "Okay, I understand now. The use case for this is when a developer releases a new package, they can use fpm to emit configuration files for different build systems.\nFor example, datetime-fortran started with a manual Makefile. Then Zaak wrote a CMakeLists.txt, and Michael modernized it later. Mark wrote an autotools config. Now it can be built in these different ways.\nIf I had fpm back then, I could just have done something like:\nfpm build --cmake\nfpm build --make\nfpm build --conda\n...\n\nand be done with it.\n\nI think this feature will be great in particular when you want to distribute a code:\n\nsome users just want to type \"make\" to be able to compile the code (and maybe edit the makefile)\nthe fpm installation (with its dependencies) is not straightforward and it adds another layer. If it fails, without this feature you will not be able to run the code.\n\nlauvergn (alias gardhor)"
                 }
             ]
         },
@@ -2218,6 +3554,36 @@
                     "user": "milancurcic",
                     "date": "2020-05-11 15:44:57+00:00",
                     "text": "I like this plan as well. So actually this minimal registry is not what's read by fpm, but is read by another program that outputs the \"production\" registry with complete information. This is a good idea because then we don't have to assume ahead of time what is all the metadata that we'll need.\nI realize now that this issue is a step 2 from a 3-step #33. I will write there for now."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-20 20:36:37+00:00",
+                    "text": "Now when #33 is (mostly) done, let's tackle this issue.\n@milancurcic, @everythingfunctional, let's keep the (centralized) registry in a separate repository. How should it be named? Some ideas:\nhttps://github.com/fortran-lang/package-registry\nhttps://github.com/fortran-lang/fpm-package-registry\nhttps://github.com/fortran-lang/fpm-registry\nI don't really have a preference. This repository will have a JSON or rather a TOML file where people will submit their packages using a GitHub PR. This file will only contain the name of the package, the version and url (everything else is redundant, so should not be there). There can also be the \"latest\"/\"development\" version that would simply download the latest git (and thus things like description can change in this latest version, so that should not be part of this TOML file, but rather only in the upstream repository inside fpm.toml, and we process it automatically).\nWe'll then build CI jobs to process this JSON/TOML file to:\n\ncreate rich metadata JSON file that collects things like descriptions, license, website, logo url (later on), etc. by downloading the package (ensuring it actually downloads...) and reading the fpm.toml inside it.\nadd a section to our fortran-lang.org website (ccing @LKedward) that would probably use the json metadata from the previous point\nimplement fpm search that would use the json metadata from the first bullet point to implement search (so that you can search through the description of the package, not just the name)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-20 22:46:58+00:00",
+                    "text": "Looks good. I like fpm-registry.\nI'm unclear about versions. If this file includes the version number, which version is it? The latest? Perhaps all versions that are fpm-enabled? Or should the version metadata be the responsibility of the package itself?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-20 22:50:22+00:00",
+                    "text": "Re version: all versions that are fpm enabled. This is hard to figure out automatically, as typically old versions are just some git tags, and maybe not all of them are valid / working, etc. So I figured each version has to be explicitly specified, and one of the version can be \"latest git commit\"."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-20 23:03:15+00:00",
+                    "text": "I like fpm-registry.\nI worry a bit about having to specify every version. But as this is more of a stop-gap measure, I guess it's ok."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 23:07:59+00:00",
+                    "text": "Ok, I created https://github.com/fortran-lang/fpm-registry and gave access to everybody with push access. We can start submitting PRs against that repository to get it up."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-21 23:21:17+00:00",
+                    "text": "We can continue the discussion at fortran-lang/fpm-registry#1 and other issues there."
                 }
             ]
         },
@@ -2262,6 +3628,21 @@
                     "user": "certik",
                     "date": "2020-05-11 16:53:16+00:00",
                     "text": "@everythingfunctional I am glad you noticed that. Let's not do my proposal then, just use tag. I think it is good enough and we will have a minimal registry soon anyway."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-20 20:25:03+00:00",
+                    "text": "@everythingfunctional, @milancurcic I think this issue is fixed now?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-20 20:36:40+00:00",
+                    "text": "Yes, IMO this is good to close."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-20 23:06:28+00:00",
+                    "text": "Yep, go ahead and close it."
                 }
             ]
         },
