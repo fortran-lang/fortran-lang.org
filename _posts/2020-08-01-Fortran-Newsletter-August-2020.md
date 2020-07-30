@@ -65,7 +65,7 @@ See the talk schedule
 [here](https://tcevents.chem.uzh.ch/event/12/timetable/#20200702.detailed).
 FIXME: is recordings available?
 
-* We had our second Fortran Monthly call on July ?? (FIXME).
+* We had our second Fortran Monthly call on July 16.
 You can read watch the recording below (FIXME update link):
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/i-gRNGRzugc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
