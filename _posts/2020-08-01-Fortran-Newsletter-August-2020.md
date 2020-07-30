@@ -60,6 +60,27 @@ The short term goal of fpm is to make development and installation of Fortran pa
 Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
 environment in which new open source Fortran projects are created and published with ease.
 
+## LFortran
+
+What's new in LFortran:
+
+* The initial prototype C++ backend can translate Fortran's `do concurrent` to C++'s `Kokkos::parallel_for`: https://twitter.com/lfortranorg/status/1280764915242811393
+* LFortran has a Twitter account for latest updates: [@lfortranorg](https://twitter.com/lfortranorg)
+* Work is progressing on the production version of LFortran that is written in C++
+* 22 Merge Requests were merged and 4 issues fixed in July 2020. Some notable ones:
+  * [#163](https://gitlab.com/lfortran/lfortran/-/issues/163): Implement basic Fortran to C++ translation backend
+  * [!410](https://gitlab.com/lfortran/lfortran/-/merge_requests/410): Make simple calculations work via LLVM in interactive mode
+  * [!402](https://gitlab.com/lfortran/lfortran/-/merge_requests/402): Build ASR (Abstract Semantic Representation) properly for subroutines and functions
+
+The short term goal is to get the C++ based production version of LFortran
+matching most of the features from the Python prototype version and make a
+public release. The long term goal is to build a modern Fortran compiler that
+works with any production code and allows it to run efficiently on modern
+hardware (CPUs and GPUs), both interactively and compiling to binaries, and
+provide the basis for other tools such as the Fortran to C++ translation, editor
+support, automatic documentation generation (and doctesting like in Python),
+automatic formatting and others.
+
 ## Events
 
 * [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) was held July 2 - 4.
