@@ -70,6 +70,36 @@ We created the [benchmarks repository](https://github.com/fortran-lang/benchmark
 The benchmarks will aim to compare the performance of various Fortran compilers, as well as the performance of canonical algorithms implemented in Fortran and different languages.
 If you'd like to contribute in any way, be it the design, implementation, or testing of benchmarks, please join the ongoing discussion [here](https://github.com/fortran-lang/benchmarks/issues).
 
+## Classic Flang
+
+We've begun to evaluate pull requests and merge them into the original Flang
+compiler again. There is now a biweekly call to discuss issues and plans for
+Classic Flang. The next call will be Wednesday, August 12, 8:30 AM Pacific time.
+The notes from previous calls, upcoming agenda and a link to join the call can
+be found [here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).
+
+In the last call, AMD reviewed their outstanding pull requests for Fortran debug
+metadata enhancements.
+
+## LLVM Flang
+
+Work continues on LLVM Flang, concentrating on semantics, lowering and runtime
+sufficient to compile and run Fortran 77 programs. We are fixing bugs we find in
+running FCVS and other test suites that use F77.
+
+We cominue upstreaming the lowering code from the fir-dev fork (MLIR-based
+Fortran IR) into the llvm-project repository. Arm is working on changes to
+support a driver program to replace the throwaway driver we currently have.
+
+AMD has been contributing parser and semantic processing for OpenMP constructs
+like task wait, barrier and parallel constructs.
+
+Changes have been made to default parse/unparse/compile processing to default to
+gfortran (not NVIDIA Fortran).
+
+Valentin Clement has been committing initial changes for OpenACC support.
+
+
 ## LFortran
 
 What's new in LFortran:
