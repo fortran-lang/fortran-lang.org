@@ -142,7 +142,7 @@ automatic formatting and others.
 with many interesting talks.
 See the talk schedule
 [here](https://tcevents.chem.uzh.ch/event/12/timetable/#20200702.detailed).
-FIXME: is recordings available?
+All presentations have been recorded and will be soon made available online by the FortranCon organizers.
 
 * We had our third Fortran Monthly call on July 16.
 You can read watch the recording below:
