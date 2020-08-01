@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: August 2020"
 category: newsletter
-author: Ondřej Čertík, Milan Curcic, Laurence Kedward, Jérémie Vandenplas and Arjen Markus
+author: Ondřej Čertík, Milan Curcic, Laurence Kedward, Jérémie Vandenplas, Arjen Markus and Gary Klimowicz
 ---
 
 Welcome to the August 2020 edition of the monthly Fortran newsletter.
