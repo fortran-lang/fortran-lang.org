@@ -50,7 +50,11 @@ Main ongoing discussions:
 ## Fortran Package Manager
 
 What's new in fpm:
-* [fpm-registry](https://github.com/fortran-lang/fpm-registry) created, please see the README there how to contribute a package
+* We created the [fpm-registry](https://github.com/fortran-lang/fpm-registry) repository,
+which serves as a registry of fpm-enabled Fortran packages.
+Please see the README there to learn how to contribute a package.
+For now, the registry is simply a list of fpm-enabled Fortran packages that you can use as a dependency in your `fpm.toml` file.
+Soon, this registry will be used to generate detailed metadata that will be used by fpm to allow you to search for packages from the command-line, e.g. `fpm search <package>` or similar.
 * [#146](https://github.com/fortran-lang/fpm/issues/146): we had a video discussion about the design of the new Fortran rewrite
 
 fpm is still in very early development, and we need as much help as we can get.
