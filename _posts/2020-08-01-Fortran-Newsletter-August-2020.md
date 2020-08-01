@@ -165,4 +165,4 @@ commenting in any of the four repositories:
 
 
 
-<div id="gh-contributors" data-startdate="July 01 2020" data-enddate="July 30 2020" height="500px"></div>
+<div id="gh-contributors" data-startdate="July 01 2020" data-enddate="July 31 2020" height="500px"></div>
