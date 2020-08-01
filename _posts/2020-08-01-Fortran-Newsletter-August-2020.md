@@ -50,7 +50,8 @@ Main ongoing discussions:
 ## Fortran Package Manager
 
 What's new in fpm:
-
+* [fpm-registry](https://github.com/fortran-lang/fpm-registry) created, please see the README there how to contribute a package
+* [#146](https://github.com/fortran-lang/fpm/issues/146): we had a video discussion about the design of the new Fortran rewrite
 
 fpm is still in very early development, and we need as much help as we can get.
 Here's how you can help today:
