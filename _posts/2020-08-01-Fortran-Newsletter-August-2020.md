@@ -55,7 +55,7 @@ which serves as a registry of fpm-enabled Fortran packages.
 Please see the README there to learn how to contribute a package.
 For now, the registry is simply a list of fpm-enabled Fortran packages that you can use as a dependency in your `fpm.toml` file.
 Soon, this registry will be used to generate detailed metadata that will be used by fpm to allow you to search for packages from the command-line, e.g. `fpm search <package>` or similar.
-* [#146](https://github.com/fortran-lang/fpm/issues/146): we had a video discussion about the design of the new Fortran rewrite
+* [#146](https://github.com/fortran-lang/fpm/issues/146): We discussed the design of the new Fortran implementation of fpm in a video call. We agreed on the need for an intermediate package model which will allow for clean separation of fpm frontends (user interface, parsing, and semantics) and fpm backends (fpm itself, CMake, Make, etc.).
 
 fpm is still in very early development, and we need as much help as we can get.
 Here's how you can help today:
