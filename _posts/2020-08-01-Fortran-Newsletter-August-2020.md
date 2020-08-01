@@ -56,6 +56,16 @@ Please see the README there to learn how to contribute a package.
 For now, the registry is simply a list of fpm-enabled Fortran packages that you can use as a dependency in your `fpm.toml` file.
 Soon, this registry will be used to generate detailed metadata that will be used by fpm to allow you to search for packages from the command-line, e.g. `fpm search <package>` or similar.
 * [#146](https://github.com/fortran-lang/fpm/issues/146): We discussed the design of the new Fortran implementation of fpm in a video call. We agreed on the need for an intermediate package model which will allow for clean separation of fpm frontends (user interface, parsing, and semantics) and fpm backends (fpm itself, CMake, Make, etc.).
+* [#131](https://github.com/fortran-lang/fpm/pull/131),
+[#132](https://github.com/fortran-lang/fpm/pull/132),
+[#139](https://github.com/fortran-lang/fpm/pull/139),
+[#140](https://github.com/fortran-lang/fpm/pull/140),
+[#142](https://github.com/fortran-lang/fpm/pull/142),
+[#145](https://github.com/fortran-lang/fpm/pull/145),
+[#147](https://github.com/fortran-lang/fpm/pull/147),
+[#148](https://github.com/fortran-lang/fpm/pull/148),
+[#151](https://github.com/fortran-lang/fpm/pull/151):
+We merged several pull requests toward the Fortran fpm implementation. The Haskell implementation has moved to the `fpm/bootstrap` directory, and the Fortran implementation is developed in `fpm/fpm`. The Fortran fpm is, of course, an fpm package itself so it can be built by the Haskell fpm. Soon, it will be able to be build by itself. 
 
 fpm is still in very early development, and we need as much help as we can get.
 Here's how you can help today:
