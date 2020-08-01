@@ -13,7 +13,7 @@ and details Fortran news from the previous month.
 
 ## fortran-lang.org
 
-Work has continued on the Fortran-lang website, including:
+We continued the work on the Fortran-lang website, including:
 
 * [#116](https://github.com/fortran-lang/fortran-lang.org/pull/116): updates to the Quickstart tutorial on loop control and syntax
 
