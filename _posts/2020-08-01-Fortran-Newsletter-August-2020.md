@@ -119,7 +119,7 @@ Valentin Clement has been committing initial changes for OpenACC support.
 
 What's new in LFortran:
 
-* The initial prototype C++ backend can translate Fortran's `do concurrent` to C++'s `Kokkos::parallel_for`: https://twitter.com/lfortranorg/status/1280764915242811393
+* The initial prototype C++ backend can translate Fortran's `do concurrent` to C++'s `Kokkos::parallel_for`: [https://twitter.com/lfortranorg/status/1280764915242811393](https://twitter.com/lfortranorg/status/1280764915242811393)
 * LFortran has a Twitter account for latest updates: [@lfortranorg](https://twitter.com/lfortranorg)
 * Work is progressing on the production version of LFortran that is written in C++
 * 22 Merge Requests were merged and 4 issues fixed in July 2020. Some notable ones:
