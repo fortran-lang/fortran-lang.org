@@ -40,7 +40,14 @@ jobs:
         sudo gem install bundler
         bundle config path .bundle
         bundle install
-      
+    
+    # Download latest fpm-registry index
+    - name: Download fpm-registry index
+      run: |
+        cd ${{env.SRC_DIR}}/_data
+        wget ${{env.FPM_INDEX}}
+        mv index.json fpm_registry_index.json
+
     # Run Jekyll build and copy output to PUBLISH_DIR
     - name: Build Jekyll Site
       run: |
@@ -48,13 +55,6 @@ jobs:
         bundle exec jekyll build 
         cp -r _site/* ../${{env.PUBLISH_DIR}}/
         touch ../${{env.PUBLISH_DIR}}/.nojekyll
-    
-    # Download latest fpm-registry index
-    - name: Download fpm-registry index
-      run: |
-        cd _data
-        wget ${{env.FPM_INDEX}}
-        mv index.json fpm_registry_index.json
 
     # Commit and push changes to remote/gh-pages
     - name: Commit and push to gh-pages
