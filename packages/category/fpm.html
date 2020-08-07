@@ -1,0 +1,87 @@
+---
+layout: default
+title: FPM Registry Packages
+description: Packages listed in the fpm-registry
+permalink: /packages/fpm
+code_category: fpm
+feather-icon: package
+---
+
+
+{% include nav.html active='Packages' %}
+
+<section class="masthead">
+    <h1>FPM Registry</h1>
+    <h3>Projects compatible with the
+        <a href="https://github.com/fortran-lang/fpm" target="_blank">
+            Fortran Package Manager</a>
+    </h3>
+  </section>
+  
+  <section class="front-section">
+    <div class="container">
+      <div class="col-wide">
+        
+        <a href="{{site.baseurl}}/packages">
+            <i class="fas fa-arrow-circle-left"></i>
+            Back to all Packages
+          </a>
+  
+          <table class="projects-table">
+         
+          {% for pkg in site.data.fpm_registry_index.packages %}
+
+          {% for vers in pkg[1] %}
+            {% if vers[0] == 'latest' %}
+              <tr>
+
+                <td> <h3><a href="{{ vers[1].git }}" target="_blank">
+                    <i class="fas fa-cubes"></i>
+                    {{ vers[1].name }}</a></h3> </td>
+                
+                <td>
+                    <img src="https://img.shields.io/badge/Version-{{ vers[1].version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
+                </td>
+
+                <td>
+                    <img src="https://img.shields.io/badge/License-{{ vers[1].license | replace: " ", "%20" | replace: "-", "--" }}-green">
+                </td>
+
+              </tr>
+
+              <tr><td colspan="3" class="light small">
+                <b>Author: </b>  {{ vers[1].author }} &nbsp &nbsp
+                <b>Maintainer: </b>  {{ vers[1].maintainer }}
+              </td></tr>
+              {% if vers[1].description %}
+              <tr><td colspan="3" class="light small">
+                {{ vers[1].description }}
+              </td></tr>
+              {% endif %}
+              <tr><td colspan="3"></td></tr>
+              
+            {% endif %}
+          {% endfor %} 
+
+          {% endfor %} 
+          
+          </table>        
+         
+      </div>
+  
+    </div>
+  </section>
+  
+  <section class="front-section shaded">
+    <div class="container">
+      <div class="col-wide">
+        <!-- <h2 id="faqs">FAQ</h2> -->
+        
+        See
+	  <a href="https://github.com/fortran-lang/fpm-registry" target="_blank">
+      <i class="devicon-github-plain colored"></i> here</a> to find out more about the fpm registry
+        and how you can get your fpm compatible package listed.
+  
+    </div>
+  </section>
+  
