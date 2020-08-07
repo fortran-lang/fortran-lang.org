@@ -12,6 +12,7 @@ on:
 env:
   SRC_DIR: src
   PUBLISH_DIR: gh-pages
+  FPM_INDEX: "https://raw.githubusercontent.com/fortran-lang/fpm-registry/master/index.json"
 
 jobs:
   build:
@@ -48,6 +49,13 @@ jobs:
         cp -r _site/* ../${{env.PUBLISH_DIR}}/
         touch ../${{env.PUBLISH_DIR}}/.nojekyll
     
+    # Download latest fpm-registry index
+    - name: Download fpm-registry index
+      run: |
+        cd _data
+        wget ${{env.FPM_INDEX}}
+        mv index.json fpm_registry_index.json
+
     # Commit and push changes to remote/gh-pages
     - name: Commit and push to gh-pages
       uses: EndBug/add-and-commit@master
