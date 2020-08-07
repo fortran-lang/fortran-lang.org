@@ -121,12 +121,14 @@
         
                 project = results[i];
         
-                if (results[i].github != ""){
+                if (results[i].github != "" && !project.fpm){
                     out += '<h3><a href="https://github.com/'+project.github+'" target="_blank">';
                     out += '<i class="devicon-github-plain colored"></i> '+project.name+'</a></h3>';
                 } else {
                     out += '<h3><a href="'+project.url+'" target="_blank">';
-                    if (project.url.includes('gitlab.com')) {
+                    if (project.fpm){
+                        out += '<i class="fas fa-cubes"></i> ';
+                    } else if (project.url.includes('gitlab.com')) {
                         out += '<i class="devicon-gitlab-plain colored"></i> ';
                     } else if (project.url.includes('bitbucket.org')){
                         out += '<i class="devicon-bitbucket-plain colored"></i> ';
