@@ -17,13 +17,13 @@ how the various components of a program depend on each other to
 efficiently compile and link the program (or programs). It takes a
 so-called `Makefile` that contains the dependencies.
 
-    Simply put:
+Simply put:
 
-    If a program file is older than any of the libraries and object files
+If a program file is older than any of the libraries and object files
 it depends on, the make utility knows it has to rebuild it and goes on
 to look at the libraries and object files - are any out of date?
 
-    If an object file is older than the corresponding source file, the
+If an object file is older than the corresponding source file, the
 make utility knows it has to compile the source file.
 
 * Integrated development tools take care of many of the above details. A
@@ -39,25 +39,26 @@ away from the compiler and platform specifics.
 Here is a very simple example of a `Makefile` as used by the `make` utility,
 just to give you an impression:
 
-    # Collect the macros at the beginning - easier to customise
-    FC = gfortran
-    LD = gfortran
-    FCOPTS = -c
-    LDOPTS = "-o "
+```
+# Collect the macros at the beginning - easier to customise
+FC = gfortran
+LD = gfortran
+FCOPTS = -c
+LDOPTS = "-o "
 
-    EXE = .exe
-    OBJ = .o
+EXE = .exe
+OBJ = .o
 
-    all: tabulate$(EXE)
+all: tabulate$(EXE)
 
-    tabulate$(EXE) : tabulate$(OBJ) function$(OBJ)
-    {tab}$(LD) $(LDOPTS)tabulate$(EXE) tabulate.f90 function$(OBJ)
+tabulate$(EXE) : tabulate$(OBJ) function$(OBJ)
+{tab}$(LD) $(LDOPTS)tabulate$(EXE) tabulate.f90 function$(OBJ)
 
-    tabulate$(OBJ) : tabulate.f90 function.mod
-    {tab}$(FC) $(FCOPTS) tabulate.f90
+tabulate$(OBJ) : tabulate.f90 function.mod
+{tab}$(FC) $(FCOPTS) tabulate.f90
 
-    function$(OBJ) : function.f90
-    {tab}$(FC) $(FCOPTS) function.f90
+function$(OBJ) : function.f90
+{tab}$(FC) $(FCOPTS) function.f90
 
 (A peculiarity of `make` is that in the input file, tab characters are used
 in several places - here indicated as "{tab}" - as significant whitespace.)
@@ -66,7 +67,7 @@ When stored in a file "Makefile" and "{tab}" replaced by a tab character,
 you can run it like:
 
 ```shell
-    $ make
+$ make
 ```
 
 (the name `Makefile` is the default, otherwise use the option `-f` to specify

@@ -61,30 +61,31 @@ in a dynamic library. This enables you to:
 * Provide a skeleton version of the module, something like:
 
 ```fortran
-        module user_functions
-            implicit none
-        contains
+module user_functions
+    implicit none
+contains
 
-        real function f( x )
-        !DEC$ ATTRIBUTES DLLEXPORT :: f
-            real, intent(in) :: x
+real function f( x )
+!DEC$ ATTRIBUTES DLLEXPORT :: f
+    real, intent(in) :: x
 
-            ... TO BE FILLED IN ...
+    ! your function body goes here
 
-        end function f
-        end module user_functions
+end function f
+
+end module user_functions
 ```
 
 * Provide a basic build script with a command like:
 
 ```shell
-        gfortran -o function.dll function.f90 -shared
+gfortran -o function.dll function.f90 -shared
 ```
 
 or:
 
 ```shell
-        ifort -exe:function.dll function.f90 -dll
+ifort -exe:function.dll function.f90 -dll
 ```
 
 As said, you cannot control that the user has done the right thing - any
@@ -95,39 +96,42 @@ An alternative set-up would be to change the main program into a subroutine
 and have the function as an argument:
 
 ```fortran
-    module tabulation
-        implicit none
-    contains
+module tabulation
+    implicit none
+contains
 
-    subroutine tabulate( f )
-        interface
-            real function f( x )
-                real, intent(in) :: x
-            end function f
-        end interface
+subroutine tabulate( f )
+    interface
+        real function f( x )
+            real, intent(in) :: x
+        end function f
+    end interface
 
-        ... actual implementation
+    ! your implementation goes here
 
-    end subroutine tabulate
+end subroutine tabulate
 
-    end module tabulation
+end module tabulation
 ```
 
 Then provide a skeleton main program:
 
 ```fortran
-    program tabulate_f
-        use tabulation
+program tabulate_f
+    use tabulation
 
-        call tabulate( func1 )
-    contains
-    real function func1( x )
-        real, intent(in) :: x
+    call tabulate( func1 )
 
-        ... TO BE FILLED IN ...
+contains
 
-    end function func1
-    end program tabulate_f
+real function func1( x )
+    real, intent(in) :: x
+
+    ! your function body goes here
+
+end function func1
+
+end program tabulate_f
 ```
 
 The advantage is that the compiler can check the interface of the

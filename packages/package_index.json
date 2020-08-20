@@ -11,8 +11,27 @@ layout: null
           "url": "{{ project.url }}",
           "categories": "{{ project.categories }}",
           "tags": "{{ project.tags }}",
-          "license": "{{ project.license }}"
+          "license": "{{ project.license }}",
+          "fpm": false
         }
+        {% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      ,
+      {% for pkg in site.data.fpm_registry_index.packages %}
+        {% for pkg_ver in pkg[1] %}
+          {% if pkg_ver[0] == 'latest' %}
+            {
+              "name": "{{ pkg_ver[1].name }}",
+              "description": "{{ pkg_ver[1].description }}",
+              "github": "",
+              "url": "{{ pkg_ver[1].git }}",
+              "categories": "fpm",
+              "tags": "fpm",
+              "license": "{{ pkg_ver[1].license }}",
+              "fpm": true
+            }
+          {% endif %}
+        {% endfor %}
         {% unless forloop.last %},{% endunless %}
       {% endfor %}
     ]

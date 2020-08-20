@@ -14,6 +14,7 @@ env:
   SRC_DIR: src
   PUBLISH_DIR: gh-pages
   SITE_URL: https://fortran-lang.org
+  FPM_INDEX: "https://raw.githubusercontent.com/fortran-lang/fpm-registry/master/index.json"
 
 jobs:
   build:
@@ -57,12 +58,19 @@ jobs:
         sed -i '/baseurl:/d' _config.yml
         echo "baseurl: $(cat base_url)/${{env.BUILD_DIR}}" >> _config.yml
         echo "pull_request: ${{github.event.issue.number}}" >> _config.yml
+    
+    # Download latest fpm-registry index
+    - name: Download fpm-registry index
+      run: |
+        cd ${{env.SRC_DIR}}/_data
+        wget ${{env.FPM_INDEX}}
+        mv index.json fpm_registry_index.json
 
     # Run Jekyll build and copy output to PUBLISH_DIR
     - name: Build Jekyll Site
       run: |
         cd ${{env.SRC_DIR}}
-        bundle exec jekyll build -d _site/${BUILD_DIR}
+        bundle exec jekyll build --future -d _site/${BUILD_DIR}
         cp -r _site/* ../${{env.PUBLISH_DIR}}/
         touch ../${{env.PUBLISH_DIR}}/.nojekyll
 

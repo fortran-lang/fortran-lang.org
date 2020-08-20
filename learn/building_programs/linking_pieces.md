@@ -12,21 +12,21 @@ Here is a general program for tabulating a function (source code in
 "tabulate.f90"):
 
 ```fortran
-    program tabulate
-        use user_functions
+program tabulate
+    use user_functions
 
-        implicit none
-        real    :: x, xbegin, xend
-        integer :: i, steps
+    implicit none
+    real    :: x, xbegin, xend
+    integer :: i, steps
 
-        write(*,*) 'Please enter the range (begin, end) and the number of steps:'
-        read(*,*)  xbegin, xend, steps
+    write(*,*) 'Please enter the range (begin, end) and the number of steps:'
+    read(*,*)  xbegin, xend, steps
 
-        do i = 0,steps
-            x = xbegin + i * (xend - xbegin) / steps
-            write(*,'(2f10.4)') x, f(x)
-        enddo
-    end program tabulate
+    do i = 0, steps
+        x = xbegin + i * (xend - xbegin) / steps
+        write(*,'(2f10.4)') x, f(x)
+    end do
+end program tabulate
 ```
 
 Note the `use` statement - this will be where we define the function `f`.
@@ -41,17 +41,16 @@ Assume for the sake of the example that the function is implemented in a
 source file "function.f90" as:
 
 ```fortran
-    module user_functions
-        implicit none
-    contains
+module user_functions
+    implicit none
+contains
 
-    real function f( x )
-        real, intent(in) :: x
+real function f( x )
+    real, intent(in) :: x
+    f = x - x**2 + sin(x)
+end function f
 
-        f = x - x**2 + sin(x)
-
-    end function f
-    end module user_functions
+end module user_functions
 ```
 
 To build the program with this specific function, we need to compile two
@@ -61,8 +60,8 @@ program. Because the program "tabulate" depends on the module
 first. A sequence of commands to do this is:
 
 ```shell
-    $ gfortran -c function.f90
-    $ gfortran tabulate.f90 function.o
+$ gfortran -c function.f90
+$ gfortran tabulate.f90 function.o
 ```
 
 The first step compiles the module, resulting in an object file

@@ -71,7 +71,11 @@ description: A rich ecosystem of high-performance code
             {% endif %}
           <a href="{{ site.baseurl }}{{ sitePage.url }}" >
             {{ sitePage.title }}
-            {% assign catProjects =  site.data.package_index | where_exp:"project", "project.categories contains sitePage.code_category"%}
+            {% if sitePage.code_category == 'fpm' %}
+              {% assign catProjects =  site.data.fpm_registry_index.packages %}
+            {% else %}
+              {% assign catProjects =  site.data.package_index | where_exp:"project", "project.categories contains sitePage.code_category"%}
+            {% endif %}
             ({{ catProjects | size }})
           </a></h3>
           <p> {{ sitePage.description }} </p>

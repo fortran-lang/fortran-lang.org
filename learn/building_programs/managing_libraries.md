@@ -14,30 +14,30 @@ Libraries contain any number of object files in a compact form, so that
 the command-line becomes far shorter:
 
 ```shell
-    $ gfortran -o tabulate tabulate.f90 function.o supportlib.a
+$ gfortran -o tabulate tabulate.f90 function.o supportlib.a
 ```
 
 where "supportlib.a" is a collection of one, two or many object files,
 all compiled and then put into a library. The extension ".a" is used by
 Linux and Linux-like platforms. On Windows the extension ".lib" is used.
 
-Creating your own libraries is not that complicated: you use a utility
-like `ar` or (on Windows) `lib` to achieve this:
+Creating your own libraries is not that complicated: 
+on Linux, you can achieve this using a utility like `ar`:
 
 ```shell
-    $ gfortran -c file1.f90 file2.f90
-    $ gfortran -c file3.f90 ...
-    $ ar r supportlib.a file1.o file2.o
-    $ ar r supportlib.a file3.o ...
+$ gfortran -c file1.f90 file2.f90
+$ gfortran -c file3.f90 ...
+$ ar r supportlib.a file1.o file2.o
+$ ar r supportlib.a file3.o ...
 ```
 
-or, using the `lib` utility:
+or on Windows using the `lib` utility:
 
 ```shell
-    c:\...> ifort -c file1.f90 file2.f90
-    c:\...> ifort -c file3.f90 ...
-    c:\...> lib /out:supportlib.lib file1.obj file2.obj
-    c:\...> lib supportlib.lib file3.obj ...
+c:\...> ifort -c file1.f90 file2.f90
+c:\...> ifort -c file3.f90 ...
+c:\...> lib /out:supportlib.lib file1.obj file2.obj
+c:\...> lib supportlib.lib file3.obj ...
 ```
 
 Note:
@@ -81,17 +81,17 @@ like `ar` or `lib`.
 On Linux:
 
 ```shell
-    $ gfortran -fpic -c file1.f90 file2.f90
-    $ gfortran -fpic -c file3.f90 ...
-   $ gfortran -shared -o supportlib.so file1.o file2.o file3.o ...
+$ gfortran -fpic -c file1.f90 file2.f90
+$ gfortran -fpic -c file3.f90 ...
+$ gfortran -shared -o supportlib.so file1.o file2.o file3.o ...
 ```
 
 On Windows, with the Intel Fortran compiler:
 
 ```shell
-    $ ifort -c file1.f90 file2.f90
-    $ ifort -c file3.f90 ...
-    $ ifort -dll -exe:supportlib.dll file1.obj file2.obj file3.obj ...
+$ ifort -c file1.f90 file2.f90
+$ ifort -c file3.f90 ...
+$ ifort -dll -exe:supportlib.dll file1.obj file2.obj file3.obj ...
 ```
 
 The differences are that:
@@ -109,15 +109,15 @@ compiler you use - to achieve this. One method is via a so-called
 compiler directive:
 
 ```fortran
-    subroutine myroutine( ... )
-    !GCC$ ATTRIBUTES DLLEXPORT:: myroutine
+subroutine myroutine( ... )
+!GCC$ ATTRIBUTES DLLEXPORT:: myroutine
 ```
 
 Or, with the Intel Fortran compiler:
 
 ```fortran
-    subroutine myroutine( ... )
-    !DEC$ ATTRIBUTES DLLEXPORT:: myroutine
+subroutine myroutine( ... )
+!DEC$ ATTRIBUTES DLLEXPORT:: myroutine
 ```
 
 Besides a dynamic library (DLL), a so-called import library may be
@@ -141,22 +141,22 @@ Since our dynamic library can be built from a single source file, we
 can take a shortcut:
 
 ```shell
-    $ gfortran -shared -o function.dll function.f90
+$ gfortran -shared -o function.dll function.f90
 ```
 
 This produces the files "function.dll" and "function.mod". The
 utility `nm` tells us the exact name of the function `f`:
 
 ```shell
-    $ nm function.dll
-    ...
-    000000054f9d7000 B __dynamically_loaded
-                     U __end__
-    0000000000000200 A __file_alignment__
-    000000054f9d1030 T __function_MOD_f
-    000000054f9d1020 T __gcc_deregister_frame
-    000000054f9d1000 T __gcc_register_frame
-    ...
+$ nm function.dll
+...
+000000054f9d7000 B __dynamically_loaded
+                 U __end__
+0000000000000200 A __file_alignment__
+000000054f9d1030 T __function_MOD_f
+000000054f9d1020 T __gcc_deregister_frame
+000000054f9d1000 T __gcc_register_frame
+...
 ```
 
 It has received a prefix `__function_MOD_` to distinguish it from any
@@ -165,7 +165,7 @@ other routine "f" that might be defined in another module.
 The next step is to build the program:
 
 ```shell
-    $ gfortran -o tabulate tabulate.f90 function.dll
+$ gfortran -o tabulate tabulate.f90 function.dll
 ```
 
 The DLL and the .mod file are used to build the executable program
@@ -186,14 +186,14 @@ The source file must contain the compiler directive, otherwise the function `f`
 is not exported:
 
 ```fortran
-    real function f( x )
-    !DEC$ ATTRIBUTES DLLEXPORT :: f
+real function f( x )
+!DEC$ ATTRIBUTES DLLEXPORT :: f
 ```
 
 Again we take a shortcut:
 
 ```shell
-    $ ifort -exe:function.dll function.f90 -dll
+$ ifort -exe:function.dll function.f90 -dll
 ```
 
 This produces the files "function.dll", "function.mod" as well as "function.lib" (and two
@@ -201,7 +201,9 @@ other files of no importance here). The "dependency walker" program tells us
 that the exact name of the function "f" is `FUNCTION_mp_F`. It is also exported, so that
 it can be found by the linker in the next step:
 
-    $ ifort tabulate.f90 function.lib
+```
+$ ifort tabulate.f90 function.lib
+```
 
 Note that we need to specify the name of the export library, not the DLL!
 

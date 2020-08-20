@@ -35,13 +35,13 @@ To form a logical expression the following set of relational operators are avail
 
 as well as the following logical operators:
 
-| Operator &nbsp; | Description                                                          |
-|:---------------------:|----------------------------------------------------------------|
-| `.and.`         | TRUE if both left and right operands are TRUE                        |
-| `.or.`          | TRUE if either left or right or both operands are TRUE               |
-| `.not.`         | TRUE if right operand is FALSE                                       |
-| `.eqv.`         | TRUE if left operand has same logical value as right operand         |
-| `.neqv.`        | TRUE if left operand has the opposite logical value as right operand |
+| Operator &nbsp;       | Description                                                          |
+|:---------------------:|----------------------------------------------------------------------|
+| `.and.`               | TRUE if both left and right operands are TRUE                        |
+| `.or.`                | TRUE if either left or right or both operands are TRUE               |
+| `.not.`               | TRUE if right operand is FALSE                                       |
+| `.eqv.`               | TRUE if left operand has same logical value as right operand         |
+| `.neqv.`              | TRUE if left operand has the opposite logical value as right operand |
 
 <br>
 
@@ -119,19 +119,103 @@ __Example:__ `do` loop with skip
 
 ```fortran
   integer :: i
-  do i=1,10,2    
+  do i=1,10,2
     print *, i   ! Print odd numbers
   end do
 ```
 
+### Conditional loop (`do while`)
 
-__Example:__ `do while` loop
+A condition may be added to a `do` loop with the `while` keyword. The loop will be executed while the condition given
+in `while()` evaluates to `.true.`.
+
+__Example:__ `do while()` loop
 
 ```fortran
   integer :: i
   i = 1
-  do while (i<11)   
+  do while (i < 11)
     print *, i
     i = i + 1
   end do
+  ! Here i = 11
+```
+
+### Loop control statements (`exit` and `cycle`)
+
+Most often than not, loops need to be stopped if a condition is met. Fortran provides two executable statements to deal
+with such cases.
+
+`exit` is used to quit the loop prematurely. It is usually enclosed inside an `if`.
+
+__Example__ loop with `exit`
+
+```fortran
+  integer :: i
+  do i=1, 100
+    if (i > 10) then
+      exit ! Stop printing numbers
+    end if
+    print *, i
+  end do
+  ! Here i = 11
+```
+
+On the other hand, `cycle` skips whatever is left of the loop and goes into the next cycle.
+
+__Example__ loop with `cycle`
+
+```fortran
+  integer :: i
+  do i=1,10
+    if (mod(i,2) == 0) then
+       cycle  ! Don't print even numbers
+    end if
+    print *, i
+  end do
+```
+{% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the inner-most loop." %}
+
+### Nested loop control: tags
+
+A recurring case in any programming language is the use of nested loops. Nested loops refer to loops that exist within another loop. Fortran allows the programmer to _tag_ or _name_ each loop. If loops are tagged, there are two potential benefits:
+1. The readability of the code may be improved (when the naming is meaningful).
+2. `exit` and `cycle` may be used with tags, which allows for a very fine-grained control of the loops.
+
+__Example__ tagged nested loops
+
+```fortran
+  integer :: i,j
+  outer_loop: do i=1,10
+    inner_loop: do j=1,10
+      if ((j+i) > 10) then  ! Print only pairs of i and j that add up to 10
+         cycle outer_loop  ! Go to the next iteration of the outer loop
+      end if
+      print *, 'I=', i, ' J=', j, ' Sum=', j+i
+    end do inner_loop
+  end do outer_loop
+```
+
+### Parallelizable loop (`do concurrent`)
+
+The `do concurrent` loop is used to explicitly specify that the _inside of the loop has no interdependencies_; this informs the compiler that it may use parallelization/_SIMD_ to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
+that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop.
+These requirements place restrictions on what can be placed within the loop body.
+
+
+{% include important.html content="`do concurrent` is not a basic feature of Fortran. The explanation given does not detail
+all the requirements that need to be met in order to write a correct `do concurrent` loop. Compilers are also free to do as they see fit,
+which means they may not optimize the loop." %}
+
+__Example__ `do concurrent()` loop
+
+```fortran
+  real, parameter :: pi = 3.14159265
+  integer, parameter :: n = 10
+  real :: result_sin(n)
+  integer :: i
+  do concurrent (i=1:n) ! Careful, the syntax is slightly different
+    result_sin(i) = sin(i*pi/4.)
+  end do
+  print *, result_sin
 ```

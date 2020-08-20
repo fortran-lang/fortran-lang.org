@@ -5,7 +5,7 @@ It's derived from https://github.com/neovim/neovim.github.io.
 
 ## Contributing
 
-* [PACKAGES](./PACKAGES.md): getting started and general guidance on contributing to <https://fortran-lang.org>
+* [CONTRIBUTING](./CONTRIBUTING.md): getting started and general guidance on contributing to <https://fortran-lang.org>
 
 * [MINIBOOKS](./MINIBOOKS.md): how to write and structure a mini-book tutorial for the [Learn](https://fortran-lang.org/learn) section
 
