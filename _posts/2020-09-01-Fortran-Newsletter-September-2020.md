@@ -85,7 +85,7 @@ TODO @certik
 ## Events
 
 * We had our fourth Fortran Monthly call on August 20.
-You can read watch the recording below:
+You can watch the recording below:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/fiAyhHkAKFc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
