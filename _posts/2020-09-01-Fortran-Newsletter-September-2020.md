@@ -72,11 +72,37 @@ If you'd like to contribute in any way, be it the design, implementation, or tes
 
 ### Classic Flang
 
-TODO @gklimowicz
+We're evaluating pull requests and merging them into the original Flang
+compiler again. We pulled in 4 changes in the past couple of weeks, and expect
+to merge in a few more each week. One upcoming change is the support for LLVM 10,
+which requires the use of a new fork, the _classic-flang-llvm-project_
+fork of the LLVM monorepo. See
+[PR#1](https://github.com/flang-compiler/classic-flang-llvm-project/pull/1)
+for details.
+
+The Classic Flang biweekly call has been set up to discuss issues and plans
+for the next pull requests to be validated and merged. Our next calls will be
+Wednesday, September 9 and 23, 8:30 AM Pacific time. The notes from previous
+calls, upcoming agenda and a link to join the call can be found
+[here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).
 
 ### LLVM Flang
 
-TODO @gklimowicz
+Work continues on LLVM Flang, concentrating on semantics, lowering and runtime
+sufficient to compile and run Fortran 77 programs. We are fixing bugs we find
+in running FCVS and other F77 test suites (and the F77 parts of non-F77
+suites).
+
+In conjunction with the MLIR-based code from the _fir-dev_ fork (the Fortran
+IR used for lowering), Flang can compile and run most F77 programs. We
+continue to work on refactoring necessary to upstream this fork into LLVM
+flang proper.
+
+Arm is working on changes to support a driver program to replace the temporary
+driver we currently use.
+
+Valentin Clement continues to contribute parsing and semantics changes for
+OpenACC support.
 
 ### LFortran
 
