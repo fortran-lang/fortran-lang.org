@@ -132,9 +132,10 @@ What's new in LFortran:
   Debug mode when an unhandled excetion happens or a segfault.
 
 Our goal for September is to get LFortran working for a much larger subset of
-Fortran and allow it to compile and run via the C++ translation backend.
+Fortran and allow it to compile and run via the C++ translation backend (the
+LLVM backend will follow soon after).
 
-See LFortran on Twitter for latest updates: [@lfortranorg](https://twitter.com/lfortranorg).
+You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://twitter.com/lfortranorg).
 
 ## Events
 
