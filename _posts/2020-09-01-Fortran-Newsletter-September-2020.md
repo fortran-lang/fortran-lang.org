@@ -116,7 +116,25 @@ OpenACC support.
 
 ### LFortran
 
-TODO @certik
+What's new in LFortran:
+
+* 143 Merge Requests were merged and 22 issues fixed in August 2020
+* The C++ backend can now translate to C++ and compile many simple Fortran programs
+* The parser can now parse a large subset of Fortran (if you find something that
+  cannot be parsed, please [report](https://gitlab.com/lfortran/lfortran/-/issues) a bug). Not all the information is yet
+  represented in the AST (so later stages of the compiler also work on a smaller
+  subset), but one should not get parse errors anymore for most valid codes.
+* Initial `lfortran fmt` subcommand for formatting Fortran files, you can
+  provide feedback
+  [here](https://fortran-lang.discourse.group/t/feedback-for-lfortran-fmt-to-format-fortran-source-code/281).
+* A new command `lfortran kernel` can run LFortran as a Jupyter kernel.
+* LFortran itself gives a nice Python like stacktrace (on Linux and macOS) in
+  Debug mode when an unhandled excetion happens or a segfault.
+
+Our goal for September is to get LFortran working for a much larger subset of
+Fortran and allow it to compile and run via the C++ translation backend.
+
+See LFortran on Twitter for latest updates: [@lfortranorg](https://twitter.com/lfortranorg).
 
 ## Events
 
