@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: September 2020"
 category: newsletter
-author: Milan Curcic, Ondřej Čertík, Gary Klimowicz, Brad Richardson, and Jérémie Vandenplas
+author: Milan Curcic, Ondřej Čertík, Gary Klimowicz, Brad Richardson, Jérémie Vandenplas and Thomas König
 ---
 
 Welcome to the September 2020 edition of the monthly Fortran newsletter.
@@ -69,6 +69,16 @@ The benchmarks will aim to compare the performance of various Fortran compilers,
 If you'd like to contribute in any way, be it the design, implementation, or testing of benchmarks, please join the ongoing discussion [here](https://github.com/fortran-lang/benchmarks/issues).
 
 ## Compilers
+
+### GFortran
+
+GFortran 10.2 has been released, a bugfix release for 10.1.
+Bugs fixed include PR94361, a memory leak with finalizers.
+
+The development version of `gfortran` now supports the
+full OpenMP 4.5 specification.  This will be released
+with GCC 11, but of course people can already download
+and test it.
 
 ### Classic Flang
 
