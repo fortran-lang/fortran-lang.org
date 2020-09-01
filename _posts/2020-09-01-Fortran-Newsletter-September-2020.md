@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: September 2020"
 category: newsletter
-author: Milan Curcic, Ondřej Čertík, Gary Klimowicz, Brad Richardson, Jérémie Vandenplas and Thomas König
+author: Milan Curcic, Ondřej Čertík, Gary Klimowicz, Brad Richardson, Jérémie Vandenplas, Thomas König, and Laurence Kedward
 ---
 
 Welcome to the September 2020 edition of the monthly Fortran newsletter.
