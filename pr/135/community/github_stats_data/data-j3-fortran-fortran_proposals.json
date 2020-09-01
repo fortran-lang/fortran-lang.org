@@ -2,12 +2,62 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 177,
+            "user": "wclodius2",
+            "date": "2020-08-04 21:10:20+00:00",
+            "title": "Assert",
+            "text": "A paper on design by contract that, among other things, proposes the addition of an ASSERT statement\nto Fortran 202y.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-08-04 21:33:05+00:00",
+                    "text": "Thank you @wclodius2, I read the proposal. Do requires and ensures do anything different from asserts other than being required to be in the prelude and conclusion of a procedure, respectively? Why not use just asserts?\nI have a slight preference for imperative mood for statements like this (require instead of requires, assert instead of asserts), which is consistent with other Fortran statements (allocate, deallocate, nullify, open, close, read, write, inquire, change team, form team, etc.)"
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2020-08-04 21:44:55+00:00",
+                    "text": "I would find it useful to have an additional statement INSIST that behaves identically to ASSERT except that it is active in both development and deployment compilation modes; i.e., it is never a null operation."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-04 21:46:42+00:00",
+                    "text": "The change is good.\n\u2026\n On Aug 4, 2020, at 3:15 PM, Milan Curcic ***@***.***> wrote:\n\n\n @milancurcic commented on this pull request.\n\n In proposals/assert/design_by_contract.txt <#177 (comment)>:\n\n > +REQUIRE and ENSURES can be thought of as either sub-program attributes\n +or executable statements. If treated as sub-program attributes then\n +the syntax could be something like\n +\n +  requires-stmt is EEQUIRES :: requires-expr-list\n +  ensures-stmt is ENSURES :: ensures-expr-list\n +\n +  requires-expr is logical-expr\n +  ensures-expr is logical-expr\n +\n +Constraint: requires-expr shall be a restricted expression.\n +\n +If thought of as run time expressions then the appropriate syntax may\n +be\n +\n +  requires-stmt is EEQUIRES( requires-expr-list )\n \u2b07\ufe0f Suggested change\n -  requires-stmt is EEQUIRES( requires-expr-list )\n +  requires-stmt is REQUIRES( requires-expr-list )\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub <#177 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOWNE4FYZCOMOYSYDI3R7B27RANCNFSM4PUZU5SA>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-04 21:58:08+00:00",
+                    "text": "Having them be different from assert calls them out to users of the procedure, and to automatic processing codes such as FORD. They naturally suggest documentation such as ASIN(X)  requires X>= -1, and X<=1, and ensures the result is >= -pi/2 and <= pi/2. The requires and ensures are aspects of the public interface of a procedure, and are important to users of the procedure, while assert is important only to the developer of the procedure.\n\u2026\n On Aug 4, 2020, at 3:33 PM, Milan Curcic ***@***.***> wrote:\n\n\n Thank you @wclodius2 <https://github.com/wclodius2>, I read the proposal. Do requires and ensures do anything different from asserts other than being required to be in the prelude and conclusion of a procedure, respectively? Why not use just asserts?\n\n I have a slight preference for imperative mood for statements like this (require instead of requires, assert instead of asserts), which is consistent with other Fortran statements (allocate, deallocate, nullify, open, close, read, write, inquire, change team, form team, etc.)\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#177 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOTMKJL7B4JCHRSLATDR7B5B7ANCNFSM4PUZU5SA>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-04 22:15:38+00:00",
+                    "text": "FWIW I slightly prefer the active voice."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-05 16:51:52+00:00",
+                    "text": "I don't seem to have write access to the repository, so I have to ask others to make changes for my approval. As it is always an executable construct ASSERT should always be in the active voice. Can someone change all appearances of ASSERTS to ASSERT? When discussed as an attribute statement I believe I should use REQUIRES and ENSURES, while when discussed as an executable statement I believe I should use REQUIRE and ENSURE. Can someone make that selected change?"
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2020-08-05 17:02:03+00:00",
+                    "text": "@wclodius2  I'm not sure what errors you're seeing, but you should be able to make changes to your pull request.  Looks like Milan committed a couple changes to it. So perhaps you need to do a git pull on your assert branch to pull those changes into your working copy before you can commit your changes and push them back to the assert branch on your fork of the repo."
+                }
+            ]
+        },
+        {
             "number": 176,
             "user": "milancurcic",
             "date": "2020-07-20 22:38:14+00:00",
             "title": "Add namespace modules proposal revision by @wclodius2",
             "text": "Uploaded for @wclodius2. Related to issue #1.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-31 18:53:34+00:00",
+                    "text": "FWIW I don\u2019t have a significant  problem with disallowing it, but it requires more changes in the standard than simply allowing it,. In allowing the syntax you want to disallow you need only\n1. Add the new keyword, with;\n2. Add the module rename list; and\n3. Disallow the module rename list if with is omitted;\n\nTo disallow the syntax you want to disallow you need to add, probably as constraints:\n4. Disallow the only keyword if with is present; and\n5. Disallow the entity rename list if with is present.\n\nIt become a different negotiation i instead of use, with :: \u2026 you add a new with::... statement.  With a with statement you need:\n1. Add the new keyword with\n2. Add the with statement to the syntax\n3. Have the module rename list in the statement\n\nYou are in effect adding a simpler statement rather than complicating an existing statement\n\u2026\n On Jul 31, 2020, at 12:22 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n @certik commented on this pull request.\n\n In proposals/namespace_modules/20-xxx.txt <#176 (comment)>:\n\n > +    use, with :: math, only: vector\n +    use, with:: strings, only: vector\n I believe this should be just:\n\n \u2b07\ufe0f Suggested change\n -    use, with :: math, only: vector\n -    use, with:: strings, only: vector\n +    use, with :: math\n +    use, with :: strings\n the code below would still run. I don't think we should allow user, with :: math, only: vector, what would it do? Allow math%vector, but not math%matrix? Python doesn't allow that, I wouldn't allow that either here.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#176 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOT43Y24H66BCKFWUYDR6MDWRANCNFSM4PC33DJQ>."
+                }
+            ]
         },
         {
             "number": 175,
@@ -773,6 +823,11 @@
                     "user": "aradi",
                     "date": "2020-02-28 21:21:19+00:00",
                     "text": "That's quite good news. I was not aware of https://j3-fortran.org/doc/year/18/18-265.txt, but it seems to formulate exactly the same idea as suggested above and would be in accordance with the original proposal on GitHub! So, there is still hope! \ud83d\ude09"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-02 21:04:03+00:00",
+                    "text": "Because the semantics of PROTECTED entities is not quite what is commonly thought, and the problems with PROTECTED components are because they are trying to match the semantics of PROTECTED entities, perhaps what is needed is a new keyword, e.g., VISIBLE, to indicate entities an components whose value can be seen, but cannot be directly modified."
                 }
             ]
         },
@@ -6212,6 +6267,51 @@
                     "user": "certik",
                     "date": "2020-01-03 14:56:33+00:00",
                     "text": "@rweed I think this would be a perfect addition to stdlib. Can you please open up an issue there? We already have a minimal assert subroutine there:\nhttps://github.com/fortran-lang/stdlib/blob/924ee5459fab5c9fa4deb30e75c12c00b2864598/src/stdlib_experimental_error.f90#L8\nSo let's extend it, and then let's discuss the macros also, per your comment."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-01 21:09:05+00:00",
+                    "text": "C++ 2020 and Ada (2012?) defined three statements intended to make \"Design by Contract\" (DbC) an intrinsic part of the language. In C++ these three statements define the attributes: requires, asserts, and ensures, where requires and ensures are in effect assert statements that are executed upon subprogram entry and exit respectively. requires, in effect, defines the pre-conditions the caller must meet for correct operation of the subprogram, and ensures the post-conditions the caller can expect to be satisfied by the subprogram if it has operated correctly.\nI have written a draft proposal for the incorporation of DbC in Fortran 202y. It, of course, includes an ASSERT statement as part of the proposal. If there is interest I can upload the proposal to my branch of the proposals directory. Once there, given the problems with my last PR, where it got added on to an existing PR, I don't know if I should do a PR or have someone else do the PR for me."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-01 21:11:30+00:00",
+                    "text": "@wclodius2  Yes, please upload it here. Try to create a new branch and put it there. Once you learn the process, it becomes simple. I can help."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-01 21:39:12+00:00",
+                    "text": "GitHub doesn\u2019t let me do an additional fork on https://github.com/wclodius2/fortran_proposals <https://github.com/wclodius2/fortran_proposals>, but does let me do a fork on the original https://github.com/j3-fortran/fortran_proposals <https://github.com/j3-fortran/fortran_proposals>. Should I fork the original again?\n\u2026\n On Aug 1, 2020, at 3:11 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n @wclodius2 <https://github.com/wclodius2> Yes, please upload it here. Try to create a new branch and put it there. Once you learn the process, it becomes simple. I can help.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#70 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDORJEOLRGNHAYVX7WHDR6SAI7ANCNFSM4JI3NFHQ>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-02 16:48:16+00:00",
+                    "text": "FWIW in not letting me fork on my repository it tells me \"Cannot fork because you own this repository and are not a member of any organization.\""
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-04 14:53:32+00:00",
+                    "text": "@wclodius2 here is how you do it. You already have a fork at GitHub (https://github.com/wclodius2/fortran_proposals) so that is all you need. Let's start from scratch on your computer, that way things will work exactly as I write them here. You will see that once you learn this workflow, you can apply it to any other project at GitHub.\nGo to some place on your computer where you want to have the fortran_proposals directory. Then initialize it as follows:\ngit clone https://github.com/j3-fortran/fortran_proposals\ncd fortran_proposals\ngit remote add william git@github.com:wclodius2/fortran_proposals.git\n\nThen create a branch assert (you can name it any other way) and put your document in:\ngit checkout -b assert\n# copy your document to proposals/assert, let's call it `assert.pdf` (I don't know what you call it)\ngit add proposals/assert/assert.pdf\ngit commit # an editor will open, write a commit message\ngit push william\n\nThis will push the assert branch into your fork, and it will also give you a link that will allow you to submit the Pull Request (PR).\nLet me know if this works, and if something does not work, I'll help."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-04 16:21:38+00:00",
+                    "text": "Before I do anything irreversible what is the meaning of <name> in\ngit remote add <name> <url>\nwhere you have put william for <name>, i.e., is it arbitrary or should it be my user name on my computer or something else?\n\u2026\n On Aug 4, 2020, at 8:53 AM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n @wclodius2 <https://github.com/wclodius2> here is how you do it. You already have a fork at GitHub (https://github.com/wclodius2/fortran_proposals <https://github.com/wclodius2/fortran_proposals>) so that is all you need. Let's start from scratch on your computer, that way things will work exactly as I write them here. You will see that once you learn this workflow, you can apply it to any other project at GitHub.\n\n Go to some place on your computer where you want to have the fortran_proposals directory. Then initialize it as follows:\n\n git clone https://github.com/j3-fortran/fortran_proposals\n cd fortran_proposals\n git remote add william ***@***.***:wclodius2/fortran_proposals.git\n Then create a branch assert (you can name it any other way) and put your document in:\n\n git checkout -b assert\n # copy your document to proposals/assert, let's call it `assert.pdf` (I don't know what you call it)\n git add proposals/assert/assert.pdf\n git commit # an editor will open, write a commit message\n git push william\n This will push the assert branch into your fork, and it will also give you a link that will allow you to submit the Pull Request (PR).\n\n Let me know if this works, and if something does not work, I'll help.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#70 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOTH72WGDCOILTM5PY3R7AOH3ANCNFSM4JI3NFHQ>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-04 16:25:21+00:00",
+                    "text": "The meaning of <name> is an arbitrary identifier of your choosing that you then reference in git push. When you do git remote -v, it will show what is setup. And you can always rename <name> using git remote rename william something_else. Here is how I have it setup for myself:\nondrej@pn1707483:~/repos/fortran_proposals(master)$ git remote -v\nondrej\tgit@github.com:certik/fortran_proposals (fetch)\nondrej\tgit@github.com:certik/fortran_proposals (push)\norigin\thttps://github.com/lfortran/fortran_proposals (fetch)\norigin\thttps://github.com/lfortran/fortran_proposals (push)\n\nWhich is analogous to what I suggested for you. If I add william to mine, see what happens:\nondrej@pn1707483:~/repos/fortran_proposals(master)$ git remote add william git@github.com:wclodius2/fortran_proposals.git\nondrej@pn1707483:~/repos/fortran_proposals(master)$ git remote -v\nondrej\tgit@github.com:certik/fortran_proposals (fetch)\nondrej\tgit@github.com:certik/fortran_proposals (push)\norigin\thttps://github.com/lfortran/fortran_proposals (fetch)\norigin\thttps://github.com/lfortran/fortran_proposals (push)\nwilliam\tgit@github.com:wclodius2/fortran_proposals.git (fetch)\nwilliam\tgit@github.com:wclodius2/fortran_proposals.git (push)\n\nNow I can pull branches from you using git fetch william. So that's the idea."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-04 18:29:56+00:00",
+                    "text": "On the\ngit push william\nI get\nThe authenticity of host 'github.com (140.82.114.3)' can't be established.\nRSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.\nAre you sure you want to continue connecting (yes/no/[fingerprint])? yes\nWarning: Permanently added 'github.com,140.82.114.3' (RSA) to the list of known hosts.\ngit@github.com: Permission denied (publickey).\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n\u2026\n On Aug 4, 2020, at 8:53 AM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n @wclodius2 <https://github.com/wclodius2> here is how you do it. You already have a fork at GitHub (https://github.com/wclodius2/fortran_proposals <https://github.com/wclodius2/fortran_proposals>) so that is all you need. Let's start from scratch on your computer, that way things will work exactly as I write them here. You will see that once you learn this workflow, you can apply it to any other project at GitHub.\n\n Go to some place on your computer where you want to have the fortran_proposals directory. Then initialize it as follows:\n\n git clone https://github.com/j3-fortran/fortran_proposals\n cd fortran_proposals\n git remote add william ***@***.***:wclodius2/fortran_proposals.git\n Then create a branch assert (you can name it any other way) and put your document in:\n\n git checkout -b assert\n # copy your document to proposals/assert, let's call it `assert.pdf` (I don't know what you call it)\n git add proposals/assert/assert.pdf\n git commit # an editor will open, write a commit message\n git push william\n This will push the assert branch into your fork, and it will also give you a link that will allow you to submit the Pull Request (PR).\n\n Let me know if this works, and if something does not work, I'll help.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#70 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOTH72WGDCOILTM5PY3R7AOH3ANCNFSM4JI3NFHQ>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-04 19:03:11+00:00",
+                    "text": "That means your ssh key is not at GitHub (I assume it already was there). All you need to do is to create an ssh key:\nssh-keygen\n\nand copy ~/.ssh/id_rsa.pub (assuming you are on linux) to your GitHub profile: https://github.com/settings/keys"
                 }
             ]
         },
@@ -6562,6 +6662,56 @@
                     "user": "urbanjost",
                     "date": "2020-01-09 03:38:36+00:00",
                     "text": "I hate preprocessors and yet have written several; so I do not think cpp(1) is sufficient even if it is a modified \"Fortran-safe\" version such as fpp. That type of preprocessing it usually most useful for hiding portability issues between different systems and compilers which I find I need far less than in the past; partly because of more standardized OSes; and partly because of Fortran standardization and the inclusion of the ISO_C_BINDING module (a lot of cpp processing had to do with interfacing with C in my case).  More recently I find I use preprocessing to make up for these missing Fortran features:\nMULTI-FILE FILES\nbeing able to have blocks of text in the same file for  plain text documentation, Fortran, and related C\ncode and unit tests.\nbeing able to define strings with blocks of plain text. IE\nDEFINING CHARACTER VARIABLES WITH PLAIN BLOCKS OF TEXT (IE. \"HERE\" documents)\nhelp=```\na block of text without any\nother need for quotes or continuation characters and so on.\n>>>_scratch1\n   test data\n<<<\n\nrunning code thru other utilities such as bash, sed, m4, ... to loop over routines to create generics. bash is even more commonly available than python, very standardized and surprisingly good as a \npreprocessor, and has a large number of people familiar with it. \n\nIt GREATLY helps me to keep my document (usually in markdown syntax, sometimes in HTML or LaTex right in the file with my Fortran and C code and test scripts;  my intent is not to say everyone should use one of my preprocessors but to say  preprocessing is still useful for making up for missing features and customizing the development environment in useful ways. \n\nEven using cpp as an example, it can be very useful just to do something like\n#ifdef DOCUMENT\nNAME\n   my routine -- it does this stuff\nSYNOPSIS\n       my_routine(parm1, parm2, parm3)\nDESCRIPTION\n       everything you ever wanted to know about my \n       routine\nEXAMPLE\n       bet you wish there was an example here\n#elif defined(FORTRAN)\n    subroutine my_routine\n   end subroutine my_routine\n#elif defined(CCODE)\n   my_routine_c(){\n}\n#endif   \n\nit is then easy to make scripts or makefile rules to extract the document and run it thru man2txt to make a man page, turn it into comments and include it with the Fortran code and put that into a .f90 file, and put the C code into a .c file. \n\ncan be really a very useful use of a preprocessor.  Note that m4 can be used to do all kinds of preprocessing.  \n\nPut more to the topic,  preprocessing is often still desirable, especially for helping to simulate missing Fortran capabilities like templating and allowing flat block text; and if anyone is going to create a standard preprocessor cpp(1) is not a model I would recommend. People put up with using cpp for Fortran pre-processing for lack of simple alternatives; they do not find it sufficient (or even safe)."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-31 18:29:58+00:00",
+                    "text": "If we can't get J3 to standardize minimum requirements on this essential and universally implemented feature, perhaps the community can at least give some guidance to implementors.  I would like f18 to predefine a macro that specifies the edition of the Fortran standard that it implements, something like #define __FORTRAN_STD__ 2018.  Is that the best name, or can anyone suggest something better?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-31 20:15:31+00:00",
+                    "text": "@klausler yes, we should come up with conventions as a community.\nWill this macro change if you tell the compiler to stick with F2003 for example (like the -std=f2003 option for gfortran)? How are you imagining users would use this macro?"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-07-31 20:40:59+00:00",
+                    "text": "This proposal seems unworkable to me. It means that a compiler that implements all but one minor feature of F2018 can't say it supports F2018. When you have a compiler such as gfortran that isn't even full F2003, yet has features from F2008 and F2018, what would you have it define?\nAs I wrote above. J3 did standardize a preprocessor and it was roundly ignored by the community. I have also observed that programmers are often misinformed about the revision of the standard they are using.\nI would like to see preprocessors die and would not want to put anything in the standard that encourages their use. They're useful today because the language lacks features such as robust generics/templates, but work in that area is progressing with some 202X features helping. Past use to deal with C interoperability is no longer necessary. If you feel you need to write different code for different compilers, it would better to use the greatest common subset and enhance that as the compilers you use catch up. The alternative feels like a testing and maintenance nightmare to me.\nA common strategy I have seen is to not use a feature that isn't supported in at least three compilers. I observe that this is likely to be less of a problem over the coming years as I see compilers catching up to the standard much more quickly than in the past 5-10 years."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-31 20:42:20+00:00",
+                    "text": "@klausler yes, we should come up with conventions as a community.\nWill this macro change if you tell the compiler to stick with F2003 for example (like the -std=f2003 option for gfortran)? How are you imagining users would use this macro?\n\nI don't know of any use cases for limiting the compiler to an older standard, apart from wanting pre-2003 allocatable array assignment semantics, and there's better syntactic solutions (viz., A(:)=... rather than A=...) for that use case.  Do you?\nThe use for a __FORTRAN_STD__ predefined macro would be for making code that uses newer features conditional, for those cases where there's a less preferable approach that works with older standards that could be in an #else case.  It could also appear in programs that absolutely depend on newer features to provide more useful error messages:\n#if __FORTRAN_STD__ < 2008\n#error This program uses coarrays; get a newer Fortran compiler.\n#endif \n\nThat's something that I often do with C++ code that uses C++2017 features."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-31 21:04:00+00:00",
+                    "text": "This proposal seems unworkable to me. It means that a compiler that implements all but one minor feature of F2018 can't say it supports F2018. When you have a compiler such as gfortran that isn't even full F2003, yet has features from F2008 and F2018, what would you have it define?\nAs I wrote above. J3 did standardize a preprocessor and it was roundly ignored by the community. I have also observed that programmers are often misinformed about the revision of the standard they are using.\nI would like to see preprocessors die and would not want to put anything in the standard that encourages their use. They're useful today because the language lacks features such as robust generics/templates, but work in that area is progressing with some 202X features helping. Past use to deal with C interoperability is no longer necessary. If you feel you need to write different code for different compilers, it would better to use the greatest common subset and enhance that as the compilers you use catch up. The alternative feels like a testing and maintenance nightmare to me.\nA common strategy I have seen is to not use a feature that isn't supported in at least three compilers. I observe that this is likely to be less of a problem over the coming years as I see compilers catching up to the standard much more quickly than in the past 5-10 years.\n\nI'm not proposing anything for the standard here.  I understand that you don't want to standardize preprocessing, and that you get to decide whether preprocessing is standardized or not.  Fine.\nBut preprocessing is still used in real codes by real users, it's part of every Fortran implementation, and I would like to provide the best implementation of preprocessing for them that I can in f18 in the absence of guidance from a standard."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-07-31 22:46:11+00:00",
+                    "text": "I understand that you don't want to standardize preprocessing, and that you get to decide whether preprocessing is standardized or not.\n\nNo, I don't get to decide. I am just one vote among all WG5. But as I have said, we already did standardize preprocessing (though this happened before I was on the committee) and it was ignored and has now been dropped from the standard. Nothing I or WG5 say will stop people from using preprocessing using the tools (cpp) they are already using."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-31 23:59:15+00:00",
+                    "text": "I understand that you don't want to standardize preprocessing, and that you get to decide whether preprocessing is standardized or not.\n\nNo, I don't get to decide. I am just one vote among all WG5. But as I have said, we already did standardize preprocessing (though this happened before I was on the committee) and it was ignored and has now been dropped from the standard. Nothing I or WG5 say will stop people from using preprocessing using the tools (cpp) they are already using.\n\nDoes any production Fortran compiler actually use cpp?  It doesn't interact well with line continuation, line truncation, Hollerith, or (especially) INCLUDE.  I don't know of a compiler that preprocesses with a stock cpp.\nCoCo wasn't rejected by users and implementors because people didn't need or want preprocessing.  CoCo was a failure because it was gratuitously different from the C-like preprocessing and local tooling that people were already using, and it wasn't a better solution (in fact, it's really weird and ugly)."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-08-01 00:09:11+00:00",
+                    "text": "I don't know what every compiler uses, but I often see cpp invoked with an option that better handles Fortran. ifort has its own fpp that accepts cpp directives. I think pretty much every Fortran in common use has something similar.\nMy point was that people are already using cpp or a cpp-like preprocessor that they already have. I agree that CoCo was \"gratuitiously different\", but what the users told us was that cpp (or cpp-like) was working for them."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-08-01 00:37:24+00:00",
+                    "text": "And if the common subset of the behaviors of Fortran-aware preprocessors (and built-in preprocessing phases) were to be documented, then both users and implementors would know what's portable and what's not.  This is exactly the sort of thing that should be in a de jure standard.  But that's not going to happen, and the best I could do for f18 was to determine that common subset myself, figure out the most reasonable behavior in edge cases where compilers differ, and ask users for guidance.   If you have better advice for an implementor, I'm all ears.\nEDIT: See here for a table of preprocessing behaviors of various compilers, using fixed and free form samples in this directory.  As one can see, things are not terribly compatible today, but there is a common portable subset."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-01 03:50:46+00:00",
+                    "text": "@klausler I agree with you and I think the best we can do is to get a community / vendors consensus of what should be supported and document it. Most production Fortran codes that I have seen use macros in some form, and thus compilers must support them.\nThank you for taking the lead on that in the document you shared."
                 }
             ]
         },
@@ -6889,6 +7039,11 @@
                     "user": "rouson",
                     "date": "2020-07-14 23:41:45+00:00",
                     "text": "@klausler if the problems you raised could be addressed by adding a new default(...) clause, then that seems like a lot of bang for the buck.   My understanding is that it was once common for features to start as compiler extensions before entering the standard.   I would definitely give such an extension a try if it appears in a compiler.  It seems like something that would be very easy to incorporate via preprocessor macros when working with a compiler that supports it. I would also back a proposal for such a feature at the appropriate time (presumably 202Y)."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-08-27 17:39:00+00:00",
+                    "text": "https://reviews.llvm.org/D86556\nWe\u2019re still trying to figure out what we\u2019re going to do with DO CONCURRENT in f18 (flang). I wrote a short documentation file to describe its basic problem: a programmer writing parallel code with DO CONCURRENT may not enjoy parallel execution because the standard imposes weaker requirements on the body of DO CONCURRENT that suffice only to allow safe serial execution of iterations in arbitrary order, and a compiler can assume only that those weaker requirements have been respected and thus has no general way to know that concurrency is safe \u2013 even when the programmer knows that it is.\nPlease let me know where the note can be made more clear, correct or complete. I\u2019m trying to summarize the problems in one place in the source base to which we can direct new users in the future when they need to know why DO CONCURRENT isn\u2019t working as one might expect. If you have LLVM reviewing permissions, you can comment in place if you like. Thanks!"
                 }
             ]
         },
@@ -7798,7 +7953,7 @@
         },
         {
             "number": 41,
-            "user": "nebulaekg",
+            "user": "kaigaox",
             "date": "2019-10-23 18:54:45+00:00",
             "title": "Proposal for default value of optional function/subroutine arguments",
             "text": "Fortran cannot set default value in function/subroutine definition for optional arguments. This is an apparent inconvenience if there are multiple optional arguments, compared with C/C++. In such case, using if(present()) can become rather cumbersome. I'd hope that future fortran has such functionality.",
@@ -7809,7 +7964,7 @@
                     "text": "@nebulaekg thanks for reporting this. Isn't this a duplicate of #22?"
                 },
                 {
-                    "user": "nebulaekg",
+                    "user": "kaigaox",
                     "date": "2019-10-23 19:00:26+00:00",
                     "text": "@nebulaekg thanks for reporting this. Isn't this a duplicate of #22?\n\nHi Ondrej, Yes I missed it. Sorry about this. -Kai"
                 },
@@ -10524,6 +10679,36 @@
                     "user": "wclodius2",
                     "date": "2020-07-20 23:11:53+00:00",
                     "text": "Thanks!\n\u2026\n On Jul 20, 2020, at 4:40 PM, Milan Curcic ***@***.***> wrote:\n\n\n @wclodius2 <https://github.com/wclodius2> Sorry, I thought that would work but it seems like GitHub UI is not as flexible for uploading new files as for editing files in-browser. I went ahead and uploaded your revision in #176 <#176> .\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOWMMNFFRMDYRGV2CG3R4TBU7ANCNFSM4JBFRGNA>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-07-31 17:03:48+00:00",
+                    "text": "FWIW I have not seen any further response to this submission. I wonder whether that is because there has been no response or because @milancurcic made the submission and I cannot see responses to submissions by people other than myself? I noticed that some of the participants are labeled Collaborators or Contributors, but I lack such a label and wonder whether it affects what I see?"
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-07-31 19:47:56+00:00",
+                    "text": "Though I'm not sure if this has been discussed already, is it another approach to include the module name itself in the ONLY list (in a way similar to Julia)? For example, assuming that mymod has integer :: foo, baa, this statement\nuse mymod, only: mymod\n\nallows only a qualified access to foo as\nprint *, mymod % foo   !! OK\nprint *, foo   !! error\n\nAt the same time, one can also import multiple entities as\nuse mymod, only: mymod, baa\nuse mymod, only: m => mymod, b => baa    !! rename\n\n(The corresponding syntax in Julia is like using Printf: Printf and using Printf: Printf, @printf.)\n\nThe above approach may help reserve the keyword namespace and with for other purposes. For example, with could be used for importing some components of a derived type into the current scope (to allow unqualified access), e.g.,\nwith ( myobj : foo, baa, baz )\n    print *, foo\n    ...\nend with\n\nThe D language has a similar with statement (https://dlang.org/spec/statement.html#WithStatement)."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-07-31 19:55:27+00:00",
+                    "text": "I like septcolor's suggestion.  Would it be transitive -- i.e., if mymod has a use hismod, only: hismod, would mymod%hismod%baz work?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-31 20:11:34+00:00",
+                    "text": "I like @septcolor's suggestion also, I haven't thought of that before.\n@klausler yes, it would make sense to me for it to be transitive."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-07-31 20:23:14+00:00",
+                    "text": "@Klauser I think the \"transitive\" behavior would be very natural and intuitive. For comparison, I've tried this code in Julia, and it seems to behave as expected.\nmodule mymod1\n  foo = 100\nend\n\nmodule mymod2\n  using ..mymod1: mymod1\n\n  @show mymod1.foo   # OK: 100\n  # @show foo        # Error: foo not defined\nend\n\nmodule mymod3\n  using ..mymod2: mymod2\n\n  @show mymod2.mymod1.foo   # OK: 100\n  # @show mymod1.foo        # Error: mymod1 not defined\nend"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-08-01 00:00:21+00:00",
+                    "text": "I am unenthusiastic about overloading the meaning of a keyword like ONLY, but do like the syntactic position of your suggestion. say\nUSE module-name, WITH: module-rename\nstrikes me as relatively intuitive\n\u2026\n On Jul 31, 2020, at 1:48 PM, septcolor ***@***.***> wrote:\n\n\n Though I'm not sure if this has been discussed already, is it another approach to include the module name itself in the ONLY list (in a way similar to Julia)? For example, assuming that mymod has integer :: foo, baa, this statement\n\n use mymod, only: mymod\n allows only a qualified access to foo as\n\n print *, mymod % foo   !! OK\n print *, foo   !! error\n At the same time, one can also import multiple entities as\n\n use mymod, only: mymod, baa\n use mymod, only: m => mymod, b => baa    !! rename\n (The corresponding syntax in Julia is like using Printf: Printf and using Printf: Printf, @printf.)\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOXGR7MDH4YNKA2NBI3R6MNXZANCNFSM4JBFRGNA>."
                 }
             ]
         }

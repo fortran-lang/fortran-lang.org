@@ -2,6 +2,210 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 156,
+            "user": "awvwgk",
+            "date": "2020-08-28 13:25:54+00:00",
+            "title": "Bootstrap version fails to read implicit dependencies table",
+            "text": "This could be an upstream issue with https://github.com/kowainik/tomland, but I don't know enough Haskell to verify this.\nSteps to reproduce:\n\nInstall the bootstrap version of fpm (fcb7f67 used)\nCreate new project and add any dependency without using an inline table\n\n> fpm new example\n> cd example\n> echo \"[dependencies.toml-f]\\ngit = \\\"https://github.com/awvwgk/toml-f\\\"\" >> fpm.toml\n\n\nTry to build the project with the dependency\n\n> fpm build\n# gfortran (for build/gfortran_debug/example/example.o build/gfortran_debug/example/example.mod)\n# ar (for build/gfortran_debug/example/libexample.a)\nar: creating build/gfortran_debug/example/libexample.a\n\n\nFind the dependency not recognized\n\n> tree build\nbuild\n\u2514\u2500\u2500 gfortran_debug\n    \u2514\u2500\u2500 example\n        \u251c\u2500\u2500 example.mod\n        \u251c\u2500\u2500 example.o\n        \u2514\u2500\u2500 libexample.a\n\nPresumed source of the error:\nThe following two TOML documents are equivalent, except\n\nuses an inline table for dependencies.toml-f\n\n[dependencies]\ntoml-f = { git = \"https://github.com/awvwgk/toml-f\" }\n\ndependencies is implicitly created\n\n[dependencies.toml-f]\ngit = \"https://github.com/awvwgk/toml-f\"\nApparently, implicit tables are handled differently by the tomland parser, but this implementation detail should not leak into fpm\nAdditional information:\nTesting this with the Python toml module:\n>>> import toml\n>>> table = toml.loads(\"[dependencies.toml-f]\\ngit = \\\"https://github.com/awvwgk/toml-f\\\"\")\n>>> print(table)\n{'dependencies': {'toml-f': {'git': 'https://github.com/awvwgk/toml-f'}}}\n>>> print(toml.dumps(table))\n[dependencies.toml-f]\ngit = \"https://github.com/awvwgk/toml-f\"",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-28 15:40:40+00:00",
+                    "text": "I hadn't expected anybody to try using implicit tables for that, but I can confirm there is likely a bug in the upstream library with that style.\nI believe the way it stores the \"key path\" when parsing the toml can end up slightly different depending on that style. I had to implement a feature to allow it to do the automatic conversion to the types used by fpm properly with a table like that, and it's possible it's not properly dealing with that different \"key path\" style.\nI'll submit a bug report for that library. I'm not sure if that will be fixed before the Fortran version is done or not. We'll see."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-28 16:14:48+00:00",
+                    "text": "ok, can confirm that the bug exists in the latest version of the library as well. Going to work on a bug report to them."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-08-28 17:49:23+00:00",
+                    "text": "ok, can confirm that the bug exists in the latest version of the library as well. Going to work on a bug report to them.\n\nThanks.\n\nI hadn't expected anybody to try using implicit tables for that, but I can confirm there is likely a bug in the upstream library with that style.\n\nI think it is kind of a natural choice for this, as inline tables are quite limited by the TOML specs on purpose.\nEspecially another kind of implicit tables is really expressive in this context:\n[dependencies]\ntoml-f.git = \"https://github.com/toml-f/toml-f\""
+                }
+            ]
+        },
+        {
+            "number": 155,
+            "user": "LKedward",
+            "date": "2020-08-26 15:14:21+00:00",
+            "title": "[Fortran fpm] Internal dependencies & build backend",
+            "text": "Opening a draft PR for feedback.\nImplements:\n\na rudimentary process for scanning sources and determining inter-module dependencies.\na simple fpm backend for building files in correct order\n\nThis is really a minimal working implementation, many places for improvement (particularly source parsing),\nbut it should now build any stand-alone package that only uses the src and app directories (no subdirectories).\nA nice example: fortran fpm can now build itself. Run fpm run --args 'build' with Haskell fpm.\nOther changes:\n\nMoved filesystem and string routines into separate modules for now - these will eventually be substituted by stdlib routines.\n\nNot yet implemented:\n\nnon-default layouts (requires fpm.toml)\nfpm model structure\nPackage layout constraints\nLibrary archiving\nIncremental builds\nBuild output directory\n\nTested on Ubuntu Linux (gcc-7.5.0) and MinGW Windows (gcc-8.1.0).",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-08-26 15:41:42+00:00",
+                    "text": "Thanks a lot Laurence. I only did a cursory read through for now and have a few suggestions:\n\nFor split() and lower() from ``M_strings by @urbanjost, should we import them as a dependency instead of in source? This would mean that fpm-fortran wouldn't be able to build itself (we can't download dependencies yet), but this seems to me like an unnecessary requirement for now. The advantage is that we have less code to maintain. Or would you prefer to keep it in source until we can download dependencies, and then replace them with use M_strings, only: lower, split?\nFPM -> fpm everywhere (source file names and modules), as per #77.\nShoud we rename module environment in environment.f90 to fpm_environment in fpm_environment.f90?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-26 17:49:03+00:00",
+                    "text": "Thanks for the comments @milancurcic! I agree with you on all points."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-26 19:34:02+00:00",
+                    "text": "This is a great start, and a great next step. Thanks @LKedward .\nI agree with @milancurcic for FPM -> fpm and environment -> fpm_environment. I'm also in favor of leaving lower and split in source until we can fetch and build dependencies. Since this seems to allow fpm to build itself, I think we should make efforts not to lose that ability again.\nI will try and find time over the next few days to try and look into the CI failures a bit more closely and see what's going on."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-27 01:18:19+00:00",
+                    "text": "Great work! Thank you.\n\nWhere is the fpm_model module? I couldn't find it (on my phone).\n\u2026\nOn Wed, Aug 26, 2020, at 9:14 AM, Laurence Kedward wrote:\n Opening a draft PR for feedback.\n\n Implements:\n\n  * a rudimentary process for scanning sources and determining\n inter-module dependencies.\n  * a simple fpm backend for building files in correct order\n This is really a minimal working implementation, many places for\n improvement (particularly source parsing),\n but it should now build any stand-alone package that only uses the\n `src` and `app` directories (no subdirectories).\n\n A nice example: fortran `fpm` can now build itself. Run `fpm run --args\n 'build'` with Haskell `fpm`.\n\n Other changes:\n\n  * Moved filesystem and string routines into separate modules for now -\n these will eventually be substituted by stdlib routines.\n Not yet implemented:\n\n  * non-default layouts (requires `fpm.toml`)\n  * fpm model structure\n  * Package layout constraints\n  * Library archiving\n  * Incremental builds\n  * Build output directory\n Tested on Ubuntu Linux (gcc-7.5.0) and MinGW Windows (gcc-8.1.0).\n\n You can view, comment on, or merge this pull request online at:\n\n   #155\n\n Commit Summary\n\n  * Restructure: move some routines out of fpm module.\n  * Use temporary file for directory listing output.\n  * Minor fix: to read_lines subroutine.\n  * Add: Sourcefiles module for processing sources.\n  * Minor fix: to count_rows in filesystem mod.\n  * Add: initial fpm build backend.\n  * Add: initial support for c sources.\n  * Minor fix: add dependency pointer guard.\n File Changes\n\n  * *A* fpm/src/FPM_Backend.f90\n <https://github.com/fortran-lang/fpm/pull/155/files#diff-475cc582fa5d31afd70a27d7efa178df> (49)\n  * *A* fpm/src/FPM_Filesystem.f90\n <https://github.com/fortran-lang/fpm/pull/155/files#diff-051a34076927ef0e96a561c89801de72> (125)\n  * *A* fpm/src/FPM_Sourcefiles.f90\n <https://github.com/fortran-lang/fpm/pull/155/files#diff-7e8ed2fd5212f618126c139653c2f364> (375)\n  * *A* fpm/src/FPM_Strings.f90\n <https://github.com/fortran-lang/fpm/pull/155/files#diff-e1790889afd1b0c2e62f82231394fa23> (195)\n  * *M* fpm/src/environment.f90\n <https://github.com/fortran-lang/fpm/pull/155/files#diff-32b40b492690c8c8294e981a0fb78e70> (14)\n  * *M* fpm/src/fpm.f90\n <https://github.com/fortran-lang/fpm/pull/155/files#diff-e235e41ae1a801d1ff11bfa3aa1ea6db> (134)\n Patch Links:\n\n  * https://github.com/fortran-lang/fpm/pull/155.patch\n  * https://github.com/fortran-lang/fpm/pull/155.diff\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#155>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWH4WICQDIJWIZZH6DDSCURF5ANCNFSM4QL6FSFA>."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-27 01:59:46+00:00",
+                    "text": "Yep, @certik is correct. It looks like the fpm_model module got missed with the commits"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-27 04:35:16+00:00",
+                    "text": "That was the most important module I wanted to look at. ;)\n\u2026\nOn Wed, Aug 26, 2020, at 7:59 PM, Brad Richardson wrote:\n\n\n Yep, @certik <https://github.com/certik> is correct. It looks like the\n `fpm_model` module got missed with the commits\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#155 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWH7POTCLAX6LUPAVHDSCW4Z7ANCNFSM4QL6FSFA>."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-27 12:03:30+00:00",
+                    "text": "Yep, @certik is correct. It looks like the fpm_model module got missed with the commits\n\nSorry yes, I'll push an update later that works with an initial fpm_model structure (it only has the dependency structure in currently).\nI don't mind use M_Strings as a dependency or keeping it self-contained for now - @certik do you have an opinion on this?"
+                }
+            ]
+        },
+        {
+            "number": 154,
+            "user": "milancurcic",
+            "date": "2020-08-20 18:00:00+00:00",
+            "title": "Implement fpm new",
+            "text": "Should be a low-hanging fruit and easy project.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2020-08-31 03:09:17+00:00",
+                    "text": "I tried implementing the command line parsing I could discern from the Haskell fpm(1) using a parsing module I have and implemented the \"fpm new\" subcommand trying to stay true to the current structure of the fpm Fortran skeleton. I also had it ech the parsed arguments in the unimplimented commands.  I could not get this to push out put I have not done that all that many times so if anyone is interested in that  clone https://github.com/urbanjost/M_CLI2.git and ignore the rest of it but just look in the fpm.cli/ directory."
+                }
+            ]
+        },
+        {
+            "number": 153,
+            "user": "everythingfunctional",
+            "date": "2020-08-17 18:48:04+00:00",
+            "title": "Prevent Name Collisions Between Packages",
+            "text": "In #86, it became clear that we'd like a solution to prevent name collisions of modules between packages. Starting this thread here to discuss solutions.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-17 19:03:45+00:00",
+                    "text": "My preferred solution would just be that all modules in a library must start with the name of the library. Thus, you may have a module that is just the same name as the library. This is likely to be a common design; organize your library however you like, expose the public API via a module with the same name as the library."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-08-17 19:28:02+00:00",
+                    "text": "I agree, I think this is the way to go.\nStructuring the module and file names as we did so far helps emulate namespaces and subpackages, but I don't see a good reason to enforce it. The user can still do it if they prefer."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-17 20:06:40+00:00",
+                    "text": "Here is the \"minimal\" proposal:\nAll module names must start with the library name, in particular the module name should be equal to:\n\neither the library name and underscore, such as stdlib_* or toml_*\nor just the library name, such as stdlib or toml\n\nDo we all agree with this \"minimal\" proposal?\nI do. If we all do, we have something to solve our immediate problem, which is name collisions between packages. This gives us time to discuss naming conventions, which I think is important to have, but that's a separate issue."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-18 07:46:44+00:00",
+                    "text": "I agree, this is a good solution."
+                }
+            ]
+        },
+        {
+            "number": 152,
+            "user": "urbanjost",
+            "date": "2020-08-15 19:11:15+00:00",
+            "title": "examples with multiple executables and tests",
+            "text": "I had created fpm.toml files that worked, but apparently were not correct toml files. With help from @LKedward I changed my list of executables to an array in several fpm.toml files which now passes tests as standard toml and still works; but when I try the same syntax with multiple test programs my tests are ignored. It is probably something simple but it took me a while just trying empirically to get everything running initially with multiple programs (realizing each one had to be in a seperate directory and so on). I was thinking I am not the only one likely to have these problems and that a more extensive example on this site showing the proper/preferred way to have multiple test programs and application executables would help avoid the problem and give me a solution. The first use I have made of TOML is for these fpm files so even if I get something to work I am not particularly confident it will be the \"right\" way.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-08-16 00:01:54+00:00",
+                    "text": "Thanks for reporting the issue. I agree we need better examples and tests.\n\u2026\nOn Sat, Aug 15, 2020, at 1:11 PM, urbanjost wrote:\n\n\n I had created fpm.toml files that worked, but apparently were not\n correct toml files. With help from @LKedward\n <https://github.com/LKedward> I changed my list of executables to an\n array in several fpm.toml files which now passes tests as standard toml\n and still works; but when I try the same syntax with multiple test\n programs my tests are ignored. It is probably something simple but it\n took me a while just trying empirically to get everything running\n initially with multiple programs (realizing each one had to be in a\n seperate directory and so on). I was thinking I am not the only one\n likely to have these problems and that a more extensive example on this\n site showing the proper/preferred way to have multiple test programs\n and application executables would help avoid the problem and give me a\n solution. The first use I have made of TOML is for these fpm files so\n even if I get something to work I am not particularly confident it will\n be the \"right\" way.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#152>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWEU6LBNIZHITWNKGL3SA3MV5ANCNFSM4QANIPSQ>."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-08-16 08:56:56+00:00",
+                    "text": "I have the same set-up for the collection of modules I called \"pointsets\" -\nwith each test program in a separate directory, but the sources for the\nmodules in one and the same source directory. This works fine. If you need\nan example (for at least the current way), you could use that.\n\nRegards,\n\nArjen\n\nOp zo 16 aug. 2020 om 02:02 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com\n\u2026\n:\n Thanks for reporting the issue. I agree we need better examples and tests.\n\n On Sat, Aug 15, 2020, at 1:11 PM, urbanjost wrote:\n >\n >\n > I had created fpm.toml files that worked, but apparently were not\n > correct toml files. With help from @LKedward\n > <https://github.com/LKedward> I changed my list of executables to an\n > array in several fpm.toml files which now passes tests as standard toml\n > and still works; but when I try the same syntax with multiple test\n > programs my tests are ignored. It is probably something simple but it\n > took me a while just trying empirically to get everything running\n > initially with multiple programs (realizing each one had to be in a\n > seperate directory and so on). I was thinking I am not the only one\n > likely to have these problems and that a more extensive example on this\n > site showing the proper/preferred way to have multiple test programs\n > and application executables would help avoid the problem and give me a\n > solution. The first use I have made of TOML is for these fpm files so\n > even if I get something to work I am not particularly confident it will\n > be the \"right\" way.\n >\n > \u2014\n > You are receiving this because you are subscribed to this thread.\n > Reply to this email directly, view it on GitHub\n > <#152>, or unsubscribe\n > <\n https://github.com/notifications/unsubscribe-auth/AAAFAWEU6LBNIZHITWNKGL3SA3MV5ANCNFSM4QANIPSQ\n >.\n >\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#152 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR7XA2AUSRXNZTVPFC3SA4OX5ANCNFSM4QANIPSQ>\n ."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-16 09:27:20+00:00",
+                    "text": "when I try the same syntax with multiple test programs my tests are ignored.\n\nHi @urbanjost, this may be a subtle problem with the ordering of your fpm.toml file - does the inline array definition of test come after any previous (non-inline) array definition such as [[library]] or [[executable]], if so then the resulting data structure will have test as a sub-member of the previous definition and will hence be ignored at the top-level. This is IMO, an unfortunate subtlety of how Array of tables are defined in toml."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-08-16 19:06:01+00:00",
+                    "text": "That was the major problem! Thanks. Still tweeking it but this particular module is primarily an interface to C POSIX routines. It is at least working again; although still tweeking it.\ngit clone https://github.com/urbanjost/M_system.git\n\n >>fpm.toml <<\n [dependencies]\n M_system        = { git = \"https://github.com/urbanjost/M_system.git\" }\n\nStill think some vetted examples here would be useful, of course."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-17 10:10:17+00:00",
+                    "text": "Still think some vetted examples here would be useful, of course.\n\nAgreed. It would also be useful to mention the alternative compact notation for array-of-tables - useful for multiple executables/tests - and the above limitation."
+                }
+            ]
+        },
+        {
+            "number": 151,
+            "user": "everythingfunctional",
+            "date": "2020-07-31 00:14:46+00:00",
+            "title": "Refactor to make it easier to start developing the command line aspects",
+            "text": "I'm proposing this as the start of the design for the command line aspects. I'm thinking I'll go ahead and start developing a command line parsing library, but the rest of the application doesn't need to know anything about it this way.\nUnfortunately, this makes fpm incapable of building itself now. Should we start hard-coding some stuff to at least keep that working?",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-31 17:12:47+00:00",
+                    "text": "It's basically just not doing anything to figure what order it needs to build the modules. Hardcoding it would be a short term solution, but will very quickly become a mess."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-07-31 17:27:44+00:00",
+                    "text": "I looked more closely at FLAP. I really like the API, as it follows pretty closely the Python argparse library. However, it has a few limitations that I think rule it out.\n\nIt's licensed under GPLv3, which (I believe) is incompatible with fpm's MIT license\nIt doesn't support being built with fpm, and doesn't look very easy to convert (due to next issue)\nIt has several external dependencies that are managed as git submodules (a significant issue for bringing in as an fpm package)\nIt doesn't (seem to) support trailing, pass-through arguments (i.e. fpm run -- args to executable)\n\nI'm going to try and implement a very similar API, and will probably look at it for inspiration, but I just don't think it is the right solution for fpm right now"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-31 17:34:46+00:00",
+                    "text": "Okay, I think I understand now. It's Fortran fpm that is trying to build itself in CI.\nI agree that we aim for this to work, but it seems to me a strange requirement to have right now. Fortran fpm conforms to the fpm package rules, but Fortran fpm does not have fpm build implemented to follow these rules. It seems to me like the wrong requirement to chase in this PR.\nInstead, I propose that:\n\nThe Fortran fpm test in CI should be to simply build the example project (generated by Haskell fpm new).\nTo pass the test the above, we need to either expand Haskell's fpm new to add a bare-bones app/main.f90, or only build the module in Fortran fpm build\n\n@certik does this seem like a reasonable compromise?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-07-31 17:40:38+00:00",
+                    "text": "Brad, we discussed this a bit in #135. License is a non-issue (FLAP is multi-licensed). Your other bullets are real issues. However, nothing's stopping us from forking the project and pulling in the external dependencies. It could all be fpm-ized in a day, but no point in doing so until we are sure it's the road we want to take. I think it's too early to tell."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-07-31 18:15:27+00:00",
+                    "text": "It's fine I guess if it can't build itself. It currently runs some tests, and we should add a few more to test it a bit."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-01 03:55:13+00:00",
+                    "text": "I checked the tests, they seem to work. The Fortran FPM is tested on the simple hello world example, so I think we are in good shape and I merged it. I personally prefer more procedural approaches than the OO approach, but let's just try it, and we can refactor later if we decide in the future."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-09-01 02:42:32+00:00",
+                    "text": "I implimented the parsing using M_CLI2 and added enough (Posix-dependent) system routines to impliment the \"new\" subcommand in https://github.com/urbanjost/M_CLI2.git in the subdirectory fpm.cli.  It also parses the other commands but does not do anything new with them other than echo the argument values to show the CLI parsing is working. Implimenting the \"new\" command was just to demonstrate the parsing, but if some can add equivalent routines for the mkdir,chdir,perror for other systems it would be portable, as the CLI interface is all Fortran. If this looks like it is sufficient details like completing the help text, etc. will be completed but I did not want to go much further if no concensus that this is sufficient is forthcoming. I have a basic Fortran-based utility for creating a basic Make file that could be used to do the builds (on systems with make) but  not much need to do step two if step one is not going to work out. Could not get a git request to work so it is not a pull request, just some files to replace fpm/src. If good enough feel free to move it to the git repository."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-09-01 06:42:52+00:00",
+                    "text": "That should be doable with the stdlib_os module from stdlib. (I do not see\nit in the repository yet, though)\n\n\n\nOp di 1 sep. 2020 om 04:42 schreef urbanjost <notifications@github.com>:\n\u2026\n I implimented the parsing using M_CLI2 and added enough (Posix-dependent)\n system routines to impliment the \"new\" subcommand in\n https://github.com/urbanjost/M_CLI2.git in the subdirectory fpm.cli. It\n also parses the other commands but does not do anything new with them other\n than echo the argument values to show the CLI parsing is working.\n Implimenting the \"new\" command was just to demonstrate the parsing, but if\n some can add equivalent routines for the mkdir,chdir,perror for other\n systems it would be portable, as the CLI interface is all Fortran. If this\n looks like it is sufficient details like completing the help text, etc.\n will be completed but I did not want to go much further if no concensus\n that this is sufficient is forthcoming. I have a basic Fortran-based\n utility for creating a basic Make file that could be used to do the builds\n (on systems with make) but not much need to do step two if step one is not\n going to work out. Could not get a git request to work so it is not a pull\n request, just some files to replace fpm/src. If good enough feel free to\n move it to the git repository.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#151 (comment)>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR63AYZUHKSKKG4MK7LSDRNSLANCNFSM4PO67LMQ>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-01 15:00:34+00:00",
+                    "text": "Thanks @urbanjost! I think Brad is working on CLI parsing for fpm. @everythingfunctional, if you have any work done, can you push it to a branch on your fork so that @urbanjost can coordinate with you? If not, should we review @urbanjost's implementation?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-01 15:02:38+00:00",
+                    "text": "@arjenmarkus Do you know the status of MarDiehl/stdlib_os regarding Windows? We discussed this briefly on the last call and as I understood from @MarDiehl, Windows still needed some work. Is that correct?"
+                }
+            ]
+        },
+        {
             "number": 150,
             "user": "everythingfunctional",
             "date": "2020-07-25 20:13:20+00:00",
@@ -35,7 +239,12 @@
                 {
                     "user": "certik",
                     "date": "2020-07-24 19:58:23+00:00",
-                    "text": "I asked the author of toml-f at awvwgk/toml-f#1 if he would be willing to relicence. If he would, that would be awesome, I think it's exactly what we are looking for."
+                    "text": "I asked the author of toml-f at toml-f/toml-f#1 if he would be willing to relicence. If he would, that would be awesome, I think it's exactly what we are looking for."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-20 15:59:54+00:00",
+                    "text": "It looks like toml-f will indeed be re-licensed to dual MIT/Apache-2.0 in an upcoming PR: toml-f/toml-f#2. I notice this PR also includes an fpm.toml (though it relies on meson currently)."
                 }
             ]
         },
@@ -1289,6 +1498,21 @@
                     "user": "certik",
                     "date": "2020-07-07 15:29:00+00:00",
                     "text": "Ok, so let's take it on a case by case:\n\n\n-cpp should be done in a general manner as discussed in #78.\n\n\n-std=f2018 should also be done in a general manner (that works with all compilers), probably an fpm.toml setting such as \"standard = F2018\" or something like that.\n\n\nThe -Wconversion should be enabled by default, together with all other common warnings\n\n\n-Wno-uninitialized-variables this is the one where we need to allow to set a specific option per file. It could also be done from a command line.\n\n\nSo we need a general solution, but the most common use cases (such as 1., 2. and 3. above) should be abstracted out and fpm should know how to deal with those."
+                },
+                {
+                    "user": "jerryd",
+                    "date": "2020-08-11 23:39:59+00:00",
+                    "text": "I need to include things like this on the compiler command line.  Right now this is a blocker for me.  Is it possible to set FC to a script to wrap around this:\n$(pkgconf --cflags --libs gtk-3-fortran)\nAs an example:\ngfortran -c $(pkgconf --cflags --libs gtk-3-fortran) mystuff.f90\nBeing able to invoke pkgconf is also important for many other complex libraries."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-08-12 22:51:07+00:00",
+                    "text": "Although it would be preferable for fpm to do this more generically, I ran into similar issues and you can specify something like\nbuild-script = \"fpm.mk\"\nand then put a Makefile in fpm.mk.  I had to use that to build a library that contained dozens of C files and where I wanted the output to include a *.a static library instead of *.o files and needed X11 to be loaded in the executables, for example. There are some environment variables defined by fpm(1) as described in the fpm documentation that are helpful in placing the output files in the correct directories, as they go in different places when you use the --release option; for example.  M_system and M_draw have fpm.mk files, for example\nhttps://github.com/urbanjost/M_system.git\nhttps://github.com/urbanjost/M_draw.git\nAlthough I apparently did not follow the toml standard in my fpm.toml files (although they work with fpm(1)) which I am hopefully going to correct soon. Maybe not the ideal long-term solution, but works today."
+                },
+                {
+                    "user": "jerryd",
+                    "date": "2020-08-14 16:53:20+00:00",
+                    "text": "It seems the simplest way to do this would to have FPM check for an environment variable such as $FFLAGS and just substitute those in or use it to override the default flags.  I have not looked at the FPM source code so I 'imagine' this would be straight forward to do"
                 }
             ]
         },
@@ -2112,6 +2336,61 @@
                     "user": "everythingfunctional",
                     "date": "2020-05-30 23:04:41+00:00",
                     "text": "Yep"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-17 14:17:30+00:00",
+                    "text": "I've gotten a request from a paying customer to add support for submodules ASAP. The question I have for the rest of the group has to do with the naming convention restrictions we currently have in place for modules.\nThe dependency detection and build system has to get a lot more rigorous and complex, so I'm thinking of just removing the name-spacing and file name matching requirement we had for modules, since it doesn't quite apply properly to submodules. And while I like it as a convention, it was done partly to avoid doing the harder work of properly looking in the source files.\nDo you guys have any thoughts? It won't add any backwards incompatibilities, and it won't add any complexities from a user perspective."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-17 14:21:48+00:00",
+                    "text": "The dependency detection and build system has to get a lot more rigorous and complex, so I'm thinking of just removing the name-spacing and file name matching requirement we had for modules, since it doesn't quite apply properly to submodules. And while I like it as a convention, it was done partly to avoid doing the harder work of properly looking in the source files.\n\nI have no objection to removing these naming requirements - I actually found it very restrictive when trying out fpm with existing packages which have their own various naming conventions.\nI'm excited for submodule support! \ud83d\ude80"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-08-17 15:00:21+00:00",
+                    "text": "This sentence confuses me:\n\nI'm thinking of just removing the name-spacing and file name matching requirement we had for modules, since it doesn't quite apply properly to submodules.\n\nDo you mean keep the existing requirement for modules, but don't require it for submodules? I think so, because later you wrote \"It won't add any backwards incompatibilities\".\nI don't understand well how submodules are managed by compilers. If there's no possibility of name clash between submodules from different packages, then I don't see the need to enforce the same convention we have for modules. So, this sounds good to me, but let's make sure that that's the case."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-17 15:16:32+00:00",
+                    "text": "I mean remove the existing requirement for modules. Removing that requirement is backwards compatible.\nSubmodules are a bit convoluted.\nCompiling a module produces a .mod and .smod with the name of the module. Compiling a submodule depends on the .mod and .smod of its parent module, and the .smod of any parent submodules, and produces a .smod file named parent_mod@parent_smod1@parent_smod2@...@submod.smod. Then all of the object files from the whole tree must be linked into the library or executable."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-17 15:43:46+00:00",
+                    "text": "If there's no possibility of name clash between submodules from different packages, then I don't see the need to enforce the same convention we have for modules.\n\nI hadn't realised this convention was for avoiding name clashes but I guess that makes sense - how would name clashes be avoided without this requirement @everythingfunctional ?\n\nSubmodules are a bit convoluted.\n\nI remember reading somewhere that submodule file naming conventions vary between compiler vendors - can these dependencies not be tracked without relying on .mod and .smod files?\nWithin my makefiles I never reference *mod files and simply rely on the corresponding object file for updating dependencies; in this way submodule dependencies can be treated like a normal use dependency where the submodule 'uses' its parent module."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-17 17:10:34+00:00",
+                    "text": "I'd still recommend people follow that naming convention, it just won't be a hard requirement. So you can still have a module named utilities_stats in a file src/utilities/stats.f90 per the current requirement and it will still work just fine. With the change, the module could just be named stats, but if any other package has a module named stats, they'll conflict of course. The possibility of conflict already exists, and I think always will unless we make a breaking change and require all modules in a library be prefixed with the name of the library.\nI don't recall exactly where I read that naming convention. It may have just been the gfortran documentation, in which case this may be a bit trickier when we try and support multiple compilers, but hopefully not a big deal.\nWhile you can write your makefiles without mentioning the .mod files, it's not strictly correct. Compiling a source file doesn't actually depend on the object files, just the .mod files. And it sidesteps a potential optimization I wish the compilers would actually implement; don't update the .mod file if none of the interfaces changed. That would actually take care of the \"recompilation cascades\" that most people give as the motivation for using submodules."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-08-17 17:42:38+00:00",
+                    "text": "I think I am against removing the restriction by default. I very strongly believe the default should be setup in a way to guarantee that there cannot be any name collisions.\nThis restriction is there to prevent name collisions. What we can do is remove the restrictions if the user requests that in fpm.toml --- with the understanding that fpm cannot guarantee there won't be name collisions with user code any more; this option would be used to get existing packages working quickly, but they will not be \"conforming\", and thus there can be collisions."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-17 17:59:08+00:00",
+                    "text": "The restrictions currently in place do not actually guarantee there cannot be any name collisions. If you put a module named utils in the root src folder, you're almost guaranteed to have a name collision with some other package and there isn't anything in place preventing that at the moment.\nThe restriction is really only preventing accidental name collisions within a library, and so far the errors have caused more confusion than they have helped anything.\nI can add a check for it back in once this is implemented, but at that point it's just enforcing a convention (albeit a good one), more than any technical requirement, and still not actually guaranteeing no name collisions between packages."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-08-17 18:18:39+00:00",
+                    "text": "While you can write your makefiles without mentioning the .mod files, it's not strictly correct. Compiling a source file doesn't actually depend on the object files, just the .mod files.\n\nGood point, but I disagree with your assertion of incorrectness; depending on module object files will not result in an incorrect dependency between source files, rather it (theoretically) results in redundant recompilation as you point out. Therefore object file dependencies are correct for modules, but not optimal.\nI am genuinely intrigued as to why your proposed optimisation is not implemented anywhere, it seems like a simple fix to a big problem!\n\nThat would actually take care of the \"recompilation cascades\" that most people give as the motivation for using submodules.\n\nMy own motivation for submodules is mainly to flatten the dependency tree to just two layers so that each layer can be compiled completely in parallel. Being able to compile in parallel quickly outweighs any redundancy in my dependencie.\n\nI think I am against removing the restriction by default. I very strongly believe the default should be setup in a way to guarantee that there cannot be any name collisions.\n\nMy preference would be for an alternative solution to avoiding name collisions, perhaps we should discuss in a dedicated thread?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-08-17 18:27:58+00:00",
+                    "text": "The restrictions currently in place do not actually guarantee there cannot be any name collisions.\n\nThat's true but this is not so much about the current guarantees, but about the design we're aiming for.\nDo we want to prevent name clashes? (I think it's unanimous yes)\nIf yes, then what is the optimal solution to do it? Prefixing with the package name is the best I can think of.\nThe only exception should be single-module libraries, which could have a module with the same name as the package.\nI think this would be good to discuss on our call on Thursday."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-08-17 18:48:11+00:00",
+                    "text": "My preference would be for an alternative solution to avoiding name collisions, perhaps we should discuss in a dedicated thread?\n\nYes, I'll start a new issue."
                 }
             ]
         },
