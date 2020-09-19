@@ -4,7 +4,7 @@ title: Fortran Compilers
 navbar: Compilers
 ---
 
-Fortran has several open source and commercial compilers.
+Fortran has over a dozen open source and commercial compilers.
 
 ## Open source compilers
 
