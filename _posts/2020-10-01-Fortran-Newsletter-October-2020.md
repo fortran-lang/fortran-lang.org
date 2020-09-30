@@ -63,7 +63,7 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 This month has seen over a dozen additions and improvements to the Fortran implementation of fpm:
 
-[#186](https://github.com/fortran-lang/fpm/issues/186): Implement version string validation and comparison
+* [#186](https://github.com/fortran-lang/fpm/issues/186): Implement version string validation and comparison
 * [#185](https://github.com/fortran-lang/fpm/issues/185): Update CI workflow
 * [#182](https://github.com/fortran-lang/fpm/issues/182): CLI interface to further development of subcommands
 * [#180](https://github.com/fortran-lang/fpm/issues/180): Recursive source discovery
