@@ -39,7 +39,7 @@ as well as addition of logging facilities.
 * [#228](https://github.com/fortran-lang/stdlib/pull/228): Implementation of the `stdlib_logger` module.
 It provides a global logger instance for easy use in user applications, as well as a `logger_type` derived type
 if multiple concurrent loggers are needed.
-See the [logger specification](https://stdlib.fortran-lang.org/page/specs/stdlib_linalg.html)
+See the [logger specification](https://stdlib.fortran-lang.org/page/specs/stdlib_logger.html)
 to learn more.
 
 Otherwise, ongoing discussions continue:
