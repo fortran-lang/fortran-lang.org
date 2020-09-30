@@ -108,7 +108,28 @@ TODO
 
 ### Classic Flang
 
-TODO @gklimowicz
+We continue to evaluate and merge pull requests into the original Flang
+compiler again. We pulled in several changes in the past month.
+
+One important merge was support for LLVM 10,
+which required the use of a new fork, the _classic-flang-llvm-project_
+fork of the LLVM monorepo. See
+[PR#1](https://github.com/flang-compiler/classic-flang-llvm-project/pull/1)
+for details.
+
+Other recently merged pull requests into Classic Flang include:
+* [PR#658: Fix in preprocessing for Flexi app](https://github.com/flang-compiler/flang/pull/658)
+* [PR#737: TRAILZ function added to the fortran compiler](https://github.com/flang-compiler/flang/pull/737)
+* [PR#756: Fix ICE interf:new_symbol_and_link symbol not found](https://github.com/flang-compiler/flang/pull/756)
+* [PR#888: flang gen-exec does not show routine variables with parameter attribute; there are multiple pull requests that this includes (details below)](https://github.com/flang-compiler/flang/pull/888)
+* [PR#916: Fix off-by-one error in minimum integers](https://github.com/flang-compiler/flang/pull/916)
+* [PR#921: Correction of representation of string (character type) constants](https://github.com/flang-compiler/flang/pull/921)
+
+The Classic Flang biweekly call has been set up to discuss issues and plans
+for the next pull requests to be validated and merged. Our next calls will be
+Wednesday, October 7 and 21, 8:30 AM Pacific time. The notes from previous
+calls, upcoming agenda and a link to join the call can be found
+[here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).```
 
 ### LLVM Flang
 
