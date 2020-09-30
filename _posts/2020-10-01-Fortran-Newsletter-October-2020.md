@@ -33,14 +33,19 @@ We welcome any new contributors to the website and the tutorials page in particu
 This month we've had an improvement to the `stdlib_ascii` module,
 as well as addition of logging facilities.
 
-* [#239](https://github.com/fortran-lang/stdlib/pull/239) (WIP): Implementation of the `stdlib_bitsets` module. It provides a bitset data type.
 * [#238](https://github.com/fortran-lang/stdlib/pull/238): Improvements to the `stdlib_stats` module by adding explicit conversions.
-* [#235](https://github.com/fortran-lang/stdlib/pull/235) (WIP): Improvements to the `stdlib_ascii` module
 * [#228](https://github.com/fortran-lang/stdlib/pull/228): Implementation of the `stdlib_logger` module.
 It provides a global logger instance for easy use in user applications, as well as a `logger_type` derived type
 if multiple concurrent loggers are needed.
 See the [logger specification](https://stdlib.fortran-lang.org/page/specs/stdlib_logger.html)
 to learn more.
+
+Work in progress:
+
+* [#239](https://github.com/fortran-lang/stdlib/pull/239): Implementation of the `stdlib_bitsets` module. It provides a bitset data type.
+* [#235](https://github.com/fortran-lang/stdlib/pull/235): Improvements to the `stdlib_ascii` module
+
+
 
 Otherwise, ongoing discussions continue:
 
