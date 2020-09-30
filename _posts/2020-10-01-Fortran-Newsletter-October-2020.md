@@ -76,6 +76,7 @@ This month has seen over a dozen additions and improvements to the Fortran imple
 
 Work in progress:
 
+* [#193](https://github.com/fortran-lang/fpm/issues/193) (WIP): Local path dependencies
 * [#190](https://github.com/fortran-lang/fpm/issues/190) (WIP): Auto discovery of executables
 * [#189](https://github.com/fortran-lang/fpm/issues/189) (WIP): Implement `fpm new`
 * [#186](https://github.com/fortran-lang/fpm/issues/186) (WIP): Implement version string validation and comparison
