@@ -81,8 +81,6 @@ Work in progress:
 * [#193](https://github.com/fortran-lang/fpm/issues/193) (WIP): Local path dependencies
 * [#190](https://github.com/fortran-lang/fpm/issues/190) (WIP): Auto discovery of executables
 * [#189](https://github.com/fortran-lang/fpm/issues/189) (WIP): Implement `fpm new`
-* [#186](https://github.com/fortran-lang/fpm/issues/186) (WIP): Implement version string validation and comparison
-* [#182](https://github.com/fortran-lang/fpm/issues/182) (WIP): CLI interface implementation
 
 fpm is still in early development and we need as much help as we can get.
 Here's how you can help today:
