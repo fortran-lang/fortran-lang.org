@@ -2,6 +2,316 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 182,
+            "user": "zjibben",
+            "date": "2020-09-21 23:22:01+00:00",
+            "title": "Add revised protected components & types proposal",
+            "text": "Here is a revised version of the protected components proposal (#156). The next committee meeting is 3 weeks away (Oct 12) so I wanted to make sure we had time to discuss beforehand.\nTo recap, last time it became clear there were competing interests. I and others here and at LANL wanted an access specifier roughly in between private and public. Other committee members want something far more restrictive, something really unlike an access specifier and more analogous to the existing protected attribute for module data. This would act to really protect the data from virtually any modifications outside the module where the type was defined, and was far too restrictive to be useful for those of us who wanted an access specifier.\nThe best way forward seemed to be to tease apart these separate needs and provide tools to manage both. That way we all get what we want. This paper has specifications & syntax for protected components and protected types based on our withdrawn 20-121. If we're happy with it, I can either submit it as a paper or as a work item for the DATA subgroup.",
+            "comments": [
+                {
+                    "user": "zjibben",
+                    "date": "2020-09-21 23:22:27+00:00",
+                    "text": "@aradi"
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2020-09-24 18:13:47+00:00",
+                    "text": "Thanks @aradi!\n\nThe protected type, which seems to be a monster with many-many implications and side-effects.\nI fear, that it would put the first one on hold due to numerous discussions on and problems with the second one.\n\nThis is definitely a valid concern. For our part, I wouldn't be proposing that monster feature at all (I don't see it as extremely useful personally). But when presented with protected components, the committee really wanted something extremely strong, and had lots of work towards that already. These specs derive from the work on those very restrictive protected components. It looks like if we want our more lightweight protected components, we need something strict to go with it. But we'll see as discussions develop, maybe seeing both alongside each other the committee will be willing to drop the heavy one. Hopefully the committee doesn't decide they don't see the value in our lighter protected components, deciding to go ahead with heavy-only, or decide the whole combination is more than they wanted and kill the whole concept.\n\nI'd suggest to keep the term protected for expressing read-only behaviour (of the derived type components), and use something else for defining persistent/undestroyable types (e.g. persistent).\n\nI like this, and have struggled to come up with an alternative name for \"protected type\". persistent is a good option, as it really just disables intrinsic assignment, allocation, deallocation, and automatic finalization. I'll include that along with the other name alternatives I now have at the end. I think naming will be a big point of discussion."
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2020-09-24 18:43:18+00:00",
+                    "text": "@certik thanks for the suggestion. I added a section on use-cases, which naturally was very detailed on what we want to see in protected components, but lighter for protected types. I tried to faithfully relay the motivation described to me by Van, and I think it ended up being similar to described by Malcolm in 19-135r1."
+                }
+            ]
+        },
+        {
+            "number": 181,
+            "user": "klausler",
+            "date": "2020-09-14 23:05:36+00:00",
+            "title": "Fortran should consider scrubbing unimplemented F'2003 features",
+            "text": "For usage that conforms to the standard as of (say) Fortran 2003 but has not yet been implemented in any of the five or six major Fortran compilers, the standard should consider removing or deprecating the feature.  I contend that something that exists only in the standard after 17 years but isn't yet working correctly in any implementation or (one assumes) any production application is not really part of the language, and would not be missed if it were to be removed.\nI have several particular examples along these lines, but I would like to discuss the merits of the general principle first.  It's too easy otherwise to be distracted by \"well, I could think of a use for that\" when it comes to specific cases -- and as I describe below, there would be a means for retaining features that deserve to remain.\nMy selfish motivation, as an implementor, is a desire to avoid the wasted time and expense of supporting features that nobody will use if I do or miss if I don't.  But there might also be some benefit to users from overall simplification of the language.\nSo my specific proposal is this: Fortran 202x would contain a list of \"Possible Future Deprecations\" that enumerates usage from F'2003 and earlier that is demonstrably not implemented.  Each item would contain a minimal test program that conforms to the standard but is not capable of running anywhere.  Any item in that list that remains unimplemented as of Fortran 202Y would then become deprecated in that later standard.  This would provide a window in which pet unimplemented features could be saved from deletion by any implementor willing to demonstrate them in the meantime, or any user willing and able to force at least one vendor to do so.  And a similar list would appear in Fortran 202Y of F'2008 features not yet implemented by any compiler in its time frame.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-09-14 23:21:41+00:00",
+                    "text": "As a general principle this seems fine to me and consistent with another principle that I would like the committee to eventually adopt: only standardize things that have a prior compiler implementation (preferably two).\nI would be curious to see the actual cases you found."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-15 02:25:23+00:00",
+                    "text": "There are two items in F2003 that were controversial at the time and remain controversial: parameterized derived types (PDTs), and user defined derived type I/O (UDDTIO). Both were added at the urging of single national bodies:The British for PDTs, and Germany for UDDTIO. Great Britain had two members who were focussed on language orthogonality, and thought that if the intrinsic types could specify length and kind, then so should derived types and put in a lot of effort designing this feature. They persuaded much of the rest of the UK committee to their opinion. Germany had one active member who said he would veto the standard unless it had UDDTIO, and then after it was added vetoed the F2003 standard as too complex.\nI won't speak to UDDTIO, but I have experimented a little with PDTs for bitsets. As of gfortran 10.2 PDTs for my purposes were broken. ifort was in better shape, but the restrictions on how PDTs could be used made them impractical for bitsets. Maybe Cray's compiler is in better shape.\nAs to requiring compiler implementations before adoption, good luck with that. A small part of F90 was the adoption of MIL-STD 1753, which made some common compiler extension a requirement for military compilers. Substantial parts of F77, the rest of F90, almost all of F95, and essentially all of F03 lacked prior compiler implementation. The only parts of F95 which may have had compiler implementations were FORALL, which was a failure, and the bug fixes to allocatable, which were obvious and had a TS report. F)8 and F18 did have some partial compiler experience with co-arrays, but most of the rest of the additions were a blank slate.\nThere are good reasons for that. Steve Lionel has commented elsewhere on how DEC got burned adopting an early version of PARAMETER, and now its successor, INTEL, refuses to adopt non-standardized extensions. The other commercial compilers have the same attitude. gfortran follows the piecemeal interests of its developers. FLANG/F18 has limited funding. LFortran is in a very preliminary state. Currently adopting an extension faces the following hurdles:\n\nDeveloping an extension to a language as complicated as F18 is complicated. The preliminary work required before implementation is daunting. It is difficult to justify that investment in time and money unless you are certain your users will adopt that extension. Even then it may be difficult to justify the investment.\nThe standard bodies do all of that preliminary work for \"free\", but by the time a feature has been polished enough to be implementable most of the rest of a standard (or TS report) has been finished.\nUsers are reluctant to adopt a feature unless it has been standardized."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-15 06:23:47+00:00",
+                    "text": "Thanks @wclodius2 for the historical background.\nRegarding prior implementation, the way it would most probably work is that it gets implemented in Flang/LFortran on a branch, but not merged into master. That way there is no maintenance cost for the compiler developers. People and the committee can play with the feature in the branch which would allow to answer the questions \"how difficult is to implement the proposal\" and \"is it actually useful as we are hoping\". Then we can talk about standardizing and a possible wider adoption of a given feature."
+                },
+                {
+                    "user": "cmacmackin",
+                    "date": "2020-09-15 07:31:12+00:00",
+                    "text": "There are two items in F2003 that were controversial at the time and remain controversial: parameterized derived types (PDTs), and user defined derived type I/O (UDDTIO).\n\nAt the risk of taking this thread off-track...\nIt may have been controversial, but at this point UDDTIO has been implemented in compilers (gfortran has supported it since v7.0). Personally, that always struck me as a useful feature and one that fit in well with other the ability to overload other operators. I was under the impression that there were some compilers to have implemented PDTs, although I agree that as they currently exist they are not practical for anything."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-15 13:41:14+00:00",
+                    "text": "Several compilers claim to have implemented PDTs, http://fortranwiki.org/fortran/show/Fortran+2003+status <http://fortranwiki.org/fortran/show/Fortran+2003+status> including gfortran. I have only tested gfortran and Ifort.  in gfortrn PDTs in combination with abstract types are broken. Ifort seemed to be working, at least it gave understandable error messages that indicated that what I wanted to do with PDTs was not allowed by the standard,"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-15 17:17:07+00:00",
+                    "text": "There's a useful distinction that can be made between the KIND and LEN genres of derived type parameters.  KIND derived type parameters are straightforward to implement and are broadly supported.  LEN derived type parameters are widely claimed to be supported, but it's not hard to write test cases using them that conform to the standard but can't be compiled by anybody."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-15 18:41:16+00:00",
+                    "text": "I see that there's at least one downvote on the proposal; are you against deprecating and removing unimplemented features, or is your problem with the suggested process?"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-09-15 19:31:39+00:00",
+                    "text": "I personally will be completely opposed to this.\nOne simply cannot allow the baby to thrown out with the bathwater.\nTo me, every indication is all the features in the Fortran 2003 standard made it into the language standard following all the usual tugs and pulls of a lengthy process that had strong elements of consensus with voting and give and take and collaboration, however questionable might have been certain aspects of the process.  I personally would do everything to respect the output of this long, drawn out effort that took a lot of contemplation and deliberation.  To debug (yes, a standard can have bugs too), to refine, to enhance, and to build upon the concepts and features, sure.  But to remove something in the standard starting 2003 revision, a no-no for me.  This will hold true for me for anything with 2008, 2018, and 202X revisions as well.\nAnother consideration is besides certain specific aspects of PDTs (gfortran being the exception here with a false start perhaps to its PDT implementation effort and a continued pause thereafter leading to a broken state) and perhaps miscellaneous aspects such as support for additional CHARACTER kinds e.g., toward ISO 10646 character set (which is kinda optional to processors any way), there are quite a few compilers providing rather comprehensive support for Fortran 2003.  One can credibly argue the missing aspects are either bugs due to a load of other issues (including perhaps the 'denseness' of the standardese, especially for those compiler writers who grew up outside the british 'commonwealth' locales) and a lack of a standard acceptance testing and QA/validation library or subtleties and intricacies requiring close attention that has not been demanded yet of these implementations by their customers.  With PDTs and Intel Fortran, that clearly was the case but I've been feeding them tons of test cases and they have been able to get their compiler fixed each time.\nBut now with PDTs, as I explain here, it is rather convenient and useful in design of good scientific software.  There are some use cases, particularly in the industry domain where I work, that are particularly well-suited for PDTs.  Perhaps in 20+ years if the standard with 202y and its processor implementations have sufficiently full-featured generics capabilities, PDTs may become superfluous.\nIn the meantime, considering Intel Fortran is nearly there with this feature in their attempt to serve customers like me (or more like an evangelist at this stage), deprecation of PDTs will be unconscionable.\nAdditionally, defined IO (aka UDDTIO) is a facility that is mostly a solved problem, it is implemented reasonably well in several compilers including gfortran, it is a nice-to-have feature that has proved convenient, particularly with serialization and deserialization of 'objects' in Fortran including with its NAMELIST aspect, something that helps boosts Fortran's image somewhat in terms of modernity.  There cannot be raison d'etre to deprecate this now either."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-15 19:58:43+00:00",
+                    "text": "The proposal would not deprecate any feature that has even a single working implementation of that particular feature.  The features that you're defending are working in at least one compiler and are not going to go anywhere.  Instead, I'm thinking about features that remain unimplemented after nearly two decades.  What should be done with them?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-15 20:19:42+00:00",
+                    "text": "The proposal is too vague. If asked what aspects of F03 are unimplemented, my gut feeling would have been PDTs with LEN parameters, but according to FortranFan they have been implemented well enough in ifort to satisfy him. UDDTIO and UCS-4 have several implementations. What unimplemented aspects of F03 are you thinking of?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-15 20:53:12+00:00",
+                    "text": "I was hoping to be able to move from general principles to specific cases, not the other way around, since the problem of unimplemented features of long standing is a general one.  But if you need a specific case to consider as an example, take the feature of general non-deferred type parameter expressions in POINTER and ALLOCATABLE components:\n  TYPE :: T(N)\n    INTEGER, LEN :: N\n    TYPE(T(N+1)), POINTER :: P\n  END TYPE\n\nI don't know of a compiler that can cope with a non-constant and non-deferred type parameter expression in a POINTER or ALLOCATABLE component declaration.  It may be an oversight that they are allowed -- any bounds of POINTER and ALLOCATABLE component arrays are required to be deferred.  If their type parameter values were also required to be deferred, they'd obtain their values from assignments and ALLOCATE statements like bounds do.  So the general type expression, if it worked, would serve as a default to be used on ALLOCATE."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-15 22:27:13+00:00",
+                    "text": "Subclause 4.3 of Fortran 2018 has a long list of features from earlier standards (F'77 through F'2008) that were deleted or modified in the latest standard, so there's some precedent for removing things that turned out to be problematic.  For example, a sequence type was allowed to have type parameters in F'2003 but not today.  Were these deletions and modifications controversial?  (Some of the F'77 behavior that's changed must have engendered some discussion about backward compatibility, I imagine.)  Is there a process by which problematic features in the language can be placed on these lists?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-16 14:39:03+00:00",
+                    "text": "Is there a process by which problematic features in the language can be placed on these lists?\nOne way is an interpretation request. If the request leads to the conclusion that a feature of the language is unimplementable, leads to a contradiction with other parts of the standard, or is otherwise undesirable then it may be removed. That being said an interpretation request against an F03 feature in 2020 feels odd to me. It would have been better done ten or fifteen years ago."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-16 18:43:11+00:00",
+                    "text": "Is there a process by which problematic features in the language can be placed on these lists?\nOne way is an interpretation request. If the request leads to the conclusion that a feature of the language is unimplementable, leads to a contradiction with other parts of the standard, or is otherwise undesirable then it may be removed. That being said an interpretation request against an F03 feature in 2020 feels odd to me. It would have been better done ten or fifteen years ago.\n\nMaybe it would be better to address the root cause of unimplemented &/or unimplementable features getting into the standard in the first place, I guess, as Ondrej mentioned earlier."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-09-19 21:27:04+00:00",
+                    "text": "@klausler wrote Sep 15, 2020 6:27 PM EDT:\n\nSubclause 4.3 of Fortran 2018 has a long list of features from earlier standards (F'77 through F'2008) that were deleted or modified in the latest standard, so there's some precedent for removing things that turned out to be problematic. ..\n\nExactly.  So as @wclodius2 mentioned, the process is in place for changes in a published standard with the committee, mostly via Interp requests.  What this appears to lead to, as you all know, is targeted refinements, corrections, specific sub-item removals, etc.\nGiven this, I don't understand the original proposal, especially with its reference to Fortran 2003 features and the \"not implemented\" aspect as determined by a processor failing an arbitrary test and the implications thereafter, whether it's wholesale deprecation of the facility.\nIf the matter is something specific such as non-deferred type parameters of components of POINTER/ALLOCATABLE attribute in a derived type, is this new proposal necessary?  Can it not suffice to use the process that led to the current standard having an incompatibility with the original F2003 such as \"Fortran 2003 permitted a sequence type to have type parameters; that is not permitted by this document\", \"Fortran 2003 permitted a statement function to be of parameterized derived type; this document does not permit that.\", etc.\nHow about starting with an Interp request first on this non-deferred type parameter issue?"
+                }
+            ]
+        },
+        {
+            "number": 180,
+            "user": "sblionel",
+            "date": "2020-09-11 00:21:19+00:00",
+            "title": "Intrinsics to return information on procedure name, source file name and line number",
+            "text": "Many times in my career I saw users asking for a way to obtain the current procedure name, source file name and/or source file line number, for use in logging and error messages. Some compilers offer preprocessor macros for this, but it is not standardized and macros that result in a string are hard to use in Fortran.\nIntrinsic module ISO_FORTRAN_ENV already has two intrinsic functions COMPILER_OPTIONS and COMPILER_VERSION that return strings known to the compiler. I propose adding three more - the names I show here are for discussion purposes and different names might be desirable.\nPROCEDURE_NAME() returns a string that is the function-name or subroutine-name of the enclosing function or subroutine, upcased. (Case as it appears in the source file would be another choice.) A constraint would be that this can appear only in a subroutine or function. (If the procedure is in a module, does the module name also appear somehow? I think not.)\nSOURCE_FILE_NAME() returns an implementation-dependent string that represents the name of the source file in which the call appears. This can get tricky - full path? What about sources that have no name or include files?\nSOURCE_LINE_NUMBER() returns an integer representing the line number of the source file in which the call appears. Is it OK if it's just relative to the actual file (could be an include file)? Interaction with preprocessors (they have pragmas that can set the original line number.)\nAll of these would be valid in constant expressions.",
+            "comments": [
+                {
+                    "user": "cmacmackin",
+                    "date": "2020-09-11 00:42:51+00:00",
+                    "text": "Taking this a step further, we could also consider a functions which would return this sort of information for the entire callstack. Obviously that would not be safe to use in a constant expression. Many of the same questions apply, of course. Presumably the easiest thing to do would be return mangled procedure names generated during compilation, although I wouldn't imagine it would be too difficult to have an option for the compiler unmangle them. Personally, I'd like it if there were a way to see module names as part of the procedure name (e.g., MODULE_NAME[::SUBMODULE_NAME]::PROCEDURE_NAME)."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-09-11 14:04:27+00:00",
+                    "text": "I think this will be very useful for Fortran practitioners.\nAs I inquired in the comp.lang.fortran thread where too this was mentioned, what technical concerns and possible objections can compiler writers and commercial vendors have with this?\nIn other words, in what way can this not be a no-brainer i.e., a just do it item?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-09-11 14:13:58+00:00",
+                    "text": "These would be very useful. I often use the macros FILE and LINE (with preprocessor) to get these info."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-11 14:39:29+00:00",
+                    "text": "I think these would be useful, thank you for proposing this @sblionel.\nOne objection from the committee that I can see coming is that the standard tries to describe Fortran in a way that is independent of the filesystem and filenames. I personally do not think that should be a problem, but it is one objection that might be raised against the SOURCE_FILE_NAME function."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-09-11 14:46:43+00:00",
+                    "text": "I would not be in favor of extending this to a run-time stack trace. Generally, procedure names are not kept around after compilation, and some implementations may not have a way of retrieving names of callers.\nI can't think of any technical objection as this information is always available in the compilation phase where these would be processed. It would not require implementors to keep anything additional.\n@certik , this could be handled similarly to INCLUDE - there would be something like \"a processor-dependent string that represents the origin of the source text\". The wording for INCLUDE has \"An example of a possible valid interpretation is that char-literal-constant is the name of a file that contains the source text to be included.\" You're right that this needs to be carefully worded as to not imply a particular implementation. Indeed, some sources come from stdin or pipes. Maybe SOURCE_NAME would be a better choice. Certainly, a topic for discussion."
+                },
+                {
+                    "user": "valtterib",
+                    "date": "2020-09-11 16:17:00+00:00",
+                    "text": "I think this will be very useful for Fortran practitioners.\nAs I inquired in the comp.lang.fortran thread where too this was mentioned, what technical concerns and possible objections can compiler writers and commercial vendors have with this?\nIn other words, in what way can this not be a no-brainer i.e., a just do it item?\n\nThe best way to show this is a no-brainer would be for someone to implement it in one of the open source compilers. Assuming that shows it is well-defined, straight-forward to implement, and useful, that would encourage the committee to standardize it and other implementors to implement it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-11 16:19:32+00:00",
+                    "text": "@valtterib I agree and it is going to happen soon. I think @klausler and others might be very close to start implementing such prototypes in Flang, and we need few more months with LFortran to be able to do that also."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-11 16:41:54+00:00",
+                    "text": "We already have __FILE__ and __LINE__ in the preprocessors available in all serious compilers."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-09-11 20:31:42+00:00",
+                    "text": "As @klausler says, compilers already know how to do this from preprocessor macros. I don't think implementors need to be convinced that it's doable. Truly, the hard part is getting the words right in the standard. Some work is needed in a compiler to recognize an intrinsic module function as valid in a constant expression, but there is already precedent for that and compilers have their own ways of handling it."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-11 20:45:46+00:00",
+                    "text": "But people can use __FILE__ and __LINE__ today.  What's the ROI on defining new intrinsic functions in the 202Y standard, implementing and testing them in multiple compilers, and shaking out the bugs and incompatibilities, just to get the same facilities with a different redundant spelling to users sometime in the 2030s?  Everyone would be better off if you just blessed the existing common preprocessor features already in use today."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-09-11 20:49:05+00:00",
+                    "text": "They're not standard and some compilers don't support preprocessor macros by default.\nThis proposal was triggered by a request on c.l.f for a way to retrieve the current procedure name - I threw in source file and line number as obvious parallels that were requests I had seen before. Also note my comment about how hard it is to use string macros as character literals."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-11 21:07:04+00:00",
+                    "text": "What's the problem with using __FILE__ as a character literal?"
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-11 21:10:52+00:00",
+                    "text": "I think another point is that the value of __FILE__ and __LINE__  found in some output file may not be \"in sync\" with the current source codes. Although the same can be true for procedure names (i.e., new source codes may have different routine names), it is still much more informative to have procedure names rather than line numbers (which can even vary depending on newly added comments etc)."
+                },
+                {
+                    "user": "tskeith",
+                    "date": "2020-09-11 21:15:52+00:00",
+                    "text": "I think the value of something like PROCEDURE_NAME() is limited if you can't uniquely identify the subprogram with it. That means you need some kind of fully-qualified name (at least optionally), or a way to get the names of the enclosing module, submodule, and host subprogram (if any)."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-11 21:18:11+00:00",
+                    "text": "I think another point is that the value of __FILE__ and __LINE__ found in some output file may not be \"in sync\" with the current source codes. Although the same can be true for procedure names (i.e., new source codes may have different routine names), it is still much more informative to have procedure names rather than line numbers (which can even vary depending on newly added comments etc).\n\n__FILE__ and __LINE__ are, or should be, a pair of features that are not packaged with truly new capabilities that can extract the names of the containing program unit, its hosts, and its ancestor module.  Those names can't be known at preprocessing time, and will eventually have to reflect the values of module parameters, once we have them in the language."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-11 21:27:11+00:00",
+                    "text": "FWIW, this is my (pretty old) post in comp.lang.fortran when I got stuck with printing\n__LINE__ in (custom) stop and assert macros.\nhttps://groups.google.com/d/msg/comp.lang.fortran/KFB_mlmrNNg/jtggiPY7BgAJ\nMy last post there is like: \"I would like to have more robust preprocessing features\".\nRE additional information about module, submodule, and host subprogram (i.e., enclosing\nscopes), it seems that __PRETTY_FUNCTION__ and __MODULE__ etc do a nice job\nin other languages.\n(FWIW, I've posted a bit related example here)\nhttps://groups.google.com/forum/#!msg/comp.lang.fortran/HXdFCDagavs/7PDHF8T7AwAJ"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-11 21:48:07+00:00",
+                    "text": "FWIW, this is my (pretty old) post in comp.lang.fortran when I got stuck with printing\n__LINE__ in (custom) stop and assert macros.\nhttps://groups.google.com/d/msg/comp.lang.fortran/KFB_mlmrNNg/jtggiPY7BgAJ\nMy last post there is like: \"I would like to have more robust preprocessing features\".\nRE additional information about module, submodule, and host subprogram (i.e., enclosing\nscopes), it seems that __PRETTY_FUNCTION__ and __MODULE__ etc do a nice job\nin other languages.\n(FWIW, I've posted a bit related example here)\nhttps://groups.google.com/forum/#!msg/comp.lang.fortran/HXdFCDagavs/7PDHF8T7AwAJ\n\nLooking at your comp.lang.fortran thread, I'm disappointed that stringizing doesn't work with gfortran:\n#define TO_STR(x) #x\n#define ASSERT(x) if (.not.(x)) error stop \"ASSERT(\"//#x//\") failed at \"//__FILE__//\" line \"//TO_STR(__LINE__)"
+                },
+                {
+                    "user": "MichaelSiehl",
+                    "date": "2020-09-16 09:02:33+00:00",
+                    "text": "#180 (comment)\n\nI would not be in favor of extending this to a run-time stack trace. Generally, procedure names are not kept around after compilation, and some implementations may not have a way of retrieving names of callers.\n\nsubroutine essy00_UnpackEnumValue (Object, ...)\n..\n!\n  call glob_subSetProcedures (\"essy00_UnpackEnumValue\") ! this call does set the stack trace to this current subroutine\n!\n..  \n!\n  call glob_subResetProcedures  ! this call does reset the stack trace to the calling subroutine or function\nend subroutine essy00_UnpackEnumValue\nIn my own codes I am using this technique in each and every subroutine/function to feed an user-defined stack trace. (I am using a simple naming convention, using a unique source file prefix, to make the procedure names unique as well). An user-defined error handler then uses the information from the stack trace to get current, calling, and returning procedure names for its error messages. \nWith the coarray runtime, an user-defined stack trace and error handler will provide tracing information and error messages through coarrays for remote access. All this is important because we should not expect to be able to debug sophisticated coarray codes as we could with sequential codes. \nSo yes, this proposal here could definitely help to avoid mistakes with hand coding the procedure names as arguments with my calls to the user-defined stack trace's glob_subSetProcedure subroutine. \ncheers"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-16 13:21:04+00:00",
+                    "text": "I agree that stacktraces are important, but I think it should be the job of the compiler to give you those, you shouldn't need to store such subroutine information yourself.\n\u2026\nOn Wed, Sep 16, 2020, at 3:02 AM, Michael Siehl wrote:\n\n\n #180 (comment)\n <#180 (comment)>\n\n > I would not be in favor of extending this to a run-time stack trace. Generally, procedure names are not kept around after compilation, and some implementations may not have a way of retrieving names of callers.\n\n subroutine essy00_UnpackEnumValue (Object, ...)\n ..\n !\n   call glob_subSetProcedures (\"essy00_UnpackEnumValue\") ! this call\n does set the stack trace to this current subroutine\n !\n ..\n !\n   call OOOGglob_subResetProcedures  ! this call does reset the stack\n trace to the calling subroutine or function\n end subroutine OOOPessy00_UnpackEnumValue\n In my own codes I am using this technique in each and every\n subroutine/function to feed an user-defined stack trace. (I am using a\n simple naming convention, using a unique source file prefix, to make\n the procedure names unique as well). An user-defined error handler then\n uses the information from the stack trace to get current, calling, and\n returning procedure names for its error messages.\n\n With the coarray runtime, an user-defined stack trace and error handler\n will provide tracing information and error messages through coarrays\n for remote access. All this is important because we should not expect\n to be able to debug sophisticated coarray codes as we could with\n sequential codes.\n\n So yes, this proposal here could definitely help to avoid mistakes with\n hand coding the procedure names as arguments with my calls to the\n user-defined stack trace's glob_subSetProcedure subroutine.\n\n cheers\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#180 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWDHY7WJZBLYUJGBGG3SGB5LTANCNFSM4RGFZEQA>."
+                },
+                {
+                    "user": "tskeith",
+                    "date": "2020-09-16 14:33:59+00:00",
+                    "text": "I agree that stacktraces are important, but I think it should be the job of the compiler to give you those, you shouldn't need to store such subroutine information yourself.\n\nStack traces can be useful, but I don't think that feature should be part of this proposal. This one is simple and straight-forward and should stay that way.\nA stack trace proposal would require analysis of the cost to programs that don't make use of the feature and a convincing argument that it adds enough value compared to, for example, using a debugger to get a stack trace."
+                },
+                {
+                    "user": "MichaelSiehl",
+                    "date": "2020-09-16 16:51:02+00:00",
+                    "text": "I agree that stacktraces are important, but I think it should be the job of the compiler to give you those, you shouldn't need to store such subroutine information yourself.\n\nStack traces can be useful, but I don't think that feature should be part of this proposal. This one is simple and straight-forward and should stay that way.\nA stack trace proposal would require analysis of the cost to programs that don't make use of the feature and a convincing argument that it adds enough value compared to, for example, using a debugger to get a stack trace.\n\nI agree. With Fortran, the topics of stack trace and error handling do extend to a distributed case and thus, can become much bigger than we could imagine yet. For example, error handling may become a mixture of local and distributed error handlers.\nTo me, it is still to early to further think about such yet, since I'm struggling with ifort getting my working OpenCoarrays codes to compile."
+                }
+            ]
+        },
+        {
+            "number": 179,
+            "user": "Jim-215-Fisher",
+            "date": "2020-09-10 16:06:37+00:00",
+            "title": "Arbitrary precision type",
+            "text": "Does the stdlib include arbitrary precision data type? Currently, python, julia, c++, and java all have arbitrary precision data type.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-10 16:15:16+00:00",
+                    "text": "No, but it seems to me a good candidate for stdlib. Then, if it shows to be useful we can propose it for the standard. Can you propose it in the stdlib repo?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-10 16:28:38+00:00",
+                    "text": "In addition, I would like Fortran compilers to support arbitrary precision real types natively (as a real kind). I plan this for LFortran down the road."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-10 17:26:06+00:00",
+                    "text": "There's a useful distinction to be made between \"arbitrary\" precision data types where the precision is known at compilation time and those whose precision is either not fixed at all or is at least deferred to execution time.\nAll of f18's REAL compilation-time arithmetic for constant folding, and decimal<->binary conversion during execution, are implemented with single C++ template classes that are instantiated for six different floating-point types, for example.  This would be pretty much impossible to accomplish in Fortran without parameterized modules or some other generic facility, and that's at least a decade away in the standard language (plus years more to wait for a first implementation, and then dealing with the bugs in the standard that can only be discovered by a first implementation and then become impossible to fix due to \"backward compatibility\").\nBut types with runtime precision (esp. INTEGER) would be easy to implement in Fortran using a derived type with a LEN type parameter -- if you could find a compiler where they work, correctly, or even at all.  So the best that we could do now would be a suite of arbitrary precision INTEGER and REAL types where the precision is dynamic and represented in a regular component of each value, and the bits are in an ALLOCATABLE component, with all the extra allocation overhead that implies."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-10 18:21:41+00:00",
+                    "text": "Speaking as a Fortran user, I would like to simply write code like this:\nreal(dp) :: s, x, dx\ninteger :: i, N\nN = 100\ndx = 1._dp / N\ns = 0\ndo i = 1, N\n    x = i*dx\n    s = s + sin(x)*dx\nend do\nprint *, \"Integral:\", s\nAnd then just change dp from \"double precison\" to \"100 decimal digits precision\". This already works with quadruple precision, and it would be nice to work with arbitrary (compile time) precision also.\nThen I also want a real kind that will use this library: http://arblib.org/ that automatically tracks the error for you. It works really great. I would like the \"print\" statement to print the error correctly (as Arb returns it), etc.\nAnd I would like the compiler to generate the most efficient code possible."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-10 18:31:13+00:00",
+                    "text": "Speaking as a Fortran user, I would like to simply write code like this:\nreal(dp) :: s, x, dx\ninteger :: i, N\nN = 100\ndx = 1._dp / N\ns = 0\ndo i = 1, N\n    x = i*dx\n    s = s + sin(x)*dx\nend do\nprint *, \"Integral:\", s\nAnd then just change dp from \"double precison\" to \"100 decimal digits precision\". This already works with quadruple precision, and it would be nice to work with arbitrary (compile time) precision also.\nThen I also want a real kind that will use this library: http://arblib.org/ that automatically tracks the error for you. It works really great. I would like the \"print\" statement to print the error correctly (as Arb returns it), etc.\nAnd I would like the compiler to generate the most efficient code possible.\n\nThe most difficult part of implementing your example may be the call to sin(x)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-10 18:39:49+00:00",
+                    "text": "Yes, all Fortran special functions should work. If the MPFR library is used, it can do those. The Arb library can also do those (and more)."
+                }
+            ]
+        },
+        {
+            "number": 178,
+            "user": "urbanjost",
+            "date": "2020-09-04 18:57:56+00:00",
+            "title": "support allocatable CHARACTER variables on GET_COMMAND() and GET_COMMAND_ARGUMENT()",
+            "text": "prop.txt\nSince the strings being fetched via the GET_COMMAND() and GET_COMMAND_ARGUMENT() procedures are of indeterminate length and provided at run time a simple useful change to the intrinsics would be support of allocatable CHARACTER variables. The most recent example in the attachment limits itself to only allocating unallocated allocatable\nvariables per the topic discussions about how allocating an allocated variable could affect existing code, as the intrinsics allow allocated allocatable CHARACTER variables but do not reallocate them to the required length but return error -1 if their current length is exceeded.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-09-04 20:15:07+00:00",
+                    "text": "Indeed (and the same with read, but that can be discussed in another issue).\nUntil this gets standardized, the subroutines from your proposal should go into stdlib. CC @milancurcic."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-04 20:22:07+00:00",
+                    "text": "ALLOCATABLE CHARACTER arguments are already allowed, of course.  What I think is needed is the ability to pass an unallocated ALLOCATABLE CHARACTER.  That's currently not allowed, so extending the standard to support it would not invalidate any existing program (unlike the feature that J3 discussed at the February meeting that would reallocate an ALLOCATABLE CHARACTER entity if one were used for IOMSG= and other specifiers...)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-04 20:39:57+00:00",
+                    "text": "@klausler yes, if you read the prop.txt proposal above, it is about allowing to pass unallocated allocatable character and for them to be automatically allocated to the correct length."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-09-04 21:57:31+00:00",
+                    "text": "Sorry for the confusion. You are both right. I changed the overload procedures to deallocate instead of use the pre-allocated string because I could not think of a use-case where I would not want to re-allocate. Now I see several reasons to put it back the way it was, including possibly causing an undetected truncation in existing code that uses the variable returned assuming it did not potentially change length, etc. I will put it back and look at hardening the example (which I just meant for demonstration purposes) for inclusion in stdlib. Of course that means putting a second line in the user code to ensure the variable is deallocated before the call in the general case, but off the cuff I can't think of an overload that would not require it without the additional of an additional parameter."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-09-06 03:28:05+00:00",
+                    "text": "I updated the attachment and added a unit test and an optional argument REALLOC as a flag to reallocate an already allocated variable."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-09-11 00:06:35+00:00",
+                    "text": "https://j3-fortran.org/doc/year/19/19-252r2.txt describes the feature asked for in the initial post, applying to all intrinsic procedures that have an INTENT(OUT) or INTENT(INOUT) argument where the value returned is \"as if by intrinsic assignment\", This handles both the unallocated and currently allocated cases."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-09-11 02:14:00+00:00",
+                    "text": "Given the scope the body implies that really needs a new title. It covers more than \"Specification for auto-allocating processor messages\".   I was considering the same scope as that document implies, but wanted to initially be specific enough that issues like returning an array and elemental functions could be discussed with a smaller scope first but I see some of those issues covered. So what would that imply for NAMELIST output and for internal WRITE statements with / descriptors in the formats? Would an explicit / in a format imply an array on output and so be disallowed? Would you be guaranteed a single output line for an internal WRITE of a NAMELIST group? (that varied last time I looked from compiler to compiler. I believe it was the IBM compiler that required at least three elements and an array for an internal write of a NAMLIST group although I do not have access to that to verify it currently)."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-09-11 02:20:47+00:00",
+                    "text": "Digesting that a little more if a parameter is explicitly INTENT(OUT) it seems it should aleays be allocated on return instead of left unchanged, and I would argue that for any unallocated allocatable scalar, whether INTENT(INOUT) or INTENT(OUT), or you would likely have to test if the variable was unallocated upon return or always have and check a status variable to see if the return value of the status variable indicated no error and thus no message for options such as IOMSG for messages."
+                }
+            ]
+        },
+        {
             "number": 177,
             "user": "wclodius2",
             "date": "2020-08-04 21:10:20+00:00",
@@ -42,6 +352,26 @@
                     "user": "nncarlson",
                     "date": "2020-08-05 17:02:03+00:00",
                     "text": "@wclodius2  I'm not sure what errors you're seeing, but you should be able to make changes to your pull request.  Looks like Milan committed a couple changes to it. So perhaps you need to do a git pull on your assert branch to pull those changes into your working copy before you can commit your changes and push them back to the assert branch on your fork of the repo."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-14 00:02:15+00:00",
+                    "text": "It has been a month and none of my three proposals (assertions/design by contract; optional dummy arguments, and module namespaces) have been merged into the repository. Did they \"fall off the radar\"? Did they need more work? Are they inappropriate for meeting 222, as they are explicitly F202y oriented and so low priority? Are there other reasons I am not thinking of?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-14 02:57:17+00:00",
+                    "text": "@wclodius2 in the past we usually merged the pull requests before the meeting once we were happy with the wording and it was the version we wanted to present. I am happy to merge it sooner if you would prefer.\nIn the last meeting we presented such proposals at the plenary to get feedback from the whole committee. These proposals go into 202y, so the committee does not vote on them. The idea is to get them ready, so that when the committee starts considering proposals for 202y, they are ready.\nIn order to increase chances of the proposal getting accepted, it's good to involve as much of the wider community as possible. If there is wide support for some feature, it has a much higher chance of getting in."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-14 03:17:59+00:00",
+                    "text": "In the past the nominal due date for proposals was two weeks before the meeting, with most proposals arriving a few days before the schedule. This means most proposals were read in a rush in the two week period before the meeting. I think where possible F202X proposals should be submitted a month in advance so there is a likelihood of feedback before the meeting. As these are F202Y proposals they don\u2019t need as prompt a feedback, but still I think they should get in before the two week deadline so there is a possibility of pre meeting commentary.\n\u2026\n On Sep 13, 2020, at 8:57 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n @wclodius2 <https://github.com/wclodius2> in the past we usually merged the pull requests before the meeting once we were happy with the wording and it was the version we wanted to present. I am happy to merge it sooner if you would prefer.\n\n In the last meeting we presented such proposals at the plenary to get feedback from the whole committee. These proposals go into 202y, so the committee does not vote on them. The idea is to get them ready, so that when the committee starts considering proposals for 202y, they are ready.\n\n In order to increase chances of the proposal getting accepted, it's good to involve as much of the wider community as possible. If there is wide support for some feature, it has a much higher chance of getting in.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#177 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOVH3FDE7H7KTV5IOMTSFWBBVANCNFSM4PUZU5SA>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-14 03:20:01+00:00",
+                    "text": "Ok, let's merge it."
                 }
             ]
         },
@@ -56,6 +386,71 @@
                     "user": "wclodius2",
                     "date": "2020-07-31 18:53:34+00:00",
                     "text": "FWIW I don\u2019t have a significant  problem with disallowing it, but it requires more changes in the standard than simply allowing it,. In allowing the syntax you want to disallow you need only\n1. Add the new keyword, with;\n2. Add the module rename list; and\n3. Disallow the module rename list if with is omitted;\n\nTo disallow the syntax you want to disallow you need to add, probably as constraints:\n4. Disallow the only keyword if with is present; and\n5. Disallow the entity rename list if with is present.\n\nIt become a different negotiation i instead of use, with :: \u2026 you add a new with::... statement.  With a with statement you need:\n1. Add the new keyword with\n2. Add the with statement to the syntax\n3. Have the module rename list in the statement\n\nYou are in effect adding a simpler statement rather than complicating an existing statement\n\u2026\n On Jul 31, 2020, at 12:22 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n @certik commented on this pull request.\n\n In proposals/namespace_modules/20-xxx.txt <#176 (comment)>:\n\n > +    use, with :: math, only: vector\n +    use, with:: strings, only: vector\n I believe this should be just:\n\n \u2b07\ufe0f Suggested change\n -    use, with :: math, only: vector\n -    use, with:: strings, only: vector\n +    use, with :: math\n +    use, with :: strings\n the code below would still run. I don't think we should allow user, with :: math, only: vector, what would it do? Allow math%vector, but not math%matrix? Python doesn't allow that, I wouldn't allow that either here.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#176 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOT43Y24H66BCKFWUYDR6MDWRANCNFSM4PC33DJQ>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-14 03:24:34+00:00",
+                    "text": "I personally do not like allowing use, with :: math, only: vector. Also, if it is allowed, I think the proposal needs to explain more clearly what it would do. I personally would not allow it.\nBut I am happy to merge it if you just want to keep the proposal as is and discuss at the committee."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-14 03:54:43+00:00",
+                    "text": "Then put it on the back burner. There is no rush for F202y. My attitude is that if there is a lot of activity on an F202Y issue on the GitHub forum, then it probably is not ready for J3. If there is not a lot of activity then we need to ask why. If that is because everyone is happy with the proposal then get it to J3 as soon as possible so non-participants in Git Hub can comment and some work can be done between meetings, even if it is not F202X work. If it is because people are tired of the issue or busy with other things then it may not be ready. As you are both the originator of the first namespace proposals, and the organizer of the Git Hub activities you have a big say as to whether it is ready.\n\nFor an F202X issue if there is a lot of activity on the GitHub forum then I would put off submitting it to J3 until about two weeks before the meeting. It means that progress is being made at the local level, and you want to make as much progress as possible before involving all of J3, but you cannot put off involving J3 until after the meeting. The face to face involvement at meetings can resolve issues faster than email exchanges.\n\u2026\n On Sep 13, 2020, at 9:24 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n I personally do not like allowing use, with :: math, only: vector. Also, if it is allowed, I think the proposal needs to explain more clearly what it would do. I personally would not allow it.\n\n But I am happy to merge it if you just want to keep the proposal as is and discuss at the committee.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#176 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOQDP7HTYGT6T53TIQ3SFWEH7ANCNFSM4PC33DJQ>."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-14 22:21:14+00:00",
+                    "text": "A very peripheral question, but for the J3 meeting, is it usual that participants are given only two weeks for reading proposals and making opinions about it? I am afraid that it is not a sufficiently long time to prepare opinions... (CC: @sblionel) ."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-09-14 22:41:01+00:00",
+                    "text": "@septcolor The two-week limit is for new papers, though given that J3 meetings often generate dozens of new papers on the fly, it's not clear to me that this matters. Typically papers trickle in over the time between meetings so that two weeks in advance there are 20-30 papers to review (some of which have been there for months.)\nWe're at an odd stage in the development in that there are only seven work items for which work remains to be done. These all have topics in the j3-fortran.org discussion board (for J3 members only). So far, only a couple of minor papers have been submitted, none about the work items. I have been encouraging members to draft papers, but many are finding it difficult to devote time to this. If this in relation to 202Y proposals (as @wclodius2 suggests), then I suggest doing all discussion here as, at least for the October meeting, which is abbreviated, we may not have a chance to discuss future ideas."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-15 03:23:27+00:00",
+                    "text": "@sblionel so standards development is at an odd state. Enough work has been done on the current draft that there would normally be enough time available to start preliminary work identifying features for the following draft, but because people are having trouble adjusting to COVID-19 telecommuting it is not clear how much progress will be made on the current draft. As a result it is unlikely that any work will be done this session on F202Y, with the possible exception of generics/templates. Understandable, but disappointing."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-22 02:08:42+00:00",
+                    "text": "I've been thinking about this.\nI don't know if I like with more than namespace. For sure with is easier to type. @wclodius2 can you motivate how with describes that it imports the module as a namespace?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-22 02:10:13+00:00",
+                    "text": "My other objection is that I don't understand what use, with :: math, only: vector means. As I suggested, I would not allow it. (I understand your argument about the simplest possible change, but I feel that's secondary.)"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-22 02:33:24+00:00",
+                    "text": "There are several possible syntaxes for a namespace requiring statement. I will use with for the examples, as it is shorter, but replace it with namespace if you like.\n\nwhat we have been using for our examples is\n\nuse, with :: module-name\n\nbut that interacts oddly with module-nature\n\nuse, with, intrinsic:: iso_fortran_env\nuse, intrinsic, with :: iso_fortran_env\n\nand you have to explicitly forbid rename-list and only-list\n\nYou could also put the with after the module-name\nuse [, module-nature  :: ] module-name, with\n\nwhere with in effect replaces only making a third kind of use-stmt. This is easier to describe than the form we have been using for our examples.\n\nFinally you could have a namespace statement\n\nwith [, module-nature ::] module-name\n\nIt is what Ada uses, it is more succinct. It is also easier to  describe than the form we have been using for our examples.\n\u2026\n On Sep 21, 2020, at 8:10 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n My other objection is that I don't understand what use, with :: math, only: vector means. As I suggested, I would not allow it. (I understand your argument about the simplest possible change, but I feel that's secondary.)\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#176 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOWKSMSFW4TSRK6KEXTSHABRHANCNFSM4PC33DJQ>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-22 02:36:16+00:00",
+                    "text": "Using a module as a namespace you use the module entities always with the module-name.\n\u2026\n On Sep 21, 2020, at 8:08 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n I've been thinking about this.\n\n I don't know if I like with more than namespace. For sure with is easier to type. @wclodius2 <https://github.com/wclodius2> can you motivate how with describes that it imports the module as a namespace?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#176 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOQ6KGIHQGLKNJOHMTLSHABLPANCNFSM4PC33DJQ>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-22 02:40:14+00:00",
+                    "text": "Using a module as a namespace you use the module entities always with the module-name.\n\nYes. I am just trying to understand how the term with describes this. You didn't use with in the above sentence, but you used the term namespace. Update: you did use with in with the module-name. Is that the idea? That with means that you always have to use the entities with the module-name in front?\n(I know this is just a term, but for this proposal, the \"marketing\" is very important, and I want to have a well rounded, well motivated proposal that will work and be intuitive to people.)\nP.S. Ada describes their use and with here: https://en.wikibooks.org/wiki/Ada_Programming/Packages#Using_packages"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-22 02:47:52+00:00",
+                    "text": "I am having trouble understanding your point. I did use with in the sentence. I could have just as easily left namespace out.\n\nUsing a module with the with attribute requires that a module entity always be named with the module-name prepended.\n\u2026\n On Sep 21, 2020, at 8:40 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n Using a module as a namespace you use the module entities always with the module-name.\n\n Yes. I am just trying to understand how the term with describes this. You didn't use with in the above sentence, but you used the term namespace.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#176 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOUWDGNDMY7JSJX2T53SHAFBVANCNFSM4PC33DJQ>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-22 02:53:50+00:00",
+                    "text": "My apologies, I amended my comment at #176 (comment), yes you did use with.\nWill you be able to join our Fortran call this Friday: https://fortran-lang.discourse.group/t/fortran-monthly-call-september-2020/298/8\nLet's discuss this there.\nLet me try to reformulate my question: I believe that language \"keywords\" should be natural and intuitive to describe what the feature is doing. So I want to have a motivation. Here is my best effort to motivate the two options:\n\nuse, namespace :: math The namespace keyword comes from: The math module will be imported as a namespace.\nuse, with :: math The with keyword comes from: The math module will be imported as a namespace where you use the module entities always with the module-name.\n\nBut I also have another alternative motivation:\n\n\n\nuse, with :: math The with keyword comes from: The code that contains this line will be used with the math module.\n\n\n\nWhich of these (if any) make sense to you?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-22 03:02:21+00:00",
+                    "text": "I will try to attend the the Fortran call on Friday. I currently have no conflicts with that time, but that of course can change.\n\u2026\n use, with :: math The with keyword comes from: The use of the module entities is always with the module-name.\n On Sep 21, 2020, at 8:54 PM, Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n\n\n My apologies, I amended my comment at #176 (comment) <#176 (comment)>, yes you did use with.\n\n Will you be able to join our Fortran call this Friday: https://fortran-lang.discourse.group/t/fortran-monthly-call-september-2020/298/8 <https://fortran-lang.discourse.group/t/fortran-monthly-call-september-2020/298/8>\n Let's discuss this there.\n\n Let me try to reformulate my question: I believe that language \"keywords\" should be natural and intuitive to describe what the feature is doing. So I want to have a motivation. Here is my best effort to motivate the two options:\n\n use, namespace :: math The namespace keyword comes from: The math module will be imported as a namespace.\n use, with :: math The with keyword comes from: The math module will be imported as a namespace where you use the module entities always with the module-name.\n But I also have another alternative motivation:\n\n use, with :: math The with keyword comes from: The code that contains this line will be used with the math module.\n Which of these (if any) make sense to you?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#176 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDORM5T2XO5VBF2JTHODSHAGUZANCNFSM4PC33DJQ>."
                 }
             ]
         },
@@ -828,6 +1223,16 @@
                     "user": "wclodius2",
                     "date": "2020-08-02 21:04:03+00:00",
                     "text": "Because the semantics of PROTECTED entities is not quite what is commonly thought, and the problems with PROTECTED components are because they are trying to match the semantics of PROTECTED entities, perhaps what is needed is a new keyword, e.g., VISIBLE, to indicate entities an components whose value can be seen, but cannot be directly modified."
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2020-09-21 23:25:06+00:00",
+                    "text": "Everyone, I have a new specs & syntax paper over at #182 planned for the next meeting (Oct 12). Please take a look & comment your suggestions."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-09-27 15:24:31+00:00",
+                    "text": "@zjibben, @certik, and everyone contributing here,\nKudos on great effort and collaboration.\nWith the protected components section of the paper, the revised paper looks good, and the comments posted here thus far appear to me to have captured all the use cases and needs and feature aspects I have come across.  Nothing useful I can add at this stage.\nHowever I am simply unable to understand the protected type, the rationale for it, its use cases, and the accompanying requirements and the specifications.\nThus an immediate question and a suggestion: will it be possible to break up the protected components and protected types into two separate work items with the committee and which can then have separate papers to develop the features?  This way, if one aspect, say protected components, looks mature, it can advance without being held back by the other,"
                 }
             ]
         },
@@ -2688,6 +3093,11 @@
                     "user": "sblionel",
                     "date": "2019-12-21 15:36:01+00:00",
                     "text": "This really isn't related to submodules - what you'd like to do is use PROCEDURE(abstract_interface) instead of SUBROUTINE/FUNCTION in an interface block or a procedure definition.  I can think of uses for this without submodules. (Note that in a submodule, you can simply say MODULE PROCEDURE xxx with the interface having been defined in the parent module.)\nGiven that compilers already have to support MODULE PROCEDURE, I don't see this as a difficult thing. The downside is that a reader has to go looking elsewhere for the declarations of the dummy arguments, something I find annoying."
+                },
+                {
+                    "user": "Jellby",
+                    "date": "2020-09-25 17:37:39+00:00",
+                    "text": "The downside is that a reader has to go looking elsewhere for the declarations of the dummy arguments, something I find annoying.\n\nNot more annoying than having to repeat and modify the same dummy argument declaration tens of times. Without this feature, the developer will use preprocessor include files... which doesn't make it less annoying for the reader."
                 }
             ]
         },
@@ -7044,6 +7454,61 @@
                     "user": "klausler",
                     "date": "2020-08-27 17:39:00+00:00",
                     "text": "https://reviews.llvm.org/D86556\nWe\u2019re still trying to figure out what we\u2019re going to do with DO CONCURRENT in f18 (flang). I wrote a short documentation file to describe its basic problem: a programmer writing parallel code with DO CONCURRENT may not enjoy parallel execution because the standard imposes weaker requirements on the body of DO CONCURRENT that suffice only to allow safe serial execution of iterations in arbitrary order, and a compiler can assume only that those weaker requirements have been respected and thus has no general way to know that concurrency is safe \u2013 even when the programmer knows that it is.\nPlease let me know where the note can be made more clear, correct or complete. I\u2019m trying to summarize the problems in one place in the source base to which we can direct new users in the future when they need to know why DO CONCURRENT isn\u2019t working as one might expect. If you have LLVM reviewing permissions, you can comment in place if you like. Thanks!"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-09-06 06:49:45+00:00",
+                    "text": "Hi Peter,\n\nThanks for writing this.  I'll copy the list of solutions under\nconsideration, (re)number them, and intersperse comments and questions.\n\n1. Add syntax (e.g., `DO PARALLEL` or `DO CONCURRENT() DEFAULT(PARALLEL)`)\n   by which we can inform the compiler that it should localize only\n   the obvious cases of simple local scalars.\n   Such syntax seems unlikely to ever be standardized, so its usage\n   would be nonportable.\n\nThis would be my first choice, especially given the historical precedents\nfor features being supported first as extensions before becoming part of\nthe standard.  Coarray features might be the most appropriate precedent\nbecause they relate to parallelism.  Didn't Cray support coarrays for years\nbefore they became standard?  I imagine it was a much heavier lift to get\nall the coarray features into the standard than either of the above\nchoices. In the interim, a preprocessor could easily switch either of the\nabove to standard syntax.\n\n2. Add a command-line option &/or a source directive to stipulate\n   the stronger guarantees.  Obvious non-parallelizable usage in the\nconstruct\n   would elicit a stern warning.  The `DO CONCURRENT` loops in the source\n   would continue to be portable to other compilers.\n\nThe command-line option would be my third choice, but it's really not such\na bad choice.  The code would remain standard and portable and anyone\nserious about optimizing code is likely to spend time investigating the\ncommand-line options for each compiler they use.  I'd rather not clutter\nthe code with compiler-specific directives, especially if other compilers\ngo down a similar path but choose different syntax.  If the directive\napproach is taken, I hope the directive is a potential candidate for\ninclusion into the OpenMP standard, but that seems a lot less likely than\ngetting option 1 into the Fortran standard.\n\n3. Assume that these stronger conditions hold by default, and add a\ncommand-line\n   option &/or a source directive to \"opt out\" back to the standard\n   behavior in the event that the program contains one of those\n   non-parallelizable `DO CONCURRENT` loops that should never have\n   been possible to write in a conforming program in the first place.\n   Programmers writing parallel `DO CONCURRENT` loops would get what\n   they wanted without ever knowing that there's a problem with the\n   standard.\n   But this could lead to non-standard behavior for codes that depend,\n   accidentally or not, on non-parallelizable implicit localization.\n\nAs I mentioned previously, I can't count the number of hours of my life\nthat I've lost looking for a bug in my code only to find eventually that\nthere was no bug.  I had just forgotten to pass a flag to get the compiler\nto comply with the standard.  I beg you to make standard behavior the\ndefault behavior.\n\n4. Accept the standard as it exists, do the best job of automatic\n   parallelization that can be done, and refer dissatisfied users to J3.\n   This would be avoiding the problem.\n\nThis would be my second choice.  I think of this as being embedded in the\nfirst option.  Create a new syntax that does what you want and accept the\nstandard as is when users choose the standard syntax.\n\nI hope this is helpfu.\n\nDamian\n\u2026\nOn Thu, Aug 27, 2020 at 10:39 AM Peter Klausler ***@***.***> wrote:\n https://reviews.llvm.org/D86556\n\n We\u2019re still trying to figure out what we\u2019re going to do with DO CONCURRENT\n in f18 (flang). I wrote a short documentation file to describe its basic\n problem: a programmer writing parallel code with DO CONCURRENT may not\n enjoy parallel execution because the standard imposes weaker requirements\n on the body of DO CONCURRENT that suffice only to allow safe serial\n execution of iterations in arbitrary order, and a compiler can assume only\n that those weaker requirements have been respected and thus has no general\n way to know that concurrency is safe \u2013 even when the programmer knows that\n it is.\n\n Please let me know where the note can be made more clear, correct or\n complete. I\u2019m trying to summarize the problems in one place in the source\n base to which we can direct new users in the future when they need to know\n why DO CONCURRENT isn\u2019t working as one might expect. If you have LLVM\n reviewing permissions, you can comment in place if you like. Thanks!\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#62 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/ADEANBFGPRZAWAKPZ6FHXRTSC2K4FANCNFSM4JHVFRYA>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-06 21:38:25+00:00",
+                    "text": "In my opinion none of these options are ideal.\nI think the ideal solution is to bring this back to the Fortran Standard Committee and have serious discussion about what the problem is and how to fix that, and then fix it."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-08 16:18:51+00:00",
+                    "text": "Damian: Thanks for your response.\nAre you using DO CONCURRENT to write parallel code?"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-09-08 17:04:08+00:00",
+                    "text": "Hi Peter,\n\nI use DO CONCURRENT for what it communicates to the reader and for the\ndiscipline it imposes on the programmer.  I would love it if that then also\nleads to performance improvements, whether they be by parallelization or\nvectorization or offloading.  Short of that, I would also be satisfied if\nOpenMP can be used to parallelize or vectorize or offload DO CONCURRENT in\nthe absence of the compiler doing it automatically.  I just submitted a\nproposal to do work for a government agency wherein performance\nimprovements associated with DO CONCURRENT could play a very useful role --\nagain whether by compiler automation or via OpenMP.\n\nDamian\n\u2026\nOn Tue, Sep 8, 2020 at 9:19 AM Peter Klausler ***@***.***> wrote:\n Damian: Thanks for your response.\n\n Are you using DO CONCURRENT to write parallel code?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#62 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/ADEANBDAB5QWF62YYPDNVMLSEZKPZANCNFSM4JHVFRYA>\n ."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-08 17:13:36+00:00",
+                    "text": "What do you think that \"it [DO CONCURRENT] communicates to the reader\"?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-08 17:22:39+00:00",
+                    "text": "In my opinion none of these options are ideal.\nI think the ideal solution is to bring this back to the Fortran Standard Committee and have serious discussion about what the problem is and how to fix that, and then fix it.\n\nOh, sure; all of these options are competing for \"second best\", under the assumption that J3 doesn't fix DO CONCURRENT."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2020-09-08 17:34:05+00:00",
+                    "text": "It communicates that all of the constraints in the standard apply.  As\nexamples, it communicates that every procedure invoked is PURE and there\nare no segment-ordering statements.\n\nAs a general rule, if one program statement covers a subset of the cases\nthat another program statement covers, I choose the more specific one in\nhopes that doing so decreases the time it takes for the reader to\nunderstand the code.  I think of DO CONCURRENT as covering a subset of the\nloops that can be written with just DO so I start with DO CONCURRENT but\nresort to DO when I have a compelling reason to do so.\n\nSimilarly, I think of SELECT CASE as covering a subset of the conditional\nbranching that can be accomplished with IF THEN... ELSE IF... ELSE... END\nIF.  Choosing the more specific statement communicates information that\nmight otherwise require the reader to read through each branch to discover\nthe logic of the branching.\n\nDamian\n\nP.S.  On a related note, I just completed an exercise in co-developing a\nmini-app in which we attempted to take functional programming to a logical\nextreme: with the exception of I/O procedures, every procedure in the\nmini-app is a PURE function with no local variables -- just associations\nwherein a name is associated with a function result or expression and is\ntherefore immutable state.  I was surprised at just how far this got us and\nwith the ultimate clarity of the code.  At just of shy of 1,500 lines, it\nwas the longest code I've ever written that worked almost flawlessly on\nfirst testing.  This experience emboldens me to write PURE functions more\nand more and one benefit will be that all of my functions can be invoked\ninside DO CONCURRENT.  I suspect that code written in this style will be\nmuch easier for the programmer to parallelize even in the absence of\nautomatic compiler parallelization.  One of the first places I encountered\nthe notion that functional programming aids parallelization was in a 1991\nLawrence Livermore technical report entitled \"Retire Fortran? A debate\nrekindled.\"  It's fascinating to me just how much of what that paper was\ncalling for in a new language (SISAL) instead resembles what Fortran\neventually became.\n\nEdit by @certik: here is the report: https://doi.org/10.1145/135226.135231"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-08 18:04:05+00:00",
+                    "text": "Thanks, that helps.  I agree that programs should use PURE wherever they can do so.  But in the context of DO CONCURRENT, the purity requirement is not an end in itself, but a means to another end, namely concurrency.  The language shouldn't define DO CONCURRENT in such a way as to exclude a long list of concurrency-breaking behavior without making the list complete -- that punishes the programmer who is writing concurrent code but is still not rewarded with concurrency because a compiler can't assume that following the rules in the standard is sufficient."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-08 18:24:38+00:00",
+                    "text": "@klausler thanks for your efforts and I agree with you this is the second best.\nAs we get more experience as a community with using do concurrent in codes, I think Damian, myself and others will be able to bring any potential limitations to the committee to get further discussed and fixed."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-09-08 19:15:10+00:00",
+                    "text": "After seeing all the discussions around this, I am now under the following impression. The standard chose to use DO CONCURRENT but only specified constraints for (and if we had a time machine should have used) DO UNORDERED. It seems many (if not most) people assumed that the constraints actually were sufficient to allow for parallelism, but it would seem to be highly unlikely the committee would \"break existing code\" by adding constraints to DO CONCURRENT. Thus it seems we will need to introduce (and I would be in favor of) a new keyword to allow a way of specifying constraints sufficient for parallelism, most likely DO PARALLEL.\nOf course, for those of us who considered concurrent and parallel to be synonyms it makes the language a bit more confusing, but is probably the only truly backwards compatible way to get the necessary constraints added. It seems to me quite similar to the way PURE procedures don't have sufficient constraints, hence the proposal to introduce SIMPLE procedures."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-08 19:22:54+00:00",
+                    "text": "After seeing all the discussions around this, I am now under the following impression. The standard chose to use DO CONCURRENT but only specified constraints for (and if we had a time machine should have used) DO UNORDERED. It seems many (if not most) people assumed that the constraints actually were sufficient to allow for parallelism, but it would seem to be highly unlikely the committee would \"break existing code\" by adding constraints to DO CONCURRENT. Thus it seems we will need to introduce (and I would be in favor of) a new keyword to allow a way of specifying constraints sufficient for parallelism, most likely DO PARALLEL.\nOf course, for those of us who considered concurrent and parallel to be synonyms it makes the language a bit more confusing, but is probably the only truly backwards compatible way to get the necessary constraints added. It seems to me quite similar to the way PURE procedures don't have sufficient constraints, hence the proposal to introduce SIMPLE procedures.\n\nSee subclause 4.3.3 in Fortran 2018 for some precedents in which features from earlier standards are disallowed, including some features from DO CONCURRENT.  Backward compatibility to mistakes is fixable."
                 }
             ]
         },
@@ -10709,6 +11174,206 @@
                     "user": "wclodius2",
                     "date": "2020-08-01 00:00:21+00:00",
                     "text": "I am unenthusiastic about overloading the meaning of a keyword like ONLY, but do like the syntactic position of your suggestion. say\nUSE module-name, WITH: module-rename\nstrikes me as relatively intuitive\n\u2026\n On Jul 31, 2020, at 1:48 PM, septcolor ***@***.***> wrote:\n\n\n Though I'm not sure if this has been discussed already, is it another approach to include the module name itself in the ONLY list (in a way similar to Julia)? For example, assuming that mymod has integer :: foo, baa, this statement\n\n use mymod, only: mymod\n allows only a qualified access to foo as\n\n print *, mymod % foo   !! OK\n print *, foo   !! error\n At the same time, one can also import multiple entities as\n\n use mymod, only: mymod, baa\n use mymod, only: m => mymod, b => baa    !! rename\n (The corresponding syntax in Julia is like using Printf: Printf and using Printf: Printf, @printf.)\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOXGR7MDH4YNKA2NBI3R6MNXZANCNFSM4JBFRGNA>."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-23 00:09:31+00:00",
+                    "text": "(I am sorry if the following has already been discussed in other posts or thread...)\nAnother popular keyword used for this purpose is import (most notably Python), though this keyword is already used for different purposes (interface blocks) in Fortran. Because import is very common in other languages for importing modules, I guess another approach may be to \"reuse\" that keyword for importing a module name only (as a namespace), like import mylib at the top of a given scope (which I think corresponds to use, with :: mylib and use, namespace :: mylib)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-23 00:44:15+00:00",
+                    "text": "I like the word import the most. But as you said, it might be technically infeasible to use import for both. We need to see.\n\u2026\nOn Tue, Sep 22, 2020, at 6:09 PM, septcolor wrote:\n\n\n (I am sorry if the following has already been discussed in other posts\n or thread...)\n\n Another popular keyword used for this purpose is `import` (most notably\n Python), though this keyword is already used for different purposes\n (interface blocks) in Fortran. Because `import` is very common in other\n languages for importing modules, I guess another approach may be to\n \"reuse\" that keyword for importing a module name only (as a namespace),\n like `import mylib` at a top of a given scope (which I think\n corresponds to `use, with :: mylib` and `use, namespace :: mylib`).\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#1 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWDYE32IZ2CVYXTGUILSHE4EPANCNFSM4JBFRGNA>."
+                },
+                {
+                    "user": "gronki",
+                    "date": "2020-09-23 21:12:53+00:00",
+                    "text": "My opinion is that it is a bad idea to use word \"import\" for a completely\ndifferent meaning just because other languages do that. In Fortran as of\nnow including modules is accomplished by \"use\", not \"import\", and i think\nit's important to stick to that to not introduce confusion.\n\nDominik\n\n\u015br., 23 wrz 2020 o 02:44 Ond\u0159ej \u010cert\u00edk <notifications@github.com>\nnapisa\u0142(a):\n\u2026\n I like the word import the most. But as you said, it might be technically\n infeasible to use import for both. We need to see.\n\n On Tue, Sep 22, 2020, at 6:09 PM, septcolor wrote:\n >\n >\n > (I am sorry if the following has already been discussed in other posts\n > or thread...)\n >\n > Another popular keyword used for this purpose is `import` (most notably\n > Python), though this keyword is already used for different purposes\n > (interface blocks) in Fortran. Because `import` is very common in other\n > languages for importing modules, I guess another approach may be to\n > \"reuse\" that keyword for importing a module name only (as a namespace),\n > like `import mylib` at a top of a given scope (which I think\n > corresponds to `use, with :: mylib` and `use, namespace :: mylib`).\n >\n > \u2014\n > You are receiving this because you were mentioned.\n > Reply to this email directly, view it on GitHub\n > <\n #1 (comment)>,\n or unsubscribe <\n https://github.com/notifications/unsubscribe-auth/AAAFAWDYE32IZ2CVYXTGUILSHE4EPANCNFSM4JBFRGNA\n >.\n >\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#1 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3MES2W4RU7XMH4HOILSHFAGZANCNFSM4JBFRGNA>\n ."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-23 21:28:41+00:00",
+                    "text": "import conflicts with existing usage; with doesn't make immediate sense to the new reader.\nConsider something like use :: mylib, ns => * or use, as(ns) :: mylib."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-23 22:13:57+00:00",
+                    "text": "Here are the options proposed so far, by category:\nAdd a keyword after use in line with the existing syntax for intrinsic:\n\nuse, namespace :: mylib\nuse, import :: mylib\nuse, with :: mylib\nuse, as(ns) :: mylib\n\nExtend the only keyword:\n\nuse mylib, only\nuse mylib, only:\nuse mylib, only: mylib\n\nExtend the renaming => syntax:\n\nuse :: mylib, ns => *\n\nUse two keywords:\n\nuse namespace mylib\n\nUse a new keyword entirely:\n\nwith mylib"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-23 22:20:10+00:00",
+                    "text": "I think we need to implement this in a compiler and actually use it.\nLooking at these alternatives, the following starts to look nice:\n\nuse namespace mylib\n\nEasy to type, no ::, no ,, and this will be the most common use case. Maybe even like this:\n\nuse module mylib"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-23 22:24:03+00:00",
+                    "text": "I think we need to implement this in a compiler and actually use it.\nLooking at these alternatives, the following starts to look nice:\n\nuse namespace mylib\n\nEasy to type, no ::, no ,, and this will be the most common use case. Maybe even like this:\n\nuse module mylib\n\n\nDoesn't work with fixed-form source, unfortunately.  USENAMESPACEMYLIB is ambiguous, and unlike MODULEPROCEDUREFOO, not clear from the context."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-23 22:56:32+00:00",
+                    "text": "Doesn't work with fixed-form source, unfortunately. USENAMESPACEMYLIB is ambiguous, and unlike MODULEPROCEDUREFOO, not clear from the context.\n\nI forgot about that. Another example for #108. One option would be to only introduce this syntax in free form, it would not be available in fixed form --- but that's a bigger decision to be made separately."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-23 23:03:02+00:00",
+                    "text": "Doesn't work with fixed-form source, unfortunately. USENAMESPACEMYLIB is ambiguous, and unlike MODULEPROCEDUREFOO, not clear from the context.\n\nI forgot about that. Another example for #108. One option would be to only introduce this syntax in free form, it would not be available in fixed form --- but that's a bigger decision to be made separately.\n\nAll Fortran semantics are orthogonal to the source form.  And it's easy to accommodate fixed form here -- you listed many workable alternatives above."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-24 03:43:28+00:00",
+                    "text": "Before implementing it it needs to be specified well enough that you know what you are implementing. First in Fortran punctuation is very useful, particularly to remove ambiguities in fixed source form. Second you will want to accommodate the module-nature keywords: intrinsic and the rarely used nonintrinsic. You will also probably want to accommodate module renaming. I am inclined to a single new keyword as it can be unambiguous and reduces typing\n\nnamespace, intrinsic:: iso_fortran_env => iso\nwith, intrinsic:: iso_fortran_env => iso\nusing, intrinsic:: iso_fortran_env => iso"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-25 18:48:08+00:00",
+                    "text": "Here's one more, inspired by @klausler but consistent with use ..., only::\nuse iso_fortran_env, as: env\n\nIf you want to use the namespace as is, then it needs some extra typing:\nuse iso_fortran_env, as: iso_fortran_env\n\nNote that use iso_fortran_env, as: env is similar to Python's import numpy as np."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-09-25 19:01:56+00:00",
+                    "text": "Stavros (can't find his github name) left a comment in the monthly call, how would the namespace syntax work together with submodules?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-09-25 19:05:28+00:00",
+                    "text": "Here's one more, inspired by @klausler but consistent with use ..., only::\nuse iso_fortran_env, as: env\n\n\nStylistically I prefer use iso_fortran_env, as: env over use, namespace :: env => iso_fortran_env, but the later is more consistent with existing syntax, and simplifies in a more consistent and concise way."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-09-25 19:07:55+00:00",
+                    "text": "Stavros (can't find his github name) left a comment in the monthly call, how would the namespace syntax work together with submodules?\n\nWould it be relevant? Currently, consumers of a module can't tell if it uses submodules, so there's no issue on that side. And anything in scope in a module is implicitly in scope in a submodule, so I don't think there's an issue on that side either."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-25 19:09:44+00:00",
+                    "text": "Tagging @smeskos here."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-25 19:21:37+00:00",
+                    "text": "I like use iso_fortran_env, as: env, I think we all do.\nThe question is how to simplify:\nuse iso_fortran_env, as: iso_fortran_env\n\nSome options:\n\nuse iso_fortran_env, as\nuse iso_fortran_env, as:\nuse iso_fortran_env, as: *\nuse iso_fortran_env, as is\nuse iso_fortran_env, as module\nuse iso_fortran_env, as namespace"
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-25 19:26:11+00:00",
+                    "text": "Just FWIW, Chapel uses an empty identifier list after only (https://chapel-lang.org/docs/primers/modules.html) to import only the module name, which may translate to\n  use mymod, only:   !! nothing written here\n\n(which is equal to import mymod; that allows only a qualified access of module entities).\nNim uses a similar approach by excluding all entities in the module via the keyword nil (e.g., from mymod import nil), which may correspond to\n  use mymod, only: none\n\n(but this approach needs an additional keyword like \"none\" etc...)\nJulia uses both using and import, where using imports all the exported module entities by default, while import imports only the module name."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-25 19:45:09+00:00",
+                    "text": "@septcolor you are right. Here is a comparison table:\n\n\n\nPython\nJulia\nChapel\nFortran\n\n\n\n\nimport A\nimport A\nuse A only\nuse A, only:\n\n\nimport A as B\nimport A as B\nuse A as B only\nuse B => A, only:\n\n\nfrom A import x\nusing A: x\nuse A only x\nuse A, only: x\n\n\nfrom A import x as y\nimport A: x as y\nuse A only x as y\nuse A, only: y => x\n\n\nfrom A import *\nusing A\nuse A\nuse A\n\n\n\nNote 1: Julia's syntax for import A as B and import A: x as y is only implemented as a PR (JuliaLang/julia#37396) from 3 weeks ago (!), but not merged yet.\nNote 2: One can use import A: x instead of using A: x in Julia.\nNote 3: Chapel's syntax use A as B only isn't mentioned in the docs, but it seems that would be the natural way (I haven't tested it).\nNote 4: Chapel also has an import syntax, but it seems redundant (?) to the use syntax above.\nGiven this and the Chapel's precedent, I now prefer:\n\nuse A, only:\nuse B => A, only:"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-25 19:51:36+00:00",
+                    "text": "use A, only: ! empty to get a namespace is not at all clear, and it doesn't allow for the otherwise orthogonal creation of both a namespace as well as unqualified importation of some names."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-25 19:53:51+00:00",
+                    "text": "I don't like use A, only:  because to a naive reader, it's not clear what it means. To me (experienced reader), it's still awkward and seems like it's trying to fit an existing syntax that is used for something else.\nOf @certik's alternative syntaxes, I like this one best:\nuse iso_fortran_env, as is"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-25 19:54:37+00:00",
+                    "text": "FWIW having a keyword after only: is prone to namespace conflicts. For example, my stdlib_bitsets module defines a function none."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-25 20:13:35+00:00",
+                    "text": "@klausler As far as I experimented, it seems possible to import the module name as well as module entities by writing two statements, e.g. (in Chapel's case):\nuse Time only;\nuse Time only Timer as Foo;\n\nproc test()\n{\n    var timer = new Time.Timer();\n    writeln( timer.type:string );  // Timer\n\n    var foo = new Foo();\n    writeln( foo.type:string );  // Timer\n}\n\ntest();\n\nbut I agree that use mymod, only:  !! nothing here looks somewhat awkward (at least initially). If there were some keyword representing \"nothing\", we could use it here, but as @wclodius2 says, none etc can conflict with existing symbols.\nPersonally, I prefer using the keyword import most (which is very natural in its meaning), but it is \"reserved\" by the use in interface blocks. I think one could define \"except this, except that\" rules to enable overloading the meaning of import, but I'm afraid this would introduce additional complications (possibly both for compiler implementation and user experiences)..."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-09-25 20:14:29+00:00",
+                    "text": "For what it's worth, Haskell has import [qualified] ModuleName [as Alias] [[hiding] (names)].\nQualified names are available with and without qualified -- the module name or its alias always becomes available as what you all are calling a \"namespace\".  When qualified doesn't appear, the imported names are also available without qualification.\nThe list of imported names can be absent, in which case all exported names from the module are imported.  And it can be negated with hiding to import everything but some names.\nHaskell also allows multiple modules to be imported into the same alias, so long as there are no conflicts.  And module aliases can be exported, too, for use in other modules.  This is useful -- it lets one compose a new module using names imported from others."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-09-25 20:19:09+00:00",
+                    "text": "@everythingfunctional:\n\nWould it be relevant?\n\nPerhaps not. I am trying to figure this out. Please see the two examples below. Do they make any sense or my confusion is irrelevant to the namespace proposal?\nFirst example with submodules;\nWe have the following module/submodule system:\nmodule Base\nsubmodule A,                                                                                           submodule B\nsubmodule A1,   submodule A2\nDeclaration:\nsubmodule (Base)A,            submodule(Base)B\nsubmodule(Base : A)A1,\nsubmodule(Base : A)A2\nprogram main\nuse, namespace :: Base\n!will Base be able to see every submodule?\ncall Base%A%A1%mySubroutine(args, ...)\nend program\nSecond example:\nmodule All, module A, module B, module C, module D, etc...\nmodule All\nuse, namespace :: A, B, C, D,...\nend module All\n! Is the following correct?\nprogram main\nuse, namespace ::all\ncall all%A%mySubroutineA()\nend program main"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-09-25 20:30:25+00:00",
+                    "text": "Submodules aren't supposed to be publicly knowable, so if mySubroutine is publicly available from Base, then it would be accessible as Base%mySubroutine and there would be no need for any reference to the submodule. If something is not declared in the module, it is not publicly accessible."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-25 20:35:13+00:00",
+                    "text": "As is common with arguments about syntax, we are \"bike shedding\". Everyone understands syntax, so everyone has a different opinion on it. I can come up with a large number of syntaxes. For example a standalone keyword:\nnamespace, intrinsic:: env=>iso_fortran_env\nwith, intrinsic::  env=>iso_fortran_env\nusing, intrinsic:: env=>iso_fortran_env\nimport, intrinsic:: env=>iso_fortran_env\nemploy, intrinsic:: env=>iso_fortran_env\nsource, intrinsic:: env=>iso_fortran_env\nqualified, intrinsic:: env=>iso_fortran_env\nas is, intrinsic:: env=>iso_fortran_env\n\nmany of the same keywords could be used as attributes in the early part of a use statement, but then the standard has to explain why there is no rename or only list;\nuse, namespace, intrinsic:: env=>iso_fortran_env\nuse, with, intrinsic :: env=>iso_fortran_env\nuse, source, intrinsic :: env=>iso_fortran_env\nuse, qualified, intrinsic :: env=>iso_fortran_env\nuse, as is, intrinsic :: env=>iso_fortran_env\n\nor they could be used as replacements for only\nuse, intrinsic:: iso_fortran_env, namespace: env\nuse, intrinsic:: iso_fortran_env, with: env\nuse, intrinsic:: iso_fortran_env, as is: env\nuse, intrinsic:: iso_fortran_env, qualified: env\n\nI am sure that with more time I could come up with more examples."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-25 20:45:53+00:00",
+                    "text": "@wclodius2 I don't think we're bike shedding. Syntax and choice of keywords are not irrelevant details. They have a direct impact on the programmer, what they're writing, and how they feel about it. I think that the new syntax should:\n\nBe as minimal as possible\nBe as intuitive as it can be to a naive reader\nBe as consistent with existing syntax as possible\nSpark joy\n\nThe optimal solution is not easy to come up with and it's impossible to make everybody happy. All these tedious discussions about words and punctuation and what's intuitive or not are necessary and important part of the work. The more people that provide feedback the more clear we will get about the top candidates."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-25 20:54:26+00:00",
+                    "text": "it doesn't allow for the otherwise orthogonal creation of both a namespace as well as unqualified importation of some names.\n\nNeither Python, Julia or Chapel allow that as far as I know with a single statement. @septcolor gave an example in Chapel, in Python you have to do:\nimport numpy\nfrom numpy import sin\n\nSo in Fortran it would become:\nuse numpy, only:\nuse numpy, only: sin\n\nI agree with @klausler that it looks a bit confusing. Even without the : it looks weird to me: use numpy, only. The Chapel version, on the other hand, looks good: use numpy only and use numpy only x, but we can't use this without a comma due to ambiguities in the fixed form.\n@wclodius2 is right that it might seem like we are \"bike shedding\", but in order to move this proposal further, the syntax is important. @milancurcic just replied above in similar spirit.\nWe agreed at the call that we will do a survey at the Fortran Discourse and ask people for preferences."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-09-26 03:16:59+00:00",
+                    "text": "There are two orthogonal choices in the syntax: first what word to use as the keyword, and second where to put the keyword. So far I have seen the following suggestions for keywords:\nnamespace - main problem is its length, but users of C++, where namespace behaves like Fortran's use, may find this usage counterintuitive\nwith - main advantage is its length, some find it unintuitive\nusing - similar to use, slightly suggests requiring the module name to access\nimport - used for this in Python, but already a keyword with different semantics\nemploy - a synonym to use\nsource - slightly suggestive of the semantics\nqualified - one of its meanings is suggestive of the semantics, but not the most commonly used meaning, as long as namespace\nas with as is - one for renaming the other for non-renaming. What happens if you want to rename to is?\nns - an abbreviation for namespace that is similar to nanosecond\nonly - only as a use statement terminator, overloads its current meaning\nAre there any names I missed?\nI know of three possible places to put the keyword\nAt the beginning, making its own statement, i.e,\nkeyword[[, module-nature]::] [local-module-name=>]module-name\nthis is what most of the languages cited do\nAfter the use keyword\nuse [[, keyword][, module-nature]::] [local-module-name=>]module-name\nor\nuse [[, module-nature][, keyword]::] [local-module-name=>]module-name\nIt will be tempting to lump the keyword with intrinsic and nonintrinsic in module-nature, in which case the standard needs to explain that there is no only or rename list.\nReplacing the only keyword\nuse[[, module-nature]::] module-name, keyword[:local-module-name]\nmaking a third form of a use statement"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-09-26 07:11:52+00:00",
+                    "text": "@wclodius2\n\nAre there any names I missed?\n\nThe word name itself as a verb or the word rename.\nHowever, I find all of the proposed keywords as non-Fortranic way of doing things. With the only exception perhaps of the original proposal of namespace.\nAn example of my personal favorite style of implementing this:\nuse mathematics, only: cdif=>central_difference\ncall cdif()\n!to\nuse, namespace, math=>mathematics, only:cdif=>central_difference\ncall math%cdif()\nThe keyword namespace will be employed to distinguish between using or not using the name of the module and the symbol => optionally if we want to rename locally the name of the module.\nAnother alternative to namespace could be modulename, only because the former may cause confusion with the C++ keyword, and why not to reserve it for a possible future similar implementation.\nTherefore, the alternative to my previous example:\nuse, modulename, math=>mathematics, only:cdif=>central_difference\ncall math%cdif()"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-09-26 17:30:32+00:00",
+                    "text": "I will request everyone to take a look at my comment in another thread #86, a thread with another proposal that I think is along the same lines as this one.  As I suggest therein, I personally would preface NAMESPACE to reflect a formal concept that is waiting to be introduced in the Fortran standard at some later stage in the advancement of this language.  Fortran being a language that always holds tremendous promise as a tool for scientists and engineers but which is perpetually trying to \"catch up\" to the state-of-the-art in technical computing.  Meaning the language and its bearers haven't fully caught up yet to the concept of namespace and its benefits though Fortran did a take a big step toward it with MODULEs introduced back in 1991 with the Fortran 90 publication.\nIn the context of this particular proposal in this thread, I think the search is for a way to decorate module entities suitably during their \"consumption\" via USE association.\nAnd I think the Fortrannic way will be to introduce both an ATTRIBUTE and a STATEMENT for the same.  And where the options gain a FUNCTION-like syntax with optional arguments within parenthesis.\nThere are several examples of this in the Fortran standard: ALLOCATABLE, BIND, etc.  BIND seems to me to be quite apt here for understanding a facility that is both an ATTRIBUTE and a STATEMENT.  Note the token BIND in my simple-minded thinking can be viewed as a verb or a command or an instruction which is what seems to be the need here.\nSo thinking along the same lines, an alternate suggestion will be to use DECORATE as the token:\nuse, decorate :: utils \n..\ncall utilsXsavetxt(..)\nwhere X is the separator yet to be decided; it can be % (as in call utils%savetxt(..)) or it might be double-colon (as in call utils::savetxt(..)), etc.\nAnd additional options with (re)naming can be introduced as\nuse, decorate( name=\"ut\" ) :: utils \n..\ncall utXsavetxt(..)\nWith the STATEMENT form, the expected syntax is\nuse utils\n..\ndecorate :: utils\n..\ncall utilsXsavetxt(..)\nApplying the same to @smeskos 's examples above, I would expect the syntax to be\nuse, decorate(name=\"math\") :: mathematics, only : cdif => central_difference\ncall mathXcdif()\nAnd if the optional name is not employed,\nuse, decorate :: mathematics, only : cdif => central_difference\ncall mathematicsXcdif()\nWith the example in the J3 paper (https://j3-fortran.org/doc/year/19/19-246.txt), the syntax can look like so:\n    use, decorate :: math\n    use, decorate( name=\"np\" ) :: numpy\n    use, decorate( name=\"sym\") :: sympy\n    ...\n    e1 = npXsin(npXpi)      ! NumPy expression\n    e2 = mathXsin(mathXpi)  ! Built-in Python math expression\n    e3 = symXsin(symXpi)    ! SymPy expression\nand\n    use, decorate :: lapack\n    ..\n    call lapackXdgeev('N', 'V', n, At, lda, wr, wi, vl, ldvl, vr, ldvr, &\n     work, lwork, info)\n    ..\n    call lapackXdgetrf(n, n, Amt, lda, ipiv, info)\n    .."
+                },
+                {
+                    "user": "gronki",
+                    "date": "2020-09-27 13:52:04+00:00",
+                    "text": "I find \"decorate\" concept elegant, except I am not sure why the alternative\nname is to be put in quotes. In free form, spaces or special characters are\nnot allowed in names afaik, while string literal implies that any\ncharacters should be valid. I think that\n\nuse, decorate(name = lpk) :: lapack\n\nwould be more logical.\n\nWhen I look at this syntax, it really looks like Fortran to me. Good shot\nFortranFan.\nAlso because one USE is needed to include one module, while => operator\nusually appears in constructs that can be used in sequences separated by a\ncomma. So\n\nuse, namespace :: np => numpy\n\nnaturally encourages user to do\n\nuse, namespace :: np => numpy, lpk => lapack\n\nwhich would be too much of a stretch considering current USE syntax.\n\nI also would agree that using % (so the same operator used to access\nderived type components) should be very carefully discussed. I would also\nprefer to have a distinguishment between accessing module and derived type\ncomponents. :: seems to be another good candidate. While I love Python and\nin that language no distinguishment makes sense (its an interpreted\nlanguage), I would say in Fortran I would rather know whether it's a\nderived type or just a namespace. There is enough confusion as is with\nparethesis () used both for functions and arrays. Let's not repeat that\nmistake.\n\nDominik\n\nsob., 26 wrz 2020 o 19:30 FortranFan <notifications@github.com> napisa\u0142(a):\n\u2026\n I will request everyone to take a look at my *comment*\n <#86 (comment)>in\n another thread #86\n <#86> that I think\n is related to this one. As I suggest therein, I personally would preface\n NAMESPACE to reflect a *formal* concept to be introduced in the Fortran\n standard at some later stage in the advancement of this language that\n always holds tremendous promise as a tool for scientists and engineers but\n which is perpetually trying to \"catch up\" to the state-of-the-art in\n technical computing. Meaning the language and its bearers haven't fully\n caught up yet to the concept of namespace and its benefits though Fortran\n took a big step toward it with MODULEs back in 1991 with Fortran 90\n publication.\n\n In the context of this particular proposal in this thread, I think the\n search is for a way to *decorate* module entities suitably during their\n \"consumption\" via USE association.\n\n And I think the *Fortrannic way* will be to introduce both an ATTRIBUTE\n and a STATEMENT for the same. And where the options gain a FUNCTION-like\n syntax with optional arguments within parenthesis.\n\n There are several examples of this in the Fortran standard: ALLOCATABLE,\n BIND, etc. BIND seems to me to be quite apt here for understanding a\n facility that is both an ATTRIBUTE and a STATEMENT. Note the token BIND\n in my simple-minded thinking can be viewed as a verb or a command or an\n instruction which is what seems to be the need here.\n\n So thinking along the same lines, an alternate suggestion will be to use\n DECORATE as the token:\n\n use, decorate :: utils\n ..call utilsXsavetxt(..)\n\n where X is the separator yet to be decided; it can be % (as in call\n utils%savetxt(..)) or it might be double-colon (as in call\n utils::savetxt(..)), etc.\n\n And additional options with (re)naming can be introduced as\n\n use, decorate( name=\"ut\" ) :: utils\n ..call utXsavetxt(..)\n\n With the STATEMENT form, the expected syntax is\n\n use utils\n ..\n decorate :: utils\n ..call utilsXsavetxt(..)\n\n Applying the same to @smeskos <https://github.com/smeskos> 's examples\n above, I would expect the syntax to be\n\n use, decorate(name=\"math\") :: mathematics, only : cdif => central_differencecall mathXcdif()\n\n And if the optional name is not employed,\n\n use, decorate :: mathematics, only : cdif => central_differencecall mathematicsXcdif()\n\n With the example in the J3 paper (\n https://j3-fortran.org/doc/year/19/19-246.txt), the syntax can look like\n so:\n\n     use, decorate :: math\n     use, decorate(name=\"np\") :: numpy\n     use, decorate( name=\"sym\") :: sympy\n     ...\n     e1 = npXsin(npXpi)      ! NumPy expression\n     e2 = mathXsin(mathXpi)  ! Built-in Python math expression\n     e3 = symXsin(symXpi)    ! SymPy expression\n\n and\n\n     use, decorate :: lapack\n     ..\n     call lapackXdgeev('N', 'V', n, At, lda, wr, wi, vl, ldvl, vr, ldvr, &\n      work, lwork, info)\n     ..\n     call lapackXdgetrf(n, n, Amt, lda, ipiv, info)\n     ..\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#1 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3O3N7FNNZ3GMNFHHO3SHYQMNANCNFSM4JBFRGNA>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-27 15:31:53+00:00",
+                    "text": "I also like @FortranFan's idea of specifying the namespace name in parentheses following the keyword. Also with @gronki that the new name shouldn't be a string literal.\nI don't like the word \"decorate\" here. To me it means to add functionality to something which I don't think is what we're doing."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-09-27 17:02:46+00:00",
+                    "text": "@gronki, @milancurcic ,\nI'm ok with the synonym to be not a string literal i.e., a default-char-constant-expr per the standard.  I had suggested as much based on what I thought I had heard previously with certain compiler implementations and how they parse the FUNCTION-like approach with the use of parenthesis in ATTRIBUTEs and STATEMENTs.   This is where an implementation or two, as suggested by @certik, will come in handy: it can help work through such options.\n@milancurcic ,\nRe: \"I don't like the word \"decorate\" here. To me it means to add functionality to something which I don't think is what we're doing.\":\n\nnote this proposal is indeed adding a functionality, albeit it is in the form of an adornment or an embellishment that makes something distinguished.  What might previously be a use-associated entity FOO from MY_MOD module will no longer have its first-class (or an independent) identity that it has with current standard.  Meaning, there can no longer be a reference to FOO in that scope.  It must be \"adorned\" as something like MY_MOD::FOO (or MY_MOD%FOO, depending on the separator chosen.)\n\nThen, in the dictionary sense of the term, this is nothing but decoration.  That's why I suggested that token.  It seems to better capture the essence of the functionality being proposed here than all the alternatives suggested upthread.\nBut if it's too verbose, another alternative is ADORN.\nBy the way, I had thought of DISTINGUISH and EMBELLISH also because in a sense with the PI example shown above with Python packages, this proposal is in a way seeking an easier way to distinguish/embellish the entities from each other in a given scope.  It seemed even more verbose or negative-sounding, so I decided against it.\nNow, if people starting getting too much into further nits with the choice of the word, that will confirm @wclodius2 's point earlier about the bikeshedding here."
+                },
+                {
+                    "user": "gronki",
+                    "date": "2020-09-27 17:28:01+00:00",
+                    "text": "Yeah perharps the choice of a word is a bit of a detail. From my\nperspective as a non-native English speaker, the word should be\ncommonly used in international English (never seen \"adorn\" before) and\nnot to be confused with something else (like IMPORT proposed in\nanother context). I am sure there is one than more word that fits this\ncriteria :)\n\nDominik\n\nniedz., 27 wrz 2020 o 19:02 FortranFan <notifications@github.com> napisa\u0142(a):\n\u2026\n\n @gronki, @milancurcic ,\n\n I'm ok with the synonym to be not a string literal i.e., a default-char-constant-expr per the standard. I had suggested as much based on what I thought I had heard previously with certain compiler implementations and how they parse the FUNCTION-like approach with the use of parenthesis in ATTRIBUTEs and STATEMENTs. This is where an implementation or two, as suggested by @certik, will come in handy: it can help work through such options.\n\n @milancurcic ,\n\n Re: \"I don't like the word \"decorate\" here. To me it means to add functionality to something which I don't think is what we're doing.\":\n\n note this proposal is indeed adding a functionality, albeit it is in the form of an adornment or an embellishment. What might previously be a use-associated entity FOO from MY_MOD module will no longer have its first-class (or an independent) identity that it has with current standard. Meaning, there can no longer be a reference to FOO in that scope. It must be \"adorned\" as something like MY_MOD::FOO (or MY_MOD%FOO, depending on the separator chosen.)\n\n Then, in the dictionary sense of the term, this is nothing but decoration. That's why I suggested that token. It seems to better capture the essence of the functionality being proposed here than all the alternatives suggested upthread.\n\n But if it's too verbose, another alternative is ADORN. But if people starting getting into further nits with the choice of the word, that will confirm @wclodius2 's point earlier about the bikeshedding here.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-09-27 17:52:48+00:00",
+                    "text": "@FortranFan Thank you, only after your detailed explanation I was able to understand--you're not decorating the module itself, but the public entities in the module. Now it makes more sense.\nI'd still advise against it because of how easily it can be confused with decorating as a software design pattern. For example, if I was teaching this concept, I'd have to caveat it with something like \"If you've used decorators in other languages before, be careful--this does something completely different\", and then refer to it as \"namespace\" in the rest of the material. :)\nThis is also a good example of why I think the choice of the word is important."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-27 18:39:17+00:00",
+                    "text": "Hi @certik,\n\n\nit doesn't allow for the otherwise orthogonal creation of both a namespace as well as unqualified importation of some names.\n\nNeither Python, Julia or Chapel allow that as far as I know with a single statement.\n\nJulia seems to allow this with one line, e.g. to import \"LinearAlgebra\" (a module or package name) and \"svd\" (a function name) only as\nusing LinearAlgebra: LinearAlgebra, svd \n\n\nNote 1: Julia's syntax for import A as B and import A: x as y is only implemented as a PR (JuliaLang/julia#37396) from 3 weeks ago (!), but not merged yet.\n\nThanks for the info! As for Note 4 (why Chapel introduced \"import\" in addition to \"use\"), I came across long discussion pages before, but was not able to catch the core reason very well ... (it might be related to automatic search for packages and modules).\n\n\n(FortranFan wrote) X is the separator yet to be decided; it can be % (as in call utils%savetxt(..)) or it might be double-colon (as in call utils::savetxt(..)), etc.\n\n:: looks also nice to me :)\n\nAnd one more possibility may be this form? (taken from the Fortran Wiki) (sorry if this is already discussed...)\nhttp://fortranwiki.org/fortran/show/Extension+to+USE+statement\nUSE [[, module-nature] ::] module-name [AS use-name] [, ONLY:only-list]\n\nWithout \u201cAS use-name\u201d it is a regular USE statement.\nHowever, when the \u201cAS use-name\u201d is used, then the entities defined\nin module \u201cmodule-name\u201d are accessed only with \u201cuse-name%entity-name\u201d syntax.\n\nEg: USE hitechlib AS ht"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-09-27 19:31:34+00:00",
+                    "text": "@septcolor wrote:\n\n..\nAnd one more possibility may be this form? ..\n.. USE hitechlib AS ht\n\nAs mentioned upthread, punctuation or a separator between conjunctions is needed to support the 2 sources forms in Fortran, and that's why this does not work."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-09-27 19:36:09+00:00",
+                    "text": "Hi @FortranFan\nThanks, then maybe we can do: USE hitechlib, AS: ht (?)\nAs another point to be considered: I am wondering whether various proposed syntax works for something like \"from numpy.linalg import norm\"...? (though I am not sure if the latter case can happen in Fortran)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-09-28 15:52:41+00:00",
+                    "text": "Thanks everybody for your input and making progress on this issue.\n@septcolor raises an important thing to consider: #86 (nested modules). As posted there, this might work:\nuse, namespace :: mylib%a\n...\ncall mylib%a%something()\n\nI like the :: option instead of % also, but I don't know if it will work syntax wise for nested modules:\nuse, namespace :: mylib::a\n...\ncall mylib::a::something()\n\nDon't know if there could be issues parsing it.\nAnother issue to consider is nested modules (proposed feature as in #86) versus modules using other modules (existing feature) with regards to syntax and importing. E.g., does call mylib::a::something() work for both a being a nested module, versus a being used inside mylib?"
                 }
             ]
         }
