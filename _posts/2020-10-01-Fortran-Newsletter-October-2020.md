@@ -134,7 +134,7 @@ The Classic Flang biweekly call has been set up to discuss issues and plans
 for the next pull requests to be validated and merged. Our next calls will be
 Wednesday, October 7 and 21, 8:30 AM Pacific time. The notes from previous
 calls, upcoming agenda and a link to join the call can be found
-[here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).```
+[here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).
 
 ### LLVM Flang
 
