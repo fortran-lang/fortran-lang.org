@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: October 2020"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Ondřej Čertík, Gary Klimowicz, Brad Richardson, Jérémie Vandenplas, and Laurence Kedward
 ---
 
 Welcome to the October 2020 edition of the monthly Fortran newsletter.
