@@ -159,7 +159,25 @@ Michael Kruse continues to add support for building Flang on Windows with MSVC.
 
 ### LFortran
 
-TODO @certik
+What's new in LFortran:
+
+* 59 Merge Requests were merged and 3 issues fixed in September 2020
+* The FortranCon 2020 LFortran video now [available](https://www.youtube.com/watch?v=tW9tUxVMnzc)
+* LFortran, now imlemented in C++, has surpassed the Python prototype from a
+  year ago
+* The Jupyter notebook now works as it used to with the Python prototype
+* a new notebook added showcasing how to visualize AST, ASR and C++ translation
+  in Jupyter ([!624](https://gitlab.com/lfortran/lfortran/-/merge_requests/624))
+* X86 backend to generate direct x86-32 machine code (very fast compilation in
+  Debug mode)
+* Further parser improvements
+* Initial Fortran modules support
+* Initial support for using GFortran modules
+  ([!632](https://gitlab.com/lfortran/lfortran/-/merge_requests/632))
+* Better compiler error messages
+  ([!617](https://gitlab.com/lfortran/lfortran/-/merge_requests/617))
+* The interactive prompt (REPL) now understands arrow keys
+  ([!603](https://gitlab.com/lfortran/lfortran/-/merge_requests/603))
 
 You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://twitter.com/lfortranorg).
 
