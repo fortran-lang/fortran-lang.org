@@ -166,7 +166,7 @@ What's new in LFortran:
 * LFortran, now imlemented in C++, has surpassed the Python prototype from a
   year ago
 * The Jupyter notebook now works as it used to with the Python prototype
-* a new notebook added showcasing how to visualize AST, ASR and C++ translation
+* A new notebook added showcasing how to visualize AST, ASR and C++ translation
   in Jupyter ([!624](https://gitlab.com/lfortran/lfortran/-/merge_requests/624))
 * X86 backend to generate direct x86-32 machine code (very fast compilation in
   Debug mode)
