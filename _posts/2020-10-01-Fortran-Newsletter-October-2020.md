@@ -102,10 +102,6 @@ environment in which new open source Fortran projects are created and published 
 
 ## Compilers
 
-### GFortran
-
-TODO
-
 ### Classic Flang
 
 We continue to evaluate and merge pull requests into the original Flang
