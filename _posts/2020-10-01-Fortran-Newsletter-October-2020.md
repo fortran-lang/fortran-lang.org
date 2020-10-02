@@ -177,7 +177,7 @@ You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://tw
 * We had our fourth Fortran Monthly call on September 25.
 You can watch the recording below:
 
-￼<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ei6CAZblOro" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ei6CAZblOro" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
