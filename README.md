@@ -3,7 +3,7 @@
 This repository contains the source for the fortran-lang.io website. 
 It's derived from https://github.com/neovim/neovim.github.io.
 
-## Contributing
+## Contributing:
 
 * [CONTRIBUTING](./CONTRIBUTING.md): getting started and general guidance on contributing to <https://fortran-lang.org>
 
@@ -11,7 +11,7 @@ It's derived from https://github.com/neovim/neovim.github.io.
 
 * [PACKAGES](./PACKAGES.md): adding an entry to the [Package index](https://fortran-lang.org/packages)
 
-## Setup
+## How To Setup:
 
 This assumes that you already have a recent Ruby with RubyGems.
 
