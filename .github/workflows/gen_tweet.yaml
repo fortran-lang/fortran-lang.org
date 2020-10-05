@@ -1,0 +1,108 @@
+name: twitter bot
+
+# runs on issues that have been created
+on:
+  issue_comment:
+    types: [created]
+
+# setup environment variables
+env:
+  TWEET_KEYWORD: '__[tweet]__'
+  UNTWEET_KEYWORD: '__[untweet]__'
+  UNTWEET_EDIT_COMMENT_KEYWORD: '__[tweet withdrawn]__'
+  ERROR_KEYWORD: '__[error]__'
+  TWEET_MAX_CHAR: 280
+  TWITTER_HANDLE: fortranlang
+  TWITTER_URL: https://twitter.com/fortranlang
+
+jobs:
+  # withdraws the tweet CI comment
+  untweet:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body,'#untweet')
+    steps:
+    - name: find the tweet comment matching the keyword env.TWEET_KEYWORD
+      uses: peter-evans/find-comment@v1
+      id: fc
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        comment-author: github-actions[bot]
+        body-includes: ${{ env.TWEET_KEYWORD }}
+#   - run: echo ${{steps.fc.outputs.comment-id}}
+    - name: if tweet CI comment is found, replace CI comment to undo it
+      if: ${{ steps.fc.outputs.comment-id != null }}
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        comment-id: ${{steps.fc.outputs.comment-id}}
+        edit-mode: replace
+        body: |
+          ${{env.UNTWEET_EDIT_COMMENT_KEYWORD}}
+    - name: fetch comment url
+      if: ${{ steps.fc.outputs.comment-id != null }}
+      id: get-comment-url
+      run: |
+        echo ::set-output name=comment-url::$(echo "${{github.event.issue.pull_request.url}}\#issuecomment-${{steps.fc.outputs.comment-id}}" | sed 's/api\.//; s/repos\///; s/pulls/pull/')
+    - name: if tweet CI comment found, report it in a new comment
+      if: ${{ steps.fc.outputs.comment-id != null }}
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{github.event.issue.number}}
+        body: |
+          ${{env.UNTWEET_KEYWORD}} removed previous tweet [above](${{steps.get-comment-url.outputs.comment-url}}).
+  # writes a tweet CI comment
+  tweet:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body,'#tweet')
+    steps:
+    - name: search for a previous tweet CI comment matching the keyword env.TWEET_KEYWORD
+      uses: peter-evans/find-comment@v1
+      id: fc
+      with:
+        issue-number: ${{github.event.issue.number}}
+        comment-author: github-actions[bot]
+        body-includes: ${{env.TWEET_KEYWORD}}
+#   - run: echo ${{steps.fc.outputs.comment-id}}
+    - name: if tweet CI comment is found, replace CI comment to undo it
+      if: ${{ steps.fc.outputs.comment-id != null }}
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        comment-id: ${{steps.fc.outputs.comment-id}}
+        edit-mode: replace
+        body: |
+          ${{env.UNTWEET_EDIT_COMMENT_KEYWORD}}
+#   - name: fetch comment url
+#     if: ${{ steps.fc.outputs.comment-id != null }}
+#     id: get-comment-url
+#     run: |
+#       echo ::set-output name=comment-url::$(echo "${{github.event.issue.pull_request.url}}\#issuecomment-${{steps.fc.outputs.comment-id}}" | sed 's/api\.//; s/repos\///')
+#   - name: if tweet CI comment is found, report it in a new comment
+#     if: ${{ steps.fc.outputs.comment-id != null }}
+#     uses: peter-evans/create-or-update-comment@v1
+#     with:
+#       issue-number: ${{github.event.issue.number}}
+#       body: |
+#         ${{env.UNTWEET_KEYWORD}} removed previous tweet [above](${{steps.get-comment-url.outputs.comment-url}}).
+    - name: extract the new tweet message
+      id: get-comment-body
+      run: |
+        echo '${{github.event.comment.body}}' | sed '1 s/#tweet//' | sed '1 s/ //' > tweet.txt
+        echo ::set-output name=tweet_length::$(cat tweet.txt | tr -d '\n\r%' | wc -c)
+        sed 's/^/> /' tweet.txt > tweet_quote.txt
+        body=$(cat tweet.txt)
+        body="${body//'%'/'%25'}"
+        body="${body//$'\n'/'%0A'}"
+        body="${body//$'\r'/'%0D'}"
+        echo ::set-output name=body::$body
+        body_quote=$(cat tweet_quote.txt)
+        body_quote="${body_quote//'%'/'%25'}"
+        body_quote="${body_quote//$'\n'/'%0A'}"
+        body_quote="${body_quote//$'\r'/'%0D'}"
+        echo ::set-output name=body_quote::$body_quote
+        rm tweet.txt tweet_quote.txt
+    - name: print new tweet CI message in a new comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{github.event.issue.number}}
+        body: |
+          ${{env.TWEET_KEYWORD}} the following message will be tweeted in [@${{env.TWITTER_HANDLE}}](${{env.TWITTER_URL}}) after this PR is merged (character count: ${{steps.get-comment-body.outputs.tweet_length}}/${{env.TWEET_MAX_CHAR}}):
+          ${{steps.get-comment-body.outputs.body_quote}}

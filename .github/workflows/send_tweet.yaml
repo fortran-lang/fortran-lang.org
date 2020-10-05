@@ -1,0 +1,42 @@
+name: send a tweet if PR is merged (and there is a tweet to be sent)
+
+on:
+  pull_request:
+    types: [closed]
+env:
+  TWEET_KEYWORD: '__[tweet]__'
+
+jobs:
+  publish_tweet:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+    steps:
+    - name: find the tweet comment matching the keyword env.TWEET_KEYWORD
+      uses: peter-evans/find-comment@v1
+      id: fc
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: github-actions[bot]
+        body-includes: ${{env.TWEET_KEYWORD}}
+    - run: |
+        echo ${{ github.event.pull_request.number }} ${{ env.TWEET_KEYWORD }} ${{steps.fc.outputs.comment-id}}
+    - name: if tweet CI comment is found, extract tweet from comment body
+      id: extract-tweet
+      if: ${{steps.fc.outputs.comment-id}} != null
+      run: |
+        echo "${{steps.fc.outputs.comment-body}}" | sed '1d' | sed 's/> //' > tweet.txt
+        body=$(cat tweet.txt)
+        body="${body//'%'/'%25'}"
+        body="${body//$'\n'/'%0A'}"
+        body="${body//$'\r'/'%0D'}"
+        echo ::set-output name=body::$body
+        rm tweet.txt
+    - name: tweet the message
+      if: ${{steps.fc.outputs.comment-id}} != null
+      uses: ethomson/send-tweet-action@v1
+      with:
+        status: ${{steps.extract-tweet.outputs.body}}
+        consumer-key: ${{ secrets.TWITTER_API_KEY }}
+        consumer-secret: ${{ secrets.TWITTER_API_SECRET_KEY }}
+        access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+        access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
