@@ -15,7 +15,7 @@ jobs:
       uses: peter-evans/find-comment@v1
       id: fc
       with:
-        issue-number: ${{ github.event.pull_request.number }}
+        issue-number: ${{github.event.pull_request.number}}
         comment-author: github-actions[bot]
         body-includes: ${{env.TWEET_KEYWORD}}
     - name: if tweet CI comment is found, extract tweet from comment body
@@ -34,10 +34,10 @@ jobs:
       uses: ethomson/send-tweet-action@v1
       with:
         status: ${{steps.extract-tweet.outputs.body}}
-        consumer-key: ${{ secrets.TWITTER_API_KEY }}
-        consumer-secret: ${{ secrets.TWITTER_API_SECRET_KEY }}
-        access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
-        access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        consumer-key: ${{secrets.TWITTER_API_KEY}}
+        consumer-secret: ${{secrets.TWITTER_API_SECRET_KEY}}
+        access-token: ${{secrets.TWITTER_ACCESS_TOKEN}}
+        access-token-secret: ${{secrets.TWITTER_ACCESS_TOKEN_SECRET}}
     - name: clear tweet keyword
       if: ${{steps.fc.outputs.comment-id}} != null
       uses: peter-evans/create-or-update-comment@v1

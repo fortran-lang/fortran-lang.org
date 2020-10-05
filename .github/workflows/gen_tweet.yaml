@@ -25,12 +25,12 @@ jobs:
       uses: peter-evans/find-comment@v1
       id: fc
       with:
-        issue-number: ${{ github.event.issue.number }}
+        issue-number: ${{github.event.issue.number}}
         comment-author: github-actions[bot]
-        body-includes: ${{ env.TWEET_KEYWORD }}
+        body-includes: ${{env.TWEET_KEYWORD}}
 #   - run: echo ${{steps.fc.outputs.comment-id}}
     - name: if tweet CI comment is found, replace CI comment to undo it
-      if: ${{ steps.fc.outputs.comment-id != null }}
+      if: ${{steps.fc.outputs.comment-id != null}}
       uses: peter-evans/create-or-update-comment@v1
       with:
         comment-id: ${{steps.fc.outputs.comment-id}}
@@ -38,12 +38,12 @@ jobs:
         body: |
           ${{env.UNTWEET_EDIT_COMMENT_KEYWORD}}
     - name: fetch comment url
-      if: ${{ steps.fc.outputs.comment-id != null }}
+      if: ${{steps.fc.outputs.comment-id != null}}
       id: get-comment-url
       run: |
         echo ::set-output name=comment-url::$(echo "${{github.event.issue.pull_request.url}}\#issuecomment-${{steps.fc.outputs.comment-id}}" | sed 's/api\.//; s/repos\///; s/pulls/pull/')
     - name: if tweet CI comment found, report it in a new comment
-      if: ${{ steps.fc.outputs.comment-id != null }}
+      if: ${{steps.fc.outputs.comment-id != null}}
       uses: peter-evans/create-or-update-comment@v1
       with:
         issue-number: ${{github.event.issue.number}}
@@ -63,7 +63,7 @@ jobs:
         body-includes: ${{env.TWEET_KEYWORD}}
 #   - run: echo ${{steps.fc.outputs.comment-id}}
     - name: if tweet CI comment is found, replace CI comment to undo it
-      if: ${{ steps.fc.outputs.comment-id != null }}
+      if: ${{steps.fc.outputs.comment-id != null}}
       uses: peter-evans/create-or-update-comment@v1
       with:
         comment-id: ${{steps.fc.outputs.comment-id}}
@@ -71,12 +71,12 @@ jobs:
         body: |
           ${{env.UNTWEET_EDIT_COMMENT_KEYWORD}}
 #   - name: fetch comment url
-#     if: ${{ steps.fc.outputs.comment-id != null }}
+#     if: ${{steps.fc.outputs.comment-id != null}}
 #     id: get-comment-url
 #     run: |
 #       echo ::set-output name=comment-url::$(echo "${{github.event.issue.pull_request.url}}\#issuecomment-${{steps.fc.outputs.comment-id}}" | sed 's/api\.//; s/repos\///')
 #   - name: if tweet CI comment is found, report it in a new comment
-#     if: ${{ steps.fc.outputs.comment-id != null }}
+#     if: ${{steps.fc.outputs.comment-id != null}}
 #     uses: peter-evans/create-or-update-comment@v1
 #     with:
 #       issue-number: ${{github.event.issue.number}}
