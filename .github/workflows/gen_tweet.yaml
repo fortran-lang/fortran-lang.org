@@ -86,6 +86,8 @@ jobs:
         echo "${{github.event.comment.body}}" | sed '1 s/#tweet//' | sed '1 s/ //' > tweet.txt
         echo ::set-output name=tweet_length::$(cat tweet.txt | tr -d '\n\r%' | wc -c)
         sed 's/^/> /' tweet.txt > tweet_quote.txt
+        # escape file content to preserve new lines
+        # (see example in https://github.com/peter-evans/create-or-update-comment)
         body=$(cat tweet.txt)
         body="${body//'%'/'%25'}"
         body="${body//$'\n'/'%0A'}"

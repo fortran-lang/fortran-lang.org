@@ -23,6 +23,8 @@ jobs:
       if: ${{steps.fc.outputs.comment-id != null}}
       run: |
         echo "${{steps.fc.outputs.comment-body}}" | sed '1d' | sed 's/> //' > tweet.txt
+        # escape file content to preserve new lines
+        # (see example in https://github.com/peter-evans/create-or-update-comment)
         body=$(cat tweet.txt)
         body="${body//'%'/'%25'}"
         body="${body//$'\n'/'%0A'}"
