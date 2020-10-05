@@ -24,7 +24,7 @@ layout: default
   
           <table class="projects-table">
          
-          {% assign catProjects =  site.data.package_index | where_exp:"project", "project.categories contains page.code_category"%}
+          {% assign catProjects =  site.data.package_index | sort_natural:"name" | where_exp:"project", "project.categories contains page.code_category"%}
           {% for project in catProjects %}
           <tr>
               {% if project.github %}
