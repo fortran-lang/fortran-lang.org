@@ -39,9 +39,9 @@ jobs:
         access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
         access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
     - name: clear tweet keyword
-       if: ${{steps.fc.outputs.comment-id}} != null
-       uses: peter-evans/create-or-update-comment@v1
-       with:
-         comment-id: ${{steps.fc.outputs.comment-id}}
-         edit-mode: replace
-         body: ${{env.TWEET_SENT_KEYWORD}}
+      if: ${{steps.fc.outputs.comment-id}} != null
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        comment-id: ${{steps.fc.outputs.comment-id}}
+        edit-mode: replace
+        body: ${{env.TWEET_SENT_KEYWORD}}
