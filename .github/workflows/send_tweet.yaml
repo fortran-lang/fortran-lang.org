@@ -18,8 +18,6 @@ jobs:
         issue-number: ${{ github.event.pull_request.number }}
         comment-author: github-actions[bot]
         body-includes: ${{env.TWEET_KEYWORD}}
-    - run: |
-        echo ${{ github.event.pull_request.number }} ${{ env.TWEET_KEYWORD }} ${{steps.fc.outputs.comment-id}}
     - name: if tweet CI comment is found, extract tweet from comment body
       id: extract-tweet
       if: ${{steps.fc.outputs.comment-id}} != null
