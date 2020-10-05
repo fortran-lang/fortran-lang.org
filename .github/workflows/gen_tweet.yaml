@@ -85,7 +85,7 @@ jobs:
     - name: extract the new tweet message
       id: get-comment-body
       run: |
-        echo '${{github.event.comment.body}}' | sed '1 s/#tweet//' | sed '1 s/ //' > tweet.txt
+        echo "${{github.event.comment.body}}" | sed '1 s/#tweet//' | sed '1 s/ //' > tweet.txt
         echo ::set-output name=tweet_length::$(cat tweet.txt | tr -d '\n\r%' | wc -c)
         sed 's/^/> /' tweet.txt > tweet_quote.txt
         body=$(cat tweet.txt)
