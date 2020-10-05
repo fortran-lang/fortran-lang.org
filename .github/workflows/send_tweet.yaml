@@ -5,7 +5,7 @@ on:
     types: [closed]
 env:
   TWEET_KEYWORD: '__[tweet]__'
-
+  TWEET_SENT_KEYWORD: '__[tweet sent]__'
 jobs:
   publish_tweet:
     runs-on: ubuntu-latest
@@ -38,3 +38,10 @@ jobs:
         consumer-secret: ${{ secrets.TWITTER_API_SECRET_KEY }}
         access-token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
         access-token-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+    - name: clear tweet keyword
+       if: ${{steps.fc.outputs.comment-id}} != null
+       uses: peter-evans/create-or-update-comment@v1
+       with:
+         comment-id: ${{steps.fc.outputs.comment-id}}
+         edit-mode: replace
+         body: ${{env.TWEET_SENT_KEYWORD}}
