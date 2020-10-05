@@ -20,7 +20,7 @@ jobs:
         body-includes: ${{env.TWEET_KEYWORD}}
     - name: if tweet CI comment is found, extract tweet from comment body
       id: extract-tweet
-      if: ${{steps.fc.outputs.comment-id}} != null
+      if: ${{steps.fc.outputs.comment-id != null}}
       run: |
         echo "${{steps.fc.outputs.comment-body}}" | sed '1d' | sed 's/> //' > tweet.txt
         body=$(cat tweet.txt)
@@ -30,7 +30,7 @@ jobs:
         echo ::set-output name=body::$body
         rm tweet.txt
     - name: tweet the message
-      if: ${{steps.fc.outputs.comment-id}} != null
+      if: ${{steps.fc.outputs.comment-id != null}}
       uses: ethomson/send-tweet-action@v1
       with:
         status: ${{steps.extract-tweet.outputs.body}}
@@ -39,7 +39,7 @@ jobs:
         access-token: ${{secrets.TWITTER_ACCESS_TOKEN}}
         access-token-secret: ${{secrets.TWITTER_ACCESS_TOKEN_SECRET}}
     - name: clear tweet keyword
-      if: ${{steps.fc.outputs.comment-id}} != null
+      if: ${{steps.fc.outputs.comment-id != null}}
       uses: peter-evans/create-or-update-comment@v1
       with:
         comment-id: ${{steps.fc.outputs.comment-id}}
