@@ -83,22 +83,19 @@ jobs:
     - name: extract the new tweet message
       id: get-comment-body
       run: |
-        echo "${{github.event.comment.body}}" | sed '1 s/#tweet//' | sed '1 s/ //' > tweet.txt
-        echo ::set-output name=tweet_length::$(cat tweet.txt | tr -d '\n\r%' | wc -c)
-        sed 's/^/> /' tweet.txt > tweet_quote.txt
-        # escape file content to preserve new lines
+        body=$(echo "${{github.event.comment.body}}" | sed '1 s/#tweet//' | sed '1 s/ //')
+        echo ::set-output name=tweet_length::$(echo $body | tr -d '\n\r%' | wc -c)
+        body_quote=$(echo $body | sed 's/^/> /')
+        # escape string content to preserve new lines
         # (see example in https://github.com/peter-evans/create-or-update-comment)
-        body=$(cat tweet.txt)
         body="${body//'%'/'%25'}"
         body="${body//$'\n'/'%0A'}"
         body="${body//$'\r'/'%0D'}"
-        echo ::set-output name=body::$body
-        body_quote=$(cat tweet_quote.txt)
         body_quote="${body_quote//'%'/'%25'}"
         body_quote="${body_quote//$'\n'/'%0A'}"
         body_quote="${body_quote//$'\r'/'%0D'}"
+        echo ::set-output name=body::$body
         echo ::set-output name=body_quote::$body_quote
-        rm tweet.txt tweet_quote.txt
     - name: print new tweet CI message in a new comment
       uses: peter-evans/create-or-update-comment@v1
       with:

@@ -22,15 +22,13 @@ jobs:
       id: extract-tweet
       if: ${{steps.fc.outputs.comment-id != null}}
       run: |
-        echo "${{steps.fc.outputs.comment-body}}" | sed '1d' | sed 's/> //' > tweet.txt
+        body=$(echo "${{steps.fc.outputs.comment-body}}" | sed '1d' | sed 's/> //')
         # escape file content to preserve new lines
         # (see example in https://github.com/peter-evans/create-or-update-comment)
-        body=$(cat tweet.txt)
         body="${body//'%'/'%25'}"
         body="${body//$'\n'/'%0A'}"
         body="${body//$'\r'/'%0D'}"
         echo ::set-output name=body::$body
-        rm tweet.txt
     - name: tweet the message
       if: ${{steps.fc.outputs.comment-id != null}}
       uses: ethomson/send-tweet-action@v1
