@@ -14,7 +14,7 @@ A list of the most popular text editors, that support the Fortran language synta
 - [Vim](https://www.vim.org/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
-A comprehensive list with more choises is provided in [fortranwiki.org](http://fortranwiki.org/fortran/show/Source+code+editors).
+A comprehensive list with more choices is provided in [fortranwiki.org](http://fortranwiki.org/fortran/show/Source+code+editors).
 
 Things to consider before choosing a text editor: 
 - **Ergonomics:** This is a purely subjective matter and it concerns how easy, uninterrupted the UI (User Interface) feels to the developer while using the editor.
