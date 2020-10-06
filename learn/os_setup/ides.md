@@ -13,7 +13,7 @@ A list of popular IDEs that provide good Fortran support is provided in alphabet
 - [Eclipse-Photran](https://marketplace.eclipse.org/content/photran-fortran-ide-eclipse) *Photran is an IDE and refactoring tool for Fortran based on Eclipse and the C/C++ Development Tools*. A free product, cross-platform and supports multiple compilers.
 - [Geany](https://www.geany.org/), is free product, cross platform and supports multiple compilers.
 - [NAG Fortran Builder](https://www.nag.com/content/nag-fortran-builder-0) is a commercial product, available in Windows and MacOS and supports NAG's own Fortran Compiler.
-- [Plato](https://www.silverfrost.com/16/ftn95/plato.aspx) is commersial product, cross-platform, comes with Silverfrost's Fortran FTN95 own Fortran compiler.
+- [Plato](https://www.silverfrost.com/16/ftn95/plato.aspx) is a commercial product, cross-platform, comes with Silverfrost's Fortran FTN95 own Fortran compiler.
 - [SimplyFortran](https://simplyfortran.com/) is a commercial product, cross-platform with support of the GNU Fortran compiler.
 - [Visual Studio](https://visualstudio.microsoft.com/) its *Community Edition 2019* is a free product, available only in Windows and supports only the commercial* Intel's Fortran compiler. 
 
