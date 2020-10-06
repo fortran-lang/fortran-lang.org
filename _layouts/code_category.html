@@ -32,7 +32,9 @@ layout: default
                 <i class="devicon-github-plain colored"></i>
                 {{ project.name }}</a></h3> </td>
               <td> {% if project.version %}
+                  {% if project.version != 'none' %}
                   <img src="https://img.shields.io/badge/version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
+                  {% endif %}
                   {% else %}
                   <img src="https://img.shields.io/github/v/release/{{ project.github }}?color=green">
               {% endif %}</td>
@@ -55,7 +57,9 @@ layout: default
                 {% endif %}
                 {{ project.name }}</a></h3> </td>
               <td> {% if project.version %}
+                  {% if project.version != 'none' %}
                   <img src="https://img.shields.io/badge/version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
+                  {% endif %}
                   {% endif %}
               </td>
               <td> {% if project.license %}
