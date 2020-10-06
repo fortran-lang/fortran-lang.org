@@ -17,7 +17,19 @@ As of this date, there are three sources that provide quick and easy to install 
 
 In all the above choices, the process is straightforward. One has to download the installer and follow the installation wizard. 
 
-There are two other approaches, the [MSYS2](https://www.msys2.org/) and the [WSL](https://docs.microsoft.com/en-us/windows/wsl/), however, both are considered advanced and better suited for experienced developers, preferably familiar with Linux and the use of command-line terminals. WSL is arguably the best solution for Fortran developers under Windows. WSL stands for Windows Subsystem for Linux. It is an official Windows 10 feature that allows the installation of a Linux distribution, albeit without a GUI (yet), just the Bash, directly on Windows. To activate WSL and install a Linux distribution please follow the link above with the official Microsoft instructions. The installation process of gfortran in WSL is no different than in a pure Linux installation (check below).
+### Unix-like development on Windows
+For those familiar with a unix-like development environment, several emulation options are available on Windows each of which provide packages for gfortran:
+
+* __cygwin:__ a runtime environment that provides POSIX compatibility to windows;
+* __msys2:__ a collection of unix-like development tools for compiling native Windows binaries;
+* __Windows subsystem for Linux (WSL):__ an official Windows compatibility layer for running Linux binary executables on Windows.
+
+All of the above approaches provide access to common shells such as bash and common development tools including coreutils, make, cmake, autotools, git, grep, sed, awk, ssh _etc._
+
+The WSL environment is recommended for those looking to benefit from a unix-like development environment on Windows.
+
+It is important to note that only the msys2 environment allows the native compilation of Windows binary executables; this is important if you intend to distribute your binaries or if you prioritise execution performance.
+Binaries compiled in Cygwin are 'Cygwin' binaries linked against `cygwin.dll` and will hence only execute within the Cygwin environment. Binaries compiled in WSL are Linux binaries and therefore require the WSL environment to run on Windows.
 
 ## Linux
 
