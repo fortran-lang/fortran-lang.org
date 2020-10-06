@@ -347,73 +347,6 @@
         
       
         
-          
-          
-
-      
-        <li><a href="/pr/152/learn/os_setup/install_opencoarrays">
-          Installing OpenCoarrays</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
       
         
       
@@ -592,8 +525,6 @@
         
       
         
-      
-        
           
           
 
@@ -621,7 +552,7 @@
         
       </div>
 
-      <p>GFortran is the name of the <a href="https://gcc.gnu.org/fortran/">GNU Fortran project</a>. The main <a href="https://gcc.gnu.org/wiki/GFortran">wiki</a> page offers many helpful and informational links about GFortran, as well as Fortran in general. In this guide, the information regarding the installation process of GFortran in Windows, Linux, and MacOS as included in <a href="https://gcc.gnu.org/wiki/GFortranBinaries">GFortranBinaries</a> is filtered and presented in a beginner-friendly format.</p>
+      <p>GFortran is the name of the <a href="https://gcc.gnu.org/fortran/">GNU Fortran project</a>. The main <a href="https://gcc.gnu.org/wiki/GFortran">wiki</a> page offers many helpful and informational links about GFortran, as well as Fortran in general. In this guide, the installation process for GFortran on Windows, Linux, and MacOS is presented in a beginner-friendly format based on information from <a href="https://gcc.gnu.org/wiki/GFortranBinaries">GFortranBinaries</a>.</p>
 
 <h2 id="windows">Windows</h2>
 
@@ -636,7 +567,21 @@
 
 <p>In all the above choices, the process is straightforward. One has to download the installer and follow the installation wizard.</p>
 
-<p>There are two other approaches, the <a href="https://www.msys2.org/">MSYS2</a> and the <a href="https://docs.microsoft.com/en-us/windows/wsl/">WSL</a>, however, both are considered advanced and better suited for experienced developers, preferably familiar with Linux and the use of command-line terminals. WSL is arguably the best solution for Fortran developers under Windows. WSL stands for Windows Subsystem for Linux. It is an official Windows 10 feature that allows the installation of a Linux distribution, albeit without a GUI (yet), just the Bash, directly on Windows. To activate WSL and install a Linux distribution please follow the link above with the official Microsoft instructions. The installation process of gfortran in WSL is no different than in a pure Linux installation (check below).</p>
+<h3 id="unix-like-development-on-windows">Unix-like development on Windows</h3>
+<p>For those familiar with a unix-like development environment, several emulation options are available on Windows each of which provide packages for gfortran:</p>
+
+<ul>
+  <li><strong>cygwin:</strong> a runtime environment that provides POSIX compatibility to windows;</li>
+  <li><strong>msys2:</strong> a collection of unix-like development tools for compiling native Windows binaries;</li>
+  <li><strong>Windows subsystem for Linux (WSL):</strong> an official Windows compatibility layer for running Linux binary executables on Windows.</li>
+</ul>
+
+<p>All of the above approaches provide access to common shells such as bash and common development tools including coreutils, make, cmake, autotools, git, grep, sed, awk, ssh <em>etc.</em></p>
+
+<p>The WSL environment is recommended for those looking to benefit from a unix-like development environment on Windows.</p>
+
+<p>It is important to note that only the msys2 environment allows the native compilation of Windows binary executables; this is important if you intend to distribute your binaries or if you prioritise execution performance.
+Binaries compiled in Cygwin are ‘Cygwin’ binaries linked against <code class="highlighter-rouge">cygwin.dll</code> and will hence only execute within the Cygwin environment. Binaries compiled in WSL are Linux binaries and therefore require the WSL environment to run on Windows.</p>
 
 <h2 id="linux">Linux</h2>
 
@@ -690,6 +635,18 @@ apt <span class="nb">install </span>gfortran-10
 <p>Install a gcc version:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>port <span class="nb">install </span>gcc10
 </code></pre></div></div>
+<hr />
+<h2 id="opencoarrays">OpenCoarrays</h2>
+
+<p>The best way to describe <a href="http://www.opencoarrays.org/">OpenCoarrays</a> is to directly quote from the official site: <em>OpenCoarrays is an open-source software project that produces an application binary interface (ABI) used by the GNU Compiler Collection (GCC) Fortran front-end to build executable programs that leverage the parallel programming features of Fortran 2018</em>. Therefore, since OpenCoarrays is not a separate compiler, we include it here, under gfortran.</p>
+
+<p>The difference with gfortran is that, while with gfortran one can write perfectly valid code involving coarrays features, the generated code will only run in a single thread. OpenCoarrays allows to run code in parallel in a similar way as with MPI:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cafrun <span class="nt">-n</span> <span class="o">[</span>number_of_threads] <span class="o">[</span>executable_name]
+</code></pre></div></div>
+
+<p>The process of installation is provided in a clear and comprehensive manner on the official site.</p>
+
+<p>We emphasize here, that direct installation in Windows is not possible. It is only possible through WSL.</p>
 
 
       <div class="container-flex">
@@ -706,7 +663,7 @@ apt <span class="nb">install </span>gfortran-10
 
         
           
-          <a href="/pr/152/learn/os_setup/install_opencoarrays"
+          <a href="/pr/152/learn/os_setup/text_editors"
           style="margin-left: auto;">
             <h3>
               Next
