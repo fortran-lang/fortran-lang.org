@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Installing GFortran - Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/152/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/152/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/os_setup/install_gfortran" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/152/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/152/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.github.io/pull/152" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 152</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/152/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/152/" class="navbar-brand">
+		    <img src="/pr/152/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/152/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/152/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+          
+          
+    
+  
+
+  <a href="/pr/152/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index 
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Setting up your OS</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><a href="/pr/152/learn/os_setup">
+        Introduction</a></li>
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/os_setup/choose_compiler">
+          Choosing a compiler</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li>
+          <b><a href="/pr/152/learn/os_setup/install_gfortran">
+            Installing GFortran</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/os_setup/install_opencoarrays">
+          Installing OpenCoarrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/os_setup/text_editors">
+          Text Editors</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/os_setup/ides">
+          IDEs</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/os_setup/tips">
+          Smart Tips</a></li>
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Installing GFortran</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+      </div>
+
+      <p>GFortran is the name of the <a href="https://gcc.gnu.org/fortran/">GNU Fortran project</a>. The main <a href="https://gcc.gnu.org/wiki/GFortran">wiki</a> page offers many helpful and informational links about GFortran, as well as Fortran in general. In this guide, the information regarding the installation process of GFortran in Windows, Linux, and MacOS as included in <a href="https://gcc.gnu.org/wiki/GFortranBinaries">GFortranBinaries</a> is filtered and presented in a beginner-friendly format.</p>
+
+<h2 id="windows">Windows</h2>
+
+<p>In Windows, there are two main <em>vendors</em> that offer builds of GFortran, namely the <a href="http://www.mingw.org/">MinGW</a> and the <a href="https://cygwin.com/index.html">Cygwin</a>. Directly derived from MinGW is the <a href="http://mingw-w64.org/">Mingw-w64</a> project that offers 64-bit executables for many platforms.</p>
+
+<p>As of this date, there are three sources that provide quick and easy to install GFortran compiler under Windows:</p>
+<ol>
+  <li><a href="http://www.equation.com/servlet/equation.cmd?fa=fortran">http://www.equation.com</a>, provides x32 and x64 executables of the latest (10.2) gcc-version.</li>
+  <li><a href="https://jmeubank.github.io/tdm-gcc/articles/2020-03/9.2.0-release">TDM GCC</a>, provides x32 and x64 executables of the 9.2 gcc-version.</li>
+  <li><a href="http://mingw-w64.org/doku.php/download/mingw-builds">Mingw-w64</a> provides x64 executable of the 7.2 gcc-version.</li>
+</ol>
+
+<p>In all the above choices, the process is straightforward. One has to download the installer and follow the installation wizard.</p>
+
+<p>There are two other approaches, the <a href="https://www.msys2.org/">MSYS2</a> and the <a href="https://docs.microsoft.com/en-us/windows/wsl/">WSL</a>, however, both are considered advanced and better suited for experienced developers, preferably familiar with Linux and the use of command-line terminals. WSL is arguably the best solution for Fortran developers under Windows. WSL stands for Windows Subsystem for Linux. It is an official Windows 10 feature that allows the installation of a Linux distribution, albeit without a GUI (yet), just the Bash, directly on Windows. To activate WSL and install a Linux distribution please follow the link above with the official Microsoft instructions. The installation process of gfortran in WSL is no different than in a pure Linux installation (check below).</p>
+
+<h2 id="linux">Linux</h2>
+
+<h3 id="debian-based-debian-ubuntu-mint-etc">Debian-based (Debian, Ubuntu, Mint, etc…)</h3>
+<p>Check whether you have gfortran already installed</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>which gfortran
+</code></pre></div></div>
+<p>If nothing is returned then gfortran is not installed.
+To install gfortran type:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>gfortran
+</code></pre></div></div>
+<p>to check what version was installed type:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gfortran <span class="nt">--version</span>
+</code></pre></div></div>
+<p>You can install multiple versions up to version 9 just by typing immidiately after gfortran[-number] e.g.:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>gfortran-7 
+</code></pre></div></div>
+<p>To install the latest version 10 you need first to add / update the following repository and then install:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>add-apt-repository ppa:ubuntu-toolchain-r/test
+
+apt update
+
+apt <span class="nb">install </span>gfortran-10
+</code></pre></div></div>
+<p>Finally, you can switch between different versions or set the default one with the <strong>update-alternatives</strong> (<a href="http://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.">see manpage</a>). There are plenty online tutorials on how to use this feature.</p>
+
+<h3 id="rpm-based-red-hat-linux-centos-fedora-opensuse-mandrake-linux">RPM-based (Red Hat Linux, CentOS, Fedora, openSuse, Mandrake Linux)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>gcc-gfortran
+</code></pre></div></div>
+
+<h3 id="arch-based-arch-linux-antergos-manjaro-etc">Arch-based (Arch Linux, Antergos, Manjaro, etc…)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>pacman <span class="nt">-S</span> gcc-fortran
+</code></pre></div></div>
+
+<h2 id="macos">MacOS</h2>
+<h3 id="xcode">Xcode</h3>
+<p>If you have Xcode installed, open a terminal window and type:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcode-select <span class="nt">--install</span>
+</code></pre></div></div>
+<h3 id="binaries">Binaries</h3>
+<p>Check this github repo: <a href="https://github.com/fxcoudert/gfortran-for-macOS/releases">fxcoudert/gfortran-for-macOS</a> to directly install binaries.</p>
+<h3 id="homebrew">Homebrew</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>gcc
+</code></pre></div></div>
+<h3 id="fink">Fink</h3>
+<p>GNU-gcc Package <a href="https://pdb.finkproject.org/pdb/browse.php?summary=GNU+Compiler+Collection+Version">link</a></p>
+<h3 id="macports">MacPorts</h3>
+<p>Search for available gcc versions:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port search gcc
+</code></pre></div></div>
+<p>Install a gcc version:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>port <span class="nb">install </span>gcc10
+</code></pre></div></div>
+
+
+      <div class="container-flex">
+
+        
+          
+            <a href="/pr/152/learn/os_setup/choose_compiler" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        
+
+        
+          
+          <a href="/pr/152/learn/os_setup/install_opencoarrays"
+          style="margin-left: auto;">
+            <h3>
+              Next
+              <i class="fas fa-arrow-circle-right"></i>
+            </h3>
+          </a>
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/152/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.github.io/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/152/assets/js/fortranlang.js"></script>
+    <script src="/pr/152/assets/js/page_nav.js"></script>
+    <script src="/pr/152/assets/js/gh-contributors.js"></script>
+    <script src="/pr/152/assets/js/package_search.js"></script>
+    <script src="/pr/152/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>

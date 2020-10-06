@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Build tools - Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/152/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/152/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/building_programs/build_tools" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/152/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/152/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.github.io/pull/152" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 152</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/152/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/152/" class="navbar-brand">
+		    <img src="/pr/152/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/152/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/152/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/152/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+
+  <a href="/pr/152/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index 
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Building programs</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><a href="/pr/152/learn/building_programs">
+        Introduction</a></li>
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/building_programs/compiling_source">
+          Compiling the source code</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/building_programs/linking_pieces">
+          Linking the objects</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/building_programs/runtime_libraries">
+          Run-time libraries</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/building_programs/include_files">
+          Include files and modules</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/building_programs/managing_libraries">
+          Managing libraries (static and dynamic libraries)</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li>
+          <b><a href="/pr/152/learn/building_programs/build_tools">
+            Build tools</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/152/learn/building_programs/distributing">
+          Distributing your programs</a></li>
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Build tools</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+      </div>
+
+      <p>If this seems complicated, well, you are right and we are only
+scratching the surface here. The complications arise because of
+differences between platforms, differences between compilers/linkers and
+because of differences in the way programs are set up. Fortunately,
+there are many tools to help configure and maintain the build steps.
+We will not try and catalogue them, but give instead a very limited
+list of tools that you typically encounter:</p>
+
+<ul>
+  <li>The <code class="highlighter-rouge">make</code> utility is a classical tool that uses instructions about
+how the various components of a program depend on each other to
+efficiently compile and link the program (or programs). It takes a
+so-called <code class="highlighter-rouge">Makefile</code> that contains the dependencies.</li>
+</ul>
+
+<p>Simply put:</p>
+
+<p>If a program file is older than any of the libraries and object files
+it depends on, the make utility knows it has to rebuild it and goes on
+to look at the libraries and object files - are any out of date?</p>
+
+<p>If an object file is older than the corresponding source file, the
+make utility knows it has to compile the source file.</p>
+
+<ul>
+  <li>
+    <p>Integrated development tools take care of many of the above details. A
+popular cross-platform  tool is Microsoft’s <a href="https://code.visualstudio.com/">Visual Studio Code</a>, but others exist,
+such as <a href="https://atom.io/">Atom</a>, <a href="https://www.eclipse.org/photran/">Eclipse Photran</a>, and <a href="http://www.codeblocks.org/">Code::Blocks</a>. They offer a graphical
+user-interface, but are often very specific for the compiler and
+platform.</p>
+  </li>
+  <li>
+    <p>Maintenance tools like autotools and CMake can generate Makefiles or
+Visual Studio project files via a high-level description. They abstract
+away from the compiler and platform specifics.</p>
+  </li>
+</ul>
+
+<p>Here is a very simple example of a <code class="highlighter-rouge">Makefile</code> as used by the <code class="highlighter-rouge">make</code> utility,
+just to give you an impression:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Collect the macros at the beginning - easier to customise
+FC = gfortran
+LD = gfortran
+FCOPTS = -c
+LDOPTS = "-o "
+
+EXE = .exe
+OBJ = .o
+
+all: tabulate$(EXE)
+
+tabulate$(EXE) : tabulate$(OBJ) function$(OBJ)
+{tab}$(LD) $(LDOPTS)tabulate$(EXE) tabulate.f90 function$(OBJ)
+
+tabulate$(OBJ) : tabulate.f90 function.mod
+{tab}$(FC) $(FCOPTS) tabulate.f90
+
+function$(OBJ) : function.f90
+{tab}$(FC) $(FCOPTS) function.f90
+
+(A peculiarity of `make` is that in the input file, tab characters are used
+in several places - here indicated as "{tab}" - as significant whitespace.)
+
+When stored in a file "Makefile" and "{tab}" replaced by a tab character,
+you can run it like:
+
+```shell
+$ make
+</code></pre></div></div>
+
+<p>(the name <code class="highlighter-rouge">Makefile</code> is the default, otherwise use the option <code class="highlighter-rouge">-f</code> to specify
+a different file name). Now only change the file “tabulate.f90” and run it
+again. You will see that only that file gets compiled again and then the
+program is built. The file “function.f90” was not changed, so the object
+file and the module intermediate file would remain unchanged, so there
+is no need to recompile it.</p>
+
+
+      <div class="container-flex">
+
+        
+          
+            <a href="/pr/152/learn/building_programs/managing_libraries" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        
+
+        
+          
+          <a href="/pr/152/learn/building_programs/distributing"
+          style="margin-left: auto;">
+            <h3>
+              Next
+              <i class="fas fa-arrow-circle-right"></i>
+            </h3>
+          </a>
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/152/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/152/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.github.io/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/152/assets/js/fortranlang.js"></script>
+    <script src="/pr/152/assets/js/page_nav.js"></script>
+    <script src="/pr/152/assets/js/gh-contributors.js"></script>
+    <script src="/pr/152/assets/js/package_search.js"></script>
+    <script src="/pr/152/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
