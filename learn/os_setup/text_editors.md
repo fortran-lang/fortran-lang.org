@@ -11,7 +11,7 @@ A list of the most popular text editors, that support the Fortran language synta
 - [Emacs](https://www.gnu.org/software/emacs/)
 - [NotePad++](https://notepad-plus-plus.org/)
 - [SublimeText](https://www.sublimetext.com/)
-- [Vim](https://www.vim.org/)
+- [Vim](https://www.vim.org/) and [Neovim](https://neovim.io/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
 A comprehensive list with more choices is provided in [fortranwiki.org](http://fortranwiki.org/fortran/show/Source+code+editors).
