@@ -82,8 +82,10 @@ jobs:
 #         ${{env.UNTWEET_KEYWORD}} removed previous tweet [above](${{steps.get-comment-url.outputs.comment-url}}).
     - name: extract the new tweet message
       id: get-comment-body
+      env: 
+        COMMENT_BODY: ${{github.event.comment.body}}
       run: |
-        body=$(echo "${{github.event.comment.body}}" | sed '1 s/#tweet//' | sed '1 s/ //')
+        body=$(echo "$COMMENT_BODY" | sed '1 s/#tweet//' | sed '1 s/ //')
         echo ::set-output name=tweet_length::$(echo $body | tr -d '\n\r%' | wc -c)
         body_quote=$(echo $body | sed 's/^/> /')
         # escape string content to preserve new lines
