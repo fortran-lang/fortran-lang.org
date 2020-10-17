@@ -21,8 +21,10 @@ jobs:
     - name: if tweet CI comment is found, extract tweet from comment body
       id: extract-tweet
       if: ${{steps.fc.outputs.comment-id != null}}
+      env: 
+        COMMENT_BODY: ${{steps.fc.outputs.comment-body}}
       run: |
-        body=$(echo "${{steps.fc.outputs.comment-body}}" | sed '1d' | sed 's/> //')
+        body=$(echo "$COMMENT_BODY" | sed '1d' | sed 's/> //')
         # escape file content to preserve new lines
         # (see example in https://github.com/peter-evans/create-or-update-comment)
         body="${body//'%'/'%25'}"
