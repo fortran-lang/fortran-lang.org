@@ -40,15 +40,19 @@ The following are not essential but more advanced users might find useful:
 - [Even Better TOML by tamasfe](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml). For Fortran developers that are using the new [fpm](https://github.com/fortran-lang/fpm) *Fortran Package Manager*, a TOML language support might come in handy.
 
 ## Configuring SublimeText
+
 A well structured gist that provides instructions on how to set up SublimeText for Fortran developement is given in this link: 
 [https://gist.github.com/sestelo/6b01e1405c1d0fa7f0ecdc951caaa995](https://gist.github.com/sestelo/6b01e1405c1d0fa7f0ecdc951caaa995)
 
----
-
-***Request help from people that use the following Editors to fill the missing content.***
-
 ## Configuring Atom
 
-## Configuring Vim
+Atom's configuration process is similar to VSCode one. At the main interface, if the *Welcome Guide* page is already opened for you, just click the **Install a Package** option, otherwise you can find the same option through the navigation bar at the top by clicking *Packages*. In doing so a new page under *Settings* opens where you can just start typing the package you want to install. 
 
-## Configuring Emacs
+One package that includes many Fortran features is [IDE-FORTRAN by hansec](https://atom.io/packages/ide-fortran). It needs the following packages to be installed:
+- [atom-ide ui by facebook-atom](https://atom.io/packages/atom-ide-ui)
+- [language-fortran by dparkins](https://atom.io/packages/language-fortran)
+
+Additionally just like in VSCode it needs [Python](https://www.python.org/) and [Fortran Language Server](https://github.com/hansec/fortran-language-server) to be installed.
+
+For version control a very popular package is [Git-Plus by akonwi](https://atom.io/packages/git-plus).
+
