@@ -5,7 +5,7 @@ permalink: /learn/os_setup/ides
 ---
 
 An IDE (Integrated Development Environment) refers to a complete software development environment, where, all those packages that come as external plug-ins in Text-Editors, are already integrated within the software. An IDE is usually optimized towards a specific set of languages. For example it is very common for IDEs to advertise themselves towards either compiled or interpreted languages, or even towards a single language, or depending on the application developed, like scientific or web development. 
-IDEs are very recommended to beginner programmers, since it is possible to start coding with minimum effort after installation. However, it is quite common, in professional environments, individual developers and teams alike, to choose an IDE for large projects because of some unique features that they may offer over a Text-Editor.
+IDEs are recommended for beginner programmers, since it is possible to start coding with minimum effort after installation. However, it is quite common, in professional environments, individual developers and teams alike, to choose an IDE for large projects because of some unique features that they may offer over a Text-Editor.
 
 A list of popular IDEs that provide good Fortran support is provided in alphabetical order:
 - [AbsoftTools](https://www.absoft.com/technology/absofttools-fortran-ide/): commercial product, cross-platform, comes with Absoft's own Fortran compiler.
