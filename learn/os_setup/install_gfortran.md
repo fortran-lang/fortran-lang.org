@@ -8,7 +8,6 @@ GFortran is the name of the [GNU Fortran project](https://gcc.gnu.org/fortran/).
 
 ## Windows
 
-In Windows, there are two main *vendors* that offer builds of GFortran, namely the [MinGW](http://www.mingw.org/) and the [Cygwin](https://cygwin.com/index.html). Directly derived from MinGW is the [Mingw-w64](http://mingw-w64.org/) project that offers 64-bit executables for many platforms. 
 
 As of this date, there are three sources that provide quick and easy to install GFortran compiler under Windows:
 1. [http://www.equation.com](http://www.equation.com/servlet/equation.cmd?fa=fortran), provides x32 and x64 executables of the latest (10.2) gcc-version.
