@@ -107,4 +107,4 @@ $ cafrun -n [number_of_threads] [executable_name]
 
 The process of installation is provided in a clear and comprehensive manner on the official site. 
 
-We emphasize here, that direct installation in Windows is not possible. It is only possible through WSL. 
+We emphasize here, that native installation in Windows is not possible. It is only possible through WSL. 
