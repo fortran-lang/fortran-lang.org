@@ -99,7 +99,7 @@ sudo port install gcc10
 
 While with gfortran you can compile perfectly valid code using coarrays, the generated binaries will only run in a single image (_image_ is a Fortran term for a parallel process), that is, in serial mode. OpenCoarrays allows running code in parallel on shared- and distributed-memory machines, similar to MPI:
 ```bash
-$ cafrun -n [number_of_threads] [executable_name]
+cafrun -n <number_of_images> <executable_name>
 ```
 
 The process of installation is provided in a clear and comprehensive manner on the official site. 
