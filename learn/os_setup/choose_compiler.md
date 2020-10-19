@@ -10,4 +10,4 @@ Of those listed at the link above, open source and free are GFortran (with OpenC
 
 _Note_: *IFort (Intel's Fortran Compiler) does not offer a free community edition in general. However, if you are a student, educator, or open-source contributor, you may [qualify for free software](https://software.intel.com/content/www/us/en/develop/articles/qualify-for-free-software.html).
 
-Both NVFortran(NVidia) and IFort(Intel) are very well documented and readers can find detailed information about installing and using them on their websites respectively. In the next chapter, we use GFortran for the tutorial as it is a mature open source compiler. Users are encouraged to also try other open source and commercial compilers.
+Both NVFortran (NVIDIA) and IFort (Intel) are well documented and readers can find detailed information about installing and using them on their websites respectively. In the next chapter, we use GFortran for the tutorial as it is a mature open source compiler. We encourage users to also try other open source and commercial compilers.
