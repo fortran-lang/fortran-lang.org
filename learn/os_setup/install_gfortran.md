@@ -19,9 +19,9 @@ In all the above choices, the process is straightforward—just download the ins
 ### Unix-like development on Windows
 For those familiar with a unix-like development environment, several emulation options are available on Windows each of which provide packages for gfortran:
 
-* __cygwin:__ a runtime environment that provides POSIX compatibility to windows;
-* __msys2:__ a collection of unix-like development tools for compiling native Windows binaries;
-* __Windows subsystem for Linux (WSL):__ an official Windows compatibility layer for running Linux binary executables on Windows.
+* __Cygwin:__ A runtime environment that provides POSIX compatibility to Windows;
+￼* __MSYS2:__ A collection of Unix-like development tools for compiling native Windows binaries;
+￼* __Windows Subsystem for Linux (WSL):__ An official compatibility layer for running Linux binary executables on Windows.
 
 All of the above approaches provide access to common shells such as bash and common development tools including coreutils, make, cmake, autotools, git, grep, sed, awk, ssh _etc._
 
