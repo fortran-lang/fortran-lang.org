@@ -14,7 +14,7 @@ Three sources provide quick and easy way to install GFortran compiler on Windows
 2. [TDM GCC](https://jmeubank.github.io/tdm-gcc/articles/2020-03/9.2.0-release), provides x32 and x64 executables of the 9.2 gcc-version.
 3. [Mingw-w64](http://mingw-w64.org/doku.php/download/mingw-builds) provides x64 executable of the 7.2 gcc-version.
 
-In all the above choices, the process is straightforward. One has to download the installer and follow the installation wizard. 
+In all the above choices, the process is straightforward—just download the installer and follow the installation wizard.
 
 ### Unix-like development on Windows
 For those familiar with a unix-like development environment, several emulation options are available on Windows each of which provide packages for gfortran:
