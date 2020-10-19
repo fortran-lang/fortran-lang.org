@@ -27,7 +27,7 @@ All of the above approaches provide access to common shells such as bash and dev
 
 We recommend the WSL environment for those looking for a Unix-like development environment on Windows.
 
-It is important to note that only the msys2 environment allows the native compilation of Windows binary executables; this is important if you intend to distribute your binaries or if you prioritise execution performance.
+Note that only MSYS2 allows the native compilation of Windows binaries; this is important if you intend to distribute your binaries or if you prioritise execution performance.
 Binaries compiled in Cygwin are 'Cygwin' binaries linked against `cygwin.dll` and will hence only execute within the Cygwin environment. Binaries compiled in WSL are Linux binaries and therefore require the WSL environment to run on Windows.
 
 ## Linux
