@@ -69,7 +69,7 @@ sudo yum install gcc-gfortran
 sudo pacman -S gcc-fortran
 ```
 
-## MacOS
+## macOS
 ### Xcode
 If you have Xcode installed, open a terminal window and type:
 ```bash
