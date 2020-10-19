@@ -4,7 +4,7 @@ title: Choosing a compiler
 permalink: /learn/os_setup/choose_compiler
 ---
 
-A comprehensive list of available compilers is provided in this website under [Compilers]({{site.baseurl}}/compilers). In this guide, we will focus only on those that are free to install and use.
+A comprehensive list of available compilers is provided [here]({{site.baseurl}}/compilers). In this guide, we will focus only on those that are free to install and use.
 
 Out of those enlisted at the link above, and as of the time of writing this tutorial, open source and free are the following: GFortran (with OpenCoarrays), Flang and LFortran. Finally, the following two are commercial with free-community versions: NVFortran and IFort*. 
 
