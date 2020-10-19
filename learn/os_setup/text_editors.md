@@ -6,7 +6,7 @@ permalink: /learn/os_setup/text_editors
 
 After you have installed your compiler, you will need a text editor to write your code. Any text editor can serve this purpose, even the built-in Notepad on Windows. However, there are specialized editors for programming languages. These editors come with many useful features like auto-complete, syntax-highlighting, auto-indentation, brace-matching, and many more, with few of them pre-installed and the majority in form of external plug-ins. This means that by default these features are not installed in the editor, but it's up to you to search for them through a package manager and install and configure them manually. 
 
-A list of the most popular text editors, that support the Fortran language syntax in alphabetical order:
+Here's a list of the most popular text editors that support Fortran syntax, in alphabetical order:
 - [Atom](https://atom.io/)
 - [Emacs](https://www.gnu.org/software/emacs/)
 - [NotePad++](https://notepad-plus-plus.org/)
