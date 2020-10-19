@@ -17,7 +17,7 @@ Here's a list of the most popular text editors that support Fortran syntax, in a
 A comprehensive list with more choices is provided in [fortranwiki.org](http://fortranwiki.org/fortran/show/Source+code+editors).
 
 Things to consider before choosing a text editor: 
-- **Ergonomics:** This is a purely subjective matter and it concerns how easy, uninterrupted the UI (User Interface) feels to the developer while using the editor.
+- **Ergonomics:** This is purely subjective and concerns how easy, uninterrupted the UI (User Interface) feels to the developer while using the editor.
 - **Extensibility:** As explained at the top of this page, the text-editors come with a plethora of features as external packages. The variety, the installation process, the documentation, and, well, the user-friendliness of the packages are all fall under this category and are equally important.
 - **Speed:** With how powerful modern hardware can be, the speed of editors is becoming of minor importance. However, for the less powerfull systems, users might want to consider this as well. There are light- and heavyweight editors that may impact the overall editing performance. For example, you can expect Atom and VSCode which are built with Electron to run slower than the rest native editors listed above. 
 - **Learning curve:** Last but not least, new users should consider how much time would it take to get used to a new editor. Both Vim and Emacs are notoriously difficult for newcomers with a very steep learning curve. They offer a uniquely different experience than any other editor, by forcing the developer to only use the keyboard for all editing tasks eliminating the use of the mouse.
