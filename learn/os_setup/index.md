@@ -24,4 +24,4 @@ If you have already set up your environment, you may skip this tutorial and move
 
 - - -
 
-*The matter of the text editors and IDEs has always been highly controversial among the developers' community. What you will choose in the end is a matter of personal taste. Every solution comes with its own short- and forthcomings. For that reason, in this guide, we will not push the reader towards one or another direction. We will, however, present a list of the most popular tools.*  
+*The choice of text editors and IDEs has been controversial among the developers. What you choose is a matter of personal taste. Every solution comes with its own pros and cons. For that reason, in this guide, we will not push the reader towards one or another direction. We will, however, present a list of the most popular tools.*
