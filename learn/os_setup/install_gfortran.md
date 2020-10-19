@@ -61,7 +61,7 @@ Finally, you can switch between different versions or set the default one with t
 
 ### RPM-based (Red Hat Linux, CentOS, Fedora, openSuse, Mandrake Linux)
 ```bash
-yum install gcc-gfortran
+sudo yum install gcc-gfortran
 ```
 
 ### Arch-based (Arch Linux, Antergos, Manjaro, etc...)
