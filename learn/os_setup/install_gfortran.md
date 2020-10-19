@@ -97,7 +97,7 @@ sudo port install gcc10
 
 [OpenCoarrays](http://www.opencoarrays.org/) is an open-source software project that produces an application binary interface (ABI) used by the GNU Compiler Collection (GCC) Fortran front-end to build executable programs that leverage the parallel programming features of Fortran 2018. Since OpenCoarrays is not a separate compiler, we include it here, under gfortran.
 
-The difference with gfortran is that, while with gfortran one can write perfectly valid code involving coarrays features, the generated code will only run in a single thread. OpenCoarrays allows to run code in parallel in a similar way as with MPI:
+While with gfortran you can compile perfectly valid code using coarrays, the generated binaries will only run in a single image (_image_ is a Fortran term for a parallel process), that is, in serial mode. OpenCoarrays allows running code in parallel on shared- and distributed-memory machines, similar to MPI:
 ```bash
 $ cafrun -n [number_of_threads] [executable_name]
 ```
