@@ -4,7 +4,7 @@ title: Installing GFortran
 permalink: /learn/os_setup/install_gfortran
 ---
 
-GFortran is the name of the [GNU Fortran project](https://gcc.gnu.org/fortran/). The main [wiki](https://gcc.gnu.org/wiki/GFortran) page offers many helpful and informational links about GFortran, as well as Fortran in general. In this guide, the installation process for GFortran on Windows, Linux, and MacOS is presented in a beginner-friendly format based on information from [GFortranBinaries](https://gcc.gnu.org/wiki/GFortranBinaries).
+GFortran is the name of the [GNU Fortran project](https://gcc.gnu.org/fortran/). The main [wiki](https://gcc.gnu.org/wiki/GFortran) page offers many helpful links about GFortran, as well as Fortran in general. In this guide, the installation process for GFortran on Windows, Linux, and macOS is presented in a beginner-friendly format based on the information from [GFortranBinaries](https://gcc.gnu.org/wiki/GFortranBinaries).
 
 ## Windows
 
