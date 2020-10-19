@@ -552,35 +552,34 @@
         
       </div>
 
-      <p>GFortran is the name of the <a href="https://gcc.gnu.org/fortran/">GNU Fortran project</a>. The main <a href="https://gcc.gnu.org/wiki/GFortran">wiki</a> page offers many helpful and informational links about GFortran, as well as Fortran in general. In this guide, the installation process for GFortran on Windows, Linux, and MacOS is presented in a beginner-friendly format based on information from <a href="https://gcc.gnu.org/wiki/GFortranBinaries">GFortranBinaries</a>.</p>
+      <p>GFortran is the name of the <a href="https://gcc.gnu.org/fortran/">GNU Fortran project</a>. The main <a href="https://gcc.gnu.org/wiki/GFortran">wiki</a> page offers many helpful links about GFortran, as well as Fortran in general. In this guide, the installation process for GFortran on Windows, Linux, and macOS is presented in a beginner-friendly format based on the information from <a href="https://gcc.gnu.org/wiki/GFortranBinaries">GFortranBinaries</a>.</p>
 
 <h2 id="windows">Windows</h2>
 
-<p>In Windows, there are two main <em>vendors</em> that offer builds of GFortran, namely the <a href="http://www.mingw.org/">MinGW</a> and the <a href="https://cygwin.com/index.html">Cygwin</a>. Directly derived from MinGW is the <a href="http://mingw-w64.org/">Mingw-w64</a> project that offers 64-bit executables for many platforms.</p>
-
-<p>As of this date, there are three sources that provide quick and easy to install GFortran compiler under Windows:</p>
+<p>Three sources provide quick and easy way to install GFortran compiler on Windows:</p>
 <ol>
-  <li><a href="http://www.equation.com/servlet/equation.cmd?fa=fortran">http://www.equation.com</a>, provides x32 and x64 executables of the latest (10.2) gcc-version.</li>
-  <li><a href="https://jmeubank.github.io/tdm-gcc/articles/2020-03/9.2.0-release">TDM GCC</a>, provides x32 and x64 executables of the 9.2 gcc-version.</li>
-  <li><a href="http://mingw-w64.org/doku.php/download/mingw-builds">Mingw-w64</a> provides x64 executable of the 7.2 gcc-version.</li>
+  <li><a href="http://www.equation.com/servlet/equation.cmd?fa=fortran">http://www.equation.com</a>, provides 32 and 64-bit x86
+ executables of the latest (10.2) gcc-version.</li>
+  <li><a href="https://jmeubank.github.io/tdm-gcc/articles/2020-03/9.2.0-release">TDM GCC</a>, provides 32 and 64-bit x86 executables of the 9.2 gcc-version.</li>
+  <li><a href="http://mingw-w64.org/doku.php/download/mingw-builds">Mingw-w64</a> provides a 64-bit x86 executable of the 7.2 gcc-version.</li>
 </ol>
 
-<p>In all the above choices, the process is straightforward. One has to download the installer and follow the installation wizard.</p>
+<p>In all the above choices, the process is straightforward—just download the installer and follow the installation wizard.</p>
 
 <h3 id="unix-like-development-on-windows">Unix-like development on Windows</h3>
 <p>For those familiar with a unix-like development environment, several emulation options are available on Windows each of which provide packages for gfortran:</p>
 
 <ul>
-  <li><strong>cygwin:</strong> a runtime environment that provides POSIX compatibility to windows;</li>
-  <li><strong>msys2:</strong> a collection of unix-like development tools for compiling native Windows binaries;</li>
-  <li><strong>Windows subsystem for Linux (WSL):</strong> an official Windows compatibility layer for running Linux binary executables on Windows.</li>
+  <li><strong>Cygwin:</strong> A runtime environment that provides POSIX compatibility to Windows;</li>
+  <li><strong>MSYS2:</strong> A collection of Unix-like development tools for compiling native Windows binaries;</li>
+  <li><strong>Windows Subsystem for Linux (WSL):</strong> An official compatibility layer for running Linux binary executables on Windows.</li>
 </ul>
 
-<p>All of the above approaches provide access to common shells such as bash and common development tools including coreutils, make, cmake, autotools, git, grep, sed, awk, ssh <em>etc.</em></p>
+<p>All of the above approaches provide access to common shells such as bash and development tools including GNU coreutils, Make, CMake, autotools, git, grep, sed, awk, ssh, etc.</p>
 
-<p>The WSL environment is recommended for those looking to benefit from a unix-like development environment on Windows.</p>
+<p>We recommend the WSL environment for those looking for a Unix-like development environment on Windows.</p>
 
-<p>It is important to note that only the msys2 environment allows the native compilation of Windows binary executables; this is important if you intend to distribute your binaries or if you prioritise execution performance.
+<p>Note that only MSYS2 allows the native compilation of Windows binaries; this is important if you intend to distribute your binaries or if you prioritise execution performance.
 Binaries compiled in Cygwin are ‘Cygwin’ binaries linked against <code class="highlighter-rouge">cygwin.dll</code> and will hence only execute within the Cygwin environment. Binaries compiled in WSL are Linux binaries and therefore require the WSL environment to run on Windows.</p>
 
 <h2 id="linux">Linux</h2>
@@ -596,33 +595,31 @@ To install gfortran type:</p>
 <p>to check what version was installed type:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gfortran <span class="nt">--version</span>
 </code></pre></div></div>
-<p>You can install multiple versions up to version 9 just by typing immidiately after gfortran[-number] e.g.:</p>
+<p>You can install multiple versions up to version 9 by typing the version number immediately after “gfortran”, e.g.:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>gfortran-7 
 </code></pre></div></div>
 <p>To install the latest version 10 you need first to add / update the following repository and then install:</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>add-apt-repository ppa:ubuntu-toolchain-r/test
-
-apt update
-
-apt <span class="nb">install </span>gfortran-10
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>add-apt-repository ppa:ubuntu-toolchain-r/test
+<span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>gfortran-10
 </code></pre></div></div>
-<p>Finally, you can switch between different versions or set the default one with the <strong>update-alternatives</strong> (<a href="http://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.">see manpage</a>). There are plenty online tutorials on how to use this feature.</p>
+<p>Finally, you can switch between different versions or set the default one with the <strong>update-alternatives</strong> (<a href="https://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.">see manpage</a>). There are many online tutorials on how to use this feature. A well structured one using as an example C and C++ can be found <a href="https://linuxconfig.org/how-to-switch-between-multiple-gcc-and-g-compiler-versions-on-ubuntu-20-04-lts-focal-fossa">here</a>, you can apply the same logic by replacing either <code class="highlighter-rouge">gcc</code> or <code class="highlighter-rouge">g++</code> with <code class="highlighter-rouge">gfortran</code>.</p>
 
 <h3 id="rpm-based-red-hat-linux-centos-fedora-opensuse-mandrake-linux">RPM-based (Red Hat Linux, CentOS, Fedora, openSuse, Mandrake Linux)</h3>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>gcc-gfortran
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>gcc-gfortran
 </code></pre></div></div>
 
 <h3 id="arch-based-arch-linux-antergos-manjaro-etc">Arch-based (Arch Linux, Antergos, Manjaro, etc…)</h3>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>pacman <span class="nt">-S</span> gcc-fortran
 </code></pre></div></div>
 
-<h2 id="macos">MacOS</h2>
+<h2 id="macos">macOS</h2>
 <h3 id="xcode">Xcode</h3>
 <p>If you have Xcode installed, open a terminal window and type:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcode-select <span class="nt">--install</span>
 </code></pre></div></div>
 <h3 id="binaries">Binaries</h3>
-<p>Check this github repo: <a href="https://github.com/fxcoudert/gfortran-for-macOS/releases">fxcoudert/gfortran-for-macOS</a> to directly install binaries.</p>
+<p>Go to <a href="https://github.com/fxcoudert/gfortran-for-macOS/releases">fxcoudert/gfortran-for-macOS</a> to directly install binaries.</p>
 <h3 id="homebrew">Homebrew</h3>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>gcc
 </code></pre></div></div>
@@ -638,15 +635,15 @@ apt <span class="nb">install </span>gfortran-10
 <hr />
 <h2 id="opencoarrays">OpenCoarrays</h2>
 
-<p>The best way to describe <a href="http://www.opencoarrays.org/">OpenCoarrays</a> is to directly quote from the official site: <em>OpenCoarrays is an open-source software project that produces an application binary interface (ABI) used by the GNU Compiler Collection (GCC) Fortran front-end to build executable programs that leverage the parallel programming features of Fortran 2018</em>. Therefore, since OpenCoarrays is not a separate compiler, we include it here, under gfortran.</p>
+<p><a href="http://www.opencoarrays.org/">OpenCoarrays</a> is an open-source software project that produces an application binary interface (ABI) used by the GNU Compiler Collection (GCC) Fortran front-end to build executable programs that leverage the parallel programming features of Fortran 2018. Since OpenCoarrays is not a separate compiler, we include it here, under gfortran.</p>
 
-<p>The difference with gfortran is that, while with gfortran one can write perfectly valid code involving coarrays features, the generated code will only run in a single thread. OpenCoarrays allows to run code in parallel in a similar way as with MPI:</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>cafrun <span class="nt">-n</span> <span class="o">[</span>number_of_threads] <span class="o">[</span>executable_name]
+<p>While with gfortran you can compile perfectly valid code using coarrays, the generated binaries will only run in a single image (<em>image</em> is a Fortran term for a parallel process), that is, in serial mode. OpenCoarrays allows running code in parallel on shared- and distributed-memory machines, similar to MPI:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cafrun <span class="nt">-n</span> &lt;number_of_images&gt; &lt;executable_name&gt;
 </code></pre></div></div>
 
 <p>The process of installation is provided in a clear and comprehensive manner on the official site.</p>
 
-<p>We emphasize here, that direct installation in Windows is not possible. It is only possible through WSL.</p>
+<p>We emphasize that native installation on Windows is not possible. It is only possible through WSL.</p>
 
 
       <div class="container-flex">
