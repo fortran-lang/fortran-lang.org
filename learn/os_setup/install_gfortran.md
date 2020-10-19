@@ -47,7 +47,7 @@ to check what version was installed type:
 ```bash
 gfortran --version
 ```
-You can install multiple versions up to version 9 just by typing immidiately after gfortran[-number] e.g.:
+You can install multiple versions up to version 9 by typing the version number immediately after "gfortran", e.g.:
 ```bash
 sudo apt-get install gfortran-7 
 ```
