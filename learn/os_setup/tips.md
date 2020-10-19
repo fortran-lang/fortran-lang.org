@@ -4,7 +4,7 @@ title: Smart Tips
 permalink: /learn/os_setup/tips
 ---
 
-Closing this mini-tutorial we give a few tips and share some thoughts that will, hopefully, help you in choosing a compiler and an editor or an IDE.
+To conclude, we give a few tips that may help you to choose a compiler and an editor or an IDE.
 
 - Check [this](https://www.fortran.uk/fortran-compiler-comparisons/) site for a comprehensive Fortran Compiler Comparisons.
 - Since NVFortran version 17.1, the support for compute capability 2.0 (Fermi) and lower has been removed. This is important because, at any time, only the latest compiler version is free to download. Users with older GPUs will not be able to run CUDA Fortran with the current (20.7) or future versions. Read [this wiki](https://www.wikiwand.com/en/CUDA#/GPUs_supported) to find your GPU's compute capability and cross-check with the latest CUDA SDK that supports it.
