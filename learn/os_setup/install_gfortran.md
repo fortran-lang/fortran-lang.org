@@ -57,7 +57,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
 sudo apt install gfortran-10
 ```
-Finally, you can switch between different versions or set the default one with the **update-alternatives** ([see manpage](http://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.)). There are plenty online tutorials on how to use this feature.
+Finally, you can switch between different versions or set the default one with the **update-alternatives** ([see manpage](https://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.)). There are many online tutorials on how to use this feature.
 
 ### RPM-based (Red Hat Linux, CentOS, Fedora, openSuse, Mandrake Linux)
 ```bash
