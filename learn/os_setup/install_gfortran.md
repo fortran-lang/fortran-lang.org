@@ -10,9 +10,10 @@ GFortran is the name of the [GNU Fortran project](https://gcc.gnu.org/fortran/).
 
 
 Three sources provide quick and easy way to install GFortran compiler on Windows:
-1. [http://www.equation.com](http://www.equation.com/servlet/equation.cmd?fa=fortran), provides x32 and x64 executables of the latest (10.2) gcc-version.
-2. [TDM GCC](https://jmeubank.github.io/tdm-gcc/articles/2020-03/9.2.0-release), provides x32 and x64 executables of the 9.2 gcc-version.
-3. [Mingw-w64](http://mingw-w64.org/doku.php/download/mingw-builds) provides x64 executable of the 7.2 gcc-version.
+1. [http://www.equation.com](http://www.equation.com/servlet/equation.cmd?fa=fortran), provides 32 and 64-bit x86
+ executables of the latest (10.2) gcc-version.
+￼2. [TDM GCC](https://jmeubank.github.io/tdm-gcc/articles/2020-03/9.2.0-release), provides 32 and 64-bit x86 executables of the 9.2 gcc-version.
+￼3. [Mingw-w64](http://mingw-w64.org/doku.php/download/mingw-builds) provides a 64-bit x86 executable of the 7.2 gcc-version.
 
 In all the above choices, the process is straightforward—just download the installer and follow the installation wizard.
 
