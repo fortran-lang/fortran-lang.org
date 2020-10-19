@@ -23,7 +23,7 @@ For those familiar with a unix-like development environment, several emulation o
 ￼* __MSYS2:__ A collection of Unix-like development tools for compiling native Windows binaries;
 ￼* __Windows Subsystem for Linux (WSL):__ An official compatibility layer for running Linux binary executables on Windows.
 
-All of the above approaches provide access to common shells such as bash and common development tools including coreutils, make, cmake, autotools, git, grep, sed, awk, ssh _etc._
+All of the above approaches provide access to common shells such as bash and development tools including GNU coreutils, Make, CMake, autotools, git, grep, sed, awk, ssh, etc.
 
 The WSL environment is recommended for those looking to benefit from a unix-like development environment on Windows.
 
