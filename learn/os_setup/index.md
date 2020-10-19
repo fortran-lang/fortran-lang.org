@@ -8,9 +8,9 @@ permalink: /learn/os_setup
 <br/><br/>
 
 ---
-<span style="color:grey; font-size:0.8em">*Authors: Stavros Meskos, Laurence Kedward, Arjen Markus, Ondřej Čertík*</span>
+<span style="color:grey; font-size:0.8em">*Authors: Stavros Meskos, Laurence Kedward, Arjen Markus, Ondřej Čertík, Milan Curcic*</span>
 
-<span style="color:grey; font-size:0.8em">*Last update: 10-Oct-2020*</span> 
+<span style="color:grey; font-size:0.8em">*Last update: 19-Oct-2020*</span> 
 
 ---
 
