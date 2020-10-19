@@ -27,7 +27,7 @@ Things to consider before choosing a text editor:
 With the editor opened, at the main UI, at the buttoned-column on the left, there is a *four-square-shaped* icon to open the Marketplace for extensions. 
 The following extensions are suggested for Fortran developement:
 - [Modern Fortran by Miguel Carvajal](https://marketplace.visualstudio.com/items?itemName=krvajalm.linter-gfortran)
-- [FORTRAN IntelliSense by Chris Hanses](https://marketplace.visualstudio.com/items?itemName=hansec.fortran-ls)
+- [FORTRAN IntelliSense by Chris Hansen](https://marketplace.visualstudio.com/items?itemName=hansec.fortran-ls)
     - Depends on the previous *Modern Fortran* extension, as well as [Python](https://www.python.org/) and [Fortran Language Server](https://github.com/hansec/fortran-language-server), which need to be installed.
 - [Fortran Breakpoint Support by ekibun](https://marketplace.visualstudio.com/items?itemName=ekibun.fortranbreaker)
 
