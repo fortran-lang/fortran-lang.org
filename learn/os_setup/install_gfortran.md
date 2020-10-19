@@ -53,11 +53,9 @@ sudo apt-get install gfortran-7
 ```
 To install the latest version 10 you need first to add / update the following repository and then install: 
 ```bash
-add-apt-repository ppa:ubuntu-toolchain-r/test
-
-apt update
-
-apt install gfortran-10
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt install gfortran-10
 ```
 Finally, you can switch between different versions or set the default one with the **update-alternatives** ([see manpage](http://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.)). There are plenty online tutorials on how to use this feature.
 
