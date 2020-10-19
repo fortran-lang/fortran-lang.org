@@ -104,4 +104,4 @@ cafrun -n <number_of_images> <executable_name>
 
 The process of installation is provided in a clear and comprehensive manner on the official site. 
 
-We emphasize here, that native installation in Windows is not possible. It is only possible through WSL. 
+We emphasize that native installation on Windows is not possible. It is only possible through WSL.
