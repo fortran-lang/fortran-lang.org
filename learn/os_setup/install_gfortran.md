@@ -58,7 +58,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
 sudo apt install gfortran-10
 ```
-Finally, you can switch between different versions or set the default one with the **update-alternatives** ([see manpage](https://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.)). There are many online tutorials on how to use this feature.
+Finally, you can switch between different versions or set the default one with the **update-alternatives** ([see manpage](https://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.)). There are many online tutorials on how to use this feature. A well structured one using as an example C and C++ can be found [here](https://linuxconfig.org/how-to-switch-between-multiple-gcc-and-g-compiler-versions-on-ubuntu-20-04-lts-focal-fossa), you can apply the same logic by replacing either `gcc` or `g++` with `gfortran`.
 
 ### RPM-based (Red Hat Linux, CentOS, Fedora, openSuse, Mandrake Linux)
 ```bash
