@@ -41,8 +41,7 @@ The following are not essential but more advanced users might find useful:
 
 ## Configuring SublimeText
 
-A well structured gist that provides instructions on how to set up SublimeText for Fortran developement is given in this link: 
-[https://gist.github.com/sestelo/6b01e1405c1d0fa7f0ecdc951caaa995](https://gist.github.com/sestelo/6b01e1405c1d0fa7f0ecdc951caaa995)
+A well structured gist that provides instructions on how to set up SublimeText for Fortran developement is given [here](https://gist.github.com/sestelo/6b01e1405c1d0fa7f0ecdc951caaa995).
 
 ## Configuring Atom
 
