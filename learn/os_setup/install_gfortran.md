@@ -76,7 +76,7 @@ If you have Xcode installed, open a terminal window and type:
 xcode-select --install
 ```
 ### Binaries
-Check this github repo: [fxcoudert/gfortran-for-macOS](https://github.com/fxcoudert/gfortran-for-macOS/releases) to directly install binaries.
+Go to [fxcoudert/gfortran-for-macOS](https://github.com/fxcoudert/gfortran-for-macOS/releases) to directly install binaries.
 ### Homebrew
 ```bash
 brew install gcc
