@@ -21,7 +21,7 @@ $ ldd tabulate.exe
 
 Other compilers or other versions of the same compiler will probably
 require different dynamic libraries. As long as you run the program on
-the same computer - or, more accurately, within the same environment -
+the same computer – or, more accurately, within the same environment –
 there should be no problem. However, when such a library cannot be
 found, you will get (hopefully) an error message and the program stops
 immediately.
@@ -39,7 +39,7 @@ _On Linux:_
 
    * The environment variable `LD_LIBRARY_PATH` is used. It consists of a
 list of directories to be searched, each directory separated via colons
-(:) from the others. For instance: `/usr/lib:/usr/local/lib` - typical
+(:) from the others. For instance: `/usr/lib:/usr/local/lib` – typical
 system directories.
    * At the link step you can also use an option to set `RPATH`, a list
 of directories that is put into the executable file itself.
@@ -54,7 +54,7 @@ to be searched, but now the separating character is the semicolon (;).
    * A set of system directories is searched.
 
 Unfortunately, the details can change from one version of the operating
-system to the next. The above is merely an indication - use tools like
+system to the next. The above is merely an indication – use tools like
 "ldd" or "dependency walker" to find out what libraries are loaded and
 where they are found.
 

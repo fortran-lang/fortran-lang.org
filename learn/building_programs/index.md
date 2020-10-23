@@ -8,7 +8,7 @@ author: Arjen Markus, Ondřej Čertík, Milan Curcic, Laurence Kedward, Brad Ric
 Languages like Fortran, C, C++ and Java, to name but a few, share
 certain characteristics: you write code in your language of choice but
 then you have to build an executable program from that source code.
-Other languages are interpreted - the source code is analysed by a
+Other languages are interpreted – the source code is analysed by a
 special program and taken as direct instructions. Two very simple
 examples of that type of language: Windows batch files and Linux shell
 scripts.
@@ -38,7 +38,7 @@ it is simple to express in source code, a lot of things actually happen
 when the executable that is built from this code runs:
 
 * A process is started on the computer in such a way that it can write
-to the console - the window (DOS-box, xterm, ...) at which you type the
+to the console – the window (DOS-box, xterm, ...) at which you type the
 program's name.
 * It writes the text "Hello!" to the console. To do so it must properly
 interact with the console.
