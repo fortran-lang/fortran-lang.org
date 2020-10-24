@@ -60,12 +60,9 @@ It performs actions following rules defined in a configuration file
 called ``Makefile`` or ``makefile``, which usually leads to compiling a program
 from the provided source code.
 
-> **Tip**
->
-> For an in-depth ``make`` tutorial lookup its info page. There is an online
-> version of this
-> <a href="https://www.gnu.org/software/make/manual/make.html" target="_blank" rel="noopener">info page</a>,
-> available.
+{% include tip.html
+   content="For an in-depth ``make`` tutorial lookup its info page. There is an online version of this <a href=\"https://www.gnu.org/software/make/manual/make.html\" target=\"_blank\" rel=\"noopener\">info page</a>, available."
+%}
 
 We will start with the basics from your clean source directory. Create and open
 the file ``Makefile``, we start with a simple rule called *all*:
@@ -85,19 +82,23 @@ First, we note that ``make`` is substituting ``$@`` for the name of the rule,
 the second thing to note is that ``make`` is always printing the command it is
 running, finally, we see the result of running ``echo "all"``.
 
-> **Note**
->
-> We call the entry point of our ``Makefile`` always *all* by convention,
-> but you can choose whatever name you like.
->
-> You should not have noticed it if your editor is working correctly,
-> but you have to indent the content of a rule with a tab character.
-> In case you have problems running the above ``Makefile`` and see an error like
->
->     Makefile:2: *** missing separator.  Stop.
->
-> The indentation is probably not correct. In this case replace the indentation
-> in the second line with a tab character.
+{% include note.html
+   content="We call the entry point of our ``Makefile`` always *all* by convention, but you can choose whatever name you like."
+%}
+
+{% capture note %}
+
+You should not have noticed it if your editor is working correctly,
+but you have to indent the content of a rule with a tab character.
+In case you have problems running the above ``Makefile`` and see an error like
+
+    Makefile:2: *** missing separator.  Stop.
+
+The indentation is probably not correct. In this case replace the indentation
+in the second line with a tab character.
+
+{% endcapture %}
+{% include note.html title="Note" content=note %}
 
 Now we want to make our rules more complicated, therefore we add another rule:
 
@@ -257,24 +258,26 @@ itself, in case you change the compiler, this will allow you to savely rebuild.
 
 Now you know enough about ``make`` to use it for building small projects.
 
-> **Important**
->
-> You might have noticed that ``make`` is not particularly easy to use and
-> it can be from time to time difficult to understand what is going
-> on under the hood.
-> In this guide, we avoided and disabled a lot of the commonly used ``make``
-> features that can be particularly troublesome if not used correctly, we highly
-> recommend staying away from them if you do not feel confident working with
-> ``make``.
->
-> While ``make`` is indeed a handy tool to automate short interdependent
-> workflows and to build small projects, it should *never* be used to build
-> larger projects, like scientific programs.
-> In particular modern Fortran programs can hardly be handled by a ``make``
-> build system.
->
-> To use ``make`` in a larger project, you cannot rely on ``make`` alone, usually
-> other tools are used to generate the ``Makefile`` completely or in parts.
+{% capture note %}
+
+You might have noticed that ``make`` is not particularly easy to use and
+it can be from time to time difficult to understand what is going
+on under the hood.
+In this guide, we avoided and disabled a lot of the commonly used ``make``
+features that can be particularly troublesome if not used correctly, we highly
+recommend staying away from them if you do not feel confident working with
+``make``.
+
+While ``make`` is indeed a handy tool to automate short interdependent
+workflows and to build small projects, it should *never* be used to build
+larger projects, like scientific programs.
+In particular modern Fortran programs can hardly be handled by a ``make``
+build system.
+
+To use ``make`` in a larger project, you cannot rely on ``make`` alone, usually
+other tools are used to generate the ``Makefile`` completely or in parts.
+{% endcapture %}
+{% include tip.html title="Important" content=note %}
 
 
 ## The meson build system
@@ -342,13 +345,15 @@ to build an executable ``my_prog`` from the files ``tabulate.f90`` and
 We had not to tell ``meson`` how to build the project, it figured this out
 by itself.
 
-> **Note**
->
-> ``meson`` is a cross-platform build system, the project you just specified
-> for your program can be used to compile binaries for your native operating
-> system or to cross-compile your project for other platforms.
-> Similarly, the ``meson.build`` file is portable and will work on different
-> platforms as well.
+{% capture note %}
+
+``meson`` is a cross-platform build system, the project you just specified
+for your program can be used to compile binaries for your native operating
+system or to cross-compile your project for other platforms.
+Similarly, the ``meson.build`` file is portable and will work on different
+platforms as well.
+{% endcapture %}
+{% include note.html title="Note" content=note %}
 
 The documentation of ``meson`` can be found at the
 <a href="https://mesonbuild.com/" target="_blank" rel="noopener">meson-build webpage</a>.
@@ -359,13 +364,15 @@ The documentation of ``meson`` can be found at the
 Similar to ``meson`` CMake is a high-level build system as well and commonly
 used to build Fortran projects.
 
-> **Note**
->
-> CMake follows a slightly different strategy and provides you with a complete
-> programming language to create your build files.
-> This is has the advantage that you can do almost everything with CMake,
-> but your CMake build files can also become as complex as the program you are
-> building.
+{% capture note %}
+
+CMake follows a slightly different strategy and provides you with a complete
+programming language to create your build files.
+This is has the advantage that you can do almost everything with CMake,
+but your CMake build files can also become as complex as the program you are
+building.
+{% endcapture %}
+{% include note.html title="Note" content=note %}
 
 Start by creating the file ``CMakeLists.txt`` with the content
 
