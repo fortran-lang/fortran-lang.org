@@ -215,7 +215,7 @@ action has to be performed.
 In the end, we will have a look at a complete ``Makefile``.
 
 ```make
-# Disable all of make's implicit rules (similar to Fortran's implicit none)
+# Disable all of make's built-in rules (similar to Fortran's implicit none)
 MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 # configuration
 FC := gfortran
@@ -247,7 +247,7 @@ clean:
 ```
 
 Since you are starting with ``make`` we highly recommend to always include
-the first line, like with Fortrans ``implicit none`` we do not want to have
+the first line, like with Fortran's ``implicit none`` we do not want to have
 implicit rules messing up our ``Makefile`` in surprising and harmful ways.
 
 Next, we have a configuration section where we define variables, in case you
@@ -264,15 +264,17 @@ Also, we slightly changed the build rule for the object files to account for
 appending the ``.o`` suffix instead of substituting it.
 Notice that we still need to explicitly define the interdependencies in the
 ``Makefile``. We also added a dependency for the object files on the ``Makefile``
-itself, in case you change the compiler, this will allow you to savely rebuild.
+itself, in case you change the compiler, this will allow you to safely rebuild.
 
 Now you know enough about ``make`` to use it for building small projects.
+If you plan to use ``make`` more extensively, we have compiled a few tips
+for you as well.
 
 {% capture note %}
 
 In this guide, we avoided and disabled a lot of the commonly used ``make``
 features that can be particularly troublesome if not used correctly, we highly
-recommend staying away from the buildin rules and variables if you do not feel
+recommend staying away from the builtin rules and variables if you do not feel
 confident working with ``make``, but explicitly declare all variables and rules.
 
 You will find that ``make`` is capable tool to automate short interdependent
@@ -282,6 +284,100 @@ not used alone but combined with other tools to generate the ``Makefile``
 completely or in parts.
 {% endcapture %}
 {% include note.html title="Note" content=note %}
+
+
+### Recursively expanded variables
+
+Commonly seen in many projects are recursively expanded variables (declared with
+``=`` instead of ``:=``). Recursive expansion of your variables allows out-of-order
+declaration and other neat tricks with ``make``, since they are defined as rules,
+which are expanded at runtime, rather than being defined while parsing.
+
+For example, declaring and using your Fortran flags with this snippet will work
+completely fine:
+
+```make
+all:
+	echo $(FFLAGS)
+
+FFLAGS = $(include_dirs) -O
+include_dirs += -I./include
+include_dirs += -I/opt/some_dep/include
+```
+
+You should find the expected (or maybe unexpected) printout after running ``make``
+
+    echo -I./include -I/opt/some_dep/include -O
+    -I./include -I/opt/some_dep/include -O
+
+{% include note.html content="appending with ``+=`` to an undefined variable will produce a recursively expanded variable with this state being inherited for all further appending." %}
+
+While, it seems like an interesting feature to use, it tends to lead to
+surprising and expected outcomes. Usually, when defining variables like your
+compiler, there is little reason to actually use the recursive expansion at all.
+
+The same can easily be archived using the ``:=`` declaration:
+
+```make
+all:
+	echo $(FFLAGS)
+
+include_dirs := -I./include
+include_dirs += -I/opt/some_dep/include
+FFLAGS := $(include_dirs) -O
+```
+
+{% include important.html content="always think of a ``Makefile`` as a whole set of rules, it must be parsed completely before any rule can be evaluated." %}
+
+You can use whatever kind of variables you like most, mixing them should be done
+carefully, of course. It is important to be aware of the differences between the
+two kinds and the respective implications.
+
+
+### Comments and whitespace
+
+There are some caveats with whitespace and comments, which might pop up from
+time to time when using ``make``. First, ``make`` does not know of any data
+type except for strings and the default separator is just a space.
+This means ``make`` will give a hard time trying to build a project which
+has spaces in file names. If you encounter such case, renaming the file
+is possibly the easiest solution at hand.
+
+Another common problem is leading and trailing whitespace, once introduced,
+``make`` will happily carry it along and it does in fact make a difference
+when comparing strings in ``make``.
+
+Those can be introduced by comments like
+
+```make
+prefix := /usr  # path to install location
+install:
+	echo "$(prefix)/lib"
+```
+
+While the comment will be correctly removed by ``make``, the trailing two spaces
+are now part of the variable content. Run ``make`` and check that this is indeed
+the case:
+
+```
+echo "/usr  /lib"
+/usr  /lib
+```
+
+To solve this issue, you can either move the comment, or strip the whitespace with
+the ``strip`` function instead. Alternatively, you could try to ``join`` the
+strings.
+
+```make
+prefix := /usr  # path to install location
+install:
+	echo "$(strip $(prefix))/lib"
+	echo "$(join $(join $(prefix), /), lib)"
+```
+
+All in all, none of this solutions will make your ``Makefile`` more readable,
+therefore, it is prudent to pay extra attention to whitespace and comments when
+writing and using ``make``.
 
 
 ## The meson build system
