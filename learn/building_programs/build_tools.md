@@ -115,6 +115,16 @@ $(PROG):
 Note how we declare variables in ``make``, you should always declare your local
 variables with ``:=``. To access the content of a variable we use the ``$(...)``,
 note that we have to enclose the variable name in parenthesis.
+
+{% capture note %}
+
+The declaration of variables is usually done with ``:=``, but ``make`` does
+support *recursively expanded* variables as well with ``=``.
+Normally, the first kind of declaration is wanted, as they are more predictable
+and do not have a runtime overhead from the recursive expansion.
+{% endcapture %}
+{% include note.html title="Note" content=note %}
+
 We introduced a dependency of the rule all, namely the content of the variable
 ``PROG``, also we modified the printout, we want to see all the dependencies
 of this rule, which are stored in the variable ``$^``.
@@ -260,24 +270,18 @@ Now you know enough about ``make`` to use it for building small projects.
 
 {% capture note %}
 
-You might have noticed that ``make`` is not particularly easy to use and
-it can be from time to time difficult to understand what is going
-on under the hood.
 In this guide, we avoided and disabled a lot of the commonly used ``make``
 features that can be particularly troublesome if not used correctly, we highly
-recommend staying away from them if you do not feel confident working with
-``make``.
+recommend staying away from the buildin rules and variables if you do not feel
+confident working with ``make``, but explicitly declare all variables and rules.
 
-While ``make`` is indeed a handy tool to automate short interdependent
-workflows and to build small projects, it should *never* be used to build
-larger projects, like scientific programs.
-In particular modern Fortran programs can hardly be handled by a ``make``
-build system.
-
-To use ``make`` in a larger project, you cannot rely on ``make`` alone, usually
-other tools are used to generate the ``Makefile`` completely or in parts.
+You will find that ``make`` is capable tool to automate short interdependent
+workflows and to build small projects. But for larger projects, you will
+probably soon run against some of it limitations. Usually, ``make`` is therefore
+not used alone but combined with other tools to generate the ``Makefile``
+completely or in parts.
 {% endcapture %}
-{% include tip.html title="Important" content=note %}
+{% include note.html title="Note" content=note %}
 
 
 ## The meson build system
