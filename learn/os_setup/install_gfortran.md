@@ -62,6 +62,11 @@ Finally, you can switch between different versions or set the default one with t
 sudo yum install gcc-gfortran
 ```
 
+Since Fedora 22, `dnf` is the default package manager for Fedora:
+```bash
+sudo dnf install gcc-gfortran
+```
+
 ### Arch-based (Arch Linux, Antergos, Manjaro, etc...)
 ```bash
 sudo pacman -S gcc-fortran
