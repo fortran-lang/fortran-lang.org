@@ -545,3 +545,13 @@ We specified that we have a Fortran project and told CMake to create an executab
 ``my_prog`` from  the files ``tabulate.f90`` and ``functions.f90``.
 CMake knows the details how to build the executable from the specified sources,
 so we do not have to worry about the actual steps in the build process.
+
+{% capture note %}
+
+CMake's offical reference can be found at the
+<a href="https://cmake.org/cmake/help/latest/", target="_blank" rel="noopener">CMake webpage</a>.
+It is organised in manpages, which are also available with your local CMake
+installation as well using ``man cmake``. While it covers all functionality of
+CMake, it sometimes covers them only very briefly.
+{% endcapture %}
+{% include note.html title="Note" content=note %}
