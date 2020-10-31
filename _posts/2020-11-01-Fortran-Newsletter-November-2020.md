@@ -1,0 +1,113 @@
+---
+layout: post
+title: "Fortran newsletter: November 2020"
+category: newsletter
+author: Milan Curcic
+---
+
+Welcome to the November 2020 edition of the monthly Fortran newsletter.
+The newsletter comes out on the first calendar day of every month and details
+Fortran news from the previous month.
+
+<ul id="page-nav"></ul>
+
+## fortran-lang.org
+
+This month we've had a few additions and improvements to the website:
+
+* [#152](https://github.com/fortran-lang/fortran-lang.org/pull/152):
+New mini-book on setting up the Fortran development environment.
+You can read it [here](https://fortran-lang.org/learn/os_setup).
+* [#147](https://github.com/fortran-lang/fortran-lang.org/pull/147):
+Automated posting to @fortranlang Twitter using twitter-together.
+* [#155](https://github.com/fortran-lang/fortran-lang.org/pull/155):
+Fix for a security vulnerability reported by the GitHub Security Team.
+* The following packages were added to the
+[Package Index](https://fortran-lang.org/packages):
+atomsk, ddPCM, DFTB+, DFT-D4, ELPA, ELSI, FortJSON, fypp, HANDE, libmd, libnegf,
+mpifx, NTPoly, NWChem, OpenMolcas, PoisFFT, QMD-PROGRESS, scalapackfx,
+tapenade, wannier90, and xtb.
+* [#145](https://github.com/fortran-lang/fortran-lang.org/pull/145),
+[#146](https://github.com/fortran-lang/fortran-lang.org/pull/146),
+[#154](https://github.com/fortran-lang/fortran-lang.org/pull/154),
+[#158](https://github.com/fortran-lang/fortran-lang.org/pull/158):
+Minor fixes and improvements.
+
+Ongoing work:
+
+* [#160](https://github.com/fortran-lang/fortran-lang.org/pull/160) (WIP):
+In-depth introduction for Fortran with Make.
+* [#156](https://github.com/fortran-lang/fortran-lang.org/pull/156) (WIP):
+Updating the mini-book on building programs.
+
+[Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
+We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
+
+## Fortran Standard Library
+
+TODO What's new
+
+The candidate for file system operations to be included in stdlib is being developed by
+[@MarDiehl](https://github.com/MarDiehl) and [@arjenmarkus](https://github.com/arjenmarkus)
+in [this repository](https://github.com/MarDiehl/stdlib_os).
+Please try it out and let us know how it works, if there are any issues, or if the API can be improved.
+
+## Fortran Package Manager
+
+TODO What's new
+
+fpm is still in early development and we need as much help as we can get.
+Here's how you can help today:
+
+* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm.
+* Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.
+* Adapt your Fortran package for fpm and submit it to the [Registry](https://github.com/fortran-lang/fpm-registry).
+* Improve the documentation.
+
+The short-term goal of fpm is to make development and installation of Fortran packages with dependencies easier.
+Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
+environment in which new open source Fortran projects are created and published with ease.
+
+## Compilers
+
+### Classic Flang
+
+TODO @gklimowicz
+
+### LLVM Flang
+
+TODO @gklimowicz
+
+### LFortran
+
+TODO @certik
+
+You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://twitter.com/lfortranorg).
+
+## Events
+
+* We had our 5th Fortran Monthly call on October 27.
+You can watch the recording below:
+
+TODO update Youtube embed when the video is up
+
+<!--<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ei6CAZblOro" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+
+As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
+join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
+
+## Contributors
+
+TODO @lkedward
+
+We thank everybody who contributed to fortran-lang in the past month by
+commenting in any of these repositories:
+
+* [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib),
+* [fortran-lang/fpm](https://github.com/fortran-lang/fpm),
+* [fortran-lang/fpm-registry](https://github.com/fortran-lang/fpm-registry),
+* [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org),
+* [fortran-lang/benchmarks](https://github.com/fortran-lang/benchmarks),
+* [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
+
+<div id="gh-contributors" data-startdate="September 01 2020" data-enddate="September 30 2020" height="500px"></div>
