@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: November 2020"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Sebastian Ehlert
 ---
 
 Welcome to the November 2020 edition of the monthly Fortran newsletter.
@@ -24,7 +24,7 @@ Automated posting to @fortranlang Twitter using twitter-together.
 Fix for a security vulnerability reported by the GitHub Security Team.
 * The following packages were added to the
 [Package Index](https://fortran-lang.org/packages):
-atomsk, ddPCM, DFTB+, DFT-D4, ELPA, ELSI, FortJSON, fypp, HANDE, libmd, libnegf,
+atomsk, ddPCM, DFTB+, DFT-D4, ELPA, ELSI, FortJSON, fypp, HANDE, libmbd, libnegf,
 mpifx, NTPoly, NWChem, OpenMolcas, PoisFFT, QMD-PROGRESS, scalapackfx,
 tapenade, wannier90, and xtb.
 * [#145](https://github.com/fortran-lang/fortran-lang.org/pull/145),
@@ -54,7 +54,24 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 ## Fortran Package Manager
 
-TODO What's new
+What's new:
+
+* [#213](https://github.com/fortran-lang/fpm/issues/213): Bootstrap fpm submodule support
+* [#208](https://github.com/fortran-lang/fpm/issues/208): Minor fixes to `list_files` and `mkdir` in `fpm_filesystem`
+* [#206](https://github.com/fortran-lang/fpm/issues/206): Add installation script in `install.sh`
+* [#193](https://github.com/fortran-lang/fpm/issues/193): Local path dependencies (Fortran fpm can now build itself)
+* [#190](https://github.com/fortran-lang/fpm/issues/190): Auto discovery of executables
+* [#189](https://github.com/fortran-lang/fpm/issues/189),
+[#204](https://github.com/fortran-lang/fpm/issues/204),
+[#203](https://github.com/fortran-lang/fpm/issues/203): Implement `fpm new` in Fortran fpm
+
+Work in progress:
+
+* [#221](https://github.com/fortran-lang/fpm/issues/221) (WIP): Test and executable runner options
+* [#220](https://github.com/fortran-lang/fpm/issues/220) (WIP): Compiler and flags
+* [#216](https://github.com/fortran-lang/fpm/issues/216) (WIP): Remove bashism from install.sh
+* [#209](https://github.com/fortran-lang/fpm/issues/209) (WIP): Add automatic documentation for Fortran fpm
+* [#202](https://github.com/fortran-lang/fpm/issues/202) (WIP): Create package manifest with toml-f build interface
 
 fpm is still in early development and we need as much help as we can get.
 Here's how you can help today:
