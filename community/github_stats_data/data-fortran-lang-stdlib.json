@@ -2,12 +2,223 @@
     "name": "fortran-lang/stdlib",
     "issues": [
         {
+            "number": 243,
+            "user": "jvdp1",
+            "date": "2020-10-30 18:07:45+00:00",
+            "title": "Logger: support of new_line() in the output of the logger",
+            "text": "A proposition to support new_line properly when inserted in a message as, e.g.,:\ncall global % log_message( 'Possible issues: ' // new_line('a') // &\n ' 1) First possible issue' // new_line('a') // &\n ' 2) Second possible issue')",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-30 18:08:28+00:00",
+                    "text": "I add @wclodius2 as a reviewer"
+                }
+            ]
+        },
+        {
+            "number": 242,
+            "user": "jvdp1",
+            "date": "2020-10-30 16:27:50+00:00",
+            "title": "logger: avoid trailing spaces when writing line 2+",
+            "text": "Currently, a trailing space will be present from the second line (there is no trailing space for the first line (see format_fist_line for details).\nThis PR avoids trailing spaces from the second line.\n@wclodius2 What is on purpose that a trailing space remained from the second line?",
+            "comments": [
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-30 16:35:09+00:00",
+                    "text": "Carelessness. Its easy to miss a fencepost such as this."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-30 16:51:05+00:00",
+                    "text": "Carelessness. Its easy to miss a fencepost such as this.\n\nNo problem. I should have noted it during my review ;) I saw it now because I am testing the logger in some of our programs."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-30 18:01:59+00:00",
+                    "text": "Good. Thank you for the confirmation. Since it is a small issue, I will merge it."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-30 20:49:14+00:00",
+                    "text": "Its good to see someone using it. Let me know if you find any other bugs or features that should be added.\n\u2026\n On Oct 30, 2020, at 10:51 AM, Jeremie Vandenplas ***@***.***> wrote:\n\n\n Carelessness. Its easy to miss a fencepost such as this.\n\n No problem. I should have noted it during my review ;) I saw it now because I am testing the logger in some of our programs.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#242 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOXV4GBLI2BWTVUY57TSNLVITANCNFSM4TFFSKWQ>."
+                }
+            ]
+        },
+        {
+            "number": 241,
+            "user": "certik",
+            "date": "2020-10-27 19:14:26+00:00",
+            "title": "Include a `split` function (202X feature)",
+            "text": "Fortran 202X will include a new intrinsic split function:\nj3-fortran/fortran_proposals#187\nIt was approved, and then the API was changed after approving it. We should implement the latest approved version in stdlib, and play with it and ensure that the API looks good. And if we discover some improvements, we should propose them at the February 2021 Fortran Standards meeting.\nThen once split becomes part of the next Fortran standard, we can have a section in stdlib called \"backwards compatibility\", where we can have a \"reference implementation\" of such new features, so that people can use them right away even if some compiler might not support them yet.",
+            "comments": []
+        },
+        {
+            "number": 240,
+            "user": "Jim-215-Fisher",
+            "date": "2020-10-10 22:15:37+00:00",
+            "title": "Initial round of probability distributions and statistical functions",
+            "text": "This is the first round of probability distributions and statistical functions. Anyone is welcomed to review it. The following source files were added:\nsrc/stats_distribution_rvs.fypp\nsrc/stats_distribution.fypp\nsrc/stats_distribution_implementation.fypp\nThe specs documentation was added:\ndoc/specs/stdlib_stats_distribution.md\nThe test program was added:\nsrc/tests/stats/test_distribution.f90\nThe following compilation files were modified:\nsrc/CMakeLists.txt\nsrc/Makefile.manual\nsrc/tests/stats/CMakeLists.txt\nsrc/tests/stats/Makefile.manual\ndoc/specs/index.md",
+            "comments": [
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-12 14:41:59+00:00",
+                    "text": "Realized the Fortran standard functions 'random_seed' and 'random_number' may not have the same algorithm on different platforms and OS. Will update the random number generator.\nTODO: modify the random_seed function to avoid using standard random_number function call\nTODO: create new random number generator for random distribution."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-12 15:06:10+00:00",
+                    "text": "Thanks a lot @Jim-215-Fisher! I will review it. On first look I only noticed two things:\n\nrandom_seed if imported as is will make the intrinsic random_seed unavailable. I think we should rename it.\nMinor style nit-pick, let's not use any non-newline code separators like\n\n!---------------------------------------------------------------------------------------------\n!                   Random seed\n!---------------------------------------------------------------------------------------------\n\nas they don't add value. I know, this is not mentioned in the style guide yet. Good rule of thumb is to just mimic the style of existing modules.\nMore later."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-12 15:15:04+00:00",
+                    "text": "The random_seed is an overloading to intrinsic, and need two arguments which is different from intrinsic. I thought it might be easier for users to use the same name.\nI will remove those separators."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-12 15:22:15+00:00",
+                    "text": "The random_seed is an overloading to intrinsic, and need two arguments which is different from intrinsic. I thought it might be easier for users to use the same name.\n\nAh, okay, I didn't realize. I think this is fine if it extends the intrinsic one while preserving the original behavior."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-12 15:56:18+00:00",
+                    "text": "Thank you @Jim-215-Fisher for this PR. I will try to review it this week."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-14 00:54:34+00:00",
+                    "text": "Just load modified version. 1)add 64bit random integer generator code, 2) modified random_seed procedure to use the new generator instead of random_number, 3) modified uniform distribution random generator, 4) add inversion transformation procedure for binomial random variate generator. It was noticed that both BTRD and BTPE from Alan Miller algorithm failed the chi-squared test."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-14 13:01:27+00:00",
+                    "text": "It looks like ubuntu platform does not like submodule, gcc7, 8 and 9 all show the same error: buffer overflow."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-14 15:44:18+00:00",
+                    "text": "I noticed that issue. I have changed that part into regular negative decimal. Right now, file stats_distribution_rv and stats_distribution have passed compilation, but stats_distribution_implementation fail to compile on ubuntu. The same file has passed on windows and Mac."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-14 22:39:01+00:00",
+                    "text": "This is likely a bug on gcc. See Bug 91773 - Buffer overflow for long module/submodule names"
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-20 20:29:48+00:00",
+                    "text": "Thank you for this PR. Here are some comments on the specs.\nSince there are mainly 3 very similar (in ternms of API) parts (uniform, norm, and binomial), I am wondering if it would not be easier to submit/review 3 different small PRs instead of this large one. What is your opinion @certik @milancurcic @ivan-pi ?\nMeanwhile I will first focus on the uniform part.\n\nThese three are just the initial part of whole statistical distributions, there are more distributions coming. All of them have similar API."
+                },
+                {
+                    "user": "peteroupc",
+                    "date": "2020-10-22 04:15:10+00:00",
+                    "text": "Just for your information you should use algorithms avoiding floating-point arithmetic when possible (or at least make such implementations an option).  For example, there are algorithms of the exponential distribution that use comparisons only (von Neumann's method, for one) as well as exact samplers of the Binomial distribution (e.g., Farach-Colton and Tsai, \"Exact Sublinear Binomial Sampling\"; the \"Internal DLA\" paper by Bringmann and others).  Even the Poisson distribution can be sampled without using the exponential function (e.g. \"On Buffon Machines and Numbers\").  Perhaps the most familiar example of a distribution of this kind is the discrete (and continuous) normal distribution sampler by Karney.  See also my section on \"Specific Non-Uniform Distributions\" in \"Randomization and Sampling Methods\".\nIn fact, as the authors of \"Exact Sublinear Binomial Sampling\" found, BTPE can oversample the tail of a binomial distribution (or at least the GNU Scientific Library implementation of BTPE at the time of the paper can)."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-24 03:16:13+00:00",
+                    "text": "Just for your information you should use algorithms avoiding floating-point arithmetic when possible (or at least make such implementations an option). For example, there are algorithms of the exponential distribution that use comparisons only (von Neumann's method, for one) as well as exact samplers of the Binomial distribution (e.g., Farach-Colton and Tsai, \"Exact Sublinear Binomial Sampling\"; the \"Internal DLA\" paper by Bringmann and others). Even the Poisson distribution can be sampled without using the exponential function (e.g. \"On Buffon Machines and Numbers\"). Perhaps the most familiar example of a distribution of this kind is the discrete (and continuous) normal distribution sampler by Karney. See also my section on \"Specific Non-Uniform Distributions\" in \"Randomization and Sampling Methods\".\nIn fact, as the authors of \"Exact Sublinear Binomial Sampling\" found, BTPE can oversample the tail of a binomial distribution (or at least the GNU Scientific Library implementation of BTPE at the time of the paper can).\n\nThanks for the info. I will take a look of it."
+                }
+            ]
+        },
+        {
             "number": 239,
             "user": "wclodius2",
             "date": "2020-09-30 02:05:04+00:00",
             "title": "Bitsets3",
             "text": "Branch to implement bitset data types. Committed the following new source files:\nsrc/stdlib_bitsets.f90\nsrc/stdlib_bitset_64.f90\nsrc/stdlib_bitset_large.f90\nAdded the following new test files:\nsrc/tests/bitsets/CMakeLists.txt\nsrc/tests/bitsets/Makefile.manual\nsrc/tests/bitsets/test_stdlib_bitset_64.f90\nsrc/tests/bitsets/test_stdlib_bitset_large.f90\nAdded the following new documentation file:\ndoc/specs/stdlib_bitssets.md\nModified the following compilation files:\nsrc/CMakeLists.txt\nsrc/Makefile.manual\nsrc/tests/CMakeLists.txt\nsrc/tests/Makefile.manual",
-            "comments": []
+            "comments": [
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-05 01:40:33+00:00",
+                    "text": "Looks good.\n\u2026\n On Oct 4, 2020, at 11:49 AM, Jeremie Vandenplas ***@***.***> wrote:\n\n\n @jvdp1 commented on this pull request.\n\n In src/tests/Makefile.manual <#239 (comment)>:\n\n > @@ -10,6 +11,7 @@ all:\n\n  test:\n  \t$(MAKE) -f Makefile.manual --directory=ascii test\n +\t$(MAKE) -f Makefile.manual --directoru=bitsets test\n \u2b07\ufe0f Suggested change\n -\t$(MAKE) -f Makefile.manual --directoru=bitsets test\n +\t$(MAKE) -f Makefile.manual --directory=bitsets test\n This should allow the Github actions to be successful\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#239 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOWITSG6CMZ2MNAX2VLSJCYSBANCNFSM4R6QFU5A>."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-07 02:30:47+00:00",
+                    "text": "We should really discuss the error handling further in #219 . The 'go to' usage in this function... I'm not a fan xD. I think only one labeled part is needed to achieve the 'return with status' vs 'stop program with error message' desired behavior, with the aid of a error handling module, we could set the message and a flag to switch between the two possible actions, reusing the code. I will bring some working code snippet soon (I hope).\nAlso, in the assigment functions I wonder if it is possible to use the template system (as in the statistics module)?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-07 15:57:53+00:00",
+                    "text": "What is xD? The error handling has several aspects that could be commented on:\n\n\nRather than intermingling the error handling with the main logic I jump to error handling at the end of the procedure. This increases the amount of code slightly, and can obscure what the error handling is doing, but I think makes the main logic clearer.\n\n\nI am handling some \"errors\" that possibly shouldn't be handled: memory allocation problems and user errors. With virtual memory, its not clear to me that allocation can ever fail, and with lazy allocation on Linux such failure will not occur on the allocate statement.. While not important in the procedure you call out, I also attempt to provide a fallback for some user errors where simple failure might be best.\n\n\nSince we lack an error handling procedure I am relying explicitly on an if branch with error stop. An error handling procedure could incorporate the if branch and slightly simplify the logic by incorporating both a message and a status argument. There are however a lot of issues to be dealt with in developing an error handling module.\n\n\nShould it be a separate module or part of the logger?\n\n\nShould it include a set of error codes?\n\n\nWhat should the arguments be to the main error handling procedure?\n\nmessage\nmodule and procedure names\nstatus/stat flag\nerror code\n\n\n\nHow should processing be terminated, an error stop: with an F2018 runtime determined stop code, with an error code determined compile time stop code, generic compile time stop code?\n\n\n\n\nIncluding the module and procedure names in the error stop makes the stop code longer and harder to read\n\n\nMaking the stop code message a character string parameter would shorten the error handling code, at the expense of cluttering up other portions of the code.\n\n\nIt is of course possible to use fypp preprocessing to generate templates for the assignments to and from logical arrays. The assignment procedures are few enough and simple enough that I thought it best to avoid a dependence on the preprocessor, but that is a matter of taste. The addition of more assignments, say to and from integers would probably change my opinion."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-07 17:43:09+00:00",
+                    "text": "What is xD?\n\nASCII version of \ud83d\ude06smiling face with closed eyes\n1-5. Yes, the current way increases the amount of code, however the main logic can be still clear if we do something like that:\n    subroutine fail_behavior(..., status)\n        ! doing a lot of stuff here\n        ! ...\n        ! case X: found some fatal error\n            error_handler % status = ERROR_CODE_TO_X\n            error_handler % message = \"Oh no! X happened\"\n            go to 404\n        ! case Y: found other general error\n            error_handler % status = ERROR_CODE_TO_Y\n            error_handler % message = \"Oh no! Y happened\"\n            go to 404\n\n    404 if (present(status)) then\n            status = error_handler % status\n            return\n        else\n            error stop error_handler % message\n        end if\n    end subroutine\nThis is a way we can avoid the code duplication, reusing the go to branching. Note that error_handler should be a object that couples the information about what happened (not reflecting in any way the API I got in mind for a final version).\nThe error handling should be a separate module with some default general purpose errors and a abstract one, that would allow it to be extended when needed by other modules, this way they can provide their own specific codes constants and messages.\n\nIt is of course possible to use fypp preprocessing to generate templates for the assignments to and from logical arrays. The assignment procedures are few enough and simple enough that I thought it best to avoid a dependence on the preprocessor, but that is a matter of taste. The addition of more assignments, say to and from integers would probably change my opinion.\n\nIMHO, we should use the template system every time that not using it leads to code duplication, since it gets easier to modify and extend the code in the future. (DRY principle)."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-07 18:26:31+00:00",
+                    "text": "FWIW for the error handling what I thought you were proposing was something like\nsubroutine fail_behavior(..., status)\n    ! doing a lot of stuff here\n    ! ...\n    ! case X: found some fatal error\n        call error_handler(message=\"Oh no! X happened\", error=error_code_to_x, status=status)\n        return\n    ! case Y: found other general error\n        call error_handler(message=\"Oh no! Y happened\", error=error_code_to_y, status=status)\n        return\nend subroutine\n\nwhere error_handler assigns error to status if status is present and stops processing with a message to error_unit otherwise.\nI can change the code to use fypp, but it probably requires starting a new branch. I can see how to add or modify files in the current branch, but not how to rename or remove existing files, which I need to change the *.f90 files to *.fypp."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-07 19:42:14+00:00",
+                    "text": "FWIW for the error handling what I thought you were proposing was something like (...)\nwhere error_handler assigns error to status if status is present and stops processing with a message to error_unit otherwise.\n\nIndeed, actually this is even better because we don't need retype the branching logic with \"go to\" statements in every function that may fail and is doable (working example here). To avoid having any boilerplate along the function's main logic, the module that have a specific need should build a function that calls this base function error_handler, Ex:\nsubroutine value_error(expected, got, status)\n     ....\n     write(message, '(\"value_error: Expected \",G0,\", but got \",G0,\" instead.\")') expected, got\n     call error_handler(message, ...) \nend subroutine\n\nI can change the code to use fypp, but it probably requires starting a new branch. I can see how to add or modify files in the current branch, but not how to rename or remove existing files, which I need to change the *.f90 files to *.fypp.\n\nYou can clone your repo here, modify it locally and push the commits (It will probably sync with the open PR)"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-07 21:52:16+00:00",
+                    "text": "I can see how to add or modify files in the current branch, but not how to rename or remove existing files, which I need to change the *.f90 files to *.fypp.\n\nYou can rename and remove a file locally with your OS, and then add/remove, commit, and push with git."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-07 21:57:49+00:00",
+                    "text": "When I try\ngit clone https://github.com/wclodius2/stdlib/tree/bitsets3 my-bitsets\n\nI get the error message\nCloning into 'my-bitsets'...\nfatal: repository 'https://github.com/wclodius2/stdlib/tree/bitsets3/' not found\n\nIs there something wrong with my syntax/repository name?"
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-07 22:46:39+00:00",
+                    "text": "This is the wrong URL, please do the following:\ngit clone https://github.com/wclodius2/stdlib.git my-bitsets\ncd my-bitsets\ngit checkout bitsets3"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-09 13:25:56+00:00",
+                    "text": "I have modified, committed and pushed the code making the following changes:\n\nChanged  the main file names from stdlib_bitset*.f90 to stdlib_bitset*.fypp\nUsed the preprocessor to autogenerate the assignment defs for logical arrays\nAdded a subroutine error_handler to stdlib_bitsets.fypp\nUsed the subroutine to handle errors in stdlib_bitset_64.fypp and stdlib_bitset_large.fypp\nUsed bulleted lists to document the use of error codes in stdlib_bitset*.fypp and stdlib_bitsets.md\nAdded the error code char_string_too_large_error\nAfter pushing realized I forgot to check for trailing blanks. Removed trailing blanks and pushed again."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-09 13:42:28+00:00",
+                    "text": "Failed to run tests on the previous update.  I had accidentally removed a return statement causing failure of test_stdlib_bitset_64. Fixed and pushed."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-09 13:56:14+00:00",
+                    "text": "Thank you, @wclodius2!"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-10 03:28:16+00:00",
+                    "text": "I have made some aesthetic changes in the source code: deleting a couple of unnecessary returns, and regularizing the code fences in the FORD documentation of stdlib_bitsets.fypp. I now plan to take a break of a few days from edits of the source code, unless they are specifically requested."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-10 20:33:41+00:00",
+                    "text": "I have made some aesthetic changes in the source code: deleting a couple of unnecessary returns, and regularizing the code fences in the FORD documentation of stdlib_bitsets.fypp. I now plan to take a break of a few days from edits of the source code, unless they are specifically requested.\n\nThank you @wclodius2 . I will try to review it next week,"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-15 19:56:24+00:00",
+                    "text": "@jvdp1 I have just committed edits to stdlib_bitsets.md based on most of your suggestions in your first posting. I will now rename the fypp files, change the names of their submodules to match the file names, and change the corresponding CMakeLists.txt and Makefile.manual files"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-20 19:47:02+00:00",
+                    "text": "It means I wrote the code when I was tired and wanted someone else to check my reasoning. It is parsing a decimal representation of the size in bits, and I want to be certain that the size does not exceed what can be represented by an integer of `bits_kind`. That could happen for example if parsing a file with `bits_kind==int32` and the file was written with `bits_kind==int64`. We want to be sure that the representation for `bits_kind==int32` does not exceed `2**31-1`. My reasoning is that it will exceed that value if:\n1. it has ten digits and is about to read another digit increasing its value by a factor of ten\n2. It has nine digits and has a value greater than `2**31/10`\n3. It had a value of `2**31/10` and reading the next digit causes an integer overflow of nine or less resulting in a negative value.\n\u2026\n On Oct 20, 2020, at 11:46 AM, Jeremie Vandenplas ***@***.***> wrote:\n\n\n @jvdp1 commented on this pull request.\n\n In src/stdlib_bitsets_large.fypp <#239 (comment)>:\n\n > +        end do find_start\n +\n +        if ( pos > len(string) - 8 ) go to 999\n +\n +        if ( string(pos:pos) /= 's' .AND. string(pos:pos) /= 'S' ) go to 999\n +\n +        pos = pos + 1\n +        bits = 0\n +        digits = 0\n +\n +        do\n +            select case( iachar( string(pos:pos) ) )\n +            case(ia0:ia9)\n +                digits = digits + 1\n +                if ( digits == max_digits .AND. bits > overflow_bits ) go to 996\n +!! May not be quite right\n \u2b07\ufe0f Suggested change\n -!! May not be quite right\n +!! May not be quite right\n What does this comment mean? What could be not quite right?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#239 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOUBL3KX6BCX26LADBTSLXEG5ANCNFSM4R6QFU5A>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-21 00:17:21+00:00",
+                    "text": "I have now resolved my qualms about my handling of potential integer overflows on reads. I have changed max_digits for bits_kind==int64 from 20 to 19 (2**63-1 is about 9.2E18) and convinced myself that the rest of my logic was correct. I have move the comments that the code may not be quite right. (I also fixed a typo in an error message.)"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-21 02:20:49+00:00",
+                    "text": "@jvdp1 thanks for the thorough review."
+                }
+            ]
         },
         {
             "number": 238,
@@ -206,6 +417,21 @@
                     "user": "Jim-215-Fisher",
                     "date": "2020-09-28 13:04:29+00:00",
                     "text": "Yes, I am working on it, hopefully send PR soon."
+                },
+                {
+                    "user": "David-Duffy",
+                    "date": "2020-10-08 00:38:12+00:00",
+                    "text": "Hi.\nA certain number of the routines from Alan Miller's site are from other sources - for example, the Applied Statistics routines have a funny licence (no commercial use), which tripped me up when I used them for an R package. The Rmath library might be a good model for what working statisticians want (esp in terms of numerics)."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-10-10 20:12:51+00:00",
+                    "text": "The initial implementation of this proposal is ready for PR. Anyone interested is welcome to review it. I have implemented three distributions at the moment, uniform, normal and binomial distribution random number generators and pdf, cdf functions. Will implement more distributions and functions after collecting comments and suggestions.\nThe code is in my branch https://github.com/Jim-215-Fisher/stdlib/tree/stats_distribution"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-10 20:32:42+00:00",
+                    "text": "The initial implementation of this proposal is ready for PR. Anyone interested is welcome to review it. I have implemented three distributions at the moment, uniform, normal and binomial distribution random number generators and pdf, cdf functions. Will implement more distributions and functions after collecting comments and suggestions.\nThe code is in my branch https://github.com/Jim-215-Fisher/stdlib/tree/stats_distribution\n\nThank you @Jim-215-Fisher . Can you open a PR? It will be easier for reviewing and discussing the API and code."
                 }
             ]
         },
@@ -1767,6 +1993,61 @@
                     "user": "arjenmarkus",
                     "date": "2020-09-08 06:46:34+00:00",
                     "text": "WIll do, asap - I should be able to find time, if nothing else as a\ndistraction.\n\nRegards,\n\nArjen\n\nOp di 8 sep. 2020 om 08:17 schreef Martin Diehl <notifications@github.com>:\n\u2026\n ok, then it's best if you contact me via email: ***@***.*** if you\n have time.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#220 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR32SPX7BXSVA63VBQ3SEXD6HANCNFSM4O45YWQA>\n ."
+                },
+                {
+                    "user": "MuellerSeb",
+                    "date": "2020-10-07 12:06:52+00:00",
+                    "text": "I am really happy about the implementations by @MarDiehl ! You should come up with a Draft PR to discuss details there!"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-07 12:19:00+00:00",
+                    "text": "The status at this moment:\n\n   - The code is working for Linux, plain Windows and Cygwin\n   - I have the CMake build system working for three Windows environments -\n   plain Windows, Cygwin and MinGW. MSYS is on its way, now that I understand\n   the difference between MinGW and MSYS.\n   - The implementation uses ERROR STOP in a number of places without the\n   program having a chance to catch it. That is something I want to get rid of\n   - return a \"magic\" number instead.\n   - The code could do with some clean-up in places and there are a few\n   issues with forward and backward slashes.\n   - The code is missing a few useful features: getting the file and\n   directory names is the most pressing one.\n\nBut I agree: it is definitely in a useable state.\n\n@MarDiehl, what do you think? (Note: I need to consolidate and submit the\nlatest stuff :))\n\nOp wo 7 okt. 2020 om 14:07 schreef Sebastian M\u00fcller <\nnotifications@github.com>:\n\u2026\n I am really happy about the implementations by @MarDiehl\n <https://github.com/MarDiehl> ! You should come up with a Draft PR to\n discuss details there!\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#220 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5XMWY7PBXNKARW4RDSJRKW3ANCNFSM4O45YWQA>\n ."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2020-10-07 12:44:43+00:00",
+                    "text": "@arjenmarkus Sorry for the late reply, I started a new appointment and simply ignored all emails that were not directly related to my old and new work. I'm now back at this"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-07 13:00:49+00:00",
+                    "text": "Ah, good to see you're back :). i have been busy getting the test program\nto work on all platforms I have access to (and as it turns out, I have\naccess to five different platforms, not four, as MinGW and MSYS are related\nbut in some ways entirely different platforms).\n\nOp wo 7 okt. 2020 om 14:45 schreef Martin Diehl <notifications@github.com>:\n\u2026\n @arjenmarkus <https://github.com/arjenmarkus> Sorry for the late reply, I\n started a new appointment and simply ignored all emails that were not\n directly related to my old and new work. I'm now back at this\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#220 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR2YXIVA4C5ALFLFDSDSJRPE5ANCNFSM4O45YWQA>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-07 19:16:42+00:00",
+                    "text": "Hm, a slight but rather nasty problem occurred: the Intel Fortran version\non Windows now stops suddenly in the getsize function. It works fine in a\nreduced program.\n\nOp wo 7 okt. 2020 om 15:00 schreef Arjen Markus <arjen.markus895@gmail.com>:\n\u2026\n Ah, good to see you're back :). i have been busy getting the test program\n to work on all platforms I have access to (and as it turns out, I have\n access to five different platforms, not four, as MinGW and MSYS are related\n but in some ways entirely different platforms).\n\n Op wo 7 okt. 2020 om 14:45 schreef Martin Diehl ***@***.***\n >:\n\n> @arjenmarkus <https://github.com/arjenmarkus> Sorry for the late reply,\n> I started a new appointment and simply ignored all emails that were not\n> directly related to my old and new work. I'm now back at this\n>\n> \u2014\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <#220 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR2YXIVA4C5ALFLFDSDSJRPE5ANCNFSM4O45YWQA>\n> .\n>"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-11 10:56:43+00:00",
+                    "text": "I have isolated the problem in a small test program - see the attachment.\nIt occurs with Intel Fortran 18 on both Windows and Linux. Since this\nhinders the further development of this library, I am going to resort to\nusing a C function instead (like for the creation/modification/access times\nfor files).\n\nRegards,\n\nArjen\n\n\nOp wo 7 okt. 2020 om 21:16 schreef Arjen Markus <arjen.markus895@gmail.com>:\n Hm, a slight but rather nasty problem occurred: the Intel Fortran version\n on Windows now stops suddenly in the getsize function. It works fine in a\n reduced program.\n\n Op wo 7 okt. 2020 om 15:00 schreef Arjen Markus ***@***.***\n >:\n\n> Ah, good to see you're back :). i have been busy getting the test program\n> to work on all platforms I have access to (and as it turns out, I have\n> access to five different platforms, not four, as MinGW and MSYS are related\n> but in some ways entirely different platforms).\n>\n> Op wo 7 okt. 2020 om 14:45 schreef Martin Diehl ***@***.***\n> >:\n>\n>> @arjenmarkus <https://github.com/arjenmarkus> Sorry for the late reply,\n>> I started a new appointment and simply ignored all emails that were not\n>> directly related to my old and new work. I'm now back at this\n>>\n>> \u2014\n>> You are receiving this because you were mentioned.\n>> Reply to this email directly, view it on GitHub\n>> <#220 (comment)>,\n>> or unsubscribe\n>> <https://github.com/notifications/unsubscribe-auth/AAN6YR2YXIVA4C5ALFLFDSDSJRPE5ANCNFSM4O45YWQA>\n>> .\n>>\n>\nprogram stdlib_test\n\n  !use os_path\n\n  implicit none\n  integer :: unit\n  logical :: error\n\n  integer :: ierr\n  integer :: sz\n\n  character(len=:), allocatable, dimension(:) :: split_str\n  character(len=:), allocatable               :: startdir\n\n  print*, \"Start\"\n\n  inquire( file = 'testtxt', size = sz, iostat = ierr )\n  print*, \"Size: \", sz\n\n  print*, \"local_getsize('test.txt'): \",  local_getsize('test.txt')\n  !print*, \"getsize('test.txt'): \",  getsize('test.txt')\n  print*, \"Done\"\n\ncontains\n  function local_getsize(path)\n\n    !integer(int64)               :: getsize\n    integer                      :: local_getsize\n    integer                      :: sz\n    character(len=*), intent(in) :: path\n    integer                      :: ierr\n\n    !write(*,*) '>>', path\n    call local_getsize_routine( path, sz, ierr )\n    !inquire( file = path, size = sz, iostat = ierr )\n\n    local_getsize = sz\n    if ( ierr /= 0 ) then\n       local_getsize = -1\n    endif\n    !write(*,*) '>>', getsize\n\n  end function local_getsize\n\n  subroutine local_getsize_routine( path, sz, ierr )\n    character(len=*), intent(in) :: path\n    integer, intent(out)         :: sz\n    integer, intent(out)         :: ierr\n\n    inquire( file = path, size = sz, iostat = ierr )\n  end subroutine local_getsize_routine\n\nend program stdlib_test"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-11 11:25:02+00:00",
+                    "text": "Hi @arjenmarkus , I think the above code will work if you use inquire after opening the file:\nsubroutine local_getsize_routine( path, sz, ierr )\n    character(len=*), intent(in) :: path\n    integer, intent(out)         :: sz\n    integer, intent(out)         :: ierr\n    integer :: fh\n\n    open(newunit=fh, file = path, iostat = ierr )\n    if (ierr /=0 ) return\n    inquire( unit=fh, size = sz, iostat = ierr )\n    close(fh)\nend subroutine local_getsize_routine"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-11 12:28:30+00:00",
+                    "text": "You're right - that does seem to do the trick. I have tested it on both\nWindows and Linux.\n\nThe only drawback is that the program should have read access to the file\nin that case, but the implementation is straightforward.\n\nOp zo 11 okt. 2020 om 13:25 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n Hi @arjenmarkus <https://github.com/arjenmarkus> , I think the above code\n will work if you use inquire after opening the file:\n\n subroutine local_getsize_routine( path, sz, ierr )\n     character(len=*), intent(in) :: path\n     integer, intent(out)         :: sz\n     integer, intent(out)         :: ierr\n     integer :: fh\n\n     open(newunit=fh, file = path, iostat = ierr )\n     if (ierr /=0 ) return\n     inquire( unit=fh, size = sz, iostat = ierr )\n     close(fh)\n   end subroutine local_getsize_routine\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#220 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR67MYLDQ5K5EJFU763SKGIZXANCNFSM4O45YWQA>\n ."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2020-10-11 15:20:28+00:00",
+                    "text": "could be also related to https://community.intel.com/t5/Intel-Fortran-Compiler/Reading-file-of-length-zero/m-p/1185659"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-11 18:04:46+00:00",
+                    "text": "Well, I will implement the workaround with comments to indicate the reason\nfor this. There is definitely something fishy wrt inquire(size).\n\nOp zo 11 okt. 2020 om 17:20 schreef Martin Diehl <notifications@github.com>:\n\u2026\n could be also related to\n https://community.intel.com/t5/Intel-Fortran-Compiler/Reading-file-of-length-zero/m-p/1185659\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#220 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRYSPV2VOPTUCLG5QOLSKHEMTANCNFSM4O45YWQA>\n ."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-10-11 18:21:00+00:00",
+                    "text": "Have an old file talking about six methods to do this depending on the vintage of the compiler. Was going to send it but I think most methods were mentioned (INQUIRE, ISO_C_BINDING, output of external command, open in append mode as a stream and get position-1, ....  I have notes in there about a lot of compilers or systems not supporting multiple simultaneous opens on the file so I think your test should already have the file open to test for that; although the notes look like most of the notes are from 2008."
                 }
             ]
         },
