@@ -67,6 +67,7 @@ What's new:
 
 Work in progress:
 
+* [First beta release](https://github.com/fortran-lang/fpm/milestone/1) (WIP): First feature-complete release of the Fortran implementation.
 * [#221](https://github.com/fortran-lang/fpm/issues/221) (WIP): Test and executable runner options
 * [#220](https://github.com/fortran-lang/fpm/issues/220) (WIP): Compiler and flags
 * [#216](https://github.com/fortran-lang/fpm/issues/216) (WIP): Remove bashism from install.sh
