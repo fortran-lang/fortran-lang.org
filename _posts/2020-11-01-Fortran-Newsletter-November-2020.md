@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: November 2020"
 category: newsletter
-author: Milan Curcic, Sebastian Ehlert
+author: Milan Curcic, Sebastian Ehlert, Laurence Kedward
 ---
 
 Welcome to the November 2020 edition of the monthly Fortran newsletter.
@@ -59,7 +59,7 @@ What's new:
 * [#213](https://github.com/fortran-lang/fpm/issues/213): Bootstrap fpm submodule support
 * [#208](https://github.com/fortran-lang/fpm/issues/208): Minor fixes to `list_files` and `mkdir` in `fpm_filesystem`
 * [#206](https://github.com/fortran-lang/fpm/issues/206): Add installation script in `install.sh`
-* [#193](https://github.com/fortran-lang/fpm/issues/193): Local path dependencies (Fortran fpm can now build itself)
+* [#193](https://github.com/fortran-lang/fpm/issues/193): Local and remote package dependencies (Fortran fpm can now build itself)
 * [#190](https://github.com/fortran-lang/fpm/issues/190): Auto discovery of executables
 * [#189](https://github.com/fortran-lang/fpm/issues/189),
 [#204](https://github.com/fortran-lang/fpm/issues/204),
@@ -116,8 +116,6 @@ join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with th
 
 ## Contributors
 
-TODO @lkedward
-
 We thank everybody who contributed to fortran-lang in the past month by
 commenting in any of these repositories:
 
@@ -128,4 +126,4 @@ commenting in any of these repositories:
 * [fortran-lang/benchmarks](https://github.com/fortran-lang/benchmarks),
 * [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
 
-<div id="gh-contributors" data-startdate="September 01 2020" data-enddate="September 30 2020" height="500px"></div>
+<div id="gh-contributors" data-startdate="October 01 2020" data-enddate="October 31 2020" height="500px"></div>
