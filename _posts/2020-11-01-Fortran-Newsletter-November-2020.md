@@ -45,7 +45,18 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 ## Fortran Standard Library
 
-TODO What's new
+This month progress was made on a few pull requests:
+
+* [#239](https://github.com/fortran-lang/stdlib/pull/239): Implementation of the `stdlib_bitsets` module. It provides a bitset data type.
+* [#240](https://github.com/fortran-lang/stdlib/pull/240): Implementation of the `stdlib_stats_distribution` module. It provides probability distribution and statistical functions.
+* [243](https://github.com/fortran-lang/stdlib/pull/243): A proposition to support newline characters in the message provided to the logger.
+
+Don't hesitate to test and review these pull requests!
+
+Otherwise, ongoing discussions continue;
+ * [220](https://github.com/fortran-lang/stdlib/pull/220): API for file system operations: directory manipulation
+  * [241](https://github.com/fortran-lang/stdlib/pull/241): Include a `split` function (202X feature)
+
 
 The candidate for file system operations to be included in stdlib is being developed by
 [@MarDiehl](https://github.com/MarDiehl) and [@arjenmarkus](https://github.com/arjenmarkus)
