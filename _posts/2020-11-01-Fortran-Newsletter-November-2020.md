@@ -107,9 +107,7 @@ You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://tw
 * We had our 5th Fortran Monthly call on October 27.
 You can watch the recording below:
 
-TODO update Youtube embed when the video is up
-
-<!--<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Ei6CAZblOro" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/om869cZHeRU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
