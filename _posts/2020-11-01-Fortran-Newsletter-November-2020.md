@@ -101,7 +101,25 @@ environment in which new open source Fortran projects are created and published 
 
 ### Classic Flang
 
-TODO @gklimowicz
+We continue to evaluate and merge pull requests into the original Flang
+compiler again. We pulled in several changes in October.
+
+Recently merged pull requests into Classic Flang include:
+* [PR#660: Enable support for simd directives](https://github.com/flang-compiler/flang/pull/660)
+* [PR#878: [DebugInfo]: Fix for missing DISPFlagOptimized in debug metadata](https://github.com/flang-compiler/flang/pull/878)
+* [PR#910: Fix f90_correct tests](https://github.com/flang-compiler/flang/pull/910)
+* [PR#922: Fix private flag overwrite in find_def_in_most_recent_scope()](https://github.com/flang-compiler/flang/pull/922)
+* [PR#927: f90_correct: exclude tests failing with LLVM 10 on OpenPOWER](https://github.com/flang-compiler/flang/pull/927)
+* [PR#930: Fix HTML docs generation](https://github.com/flang-compiler/flang/pull/930)
+* [PR#931: [flang2] Fix segmentation faults (#421)](https://github.com/flang-compiler/flang/pull/931)
+* [PR#932: [flang1] Do not assume unempty derived types](https://github.com/flang-compiler/flang/pull/932)
+* [PR#938: [flang2] Fixing possible crash due to ivl being NULL in dinit.cpp](https://github.com/flang-compiler/flang/pull/938)
+
+The Classic Flang biweekly call has been set up to discuss issues and plans
+for the next pull requests to be validated and merged. Our next calls will be
+Wednesday, November 4 and 18, 8:00 AM Pacific time (note the time change).
+The notes from previous calls, upcoming agenda and a link to join the call can be found
+[here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).
 
 ### LLVM Flang
 
