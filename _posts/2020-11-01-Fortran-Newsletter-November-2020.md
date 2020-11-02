@@ -123,7 +123,26 @@ The notes from previous calls, upcoming agenda and a link to join the call can b
 
 ### LLVM Flang
 
-TODO @gklimowicz
+Work continues on LLVM Flang, concentrating on semantics, lowering and runtime.
+
+In conjunction with the MLIR-based code from the _fir-dev_ fork (the Fortran
+IR used for lowering), Flang can compile and run most F77 programs,
+including the Fortran Compiler Validation Suite (FCVS).
+
+Pat McCormick is working on an RFC for the merge of the lowering code
+in the fir-dev fork into LLVM master.
+The goal is to expedite this in a way that is acceptable to the Flang community,
+so we can do further work in the single master branch.
+
+Arm continues to contribute changes toward a full-fledged driver for flang.
+
+AMD continues to add support for OpenMP semantics and lowering.
+
+Valentin Clement continues to contribute parsing and semantics changes for
+OpenACC support.
+
+Michael Kruse continues to add support for building Flang on Windows with MSVC
+to the point that he can build and test Flang on Windows.
 
 ### LFortran
 
