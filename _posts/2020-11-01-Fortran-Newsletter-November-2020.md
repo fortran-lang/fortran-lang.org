@@ -152,6 +152,9 @@ You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://tw
 
 ## Events
 
+* The US Fortran Standards Committee held a virtual meeting from October 12-14.
+You can read the summary and the discussion [here](https://github.com/j3-fortran/fortran_proposals/issues/185) and all the documents [here](https://j3-fortran.org/doc/meeting/222).
+
 * We had our 5th Fortran Monthly call on October 27.
 You can watch the recording below:
 
