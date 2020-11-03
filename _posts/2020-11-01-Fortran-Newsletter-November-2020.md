@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: November 2020"
 category: newsletter
-author: Milan Curcic, Sebastian Ehlert, Laurence Kedward, Jeremie Vandenplas, Ivan Pribec
+author: Milan Curcic, Sebastian Ehlert, Laurence Kedward, Jeremie Vandenplas, Ivan Pribec, Ondřej Čertík, Gary Klimowicz
 ---
 
 Welcome to the November 2020 edition of the monthly Fortran newsletter.
@@ -146,7 +146,19 @@ to the point that he can build and test Flang on Windows.
 
 ### LFortran
 
-TODO @certik
+What's new in LFortran:
+
+* 9 Merge Requests were merged and 5 issues fixed in October 2020
+* We gave LFortran
+  [talk](https://cfp.jupytercon.com/2020/schedule/presentation/169/lfortran-interactive-llvm-based-fortran-compiler-for-modern-architectures/)
+  at JupyterCon 2020
+* A prototype compiler implementation of conditional expressions for the
+  October 2020 Fortran Standards Committee meeting
+  ([!645](https://gitlab.com/lfortran/lfortran/-/merge_requests/645))
+* Better code formatting support (`lfortran fmt`)
+* Improvements to AST
+* Capture stdout on Windows in a Jupyter notebook
+  ([!642](https://gitlab.com/lfortran/lfortran/-/merge_requests/642))
 
 You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://twitter.com/lfortranorg).
 
