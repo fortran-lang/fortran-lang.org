@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: November 2020"
 category: newsletter
-author: Milan Curcic, Sebastian Ehlert, Laurence Kedward, Jeremie Vandenplas, Ivan Pribec, Ondřej Čertík, Gary Klimowicz
+author: Milan Curcic, Sebastian Ehlert, Laurence Kedward, Jeremie Vandenplas, Ivan Pribec, Ondřej Čertík, Gary Klimowicz, Brad Richardson
 ---
 
 Welcome to the November 2020 edition of the monthly Fortran newsletter.
