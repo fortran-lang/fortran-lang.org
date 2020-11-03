@@ -2,6 +2,679 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 163,
+            "user": "milancurcic",
+            "date": "2020-10-31 15:49:01+00:00",
+            "title": "draft in progress for the November newsletter",
+            "text": "I populated the website updates summary.\nHere's what remains:\n\n stdlib updates; @jvdp1 can you tackle this one?\n fpm updates; @awvwgk or @everythingfunctional can you tackle this one?\n update URL of the monthly call video @ivan-pi\n flang updates @gklimowicz\n LFortran updates @certik\n Contributors data @LKedward\n\nAs usual, add your name to the authors list if you add, edit, or review content.\nConsidering that I started this draft very last minute and also that it's the weekend, don't worry about having it ready for November 1, just do it at your convenience.\nThank you all!",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-10-31 16:10:12+00:00",
+                    "text": "I will look at it this evening.\n\nLe sam. 31 oct. 2020 \u00e0 16:49, Milan Curcic <notifications@github.com> a\n\u00e9crit :\n\u2026\n Assigned #163 <#163>\n to @jvdp1 <https://github.com/jvdp1>.\n\n \u2014\n You are receiving this because you were assigned.\n Reply to this email directly, view it on GitHub\n <#163 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AD5RO7AM2SLFRJPCOKZOL4LSNQWXVANCNFSM4TF6U6WQ>\n ."
+                }
+            ]
+        },
+        {
+            "number": 162,
+            "user": "ivan-pi",
+            "date": "2020-10-31 12:46:44+00:00",
+            "title": "November 2020 Newsletter",
+            "text": "Has anyone started to work on this already?\nThe monthly call recording should be ready soon.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-31 13:46:39+00:00",
+                    "text": "I haven't, though I planned it for this afternoon. Do you mind listing the PRs for one of the sections (website, stdlib, or fpm) and I can do the rest?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-31 15:24:46+00:00",
+                    "text": "I'm putting together a website PR summary now."
+                }
+            ]
+        },
+        {
+            "number": 161,
+            "user": "certik",
+            "date": "2020-10-27 19:20:27+00:00",
+            "title": "Add a section about autodiff",
+            "text": "It was discussed at the October 2020 Fortran call to add a section to our website about autodiff, similar to https://www.juliadiff.org/, that would list all the libraries and tools for automatic differentiation and we would keep it up to date as we develop such tools more.",
+            "comments": [
+                {
+                    "user": "sgeard",
+                    "date": "2020-10-27 22:16:48+00:00",
+                    "text": "In the recent lockdown I decided to re-implement some code I wrote about 20 years ago to make it more extensible to higher derivatives. Currently it supports up to and including 4th:\nmy autodiff\nIt uses operator overloading, function pointers and type inheritance (order n extends order n-1). Built and tested with gfortran 10.1.0"
+                }
+            ]
+        },
+        {
+            "number": 160,
+            "user": "awvwgk",
+            "date": "2020-10-27 15:28:48+00:00",
+            "title": "Add in-depth introduction for Fortran with make",
+            "text": "Work in progress. I just gave make and Fortran another try and realized again why I dropped it from all my project in the first place. Nevertheless, the attempt of writing this up might still be helpful for somebody learning make.\nThe idea of the guide is the following, take a real world example from the Fortran package index with medium complexity (more than one source file, but not a huge project), which is not using make as build system and describe the process of porting it to make as insightful as possible.\nThis guide describes:\n\ncreating simple functions\ncreating maps in make\nforeach loops over lists\nusing eval to generate make expressions from lists\nhandling of dependencies\npartly generating the Makefile with external tools\nwildcard functionality to detect source files\n\nLet me know what you think about this.",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-27 15:45:33+00:00",
+                    "text": "What is the level of sophistication you intend to reach? I have seen incredibly complicated Makefiles (mostly generated via tools like automake) that are not intended to be read or understood by mere mortals, but I have never encountered functions, maps, loops over lists or eval, at least not in Makefiles that were intended for mere mortals.\nAnd I do not think it is necessary to make it so sophisticated ;). But I may be mistaken. I would say that describing the last three points in depth would suffice for most if not all Fortran projects, but you can easily prove me wrong. After all, an essential tool like make has been described in preciously few books at any length, or I have missed most of them."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-27 17:33:25+00:00",
+                    "text": "The aim is to show a concise, scalable and still readable handwritten Makefile. The resulting Makefile will probably be sophisticated, but not complicated or bloated like an autogenerated Makefile. The part I wrote so far targets only the generation of dependencies in an automatic way, explaining the other features while showing use-cases for them."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-27 17:44:57+00:00",
+                    "text": "I like this idea and think it will be useful. It will be useful for me for sure. I even own a book on GNU Make that I struggled learning anything useful from.\nIf the guide shows to be advanced, we can always give a heads-up note at the beginning of the guide, stating the intended level and who it's for."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-27 19:54:24+00:00",
+                    "text": "Here is an example of a manual Makefile that we use in stdlib:\nhttps://github.com/fortran-lang/stdlib/blob/3733ae3624ec6852f9fe624d1f91fbd0423bdf01/src/Makefile.manual\nand it has module dependencies, and yet is seems simpler than the one proposed in this PR (no awk, no addsuffix, no patsubst, ...). Wouldn't it make sense to recommend the simpler approach that we did in stdlib?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-27 20:26:32+00:00",
+                    "text": "There is certainly more than one style of make possible, the question is which we want to advertise.\nI find the substitution reference mechanism of make rather obscure, even if it avoids writing out patsubst or addsuffix functions explicitly. So technically the two Makefiles are setup quite similar, except for the stdlib Makefile is using recursively expanded variables while the guide is using normal variables instead."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-27 21:19:32+00:00",
+                    "text": "I see. The approach that I like the most is fpm, and let fpm generate any other build system (if so desired), so even though I think I prefer the stdlib's style of makefile, I am fine with your approach to makefiles also. We can put your style in, and later if people have time, they can submit the other approach also."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-28 09:18:38+00:00",
+                    "text": "@certik The scope of this PR is to give an advanced introduction to make. It depends on the status of #156 and I'll adjust this PR to account for any review comments on make style there. I opened it as draft to see if there is any interest to have an advanced make guide in the minibooks at all and to discuss if the format I have chosen seems appropriate.\n\nThe approach that I like the most is fpm, and let fpm generate any other build system (if so desired)\n\nI agree that make would be my least favourite choice as build system for Fortran, since there are plenty other build systems like CMake, meson, fpm, ... which are easier to use. But I don't think that letting fpm generate a Makefile removes the need of an introduction to make. An fpm generated Makefile would be on the same level as an autotools or CMake generated one and not supposed to be read or modified by the user (at least in my opinion). Also, I would prefer to discuss fpm related features at the fpm repository instead."
+                }
+            ]
+        },
+        {
+            "number": 159,
+            "user": "LKedward",
+            "date": "2020-10-26 09:06:11+00:00",
+            "title": "Add: tapenade package",
+            "text": "I was pleasantly surprised to see this previously closed-source commercially-licensed tool is now open source under MIT!\nIMO, this tool is the state of the art in automatic differentiation for Fortran. It has a long history and is hence quite robust.\nSee also the discussion on discourse.\n(It doesn't have gitlab stars because it's a self-hosted instance of gitlab I think.)",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-26 09:26:30+00:00",
+                    "text": "Great, I have been attending a series of workshops on the topic recently, It has great potential."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-10-26 21:14:59+00:00",
+                    "text": "Great, I have been attending a series of workshops on the topic recently, It has great potential.\n\nWere those the NAG workshops? Are there any publicly available materials also for non-participants?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-27 07:53:47+00:00",
+                    "text": "Yes, the NAG workshops - I think the material is for participants only. but\nthe workshops themselves were free. You could contact them about it.\n\nRegards,\n\nArjen\n\nOp ma 26 okt. 2020 om 22:15 schreef Ivan <notifications@github.com>:\n\u2026\n Great, I have been attending a series of workshops on the topic recently,\n It has great potential.\n\n Were those the NAG workshops? Are there any publicly available materials\n also for non-participants?\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#159 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR245DJZJLYFYKUHAE3SMXRGFANCNFSM4S7DARMQ>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-31 15:32:32+00:00",
+                    "text": "This looks good, I will go ahead and merge. Thanks @LKedward!"
+                }
+            ]
+        },
+        {
+            "number": 158,
+            "user": "jvdp1",
+            "date": "2020-10-24 18:30:53+00:00",
+            "title": "add dnf install gcc-gfortran for Fedora 22+",
+            "text": "Since Fedora 22, dnf is the default package manager (instead of yum).\nNote: the command yum is still availble, but is only an alias to dnf.",
+            "comments": []
+        },
+        {
+            "number": 157,
+            "user": "awvwgk",
+            "date": "2020-10-24 12:57:04+00:00",
+            "title": "Minibook(s) for commonly used build systems",
+            "text": "I think there is a general interest in having a good Fortran specific introduction to commonly used build systems. The target audience has already intermediate or advance knowledge of Fortran, but maybe little to no knowledge of the respective build tools.\nI listed the ones I know about for quick reference:\n\nfpm\nmake (introduction: #156, dependencies: #160)\nCMake\nmeson\nautotools\nscons\nwaf\nFoBiS\nforay\n\nLet me know if there should be something added to this list.\nThe criteria to recommend a build system could be:\n\naccessibility (available platforms, setup prerequisites, open source)\nuser friendliness (learning curve, documentation in general, Fortran support)\nfunctionality (dependencies, cross compiling, speed)\nadaption in the community",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-24 12:58:38+00:00",
+                    "text": "@aradi would you be interested in contributing to a CMake introduction for Fortran?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-24 15:06:00+00:00",
+                    "text": "I think these are the main ones. We can add introduction how to get started with each of them.\n\u2026\nOn Sat, Oct 24, 2020, at 6:57 AM, Sebastian Ehlert wrote:\n\n\n I think there is a general interest in having a good Fortran specific\n introduction to commonly used build systems. The target audience has\n already intermediate or advance knowledge of Fortran, but maybe little\n to no knowledge of the respective build tools.\n\n I listed the ones I know about for quick reference:\n\n  * fpm <https://github.com/fortran-lang/fpm>\n  * make <https://www.gnu.org/software/make/manual/make.html>\n  * CMake <https://cmake.org/>\n  * meson <https://mesonbuild.com/>\n  * autotools\n <https://www.gnu.org/software/automake/manual/html_node/index.html#Top>\n  * scons <https://scons.org/>\n  * waf <https://waf.io/book>\n  * FoBiS <https://github.com/szaghi/FoBiS>\n  * foray <https://github.com/drewmccormack/foraytool>\n Let me know if there should be something added to this list.\n\n The criteria to recommend a build system could be:\n\n  * accessibility (available platforms, setup prerequisites, open source)\n  * user friendliness (learning curve, documentation in general, Fortran\n support)\n  * functionality (dependencies, cross compiling, speed)\n  * adaption in the community\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#157>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWG2XGFJQTV6TATLRVDSMLFKXANCNFSM4S5SID5Q>."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2020-10-26 10:01:36+00:00",
+                    "text": "@awvwgk Sure, I would be interested to contribute the CMake part."
+                }
+            ]
+        },
+        {
+            "number": 156,
+            "user": "awvwgk",
+            "date": "2020-10-23 16:19:54+00:00",
+            "title": "Update building programs book",
+            "text": "I think the build-tools section of the building programs minibook is a bit short and the make example contains a few common gotchas, therefore I tried to update it.\nI also started some minimal introductions to meson and CMake to explain the concept of high-level build systems in comparison to make. Since it is an introductory book I didn't went to much into details on using those, as this might be something for an intermediate or advanced guide.\nChanges:\n\nreplace hyphens by endashs\nuse correct external link declaration\nrename the example source file to functions\ncorrect name of the generate module file set to user_functions\nextend the build-tools page with a detailed guide on make\n\nexplain concept of recursively defined variables which is commonly misused in make\n\n\nadd a short guide on meson\nadd a short guide on CMake",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-10-23 16:24:23+00:00",
+                    "text": "Quite frankly, why don't we replace that section with fpm?\nThe document (I thought) is tailored for new users. New users either want to start a project from scratch (thus fpm I think will work already) or they wan to contribute to an already existing project, but then they have to follow whatever build system the existing project uses."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-23 16:42:54+00:00",
+                    "text": "Quite frankly, why don't we replace that section with fpm?\n\nI agree that this is the way to go.\nAlthough it may not be quite adequate yet (two implementations, unstable spec and behavior, unimplemented functionality in the Fortran client), this would help adopt new fpm users. New Fortran users would go straight to fpm.\nI recommend that:\n\nWe review, edit, and merge this PR;\nWe work on the fpm guide;\nWe put the fpm guide first, and we keep the existing guide as \"Other build tools\" or similar. It's useful to keep it."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-23 17:26:02+00:00",
+                    "text": "There is some diversity in build tools available, I think they should be discussed at least briefly to give some guidance to a beginner. Also, there are only few projects offering help or useful insights for the build systems they are using. I was motivated to look into this guide after a friend asked me about a good read with some more depth on compiling, linking and building."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-24 07:36:19+00:00",
+                    "text": "An fpm guide wouldn't need any of the information in this particular minibook, writing a separate book on learning Fortran with fpm is the better call in my opinion."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-24 08:39:32+00:00",
+                    "text": "Question: How do you feel about inline HTML in the minibooks? I found we have a CSS class for tips in\n\n  \n    \n      fortran-lang.org/assets/css/main.css\n    \n    \n        Lines 463 to 468\n      in\n      5f95844\n    \n    \n    \n    \n\n        \n          \n           .aside-tip { \n        \n\n        \n          \n             border-left: 5px solid #3c92d1; \n        \n\n        \n          \n             font-size: 16px; \n        \n\n        \n          \n             padding-left: 10px; \n        \n\n        \n          \n             margin: 20px 0; \n        \n\n        \n          \n           } \n        \n    \n  \n\n\nUsing this seems to require inline HTML instead of the blockquote:\ndiff --git a/learn/building_programs/build_tools.md b/learn/building_programs/build_tools.md\nindex 27d1a75..621ea2b 100644\n--- a/learn/building_programs/build_tools.md\n+++ b/learn/building_programs/build_tools.md\n@@ -60,12 +60,15 @@ It performs actions following rules defined in a configuration file\n called ``Makefile`` or ``makefile``, which usually leads to compiling a program\n from the provided source code.\n \n-> **Tip**\n->\n-> For an in-depth ``make`` tutorial lookup its info page. There is an online\n-> version of this\n-> <a href=\"https://www.gnu.org/software/make/manual/make.html\" target=\"_blank\" rel=\"noopener\">info page</a>,\n-> available.\n+<div class=\"aside-tip\">\n+  <b>Tip</b>\n+  <p>\n+    For an in-depth <code>make</code> tutorial lookup its info page. There is an online\n+    version of this\n+    <a href=\"https://www.gnu.org/software/make/manual/make.html\" target=\"_blank\" rel=\"noopener\">info page</a>,\n+    available.\n+  </p>\n+</div>\n \n We will start with the basics from your clean source directory. Create and open\n the file ``Makefile``, we start with a simple rule called *all*:\nEdit: There seems to be an include HTML as well, which requires this somewhat suboptimal construct with a liquid capture region:\n{% capture tip %}\nFor an in-depth ``make`` tutorial lookup its info page. There is an online\nversion of this\n<a href=\"https://www.gnu.org/software/make/manual/make.html\" target=\"_blank\" rel=\"noopener\">info page</a>,\navailable.\n{% endcapture %}\n{% include tip.html content=tip %}"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-24 09:08:11+00:00",
+                    "text": "Edit: There seems to be an include HTML as well...\n\nYes please use the HTML includes for these asides.\n\n... somewhat suboptimal construct with a liquid capture region\n\nThe capture region isn't a necessesity (see Quickstart book) - if you can think of way to improve the syntax for simplicity please do!"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-24 09:10:02+00:00",
+                    "text": "An fpm guide wouldn't need any of the information in this particular minibook, writing a separate book on learning Fortran with fpm is the better call in my opinion.\n\nI share this sentiment"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-24 09:21:56+00:00",
+                    "text": "As someone who struggled to find adequate online material when learning make and other systems for Fortran (I still struggle with cmake), I think this is a good addition to this particular minibook. A separate minibook for fpm seems more appropriate - when ready this can then supplant this minibook as the recommended beginners' guide.\nEdit: I see that Milan has essentially proposed the same thing. I think it would be good to get more users to fpm with a good beginner's minibook here; there may need to be a warning regarding the maturity of fpm and it may be worth waiting for at least a first beta release milestone of the fortran implementation."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-24 09:37:00+00:00",
+                    "text": "@LKedward I won't get around a few capture statements, because some of the asides are several paragraphs with code blocks, but this should work for now. I'll have a look at the templates to figure out something nicer. Also, I noticed that the asides don't look as nice as the blockquotes, the spacing is somewhat off, maybe the CSS could use some adjustment as well."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-24 12:00:22+00:00",
+                    "text": "As someone who struggled to find adequate online material when learning make and other systems for Fortran (I still struggle with cmake), I think this is a good addition to this particular minibook.\n\nI added a few sections on common gotchas in make as well. If wanted I can also expand on some of the more useful make features, like vpath, string manipulation or recursive make."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-10-24 14:35:34+00:00",
+                    "text": "As someone who struggled to find adequate online material when learning make and other systems for Fortran (I still struggle with cmake), I think this is a good addition to this particular minibook. A separate minibook for fpm seems more appropriate - when ready this can then supplant this minibook as the recommended beginners' guide.\n\nI second these thoughts. The available resources on Cmake and make targeted at Fortran are scarce. Most of the time I resorted to just adapting the makefiles from existing Fortran projects, not knowing what exactly are they doing. Having the minibooks in one place will hopefully make it easier for beginners to progress from small projects to intermediate and large projects where a build system is needed (at least until fpm is mature)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-24 15:08:44+00:00",
+                    "text": "Sounds good, I agree with the comments above.\n\u2026\nOn Sat, Oct 24, 2020, at 8:35 AM, Ivan wrote:\n\n\n > As someone who struggled to find adequate online material when learning `make` and other systems for Fortran (I still struggle with `cmake`), I think this is a good addition to this particular minibook. A separate minibook for fpm seems more appropriate - when ready this can then supplant this minibook as the recommended beginners' guide.\n\n I second these thoughts. The available resources on Cmake and make\n targeted at Fortran are scarce. Most of the time I resorted to just\n adapting the makefiles from existing Fortran projects, not knowing what\n exactly are they doing. Having the minibooks in one place will\n hopefully make it easier for beginners to progress from small projects\n to intermediate and large projects where a build system is needed (at\n least until fpm is mature).\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#156 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWEAH224H2ZKVI3F7OTSMLQ4DANCNFSM4S4YMOFA>."
+                }
+            ]
+        },
+        {
+            "number": 155,
+            "user": "p-costa",
+            "date": "2020-10-17 00:38:10+00:00",
+            "title": "fixed important issue thanks to @JarLob",
+            "text": "",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-17 01:04:12+00:00",
+                    "text": "Thank you!"
+                }
+            ]
+        },
+        {
+            "number": 154,
+            "user": "certik",
+            "date": "2020-10-07 17:17:01+00:00",
+            "title": "Add a link to fortran90.org",
+            "text": "I plan to migrate information from there to fortran-lang.org, but until\nthis happens, it would be good to at least provide the link, so that\npeople who are new to Fortran can use the site to learn modern Fortran.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-10-07 18:06:25+00:00",
+                    "text": "Thanks for the review!"
+                }
+            ]
+        },
+        {
+            "number": 153,
+            "user": "awvwgk",
+            "date": "2020-10-06 08:03:40+00:00",
+            "title": "Add electronic structure packages to index",
+            "text": "Closes #151",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-10-06 16:20:19+00:00",
+                    "text": "Looks great, thank you!"
+                }
+            ]
+        },
+        {
+            "number": 152,
+            "user": "smeskos",
+            "date": "2020-10-06 00:02:31+00:00",
+            "title": "New mini book:  OS setup for Fortran developement",
+            "text": "Hi all, this PR is a follow-up to Issue #134.\nThe goal is to provide, in a beginners-friendly format, all the necessary steps to choose and install a compiler, as well as it includes information about text-editors and IDEs.\nIt is not complete and definitely needs \"attention\"... take it as a template to start building on it.\nThe part with the text-editors needs a few of you with experience with some of those editors to contribute with \"how to configure them\".\nI am aware that some parts are opinionated, but the topic itself is subjective by nature... choosing compilers, text-editors, or IDEs. Let's discuss them and find a common path.",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-06 08:39:15+00:00",
+                    "text": "Nice to see this - I will have a closer look at the text.\n\nOp di 6 okt. 2020 om 02:02 schreef smeskos <notifications@github.com>:\n\u2026\n Hi all, this PR is a follow-up to Issue #134\n <#134>.\n The goal is to provide, in a beginners-friendly format, all the necessary\n steps to choose and install a compiler, as well as it includes information\n about text-editors and IDEs.\n It is not complete and definitely needs \"attention\"... take it as a\n template to start building on it.\n The part with the text-editors needs a few of you with experience with\n some of those editors to contribute with \"how to configure them\".\n I am aware that some parts are opinionated, but the topic itself is\n subjective by nature... choosing compilers, text-editors, or IDEs. Let's\n discuss them and find a common path.\n ------------------------------\n You can view, comment on, or merge this pull request online at:\n\n   #152\n Commit Summary\n\n    - add new _site to master\n    - Revert \"add new _site to master\"\n    - test\n    - Revert \"test\"\n    - Merge remote-tracking branch 'upstream/master'\n    - Merge remote-tracking branch 'upstream/master'\n    - Merge remote-tracking branch 'upstream/master'\n    - Merge remote-tracking branch 'upstream/master'\n    - added main index page\n    - added second page: choosing compilers\n    - added third page: installing gfortran\n    - added fourth page: installing opencoarrays\n    - added fifth page: texteditors\n    - added sixth page: IDEs\n    - added final page: Tips\n    - added new minibook structure\n\n File Changes\n\n    - *M* _data/learning.yml\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-793049ea95168d552f25dbf988e2b6f3>\n    (12)\n    - *A* learn/os_setup/choose_compiler.md\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-3f295dde916c8c2704b83a487a362e44>\n    (18)\n    - *A* learn/os_setup/ides.md\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-2681dbd91fd0b562e296b3b4441cf8ec>\n    (20)\n    - *A* learn/os_setup/index.md\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-2da110db96cec689bc5276893e1f7924>\n    (27)\n    - *A* learn/os_setup/install_gfortran.md\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-b3e6b9920d8f42caf950376c2e530f2e>\n    (85)\n    - *A* learn/os_setup/install_opencoarrays.md\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-96fdd7a54c435d91e866957d4eac37c5>\n    (16)\n    - *A* learn/os_setup/text_editors.md\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-88cbca544ed22b504a0f0bf812b14f34>\n    (54)\n    - *A* learn/os_setup/tips.md\n    <https://github.com/fortran-lang/fortran-lang.org/pull/152/files#diff-88f51d3e1e97db0cafb7b34ac5ba2ebd>\n    (13)\n\n Patch Links:\n\n    - https://github.com/fortran-lang/fortran-lang.org/pull/152.patch\n    - https://github.com/fortran-lang/fortran-lang.org/pull/152.diff\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#152>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4CW2UVBDYNB4YMFNTSJJNCHANCNFSM4SFKITAA>\n ."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-10-06 08:48:19+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-10-06 08:49:18+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/152/"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-10-06 09:08:05+00:00",
+                    "text": "The link at the preview doesn't work. I am now sure why. I've built it locally and the site appears fine."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-06 14:10:00+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-10-06 14:11:10+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/152/"
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-10-06 16:51:56+00:00",
+                    "text": "@certik thank you for the review and your comments. I will try to address them one by one and discuss them. I would also like to repeat, that this is just a draft and it definitely needs improvements. Furthermore, I wrote about some topics even if I am not an expert, just because I believe, they should be addressed in this tutorial, with the expectation, that the more experienced developers in this community will help me correct them."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-10-19 07:21:08+00:00",
+                    "text": "Thank you @milancurcic for this detailed review. Following your recommendation, I also added a link to a tutorial for update-alternatives."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-10-19 09:15:09+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-10-19 09:16:04+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/152/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-20 16:22:19+00:00",
+                    "text": "@arjenmarkus Do you need more time to review this or it's good to go?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-20 19:05:09+00:00",
+                    "text": "Let me read it now - I have some time at the moment.\n\nOp di 20 okt. 2020 om 18:22 schreef Milan Curcic <notifications@github.com>:\n\u2026\n @arjenmarkus <https://github.com/arjenmarkus> Do you need more time to\n review this or it's good to go?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#152 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5QBCYPTXIRCFQE3NDSLW2MZANCNFSM4SFKITAA>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-20 19:23:22+00:00",
+                    "text": "I read through it, this is good enough to merge and we can improve it with future PRs. After @arjenmarkus approves, let's merge it.\nI think our tools should support all editors, but I think we should ensure that at least one editor works first class.\nI think we should pick an editor and provide tutorials with screenshots using it, and we should also write extensions to such an editor with fpm support, with formatting support, with Flang and LFortran support etc. Such an editor should work cross platform, and be in wide use. I think it should be VSCode. But as I said, we should write our tools in an editor independent way, but by ensuring that things just work in VSCode, we can simply direct new users to it, and make our lives simpler. And we can support other editors as we have time, but don't have to stress about it too much, since we have a nice default that will do the job for new users."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-20 19:35:11+00:00",
+                    "text": "@smekos, I have just read the entire booklet in its present form. Nice work\n:), but I do have a comment: MinGW-w64 and MSYS2.\n\nFirst of all, under the threading Windows, MinGW-w64 is mentioned, but not\nits relation to MSYS2.\nSecondly. if you compile under MSYS2, then you get binaries that depend on\nthe MSYS2 environment, but if you use the MinGW-w64 environment, you can\nfreely distribute the programs. So, just the other way around.\nThirdly, the latest version, at https://github.com/msys2, gives you the GCC\ncompiler suite 10.2.\n\nRegards,\n\nArjen\n\nOp di 20 okt. 2020 om 21:04 schreef Arjen Markus <arjen.markus895@gmail.com\n\u2026\n:\n Let me read it now - I have some time at the moment.\n\n Op di 20 okt. 2020 om 18:22 schreef Milan Curcic ***@***.***\n >:\n\n> @arjenmarkus <https://github.com/arjenmarkus> Do you need more time to\n> review this or it's good to go?\n>\n> \u2014\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <#152 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR5QBCYPTXIRCFQE3NDSLW2MZANCNFSM4SFKITAA>\n> .\n>"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-20 19:37:01+00:00",
+                    "text": "@Ond\u0159ej \u010cert\u00edk <ondrej@certik.us>, see my comments - the text is fine as it\nis, with just this inaccuracy/update for MinGW-w64/MSYS2. I particularly\nfocused on this, as it has confused me for years :).\n\nOp di 20 okt. 2020 om 21:23 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com\n\u2026\n:\n I read through it, this is good enough to merge and we can improve it with\n future PRs. After @arjenmarkus <https://github.com/arjenmarkus> approves,\n let's merge it.\n\n I think our tools should support all editors, but I think we should ensure\n that at least one editor works first class.\n I think we should pick an editor and provide tutorials with screenshots\n using it, and we should also write extensions to such an editor with fpm\n support, with formatting support, with Flang and LFortran support etc. Such\n an editor should work cross platform, and be in wide use. I think it should\n be VSCode. But as I said, we should write our tools in an editor\n independent way, but by ensuring that things just work in VSCode, we can\n simply direct new users to it, and make our lives simpler. And we can\n support other editors as we have time, but don't have to stress about it\n too much, since we have a nice default that will do the job for new users.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#152 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4J5ZMQBHLRNR4U76DSLXPTTANCNFSM4SFKITAA>\n ."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-20 19:50:13+00:00",
+                    "text": "Hi @arjenmarkus, the current text on MSYS2 and MinGW was written by myself. I will address your comments with an update. Can you be more specific about what you understand the relationship between MSYS2 and MinGW-w64 to be?\nMy understanding is that they are separate with MSYS2 providing one (of three) environments that is built atop MinGW-w64, hence why I have written that you can freely distribute programs. Yes, there is a 'native' MSYS2 environment that has it's own DLL dependency, however this environment is only recommended for developing tools for the MSYS2 ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-20 19:50:23+00:00",
+                    "text": "Okay, minor comments/suggestions added.\n\nOp di 20 okt. 2020 om 21:36 schreef Arjen Markus <arjen.markus895@gmail.com\n\u2026\n:\n @Ond\u0159ej \u010cert\u00edk ***@***.***>, see my comments - the text is fine as\n it is, with just this inaccuracy/update for MinGW-w64/MSYS2. I particularly\n focused on this, as it has confused me for years :).\n\n Op di 20 okt. 2020 om 21:23 schreef Ond\u0159ej \u010cert\u00edk <\n ***@***.***>:\n\n> I read through it, this is good enough to merge and we can improve it\n> with future PRs. After @arjenmarkus <https://github.com/arjenmarkus>\n> approves, let's merge it.\n>\n> I think our tools should support all editors, but I think we should\n> ensure that at least one editor works first class.\n> I think we should pick an editor and provide tutorials with screenshots\n> using it, and we should also write extensions to such an editor with fpm\n> support, with formatting support, with Flang and LFortran support etc. Such\n> an editor should work cross platform, and be in wide use. I think it should\n> be VSCode. But as I said, we should write our tools in an editor\n> independent way, but by ensuring that things just work in VSCode, we can\n> simply direct new users to it, and make our lives simpler. And we can\n> support other editors as we have time, but don't have to stress about it\n> too much, since we have a nice default that will do the job for new users.\n>\n> \u2014\n> You are receiving this because you were mentioned.\n> Reply to this email directly, view it on GitHub\n> <#152 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR4J5ZMQBHLRNR4U76DSLXPTTANCNFSM4SFKITAA>\n> .\n>"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-20 20:00:54+00:00",
+                    "text": "Sure, I ran into this when I tried to understand the way MinGW-w64/MSYS2\nhandle Windows-style paths.\n\nIf you install MinGW-w64/MSYS2, you get a number of shells, each giving\naccess to their own versions of the various packages. To keep it simple, I\nwill describe what I understand regarding the GCC compiler suite:\nmingw64.exe: a program compiled with the GCC compilers understands the\nWindows-style path names, the home directory I get with \"echo $HOME\" is\n\"/home/markus\", but if I ask in a C program for the current directory if I\nam in my home directory, I get \"c:\\msys64-2020\\home\\markus\\\".\nI can copy the program to another machine or run it in a plain command\nwindow without any problem.\n\nmsys2.exe: if I do the same under this shell, I have a different version of\nthe compiler and the run-time libraries. The result of getcwd() would then\nbe Unixy - \"/home/markus\". And the program does not work outside the MSYS2\nenvironment, as it would miss a crucial DLL.\n\n\nOp di 20 okt. 2020 om 21:50 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n Hi @arjenmarkus <https://github.com/arjenmarkus>, the current text on\n MSYS2 and MinGW was written by myself. I will address your comments with an\n update. Can you be more specific about what you understand the relationship\n between MSYS2 and MinGW-w64 to be?\n My understanding is that they are separate with MSYS2 providing one (of\n three) environments that is built atop MinGW-w64, hence why I have written\n that you can freely distribute programs. Yes, there is a 'native' MSYS2\n environment that has it's own DLL dependency, however this environment is\n only recommended for developing tools for the MSYS2 .\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#152 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZ7S72BU2D6ERTU22DSLXSYJANCNFSM4SFKITAA>\n ."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-20 20:24:00+00:00",
+                    "text": "Thanks @arjenmarkus, that essentially aligns with my understanding. However it should be clear that the MinGW-w64 toolchain is separate to MSYS2 and can be distributed independent of it.\nFurther, when you use the native MSYS2 shell, the compiler toolchain is not MinGW, but an MSYS2 native build of gcc.\nThe text I have written makes the assumption that the reader will use one of the MinGW shells in MSYS2 as opposed to the 'native' MSYS2 shell which should only be used for writing programs to distribute in MSYS2.\nTo be clear, the following compile environments are available:\n\nMinGW-w64: compiler toolchain only (no shell), links with Microsoft libs (native Windows), called from Windows shell\nMSYS2/mingw64: MinGW-w64 compiler toolchain provided as an MSYS2 package, links with Microsoft libs, called from MSYS2 shell\nMSYS2/mingw32: same as above with 32bit x-compile target\nMSYS2/MSYS2: GNU compiler collection compiled within the POSIX environment provided by MSYS2, links with msys-2.0.dll\n\nI will update the text tomorrow to make it simpler and clearer to a beginner."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2020-10-20 20:46:16+00:00",
+                    "text": "@LKedward:\n\nI will update the text tomorrow to make it simpler and clearer to a beginner.\n\nPlease try to do that.\nI am also reading info from here msys2.org/wiki/History and trying to understand it as well.\nMy main concern is that every attempt to clarify all these options will lead to content outside of this tutorial's scope.\nHonestly, I'd rather remove the whole last paragraph and don't even mention about differences between MSYS2, Cygwin, and MinGW-w64."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-20 20:50:59+00:00",
+                    "text": "Why don't we remove the paragraph, merge this PR, and then let's open another PR with just the mingw clarification and we can figure it out there?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-21 06:16:44+00:00",
+                    "text": "I agree, unless we can come up with a concise and clear description. A\nclear description is of importance to the stdlib-os subproject as well and\ngiven the confusion we all have about it, it might even become a topic in a\nseparate minibook on popular OSes.\n\nOp di 20 okt. 2020 om 22:51 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com\n\u2026\n:\n Why don't we remove the paragraph, merge this PR, and then let's open\n another PR with just the mingw clarification and we can figure it out\n there?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#152 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR23TWPCRW2GFFSGKNLSLXZ4HANCNFSM4SFKITAA>\n ."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-21 08:14:23+00:00",
+                    "text": "Thanks @smeskos - I agree, removing that paragraph is the clearest we can be for the scope of this tutorial."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-21 15:12:06+00:00",
+                    "text": "This is now good to merge, correct?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-21 15:29:42+00:00",
+                    "text": "As far as I am concerned, yes.\n\nOp wo 21 okt. 2020 om 17:12 schreef Milan Curcic <notifications@github.com>:\n\u2026\n This is now good to merge, correct?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#152 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4XQ47CUDDQ5LQZUCTSL325RANCNFSM4SFKITAA>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-21 15:33:12+00:00",
+                    "text": "Thank you all, and especially @smeskos who led the effort!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-21 16:26:13+00:00",
+                    "text": "Thanks everybody, I am glad this is in."
+                }
+            ]
+        },
+        {
+            "number": 151,
+            "user": "awvwgk",
+            "date": "2020-10-05 19:11:29+00:00",
+            "title": "Electronic structure Fortran projects",
+            "text": "Some other projects regarding electronic structure methods. Maybe a few of them are interesting as well, let me know and I will collect the necessary meta data.\n\n\n\nname\nurl\n\n\n\n\nDFT-D4\nhttps://github.com/dftd4/dftd4\n\n\nELPA\nhttps://gitlab.mpcdf.mpg.de/elpa/elpa\n\n\nELSI\nhttps://gitlab.com/elsi_project/elsi_interface\n\n\nFortJSON\nhttps://gitlab.com/elsi_project/fortjson\n\n\nlibnegf\nhttps://github.com/libnegf/libnegf\n\n\nNTPoly\nhttps://github.com/william-dawson/NTPoly\n\n\nMBD\nhttps://github.com/jhrmnn/libmbd\n\n\nmpifx\nhttps://github.com/dftbplus/mpifx\n\n\nOpenMolcas\nhttps://gitlab.com/Molcas/OpenMolcas\n\n\nscalapackfx\nhttps://github.com/dftbplus/scalapackfx",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 19:58:51+00:00",
+                    "text": "@awvwgk I would suggest to add any that have Fortran as the main programming language."
+                }
+            ]
+        },
+        {
+            "number": 150,
+            "user": "awvwgk",
+            "date": "2020-10-05 18:35:28+00:00",
+            "title": "Add wannier90 to package index",
+            "text": "This PR adds wannier90 to the package index, it provides interfaces to some of the already listed open source electronic structure packages (QE, Abinit, ...).\n\nhomepage: http://www.wannier.org/\nGH repository: https://github.com/wannier-developers/wannier90\ndocumentation: https://github.com/wannier-developers/wannier90/wiki\nGPL-2.0",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-05 18:51:23+00:00",
+                    "text": "I think that was the last larger (open source) Fortran project I am aware of."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 18:58:21+00:00",
+                    "text": "Thanks @awvwgk for including those. It was a lot of exploration to collect open source Fortran codes out there, but there is quite a few."
+                }
+            ]
+        },
+        {
+            "number": 149,
+            "user": "awvwgk",
+            "date": "2020-10-05 18:01:56+00:00",
+            "title": "Add xtb to package index",
+            "text": "Disclaimer: this is a project I'm personally involved with.\nThis PR adds a xtb to the package index.\n\ndocumentation: https://xtb-docs.readthedocs.io/\nGH repository: https://github.com/grimme-lab/xtb\nbuilds with CMake and meson\nsupports GCC 7.5 to 10.2, Intel 17 to 20, PGI 19.7 to 20.7\nOpenMP and OpenACC parallelisation\nCI testing is done for Ubuntu and OSX (no Windows yet)\nLGPL-3.0-or-later",
+            "comments": []
+        },
+        {
+            "number": 148,
+            "user": "awvwgk",
+            "date": "2020-10-05 17:46:38+00:00",
+            "title": "Add NWChem to package index",
+            "text": "This PR adds NWChem to the package index, see #68.\n\ndocumentation: https://nwchemgit.github.io/\nrepository: https://github.com/nwchemgit/nwchem",
+            "comments": []
+        },
+        {
+            "number": 147,
+            "user": "p-costa",
+            "date": "2020-10-05 11:36:44+00:00",
+            "title": "add CI for publishing on the fortran-lang twitter account upon merging a certain PR",
+            "text": "Hello everyone!\nAs discussed in the fortran-lang discourse, this PR implements a CI that:\n\nGenerates tweets by commenting on a PR\nPublishes these tweets when the PR is merged\n\nPlease have a look, and feel free to test it by submitting a PR in this repo I created: p-costa/piu-piu-sandbox.\nIf you are happy with it, to get it to work, one needs to create a twitter app, following the steps similar to those indicated here: github.com/gr2m/twitter-together/blob/master/docs/01-create-twitter-app.md and add the corresponding keys and tokens to this repo.\nI should thank the author of find-comment for very promptly considering issues #23 and #24.\nThe tweets are published using send-tweet-action, as per @LKedward suggestion.\nIt works as follows:\nA comment in the PR starting with the keyword #tweet text will:\n\nremove a previous tweet, if it exists.\nadd a new tweet to be published by the CI once the PR is merged.\n\nA comment in the PR starting with the keyword #untweet will remove the tweet.\nThen, when the PR is merged, the CI will look for a specific keyword ([tweet]) published by the GitHub actions bot, and, if it exists in the PR comment thread, it will be deployed for publication in the fortran-lang twitter account.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-05 11:44:04+00:00",
+                    "text": "Amazing, great work @p-costa! I'll have a look through this later today."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 13:03:24+00:00",
+                    "text": "Great work. I tested it a bit.\nHere are my questions:\nhttps://github.com/p-costa/piu-piu-sandbox/pull/1#issuecomment-703616971"
+                },
+                {
+                    "user": "p-costa",
+                    "date": "2020-10-05 13:07:42+00:00",
+                    "text": "Thanks for creating the PR and testing it @certik . I should have mentioned here as well that:\n#tweet text will:\n\nremove a previous tweet, if it exists.\nadd a new tweet to be published by the CI once the PR is merged.\n\n#untweet will remove the tweet."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-05 19:18:05+00:00",
+                    "text": "Thanks, @p-costa! I have 2 questions:\n\nConsidering that #tweet text will remove a previous tweet if it exists, that means that there can be only one Tweet per PR, correct?\nWhat happens if text exceeds 280 characters? Do we get a thread of tweets or is the tweet truncated (or something else)?"
+                },
+                {
+                    "user": "p-costa",
+                    "date": "2020-10-05 19:40:48+00:00",
+                    "text": "Hi @milancurcic ,\n\nCorrect. I assumed that one will not be tweeting too much from here, so 1 tweet per merged PR sounded reasonable.\nThe CI always prints a preview of the tweet showing the character count. So if it is exceeded one will see it and can fix it before merging.\n\nedit: I realize did not fully answer your question: if one merges with a tweet a message with > 280 characters anyway, the send-tweet-action will generate an error. So no threads/truncated tweet."
+                },
+                {
+                    "user": "p-costa",
+                    "date": "2020-10-05 23:29:44+00:00",
+                    "text": "I converted this to draft so that I can polish the implementation tomorrow and make some final tests. Feel free to review it in any case, as it should not change much from my side."
+                },
+                {
+                    "user": "p-costa",
+                    "date": "2020-10-09 08:54:22+00:00",
+                    "text": "Just want to comment here that it's ready. But no rush from my side -- I understand that this being a small convenience shouldn't be a high priority thing."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-09 14:18:28+00:00",
+                    "text": "+1 with me also\n\u2026\nOn Fri, Oct 9, 2020, at 3:08 AM, Laurence Kedward wrote:\n\n\n *@LKedward* approved this pull request.\n\n Great stuff! I don't see any issues with the workflow which has already\n been tested and demonstrated. Clearly some work is still required to\n link to the twitter account.\n\n It looks like anyone can create and modify a tweet, but only\n maintainers can merge and publish the tweet so I think this workflow\n works well. Thanks @p-costa <https://github.com/p-costa> \ud83d\udc4d\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#147 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWCPBVYHG75UIKRBAQLSJ3HJHANCNFSM4SESIBIA>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-09 14:31:55+00:00",
+                    "text": "It looks like the homework for me is to set up the app and keys:\n\nIf you are happy with it, to get it to work, one needs to create a twitter app, following the steps similar to those indicated here: github.com/gr2m/twitter-together/blob/master/docs/01-create-twitter-app.md and add the corresponding keys and tokens to this repo.\n\nI think I'll be able to do it today, if not, then over the weekend."
+                },
+                {
+                    "user": "p-costa",
+                    "date": "2020-10-09 14:47:54+00:00",
+                    "text": "It looks like the homework for me is to set up the app and keys:\n\nLet me know if you run into problems. One thing that was not written in the instructions and I had to do was making sure that the app has read and write permissions:"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-09 15:58:22+00:00",
+                    "text": "Okay, this is now done. I set the secrets in the Org and allowed them to be shared with this repo. This way we can easily reuse them in other repos when we want.\nShould this now be merged?"
+                }
+            ]
+        },
+        {
+            "number": 146,
+            "user": "awvwgk",
+            "date": "2020-10-04 21:30:13+00:00",
+            "title": "Correct license identifiers",
+            "text": "license: none should be a no-go for the package index. The package index is of course no legal advice for licensing, but the information should be as accurate as possible. A package without license is unusable by definition (for open source projects), which is unfair to packages with permissive licensing conditions.\nFor a simple summary see: https://choosealicense.com/no-permission/\nI went through all the packages with license: none and tried to identify the licenses. I also tried to correct all licenses which are not valid SPDX license identifiers. Many missing licenses were malformatted BSD or MIT licenses, but some had actually interesting licensing condition like original MIT license with changes under BSD-3-Clause and so on.\nThere are still some issues with the GPL-2.0, and GPL-3.0, which should have the -only or -or-later suffix. (L)GPL-2 and (L)GPL-3 is usually insufficient to identify the license of a package clearly, since the minor version is missing.\nThis PR is open for discussion.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-05 06:26:43+00:00",
+                    "text": "Many of @szaghi's projects have a GPL-3.0-only OR BSD-2-Clause OR BSD-3-Clause OR MIT license, which is quite lengthy for a badge (it doesn't state GPL-3.0-or-later for any package, I think). Not sure how to put those correctly without overflowing the rows."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-05 07:58:10+00:00",
+                    "text": "Thanks @awvwgk, I agree with you however please note that license: none is a (misleading) programmatic identifier to disable rendering of the shields.io badge, it does not indicate anywhere on site that any software is license-free.\nOur package guidelines already state that only open source projects are accepted and they also require that the license field be specified if not detectable by github. I believe the large number of license: none entries may be, as you point out, that the licenses were non-standard formatting which meant I didn't know which identifier to use - at the time I opted to display no information rather than wrong information.\nThank you for tracking down this information.\nWe never made any promises regarding the use of SPDX identifiers, but I have no objection to adopting them now."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-05 09:25:15+00:00",
+                    "text": "I agree with you however please note that license: none is a (misleading) programmatic identifier to disable rendering of the shields.io badge, it does not indicate anywhere on site that any software is license-free.\n\nHow about license: off which should map to a boolean false in yaml, has a much clearer indent and can easily used within liquid. Or you can have a separate field as display-license: false to avoid mixing the meta data with programmatic identifiers."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-05 09:50:24+00:00",
+                    "text": "Are there still packages currently in the index where we still need this capability? If so, a separate field seems like the best option. If not, the behaviour should simply be removed. It already isn't allowed in future PRs according to the current guidelines."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-05 09:58:18+00:00",
+                    "text": "This sounds way better than my suggestion \ud83d\udc4d."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 19:02:48+00:00",
+                    "text": "Thanks for fixing this. Looks like there is no opposition, so I am going to merge it."
+                }
+            ]
+        },
+        {
+            "number": 145,
+            "user": "awvwgk",
+            "date": "2020-10-04 20:07:49+00:00",
+            "title": "Sort package index",
+            "text": "Sorts the package index after the package names, this should make the package lists clearer.",
+            "comments": []
+        },
+        {
+            "number": 144,
+            "user": "awvwgk",
+            "date": "2020-10-04 16:53:54+00:00",
+            "title": "Add fypp to package index",
+            "text": "I wonder why this one is missing here\n\nGH repository: https://github.com/aradi/fypp\ndocumentation: https://fypp.readthedocs.io",
+            "comments": []
+        },
+        {
+            "number": 143,
+            "user": "awvwgk",
+            "date": "2020-10-04 16:37:28+00:00",
+            "title": "Add DFTB+ to package index",
+            "text": "Disclaimer: this is a project I'm personally involved with.\nThis PR adds an entry for DFTB+\n\nGH organisation of the project: https://github.com/dftbplus\nProject homepage: https://dftbplus.org/\nthe projects builds with CMake\nsupports GCC7.5, GCC8.4, GCC9.2, GCC10.1, Intel 18, Intel 19, NAG 7\nMPI and/or OpenMP parallel\ndocumentation for DFTB+\n\ndeveloper docs: https://dftbplus-develguide.readthedocs.io/en/latest/\nuser docs: https://dftbplus-recipes.readthedocs.io/en/latest/\n\n\n\nSee #68",
+            "comments": []
+        },
+        {
+            "number": 142,
+            "user": "awvwgk",
+            "date": "2020-10-04 16:23:19+00:00",
+            "title": "Package index request template",
+            "text": "The packaging guidelines state:\n\n  \n    \n      fortran-lang.org/PACKAGES.md\n    \n    \n         Line 55\n      in\n      0013186\n    \n    \n    \n    \n\n        \n          \n           2. Users should open a pull request using the 'Package index request' template \n        \n    \n  \n\n\nBut there is no PR template available for this purpose.\nAdditional context\nDiscussion regarding this line in #26 (comment)",
+            "comments": []
+        },
+        {
+            "number": 141,
+            "user": "milancurcic",
+            "date": "2020-10-02 19:07:23+00:00",
+            "title": "fix youtube embed",
+            "text": "There was an erroneous space character immediately before the <iframe> tag. Apparently this made it not render (??).",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-10-02 20:17:42+00:00",
+                    "text": "Thanks for fixing it!"
+                }
+            ]
+        },
+        {
+            "number": 140,
+            "user": "milancurcic",
+            "date": "2020-10-02 12:21:49+00:00",
+            "title": "Revert \"Improved Docs\"",
+            "text": "I'm sorry, I don't think this PR improves the README, but opposite:\n\nHeadings shouldn't end with colons\n\"How to setup\" doesn't work because \"setup\" is a noun. We can work to change it something like \"How to set up Jekyll\"\n\nReverts #139",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-02 12:24:18+00:00",
+                    "text": "Some background: https://blog.domenic.me/hacktoberfest/\nI don't know if this PR was actually related to this, but please be mindful of small PRs in October that don't actually improve anything."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-10-02 12:27:37+00:00",
+                    "text": "Headings shouldn't end with colons\n\"How to setup\" doesn't work because \"setup\" is a noun. We can work to change it something like \"How to set up Jekyll\"\n\n\nI completely agree on both points.\n\nSome background: https://blog.domenic.me/hacktoberfest/\n\nI was initially confused by why that PR was made, but this now makes sense.\nSmall PRs with genuine improvements to content or clarity are fine, but #139 is definitely neither I'm afraid"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-02 13:17:29+00:00",
+                    "text": "I agree. Such PRs are essentially spam PRs.\n\u2026\nOn Fri, Oct 2, 2020, at 6:28 AM, Laurence Kedward wrote:\n\n\n *@LKedward* approved this pull request.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#140 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWHQB3Y2PQNJXM4JD4TSIXBNLANCNFSM4SBUERSA>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-02 16:48:29+00:00",
+                    "text": "I changed the label from Invalid to Spam. That way they should not be able to get credit hopefully."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-02 16:49:59+00:00",
+                    "text": "Btw, I was going to share the exact same link to the blog post that @milancurcic already shared. :)"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-02 16:50:52+00:00",
+                    "text": "I would be inclined to believe this PR was just spam, submitted by someone just looking for a free t-shirt.\n\nI changed the label from Invalid to Spam. That way they should not be able to get credit hopefully.\n\nI believe you must actually report the incident directly to DigitalOcean for them not to get credit.\n\ntagging pull requests with a \u201cspam\u201d label, and emailing hacktoberfest@digitalocean.com."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-02 16:52:45+00:00",
+                    "text": "Also, FYI, further background on a large source of the spam likely to be coming this month:\nhttps://joel.net/how-one-guy-ruined-hacktoberfest2020-drama"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-02 16:53:18+00:00",
+                    "text": "I was really hoping this repo wouldn't have to deal with that. Bummer"
+                }
+            ]
+        },
+        {
+            "number": 139,
+            "user": "adityashukl1502",
+            "date": "2020-10-02 07:31:53+00:00",
+            "title": "Improved Docs",
+            "text": "",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-10-02 07:40:46+00:00",
+                    "text": "These are minor corrections and they improve the text."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-02 16:47:19+00:00",
+                    "text": "This was merged by a mistake. This is a spam PR, more details here:\nhttps://blog.domenic.me/hacktoberfest/\nI changed the label to \"spam\"."
+                }
+            ]
+        },
+        {
             "number": 138,
             "user": "LKedward",
             "date": "2020-09-30 09:47:59+00:00",
@@ -15,7 +688,43 @@
             "date": "2020-09-26 16:50:59+00:00",
             "title": "first draft of the October 2020 newsletter",
             "text": "It's that time of the month again. I summarized the website, stdlib, and fpm updates. There may be updates in merged PRs for stdlib and fpm in the next few days so we'll watch closely and make appropriate edits.\nTODO @certik and @gklimowicz for their respective compiler updates. Do we have a contact for gfortran updates?\nTODO @LKedward for updating the contribution data.\nAs usual, add your name to the authors list if you add, edit, or review content.\nWill merge on Thursday, October 1.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-09-30 22:36:09+00:00",
+                    "text": "Aside from the handful of TODOs, I didn't notice any problems. Thanks for getting it going @milancurcic"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-02 18:34:40+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2020-10-02 18:35:50+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/137/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-02 18:39:58+00:00",
+                    "text": "Though I have issues viewing the build preview (not sure if it built correctly), the markdown preview looks okay. I will go ahead and merge, and if there are issues we can tidy it up. Thank you all."
+                },
+                {
+                    "user": "p-costa",
+                    "date": "2020-10-02 18:56:34+00:00",
+                    "text": "Hi! The video in the events section is not rendering well on the website."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-02 19:02:17+00:00",
+                    "text": "@p-costa Thanks I noticed it also and I'm trying to find out why."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-02 19:11:36+00:00",
+                    "text": "It's now fixed by #141"
+                }
+            ]
         },
         {
             "number": 136,
@@ -2655,7 +3364,17 @@
                 {
                     "user": "LKedward",
                     "date": "2020-05-12 20:19:44+00:00",
-                    "text": "OpenBLAS\n fortran-machine\n LAPACK\n ElmerFEM\n WRF\n fds\n functional-fortran\n Quantum ESPRESSO\n fluidity\n fortranlib\n json-fortran\n Nek5000\n cp2k\n fortran2018-examples\n NASTRAN-95\n specfem3d\n NWChem\n gtk-fortran\n CFL3D\n fortran-utils\n SHTOOLS\n OpenCoarrays\n arpack-ng\n DFTB+\n NASTRAN-93\n MPAS\n neural-fortran\n NetCDF-Fortran\n CTSM\n Castro\n ABINIT\n FLAP\n bspline-fortran\n FOODIE\n forpy\n OFF\n WAVEWATCH III\n MOM6\n VTKFortran\n datetime-fortran\n node-fortran\n Fortran-Astrodynamics-Toolkit\n pyplot-fortran\n Starlink\n WPS\n ogpf\n pFUnit\n tcp-client-server\n ftl\n fgsl\n OpenCMISS\n StringiFor\n wrf_hydro_nwm_public\n SciFortran\n bandup\n LaGriT\n stdlib\n clfortran\n fox\n HANDE-QMC\n FEconv\n lesgo\n FortranPatterns\n FV3-GFS\n coretran\n tsunami\n fdict\n CFD\n ICAR\n MODFLOW6\n PIC Skeleton Codes\n IAMR\n ADflow\n PoisFFT\n sigma\n aenet\n DBCSR\n GALAHAD\n node.fortran\n h5fortran\n kdtree2\n numerical-methods-fortran\n TRACMASS\n CompDam\n Flexi\n GFR\n OpenSWPC\n ROMS\n slsqp\n Truchas\n fortran-csv-module\n FMS\n SNAP\n freeCappuccino"
+                    "text": "OpenBLAS\n fortran-machine\n LAPACK\n ElmerFEM\n WRF\n fds\n functional-fortran\n Quantum ESPRESSO\n fluidity\n fortranlib\n json-fortran\n Nek5000\n cp2k\n fortran2018-examples\n NASTRAN-95\n specfem3d (https://github.com/geodynamics/specfem3d)\n NWChem (#148)\n gtk-fortran\n CFL3D (https://github.com/nasa/CFL3D)\n fortran-utils\n SHTOOLS\n OpenCoarrays\n arpack-ng\n DFTB+ (#143)\n NASTRAN-93 (https://github.com/nasa/NASTRAN-93)\n MPAS (https://github.com/MPAS-Dev/MPAS-Model)\n neural-fortran\n NetCDF-Fortran\n CTSM (https://github.com/ESCOMP/CTSM)\n Castro\n ABINIT\n FLAP\n bspline-fortran\n FOODIE\n forpy\n OFF\n WAVEWATCH III (https://github.com/NOAA-EMC/WW3)\n MOM6 (https://github.com/NOAA-GFDL/MOM6)\n VTKFortran\n datetime-fortran\n node-fortran (https://github.com/IonicaBizau/node-fortran)\n Fortran-Astrodynamics-Toolkit (https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit)\n pyplot-fortran\n Starlink (https://github.com/jacobwilliams/pyplot-fortran)\n WPS (https://github.com/wrf-model/WPS)\n ogpf\n pFUnit\n tcp-client-server\n ftl\n fgsl\n OpenCMISS (https://github.com/OpenCMISS/cm)\n StringiFor\n wrf_hydro_nwm_public (https://github.com/NCAR/wrf_hydro_nwm_public)\n SciFortran\n bandup (https://github.com/band-unfolding/bandup)\n LaGriT\n stdlib\n clfortran\n fox\n HANDE-QMC (#153)\n FEconv\n lesgo (https://github.com/lesgo-jhu/lesgo)\n FortranPatterns\n FV3-GFS (https://github.com/NOAA-EMC/fv3gfs)\n coretran\n tsunami (https://github.com/modern-fortran/tsunami)\n fdict\n CFD (https://github.com/liruipengyu/CFD)\n ICAR (https://github.com/NCAR/icar)\n MODFLOW6 (https://github.com/MODFLOW-USGS/modflow6)\n PIC Skeleton Codes (https://github.com/UCLA-Plasma-Simulation-Group/PIC-skeleton-codes)\n IAMR (https://github.com/AMReX-Codes/IAMR)\n ADflow\n PoisFFT (#153)\nsigma (https://github.com/danshapero/sigma) no open source license\n aenet (https://github.com/atomisticnet/aenet)\n DBCSR\n GALAHAD\n node.fortran (https://github.com/IonicaBizau/node.fortran)\n h5fortran\n kdtree2\n numerical-methods-fortran\n TRACMASS (https://github.com/TRACMASS/tracmass)\n CompDam (https://github.com/nasa/CompDam_DGD)\n Flexi (https://github.com/flexi-framework/flexi)\n GFR (https://github.com/nasa/GFR)\n OpenSWPC (https://github.com/tktmyd/OpenSWPC)\n ROMS (https://github.com/kshedstrom/roms)\n slsqp\n Truchas\n fortran-csv-module\n FMS (https://github.com/NOAA-GFDL/FMS)\n SNAP (https://github.com/lanl/SNAP)\n freeCappuccino"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-10-05 20:43:23+00:00",
+                    "text": "Looks like there are 35 packages left. I had a quick look, but non is really in my field of expertise, so putting together useful tags would be difficult.\nI think this could be a good opportunity for contributions, I will tag it with help-wanted good-first-issue to make it more visible."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 21:09:43+00:00",
+                    "text": "Thank you @awvwgk for your help with this. For volunteers who submit PRs for the remaining packages, don't be afraid to guess the relevant tags. We will do our best in the PR review. And if the upstream authors of the packages become interested in the future, they can always submit a PR to improve their entry."
                 }
             ]
         },

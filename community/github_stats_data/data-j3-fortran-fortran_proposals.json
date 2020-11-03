@@ -2,6 +2,636 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 187,
+            "user": "certik",
+            "date": "2020-10-27 19:11:37+00:00",
+            "title": "SPLIT intrinsic",
+            "text": "US03 - SPLIT string intrinsic\n\nIncluded in the 202X draft: https://j3-fortran.org/doc/year/20/20-134.txt\nAPI change: https://j3-fortran.org/doc/year/20/20-139.txt (passed)",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-10-27 19:16:11+00:00",
+                    "text": "This is a great candidate for an stdlib implementation: fortran-lang/stdlib#241"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-28 03:09:24+00:00",
+                    "text": "Definition of SPLIT is in 16.9.194 of 20-007."
+                }
+            ]
+        },
+        {
+            "number": 186,
+            "user": "14NGiestas",
+            "date": "2020-10-26 11:48:15+00:00",
+            "title": "Unpacking variables from arrays",
+            "text": "I usually unpack variables from arrays when it's meaningful, eg:\nsubroutine cool_stuff(self, coords)\n    integer(INT32) :: coords\n    ...\n    x = coords(1)\n    y = coords(2)\n    z = coords(3)\n    self % coolest = [x**2, y**2, z**2]\nend subroutine\nI would be nice if i could unpack variables from vectors, maybe in the args:\nsubroutine cool_stuff(self, [x, y, z])\n    integer(INT32) :: x, y, z\n    self % coolest = [x**2, y**2, z**2]\nend subroutine\nOr even something like this:\nsubroutine cool_stuff(self, coords)\n    integer(INT32) :: coords(3)\n    integer(INT32) :: x, y, z\n    [x, y, z] = coords\nend subroutine",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-26 15:12:10+00:00",
+                    "text": "This is a subset of a feature in other languages called pattern matching, and is an incredibly convenient and useful feature. I too would like if it could be added."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-26 15:47:31+00:00",
+                    "text": "This is a feature I have been missing also, and I use it frequently in Python. Perhaps something like this, following the Python approach with tuples:\nsubroutine cool_stuff(self, coords)\n    integer(INT32) :: coords(3)\n    integer(INT32) :: x, y, z\n    (x, y, z) = coords\nend subroutine"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-26 18:21:14+00:00",
+                    "text": "To move the discussion forward a bit, I want to discuss a little bit about how this would probably work in Fortran. First, Fortran is a statically typed, compiled language, so for the simple use case - like deconstructing an array (or maybe deconstructing an object of known type), with a simple assignment statement, you would probably want to ensure at compile time that the pattern match cannot fail. I.e. for the statement [x, y, z] = coords, coords must be declared with size 3, and the same type and kind parameters as x, y, and z.\nNext, one would want to have a branching construct for possible matches. The most natural syntax would be (I think) to reuse the select construct like:\nselect case (coords)\ncase (Point_2D_t(x, y))\n  ! can now do stuff with x and y\ncase (Point_3D_t(x, y, z))\n  ! can now do stuff with x, y and z\ncase default\n  ! coords is still in scope, but we don't necessarily know it's type or components\nend select\nI don't think Fortran's type system is suited to check at compile time whether all possible matches have been accounted for, so I think a default branch would be required. Or, it could be that if one isn't specified, the processor must automatically insert one of the form:\ncase default\n  error stop \"Pattern match not satisfied for <select-expr>\"\nSince Fortran is an imperative language, there's also the possibility of just letting it fall through, and none of the branches are executed. This is the way existing select case and select type blocks work, so it would be consistent. However, if it is required, one could relax the restriction that the assignment statement form be guaranteed to succeed, and instead treat it more like syntactic sugar for the expanded form, where:\n[x, y, z] = coords\nis equivalent to\nselect case (coords)\ncase ([x, y, z])\n   ! all following statements\ncase default ! inserted at end of scope\n  error stop \"Pattern match not satisfied for 'coords'\"\nend select"
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-26 19:57:01+00:00",
+                    "text": "At compile time the size is known, so this case is \"easily\" covered. At runtime we could just ensure that rhs has as many elements as lhs variables to unpack.\nThen one could do the following:\nselect case (size(coords))\ncase(1)\n[x] = coords\ncase(2)\n[x, y] = coords\ncase(3)\n[x, y, z] = coords\ndefault ! Extra: a pop-like behaviour\n[x, y, z, coords] = coords ! now the first three were unpacked and the remaining kept in the array (realloc is prob. needed here)\nend select"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-26 20:14:29+00:00",
+                    "text": "Why cannot the following:\nsubroutine cool_stuff(coords)\ninteger, intent(in) :: coords(:)\ninteger :: x, y, z\n(x, y, z) = coords\n...\nend subroutine\njust be a syntactic sugar for:\nsubroutine cool_stuff(coords)\ninteger, intent(in) :: coords(:)\ninteger :: x, y, z\ninteger :: tmp(3)\ntmp = coords\nx = tmp(1)\ny = tmp(2)\nz = tmp(3)\n...\nend subroutine\nWith exactly the same semantics?\nSo if the size of coords is only known at runtime as in the above example, then tmp = coords would behave according to the current Fortran standard. And if coords is known at compile time, then tmp = coords would again behave according to the current Fortran standard."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-26 20:36:28+00:00",
+                    "text": "Indeed. I rather use the square brackets than parenthesis since there's no concept of tuples in Fortran (AFAIK). I believe the tmp variable is not needed with the current Fortran standard, since:\n[x, y, z] = coords can be changed into x = coords(1); y = coords(2); z=coords(3)\nWe could also drop the brackets entirely too:\nx, y, z = coords to x = coords(1); y = coords(2); z=coords(3)\nand let the compiler do the rest."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-26 20:49:46+00:00",
+                    "text": "@14NGiestas good point. With square brackets and your \"optimization\", this:\nsubroutine cool_stuff(coords)\ninteger, intent(in) :: coords(:)\ninteger :: x, y, z\n[x, y, z] = coords\n...\nend subroutine\nshould be equivalent to:\nsubroutine cool_stuff(coords)\ninteger, intent(in) :: coords(:)\ninteger :: x, y, z\nx = coords(1); y = coords(2); z = coords(3)\n...\nend subroutine"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-26 21:57:19+00:00",
+                    "text": "I was thinking something like the following should also be possible:\nsubroutine do_some_things(stuff)\nclass(base_t), intent(in) :: stuff\ninteger :: thing1, thing2\nreal :: foo, bar, baz\n\nselect pattern(stuff)\npattern (child_1(x = thing1, y = thing2))\n  ! do stuff with thing1 and thing2\npattern (child_2(a = foo, b = bar, c = baz))\n  ! do stuff with foo, bar and baz\npattern default\n  ! if nothing matched\nend select\nend subroutine\n\nwhich I guess would be equivalent to\nsubroutine do_some_things(stuff)\nclass(base_t), intent(in) :: stuff\ninteger :: thing1, thing2\nreal :: foo, bar, baz\n\nselect type(stuff)\ntype is (child_1)\n  child_1(x = thing1, y = thing2) = stuff\n  ! do stuff with thing1 and thing2\ntype is (child_2)\n  child_2(a = foo, b = bar, c = baz) = stuff\n  ! do stuff with foo, bar and baz\nclass default default\n  ! if nothing matched\nend select\nend subroutine\n\nwhich would be equivalent to\nsubroutine do_some_things(stuff)\nclass(base_t), intent(in) :: stuff\ninteger :: thing1, thing2\nreal :: foo, bar, baz\n\nselect type(stuff)\ntype is (child_1)\n  thing1 = stuff%x; thing2 = stuff%y\n  ! do stuff with thing1 and thing2\ntype is (child_2)\n  foo = stuff%a; bar = stuff%b; baz = stuff%c\n  ! do stuff with foo, bar and baz\nclass default default\n  ! if nothing matched\nend select\nend subroutine"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-26 22:25:23+00:00",
+                    "text": "And then, here's where things can get interesting, if you want to match specific values:\nsubroutine do_some_things(stuff)\nclass(base_t), intent(in) :: stuff\ninteger :: thing1, thing2\nreal :: foo, bar, baz\n\nselect pattern(stuff)\npattern (child_1(x = thing1, y = 1))\n  ! do stuff with thing1 knowing y was 1\npattern (child_1(x = thing1, y = 2))\n  ! do stuff with thing1 knowing y was 2\npattern (child_1(x = thing1, y = thing2))\n  ! do stuff with thing1 and thing2\npattern (child_2(a = foo, b = bar, c = baz))\n  ! do stuff with foo, bar and baz\npattern default\n  ! if nothing matched\nend select\nend subroutine\n\nsimilarly becomes\nsubroutine do_some_things(stuff)\nclass(base_t), intent(in) :: stuff\ninteger :: thing1, thing2\nreal :: foo, bar, baz\n\nselect type(stuff)\ntype is (child_1)\n  if (stuff%y == 1) then\n    thing1 = stuff%x\n    ! do stuff with thing1 knowing y was 1\n  else if (stuff%y == 2) then\n    thing1 = stuff%x\n    ! do stuff with thing1 knowing y was 2\n  else\n    thing1 = stuff%x; thing2 = stuff%y\n    ! do stuff with thing1 and thing 2\n  end if\ntype is (child_2)\n  foo = stuff%a; bar = stuff%b; baz = stuff%c\n  ! do stuff with foo, bar and baz\nclass default default\n  ! if nothing matched\nend select\nend subroutine"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-26 22:32:22+00:00",
+                    "text": "Actually, I'd rather not have to declare the types of the destructured variables, and have it be more like\nsubroutine do_some_things(stuff)\nclass(base_t), intent(in) :: stuff\n\nselect type(stuff)\ntype is (child_1)\n  if (stuff%y == 1) then\n    associate(thing1 => (stuff%x))\n      ! do stuff with thing1 knowing y was 1\n    end associate\n  else if (stuff%y == 2) then\n    associate(thing1 => (stuff%x))\n      ! do stuff with thing1 knowing y was 2\n    end associate\n  else\n    associate(thing1 => (stuff%x); thing2 => (stuff%y))\n      ! do stuff with thing1 and thing 2\n    end associate\n  end if\ntype is (child_2)\n  associate(foo => (stuff%a); bar => (stuff%b); baz => (stuff%c))\n    ! do stuff with foo, bar and baz\n  end associate\nclass default default\n  ! if nothing matched\nend select\nend subroutine\n\nAlso note that I placed the parens around each value, making them expressions, and thus the destructured variables are immutable."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-27 00:26:40+00:00",
+                    "text": "@everythingfunctional I think this is beyond the scope of this specific request, but it is really a pain to access the objects members in some cases and this overpowered select-case could shorten a lot of code logic, indeed. It deserves it's own issue thread, however. Personally, I miss some features to help access members, like a for-each iterator (do auto :: element in array), avoiding declaring integer sizes variables and nested array of objects in loops (context variables in general).\n@certik We could also allow allocatable arrays in the unpack syntax. This way, one could easily implement a poor's man queue and stack.\n..., allocatable :: array(:)\n!! Some special unpacks\n[pop_front, array] = array\n[array, pop_back] = array\n!! It would act like the \"inverse operation\" of the current standard:\narray = [array, push_back]\narray = [push_front, array]"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-27 00:38:18+00:00",
+                    "text": "At compile time the size is known, so this case is easily covered. At runtime we could just ensure that rhs has as many elements as lhs variables to unpack.\n\nWhat happens if you're unpacking the result of a function that returns an allocatable array? Or would this not be allowed?"
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-27 00:47:34+00:00",
+                    "text": "At compile time the size is known, so this case is easily covered. At runtime we could just ensure that rhs has as many elements as lhs variables to unpack.\n\nWhat happens if you're unpacking the result of a function that returns an allocatable array? Or would this not be allowed?\n\nThat would require a temporary :/\n[x, y, z] = self % get_coords()\n[pop, array] = self % get_array()\n..., allocatable :: tmp\ntmp = self % get_coords()\nx = tmp(1);  y = tmp(2);  z = tmp(3);\n\n..., allocatable :: tmp\ntmp = self % get_array()\npop = tmp(1);  array = tmp(2:)"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-27 00:56:19+00:00",
+                    "text": "That would require a temporary :/\n\nWell, technically it already requires a temporary, you just don't see it because the compiler takes care of it (although it can be optimized away in many cases). And if it's a language feature, the compiler can do what makes sense anyway. As a user, I'd be surprised if it didn't work.\nAs far as the additional pattern matching features being above and beyond the scope of the initial request, you're probably right, but hey, let's aim big."
+                }
+            ]
+        },
+        {
+            "number": 185,
+            "user": "certik",
+            "date": "2020-10-12 20:40:33+00:00",
+            "title": "October 2020 WG5/J3 meeting",
+            "text": "Zach and I will use this issue to keep the community updated on the work of the WG5 and J3 Committees at the October 2020 (virtual) meeting.\nThe documents for this meeting are here.\nMonday 10/12/2020\nJoR:\n\n20-140: Passed with unanimous consent. This paper modifies examples for auto-allocating arguments to intrinsic procedures.\n20-141: As amended, passed with unanimous consent.\n20-139: Passed with unanimous consent. This paper changes the API for the new intrinsic for splitting strings. (Spec & syntax: 19-245r1)\n20-137: As amended, passed with unanimous consent. This paper adds edits clarifying backwards-compatibility-breaking changes on auto-reallocating strings in write statements.\n\nData:\n\n20-142: Passed, 11 for 2 against. May be backed out later if there is no syntax with strong support.\n\nHPC:\n\n20-145: Passed with unanimous consent.\n20-146: Passed with unanimous consent.\n\nTuesday (10/13/2020)\nGenerics:\n\n20-148: Discussed, to be revised and voted tomorrow.\n20-135: passed unanimously, as amended.\n20-144: withdrawn, resubmit tomorrow (associated discussion at #157)\n\nJoR:\n\n20-155: preliminary vote, rework for tomorrow.\n20-158r2: passed with unanimous consent.\n20-160: withdrawn, will resubmit tomorrow\n20-153r1: passed with unanimous consent\n\nWednesday (10/14/2020)\nInterp:\n\n20-138r1: As amended, passed with unanimous consent.\n20-149: As amended, passed with unanimous consent.\n20-152r1: Passed with unanimous consent, with the alternative edit.\n\nEdit:\n\n20-133r2: As amended, passed with unanimous consent.\n\nHPC:\n\n20-156: As amended, passed with unanimous consent.\n20-162: Withdrawn for revision.\n20-163: Passed with unanimous consent.\n\nGenerics:\n\n20-148r1: As amended, passed with unanimous consent.\n20-144r1: As amended, passed with 10 for and 3 against.\n\nJoR:\n\n20-160r2: As amended, passed with unanimous consent.\n20-155r1: Withdrawn.\n\nData:\n\n20-131: Passed with unanimous consent.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2020-10-13 22:08:34+00:00",
+                    "text": "What was the outcome of the discussion on 20-135?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-13 22:10:18+00:00",
+                    "text": "@klausler I just updated it, sorry about that."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-13 22:13:39+00:00",
+                    "text": "@klausler I just updated it, sorry about that.\n\nThanks.  But 20-135 and 20-144 still seem weird to me.  Are there any use cases yet for these features?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-13 22:33:00+00:00",
+                    "text": "Thanks. But 20-135 and 20-144 still seem weird to me. Are there any use cases yet for these features?\n\nThere were no new use cases presented. I raised the issue that there are objections against these features from the community, that it would be nice to address and resolve them."
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2020-10-13 22:34:08+00:00",
+                    "text": "Not actually solving a problem using them. Just example fragments."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-14 23:13:48+00:00",
+                    "text": "Anything decided on Wednesday?"
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2020-10-15 00:27:00+00:00",
+                    "text": "@klausler I just updated with Wednesday's results."
+                },
+                {
+                    "user": "mleair",
+                    "date": "2020-10-15 19:07:29+00:00",
+                    "text": "With regard to 20-135 and 20-144, @tclune  provided this use case:\nConsider a situation where a developer needs to pad arrays of various ranks (1-3) with halo (or guard) cells in each direction with a specified width and an optional pad value. The logic is nearly identical in each case except that it is otherwise awkward to declare the arrays and reference sections and such. The example implementation below is less than ideal because one still must resort to a clunky mechanism to create specific names for the otherwise overloaded interface. In practice, I would use FPP/CPP #include and macros to create unique names through token concatenation.\nThere are 2 files below. The include file with most of the meat and the module file that includes it 3 times.\nfile 'pad.inc':\n  REAL, RANK(N), INTENT(IN) :: ARRAY\n  INTEGER, INTENT(IN) :: WIDTH\n  REAL, OPTIONAL, INTENT(IN) :: PAD_VALUE\n  REAL, BOUNDS(1-WIDTH:SHAPE(ARRAY)+WIDTH),  :: PAD_ARRAY\n\n  IF (PRESENT(PAD_VALUE)) PAD_ARRAY = PAD_VALUE\n  PAD_ARRAY(@:SHAPE(ARRAY)) = ARRAY\n\nfile pad_mod.F90:\nMODULE PAD_MOD\n   IMPLICIT NONE\n   INTERFACE PAD_ARRAY\n      MODULE PROCEDURE :: PAD_ARRAY_1D\n      MODULE PROCEDURE :: PAD_ARRAY_2D\n      MODULE PROCEDURE :: PAD_ARRAY_3D\n   END INTERFACE PAD_ARRAY\n\nCONTAINS\n   \n   FUNCTION PAD_ARRAY_1D(ARRAY, WIDTH, PAD_VALUE)\n      INTEGER, PARAMETER :: N = 1\n      INCLUDE 'PAD_INC'\n   END FUNCTION PAD_ARRAY_1D\n\n   FUNCTION PAD_ARRAY_2D(ARRAY, WIDTH, PAD_VALUE)\n      INTEGER, PARAMETER :: N = 2\n      INCLUDE 'PAD_INC'\n   END FUNCTION PAD_ARRAY_2D\n\n   FUNCTION PAD_ARRAY_3D(ARRAY, WIDTH, PAD_VALUE)\n      INTEGER, PARAMETER :: N = 3\n      INCLUDE 'PAD_INC'\n   END FUNCTION PAD_ARRAY_3D\n\nEND MODULE PAD_MOD"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-15 19:14:26+00:00",
+                    "text": "This is a great example of why I think this feature does not go far enough. I would like this to just be:\nMODULE PAD_MOD\n   IMPLICIT NONE\n\nCONTAINS\n   \n   FUNCTION PAD_ARRAY(ARRAY, WIDTH, PAD_VALUE)\n      INTEGER, PARAMETER :: N = RANK(ARRAY)\n      REAL, RANK(N), INTENT(IN) :: ARRAY\n      INTEGER, INTENT(IN) :: WIDTH\n      REAL, OPTIONAL, INTENT(IN) :: PAD_VALUE\n      REAL, BOUNDS(1-WIDTH:SHAPE(ARRAY)+WIDTH),  :: PAD_ARRAY\n\n     IF (PRESENT(PAD_VALUE)) PAD_ARRAY = PAD_VALUE\n     PAD_ARRAY(@:SHAPE(ARRAY)) = ARRAY\n   END FUNCTION\n\nEND MODULE PAD_MOD\nWould this work, and if not, why not?\nWell, I think it would not work because the rank is only known either at runtime, or at the point where this function is called. So this is in some sense a \"generic interface\". But I would like to be able to write code in Fortran like this, with no pre-processor, no include files. Just code that works for arrays of any rank.\nAn interesting question then is: is this a runtime or compile time polymorphism? Well, I think it can be both, with the same syntax. The compiler can choose to generate just one subroutine, that operates on the array descriptor at runtime appropriately. Or it can choose to \"instantiate\" this for whatever rank you actually use it for (say 1D and 3D only) and generate an efficient code just for this rank."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-15 19:27:18+00:00",
+                    "text": "You cannot have circularly defined arguments:\n      INTEGER, PARAMETER :: N = RANK(ARRAY)\n      REAL, RANK(N), INTENT(IN) :: ARRAY\nThe solution is to have N come in by other means.  (E.g., a template parameter.)\nSo in that I agree the existing feature does not go far enough.  But having a template parameter, we would still need the current feature to implement what you wrote."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-15 19:42:16+00:00",
+                    "text": "Is there any other use case?  This halo example would be easy to write without using this feature."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-15 20:00:33+00:00",
+                    "text": "Yes.   I'm working on a couple more  for which I've shown how I would implement the use case in each revision from F2008 to F202y.\nThe example above was merely to show that the feature could be used in a generic context.  Daniel could not see that aspect from the examples in the paper which were just to demonstrate the syntax.        The real win is when we can combine this feature with something like template parameters."
+                },
+                {
+                    "user": "mleair",
+                    "date": "2020-10-15 20:02:09+00:00",
+                    "text": "To address the comment by @tclune, perhaps the array in the parameter statement is the \"template parameter\". For example, using parameterized modules with modules pseudocode:\nMODULE MOD_RANK_2\n  REAL :: TARRAY(10, 10)\nEND MODULE MOD_RANK_2\n\nMODULE MOD (T)\n  USE T\n  CONTAINS\n   \n  FUNCTION PAD_ARRAY(ARRAY, WIDTH, PAD_VALUE)\n    INTEGER, PARAMETER :: N = RANK(TARRAY)\n    REAL, RANK(N), INTENT(IN) :: ARRAY\n     :\n  END FUNCTION PAD_ARRAY\nEND MODULE MOD\n\nPROGRAM P\n  USE MOD(MOD_RANK_2)\nEND\n\n\nThe above example could also be written in a template syntax if that's the direction we go. Also, I imagine a concepts syntax could also be introduced to require that the above module parameter incudes a TARRAY object."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-15 21:06:37+00:00",
+                    "text": "I thought the way to do it is using the .. rank:\n   FUNCTION PAD_ARRAY(ARRAY, WIDTH, PAD_VALUE)\n      REAL, INTENT(IN) :: ARRAY(..)\n      INTEGER, INTENT(IN) :: WIDTH\n      REAL, OPTIONAL, INTENT(IN) :: PAD_VALUE\n      REAL, BOUNDS(1-WIDTH:SHAPE(ARRAY)+WIDTH),  :: PAD_ARRAY\n\n     IF (PRESENT(PAD_VALUE)) PAD_ARRAY = PAD_VALUE\n     PAD_ARRAY(@:SHAPE(ARRAY)) = ARRAY\n   END FUNCTION\nI guess you don't even need the N parameter in this case.\nP.S. We should be discussing this at #157."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-15 21:14:40+00:00",
+                    "text": "The 2nd executable statement above won't work.   ARRAY can only be referenced (in a useful manner) within a SELECT RANK if it is of assumed rank.\nLike wise, the declaration of PAD_ARRAY cannot work like that.  The compiler needs to know the rank at compile time.      It's also not clear to me if it is legal to use SHAPE(ARRAY) in the declaration since ARRAY is assumed rank.    That seems like it ought to be able to work but I could not immediately spot wording in the standard that makes this clear.   Probably a Malcolm question in the near future, but we (generic subgroup) should at least make an effort to find words in the standard."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-15 21:20:12+00:00",
+                    "text": "16.9.172.  SHAPE(A) works for any array A except an assumed-size array, including assumed-rank, (and oddly enough, an assumed-rank array associated with an assumed-size array)."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-15 23:03:54+00:00",
+                    "text": "@klausler Thanks - that was what I was hoping for SHAPE.\nThe declaration of PAD_ARRAY is still illegal though.   The constraint added in the BOUNDS paper is:\nC821b  shall be a rank one integer array with\nconstant size.\nBecause ARRAY is assumed-rank,  SHAPE(ARRAY) is not of constant size."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-15 23:52:34+00:00",
+                    "text": "That's a surprising restriction for a feature that is intended to be useful in rank-independent programming, and it should be easy to fix.  The language has assumed-rank dummy arguments already, and could accommodate other objects with unknown rank."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-16 00:36:20+00:00",
+                    "text": "There is a difference between rank-independent and rank-agnostic.  (Well, I'm tired now, but I think there is a distinction to be made.)\nRegardless, I agree that it is at least a bit surprising at first blush this this is forbidden, but I disagree that it would be easy to fix.     The rank of PAD_ARRAY is not known at compile time.    Deferred-rank has been suggested and discussed (briefly) several times is recent years, and it would be considered a major new feature.\n\"Unknown rank\" for deferred-rank dummy arguments is possible because the dope vector can be found in the associated actual argument.    Very little can be done with them outside of a SELECT RANK statement which allows the compiler a place to generate the rank-dependent code."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-16 00:59:29+00:00",
+                    "text": "After I walked away, I realized a simple example should crystalize why this is not easy to fix.   Should the compiler be able to diagnose whether any of the assignment statements below are legal?      We usually expect the compiler to diagnose when an array reference uses an incorrect number of simple subscripts.\nsubroutine s(a, b)\n   real, intent(in) :: a(..) ! assumed-rank\n   real, bounds(shape(a)) :: b \n\n   b(1) = 1\n   b(1,1) = 1\n   b(1,1,1) = 1\n\nend subroutine s\nThis restriction is relaxed a bit for the proposed @ syntax, where only run-time checking is possible, but the intent with BOUNDS and RANK was not to introduce a new type of array or to change the rules for existing mechanisms for accessing elements and array sections."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-16 01:06:28+00:00",
+                    "text": "None of those assignments would be allowed if 'b' were an assumed-rank dummy argument either.  The situation would be similar in the event that BOUNDS had an argument of unknown length, as in your example."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-16 12:39:22+00:00",
+                    "text": "I might not oppose a change to extend BOUNDS to declare two different types of arrays.   When the length is fixed, then array references can be made without the protection of SELECT RANK.  When the length is not fixed then the array could only be referenced (with the obvious exceptions) inside of SELECT RANK.      I think it could be confusing at times, as it may not always be easy for the user to tell whether or not the length is fixed.   More examples where it provides value might be useful to aid in the evaluation.\nI would be opposed to a change that ends up forcing even those cases with fixed size to be accessed within SELECT RANK clauses.\nA related thought:  SELECT RANK is not so bad when there is only one assumed-rank array involved.   Once there are multiple such arrays and even if you know they are all the same rank, you end up being forced to nest multiple select ranks.   E.g., consider the case where I have 3 such dummy arguments b1, b2, b3 and as a final step I want to add them and store the result back into b1.    Maybe they can only be rank 2 and 3 to keep this \"simple\".  To do this with the suggested extension of BOUNDS:\nreal, bounds(shape(a)) :: b1\nreal, bounds(shape(a)) :: b2\nreal, bounds(shape(a)) :: b3\n\nselect rank (b1)\nrank (2)\n   select rank(b2)\n   rank (2)\n      select rank(b3)\n      rank(2)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      rank(3)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      end select\n   rank (3)\n      select rank(b3)\n      rank(2)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      rank(3)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      end select\nrank (3)\n   select rank(b2)\n   rank (2)\n      select rank(b3)\n      rank(2)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      rank(3)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      end select\n   rank (3)\n      select rank(b3)\n      rank(2)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      rank(3)\n           b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\n      end select\n   end select\nend select\nIt would be much better if we could somehow enable such assignment statements to be moved out of the SELECT RANK block.   Maybe if all the subscripts are multi-subscripts (i.e., those with the @) we could remove the constraint.   We would need some very solid use cases, and recognize up front that this is a big enough change that other generic capabilities in F202y may be sacrificed in the process."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-16 14:06:17+00:00",
+                    "text": "Thinking about it some more my last statement is not very useful.       Using the @ does not change the fact that the intermediate expressions are of unknown rank at compile time.    There would need to be a general facility in the language for handling expressions of unknown rank for something along the lines to work."
+                },
+                {
+                    "user": "mleair",
+                    "date": "2020-10-16 18:39:23+00:00",
+                    "text": "Tom,\nWould a select rank that can take more than one array be useful in general? That is, the select rank would evaluate all the arrays in the list. If they are all the same rank, then execution branches to that rank case. Otherwise, execution branches to RANK DEFAULT (if provided) or to the end of the select rank construct. If RANK DEFAULT is provided, then the programmer could provide either a nested select rank or do something else (e.g., issue an error and abort).\nYour example using the extension:\nreal, bounds(shape(a)) :: b1\nreal, bounds(shape(a)) :: b2\nreal, bounds(shape(a)) :: b3\n\nselect rank (b1, b2, b3)\nrank (2)\n  b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b3(@:shape(b3))\nrank (3)\n  b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b3(@:shape(b3))\nrank default\n  stop 'Unexpected Rank in b1, b2, and/or b3'\nend select"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-16 18:48:32+00:00",
+                    "text": "Tom,\nWould a select rank that can take more than one array be useful in general? That is, the select rank would evaluate all the arrays in the list. If they are all the same rank, then execution branches to that rank case. Otherwise, execution branches to RANK_DEFAULT (if provided) or to the end of the select rank construct. If RANK_DEFAULT is provided, then the programmer could provide either a nested select rank or do something else (e.g., issue an error and abort).\nYour example using the extension:\nreal, bounds(shape(a)) :: b1\nreal, bounds(shape(a)) :: b2\nreal, bounds(shape(a)) :: b3\n\nselect rank (b1, b2, b3)\nrank (2)\n  b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b3(@:shape(b3))\nrank (3)\n  b1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b3(@:shape(b3))\nrank_default\n  stop 'Unexpected Rank in b1, b2, and/or b3'\nend select\n\n\nSince the rank is a known constant in each RANK case, the @ notation doesn't seem necessary.\nreal, bounds(shape(a)) :: b1, b2, b3\nselect rank (b1, b2, b3)\nrank (2)\n  b1 = b1 + b2 + b3\nrank (3)\n  b1 = b1 + b2 + b3\nrank default\n  error stop 'you lose'\nend select\n\nor even\nreal, bounds(shape(a)) :: b1, b2, b3\nselect rank (b1, b2, b3)\nrank (2:3)\n  b1 = b1 + b2 + b3\nrank default\n  error stop 'you lose'\nend select\n\nwhich seems pretty elegant to me."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-16 19:13:32+00:00",
+                    "text": "That is my point, the whole select rank does not seem necessary.\nreal, bounds(shape(a)) :: b1\nreal, bounds(shape(a)) :: b2\nreal, bounds(shape(a)) :: b3\n\nb1(@:shape(b1)) = b1(@:shape(b1)) + b2(@:shape(b2)) + b2(@:shape(b3))\nThe @ notation would imply select rank."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-19 16:01:18+00:00",
+                    "text": "@klausler Right - in this particular case, whole arrays are appropriate and I was blinded by the details.   But there are certainly still fixed-rank cases where eg., some other aspect of the rank handling can take useful advantage of the @ notation.   The gather example I posted for instance.\n@certik   Conceptually, you are correct.  There is absolutely no reason for SELECT RANK from the user perspective - one can work out at run time everything that should happen.   From the compiler perspective, I am assured that it matters a great deal.          Not only are there various constraints that would need to be loosened, but I'm certain that there are a number of optimizations that are also lost in the general case.        It is quite possible that we can have the best of both worlds - \"potentially unoptimized\" if one uses @ and fully constrained if one does not.    But it is a funny situation, and I fully expect vendors to push back with cases we have not yet considered; saying that this is all a bridge too far.\nOn a related front, should we then allow:\ntype foo\n    real, allocatable :: arr(..)\nend type\nAfter all, the references can all be checked at run time to be certain that they are correct, and we now have syntax for allocating such arrays."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-19 16:06:21+00:00",
+                    "text": "I should also say that when debating SELECT RANK, I did suggest an amendment that would allow\nSELECT RANK (arr)\nRANK (2:4)\n      CALL SUB(arr)\nEND SELECT RANK\nwhere SUB is suitable overloaded for the relevant ranks.    Or more generally any expression which is sensible for the specified ranks.   After all, it is fairly straightforward to preprocess this back into a fine-grained list of RANK clauses.    Vendors in the room quickly shot it down as being unworkable.    I cannot defend there statements, and it would be nice if a vendor could chime in here to provide some background on where the tradeoffs are here."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-19 16:13:27+00:00",
+                    "text": "Fortran already has assumed rank ALLOCATABLE dummy arguments; deferred rank ALLOCATABLE variables and components would be easy to support.  More edits to the document than lines of code, I think.\nI don't know why a range of ranks would be considered difficult to implement, given a working implementation of the current SELECT RANK.  Error messages for anything in the contained statements might be hard to contextualize in a useful way with the value of the rank that leads to a particular error, but that's a quality of implementation concern."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-19 16:16:37+00:00",
+                    "text": "Well, as someone who has wanted deferred rank for a very long time, I find these statements encouraging.   And I am somewhat amused that my current role makes me the voice of caution."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-19 16:22:58+00:00",
+                    "text": "To be clear, \"easy to support\" does not mean \"easy to accomplish in J3\".  Or vice versa."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-19 16:26:15+00:00",
+                    "text": "Certainly.       But I can only see as far as what is hard to change in the text.   I rely on vendors to tell me what is hard to implement.     At least one vendor (will not name publicly) has indicated to me that it may well make sense to support deferred rank arrays at some point but that it would be a major feature.    I did not press them to what degree it was because of the document or because of implementation.   I was just ecstatic that it was not immediately shot down as without merit."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-19 16:39:33+00:00",
+                    "text": "Deferred rank array variables and components, in general, might have pitfalls; deferred rank ALLOCATABLE and POINTER arrays, on the other hand, would be pretty much the same thing as assumed rank dummy arguments."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-19 17:42:34+00:00",
+                    "text": "@tclune this is the kind of discussion we have to have, let's keep it going. Together with a prototype compiler implementation, which I volunteer to attempt for promising proposals and I am hoping @klausler will also. :)"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-19 18:03:27+00:00",
+                    "text": "@tclune this is the kind of discussion we have to have, let's keep it going. Together with a prototype compiler implementation, which I volunteer to attempt for promising proposals and I am hoping @klausler will also. :)\n\nWell, maybe.  I'm not on J3 and I'm somewhat less concerned with advocating for new standard features than I am about trying to keep more poorly designed features like DO CONCURRENT from being mandated, and I don't see how prototyping would help much with that goal."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-20 19:38:22+00:00",
+                    "text": "Here is a great idea proposed by @longb:\ntemplate subroutine add(b1, b2, b3)\n  real,intent(inout) :: b1(..)\n  real,intent(in) :: b2(..)\n  real,intent(in) :: b3(..)\n\n  b1 = b1 + b2 + b3\n\nend subroutine add\nI wonder if the template modifier before subroutine (which I initially missed) is needed? As a user I wouldn't mind writing it without it. But I think the idea is that it explicitly states that the compiler will be \"instantiating\" this at the call site by mangling the subroutine name internally. I think that's fine."
+                },
+                {
+                    "user": "mleair",
+                    "date": "2020-10-20 19:47:20+00:00",
+                    "text": "@certik As someone who is just getting back into J3 Committee work, I need to ask. Is the proposed template syntax written up somewhere? Or was it first mentioned just now on the J3 email list?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-20 19:48:31+00:00",
+                    "text": "@mleair this is the first time I saw it."
+                },
+                {
+                    "user": "mleair",
+                    "date": "2020-10-20 19:49:18+00:00",
+                    "text": "OK. Thanks!"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-20 19:52:49+00:00",
+                    "text": "Here is a great idea proposed by @longb:\ntemplate subroutine add(b1, b2, b3)\n  real,intent(inout) :: b1(..)\n  real,intent(in) :: b2(..)\n  real,intent(in) :: b3(..)\n\n  b1 = b1 + b2 + b3\n\nend subroutine add\nI wonder if the template modifier before subroutine (which I initially missed) is needed? As a user I wouldn't mind writing it without it. But I think the idea is that it explicitly states that the compiler will be \"instantiating\" this at the call site by mangling the subroutine name internally. I think that's fine.\n\nHow would the interface of that procedure declare that the ranks of the dummy arguments were either identical or (for b2 and b3) scalar?"
+                },
+                {
+                    "user": "longb",
+                    "date": "2020-10-20 19:58:33+00:00",
+                    "text": "Hi Mark,\n\nThe 202X feature list is in WG5 paper N2165 - worth a read.\n\nThe last templates paper was from Meeting 217;  paper 18-281r1\n\nCheers,\nBIll\n On Oct 20, 2020, at 2:47 PM, mleair ***@***.***> wrote:\n\n\n @certik As someone who is just getting back into J3 Committee work, I need to ask. Is the proposed templay syntax written up soemwhere? Or was it first mentioned just now on the J3 email list?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe.\n\nBill Long                                                                       longb@hpe.com\nEngineer/Master , Fortran Technical Support &   voice:  651-605-9024\nBioinformatics Software Development                      fax:  651-605-9143\nHewlett Packard Enterprise/ 2131 Lindau Lane/  Suite 1000/  Bloomington, MN  55425"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-20 20:01:09+00:00",
+                    "text": "How would the interface of that procedure declare that the ranks of the dummy arguments were either identical or (for b2 and b3) scalar?\n\nGood point. Following the \"strong concepts\" idea (that we seem to agree in the generics subgroup is the way to go), if the compiler compiles this routine and does not report an error, it should mean there is no problem with this code.\nThis means that the compiler must generate the compatible ranks as part of the function signature, and then at the call site if the user passes incompatible ranks, it must generate a nice message, without having to go over the code of add to determine that.\nSo the question is, whether the compiler can generate the list of compatible ranks (in this case it seems the requirement is that they either have to have the same rank, or some of them can be scalars). If the compiler cannot do that automatically, then I think the path is to require the user to specify that explicitly using some variation of the syntax proposed by @tclune."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-20 20:11:28+00:00",
+                    "text": "Ok, so the paper 18-281r1 that @longb suggested above explains the template prefix proposal. One of the examples in the paper allows to write a procedure that works for any real kind, which seems to be exactly the issue #128."
+                },
+                {
+                    "user": "longb",
+                    "date": "2020-10-20 20:11:45+00:00",
+                    "text": "On Oct 20, 2020, at 2:53 PM, Peter Klausler ***@***.***> wrote:\n\n\n Here is a great idea proposed by @longb:\n\n template subroutine add(b1, b2, b3\n )\n\n real,intent(inout) ::\n  b1(..)\n\n real,intent(in) ::\n  b2(..)\n\n real,intent(in) ::\n  b3(..)\n\n   b1\n = b1 + b2 +\n  b3\n\n\n end subroutine add\n I wonder if the template modifier before subroutine (which I initially missed) is needed? As a user I wouldn't mind writing it without it.\nThe word \u201ctemplate\u201d is just an addition to the current list of prefix modifiers (elemental, pure, impure, recursive, non_recursive).   It is a signal to the compiler that declaration usage in the subprogram is outside the restrictions for non-template subprograms.  IT is easier in the standard to have words like \u201cit template does not appear\u2026\u201d.  An underlying motivation for the template proposal is to leverage already existing ideas.   For example, assumed-kind would be allowed, as in\n\nreal(*),intent(in) :: b2(..)\n\nwith the KIND value assumed from the actual argument.\n But I think the idea is that it explicitly states that the compiler will be \"instantiating\" this at the call site by mangling the subroutine name internally. I think that's fine.\n\n How would the interface of that procedure declare that the ranks of the dummy arguments were either identical or (for b2 and b3) scalar?\nGood question.  The DATA and GENERIC subgroups have been busy coming up with ways in declarations to say \u201csame-{shape | type | class} -as\u201d . As a practical matter, when the compiler attempts the instantiation you will get an error if the assignment or additions are not legal.\n\nCheers,\nBill\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe.\n\nBill Long                                                                       longb@hpe.com\nEngineer/Master , Fortran Technical Support &   voice:  651-605-9024\nBioinformatics Software Development                      fax:  651-605-9143\nHewlett Packard Enterprise/ 2131 Lindau Lane/  Suite 1000/  Bloomington, MN  55425"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-20 20:18:14+00:00",
+                    "text": "Good question. The DATA and GENERIC subgroups have been busy coming up with ways in declarations to say \u201csame-{shape | type | class} -as\u201d . As a practical matter, when the compiler attempts the instantiation you will get an error if the assignment or additions are not legal.\n\nI want to bring an important distinction here:\n\n\nweak or no concepts: the compiler will have to go over the code of add at each call site to determine if the code is semantically valid, and generate an error otherwise. Experience with C++ shows that such errors can become very hard to read, as they can be nested in subroutines, etc. and the error will typically come from some line such as a = b + c that the ranks are incorrect, but the user has no idea what caused it.\n\n\nstrong concepts: the compiler reports all errors based on the function signature at the call site, without a need to go over the internal code of add. This means faster compilation (the compiler only needs to pre-compile add once, and if no errors are detected at the time of compilation of the generic add, then there are no semantic error with that code, no matter how it is called) and better error messages at the call site if the user passes incompatible array ranks in.\n\n\nAt the generic subcommittee, we currently want to do \"strong concepts\", for the advantages stated above."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-20 22:48:39+00:00",
+                    "text": "Good question. The DATA and GENERIC subgroups have been busy coming up with ways in declarations to say \u201csame-{shape | type | class} -as\u201d . As a practical matter, when the compiler attempts the instantiation you will get an error if the assignment or additions are not legal.\n\nEven with the proposed implicit rank and kind, one would still need the new F202x syntax for any local variables that needed to vary in the same manner."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-21 13:30:17+00:00",
+                    "text": "The syntax that @longb suggests in this thread is intriguing due to its simplicity.      I'm fairly convinced that the approach is ultimately limited on several fronts.   First, and perhaps foremost is the strong concepts concern that @certik raised.    There is also the concern that Van Snyder raised in the J3 thread that it really does not address the issue of parameters for derived types.\nIt is possible that we end up wanting a bit of both.  E.g., Magne Haveraaen has argued that real world complexities can be reduced if one allows parameters on methods (type-bound procedures) that extend the parameters of the type to which they are bound.     Possibly the syntax suggested by @longb could be part of this broader approach.     I had envisioned something a bit more explicit, and it is definitely too early to start debating the differences with any seriousness.\nWe need use cases, lots of use cases, with which variant approaches can be assessed.     The big near-term challenge that I see is how to isolate, categorize, and ultimately prioritize \"micro\" use cases that are extracted from broader use cases.   And at this point, the thread should really be on the generics sister project."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-21 14:15:55+00:00",
+                    "text": "I agree. Tom, you work on use cases, I am working on language comparisons, and I also volunteer to start a document that captures our discussions and how our ideas evolve, so that others can get up to speed quickly.\n\nLet's use the generics repository from now on.\n\u2026\nOn Wed, Oct 21, 2020, at 7:30 AM, Tom Clune wrote:\n\n\n The syntax that @longb <https://github.com/longb> suggests in this\n thread is intriguing due to its simplicity. I'm fairly convinced that\n the approach is ultimately limited on several fronts. First, and\n perhaps foremost is the strong concepts concern that @certik\n <https://github.com/certik> raised. There is also the concern that Van\n Snyder raised in the J3 thread that it really does not address the\n issue of parameters for derived types.\n\n It is possible that we end up wanting a bit of both. E.g., Magne\n Haveraaen has argued that real world complexities can be reduced if one\n allows parameters on methods (type-bound procedures) that *extend* the\n parameters of the type to which they are bound. Possibly the syntax\n suggested by @longb <https://github.com/longb> could be part of this\n broader approach. I had envisioned something a bit more explicit, and\n it is definitely too early to start debating the differences with any\n seriousness.\n\n We need use cases, lots of use cases, with which variant approaches can\n be assessed. The big near-term challenge that I see is how to isolate,\n categorize, and ultimately prioritize \"micro\" use cases that are\n extracted from broader use cases. And at this point, the thread should\n really be on the generics sister project.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#185 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWFHCUFLISPD5PLRIZTSL3O7VANCNFSM4SNKWX4Q>."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-23 03:45:08+00:00",
+                    "text": "Maybe what would be useful are RANKOF and SHAPEOF specifiers similar in spirit to the TYPEOF and CLASSOF specifiers of 202X."
+                },
+                {
+                    "user": "longb",
+                    "date": "2020-10-23 11:30:51+00:00",
+                    "text": "On Oct 22, 2020, at 10:45 PM, William B. Clodius ***@***.***> wrote:\n\n\n Maybe what would be useful are RANKOF and SHAPEOF specifiers similar in spirit to the TYPEOF and CLASSOF specifiers of 202X.\nThere are already proposals for RANK and BOUNDS attributes.  RANK confusingly has the same spelling as the RANK intrinsic, so instead of RANKOF(X) we now have RANK(RANK(X)),   I think your proposed spellings are better.\n\nCheers,\nBIll\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe.\n\nBill Long                                                                       longb@hpe.com\nEngineer/Master , Fortran Technical Support &   voice:  651-605-9024\nBioinformatics Software Development                      fax:  651-605-9143\nHewlett Packard Enterprise/ 2131 Lindau Lane/  Suite 1000/  Bloomington, MN  55425"
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-23 12:33:54+00:00",
+                    "text": "I agree that the situation is a bit inconsistent in a fairly trivial sense, but there are arguments for how things turned out.\n\nRelated aspects that I find amusing:\n\n(1) The true \u201coriginal sin\u201d on this front is the explicit TYPE() used to designate derived types back in F90. (And begrudgingly now allow for intrinsics).      Were it not for that, I would have spelled  TYPEOF(x) as TYPE(x).   The parens are read out loud as \u201cof\u201d.\n\n(2) Oddly it does not take much to make such redundant declarations acceptable.   Somehow  KIND=KIND(x) is more acceptable than RANK(RANK(x))  even though though there are punctuation marks in exactly the same places save for an extra trailing paren (which I very much doubt is the problem).\n\nCheers,\n\n- Tom\nOn Oct 23, 2020, at 7:31 AM, Bill Long ***@***.******@***.***>> wrote:\n On Oct 22, 2020, at 10:45 PM, William B. Clodius ***@***.******@***.***>> wrote:\n\n\n Maybe what would be useful are RANKOF and SHAPEOF specifiers similar in spirit to the TYPEOF and CLASSOF specifiers of 202X.\nThere are already proposals for RANK and BOUNDS attributes. RANK confusingly has the same spelling as the RANK intrinsic, so instead of RANKOF(X) we now have RANK(RANK(X)), I think your proposed spellings are better.\n\nCheers,\nBIll\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe.\n\nBill Long longb@hpe.com<mailto:longb@hpe.com>\nEngineer/Master , Fortran Technical Support & voice: 651-605-9024\nBioinformatics Software Development fax: 651-605-9143\nHewlett Packard Enterprise/ 2131 Lindau Lane/ Suite 1000/ Bloomington, MN 55425\n\n\n\n\n\n\u2014\nYou are receiving this because you were mentioned.\nReply to this email directly, view it on GitHub<https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_j3-2Dfortran_fortran-5Fproposals_issues_185-23issuecomment-2D715285479&d=DwMFaQ&c=ApwzowJNAKKw3xye91w7BE1XMRKi2LN9kiMk5Csz9Zk&r=EDCdNzkccJ25Co3sjWrr1HlJQ3_CoIFWfekFE1ulcLI&m=NCv5fRaKxFoLClpI1Gefn4jnfP0YmLlghmVp3Ly9ypU&s=ogxpI0aIUrHNMDHdM5uF4Ii5ERZ-K7BIvsrPDYsSOwE&e=>, or unsubscribe<https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_notifications_unsubscribe-2Dauth_ABPP7YCLTOQYVCHKJOIUB7TSMFSPVANCNFSM4SNKWX4Q&d=DwMFaQ&c=ApwzowJNAKKw3xye91w7BE1XMRKi2LN9kiMk5Csz9Zk&r=EDCdNzkccJ25Co3sjWrr1HlJQ3_CoIFWfekFE1ulcLI&m=NCv5fRaKxFoLClpI1Gefn4jnfP0YmLlghmVp3Ly9ypU&s=bdVvenvu7R-TNKa49saPtREw4unGN_n6ObqygONO0zs&e=>."
+                }
+            ]
+        },
+        {
+            "number": 184,
+            "user": "zmiimz",
+            "date": "2020-10-08 10:28:25+00:00",
+            "title": "built-in unit testing",
+            "text": "add unit testing feature directly into the language.\nMissing built-in unit testing is unacceptable freedom for any modern programming language and the development of critical software.  If we are positioning Fortran as something better than a formula translator, we need unit testing directly built-in to the language. Currently, there are some external modules/ unit testing frameworks for that purpose (see http://fortranwiki.org/fortran/show/Unit+testing+frameworks ), but implemented in completely different languages (Ruby, Perl, etc.), and/or with several limitations originated from the restrictions of Fortran language itself. Therefore, unit testing should be added ideally only after the implementation of \"standard library\", \"exception handling\" and m.b. after \"generic/metaprogramming\" features.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-08 14:24:38+00:00",
+                    "text": "It depends on what you mean by \"unit testing\" and what you mean by \"built-in\". The definition I use for \"unit testing\" is executing a small \"unit\" of code (where small is a bit subjective), in isolation (i.e. it doesn't touch any external resources or any other pieces of production code), with known input(s), and verifying it produces the expected output(s) or behavior(s).\nFor me, I don't want my unit tests mixed in with my production code. I know there are some languages that enable, if not encourage that (Rust and maybe Python depending on the framework your using come to mind), but most languages I've used do not (Haskell, C++, Ruby, Javascript, Java, and many other's I haven't actually used).\nThe frameworks written in other languages are working around a limitation inherent in the kind of language that Fortran is, a compiled language without runtime reflection. Without that, you can't use Fortran to find the tests at run-time, you have to find them before compile time and construct a program that runs them. A sufficiently powerful preprocessor could make this doable \"in Fortran\", without having to invoke a separate tool prior to compilation, but that doesn't require any changes to the language itself (unless we want the standard to start defining prepocessor requirements too).\nDo you have an example of the kind of code and test you'd like to write, but currently can't, and what specifically the language might need in order to make it work?"
+                },
+                {
+                    "user": "zmiimz",
+                    "date": "2020-10-08 14:53:47+00:00",
+                    "text": "You can find a good implementation example here https://dlang.org/spec/unittest.html  And yes, I suggest to have unit tests in the production code and to be able to run unit tests with every standard conforming compiler and without any external tool."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-08 15:03:30+00:00",
+                    "text": "in isolation (i.e. it doesn't touch any external resources or any other pieces of production code), with known input(s)\n\nI don't understand this. How do you test production code then? At some point you need to call a function or subroutine that is to be used in production and check its result, no? Usually, it's only the production code that I want to test."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-08 16:00:16+00:00",
+                    "text": "I don't understand this. How do you test production code then? At some point you need to call a function or subroutine that is to be used in production and check its result, no? Usually, it's only the production code that I want to test.\n\nRight, but you want to test only that one function or subroutine (unit) in a given unit test. If it wants to collaborate with some other resource (read from a file, print to screen, fire the missiles, etc.), you generally want to provide some sort of mock, stub, spy (whatever term you want to use) for it to use during the test. Otherwise it would be considered an integration test, since you're testing multiple units integrated together. Not that those kinds of tests aren't valuable as well, but they're not truly unit tests (at least by my definition)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-08 16:02:05+00:00",
+                    "text": "Ah, I understand now, I agree. Indeed you wrote \"any other pieces of production code\". I should've read more carefully."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-08 16:08:44+00:00",
+                    "text": "I suggest to have unit tests in the production code and to be able to run unit tests with every standard conforming compiler and without any external tool.\n\nIs the idea then that the tests are run as part of the compilation process, but not included in the resulting executable? Or that the executable is able to \"test itself\" in some secondary mode of operation? I'm not familiar with D, so that example isn't particularly enlightening for me. Is D a compiled or interpreted language? What are the mechanics of running the unit tests?"
+                }
+            ]
+        },
+        {
+            "number": 183,
+            "user": "certik",
+            "date": "2020-10-05 12:24:44+00:00",
+            "title": "Conditional Expressions",
+            "text": "Relevant papers:\n\nhttps://j3-fortran.org/doc/year/18/18-274.txt\nhttps://j3-fortran.org/doc/year/19/19-258.txt\nhttps://j3-fortran.org/doc/year/19/19-247r1.txt\nhttps://j3-fortran.org/doc/year/19/19-248.txt\n\nTaking the second example from the 18-274 paper:\n  IF (PRESENT(D)) THEN\n    CALL SUB(A,B,C,D)\n  ELSE IF (X<1) THEN\n    CALL SUB(A,B,C,EPSILON(X))\n  ELSE\n    CALL SUB(A,B,C,SPACING(X))\n  END IF\nOne proposed syntax is \"keyword syntax\":\nCALL SUB(A, B, C, IF (PRESENT(D) THEN D ELSE IF (X < 1) THEN EPSILON(X) ELSE SPACING(X) END IF)\nThe second proposed syntax is \"? syntax\":\nCALL SUB(A, B, C, ? (PRESENT(D) D :? (X < 1) EPSILON(X) : SPACING(X) ?)",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 12:31:17+00:00",
+                    "text": "Which of these do people find the most readable and least readable?\nMy own feeling (from most readable to least readable):\n\nOriginal\nkeyword syntax\n? syntax\n\nWe should also consider more use cases. I also asked at https://fortran-lang.discourse.group/t/202x-feature-conditional-expressions/329 to get more feedback on this feature."
+                },
+                {
+                    "user": "dev-zero",
+                    "date": "2020-10-05 13:13:16+00:00",
+                    "text": "To be honest I find both variants suboptimal (the first one would make an if/else/endif block return a value when being used inline, and simply run code as usual when not, but would be easier to read) and I wonder whether there is really a need for general conditional expressions or whether a ternary operator would be sufficient. In the latter case I would suggest the Python-based syntax (which one could even nest):\nCALL SUB(A, B, C, D IF PRESENT(D) ELSE (EPSILON(X) IF (X < 1) ELSE SPACING(X)))"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 13:22:26+00:00",
+                    "text": "@dev-zero in your opinion, can you rate by readability / preference the three options above plus your proposed Python-based syntax?\nThe ternary operator (that you presumably like) is the \"? syntax\" which is one of the proposed ideas, but you also say they are \"suboptimal\", so I am confused."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-05 13:39:43+00:00",
+                    "text": "From most to least readable:\n\nOriginal\nPython/@dev-zero syntax\nKeyword syntax\n? syntax\n\nCaveat: I use 2 in Python a lot so I'm used to it, thus my preference."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-10-05 14:03:36+00:00",
+                    "text": "FWIW my preference from most to least readable is:\n\nOriginal\nkeyword syntax\n? syntax\n\nAside the reduced readability, IMHO I cannot see any practical advantage in the new proposed expressions."
+                },
+                {
+                    "user": "dev-zero",
+                    "date": "2020-10-05 15:08:54+00:00",
+                    "text": "My preference in terms of readability:\n\nOriginal\nPython-inspired syntax\nKeyword syntax\n? syntax\n\nAs for why I dislike the ? syntax and the difference to the Python-inspired operator:\nA general start and end marker ? for conditional expression would to me indicate that more complex conditional expressions should be possible at some point, with the only condition that all codepaths inside it have to return a compatible type, but that is with the current proposal not the case (nor should it be). On the other hand does the nesting as shown in the example above actually create (at least visually) an alias for ELSE IF: the :?, since the expression should actually be:\nCALL SUB(A, B, C, ? (PRESENT(D)) D : ? (X < 1) EPSILON(X) : SPACING(X) ? ?)\ncorrect? With the second to last ? omitted? Which I would find even less readable."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-05 15:22:29+00:00",
+                    "text": "I think the readability question might slightly be missing the point. The question isn't about how easy is it to see what the code is doing, but how easy is it to see the code's intent.\nTo me, an if-else block says the intent of the code is to do different things based on some conditions. The new feature allows one to specify the intent \"this variable (or argument) depends on some condition(s)\" more clearly.\nTo use the example from above, if I see\n  IF (PRESENT(D)) THEN\n    CALL SUB(A,B,C,D)\n  ELSE IF (X<1) THEN\n    CALL SUB(A,B,C,EPSILON(X))\n  ELSE\n    CALL SUB(A,B,C,SPACING(X))\n  END IF\n\nIt's not immediately obvious (especially in codes that are more complicated than this example) that we are definitely going to be calling sub in all cases, and the only difference is the value of the last argument. Whereas with\ncall SUB(A, B, C, IF (PRESENT(D)) THEN (D) ELSE IF (X < 1) THEN (EPSILON(X)) ELSE (SPACING(X) END IF)\n\nthat intent is put front and center without having to compare each branch in an entire if-else block.\nSo, my preferences would be  for\n\nKeyword syntax - most similar to existing Fortran syntax\nPython syntax - still quite likely to be easily understood by new programmers\n? syntax - similar to other languages, but not immediately obvious to new programmers"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 15:29:52+00:00",
+                    "text": "If the idea is to call SUB just once, to make the intent obvious, as @everythingfunctional correctly points out, then here is the alternative to the original:\n  IF (PRESENT(D)) THEN\n    D2 = D\n  ELSE IF (X<1) THEN\n    D2 = EPSILON(X)\n  ELSE\n    D2 = SPACING(X)\n  END IF\n  CALL SUB(A,B,C,D2)\nWhich I personally find more readable than:\nCALL SUB(A, B, C, IF (PRESENT(D) THEN D ELSE IF (X < 1) THEN EPSILON(X) ELSE SPACING(X) END IF)\nBut it is true you have to declare an extra variable (although the performance of the code should be identical with a good compiler)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-05 15:57:14+00:00",
+                    "text": "Is a subset of this a good candidate for a stdlib function if_then_else(condition, expression1, expression2)?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-05 16:55:37+00:00",
+                    "text": "Is a subset of this a good candidate for a stdlib function if_then_else(condition, expression1, expression2)?\n\nIt would be, but merge already would be sufficient, and the idea of the proposal is to not evaluate the unused expression (which merge can't do)."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-05 17:01:30+00:00",
+                    "text": "@certik , while you've removed the difficulty of seeing \"do we always call SUB in every case\", you've now introduced the ambiguity of \"do we always assign to D2 in every case?\" You're back to the exact same problem. You're using a multi-statement block to perform a single logical operation. A reader must inspect and evaluate every branch (the block as a whole) to understand it is performing a single logical operation."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 17:05:29+00:00",
+                    "text": "My understanding is that this feature was approved by WG5 for inclusion into 202X based on a survey, where people expressed a wish to have conditional expressions in Fortran, but I don't think there were concrete proposals how it would look like, just that the feature would be nice to have. @sblionel is that an accurate statement?\n@everythingfunctional explained well the main argument for conditional expressions is that they enforce a single logical operation to be assigned somewhere (as the result of the conditional expression).\nI agree that at this level of \"requirements\" it seems like a good idea and I am not against that (I use it sometimes in Python, although rarely; I never use the ? notation in C or C++). But when it comes down to syntax and how it would actually look like in Fortran, it seems less readable in practice to many people, and that is would should count. If a feature looks good in abstract terms, but does not look good in concrete (syntax) terms, in my opinion we should not put it in until it looks good both in abstract and concrete terms.\nA prior compiler implementation of this would be very helpful, so that we can play with it more, before putting it into the language."
+                },
+                {
+                    "user": "pbrady",
+                    "date": "2020-10-05 17:14:30+00:00",
+                    "text": "Adopting ?: for a conditional expression but using a difference syntax from those languages which already use it for the same purpose (i.e. C, C++, Java, Javascript), is a bad idea and will only lead to confusion.  As someone who uses multiple languages, I would appreciate it if Fortran did not do anything weird here and go off the beaten path for no apparent reason."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-05 17:21:13+00:00",
+                    "text": "I forgot: why aren't we just fixing MERGE() to guarantee non-evaluation of the operand that isn't selected?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 17:32:05+00:00",
+                    "text": "@klausler the arguments that have been put forth against fixing merge are:\n\n\nMERGE is elemental. Conditional expressions are not.\n\n\nConditional expressions are a top-level single selection, so we can lift all the dynamic requirements that merge needs\n\n\nMERGE requires TSOURCE and FSOURCE to have the \"same type and type parameters\"\n\n\nI don't personally understand the arguments, but I think @everythingfunctional does? Brad, can you summarize here why we cannot extend merge? If we could just extend merge, that would be the best way forward I think."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-10-05 17:36:45+00:00",
+                    "text": "My understanding is that this feature was approved by WG5 for inclusion into 202X based on a survey, where people expressed a wish to have conditional expressions in Fortran, but I don't think there were concrete proposals how it would look like, just that the feature would be nice to have. @sblionel is that an accurate statement?\n\nYes. The way we work is that WG5 outlines the general idea and J3 develops that into a specific proposal."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-05 17:37:13+00:00",
+                    "text": "merge is elemental, and as such must evaluate both expressions to determine the shape of the result. The example is, if one argument to merge is a scalar and the other is an array, even if the scalar is the selected value, the array expression must still be evaluated to determine the shape of the result, because the result will still be an array with that shape, just with each value equal to the given scalar. The proposed conditional expressions would not be capable of that, because each expression must have the same rank."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-05 17:39:10+00:00",
+                    "text": "@klausler , I actually proposed just that on the J3 discussion board, but Malcolm was able to give me convincing reasons against, along the lines of my previous comment."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 17:53:37+00:00",
+                    "text": "@everythingfunctional cannot the shape in merge be determined at compile time for both arguments?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-05 17:53:52+00:00",
+                    "text": "But MERGE() could guarantee evaluation of at most one of its first two arguments in the case where the third argument is scalar and the first two arguments have the same rank, yes?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-05 17:54:30+00:00",
+                    "text": "@everythingfunctional cannot the shape in merge be determined at compile time for both arguments?\n\nRank, yes, apart from assumed-rank dummy arguments, but not shape."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-05 18:23:40+00:00",
+                    "text": "But MERGE() could guarantee evaluation of at most one of its first two arguments in the case where the third argument is scalar and the first two arguments have the same rank, yes?\n\nI suppose that's true. In fact, one could go a small step further and state that the \"unused\" argument is evaluated only if necessary to determine the resultant shape. I.e., if the array argument is selected, the scalar argument wouldn't need to be evaluated.\nHowever, that still wouldn't satisfy one of the use cases (although it's not one I find particularly compelling); conditionally supplying an optional argument. I think the proposed conditional expressions provide a clean way to provide that, with a convenient place to put the desired deferred evaluation functionality."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-05 18:50:57+00:00",
+                    "text": "conditionally supplying an optional argument\n\nThis use case should by done by #22, that seems like a cleaner solution anyway.\nSo extending merge and implementing #22, we might be able to cover this feature."
+                },
+                {
+                    "user": "sgeard",
+                    "date": "2020-10-05 21:48:38+00:00",
+                    "text": "I'd prefer to see something like\nselect\n    case (present(d))\n        call sub(a,b,c,d)\n    case (i<n) then case (a(i)==0)\n        call sub(a,b,c,epsilon(x))\n    case default\n        call sub(a,b,c,spacing(x))\nend select\nOr possibly use switch instead of select"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-06 15:26:18+00:00",
+                    "text": "#22 is about providing a default value if an argument is not provided; it is about the callee. This proposal is about how an argument could be provided or not; it is about the caller.\nFor example, say if x < 0.1 I don't want to provide an argument to some procedure, how would merge be sufficient? What would you provide as the other argument? I.e.\ncall sub(a, merge(???, x, x < 0.1))"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-06 15:45:15+00:00",
+                    "text": "@everythingfunctional how would that be written using conditional expressions? I don't think that's possible either, or am I missing something?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-06 16:19:13+00:00",
+                    "text": "The proposal specifically allows for the else part to be omitted in cases of passing to optional arguments. So the example would be (in the case of the keyword syntax)\ncall sub(a, if (x >= 0.1) then (x))"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-06 16:27:01+00:00",
+                    "text": "I see, I didn't realize that. Btw, I think the syntax is:\ncall sub(a, if (x >= 0.1) then (x) end if)\nor\ncall sub(a, if (x >= 0.1) then x end if)\nBut adding parentheses around x actually makes it more readable to me.\nWell, we can have some kind of syntax or keyword for merge, such as call sub(a, merge(*, x, x < 0.1)) or something like that, but I am not sure I like it."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-06 16:28:31+00:00",
+                    "text": "The proposal specifically allows for the else part to be omitted in cases of passing to optional arguments. So the example would be (in the case of the keyword syntax)\ncall sub(a, if (x >= 0.1) then (x))\n\n\nThe syntax (x) is an idiomatic way to turn a variable into an expression.  Will (x) above be a variable?  If so, would one need ((x)) to pass a copy of x as an expression?\nMaybe the concept of a conditionally-passed optional argument and a general conditional expression should be separated."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-06 16:33:49+00:00",
+                    "text": "Oops, yeah I forgot the end if in my example.\nI believe the parentheses are present in all of the examples in the syntax paper. I think they may be necessary to disambiguate in fixed-form syntax."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-06 18:42:21+00:00",
+                    "text": "Btw. this:\ncall sub(a, if (x >= 0.1) then (x) end if)\nDoesn't look that bad compared to the original:\nif (x >= 0.1) then\n    call sub(a, x)\nelse\n    call sub(a)\nend if\nI still slightly prefer the original in this case, but perhaps for some more complicated case I would sometimes use the conditional expression."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-10-11 05:38:44+00:00",
+                    "text": "Did not have time to read all the comments so this might have been covered but the closest I can think of using current standard Fortran would be\n      CALL SUB(A,B,C,MERGE(D, MERGE(EPSILON(X),SPACING(X),X<1.0), PRESENT(D)))\nIn a hopefully working example that would be\n   program whatif\n   implicit none\n   call testit(0.0)\n   call testit(1000.0,100.0)\n   call testit(10.0)\n   contains\n\n   subroutine testit(x,d)\n   real,intent(in)          :: x\n   real,intent(in),optional :: d\n   real                     :: a,b,c\n\n      CALL SUB(A,B,C,MERGE(D, MERGE(EPSILON(X),SPACING(X),X<1.0), PRESENT(D)))\n\n      write(*,*)a,b,c,merge(d,-99999.0,present(d))\n   end subroutine testit\n\n   end program whatif\n\n   subroutine sub(aa,bb,cc,dd)\n   real,intent(out) :: aa,bb,cc\n   real,intent(in)  :: dd\n      write(*,*)'SUB SEES=',dd\n      aa=dd;bb=2*dd;cc=dd**2\n   end subroutine sub\nResults:\n    SUB SEES=   1.19209290E-07\n      1.19209290E-07   2.38418579E-07   1.42108547E-14  -99999.0000\n    SUB SEES=   100.000000\n      100.000000       200.000000       10000.0000       100.000000\n    SUB SEES=   9.53674316E-07\n      9.53674316E-07   1.90734863E-06   9.09494702E-13  -99999.0000\n\nSo using that as a comparison and looking at the limitations it has\nin the new syntax if the fourth parameter were metamorphic or if the\nroutine was generic with different types allowed for D would all the\nexpressions have to be of the same type or not?\nWould everything always be evaluated or would it short-circuit? One of\nthe issues with the above statement would be if D/2 instead of D were\npassed to SUB() and D was not present evaluating D/2 would be problematic,\nas MERGE is allowed to evaluate all the expressions.\nThat being said I would prefer something less C-like that short-ciruits\nwith something closer to functional syntax like\ncall sub(a,b,c, if(present(d) <= d ;x<1.0 <=epsilon(x); spacing(x)) )\nwhere the semi-colon is intentional and means to short-circuit and where it looks like a function called IF\nthat has expressions of the form condition <= expression to use and the last field which has no condition\nwould be the default and if there were no last expression it would be the same as not present. maybe a name of USE()\ninstead of IF() would be good. The C syntax is one of my least-favorite syntaxs in any language.\nso my preference would be\n\noriginal\nsomething other than either of the proposals\n\nhow about\ncall sub(a,b,c,IF(present(d) USE d; x<1 USE epsilon(x); spacing(x) ) )\nin case the parameter does not have INTENT(IN) this could then be used like\nmyvar=IF(PRESENT(d) USE d; x<1 USE EPSILON(x); SPACING(x) )\ncall sub(a,b,c,myvar)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-13 05:30:17+00:00",
+                    "text": "I have implemented a prototype of this into LFortran: https://gitlab.com/lfortran/lfortran/-/merge_requests/645/\nExample notebook: https://nbviewer.jupyter.org/urls/gitlab.com/lfortran/lfortran/-/raw/477cac615ca420377c7582f16294d05461bf7b8d/share/lfortran/nb/Conditional%20Expressions.ipynb\nIt doesn't implement the whole proposal, but it implements enough to be able to play with it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-13 15:14:32+00:00",
+                    "text": "Two more syntax forms have been proposed.\nMixed form:\n IF ( logical-expression-1 ) ? expression-1\n[ : ( logical-expression-k ) ? expression-k ] ...\n: ( expression-n ) ENDIF\n\nexamples:\nif (i>0 .and. i<=size(a)) ? a(i) : (present(val)) ? val : 0.0 endif\nCALL SUB(A, B, C, IF (PRESENT(D) ? D : (X < 1) ? EPSILON(X) : SPACING(X) END IF)\nArrow form:\n( predicate -> consequent\n[ : predicate -> consequent ] ...\n: alternative )\n\nExamples:\n( abs(residual)<=tol -> 'ok' : 'did not converge' )\n( i>0 .and. i<=size(a) -> a(i) : present(val) -> val : 0.0 )\nCALL SUB(A, B, C, ( PRESENT(D) -> D : (X < 1) -> EPSILON(X) : SPACING(X) ))"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-13 15:24:06+00:00",
+                    "text": "Another suggestion is to amend the \"arrow\" form to simply use ? as in C (motivation: if the syntax is so close to C and C++, we should make is exactly the same, to prevent confusion):\nC syntax:\nExamples:\n( abs(residual)<=tol ? 'ok' : 'did not converge' )\n( i>0 .and. i<=size(a) ? a(i) : present(val) ? val : 0.0 )\nCALL SUB(A, B, C, ( PRESENT(D) ? D : (X < 1) ? EPSILON(X) : SPACING(X) ))"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-13 16:02:45+00:00",
+                    "text": "The committee discussed yesterday why merge will not work, so I want to summarize it here:\n\nmerge has other uses that would not all work for conditional expression usage, the main one is that merge is elemental. The solution could be to use a new \"function\" such as ifthen.\nConsidering ifthen using a function like syntax has the following drawbacks:\n\nharder to do chaining (if/then/elif/elif/...), as you essentially have to have something like ifthen(.., ifthen(.., ifthen()), ..)\npossibly more confusing to users, as ifthen would look like a function, but does not work like a function, as some arguments will not be evaluated. ifthen at this point becomes a new syntax with new semantics that is not function like. We might as well introduce new syntax that does not look like a function call, such as all the alternatives under consideration above."
+                },
+                {
+                    "user": "sgeard",
+                    "date": "2020-10-13 16:41:37+00:00",
+                    "text": "If the sub-clauses in an if were allowed to return a value - a bit like a lambda function in C++ you could have\ncall sub(a, b, c, if (present(d)) then d; elseif (x > 0.1); x; else; endif)\nPerhaps clearer with different brackets:\ncall sub(a, b, c, if {present(d)} then d; elseif {x > 0.1}; x; else; endif)\nReadability seems to be a problem with all the options so the second is probably preferable."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-26 21:11:07+00:00",
+                    "text": "Did anyone considered the python's ternary syntax?\ncall sub(a, b, c, d if (present(d)) else (epsilon(x) if (x > 0.1) else spacing(x)))\ndropping the parenthesis as they aren't needed in this case:\ncall sub(a, b, c, d if present(d) else epsilon(x) if x > 0.1 else spacing(x))\nconditional-expr: consequent IF predicate ELSE (alternative | conditional-expr)"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-26 21:24:19+00:00",
+                    "text": "I pretty sure it has at least been mentioned, but I believe there was some resistance by compiler writers to syntax that requires look-ahead (or back-tracking) parsers. It's also not particularly \"Fortranic\"."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-26 22:32:01+00:00",
+                    "text": "I pretty sure it has at least been mentioned, but I believe there was some resistance by compiler writers to syntax that requires look-ahead (or back-tracking) parsers. It's also not particularly \"Fortranic\".\n\nIt was mentioned here by @dev-zero, indeed, but I don't think it got the deserved attention. It's way more \"Fortranic\" than '?' operator (from C family) IMHO, without the boilerplate of the original proposal:\n\nexplicitly typing then\n\nThe then can be omitted if there's only one consequence in if statement, in the current standard it's called logical IF.\nThe python-borrowed syntax allows to extend the logical IF behavior, with a else statement.\n\n\nexplicitly typing end if\n\nThe proposal it's supposed to be a one-liner rather than a block construct so... why?\n\n\n\nI can't say anything about the writers preferences, but I must say in a recent experience I've failed to write this kind of nested pattern in order to parse a simple key-value file xD.\n<conditional-expr> ::= <then-expr> IF <scalar-logical-expr>  ELSE (<else-expr> / <conditional-expr>)"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-26 22:37:09+00:00",
+                    "text": "Is XIFLELSE(1.) a \"conditional expression\" involving variables X and L or is it a reference to an external function?"
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-10-26 22:45:44+00:00",
+                    "text": "Is XIFLELSE(1.) a \"conditional expression\" involving variables X and L or is it a reference to an external function?\n\nSo you are saying that the fortran tokenizer get rid of all whitespace... hmpf that would be a problem indeed :/\nX IF L ELSE (1.) turns into XIFLELSE(1.) which is ambiguous (I think I figured out where I've failed in my VDF now xD)"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-10-26 22:45:52+00:00",
+                    "text": "Is XIFLELSE(1.) a \"conditional expression\" involving variables X and L or is it a reference to an external function?\n\nIn my opinion, with fixed-form source having been made obsolescent, at some point we should be allowed to stop worrying about how new features can expressed without significant whitespace. And so, XIFLELSE(1.) is a function call, and X IF L ELSE (1.) is a conditional expression. Unless there's some other reason I'm missing."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-27 19:32:35+00:00",
+                    "text": "It was discussed at the October 2020 Fortran call that another good use case for this feature would be for array initializers. In Python you can do:\n[x+1 for x in range(1,N+1) if x >= 45 else x+5]\nSo in Fortran you could do:\n[ (if (x >= 45) then x+1 else x+5 endif, x = 1, N) ]\nSince conditional expressions are just expressions, this should just work."
+                }
+            ]
+        },
+        {
             "number": 182,
             "user": "zjibben",
             "date": "2020-09-21 23:22:01+00:00",
@@ -826,6 +1456,11 @@
                     "user": "certik",
                     "date": "2020-03-17 21:23:40+00:00",
                     "text": "Indeed, I verified that gfortran compiles this without a problem."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-08 15:20:49+00:00",
+                    "text": "Coming across this thread from a different context, but I do sometimes allow myself to use some of the words in the words in the Ondrej's list.    In particular, to emulate STL containers, I allow myself to have type-bound procedures named begin and end.    (And it was not that many years ago that gFortran would break when doing this sort of thing.)    Other than highlighting, I don't find such limited usage confusing.     But I agree with the general rule to avoid such things."
                 }
             ]
         },
@@ -915,7 +1550,7 @@
             "user": "certik",
             "date": "2020-02-29 18:32:31+00:00",
             "title": "Proposal List for 202X",
-            "text": "I will eventually create individual issues for each item in the list.\nFor now, the list is described in the document N2165 US Feature list proposals for F202X (PL22.3) as available from https://wg5-fortran.org/documents.html, but unfortunately the link is dead. We also found the list in the minutes N2169 Minutes of the August 2019 Meeting in Tokyo available from https://wg5-fortran.org/f202x.html. Just in case, I am attaching the N2169 document to this issue, so that it does not get lost.\nOnce all such ideas are fully developed and passed by the J3 and WG5 Committees, then the 202X standard will get out, and we will work on 202Y.\nIn order to speed up the 202X release as well as to ensure that the community agrees with the proposals that the committee passes, I encourage wide community participation in the proposals for these features.\nISO-IECJTC1-SC22-WG5_N2169_Minutes_of_the_August_2019_Meeting_in_Tokyo.txt",
+            "text": "Here is the list of issues approved by WG5 to go into 202X:\n\nUK01 - Extend procedure C_F_POINTER to allow a Fortran array pointer to have lower bounds other than 1.\nUS01 - Allow much longer statement lines and overall statement length.\nUS02 - Require the processor to report cases where over-long lines or statements result in lost information.\n#187 US03 - SPLIT string intrinsic (original proposal was to keep all module intrinsics from the withdrawn Part 2 (ISO_VARYING_STRINGS).\n#164 US04 - Trig functions with arguments in degrees and arc versions with results in degrees.\nUS05 - Trig functions with arguments implicitly scaled by PI.\nUS06 - SELECTED_LOGICAL_KIND to return a KIND of logical based on its minimum storage size.\nUS07 - Additional named constants, LOGICAL8, LOGICAL16, LOGICAL32, LOGICAL64, in ISO_FORTRAN_ENV to specify KINDS supported for type LOGICAL.\n#13 US08 - Additional named constant, REAL16, in ISO_FORTRAN_ENV to specify whether the processor supports a 16-bit REAL KIND.\nUS09 - Intrinsics for converting between C strings and Fortran strings.\nUS10 - AT format editing specifier. Has the effect of TRIM on the corresponding character list item before output.\nUS11 - Control over leading zeros in output of REAL values.\nUS12 - Allow an array of a type that has an allocatable coarray component.\n#20 US13 - Syntax and semantics for a \"Put with Notify\" operation.\n#160 US14 - Allow deferred-length character variables in more locations, including as actual arguments corresponding to IOMSG and ERRMSG arguments for similar variables in specifiers.  Also allow for internal I/O.\n#161 US15 - SIMPLE procedures. A form of Super-Pure that disallows references to global data.\n#158 US16 - TYPEOF and CLASSOF type declarations to indicate the object being declared has the same type/class as another object. Useful to ensure a local variable in a procedure has the same type as a dummy argument, or that two dummy arguments have the same type.\n#157 US17 - Syntax to specify an element or section of an array with arbitrary rank.\n#157 US18 - Syntax for generic specification of rank and bounds of an object.\n#156 #16 US19 - Protected components.\n#17 US20 - Reduction specifier for DO CONCURRENT.\n#11 US21 - Typed enumerators.\n#183 US22 - Conditional expressions. (alternatively: #19 US26 - Short-circuit logical operators.)\n#18 US23 - Enhancements to BOZ constants.\n#5 US27 - Syntax to specify that the target of a dummy argument pointer is not to be changed (INTENT applies to the pointer, not its target)\n\nThe list is described in the document N2165 US Feature list proposals for F202X (PL22.3) as available from https://wg5-fortran.org/documents.html, but unfortunately the link is dead. We also found the list in the minutes N2169 Minutes of the August 2019 Meeting in Tokyo available from https://wg5-fortran.org/f202x.html. Just in case, I am attaching the N2169 document to this issue, so that it does not get lost.\nOnce all such ideas are fully developed and passed by the J3 and WG5 Committees, then the 202X standard will get out, and we will work on 202Y.\nIn order to speed up the 202X release as well as to ensure that the community agrees with the proposals that the committee passes, I encourage wide community participation in the proposals for these features.\nISO-IECJTC1-SC22-WG5_N2169_Minutes_of_the_August_2019_Meeting_in_Tokyo.txt",
             "comments": [
                 {
                     "user": "certik",
@@ -930,7 +1565,7 @@
                 {
                     "user": "zjibben",
                     "date": "2020-03-02 23:12:33+00:00",
-                    "text": "Here is the list of items, with added issue numbers where I found them. Some work needs to be done yet to add issues or find ones I missed, then making sure the background papers are listed in the related issues. We might also update the issue names to include the USxx item number. Feel free to edit this comment to add new info.\n\nUK01 - Extend procedure C_F_POINTER to allow a Fortran array pointer to have lower bounds other than 1.\nUS01 - Allow much longer statement lines and overall statement length.\nUS02 - Require the processor to report cases where over-long lines or statements result in lost information.\nUS03 - SPLIT string intrinsic (original proposal was to keep all module intrinsics from the withdrawn Part 2 (ISO_VARYING_STRINGS).\n#164 US04 - Trig functions with arguments in degrees and arc versions with results in degrees.\nUS05 - Trig functions with arguments implicitly scaled by PI.\nUS06 - SELECTED_LOGICAL_KIND to return a KIND of logical based on its minimum storage size.\nUS07 - Additional named constants, LOGICAL8, LOGICAL16, LOGICAL32, LOGICAL64, in ISO_FORTRAN_ENV to specify KINDS supported for type LOGICAL.\n#13 US08 - Additional named constant, REAL16, in ISO_FORTRAN_ENV to specify whether the processor supports a 16-bit REAL KIND.\nUS09 - Intrinsics for converting between C strings and Fortran strings.\nUS10 - AT format editing specifier. Has the effect of TRIM on the corresponding character list item before output.\nUS11 - Control over leading zeros in output of REAL values.\nUS12 - Allow an array of a type that has an allocatable coarray component.\n#20 US13 - Syntax and semantics for a \"Put with Notify\" operation.\n#160 US14 - Allow deferred-length character variables in more locations, including as actual arguments corresponding to IOMSG and ERRMSG arguments for similar variables in specifiers.  Also allow for internal I/O.\n#161 US15 - SIMPLE procedures. A form of Super-Pure that disallows references to global data.\n#158 US16 - TYPEOF and CLASSOF type declarations to indicate the object being declared has the same type/class as another object. Useful to ensure a local variable in a procedure has the same type as a dummy argument, or that two dummy arguments have the same type.\n#157 US17 - Syntax to specify an element or section of an array with arbitrary rank.\n#157 US18 - Syntax for generic specification of rank and bounds of an object.\n#156 #16 US19 - Protected components.\n#17 US20 - Reduction specifier for DO CONCURRENT.\n#11 US21 - Typed enumerators.\nUS22 - Conditional expressions. (alternatively: #19 US26 - Short-circuit logical operators.)\n#18 US23 - Enhancements to BOZ constants.\n#5 US27 - Syntax to specify that the target of a dummy argument pointer is not to be changed (INTENT applies to the pointer, not its target)"
+                    "text": "Here is the list of items, with added issue numbers where I found them. Some work needs to be done yet to add issues or find ones I missed, then making sure the background papers are listed in the related issues. We might also update the issue names to include the USxx item number. Feel free to edit this comment to add new info.\nUpdate (Ondrej): I moved the list to the issue description above to make it more easier to see."
                 },
                 {
                     "user": "shahmoradi",
@@ -1064,6 +1699,16 @@
                     "user": "aradi",
                     "date": "2020-02-26 19:15:13+00:00",
                     "text": "I think, we would need an infrastructure which enables us to address slices in arbitrary dimensions. The language should ,for example, allow us to write a generic sum functions working for arbitrary ranks (e.g. as  shown in #153) without having to use a pre-processor. The solution above does not seem to make that possible, and I don't see, how it could be extended into that direction."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-16 00:08:11+00:00",
+                    "text": "I'm not sure that this is the best issue for posting this message (it's not bad, it's just that there are several other options).      The examples here are intended to give some sense of how the recently proposed F202x rank-agnostic features complement assumed-rank (F2018) and potential F202y templating capabilities.\nThe following subroutine finds the index at which the 3D array x achieves its maximum value, and then determines the corresponding values in arrays q1, q2, q3.  The results are returns in the 1D array vec.\nsubroutine max_at(x, q1, q2, q3, vec)\n   real, intent(in) :: x(:,:,:)\n   real, intent(in) :: q1(:,:,:)\n   real, intent(in) :: q2(:,:,:)\n   real, intent(in) :: q3(:,:,:)\n   real, intent(out) :: vec(3)\n\n   integer :: idx(3)\n\n   idx = maxloc(x)\n\n   vec(1) = q1(idx(1),idx(2),idx(3))\n   vec(2) = q2(idx(1),idx(2),idx(3))\n   vec(3) = q3(idx(1),idx(2),idx(3))\n\nend subroutine max_at\nWith F2018 we can try to generalize this for say ranks 2-4 in a single interface using SELECT RANK:\nsubroutine max_at(x, q1, q2, q3, vec)\n   real, intent(in) :: x(..)\n   real, intent(in) :: q1(..)\n   real, intent(in) :: q2(..)\n   real, intent(in) :: q3(..)\n   real, intent(out) :: vec(3)\n\n   integer, allocatable :: idx(:)\n\n\n   select rank (x)\n   rank(2)\n      ! Maybe the standard can be amended such that MAXLOC() works\n      ! with assumed rank, but for now it does not.  Thus the\n      ! following line must be repeated inside each case.\n      idx = maxloc(x)\n      vec(1) = q1(idx(1),idx(2))\n      vec(2) = q2(idx(1),idx(2))\n      vec(3) = q3(idx(1),idx(2))\n   rank(3)\n      idx = maxloc(x)\n      vec(1) = q1(idx(1),idx(2),idx(3))\n      vec(2) = q2(idx(1),idx(2),idx(3))\n      vec(3) = q3(idx(1),idx(2),idx(3))\n   rank(4)\n      idx = maxloc(x)\n      vec(1) = q1(idx(1),idx(2),idx(3),idx(4))\n      vec(2) = q2(idx(1),idx(2),idx(3),idx(4))\n      vec(3) = q3(idx(1),idx(2),idx(3),idx(4))\n   end select\n\nend subroutine max_at\nWith Proposed F202x rank agnostic features this gets a bit cleaner, but, annoyingly still has some duplicated bits of code.  The duplication could be avoided with an include file, but that would be a bit heavy-handed for this example.\nsubroutine max_at(x, q1, q2, q3, vec)\n   real, intent(in) :: x(..)\n   real, intent(in) :: q1(..)\n   real, intent(in) :: q2(..)\n   real, intent(in) :: q3(..)\n   real, intent(out) :: vec(3)\n\n   integer, allocatable :: idx(:)\n\n   select rank (x)\n   rank(2)\n      idx = maxloc(x)\n      vec = [q1(@idx),q2(@idx),q3(@idx)]\n   rank(3)\n      idx = maxloc(x)\n      vec = [q1(@idx),q2(@idx),q3(@idx)]\n   rank(4)\n      idx = maxloc(x)\n      vec = [q1(@idx),q2(@idx),q3(@idx)]\n   end select\n\nend subroutine max_at\nWith some sort of templating capability in F202Y I imagine something similar to the following should be possible.  Here\n is suggestive of an integer template parameter that specifies the ranks.\nsubroutine max_at<n>(x, q1, q2, q3, vec)\n   real, rank(n), intent(in) :: x\n   real, rank(n), intent(in) :: q1\n   real, rank(n), intent(in) :: q2\n   real, rank(n), intent(in) :: q3\n   real, intent(out) :: vec(3)\n\n   integer, allocatable :: idx(:)\n\n   idx = maxloc(x)\n   vec = [q1(@idx),q2(@idx),q3(@idx)]\n\nend subroutine max_at\nNow consider a more complex example where multiple rank-related factors come into play.\nRequirement: a software layer that supports performing a GATHER operation (originally MPI, but using co-arrays here) for an array that has one dimension distributed over multiple images.  The supported ranks are 2-5, but the distributed dimension might be any of the 2nd, 3rd, or 4th dimension.  This is a real use case from a\nmajor climate model, GISS ModelE.\nIn the real code the extent of the local array in each dimension can vary due to divisibility of the global domain size vs number of images, but for simplicity, assume that the local array on each image has an extent of 2 in the distributed dimension.  We will also allow the allocation of the output array to be performed on the\nclient side.\nThis is only one of several algorithms that require somewhat similar implementations in the model.\nF2008 approach.\ninterface\n   module procedure gather_2d  ! not shown here\n   module procedure gather_3d\n   module procedure gather_4d\n   module procedure gather_5d  ! not shown here\nend interface\n\ncontains\n   \nsubroutine gather_3d(local_arr, dim, global_arr)\n   real, intent(in) :: local_arr(:,:,:)\n   integer, intent(in) :: dim\n   real, intent(out) :: global_arr(:,:,:)\n\n   integer :: p\n   integer :: k0, k1\n\n   sync_all\n   if (this_image() == 1) then\n\n      do p = 1, num_images()\n         k0 = 1 + (p-1)*2\n         k1 = p*2\n         select case (dim)\n         case (2)\n            global_arr(:,k0:k1,:) = local_array[p]\n         case (3)\n            global_arr(:,:,k0:k1) = local_array[p]\n         end select\n      end select\n   end if\n   sync_all\n   \nend subroutine gather_3d\n\nsubroutine gather_4d(local_arr, dim, global_arr)\n   real, intent(in) :: local_arr(:,:,:,:)\n   integer, intent(in) :: dim\n   real, intent(out) :: global_arr(:,:,:,:)\n\n   integer :: p\n   integer :: k0, k1\n\n   sync_all\n   if (this_image() == 1) then\n\n      do p = 1, num_images()\n         k0 = 1 + (p-1)*2\n         k1 = p*2\n         select case (dim)\n         case (2)\n            global_arr(:,k0:k1,:,:) = local_array[p]\n         case (3)\n            global_arr(:,:,k0:k1,:) = local_array[p]\n         case (4)\n            global_arr(:,:,:,k0:k1) = local_array[p]\n         end select\n      end select\n   end if\n   sync_all\n   \nend subroutine gather_3d\n...\nWith F2018 we might try to use select rank, but we end up with nested constructs:\nsubroutine gather(local_arr, dim, global_arr)\n   real, intent(in) :: local_arr(..)[*]\n   integer, intent(in) :: dim\n   real, intent(out) :: global_arr(..)\n\n   integer :: p\n   integer :: k0, k1\n\n   sync_all\n   if (this_image() == 1) then\n\n      do p = 1, num_images()\n         k0 = 1 + (p-1)*2\n         k1 = p*2\n         select rank(local_arr)\n         rank (2)\n            ! dim must be 2\n            global_arr(:,k0:k1) = local_array[p]\n         rank (3)\n            select case (dim)\n            case (2)\n               global_arr(:,k0:k1,:) = local_array[p]\n            case (3)\n               global_arr(:,:,k0:k1) = local_array[p]\n            end select\n         rank (4)\n            select case (dim)\n            case (2)\n               global_arr(:,k0:k1,:,:) = local_array[p]\n            case (3)\n               global_arr(:,:,k0:k1,:) = local_array[p]\n            case (4)\n               global_arr(:,:,:,k0:k1) = local_array[p]\n            end select\n         rank (5)\n            select case (dim)\n            case (2)\n               global_arr(:,k0:k1,:,:,:) = local_array[p]\n            case (3)\n               global_arr(:,:,k0:k1,:,:) = local_array[p]\n            case (4)\n               global_arr(:,:,:,k0:k1,:) = local_array[p]\n            end select\n         end select\n   end if\n   sync_all\nend subroutine gather\nWith F202x rank-agnostic capabilities, we can avoid the nesting:\nsubroutine gather(local_arr, dim, global_arr)\n   real, intent(in) :: local_arr(..)[*]\n   integer, intent(in) :: dim\n   real, intent(out) :: global_arr(..)\n\n   integer :: p\n   integer :: k0, k1\n   integer, allocatable :: shp(:)\n\n   shp = shape(local_array)\n   sync_all\n   if (this_image() == 1) then\n      do p = 1, num_images()\n         k0 = 1 + (p-1)*2\n         k1 = p*2\n         select rank(local_arr)\n         rank (2)\n            ! dim must be 2\n            global_arr(:,k0:k1) = local_array[p]\n         rank (3)\n            global_arr(@:shp(1:dim-1),k0:k1,@:shp(dim+1:)) = local[p]\n         rank (4)\n            global_arr(@:shp(1:dim-1),k0:k1,@:shp(dim+1:)) = local[p]\n         rank (5)\n            global_arr(@:shp(1:dim-1),k0:k1,@:shp(dim+1:)) = local[p]\n         end select\n   end if\n   sync_all\nend subroutine gather\nWith F202y some templating mechanism might allow the following:\nsubroutine gather<n>(local_arr, dim, global_arr)\n   real, rank(n) intent(in) :: local_arr[*]\n   integer, intent(in) :: dim\n   real, rank(n), intent(out) :: global_arr[*]\n\n   integer :: p\n   integer :: k0, k1\n   integer, allocatable :: shp(:)\n\n   sync_all\n   if (this_image() == 1) then\n      do p = 1, num_images()\n         k0 = 1 + (p-1)*2\n         k1 = p*2\n\n         shp = shape(local_array)\n         global_arr(@:shp(1:dim-1),k0:k1,@:shp(dim+1:)) = local[p]\n      end do\n   end if\n   sync_all\nend subroutine gather\nSummary\nAssumed-rank is good for reducing the near-duplication of interfaces for different ranks, but is almost useless for reducing\nnear-duplication of the logic that must go inside SELECT RANK constructs.  Indeed many of my other uses of SELECT RANK have identical code inside each RANK clause, except for the DEFAULT clause.\nF202x rank-agnostic features are good for reducing near-duplication, within a given RANK clause\nF202y generic features are expected to eliminate the need for SELECT RANK entirely for many use cases, and in conjunction with the rank-agnostic features almost completely eliminate near duplication of code for this class of problem."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2020-10-16 00:12:12+00:00",
+                    "text": "I would hope that any serious proposal to replace the F202x \"@\" syntax would work well in the previous examples.   I'm not particularly opposed to the function-based approach that was suggested earlier in this thread, but I think doing anything like that on the LHS of the assignment will meet some resistance.   When various use cases were discussed in planning F202x there was significantly less backing for accessors than there were for most of the other use cases."
                 }
             ]
         },
@@ -4832,6 +5477,11 @@
                     "user": "ivan-pi",
                     "date": "2020-07-28 11:52:27+00:00",
                     "text": "The ISO C++ committee is looking at differentiable programming in one of their study groups: https://docs.google.com/document/d/1_5TJCBvI6fZSdyuK7_Cpo5XwdoIS24DDbEPh2JjqQsg/edit?ts=5cf823e2#heading=h.t1fxx74w88nq\nIt seems as if the Fortran community is starting to fall behind on this issue compared to Julia and C++."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-10-15 13:46:50+00:00",
+                    "text": "Perhaps of interest: Algorithm 1005: Fortran Subroutines for Reverse Mode Algorithmic Differentiation of BLAS Matrix Operations. I could not find the actual Fortran routines. But it shows at least there is still large interest in having the possibility to automatically differentiate Fortran programs that rely on BLAS. Hopefully, LAPACK follows (in the paper they already show discuss algorithmic differentiation of the Cholesky decomposition).\n\nThe routines are now available on the ACM page: https://dl.acm.org/doi/10.1145/3382191"
                 }
             ]
         },
@@ -11193,7 +11843,7 @@
                 {
                     "user": "klausler",
                     "date": "2020-09-23 21:28:41+00:00",
-                    "text": "import conflicts with existing usage; with doesn't make immediate sense to the new reader.\nConsider something like use :: mylib, ns => * or use, as(ns) :: mylib."
+                    "text": "import conflicts with existing usage; with doesn't make immediate sense to the new reader.\nConsider something like use :: mylib, ns => * or use, as(ns) :: mylib.\n(Edit: see below, I think use :: ns => mylib is better.)"
                 },
                 {
                     "user": "certik",
@@ -11374,6 +12024,111 @@
                     "user": "certik",
                     "date": "2020-09-28 15:52:41+00:00",
                     "text": "Thanks everybody for your input and making progress on this issue.\n@septcolor raises an important thing to consider: #86 (nested modules). As posted there, this might work:\nuse, namespace :: mylib%a\n...\ncall mylib%a%something()\n\nI like the :: option instead of % also, but I don't know if it will work syntax wise for nested modules:\nuse, namespace :: mylib::a\n...\ncall mylib::a::something()\n\nDon't know if there could be issues parsing it.\nAnother issue to consider is nested modules (proposed feature as in #86) versus modules using other modules (existing feature) with regards to syntax and importing. E.g., does call mylib::a::something() work for both a being a nested module, versus a being used inside mylib?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-01 17:14:09+00:00",
+                    "text": "There seems to have been a consensus that there should be a poll/vote on the preferred syntax. As there has been a significant pause in postings on this issue, I think it is an appropriate to summarize our current syntactic options to prompt more suggestions for options. There are four orthogonal choices in the syntax:\n\nWhat word to use as the keyword\nWhere to put the keyword\nHow to do module renaming\nWhat to use as the accessor \"operator\"\n\nWhat word to use\nSo far I have seen the following suggestions for keywords:\n\nadorn - a shorter version of decorate\nas or as is - one for renaming the other for non-renaming. What happens if you want to rename to is?\ndecorate - slightly long, has a dirfferent meaning in software engineering\nemploy - a synonym to use\nimport - used for this in Python, but already a keyword with different semantics\nnamespace - main problem is its length, but users of C++, where namespace behaves like Fortran's use, may find this usage counterintuitive\nns - an abbreviation for namespace that is similar to nanosecond\nonly - only as a use statement terminator, overloads its current meaning\nqualified - one of its meanings is suggestive of the semantics, but not the most commonly used meaning, as long as namespace\nsource - slightly suggestive of the semantics\nusing - similar to use, slightly suggests requiring the module name to access\nwith - main advantage is its length, some find it unintuitive\n\nAre there any names I missed? With this many options it might be best to do a ranked choice vote.\nWhere to put the keyword\nI know of three possible places to put the keyword\n\nAt the beginning, making its own statement, i.e, keyword[[, module-nature]::] .... This is what most of the languages cited do.\nAfter the use keyword: use [[, keyword][, module-nature]::] ... or use [[, module-nature][, keyword]::] .... It will be tempting to lump the keyword with intrinsic and nonintrinsic in module-nature, in which case the standard needs to explain that there is no only or rename list.\nReplacing the only keyword: use[[, module-nature]::] module-name, keyword[:local-module-name]\nmaking a third form of a use statement.\n\nHow to rename modules\nI have noted three ways to do module renaming:\n\nUse a syntax based on the rename list of the use statement [local-module-name=>]module-name, e.g.,\n\n\nkeyword[[, module-nature]::] [local-module-name=>]module-name\nuse [[, keyword][, module-nature]::] [local-module-name=>]module-name\nuse [[,module-nature]::][local-module-name=>]module-name, keyword\n\n\nAfter the colon after the module name where the keyword replaces only: use [[,module-nature]::]module-name, keyword[: local-module-name]\nIn a parenthesized rename after the keyword\n\n\nkeyword[([name=]local-module-name)][[, module-nature]::] module-name\nuse [[, keyword[([name=]local-module-name)]][, module-nature]::] module-name\nuse [[,module-nature]::]module-name, keyword[([name=]local-module-name)]\n\nWhat to use as accessor operator\nI have noted two suggestions for the accessor operator\n\n%, used as the accessor for derived types\n::, used extensively in the specification-part, but not in the execution-part of Fortran programs/subprograms. The main question is would its use cause what is intended to be an executable statement, to be interpreted as a specification statement, i.e., could a module name be the same as the start of a specification statement.\n\nIn principle other characters could also be used: backtick, ~, @, ^, |, and \\ are ASCII characters not used by Fortran, and, I believe, not used by the common pre-processors.\nFWIW I tend to prefer the shorter keywords, but dislike overloading the meaning of \"only\" and \"import\". So my first preference is with followed by using and adorn. I believe modifying the use statement to incorporate the keyword, will more complicate the standard than having a keyword statement, so I prefer a keyword statement. Because I don't want a modified use statement, I don't want the rename after the colon after the keyword. I don't have strong feelings about keyword[([name=]local-module-name)] versus [local-module-name=>]module-name. I prefer the accessor to be the same as for derived types, i.e., %, but :: would also be acceptable.\nEdit: Formatting by @milancurcic for readability"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-01 19:35:50+00:00",
+                    "text": "Thank you for the summary @wclodius2, it's very helpful. Here's my current preference:\n\nWhat word to use: as (renaming) and as is (non-renaming)\nWhere to put the keyword: Option 3: use[[, module-nature]::] module-name, as[: local-module-name]\nHow to rename modules: use[[, module-nature]::] module-name, as is\nWhat to use as accessor operator: Aesthetically I like :: best. If it's problematic due to issues you raise, I like either % or @. Others I don't like.\n\nExamples:\n\nuse stdlib_stats, as: stats\nuse stdlib_stats, as is\n\nAddendum to the syntax proposal which would allow orthogonal imports as @klausler suggested: It's possible to use the only keyword following the as: local-module-name, so the syntax becomes:\nuse[[, module-nature]::] module-name, as[: local-module-name][, only: [local-entity-name =>] entity-name]\n\nExample:\nuse stdlib_stats, as: stats, only: mean, var\n\nThis statement would import stdlib_stats as a stats namespace (with all public entities therein available via the namespace), and also import mean and var into the global namespace.\nTo prevent writing confusing code, as would have to appear before only if both are used. So\nuse stdlib_stats, only: mean, var, as: stats\n\nshouldn't be allowed IMO."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-01 19:46:56+00:00",
+                    "text": "I don't see why syntax is needed to enable a namespace without renaming.  That could be automatic in the absence of a namespace name.  None of gfortran, ifort, nagfor, or xlf allow a module name to be used in a scope for anything else after it appears on a USE statement."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-01 19:50:38+00:00",
+                    "text": "I didn't think about that. It does seem like the most elegant solution. Simply make it available as a namespace if you don't need it renamed. It's backward compatible because, as you say, it has been impossible to reference a module name after a use statement. I like it."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-10-01 20:01:51+00:00",
+                    "text": "First Fortran module names tend to be long to reduce the possibility of name clashes so most of the time users would find renaming useful though it could be\n\nuse[(name=local-module-name)][[,module-nature]::]module-name..;.\n\nSecond some users will want the processor to enforce the use of the module name as a qualifier which in turn requires the use of a different syntax to let the processor know that that is a requirement."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-01 20:02:19+00:00",
+                    "text": "If :: is the separator, then INTEGER::X=666 would be ambiguous if INTEGER were a namespace.\n(EDIT: Only as the first statement in an executable part, of course.)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-10-01 20:11:53+00:00",
+                    "text": "some users will want the processor to enforce the use of the module name as a qualifier which in turn requires the use of a different syntax to let the processor know that that is a requirement.\n\nIndeed, once you can namespace, simple and common names will proliferate in modules and the user should have a way to not have them pollute the global namespace."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-01 20:32:14+00:00",
+                    "text": "My preference is to replace the current\nR1409 use-stmt is USE [ [ , module-nature ] :: ] module-name [ , rename-list ]\n               or USE [ [ , module-nature ] :: ] module-name , ONLY : [ only-list ]\n\nwith\nR1409 use-stmt is USE [ [ , module-nature ] :: ] [namespace-name=>] module-name [ , rename-list ]\n               or USE [ [ , module-nature ] :: ] [namespace-name=>] module-name , ONLY : [ only-list ]\n\nwith automatic creation of a namespace when an explicit [namespace-name=>] is missing.\nIn some far-off future when module-name becomes module-name [( module-actual-arg-list )], automatic creation of a namespace wouldn't happen when actual arguments appear, of course."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-01 21:03:19+00:00",
+                    "text": "@klausler That seems to be a very similar idea to what I proposed above #1 (comment), but I thought you didn't like it. Are you proposing exactly the table in that comment, or are you proposing the following table (in other words, do you want to allow use A, only: or not):\n\n\n\nCase\nPython\nJulia\nChapel\nFortran\n\n\n\n\n1.\nimport A\nimport A\nuse A only\nuse A\n\n\n2.\nimport A as B\nimport A as B\nuse A as B only\nuse B => A\n\n\n3.\nfrom A import x\nusing A: x\nuse A only x\nuse A, only: x\n\n\n4.\nfrom A import x as y\nimport A: x as y\nuse A only x as y\nuse A, only: y => x\n\n\n5.\nfrom A import *\nusing A\nuse A\nuse A\n\n\n\nFurthermore, in all cases 1.-5., the module name A (or B in 2.) will always be created as a namespace, in addition to importing all the symbols from it in 1., 2. and 5. (and only x or y in 3. and 4.).\nIf the above is what you are proposing, I can see all kinds of extensions in the compiler, for example with an option the compiler can start warning (by supplying -Wimplicit-use) if you do use A but use any implicitly imported symbol from the module (in case 1.), and if you want to use case 5. and not get a warning, you can do use A, only: *. The syntax would be natural, and I would enable that -Wimplicit-use warning option for my codes (I currently never use use A anyway). In this case, it would make sense to consider adding the syntax use A, only: * into this proposal also, to make it standardized: in other words, use A, only: * would be equivalent to use A, but the compiler would only warn if you use some symbol implicitly in the latter case. That should be strictly backwards compatible, and yet doing exactly what I would like. People who don't like this (or for older codes) would just not enable the -Wimplicit-use compiler warning."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-01 21:24:10+00:00",
+                    "text": "Yes, the syntax already permits use :: m, only:.  But I don't see a need for a new , only: *, and I don't think it's a good idea to force the use of new syntax to avoid a warning on existing code that shouldn't need to be changed."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-01 21:37:43+00:00",
+                    "text": "Ok, so to summarize, you are proposing this:\n\n\n\nCase\nPython\nJulia\nChapel\nFortran\n\n\n\n\n1.\nimport A\nimport A\nuse A only\nuse A, only:\n\n\n2.\nimport A as B\nimport A as B\nuse A as B only\nuse B => A, only:\n\n\n3.\nfrom A import x\nusing A: x\nuse A only x\nuse A, only: x\n\n\n4.\nfrom A import x as y\nimport A: x as y\nuse A only x as y\nuse A, only: y => x\n\n\n5.\nfrom A import *\nusing A\nuse A\nuse A\n\n\n\nWhere the cases 1. and 2. are exactly equivalent to Python, but cases 3., 4. and 5. are a \"superset\" of Python: they import the x, y or all symbols as in Python respectively, but also in addition make the module name A available as a namespace in Fortran (which does not happen in Python).\nI like this proposal."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-01 22:17:53+00:00",
+                    "text": "Ok, so to summarize, you are proposing this:\nCase\tPython\tJulia\tChapel\tFortran\n\nimport A\timport A\tuse A only\tuse A, only:\nimport A as B\timport A as B\tuse A as B only\tuse B => A, only:\nfrom A import x\tusing A: x\tuse A only x\tuse A, only: x\nfrom A import x as y\timport A: x as y\tuse A only x as y\tuse A, only: y => x\nfrom A import *\tusing A\tuse A\tuse A\nWhere the cases 1. and 2. are exactly equivalent to Python, but cases 3., 4. and 5. are a \"superset\" of Python: they import the x, y or all symbols as in Python respectively, but also in addition make the module name A available as a namespace in Fortran (which does not happen in Python).\n\nI like this proposal.\n\nI don't know any of those languages well enough to know whether there's a correspondence or not."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-01 22:48:06+00:00",
+                    "text": "The harder part of this proposal remains to be discussed, too.  Of all of the places in the Fortran grammar where \"name\" or \"*-name\" or \"name-list\" (&c.) appears, which will be replaced with \"qualified-name\"?  Or will all names be potentially qualifiable by default, with some possible exceptions that will have to become \"unqualified-name\"?  There's a lot of ways that names can be used in the language and the due diligence here is going to be a lot of work.\nAnd some cases are not obvious.  Will MODULE PROCEDURE NS%FOO be allowed as a top-level program unit?  Is EXTERNAL :: NS%FOO ok?  Would VOLATILE NS%FOO make that variable volatile in the local scope?  Will lexers have to accept NS%KP_\"string\"?  (I'm not looking for answers, just listing some cases where a decision to allow a qualified name or not might not be clear for syntactic reasons or semantic implications.)  Somebody's going to have to sign up to work this out in order to have a complete proposal for a language feature.  This is an area where implementation first would drive resolution, too."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-01 23:06:02+00:00",
+                    "text": "Thanks Peter. My goal is to get it pre-approved by the committee, saying \"yes, we want this feature, as long as all the issues can be satisfactorily resolved\". The minute it does, I am sure multiple people from the community will help. Obviously nobody wants to put in weeks of work if the committee decides they don't want this feature in the first place.\nI plan to prototype this in a compiler."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-10-01 23:11:12+00:00",
+                    "text": "@klausler  wrote Oct. 1, 2020 6:48 PM EDT:\n\nThe harder part of this proposal remains to be discussed, too. ..\n\nI agree.\nAs I alluded to earlier, Fortran language can do better by gaining the formal concept of namespaces.  Ideally, features such as this are best handled as part of that effort.\nConsidering the complexities and constraints involved with piecemeal attempts, a prototype implementation for the formal namespace concept itself will be nice.  The aspects such as this thread can be subparts of such an initiative."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-10-02 00:09:25+00:00",
+                    "text": "@klausler wrote Oct. 1, 2020 6:48 PM EDT:\n\nThe harder part of this proposal remains to be discussed, too. ..\n\nI agree.\nAs I alluded to earlier, Fortran language can do better by gaining the formal concept of namespaces. Ideally, features such as this are best handled as part of that effort.\nConsidering the complexities and constraints involved with piecemeal attempts, a prototype implementation for the formal namespace concept itself will be nice. The aspects such as this thread can be subparts of such an initiative.\n\nHow do your namespaces differ from modules?"
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-10-02 20:32:14+00:00",
+                    "text": "Hi @klausler\nBecause I have no experience of writing a compiler, I strongly feel that \"noob\" opinions and proposals (including me) is actually very dangerous (because I cannot imagine such issues very soon). At the very least, I think people with sufficient knowledge of compiler development or CS backgrounds should be more responsible for this kind of tasks. In this regard, I always wonder: what is the role of the  current international standard committee here? Are they not consisting of compiler or CS experts to participate in proposing new features (if they belong to large companies and involved in Fortran related products)? I hope the compiler or CS experts in the committee (if any) will play more active roles in proposing new features to catch up with other modern languages (and make the life easier for Fortran users).\n\nAnd some cases are not obvious.  (...snip...)\n\nRE MODULE PROCEDURE NS%FOO, EXTERNAL :: NS%FOO, VOLATILE NS%FOO (<-- I understand that the \"response\" (particularly from noobs like me) is not needed here, but anyway...), I feel that the first stage for introducing such namespace can be very restrictive, for example, something like \"one shall not add new attributes for module entities defined in one scope via qualification by other modules\" etc, etc (so as to minimize the workload of considering semantic implications). And if it turns out to be no problem to allow a particular usage later, I guess the latter may be added (\"relaxed\") later (which seems to be a typical pattern used in Fortran before)."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-10-02 20:48:09+00:00",
+                    "text": "@Klauser\n\nI don't know any of those languages well enough to know whether there's a correspondence or not.\n\nI often refer to Chapel because it is (1) a statically typed language, (2) its syntax was originally influenced partly by Fortran, (3) its main emphasis is massive parallel computing. However, Chapel is still a very niche language (it is even not within 100th of the TIOBE ranking), and I think it is no wonder that it is not known very well. (And, I am not trying to \"sell\" Chapel in any way; it has its own limitations that are different from Fortran or other languages.)\nhttps://en.wikipedia.org/wiki/Chapel_(programming_language)\nRE Python and Julia, they are already pretty popular in all the language list, but they are dynamically typed languages, so I think there exist inherent differences from statically typed languages (IMO). For example, in Python, module names and other variables are treated on an equal footing, but I guess it is not \"equal\" in statically typed languages. So, although the comparison with popular languages is useful (in that they increase the degree of familiarity for potential users from other languages), I am afraid there is potential cases that can lead to issues. After all, I also think that experimental implementation would reveal potential issues (based on specifications by experts, if possible...)"
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-10-02 22:25:40+00:00",
+                    "text": "RE namespace and modules, C++20 now has modules. Other languages I've been learning all use the concept of modules + import now (indeed, things seem to have been converging to the latter). I think the concept of namespaces is of more \"low-level\" and possibly plays more primitive roles as building blocks. However, given that Fortran already has modules, what is the merit of further introducing the concept of namespaces separately? (I am not against it but cannot understand the merit very well because many other languages seem to have no problems with modules only.)\nhttps://en.cppreference.com/w/cpp/language/modules"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-10-02 22:33:42+00:00",
+                    "text": "I personally feel we don't need namespaces, but I agree with Vipul that we should keep it in mind and not close doors by introducing something that would make it very hard to introduce namespaces later if the community wishes that.\nModules and a well designed \"import\" is what I personally would like to see. Fortran is very close.\n@septcolor regarding who can contribute: I strongly encourage you and anyone else to contribute. The committee and the community is composed of both users and compiler vendors / experts, and we need both to collaborate on new features. Leaving things just to compiler vendors, or just to users to design is not optimal, we need a healthy collaboration of both groups."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-10-03 03:25:31+00:00",
+                    "text": "@wclodius2 wrote Oct. 1, 2020\n\nThere seems to have been a consensus that there should be a poll/vote on the preferred syntax. As there has been a significant pause in postings on this issue, I think it is an appropriate to summarize our current syntactic options to prompt more suggestions for options. There are four orthogonal choices in the syntax:\nWhat word to use as the keyword\n..\n\nIf there are folks who aren't enthused by any of the keywords thus far, here's another one that can perhaps considered for the poll?  PREFIX:\nuse, prefix(ut) :: utils, only : savetxt\n..\ncall utXsavetxt(..)"
                 }
             ]
         }
