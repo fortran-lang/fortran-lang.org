@@ -180,11 +180,11 @@ join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with th
 We thank everybody who contributed to fortran-lang in the past month by
 commenting in any of these repositories:
 
-* [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib),
-* [fortran-lang/fpm](https://github.com/fortran-lang/fpm),
-* [fortran-lang/fpm-registry](https://github.com/fortran-lang/fpm-registry),
-* [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org),
-* [fortran-lang/benchmarks](https://github.com/fortran-lang/benchmarks),
-* [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals):
+* [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib)
+* [fortran-lang/fpm](https://github.com/fortran-lang/fpm)
+* [fortran-lang/fpm-registry](https://github.com/fortran-lang/fpm-registry)
+* [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org)
+* [fortran-lang/benchmarks](https://github.com/fortran-lang/benchmarks)
+* [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals)
 
 <div id="gh-contributors" data-startdate="October 01 2020" data-enddate="October 31 2020" height="500px"></div>
