@@ -13,7 +13,7 @@ choose from:
 
 __Option 1: Distribute the entire source code__
 
-By far the simplest – for you as a programmer – is this one: you leave it
+By far the simplest — for you as a programmer — is this one: you leave it
 up to the user to build it on their own machine. Unfortunately, that
 means you will have to have a user-friendly build system in place and
 the user will have to have access to suitable compilers. For build systems:
@@ -88,7 +88,7 @@ or:
 ifort -exe:functions.dll functions.f90 -dll
 ```
 
-As said, you cannot control that the user has done the right thing – any
+As said, you cannot control that the user has done the right thing — any
 DLL "functions.dll" with a function `f` would be accepted, but not necessarily
 lead to a successful run.
 

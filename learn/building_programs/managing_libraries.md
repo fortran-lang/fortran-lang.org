@@ -104,8 +104,8 @@ a dynamic link library)
 
 There is one more thing to be aware of: On Windows you must
 explicitly specify that a procedure is to be _exported_, i.e. is visible
-in the dynamic library. There are several ways – depending on the
-compiler you use – to achieve this. One method is via a so-called
+in the dynamic library. There are several ways — depending on the
+compiler you use — to achieve this. One method is via a so-called
 compiler directive:
 
 ```fortran
@@ -133,7 +133,7 @@ let it reside in a dynamic library, say "functions.dll", we can simply
 replace the implementation of the function by putting another dynamic
 library in the directory. No need to rebuild the program as such.
 
-On Cygwin it is not necessary to explicitly export a procedure – all
+On Cygwin it is not necessary to explicitly export a procedure — all
 publically visible routines are exported when you build a dynamic library.
 Also, no import library is generated.
 
@@ -179,7 +179,7 @@ can do no checking.
 
 ## Windows and Intel Fortran
 The setup is the same as with Linux, but on Windows it is necessary
-to explicitly export the routines. And an import library is generated –
+to explicitly export the routines. And an import library is generated —
 this is the library that should be used in the link step.
 
 The source file must contain the compiler directive, otherwise the function `f`
@@ -208,7 +208,7 @@ $ ifort tabulate.f90 functions.lib
 Note that we need to specify the name of the export library, not the DLL!
 
 (Note also: the Intel Fortran compiler uses the name of the first source file as the
-name for the executable – here we do without the `-exe` option.)
+name for the executable — here we do without the `-exe` option.)
 
 Just as under Cygwin, the DLL and the .mod file are used to build the executable program
 with checks on the function's interface, the right name and the reference

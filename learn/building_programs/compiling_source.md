@@ -5,7 +5,7 @@ permalink: /learn/building_programs/compiling_source
 ---
 
 The first step in the build process is to compile the source code. The
-output from this step is generally known as the object code – a set of
+output from this step is generally known as the object code — a set of
 instructions for the computer generated from the human-readable source
 code. Different compilers will produce different object codes from the
 same source code and the naming conventions are different.
@@ -54,7 +54,7 @@ Windows.
 Some remarks:
 
 * The compiler may complain about the contents of the source file, if it
-finds something wrong with it – a typo for instance or an unknown
+finds something wrong with it — a typo for instance or an unknown
 keyword. In that case the compilation process is broken off and you will
 not get an object file or an executable program. For instance, if
 the word "program" was inadvertently typed as "prgoram":
@@ -78,7 +78,7 @@ Using this compilation report you can correct the source code and try
 again.
 
 * The step without "-c" can only succeed if the source file contains a
-main program – characterised by the `program` statement in Fortran.
+main program — characterised by the `program` statement in Fortran.
 Otherwise the link step will complain about a missing "symbol", something
 along these lines:
 
@@ -98,9 +98,9 @@ compiler running in a Cygwin environment on Windows.
 
 Compilers also differ in the options they support, but in general:
 
-* Options for optimising the code – resulting in faster programs or
+* Options for optimising the code — resulting in faster programs or
 smaller memory footprints;
-* Options for checking the source code – checks that a variable is not
+* Options for checking the source code — checks that a variable is not
 used before it has been given a value, for instance or checks if some
 extension to the language is used;
 * Options for the location of include or module files, see below;
