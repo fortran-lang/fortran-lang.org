@@ -253,8 +253,9 @@ implicit rules messing up our ``Makefile`` in surprising and harmful ways.
 Next, we have a configuration section where we define variables, in case you
 want to switch out your compiler, it can be easily done here.
 We also introduced the ``SRCS`` variable to hold all source files, which is
-more intuitive than specifying object files, we can easily create the object
-files by appending a ``.o`` suffix using the functions ``addsuffix``.
+more intuitive than specifying object files.
+We can easily create the object files by appending a ``.o`` suffix using the
+functions ``addsuffix``.
 The ``.PHONY`` is a special rule, which should be used for all entry points
 of your ``Makefile``, here we define two entry point, we already know *all*,
 the new *clean* rule deletes all the build artifacts again such that we indeed
@@ -313,7 +314,7 @@ You should find the expected (or maybe unexpected) printout after running ``make
 {% include note.html content="appending with ``+=`` to an undefined variable will produce a recursively expanded variable with this state being inherited for all further appending." %}
 
 While, it seems like an interesting feature to use, it tends to lead to
-surprising and expected outcomes. Usually, when defining variables like your
+surprising and unexpected outcomes. Usually, when defining variables like your
 compiler, there is little reason to actually use the recursive expansion at all.
 
 The same can easily be archived using the ``:=`` declaration:
