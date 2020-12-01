@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: December 2020"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Jérémie Vandenplas, Laurence Kedward
 ---
 
 Welcome to the December 2020 edition of the monthly Fortran newsletter.
