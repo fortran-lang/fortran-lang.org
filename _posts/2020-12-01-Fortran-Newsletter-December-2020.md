@@ -123,6 +123,8 @@ You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://tw
 
 ## Events
 
+* Brian Friesen (Lawrence Berkeley National Laboratory) was selected to be the new Chair of PL22.3 (J3, US Standards Committee).
+Brian will serve in his first term until November 2023. Congratulations, Brian!
 * We had our 6th Fortran Monthly call on November 17.
 You can watch the recording below:
 
