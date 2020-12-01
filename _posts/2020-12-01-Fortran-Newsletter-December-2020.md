@@ -52,7 +52,7 @@ Don't hesitate to test and review these pull requests!
 Otherwise, ongoing discussions continue:
 * [#220](https://github.com/fortran-lang/stdlib/issues/220): API for file system operations: directory manipulation
 * [#241](https://github.com/fortran-lang/stdlib/issues/241): Include a `split` function (202X feature)
-[#254](https://github.com/fortran-lang/stdlib/issues/254): Proposition to add a logger for debug phases and levels among the different logs.
+* [#254](https://github.com/fortran-lang/stdlib/issues/254): Proposition to add a logger for debug phases and levels among the different logs.
 
 The candidate for file system operations to be included in stdlib is being developed by
 [@MarDiehl](https://github.com/MarDiehl) and [@arjenmarkus](https://github.com/arjenmarkus)
