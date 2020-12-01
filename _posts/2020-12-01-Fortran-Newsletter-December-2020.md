@@ -77,7 +77,7 @@ Here's what's new in fpm:
   [#229](https://github.com/fortran-lang/fpm/pull/229),
   [#236](https://github.com/fortran-lang/fpm/pull/236),
   [#240](https://github.com/fortran-lang/fpm/pull/240),
-  [#247](https://github.com/fortran-lang/fpm/pull/240), Other fixes and improvements.
+  [#247](https://github.com/fortran-lang/fpm/pull/240): Other fixes and improvements.
 
 Work in progress:
 
