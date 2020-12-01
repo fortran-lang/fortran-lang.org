@@ -13,7 +13,7 @@ choose from:
 
 __Option 1: Distribute the entire source code__
 
-By far the simplest - for you as a programmer - is this one: you leave it
+By far the simplest — for you as a programmer — is this one: you leave it
 up to the user to build it on their own machine. Unfortunately, that
 means you will have to have a user-friendly build system in place and
 the user will have to have access to suitable compilers. For build systems:
@@ -79,17 +79,17 @@ end module user_functions
 * Provide a basic build script with a command like:
 
 ```shell
-gfortran -o function.dll function.f90 -shared
+gfortran -o functions.dll functions.f90 -shared
 ```
 
 or:
 
 ```shell
-ifort -exe:function.dll function.f90 -dll
+ifort -exe:functions.dll functions.f90 -dll
 ```
 
-As said, you cannot control that the user has done the right thing - any
-DLL "function.dll" with a function `f` would be accepted, but not necessarily
+As said, you cannot control that the user has done the right thing — any
+DLL "functions.dll" with a function `f` would be accepted, but not necessarily
 lead to a successful run.
 
 An alternative set-up would be to change the main program into a subroutine

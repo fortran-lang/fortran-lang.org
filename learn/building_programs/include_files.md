@@ -34,14 +34,14 @@ tabulate/
     main/
         tabulate.f90
     sub/
-        function.f90
+        functions.f90
 ```
 
-Compiling the file "function.f90" with the commands
+Compiling the file "functions.f90" with the commands
 
 ```shell
 $ cd sub
-$ gfortran -c function.f90
+$ gfortran -c functions.f90
 ```
 
 leads to this structure:
@@ -51,18 +51,18 @@ tabulate/
     main/
         tabulate.f90
     sub/
-        function.f90
-        function.mod
-        function.o
+        functions.f90
+        user_functions.mod
+        functions.o
 ```
 
 To successfully compile and subsequently build the program we need to
-tell the compiler where it can find the file "function.mod":
+tell the compiler where it can find the file "user\_functions.mod":
 
 ```shell
 $ cd main
 $ gfortran -c tabulate.f90 -I ../sub
-$ gfortran -o tabulate tabulate.o ../sub/function.o
+$ gfortran -o tabulate tabulate.o ../sub/functions.o
 ```
 
 The result:
@@ -74,9 +74,9 @@ tabulate/
         tabulate.o
         tabulate (or tabulate.exe on Windows)
     sub/
-        function.f90
-        function.mod
-        function.o
+        functions.f90
+        functions.o
+        user_functions.mod
 ```
 
 Notes:
