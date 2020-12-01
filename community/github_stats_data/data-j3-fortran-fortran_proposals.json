@@ -2,6 +2,45 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 188,
+            "user": "sblionel",
+            "date": "2020-11-09 00:39:55+00:00",
+            "title": "Unions",
+            "text": "For many years, I have heard complaints from users at the lack of unions in Fortran. DEC added unions as part of its STRUCTURE/RECORD extension in 1985, but J3/WG5 never seriously considered adding unions as far as I know. Some considered unions like EQUIVALENCE, a bad programming practice. In an ideal world, I would agree, but there are just too many places where non-Fortran APIs use unions (Windows API for one) and the lack of a way to represent these in Fortran is considered a defect.\nGiven that a common use of unions is in C-friendly APIs, I want to propose unions in the context of C interoperability. Here is my idea:\n\nSupport the DEC UNION/MAP syntax for interoperable types only\nDisallow types with an \"ultimate component\" of a union from: formatted I/O without DT, default initialization, structure constructors (only those that don't give names for all their components?). Am I missing anything? I thought about intrinsic assignment, but I think this is OK since an interoperable type can't contain a pointer, allocatable or coarray component. Basically, the things that imply a component order would be excluded.\n\nMany compilers already support the DEC syntax, so this would be relatively easy to implement.\nAs a reminder, it would look something like this:\ntype, bind(C) :: union_type\n  union\n    map \n      integer : I\n    end map\n    map\n      real :: R\n    end map\n  end union\nend type union_type\ntype(union_type) :: UR\n\nOne could then reference UR%I or UR%R which would share the same memory location. The DEC syntax didn't allow naming unions or maps - I am not sure there is a benefit in doing so.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-11-09 01:36:35+00:00",
+                    "text": "Thanks @sblionel for proposing this. That seems reasonable. Without this feature, what is the (current) way of interfacing a union in some C API?"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-11-09 14:28:33+00:00",
+                    "text": "The most straightforward way is to use the extension, if your compiler supports it. Otherwise you have to create separate type definitions for the alternate layouts and use TRANSFER to reinterpret the storage - messy.\nThe text about intrinsic assignment (10.2.1.3p14) will need some additional words on how to handle unions."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-11-09 23:08:28+00:00",
+                    "text": "Feedback from peers as well as requests by Fortranners on other peer-to-peer sites toward Fortran online do indeed indicate adding the facility toward a union-type in Fortran is a really good idea, some can argue it is long overdue.\nBut all such feedback also indicate a UNION type is a first-class need in Fortran itself, it can be useful in simulations, etc.\nTherefore, the Fortran facility need not be in the context of interoperability with C only.  Rather, the facility in Fortran should have additional characteristics when it comes to interoperability with C.  One can see that with the CHARACTER type.\nFor example, UNION can perhaps be an attribute of a derived type in Fortran with certain restrictions: its components are all either intrinsic and/or other derived types of UNION types, there are no ALLOCATABLE components, nor are there any type-bound procedures allowed nor generic bindings and so forth similar to those with SEQUENCE types (but without any baggage of the SEQUENCE types for sure).  The semantics of a type with a UNION attribute will be such that the STORAGE_SIZE of an object of said type is sufficient to contain the largest of the type components.\nBut that the BIND(C, ..) attribute brings additional semantics into effect toward interoperability with a C companion processor where each component in a union-type needs to be interoperable and the storage aspects then follow those of the companion processor e.g., with respect to any padding considerations.\nRegardless, the DEC Fortran extension that includes MAP sections look not only unnecessary but also not modern for standard Fortran.  It will be preferable if the Fortran standard excluded anything with MAP that is currently in DEC Fortran.\nAlso, it should be possible for a derived type to have a component that of a derived type with a UNION attribute regardless of whether the hosting derived type is a UNION type.\nThus a facility can look like so:\ntype, UNION :: some_union_type  !<-- see the attribute\n   integer :: i\n   real :: r\nend type\n\ntype, UNION, BIND(C) :: some_interoperable_union_type\n   integer(c_int) :: i\n   real(c_float) :: r\nend type\n\ntype, UNION, BIND(C) :: some_other_interoperable_type\n   type(some_interoperable_union_type) :: foo\n   character(kind=c_char,len=1) :: bar(N) !<-- where N is a named constant, or a constant expression, etc.\nend type"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-11-10 00:43:47+00:00",
+                    "text": "I'm sorry, @FortranFan , but I am having trouble understanding your suggestion. The DEC syntax provides much the same capability as C, allowing unions to be placed inside any type. It is very popular and well-understood. What is the use case of your version?\nI suggested restricting it to interoperable types because that's where the most common use is, and it means you don't have to come up with additional rules for things such as allocatable/pointer/coarray components."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-11-10 11:44:44+00:00",
+                    "text": "@sblionel wrote Nov. 9, 2020 7:43 PM EST:\n\nI'm sorry, @FortranFan , but I am having trouble understanding your suggestion. The DEC syntax provides much the same capability as C, allowing unions to be placed inside any type. It is very popular and well-understood. What is the use case of your version?\n..\n\nThe use case(s) I am referring to include all the situations in a pure Fortran context, with no involvement of a companion C processor, where Fortranners have a need for a union type.\nThe scenarios I am referring can include something as simple as\n   type, union :: foo_t\n      double precision :: x\n      character(kind=K, len=N) :: s\n   end type\nwhere such a type is consumed using a processor with support toward DOUBLE PRECISION that conforms to Fortran standard but whose interoperability with a companion C processor is of no relevance to the program at hand.  And the same with the CHARACTER type whose kind K has no relevance to 'C_CHAR' kind and where the program logic can depend on the length 'N' of a scalar component 's'.\nAs I wrote in my earlier post, there is a genuine need for a union type in Fortran which is not restricted in any way by the interoperability considerations with a companion C processor.\nIt's common in simulations (e.g., Physics simulations of particles) to work with \"blobs\" of data where\n\non the computational side of the program, the blob holds pertinent data consisting of Fortran intrinsic types including the floating-point formats that conform to the Fortran standard but not necessarily those of a C processor, and other intrinsic types including INTEGER, CHARACTER, and LOGICAL.  But\non the data management side of the simulation program the blob may be an array of some primitive type supported by the Fortran processor and conformant to the Fortran standard e.g., an array of an arbitrary INTEGER or CHARACTER types that conform to Fortran standard but which have no relevance to a companion C processor,\n\nBut I acknowledge also the importance of a union type in the context of interoperation with a companion C processor, a common scenario being one on Windows OS e.g., where a Fortran program needs to work with user input on a console using Microsoft Windows API ReadConsoleInput.\nThat's why I suggest the thought process and vision toward such a feature in Fortran be broader and that the development of any proposal strives to include both of the above needs in order to serve the best interests of Fortran practitioners."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2020-11-27 22:17:47+00:00",
+                    "text": "Given that EQUIVALENCE has been booted from the language, I'm doubtful that replacing it with a full-throated, distinct union type would get a warm reception. Nothing in my proposal precludes doing that later, but I'm focused on solving a particular problem in a way that I think would be acceptable to the committee - especially as many compilers already support it.\nType-casting is already possible in Fortran, albeit a bit clumsily, with C_LOC and C_F_POINTER. It seems to me that the use cases you mention can be handled by the proposal at hand."
+                }
+            ]
+        },
+        {
             "number": 187,
             "user": "certik",
             "date": "2020-10-27 19:11:37+00:00",
@@ -17,6 +56,16 @@
                     "user": "milancurcic",
                     "date": "2020-10-28 03:09:24+00:00",
                     "text": "Definition of SPLIT is in 16.9.194 of 20-007."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-01 01:37:50+00:00",
+                    "text": "I put an implementation here: https://github.com/milancurcic/fortran202x_split. I will request feedback in the stdlib issue."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-19 20:18:12+00:00",
+                    "text": "We discussed the split API on a call on Tuesday. You can watch the recording here.\nOn the call we came to an overall tentative agreement that the 3rd form of split may be not appropriate or intuitive to be part of the split functionality. As a reminder, the 3 forms of split, after 20-007 and 20-139 are:\n\nSPLIT (STRING, SET, TOKENS [, SEPARATOR])\nSPLIT (STRING, SET, FIRST, LAST)\nSPLIT (STRING, SET, POS [, BACK])\n\nWhile we found that the first two forms are useful and meaningful for split, we also found that the 3rd form is not appropriate because it doesn't actually do any splitting. Instead, it does \"finding\", which is more akin to the intrinsic index. Bundling the 3rd form of the currently approved split with the other two may thus be confusing to Fortran programmers.\nWe decided to write a proposal against exclude the 3rd form in the split intrinsic for F202X. I have agreed to take a lead on it. I plan to have a PR draft in this repo by early December, so it can be discussed ahead of time both here and on the J3 mailing list and/or forum well ahead of time."
                 }
             ]
         },
@@ -399,6 +448,11 @@
                     "user": "everythingfunctional",
                     "date": "2020-10-08 16:08:44+00:00",
                     "text": "I suggest to have unit tests in the production code and to be able to run unit tests with every standard conforming compiler and without any external tool.\n\nIs the idea then that the tests are run as part of the compilation process, but not included in the resulting executable? Or that the executable is able to \"test itself\" in some secondary mode of operation? I'm not familiar with D, so that example isn't particularly enlightening for me. Is D a compiled or interpreted language? What are the mechanics of running the unit tests?"
+                },
+                {
+                    "user": "Libavius",
+                    "date": "2020-11-19 16:08:43+00:00",
+                    "text": "@zmiimz I agree, that unit testing in the standard (like it exists for Python) would be perfect. Yet, for the time being, I can highly recommend pFUnit.\nPS: Many other modern languages do also not have a built-in unit test capability (e.g. C++)"
                 }
             ]
         },
@@ -627,7 +681,12 @@
                 {
                     "user": "certik",
                     "date": "2020-10-27 19:32:35+00:00",
-                    "text": "It was discussed at the October 2020 Fortran call that another good use case for this feature would be for array initializers. In Python you can do:\n[x+1 for x in range(1,N+1) if x >= 45 else x+5]\nSo in Fortran you could do:\n[ (if (x >= 45) then x+1 else x+5 endif, x = 1, N) ]\nSince conditional expressions are just expressions, this should just work."
+                    "text": "It was discussed at the October 2020 Fortran call that another good use case for this feature would be for array initializers. In Python you can do (I corrected the syntax, thanks to @ivan-pi's comment below):\n[x+1 if x >= 45 else x+5 for x in range(1, N+1)]\nSo in Fortran you could do:\n[ (if (x >= 45) then x+1 else x+5 endif, x = 1, N) ]\nSince conditional expressions are just expressions, this should just work."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-05 15:58:21+00:00",
+                    "text": "In Python you can do:\n[x+1 for x in range(1,N+1) if x >= 45 else x+5]\n\nThis triggers a SyntaxError in Python. The correct way would be:\n[x + 1 if x > 45 else x+5 for x in range(1,N+1)]\nSo the syntax is\nexpression_if_true if condition else expression_if_false\n\nEdit: following Python if expression syntax, the example from above would be:\nCALL SUB(A, B, C, D IF PRESENT(D) ELSE (EPSILON(X) IF X < 1 ELSE SPACING(X)))\nIt seems fairly nice, you just need to remember the condition is in the middle.\nEdit2: Oops, I just noticed the posts from @14NGiestas above."
                 }
             ]
         },
@@ -3047,6 +3106,21 @@
                     "user": "klausler",
                     "date": "2020-06-04 20:36:16+00:00",
                     "text": "auto is extremely useful in templatized C++ code to avoid having to explicitly write out complicated type expressions (or to avoid using type aliases), yes.  And auto is absolutely essential when declaring things whose types are hidden in the compiler (e.g., lambda as local variables for use as internal functions) or polymorphic (e.g., a lambda like [](const auto &x){...} with a hidden template implementation).\nBut sometimes it's great to have around just to save some completely redundant verbiage in C++.  const auto *p{std::get_if<VerboseButInformativeTypeName>(&u)}; isn't made any more readable if the auto is replaced with the long type name, I think.  And that's why I think it would be useful in Fortran today -- when there's an initializer with an obvious type."
+                },
+                {
+                    "user": "fazedo",
+                    "date": "2020-11-04 15:48:19+00:00",
+                    "text": "auto is very useful in C++, but I see few situations where it will be well employed in Fortran. Let's see some examples in C++:\n\nfor (auto x: some_list) do_stuff(); // Fortran does not have range-based loops.\nauto it = something.begin();         // Fortran does not have support for iterators in a generic programming fashion.\nauto t0 = get_time();                    // auto is cool because I don't care about t0 class.\n... some code..\nauto t1 = get_time();\nauto elapsed_time = t1 - t0;          // Again I don't care about which class is that.\n// But Fortran does not allow declarations in the middle of the code.\nauto f = [] (double x, int n) -> double {some code}; // Again Fortran...\nint i = 2;\nauto j = i;                                      // Not good practice. \"Explicit is better than implicit.\" - Tim Peters\nauto x = 2.3;                                 // Idem.\nauto x = f();                                   // Not common to declare variables and define them on the same line.\n\nauto was introduced in C++11 when generic programming was already well settled down, so it found a plethora of good places to be used, while, in Fortran, I don't see it will be really useful.\nI do believe Fortran needs support for generic programming as a scientific computing language, which is supposed to translate algorithms, not just formulas, but for the moment that is not the case."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-11-04 16:09:27+00:00",
+                    "text": "In a sense, Fortran already does have something roughly equivalent to auto.\nassociate(x => some_function()) ! x takes on the type and value of the return from some_function\n  ! some code\nend associate"
+                },
+                {
+                    "user": "fazedo",
+                    "date": "2020-11-15 18:23:40+00:00",
+                    "text": "Just in case it helps the discussion, there is an excelent talk by Herb Sutter on CppCon 2014 where he discuss several situations where it is a good practice to employ auto: https://youtu.be/xnqTKD8uD64?t=1703 ."
                 }
             ]
         },
@@ -3453,6 +3527,11 @@
                     "user": "certik",
                     "date": "2020-01-28 20:19:12+00:00",
                     "text": "@difference-scheme just create a PR with the proposal. Once we have the proposals written and we can see the differences between them, if two of them should be merged, then we can do it. Otherwise we'll have several different proposals and we can then discuss the pros and cons of each approach, which will move the discussion forward."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-13 00:09:39+00:00",
+                    "text": "FWIW in the example\nmodule A\nimplicit none\nprivate\npublic :: T\n\n  type, requirements :: T\n  contains\n    generic :: operator(+) => plus\n  end type\n\n  abstract interface\n    function plus(lhs,rhs)\n      type(T), intent(in) :: lhs, rhs\n      type(T) :: plus\n    end function\n  end interface\n\nend module A\n\nmodule A2\nuse A, only: T\nimplicit none\nprivate\npublic :: f\n\ncontains\n\n    type(T) function f(x)\n    type(T), intent(in) :: x\n    f = x + 1\n    end function\n\nend module A2\nThe interface should be:\n  abstract interface\n    function plus(lhs,rhs)\n      type(T), intent(in) :: lhs\n      integer, intent(in) :: rhs\n      type(T) :: plus\n    end function\n  end interface\nThe type probably also needs an assignment interface for the \"strong concepts\" to be enforced, and would benefit from having an example instantiation, so a full example should probably be\nmodule A\nimplicit none\nprivate\npublic :: T\n\n  type, requirements :: T\n  contains\n    generic :: operator(+) => plus\n    generic :: assignment(=) => assign\n  end type\n\n  abstract interface\n    function plus(lhs,rhs)\n      type(T), intent(in) :: lhs\n      integer, intent(in) :: rhs\n      type(T) :: plus\n    end function plus\n  end interface\n\n  abstract interface\n    function assgn(lhs,rhs)\n      type(T), intent(out) :: lhs\n      type(T), intent(in) :: rhs\n    end function assign\n  end interface\n\nend module A\n\nmodule A2\nuse A, only: T\nimplicit none\nprivate\npublic :: f\n\ncontains\n\n    type(T) function f(x)\n    type(T), intent(in) :: x\n    f = x + 1\n    end function\n\nend module A2\n\nprogram example\nuse A2\nimplicit none\nreal :: two\ntwo = f(1.0)\nend program example"
                 }
             ]
         },
@@ -4106,6 +4185,11 @@
                     "user": "opeil",
                     "date": "2020-04-14 19:00:13+00:00",
                     "text": "Perhaps, it is too late to discuss this but somehow I have not seen anyone mentioning another important aspect of the compound/augmented assignment: It allows to perform more efficient in-place operations, such as big_array(:, :, :) += big_array2(:, :, :), without the risk of creating temporaries. This makes it more than just a syntactic sugar.\nAnother similar example is that if we have a type like this\ntype :: BigObject\n   real(dp) :: values(10000, 10000)\nend type\n\ntype(BigObject) :: a, b\n\nand there is a frequent need to do operations like this -- a % values = a % values + b % values, then a naive overloading of operator (+) would result in an extremely inefficient code. It would be great if one has a possibility to overload something like (+=) [with obvious call semantics] to implement heavy in-place operations."
+                },
+                {
+                    "user": "septcolor",
+                    "date": "2020-11-11 17:50:32+00:00",
+                    "text": "This is another similar request that I have come across on the StackOverflow site recently:\nIncrement value in Fortran?\nhttps://stackoverflow.com/questions/64791017/increment-value-in-fortran?noredirect=1&lq=1"
                 }
             ]
         },
@@ -5049,6 +5133,21 @@
                     "user": "aradi",
                     "date": "2020-01-08 16:23:42+00:00",
                     "text": "Unfortunately, it is not just flattening, but also automatic merging.  The assignment\nb = [[-3, 2, 9], [1, 2]]\n\ncurrently works (provided b is a rank-1 array), but it would became a syntactical non-sence if the braces would open/close ranks as they do in Python.\nI agree, that the current syntax is weird and I have no clue, why it was introduced. But I don't think we have any chance to delete it from the language. So, the best compromise IMO is still the assignment of rank-1 arrays to rank-N ones without the need for a reshape, as suggested by @sblionel ."
+                },
+                {
+                    "user": "elecprog",
+                    "date": "2020-11-02 18:04:03+00:00",
+                    "text": "But I don't think we have any chance to delete it from the language.\n\nGiven that I used this rather recently, that chance is indeed rather slim. It's convenient to concatenate arrays, although an intrinsic function would have been the better choice back when that syntax was introduced.\nI'm still keen on doing something similar to Matlab or Julia as in my initial proposal (I'm the original comp.lang.fortran poster), but I haven't yet found a better alternative.\nI'd be weary of introducing anything that doesn't also scale to rank 3 (or higher) arrays, though."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-11-02 18:36:38+00:00",
+                    "text": "@elecprog thanks for the feedback and for the proposal. I think there is still an opportunity here to do something, but we have to figure out how to do it to satisfy all the requirements/issues stated in this thread."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-11-03 01:45:11+00:00",
+                    "text": "When I think of all the capabilities available in READ() including list-directed and implied DO constructs if there were some equivalent of a \"here\" document in Fortran it woud allow for inputting small arrays but also text blocks without having to use continuation characters and quotes as well.\ninteger :: a(3,4) <<< read(*,*)(a(i,j),i=1,3,j=1,4)\n   1  2   3   4\n   5  6   7   8\n   9  10  11  12\n>>>\n\ncharacter(len=:),allocatable :: text(:) <<< read(*,'(a)')text\n   This is the help text\n   for my\n   program\n>>>\n\nAlmost no new syntax, useful for small arrays but maybe more so for text; would be really nice to have some kind of block comment too, maybe just\n<<<\n   a block of\n   text\n>>>"
                 }
             ]
         },
@@ -8159,6 +8258,21 @@
                     "user": "klausler",
                     "date": "2020-09-08 19:22:54+00:00",
                     "text": "After seeing all the discussions around this, I am now under the following impression. The standard chose to use DO CONCURRENT but only specified constraints for (and if we had a time machine should have used) DO UNORDERED. It seems many (if not most) people assumed that the constraints actually were sufficient to allow for parallelism, but it would seem to be highly unlikely the committee would \"break existing code\" by adding constraints to DO CONCURRENT. Thus it seems we will need to introduce (and I would be in favor of) a new keyword to allow a way of specifying constraints sufficient for parallelism, most likely DO PARALLEL.\nOf course, for those of us who considered concurrent and parallel to be synonyms it makes the language a bit more confusing, but is probably the only truly backwards compatible way to get the necessary constraints added. It seems to me quite similar to the way PURE procedures don't have sufficient constraints, hence the proposal to introduce SIMPLE procedures.\n\nSee subclause 4.3.3 in Fortran 2018 for some precedents in which features from earlier standards are disallowed, including some features from DO CONCURRENT.  Backward compatibility to mistakes is fixable."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-11-18 00:01:41+00:00",
+                    "text": "I've checked in a description of the outstanding problems with DO CONCURRENT in the LLVM documentation.  Still not sure what we're going to do in the flang compilers -- there's good arguments for both standard conformance as well as for just doing the right thing."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2020-11-18 01:53:55+00:00",
+                    "text": "@klausler wrote Nov. 17, 2020 7:01 PM EST:\n\n.. Still not sure what we're going to do in the flang compilers -- there's good arguments for both standard conformance as well as for just doing the right thing.\n\nc.f. https://mailman.j3-fortran.org/pipermail/j3/2020-July/012244.html where J3 \"effectively\" suggested something which is not yet in the standard.\nSo, is it possible for flang compilers to do both!?\nThat is, first have a standard-conforming implementation of DO CONCURRENT.\nBut then also consider an \"Experimental\" edition of flang compiler(s) that attempts to do the \"right thing\", perhaps via a \"DEFAULT(SHARED)\" or some suitable extension that is Fortrannic and which can then be proposed for Fortran 202Y as further improvement to be incorporated into the standard?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2020-11-18 02:27:06+00:00",
+                    "text": "@klausler wrote Nov. 17, 2020 7:01 PM EST:\n\n.. Still not sure what we're going to do in the flang compilers -- there's good arguments for both standard conformance as well as for just doing the right thing.\n\nc.f. https://mailman.j3-fortran.org/pipermail/j3/2020-July/012244.html where J3 \"effectively\" suggested something which is not yet in the standard.\nSo, is it possible for flang compilers to do both!?\nThat is, first have a standard-conforming implementation of DO CONCURRENT.\nBut then also consider an \"Experimental\" edition of flang compiler(s) that attempts to do the \"right thing\", perhaps via a \"DEFAULT(SHARED)\" or some suitable extension that is Fortrannic and which can then be proposed for Fortran 202Y as further improvement to be incorporated into the standard?\n\nAnything is possible, but these are all just second-best alternatives to J3 just fixing the problems."
                 }
             ]
         },
@@ -9659,7 +9773,7 @@
                 {
                     "user": "milancurcic",
                     "date": "2019-10-23 16:59:46+00:00",
-                    "text": "Implicit save behavior is relevant only in procedures.\nHowever, now I realize that in the context of default value for derived type components, which I've been happily using for years, the type constructor uses the same style as proposed in #22. For example:\ntype my_type\n  integer :: i = 1  \nend type my_type\n\ntype(my_type) :: t1 = my_type()  ! this works, t1 % i is 1\ntype(my_type) :: t2 = my_type(3) ! this works also, t2 % i is 3\nSo, the proposal #22 (sorry to hijack the thread :)) is consistent with the current syntax for default values of derived type components, except there we need an extra attribute (default) to work around the implicit save behavior.\nI like this proposal also. It could be merged with #22, or have two separate smaller proposals. We should make whatever is easier to digest by the committee."
+                    "text": "Implicit save behavior is relevant only in procedures.\nHowever, now I realize that in the context of default value for derived type components, which I've been happily using for years, the type constructor uses the same style as proposed in #22. For example:\ntype my_type\n  integer :: i = 1  \nend type my_type\n\ntype(my_type) :: t1 = my_type()  ! this works, t1 % i is 1\ntype(my_type) :: t2 = my_type(3) ! this works also, t2 % i is 3\n\nSo, the proposal #22 (sorry to hijack the thread :)) is consistent with the current syntax for default values of derived type components, except there we need an extra attribute (default) to work around the implicit save behavior.\nI like this proposal also. It could be merged with #22, or have two separate smaller proposals. We should make whatever is easier to digest by the committee."
                 },
                 {
                     "user": "jacobwilliams",
