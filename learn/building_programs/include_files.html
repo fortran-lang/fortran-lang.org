@@ -601,13 +601,13 @@ structure:</p>
     main/
         tabulate.f90
     sub/
-        function.f90
+        functions.f90
 </code></pre></div></div>
 
-<p>Compiling the file “function.f90” with the commands</p>
+<p>Compiling the file “functions.f90” with the commands</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd </span>sub
-<span class="nv">$ </span>gfortran <span class="nt">-c</span> <span class="k">function</span>.f90
+<span class="nv">$ </span>gfortran <span class="nt">-c</span> functions.f90
 </code></pre></div></div>
 
 <p>leads to this structure:</p>
@@ -616,17 +616,17 @@ structure:</p>
     main/
         tabulate.f90
     sub/
-        function.f90
-        function.mod
-        function.o
+        functions.f90
+        user_functions.mod
+        functions.o
 </code></pre></div></div>
 
 <p>To successfully compile and subsequently build the program we need to
-tell the compiler where it can find the file “function.mod”:</p>
+tell the compiler where it can find the file “user_functions.mod”:</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd </span>main
 <span class="nv">$ </span>gfortran <span class="nt">-c</span> tabulate.f90 <span class="nt">-I</span> ../sub
-<span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.o ../sub/function.o
+<span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.o ../sub/functions.o
 </code></pre></div></div>
 
 <p>The result:</p>
@@ -637,9 +637,9 @@ tell the compiler where it can find the file “function.mod”:</p>
         tabulate.o
         tabulate (or tabulate.exe on Windows)
     sub/
-        function.f90
-        function.mod
-        function.o
+        functions.f90
+        functions.o
+        user_functions.mod
 </code></pre></div></div>
 
 <p>Notes:</p>

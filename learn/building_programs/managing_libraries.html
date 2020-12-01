@@ -581,7 +581,7 @@ create your own libraries.</p>
 <p>Libraries contain any number of object files in a compact form, so that
 the command-line becomes far shorter:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 <span class="k">function</span>.o supportlib.a
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 functions.o supportlib.a
 </code></pre></div></div>
 
 <p>where “supportlib.a” is a collection of one, two or many object files,
@@ -670,8 +670,8 @@ a dynamic link library)</li>
 
 <p>There is one more thing to be aware of: On Windows you must
 explicitly specify that a procedure is to be <em>exported</em>, i.e. is visible
-in the dynamic library. There are several ways - depending on the
-compiler you use - to achieve this. One method is via a so-called
+in the dynamic library. There are several ways — depending on the
+compiler you use — to achieve this. One method is via a so-called
 compiler directive:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">myroutine</span><span class="p">(</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">)</span><span class="w">
@@ -693,24 +693,24 @@ we look at the <code class="highlighter-rouge">tabulate</code> program in the fi
 
 <h2 id="gnulinux-and-gfortran">GNU/Linux and gfortran</h2>
 <p>The <code class="highlighter-rouge">tabulate</code> program requires a user-defined routine <code class="highlighter-rouge">f</code>. If we
-let it reside in a dynamic library, say “function.dll”, we can simply
+let it reside in a dynamic library, say “functions.dll”, we can simply
 replace the implementation of the function by putting another dynamic
 library in the directory. No need to rebuild the program as such.</p>
 
-<p>On Cygwin it is not necessary to explicitly export a procedure - all
+<p>On Cygwin it is not necessary to explicitly export a procedure — all
 publically visible routines are exported when you build a dynamic library.
 Also, no import library is generated.</p>
 
 <p>Since our dynamic library can be built from a single source file, we
 can take a shortcut:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">-o</span> <span class="k">function</span>.dll <span class="k">function</span>.f90
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-shared</span> <span class="nt">-o</span> functions.dll functions.f90
 </code></pre></div></div>
 
-<p>This produces the files “function.dll” and “function.mod”. The
+<p>This produces the files “functions.dll” and “user_functions.mod”. The
 utility <code class="highlighter-rouge">nm</code> tells us the exact name of the function <code class="highlighter-rouge">f</code>:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nm <span class="k">function</span>.dll
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nm functions.dll
 ...
 000000054f9d7000 B __dynamically_loaded
                  U __end__
@@ -726,21 +726,21 @@ other routine “f” that might be defined in another module.</p>
 
 <p>The next step is to build the program:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 <span class="k">function</span>.dll
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-o</span> tabulate tabulate.f90 functions.dll
 </code></pre></div></div>
 
 <p>The DLL and the .mod file are used to build the executable program
 with checks on the function’s interface, the right name and the reference
-to “a” DLL, called “function.dll”.</p>
+to “a” DLL, called “functions.dll”.</p>
 
-<p>You can replace the shared library “function.dll” by another one, implementing
+<p>You can replace the shared library “functions.dll” by another one, implementing
 a different function “f”. Of course, you need to be careful to use the correct
 interface for this function. The compiler/linker are not invoked anymore, so they
 can do no checking.</p>
 
 <h2 id="windows-and-intel-fortran">Windows and Intel Fortran</h2>
 <p>The setup is the same as with Linux, but on Windows it is necessary
-to explicitly export the routines. And an import library is generated -
+to explicitly export the routines. And an import library is generated —
 this is the library that should be used in the link step.</p>
 
 <p>The source file must contain the compiler directive, otherwise the function <code class="highlighter-rouge">f</code>
@@ -752,27 +752,27 @@ is not exported:</p>
 
 <p>Again we take a shortcut:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ifort <span class="nt">-exe</span>:function.dll <span class="k">function</span>.f90 <span class="nt">-dll</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ifort <span class="nt">-exe</span>:functions.dll functions.f90 <span class="nt">-dll</span>
 </code></pre></div></div>
 
-<p>This produces the files “function.dll”, “function.mod” as well as “function.lib” (and two
+<p>This produces the files “functions.dll”, “user_functions.mod” as well as “functions.lib” (and two
 other files of no importance here). The “dependency walker” program tells us
 that the exact name of the function “f” is <code class="highlighter-rouge">FUNCTION_mp_F</code>. It is also exported, so that
 it can be found by the linker in the next step:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ifort tabulate.f90 function.lib
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ifort tabulate.f90 functions.lib
 </code></pre></div></div>
 
 <p>Note that we need to specify the name of the export library, not the DLL!</p>
 
 <p>(Note also: the Intel Fortran compiler uses the name of the first source file as the
-name for the executable - here we do without the <code class="highlighter-rouge">-exe</code> option.)</p>
+name for the executable — here we do without the <code class="highlighter-rouge">-exe</code> option.)</p>
 
 <p>Just as under Cygwin, the DLL and the .mod file are used to build the executable program
 with checks on the function’s interface, the right name and the reference
-to “a” DLL, called “function.dll”.</p>
+to “a” DLL, called “functions.dll”.</p>
 
-<p>You can replace the shared library “function.dll” by another one, but the same
+<p>You can replace the shared library “functions.dll” by another one, but the same
 caution is required: while the implementation can be quite different, the
 function’s interface must be the same.</p>
 

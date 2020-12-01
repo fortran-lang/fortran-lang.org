@@ -590,10 +590,10 @@ more detail.</p>
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">tabulate</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Note the <code class="highlighter-rouge">use</code> statement - this will be where we define the function <code class="highlighter-rouge">f</code>.</p>
+<p>Note the <code class="highlighter-rouge">use</code> statement — this will be where we define the function <code class="highlighter-rouge">f</code>.</p>
 
 <p>We want to make the program general, so keep the
-specific source code - the implementation of the function <code class="highlighter-rouge">f</code> -
+specific source code — the implementation of the function <code class="highlighter-rouge">f</code> —
 separated from the general source code. There are several ways to
 achieve this, but one is to put it in a different source file. We can
 give the general program to a user and they provide a specific source code.</p>
@@ -619,12 +619,12 @@ program. Because the program “tabulate” depends on the module
 “function”, we need to compile the source file containing our module
 first. A sequence of commands to do this is:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-c</span> <span class="k">function</span>.f90
-<span class="nv">$ </span>gfortran tabulate.f90 <span class="k">function</span>.o
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gfortran <span class="nt">-c</span> functions.f90
+<span class="nv">$ </span>gfortran tabulate.f90 functions.o
 </code></pre></div></div>
 
 <p>The first step compiles the module, resulting in an object file
-“function.o” and a module intermediate file, “function.mod”. This module
+“functions.o” and a module intermediate file, “user_functions.mod”. This module
 file contains all the information the compiler needs to determine that
 the function <code class="highlighter-rouge">f</code> is defined in this module and what its interface is. This
 information is important: it enables the compiler to check that you call
@@ -637,14 +637,14 @@ check anything.</p>
 
 <ul>
   <li>it compiles the file “tabulate.f90” (using the module file);</li>
-  <li>it invokes the linker to combine the object files tabulate.o and function.o into an
-executable program - with the default name “a.out” or “a.exe” (if you
+  <li>it invokes the linker to combine the object files tabulate.o and functions.o into an
+executable program — with the default name “a.out” or “a.exe” (if you
 want a different name, use the option “-o”).</li>
 </ul>
 
 <p>What you do not see in general is that the linker also adds a number of
 extra files in this link step, the run-time libraries. These run-time
-libraries contain all the “standard” stuff - low-level routines that do
+libraries contain all the “standard” stuff — low-level routines that do
 the input and output to screen, the <code class="highlighter-rouge">sin</code> function and much more.</p>
 
 <p>If you want to see the gory details, add the option “-v”. This instructs

@@ -574,84 +574,575 @@
         
       </div>
 
-      <p>If this seems complicated, well, you are right and we are only
-scratching the surface here. The complications arise because of
-differences between platforms, differences between compilers/linkers and
-because of differences in the way programs are set up. Fortunately,
-there are many tools to help configure and maintain the build steps.
-We will not try and catalogue them, but give instead a very limited
-list of tools that you typically encounter:</p>
+      <p>Compiling your Fortran projects by hand can become quite complicated depending
+on the number of source files and the interdependencies through the module.
+Supporting different compilers and linkers or different platforms can become
+increasingly complicated unless the right tools are used to automatically
+perform those tasks.</p>
 
-<ul>
-  <li>The <code class="highlighter-rouge">make</code> utility is a classical tool that uses instructions about
-how the various components of a program depend on each other to
-efficiently compile and link the program (or programs). It takes a
-so-called <code class="highlighter-rouge">Makefile</code> that contains the dependencies.</li>
-</ul>
+<p>Depending on the size of your project and the purpose of project different
+options for the build automation can be used.</p>
 
-<p>Simply put:</p>
+<p>First, your integrated development environment probably provides a way to build
+your program. A popular cross-platform  tool is Microsoft’s
+<a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a>,
+but others exist, such as
+<a href="https://atom.io/" target="_blank" rel="noopener">Atom</a>,
+<a href="https://www.eclipse.org/photran/" target="_blank" rel="noopener">Eclipse Photran</a>,
+and <a href="http://www.codeblocks.org/" target="_blank" rel="noopener">Code::Blocks</a>.
+They offer a graphical user-interface, but are often very specific for the
+compiler and platform.</p>
 
-<p>If a program file is older than any of the libraries and object files
-it depends on, the make utility knows it has to rebuild it and goes on
-to look at the libraries and object files - are any out of date?</p>
+<p>For smaller projects, the rule based build system <code class="highlighter-rouge">make</code> is a common
+choice. Based on the rules defined it can perform task like (re)compiling
+object files from updated source files, creating libraries and linking
+executables.
+To use <code class="highlighter-rouge">make</code> for your project you have to encode those rules in <code class="highlighter-rouge">Makefile</code>,
+which defines the interdependencies of all the final program, the intermediary
+object files or libraries and the actual source files.
+For a short introduction see <a href="#using-make-as-build-tool">the guide on <code class="highlighter-rouge">make</code></a>.</p>
 
-<p>If an object file is older than the corresponding source file, the
-make utility knows it has to compile the source file.</p>
-
-<ul>
-  <li>
-    <p>Integrated development tools take care of many of the above details. A
-popular cross-platform  tool is Microsoft’s <a href="https://code.visualstudio.com/">Visual Studio Code</a>, but others exist,
-such as <a href="https://atom.io/">Atom</a>, <a href="https://www.eclipse.org/photran/">Eclipse Photran</a>, and <a href="http://www.codeblocks.org/">Code::Blocks</a>. They offer a graphical
-user-interface, but are often very specific for the compiler and
-platform.</p>
-  </li>
-  <li>
-    <p>Maintenance tools like autotools and CMake can generate Makefiles or
+<p>Maintenance tools like autotools and CMake can generate Makefiles or
 Visual Studio project files via a high-level description. They abstract
 away from the compiler and platform specifics.</p>
-  </li>
-</ul>
 
-<p>Here is a very simple example of a <code class="highlighter-rouge">Makefile</code> as used by the <code class="highlighter-rouge">make</code> utility,
-just to give you an impression:</p>
+<p>Which of those tools are the best choice for your projects depends on many factors.
+Choose a build tool you are comfortable working with, it should not get in your
+way while developing. Spending more time on working against your build tools
+than doing actual development work can quickly become frustrating.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Collect the macros at the beginning - easier to customise
-FC = gfortran
-LD = gfortran
-FCOPTS = -c
-LDOPTS = "-o "
+<p>Also, consider the accessibility of your build tools.
+If it is restricted to a specific integrated development environment, can all
+developers on your project access it?
+If you are using a specific build system, does it work on all platforms you
+are developing for?
+How large is the entry barrier of your build tools? Consider the learning curve
+for the build tools, the perfect build tool will be of no use, if you have to
+learn a complex programming language first to add a new source file.
+Finally, consider what other project are using, those you are depending on and
+those that use (or will use) your project as dependency.</p>
 
-EXE = .exe
-OBJ = .o
+<h2 id="using-make-as-build-tool">Using make as build tool</h2>
 
-all: tabulate$(EXE)
+<p>The most well-known and commonly used build system is called <code class="highlighter-rouge">make</code>.
+It performs actions following rules defined in a configuration file
+called <code class="highlighter-rouge">Makefile</code> or <code class="highlighter-rouge">makefile</code>, which usually leads to compiling a program
+from the provided source code.</p>
 
-tabulate$(EXE) : tabulate$(OBJ) function$(OBJ)
-{tab}$(LD) $(LDOPTS)tabulate$(EXE) tabulate.f90 function$(OBJ)
+<div class="aside-tip">
+    
+    <p><strong>Tip:</strong> For an in-depth <code class="highlighter-rouge">make</code> tutorial lookup its info page. There is an online version of this <a href="https://www.gnu.org/software/make/manual/make.html" target="_blank" rel="noopener">info page</a>, available.</p>
 
-tabulate$(OBJ) : tabulate.f90 function.mod
-{tab}$(FC) $(FCOPTS) tabulate.f90
+</div>
 
-function$(OBJ) : function.f90
-{tab}$(FC) $(FCOPTS) function.f90
+<p>We will start with the basics from your clean source directory. Create and open
+the file <code class="highlighter-rouge">Makefile</code>, we start with a simple rule called <em>all</em>:</p>
 
-(A peculiarity of `make` is that in the input file, tab characters are used
-in several places - here indicated as "{tab}" - as significant whitespace.)
-
-When stored in a file "Makefile" and "{tab}" replaced by a tab character,
-you can run it like:
-
-```shell
-$ make
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">all</span><span class="o">:</span>
+	<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
 </code></pre></div></div>
 
-<p>(the name <code class="highlighter-rouge">Makefile</code> is the default, otherwise use the option <code class="highlighter-rouge">-f</code> to specify
-a different file name). Now only change the file “tabulate.f90” and run it
-again. You will see that only that file gets compiled again and then the
-program is built. The file “function.f90” was not changed, so the object
-file and the module intermediate file would remain unchanged, so there
-is no need to recompile it.</p>
+<p>After saving the <code class="highlighter-rouge">Makefile</code> run it by executing <code class="highlighter-rouge">make</code> in the same directory.
+You should see the following output:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "all"
+all
+</code></pre></div></div>
+
+<p>First, we note that <code class="highlighter-rouge">make</code> is substituting <code class="highlighter-rouge">$@</code> for the name of the rule,
+the second thing to note is that <code class="highlighter-rouge">make</code> is always printing the command it is
+running, finally, we see the result of running <code class="highlighter-rouge">echo "all"</code>.</p>
+
+<div class="aside-note">
+    
+    <p><strong>Note:</strong> We call the entry point of our <code class="highlighter-rouge">Makefile</code> always <em>all</em> by convention, but you can choose whatever name you like.</p>
+
+</div>
+
+<div class="aside-note">
+    
+    <p><strong>Note</strong></p>
+
+<p>You should not have noticed it if your editor is working correctly,
+but you have to indent the content of a rule with a tab character.
+In case you have problems running the above <code class="highlighter-rouge">Makefile</code> and see an error like</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Makefile:2: *** missing separator.  Stop.
+</code></pre></div></div>
+
+<p>The indentation is probably not correct. In this case replace the indentation
+in the second line with a tab character.</p>
+
+
+</div>
+
+<p>Now we want to make our rules more complicated, therefore we add another rule:</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">PROG</span> <span class="o">:=</span> my_prog
+
+<span class="nl">all</span><span class="o">:</span> <span class="nf">$(PROG)</span>
+	<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2"> depends on </span><span class="nv">$^</span><span class="s2">"</span>
+
+<span class="nl">$(PROG)</span><span class="o">:</span>
+	<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>Note how we declare variables in <code class="highlighter-rouge">make</code>, you should always declare your local
+variables with <code class="highlighter-rouge">:=</code>. To access the content of a variable we use the <code class="highlighter-rouge">$(...)</code>,
+note that we have to enclose the variable name in parenthesis.</p>
+
+<div class="aside-note">
+    
+    <p><strong>Note</strong></p>
+
+<p>The declaration of variables is usually done with <code class="highlighter-rouge">:=</code>, but <code class="highlighter-rouge">make</code> does
+support <em>recursively expanded</em> variables as well with <code class="highlighter-rouge">=</code>.
+Normally, the first kind of declaration is wanted, as they are more predictable
+and do not have a runtime overhead from the recursive expansion.</p>
+
+</div>
+
+<p>We introduced a dependency of the rule all, namely the content of the variable
+<code class="highlighter-rouge">PROG</code>, also we modified the printout, we want to see all the dependencies
+of this rule, which are stored in the variable <code class="highlighter-rouge">$^</code>.
+Now for the new rule which we name after the value of the variable <code class="highlighter-rouge">PROG</code>,
+it does the same thing we did before for the rule <em>all</em>, note how the value
+of <code class="highlighter-rouge">$@</code> is dependent on the rule it is used in.</p>
+
+<p>Again check by running the <code class="highlighter-rouge">make</code>, you should see:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "my_prog"
+my_prog
+echo "all depends on my_prog"
+all depends on my_prog
+</code></pre></div></div>
+
+<p>The dependency has been correctly resolved and evaluated before performing
+any action on the rule <em>all</em>.
+Let’s run only the second rule: type <code class="highlighter-rouge">make my_prog</code> and you will only find
+the first two lines in your terminal.</p>
+
+<p>The next step is to perform some real actions with <code class="highlighter-rouge">make</code>, we take
+the source code from the previous chapter here and add new rules to our
+<code class="highlighter-rouge">Makefile</code>:</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">OBJS</span> <span class="o">:=</span> tabulate.o functions.o
+<span class="nv">PROG</span> <span class="o">:=</span> my_prog
+
+<span class="nl">all</span><span class="o">:</span> <span class="nf">$(PROG)</span>
+
+<span class="nl">$(PROG)</span><span class="o">:</span> <span class="nf">$(OBJS)</span>
+	gfortran <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$^</span>
+
+<span class="nl">$(OBJS)</span><span class="o">:</span> <span class="nf">%.o: %.f90</span>
+	gfortran <span class="nt">-c</span> <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$&lt;</span>
+</code></pre></div></div>
+
+<p>We define <code class="highlighter-rouge">OBJS</code> which stands for object files, our program depends on
+those <code class="highlighter-rouge">OBJS</code> and for each object file we create a rule to make them from
+a source file.
+The last rule we introduced is a pattern matching rule, <code class="highlighter-rouge">%</code> is the common
+pattern between <code class="highlighter-rouge">tabulate.o</code> and <code class="highlighter-rouge">tabulate.f90</code>, which connects our object file
+<code class="highlighter-rouge">tabulate.o</code> to the source file <code class="highlighter-rouge">tabulate.f90</code>.
+With this set, we run our compiler, here <code class="highlighter-rouge">gfortran</code> and translate the source
+file into an object file, we do not create an executable yet due to the <code class="highlighter-rouge">-c</code>
+flag.
+Note the usage of the <code class="highlighter-rouge">$&lt;</code> for the first element of the dependencies here.</p>
+
+<p>After compiling all the object files we attempt to link the program, we do not
+use a linker directly, but <code class="highlighter-rouge">gfortran</code> to produce the executable.</p>
+
+<p>Now we run the build script with <code class="highlighter-rouge">make</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gfortran -c -o tabulate.o tabulate.f90
+tabulate.f90:2:7:
+
+    2 |    use user_functions
+      |       1
+Fatal Error: Cannot open module file ‘user_functions.mod’ for reading at (1): No such file or directory
+compilation terminated.
+make: *** [Makefile:10: tabulate.f90.o] Error 1
+</code></pre></div></div>
+
+<p>We remember that we have dependencies between our source files, therefore we add
+this dependency explicitly to the <code class="highlighter-rouge">Makefile</code> with</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">tabulate.o</span><span class="o">:</span> <span class="nf">functions.o</span>
+</code></pre></div></div>
+
+<p>Now we can retry and find that the build is working correctly. The output should
+look like</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gfortran -c -o functions.o functions.f90
+gfortran -c -o tabulate.o tabulate.f90
+gfortran -o my_prog tabulate.o functions.o
+</code></pre></div></div>
+
+<p>You should find <em>four</em> new files in the directory now.
+Run <code class="highlighter-rouge">my_prog</code> to make sure everything works as expected.
+Let’s run <code class="highlighter-rouge">make</code> again:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make: Nothing to be done for 'all'.
+</code></pre></div></div>
+
+<p>Using the timestamps of the executable <code class="highlighter-rouge">make</code> was able to determine, it is
+newer than both <code class="highlighter-rouge">tabulate.o</code> and <code class="highlighter-rouge">functions.o</code>, which in turn are newer than
+<code class="highlighter-rouge">tabulate.f90</code> and <code class="highlighter-rouge">functions.f90</code>.
+Therefore, the program is already up-to-date with the latest code and no
+action has to be performed.</p>
+
+<p>In the end, we will have a look at a complete <code class="highlighter-rouge">Makefile</code>.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Disable all of make's built-in rules (similar to Fortran's implicit none)
+</span><span class="nv">MAKEFLAGS</span> <span class="o">+=</span> <span class="nt">--no-builtin-rules</span> <span class="nt">--no-builtin-variables</span>
+<span class="c"># configuration
+</span><span class="nv">FC</span> <span class="o">:=</span> gfortran
+<span class="nv">LD</span> <span class="o">:=</span> <span class="nv">$(FC)</span>
+<span class="nv">RM</span> <span class="o">:=</span> <span class="nb">rm</span> <span class="nt">-f</span>
+<span class="c"># list of all source files
+</span><span class="nv">SRCS</span> <span class="o">:=</span> tabulate.f90 functions.f90
+<span class="nv">PROG</span> <span class="o">:=</span> my_prog
+
+<span class="nv">OBJS</span> <span class="o">:=</span> <span class="nf">$(</span><span class="nb">addsuffix</span> .o, <span class="nv">$(SRCS)</span><span class="nf">)</span>
+
+<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">all clean</span>
+<span class="nl">all</span><span class="o">:</span> <span class="nf">$(PROG)</span>
+
+<span class="nl">$(PROG)</span><span class="o">:</span> <span class="nf">$(OBJS)</span>
+	<span class="nv">$(LD)</span> <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$^</span>
+
+<span class="nl">$(OBJS)</span><span class="o">:</span> <span class="nf">%.o: %</span>
+	<span class="nv">$(FC)</span> <span class="nt">-c</span> <span class="nt">-o</span> <span class="nv">$@</span> <span class="nv">$&lt;</span>
+
+<span class="c"># define dependencies between object files
+</span><span class="nl">tabulate.f90.o</span><span class="o">:</span> <span class="nf">functions.f90.o user_functions.mod</span>
+
+<span class="c"># rebuild all object files in case this Makefile changes
+</span><span class="nl">$(OBJS)</span><span class="o">:</span> <span class="nf">$(MAKEFILE_LIST)</span>
+
+<span class="nl">clean</span><span class="o">:</span>
+	<span class="nv">$(RM)</span> <span class="nf">$(</span><span class="nb">filter</span> %.o, <span class="nv">$(OBJS)</span><span class="nf">)</span> <span class="nf">$(</span><span class="nb">wildcard</span> <span class="k">*</span>.mod<span class="nf">)</span> <span class="nv">$(PROG)</span>
+</code></pre></div></div>
+
+<p>Since you are starting with <code class="highlighter-rouge">make</code> we highly recommend to always include
+the first line, like with Fortran’s <code class="highlighter-rouge">implicit none</code> we do not want to have
+implicit rules messing up our <code class="highlighter-rouge">Makefile</code> in surprising and harmful ways.</p>
+
+<p>Next, we have a configuration section where we define variables, in case you
+want to switch out your compiler, it can be easily done here.
+We also introduced the <code class="highlighter-rouge">SRCS</code> variable to hold all source files, which is
+more intuitive than specifying object files.
+We can easily create the object files by appending a <code class="highlighter-rouge">.o</code> suffix using the
+functions <code class="highlighter-rouge">addsuffix</code>.
+The <code class="highlighter-rouge">.PHONY</code> is a special rule, which should be used for all entry points
+of your <code class="highlighter-rouge">Makefile</code>, here we define two entry point, we already know <em>all</em>,
+the new <em>clean</em> rule deletes all the build artifacts again such that we indeed
+start with a clean directory.</p>
+
+<p>Also, we slightly changed the build rule for the object files to account for
+appending the <code class="highlighter-rouge">.o</code> suffix instead of substituting it.
+Notice that we still need to explicitly define the interdependencies in the
+<code class="highlighter-rouge">Makefile</code>. We also added a dependency for the object files on the <code class="highlighter-rouge">Makefile</code>
+itself, in case you change the compiler, this will allow you to safely rebuild.</p>
+
+<p>Now you know enough about <code class="highlighter-rouge">make</code> to use it for building small projects.
+If you plan to use <code class="highlighter-rouge">make</code> more extensively, we have compiled a few tips
+for you as well.</p>
+
+<div class="aside-note">
+    
+    <p><strong>Note</strong></p>
+
+<p>In this guide, we avoided and disabled a lot of the commonly used <code class="highlighter-rouge">make</code>
+features that can be particularly troublesome if not used correctly, we highly
+recommend staying away from the builtin rules and variables if you do not feel
+confident working with <code class="highlighter-rouge">make</code>, but explicitly declare all variables and rules.</p>
+
+<p>You will find that <code class="highlighter-rouge">make</code> is capable tool to automate short interdependent
+workflows and to build small projects. But for larger projects, you will
+probably soon run against some of it limitations. Usually, <code class="highlighter-rouge">make</code> is therefore
+not used alone but combined with other tools to generate the <code class="highlighter-rouge">Makefile</code>
+completely or in parts.</p>
+
+</div>
+
+<h3 id="recursively-expanded-variables">Recursively expanded variables</h3>
+
+<p>Commonly seen in many projects are recursively expanded variables (declared with
+<code class="highlighter-rouge">=</code> instead of <code class="highlighter-rouge">:=</code>). Recursive expansion of your variables allows out-of-order
+declaration and other neat tricks with <code class="highlighter-rouge">make</code>, since they are defined as rules,
+which are expanded at runtime, rather than being defined while parsing.</p>
+
+<p>For example, declaring and using your Fortran flags with this snippet will work
+completely fine:</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">all</span><span class="o">:</span>
+	<span class="nb">echo</span> <span class="nv">$(FFLAGS)</span>
+
+<span class="nv">FFLAGS</span> <span class="o">=</span> <span class="nv">$(include_dirs)</span> <span class="nt">-O</span>
+<span class="nv">include_dirs</span> <span class="o">+=</span> <span class="nt">-I</span>./include
+<span class="nv">include_dirs</span> <span class="o">+=</span> <span class="nt">-I</span>/opt/some_dep/include
+</code></pre></div></div>
+
+<p>You should find the expected (or maybe unexpected) printout after running <code class="highlighter-rouge">make</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -I./include -I/opt/some_dep/include -O
+-I./include -I/opt/some_dep/include -O
+</code></pre></div></div>
+
+<div class="aside-note">
+    
+    <p><strong>Note:</strong> appending with <code class="highlighter-rouge">+=</code> to an undefined variable will produce a recursively expanded variable with this state being inherited for all further appending.</p>
+
+</div>
+
+<p>While, it seems like an interesting feature to use, it tends to lead to
+surprising and unexpected outcomes. Usually, when defining variables like your
+compiler, there is little reason to actually use the recursive expansion at all.</p>
+
+<p>The same can easily be archived using the <code class="highlighter-rouge">:=</code> declaration:</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">all</span><span class="o">:</span>
+	<span class="nb">echo</span> <span class="nv">$(FFLAGS)</span>
+
+<span class="nv">include_dirs</span> <span class="o">:=</span> <span class="nt">-I</span>./include
+<span class="nv">include_dirs</span> <span class="o">+=</span> <span class="nt">-I</span>/opt/some_dep/include
+<span class="nv">FFLAGS</span> <span class="o">:=</span> <span class="nv">$(include_dirs)</span> <span class="nt">-O</span>
+</code></pre></div></div>
+
+<div class="aside-important">
+    
+    <p><strong>Important:</strong> always think of a <code class="highlighter-rouge">Makefile</code> as a whole set of rules, it must be parsed completely before any rule can be evaluated.</p>
+
+</div>
+
+<p>You can use whatever kind of variables you like most, mixing them should be done
+carefully, of course. It is important to be aware of the differences between the
+two kinds and the respective implications.</p>
+
+<h3 id="comments-and-whitespace">Comments and whitespace</h3>
+
+<p>There are some caveats with whitespace and comments, which might pop up from
+time to time when using <code class="highlighter-rouge">make</code>. First, <code class="highlighter-rouge">make</code> does not know of any data
+type except for strings and the default separator is just a space.
+This means <code class="highlighter-rouge">make</code> will give a hard time trying to build a project which
+has spaces in file names. If you encounter such case, renaming the file
+is possibly the easiest solution at hand.</p>
+
+<p>Another common problem is leading and trailing whitespace, once introduced,
+<code class="highlighter-rouge">make</code> will happily carry it along and it does in fact make a difference
+when comparing strings in <code class="highlighter-rouge">make</code>.</p>
+
+<p>Those can be introduced by comments like</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">prefix</span> <span class="o">:=</span> /usr  <span class="c"># path to install location</span>
+<span class="nl">install</span><span class="o">:</span>
+	<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$(prefix)</span><span class="s2">/lib"</span>
+</code></pre></div></div>
+
+<p>While the comment will be correctly removed by <code class="highlighter-rouge">make</code>, the trailing two spaces
+are now part of the variable content. Run <code class="highlighter-rouge">make</code> and check that this is indeed
+the case:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo "/usr  /lib"
+/usr  /lib
+</code></pre></div></div>
+
+<p>To solve this issue, you can either move the comment, or strip the whitespace with
+the <code class="highlighter-rouge">strip</code> function instead. Alternatively, you could try to <code class="highlighter-rouge">join</code> the
+strings.</p>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">prefix</span> <span class="o">:=</span> /usr  <span class="c"># path to install location</span>
+<span class="nl">install</span><span class="o">:</span>
+	<span class="nb">echo</span> <span class="s2">"</span><span class="nf">$(</span><span class="nb">strip</span> <span class="nv">$(prefix)</span><span class="nf">)</span><span class="s2">/lib"</span>
+	<span class="nb">echo</span> <span class="s2">"</span><span class="nf">$(</span><span class="nb">join</span> <span class="nf">$(</span><span class="nb">join</span> <span class="nv">$(prefix)</span><span class="s2">, /</span><span class="nf">)</span><span class="s2">, lib</span><span class="nf">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>All in all, none of this solutions will make your <code class="highlighter-rouge">Makefile</code> more readable,
+therefore, it is prudent to pay extra attention to whitespace and comments when
+writing and using <code class="highlighter-rouge">make</code>.</p>
+
+<h2 id="the-meson-build-system">The meson build system</h2>
+
+<p>After you have learned the basics of <code class="highlighter-rouge">make</code>, which we call a low-level build
+system, we will introduce <code class="highlighter-rouge">meson</code>, a high-level build system.
+While you specify in a low-level build system how to build your program,
+you can use a high-level build system to specify what to build.
+A high-level build system will deal for you with how and generate
+build files for a low-level build system.</p>
+
+<p>There are plenty of high-level build systems available, but we will focus on
+<code class="highlighter-rouge">meson</code> because it is constructed to be particularly user friendly.
+The default low-level build-system of <code class="highlighter-rouge">meson</code> is called <code class="highlighter-rouge">ninja</code>.</p>
+
+<p>Let’s have a look at a complete <code class="highlighter-rouge">meson.build</code> file:</p>
+
+<!-- meson is unknown by the highlighter, python looks okayish -->
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="p">(</span><span class="s">'my_proj'</span><span class="p">,</span> <span class="s">'fortran'</span><span class="p">,</span> <span class="n">meson_version</span><span class="p">:</span> <span class="s">'&gt;=0.49'</span><span class="p">)</span>
+<span class="n">executable</span><span class="p">(</span><span class="s">'my_prog'</span><span class="p">,</span> <span class="n">files</span><span class="p">(</span><span class="s">'tabulate.f90'</span><span class="p">,</span> <span class="s">'functions.f90'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>And we are already done, the next step is to configure our low-level build system
+with <code class="highlighter-rouge">meson setup build</code>, you should see output somewhat similar to this</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The Meson build system
+Version: 0.53.2
+Source dir: /home/awvwgk/Examples
+Build dir: /home/awvwgk/Examples/build
+Build type: native build
+Project name: my_proj
+Project version: undefined
+Fortran compiler for the host machine: gfortran (gcc 9.2.1 "GNU Fortran (Arch Linux 9.2.1+20200130-2) 9.2.1 20200130")
+Fortran linker for the host machine: gfortran ld.bfd 2.34
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Build targets in project: 1
+
+Found ninja-1.10.0 at /usr/bin/ninja
+</code></pre></div></div>
+
+<p>The provided information at this point is already more detailed than anything
+we could have provided in a <code class="highlighter-rouge">Makefile</code>, let’s run the build with
+<code class="highlighter-rouge">ninja -C build</code>, which should show something like</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1/4] Compiling Fortran object 'my_prog@exe/functions.f90.o'.
+[2/4] Dep hack
+[3/4] Compiling Fortran object 'my_prog@exe/tabulate.f90.o'.
+[4/4] Linking target my_prog.
+</code></pre></div></div>
+
+<p>Find and test your program at <code class="highlighter-rouge">build/my_prog</code> to ensure it works correctly.
+We note the steps <code class="highlighter-rouge">ninja</code> performed are the same we would have coded up in a
+<code class="highlighter-rouge">Makefile</code> (including the dependency), yet we did not have to specify them,
+have a look at your <code class="highlighter-rouge">meson.build</code> file again:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="p">(</span><span class="s">'my_proj'</span><span class="p">,</span> <span class="s">'fortran'</span><span class="p">,</span> <span class="n">meson_version</span><span class="p">:</span> <span class="s">'&gt;=0.49'</span><span class="p">)</span>
+<span class="n">executable</span><span class="p">(</span><span class="s">'my_prog'</span><span class="p">,</span> <span class="n">files</span><span class="p">(</span><span class="s">'tabulate.f90'</span><span class="p">,</span> <span class="s">'functions.f90'</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>We only specified that we have a Fortran project (which happens to require
+a certain version of <code class="highlighter-rouge">meson</code> for the Fortran support) and told <code class="highlighter-rouge">meson</code>
+to build an executable <code class="highlighter-rouge">my_prog</code> from the files <code class="highlighter-rouge">tabulate.f90</code> and
+<code class="highlighter-rouge">functions.f90</code>.
+We had not to tell <code class="highlighter-rouge">meson</code> how to build the project, it figured this out
+by itself.</p>
+
+<div class="aside-note">
+    
+    <p><strong>Note</strong></p>
+
+<p><code class="highlighter-rouge">meson</code> is a cross-platform build system, the project you just specified
+for your program can be used to compile binaries for your native operating
+system or to cross-compile your project for other platforms.
+Similarly, the <code class="highlighter-rouge">meson.build</code> file is portable and will work on different
+platforms as well.</p>
+
+</div>
+
+<p>The documentation of <code class="highlighter-rouge">meson</code> can be found at the
+<a href="https://mesonbuild.com/" target="_blank" rel="noopener">meson-build webpage</a>.</p>
+
+<h2 id="creating-a-cmake-project">Creating a CMake project</h2>
+
+<p>Similar to <code class="highlighter-rouge">meson</code> CMake is a high-level build system as well and commonly
+used to build Fortran projects.</p>
+
+<div class="aside-note">
+    
+    <p><strong>Note</strong></p>
+
+<p>CMake follows a slightly different strategy and provides you with a complete
+programming language to create your build files.
+This is has the advantage that you can do almost everything with CMake,
+but your CMake build files can also become as complex as the program you are
+building.</p>
+
+</div>
+
+<p>Start by creating the file <code class="highlighter-rouge">CMakeLists.txt</code> with the content</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.7<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s2">"my_proj"</span> LANGUAGES <span class="s2">"Fortran"</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s2">"my_prog"</span> <span class="s2">"tabulate.f90"</span> <span class="s2">"functions.f90"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Similar to <code class="highlighter-rouge">meson</code> we are already done with our CMake build file.
+We configure our low-level build files with <code class="highlighter-rouge">cmake -B build -G Ninja</code>,
+you should see output similar to this</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-- The Fortran compiler identification is GNU 10.2.0
+-- Detecting Fortran compiler ABI info
+-- Detecting Fortran compiler ABI info - done
+-- Check for working Fortran compiler: /usr/bin/f95 - skipped
+-- Checking whether /usr/bin/f95 supports Fortran 90
+-- Checking whether /usr/bin/f95 supports Fortran 90 - yes
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/awvwgk/Examples/build
+</code></pre></div></div>
+
+<p>You might be surprised that CMake tries to use the compiler <code class="highlighter-rouge">f95</code>, fortunately
+this is just a symbolic link to <code class="highlighter-rouge">gfortran</code> on most systems and not the actual
+<code class="highlighter-rouge">f95</code> compiler.
+To give CMake a better hint you can export the environment variable <code class="highlighter-rouge">FC=gfortran</code>
+rerunning should show the correct compiler name now</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-- The Fortran compiler identification is GNU 10.2.0
+-- Detecting Fortran compiler ABI info
+-- Detecting Fortran compiler ABI info - done
+-- Check for working Fortran compiler: /usr/bin/gfortran - skipped
+-- Checking whether /usr/bin/gfortran supports Fortran 90
+-- Checking whether /usr/bin/gfortran supports Fortran 90 - yes
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/awvwgk/Example/build
+</code></pre></div></div>
+
+<p>In a similar manner you could use your Intel Fortran compiler instead to build
+your project (set <code class="highlighter-rouge">FC=ifort</code>).</p>
+
+<p>CMake provides support for several low-level build files, since the default is
+platform specific, we will just use <code class="highlighter-rouge">ninja</code> since we already used it together
+with <code class="highlighter-rouge">meson</code>. As before, build your project with <code class="highlighter-rouge">ninja -C build</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1/6] Building Fortran preprocessed CMakeFiles/my_prog.dir/functions.f90-pp.f90
+[2/6] Building Fortran preprocessed CMakeFiles/my_prog.dir/tabulate.f90-pp.f90
+[3/6] Generating Fortran dyndep file CMakeFiles/my_prog.dir/Fortran.dd
+[4/6] Building Fortran object CMakeFiles/my_prog.dir/functions.f90.o
+[5/6] Building Fortran object CMakeFiles/my_prog.dir/tabulate.f90.o
+[6/6] Linking Fortran executable my_prog
+</code></pre></div></div>
+
+<p>Find and test your program at <code class="highlighter-rouge">build/my_prog</code> to ensure it works correctly.
+The steps <code class="highlighter-rouge">ninja</code> performed are somewhat different, because there is usually
+more than one way to write the low-level build files to accomplish the task
+of building a project. Fortunately, we do not have to concern ourselves but have
+our build system handle those details for us.</p>
+
+<p>Finally, we will shortly recap on our complete <code class="highlighter-rouge">CMakeLists.txt</code> to specify
+our project:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.7<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s2">"my_proj"</span> LANGUAGES <span class="s2">"Fortran"</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s2">"my_prog"</span> <span class="s2">"tabulate.f90"</span> <span class="s2">"functions.f90"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We specified that we have a Fortran project and told CMake to create an executable
+<code class="highlighter-rouge">my_prog</code> from  the files <code class="highlighter-rouge">tabulate.f90</code> and <code class="highlighter-rouge">functions.f90</code>.
+CMake knows the details how to build the executable from the specified sources,
+so we do not have to worry about the actual steps in the build process.</p>
+
+<div class="aside-note">
+    
+    <p><strong>Note</strong></p>
+
+<p>CMake’s offical reference can be found at the
+&lt;a href=”https://cmake.org/cmake/help/latest/”, target=”_blank” rel=”noopener”&gt;CMake webpage&lt;/a&gt;.
+It is organised in manpages, which are also available with your local CMake
+installation as well using <code class="highlighter-rouge">man cmake</code>. While it covers all functionality of
+CMake, it sometimes covers them only very briefly.</p>
+
+</div>
 
 
       <div class="container-flex">
