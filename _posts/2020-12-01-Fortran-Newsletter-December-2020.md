@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: December 2020"
 category: newsletter
-author: Milan Curcic, Jérémie Vandenplas, Laurence Kedward
+author: Milan Curcic, Jérémie Vandenplas, Laurence Kedward, Gary Klimowicz
 ---
 
 Welcome to the December 2020 edition of the monthly Fortran newsletter.
@@ -108,11 +108,53 @@ environment in which new open source Fortran projects are created and published 
 
 ### Classic Flang
 
-TODO @gklimowicz
+We continue to evaluate and merge pull requests into Classic Flang. Recently merged pull requests into Classic Flang include:
+* [PR#883: Flang generated executable does not show result variable of function](https://github.com/flang-compiler/flang/pull/883)
+* [PR#933: Updating X-flag entries for internal command line option "-x 49"](https://github.com/flang-compiler/flang/pull/933)
+* [PR#939: Publish Arm's internal documentation](https://github.com/flang-compiler/flang/pull/939)
+* [PR#941: [DebugInfo] Internal subprogram variable is not accessible for printing in gdb](https://github.com/flang-compiler/flang/pull/941)
+* [PR#942: Implement UNROLL(n) directive](https://github.com/flang-compiler/flang/pull/942)
+* [PR#943: Enable github Actions for push to master and pull requests to master](https://github.com/flang-compiler/flang/pull/943)
+* [PR#945: libpgmath: Stop using pgstdinit.h](https://github.com/flang-compiler/flang/pull/945)
+* [PR#946: Call check_member() for PD_is_contiguous](https://github.com/flang-compiler/flang/pull/946)
+* [PR#951: Fix for ICE in atomic instruction generation](https://github.com/flang-compiler/flang/pull/951)
+
+Pull requests merged into the supporting projects:
+* [classic flang LLVM monorepo PR#5: [Driver] Reduce downstream delta](https://github.com/flang-compiler/classic-flang-llvm-project/pull/5)
+* [classic flang LLVM monorepo PR#6: Removing a few CI pipelines](https://github.com/flang-compiler/classic-flang-llvm-project/pull/6)
+* [classic flang LLVM monorepo PR#7: Github Actions added to pre-compile artifacts for flang](https://github.com/flang-compiler/classic-flang-llvm-project/pull/7)
+* [llvm mirror PR#87: Enable github actions for llvm](https://github.com/flang-compiler/llvm/pull/87)
+* [flang-driver PR#94: Enable github actions](https://github.com/flang-compiler/flang-driver/pull/94)
+
+The Classic Flang biweekly call has been set up to discuss issues and plans
+for the next pull requests to be validated and merged. Our next calls are Wednesday, November 16 and 30, 8:00 AM Pacific time. The notes from previous calls, upcoming agenda and a link to join the call can be found
+[here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).
 
 ### LLVM Flang
 
-TODO @gklimowicz
+Work continues on LLVM Flang, concentrating on semantics, lowering and runtime. Significant contributions are being made for OpenMP and OpenACC support.
+
+In conjunction with the MLIR-based code from the _fir-dev_ fork (the Fortran IR used for lowering), Flang can compile and run most F77 programs, including the Fortran Compiler Validation Suite (FCVS).
+
+Pat McCormick is (still) working on an RFC for the merge of the lowering code
+in the fir-dev fork into LLVM master. (This was interrupted by Supercomputing 2020 and other ECP duties.) The goal is to expedite this in a way that is acceptable to the Flang community, so we can do further work in the single master branch.
+
+Recent updates include:
+* Johannes Doerfert has created a web page at https://flang.llvm.org; you can find call and Slack logistics there
+* Nichols Romero has an llvm-dev RFC for adding Fortran tests to the llvm-tests project: http://lists.llvm.org/pipermail/llvm-dev/2020-November/146873.html
+* Andzrej Warzynski has a flang-dev RFC regarding flang option names: http://lists.llvm.org/pipermail/flang-dev/2020-November/000588.html
+* Andzrej Warzynski has a cfe-dev RFC regarding refactoring clang to help flang driver become independent of clang: http://lists.llvm.org/pipermail/cfe-dev/2020-November/067263.html
+* Changed representation of CHARACTER data in type system to make more consistent with other types (for arrays)
+* Changed COMPLEX expression representation to provide better handling in lowering
+* More improvements for supporting Fortran 77 programs
+* Implemented runtime support for basic ALLOCATE/DEALLOCATE and further work
+* Continued implementation of table-driven runtime for derived types; posted documentation
+* Continued implementation of array expression lowering
+* Improved error checks on forward references
+* More updates to flang driver (option handling; -E can now be used to invoke just the Flang preprocessor)
+* OpenACC semantic checks for modifiers on enter/exit data, set directives
+* OpenACC lowering (enter/exit data, update, init, shutdown, wait directives)
+* OpenMP structure checker updates; semantic checks for copyin clause; schedule class
 
 ### LFortran
 
