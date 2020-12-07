@@ -2,6 +2,428 @@
     "name": "fortran-lang/stdlib",
     "issues": [
         {
+            "number": 255,
+            "user": "jvdp1",
+            "date": "2020-11-29 18:07:28+00:00",
+            "title": "Fix for a small issue in stdlib_logger",
+            "text": "",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-29 18:15:16+00:00",
+                    "text": "@wclodius2 @milancurcic\nI discovered a small issue in stdlib_logger. I fixed it, and added some additional tests for covering them."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-29 18:27:55+00:00",
+                    "text": "Great!"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-30 16:48:07+00:00",
+                    "text": "Thank you for your reviews. I'll merge it."
+                }
+            ]
+        },
+        {
+            "number": 254,
+            "user": "jvdp1",
+            "date": "2020-11-29 12:10:09+00:00",
+            "title": "stdlib_logger: proposition to add a logger for debug phases and levels among the different logs",
+            "text": "I am playing with stdlib_logger and I think it would be nice to have a subroutine for messages that should be printed only during debug phases.\nProposition\nlog_debug - Writes the string message to self % log_units\nSyntax\ncall self % log_debug( message [,module, procedure, stat, errmsg] )\nLog levels\nLog levels are used for filtering the messages based on their level/severity.\nEach subroutine log_error, log_information, log_io_error, log_text_error, log_warning, and the additional log_debug is associated with a level.\nFor example:\n\nlog_debug associated with debug_level\nlog_information associated with information_level\nlog_warning associated with warning_level\nlog_error, log_io_error, log_text_error associated with error_level\n\nwith debug_level < information_level < warning_level < error_level.\nSince log_message is called by all other log subroutines, it is probably best to not assign a level to log_message IMO.\nThe level of the logger should be set with the method configure, e.g. call self %configure( level =  information_level), meaning that all calls with a level < information_level would be ignored.\nSuch log level options are avaible in Julia or Python loggers.\n@wclodius2 , @milancurcic , @14NGiestas , @ivan-pi , @certik is that of interests? any thoughs, comments?",
+            "comments": [
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-29 15:34:55+00:00",
+                    "text": "A few comments. This is really two separate proposals\" adding log_debug and adding level, and I think it would be best addressed by two separate PRs. Levels are also used by FLIBS (m_exception). On the other hand, Futility (exception_handler) has separate flags for each \"level\", so that you can output \"debug\" while not outputting \"information\" or \"warning\". Testing the effects of level will be tricky. How do you verify what is not output? log_text_error is different from the other error levels. It indicates a problem not with the application, but rather with a file being read by the application. I suspect its output should be independent of level. Overall I am in favor of adding log_debug, but worry that adding level will be a bit tricky."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-29 19:22:13+00:00",
+                    "text": "A few comments. This is really two separate proposals\" adding log_debug and adding level, and I think it would be best addressed by two separate PRs.\n\nI agree with you that it should be two separate PR.\nRe: log_debug, its implementation is straighfoward. The main question is about its API. Should it be similar to e.g., log_information,\ncall self % log_debug( message [, module, procedure ] )\nHere is a draft of log_debug.\n\nLevels are also used by FLIBS (m_exception). On the other hand, Futility (exception_handler) has separate flags for each \"level\", so that you can output \"debug\" while not outputting \"information\" or \"warning\".\n\nThe proposed approach in this message is similar to Julia and Python loggers.\nHowever, the approach proposed of Futility (exception_handler) seem to be more flexible, but more difficult to implement and manage (even for the user).\nHere is a draft for a proposition similar to Julia and Python loggers.\nNote that the different default levels could be set by the user too.\n\nTesting the effects of level will be tricky. How do you verify what is not output?\n\nI don't understand that. For example, we could verify that a message is not printed to output_unit. Here is a proposition for testing the different options.\n\nlog_text_error is different from the other error levels. It indicates a problem not with the application, but rather with a file being read by the application. I suspect its output should be independent of level.\n\nRight. Default levels should be discussed first and set accordingly.\n\nOverall I am in favor of adding log_debug, but worry that adding level will be a bit tricky.\n\nI am not sure what is tricky with the option level (at least in the way I imagine it). I might miss something about the 'level' approach."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-30 03:10:37+00:00",
+                    "text": "The draft and the proposition for testing look mostly reasonable. A few comments on it:\n\nThere is one case of \"...be NOT printed.\" that should be \"...NOT be printed.\"\nThe levels have the prefix \"stdlib_\" that I consider wordy and superfluous. I consider the stdlib_ prefix useful for avoiding naming conflicts between modules, but unnecessary for module entities. If you insist on a prefix I would make it \"log_\".\nIn the test code you use more vertical white space than I would now. I would not insert four blank lines to separate constructs. Because others objected to my inserting blank lines into my if ... then ... else ... end if, I no longer do that though you may be doing that to be consistent with my earlier style in the test code.\nThe if ( self % level > stdlib_..._level) return should have a blank between level and )."
+                }
+            ]
+        },
+        {
+            "number": 253,
+            "user": "jvdp1",
+            "date": "2020-11-26 20:05:16+00:00",
+            "title": "Logger: move self%buffer and seld%len_buffer to local variables",
+            "text": "I was testing a multi-threading (OpenMP) program with global_logger inside an OpenMP loop. I got a segfault because a thread tried to allocate seld % buffer while it was already allocated by another thread.\nAs a solution, I moved the variables self % buffer and self % len_buffer into the subroutines log_messge and log_text_error. I believe that this solution has been already proposed in another discussion (I can't retrieve it).\nNote that this modification solves the problem of segfault, but it does not make the logger thread-safe. AFAIK, to be thread-safe, the logger (or the write statement inside the logger) should be in an OpenMP critical section.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-26 20:06:28+00:00",
+                    "text": "@wclodius2 do you see any possible problems I overlook with these modifications?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-26 20:45:01+00:00",
+                    "text": "Its a lot mom changes, but as they mostly involve removing self % they look straightforward. I don't see any problems. In the code not shown, any problems would probably show up with implicit none so I have strong confidence the code is correct. I suspect it is more robust than my code. Did you check the test cases?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-26 23:29:31+00:00",
+                    "text": "There are some points of style in the code. A lot of instances of self with intent(inout) should now be intent(in), i.e., in format_output_string and I believe all log_.... In format_output_string the type declaration statements for the dummy arguments should be in the order of the argument list. The document stdlib_logger.md should be revised to eliminate the references to buffer and len_buffer in the discussion of the derived type and the intents for self in the appropriate procedures should be revised."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-11-26 23:37:02+00:00",
+                    "text": "I was testing a multi-threading (OpenMP) program with global_logger inside an OpenMP loop. I got a segfault because a thread tried to allocate seld % buffer while it was already allocated by another thread.\n\nThis is kind of a pity with OpenMP, a derived type with allocatable members seems to get memcopied if it is set to firstprivate, resulting in private copies for each thread potentially pointing to the same the location. The only safe way I found so far working with a mutable derived type was to have it shared and read-only, while deep-copying it manually to a private instance in the OpenMP region, which is kind of a waste.\nOpenACC has a mechanism to copyin components of derived types explicitly, but I'm not aware of a similar mechanism in OpenMP.\n\nNote that this modification solves the problem of segfault, but it does not make the logger thread-safe. AFAIK, to be thread-safe, the logger (or the write statement inside the logger) should be in an OpenMP critical section.\n\nThe OpenMP critical should probably be provided on the user side of the API to ensure that two independent loggers don't block each other. If stdlib wants to handle the thread-safety itself, than it probably has to create an OpenMP mutex for each unit connected to the logger, but I'm not sure if this can be done with a normal OpenMP critical region (have to read the specs again)."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-27 06:30:43+00:00",
+                    "text": "Thank you for your reviews. Indeed, many intent(inout) should be modified and the specs should be adapted as well. I will do it.\nNow done in:\ncommit\nand\ncommit"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-27 07:52:55+00:00",
+                    "text": "@awvwgk Thank you for your comments.\n\nThis is kind of a pity with OpenMP, a derived type with allocatable members seems to get memcopied if it is set to firstprivate, resulting in private copies for each thread potentially pointing to the same the location. The only safe way I found so far working with a mutable derived type was to have it shared and read-only, while deep-copying it manually to a private instance in the OpenMP region, which is kind of a waste.\n\nI usually avoid to use (first/last)private for large arrays or derived types (too often bitten with stack memory issues, and issues similar to the one you mentioned). I prefer deep-copying and explicit allocation of copies.\nWith the proposed changes (and the logger being unmutable in the OpenMP parallel region), the following OpenMP code should work without issues:\n   use stdlib_logger, only: logger_type, global => global_logger, success\n    !$ use omp_lib\n    implicit none\n    integer :: i, ithread, nthreads, stat\n    character(len = 30) :: cdummy, cdummy1\n    type(logger_type), allocatable :: logger(:)\n\n    call global % add_log_file( 'log_file_omp.txt')\n\n    nthreads = 1\n    !$omp parallel\n    !$ nthreads = omp_get_num_threads()\n    !$omp end parallel\n\n    write(cdummy, '(i0)') nthreads\n\n    ithread = 1\n    cdummy = 'master'\n    !$omp parallel default(none) &\n    !$omp shared(global) &\n    !$omp private(i, ithread, cdummy, cdummy1)\n    !$omp do\n    do i = 1, 100  \n        !$ ithread = omp_get_thread_num()+1\n        !$ write(cdummy, '(i0)') ithread\n        write(cdummy1, '(i0)') i\n        !$omp critical\n        call global % log_message('Thread : ' // trim(cdummy) //&\n             ' | i = ' // trim(cdummy1))\n        !$omp end critical\n    end do\n    !$omp end do\n    !$omp end parallel\nend program\nThe user could omit the OpenMP critical section but this could lead to overwritting.\nQuestion: should such an example be provide in the specs?\n\nThe OpenMP critical should probably be provided on the user side of the API ...\n\nI agree with this statement. My main reason is that there are several ways for multi-thread programming. Controlling it outside stdlib does not enforce the user to use a specific approach to be thread-safe.\n\n... to ensure that two independent loggers don't blog each other. If stdlib wants to handle the thread-safety itself, than it probably has to create an OpenMP mutex for each unit connected to the logger, but I'm not sure if this can be done with a normal OpenMp critical region (have to read the specs again).\n\nNamed OpenMP critical section could be used (e.g. 1 named critical section per unit connected to the logger). But, as stated earlier, I don't think it should be the way to go."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-11-27 08:24:40+00:00",
+                    "text": "Named OpenMP critical section could be used (e.g. 1 named critical section per unit connected to the logger). But, as stated earlier, I don't think it should be the way to go.\n\nOpenMP critical (even with named sections) will not work correctly, maybe the hint-expression introduced in OpenMP 4.5 could solve this issue, but I have not tried them yet (some compiler vendors only support OpenMP 3.x yet). You would have to go for managing an array of locks to make this possible."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-27 10:18:25+00:00",
+                    "text": "Named OpenMP critical section could be used (e.g. 1 named critical section per unit connected to the logger). But, as stated earlier, I don't think it should be the way to go.\n\nOpenMP critical (even with named sections) will not work correctly, maybe the hint-expression introduced in OpenMP 4.5 could solve this issue, but I have not tried them yet (some compiler vendors only support OpenMP 3.x yet). You would have to go for managing an array of locks to make this possible.\n\nIndeed, you are right. Thank you for your comment."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-28 12:31:44+00:00",
+                    "text": "With 4 reviewers agreeing with the changes, I will merge this PR. Thank you all for your reviews and comments."
+                }
+            ]
+        },
+        {
+            "number": 252,
+            "user": "jvdp1",
+            "date": "2020-11-25 06:59:55+00:00",
+            "title": "Issue with logger s configuration subroutine",
+            "text": "@wclodius2\nI found a small issue within stdlib_logger. If the subroutine configuration is called and no units are associated with the logger, self % log_units is not allocated, and leads to a segfault (in debug mode) when the program tries to use it for allocating log_units.\nWith my proposition, log_units will be a zero-sized array in such situations (as it is tested like that in the tests).",
+            "comments": [
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-25 14:15:59+00:00",
+                    "text": "@jvdp1 the two changes look good to me. Sorry for missing that problem."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-25 14:35:14+00:00",
+                    "text": "It looks to me like your changes are for a PR against the master, and not against logger-safe-async-io. I don't believe I have write access to the master repository so I can't do a merge there. Do you want me to copy the changes to logger-safe-async-io and we just do a merge of that, or did you have other ideas?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-25 14:40:52+00:00",
+                    "text": "It looks to me like your changes are for a PR against the master, and not against logger-safe-async-io. I don't believe I have write access to the master repository so I can't do a merge there. Do you want me to copy the changes to logger-safe-async-io and we just do a merge of that, or did you have other ideas?\n\nThank you for the approcal.\nSince it is a small change and that it is not related to logger-safe-async-io, I will merge it in master.\nAnyway, I can open a PR to logger-safe-async-io if you want, but I don't think it is needed at this stage."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-25 14:51:02+00:00",
+                    "text": "Will git pull https://github.com/fortran-lang/stdlib merge your changes into my local version of logger-safe-async-io so it can them be pushed?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-25 17:15:50+00:00",
+                    "text": "Will git pull https://github.com/fortran-lang/stdlib merge your changes into my local version of logger-safe-async-io so it can them be pushed?\n\nIn you local directory, you could do:\ngit checkout logger-safe-async-io\ngit fetch upstream master    #assuming upstream points to github.com/fortran-lang/stdlib\ngit merge --no-ff upstream/master\ngit push origin logger-safe-async-io"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-25 19:33:49+00:00",
+                    "text": "git merge --no-ff upstream/master\n\ngives me\nmerge: upstream/stdlib - not something we can merge"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-25 19:43:20+00:00",
+                    "text": "It seems you tried:\n\ngit merge --no-ff upstream/stdlib\n\n\ninstead of\n\n\ngit merge --no-ff upstream/master\n\n\n\n\nLe mer. 25 nov. 2020 \u00e0 20:34, William B. Clodius <notifications@github.com>\na \u00e9crit :\n\u2026\n git merge --no-ff upstream/master\n\n gives me\n\n merge: upstream/stdlib - not something we can merge\n\n \u2014\n You are receiving this because you modified the open/close state.\n Reply to this email directly, view it on GitHub\n <#252 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AD5RO7FW5DKXOI7KMQYVC4TSRVL2VANCNFSM4UB7SKNQ>\n ."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-25 19:49:30+00:00",
+                    "text": "All of the following gives the same result\nstdlib % git merge --no-ff upstream/master\nmerge: upstream/master - not something we can merge\n\ngit merge --no-ff https://github.com/fortran-lang/stdlib/master\nmerge: https://github.com/fortran-lang/stdlib/master - not something we can merge\n\ngit merge --no-ff https://github.com/fortran-lang/stdlib      \nmerge: https://github.com/fortran-lang/stdlib - not something we can merge\n\ngit merge --no-ff github.com/fortran-lang/stdlib/master      \nmerge: github.com/fortran-lang/stdlib/master - not something we can merge"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-25 20:04:21+00:00",
+                    "text": "All of the following gives the same result\nstdlib % git merge --no-ff upstream/master\nmerge: upstream/master - not something we can merge\n\ngit merge --no-ff https://github.com/fortran-lang/stdlib/master\nmerge: https://github.com/fortran-lang/stdlib/master - not something we can merge\n\ngit merge --no-ff https://github.com/fortran-lang/stdlib      \nmerge: https://github.com/fortran-lang/stdlib - not something we can merge\n\ngit merge --no-ff github.com/fortran-lang/stdlib/master      \nmerge: github.com/fortran-lang/stdlib/master - not something we can merge\n\n\nIs upstream associated with www.github.com/fortran-lang/stdlib ? What does git remote -v return?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-25 20:06:17+00:00",
+                    "text": "git remote -v\norigin\thttps://github.com/fortran-lang/stdlib (fetch)\norigin\thttps://github.com/fortran-lang/stdlib (push)\nwilliam\tgit@github.com:wclodius2/stdlib.git (fetch)\nwilliam\tgit@github.com:wclodius2/stdlib.git (push)"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-25 20:09:35+00:00",
+                    "text": "git remote -v\norigin\thttps://github.com/fortran-lang/stdlib (fetch)\norigin\thttps://github.com/fortran-lang/stdlib (push)\nwilliam\tgit@github.com:wclodius2/stdlib.git (fetch)\nwilliam\tgit@github.com:wclodius2/stdlib.git (push)\n\n\nOk. I understand. Your origin is what I call upstream. The following should work:\ngit checkout logger-safe-async-io\ngit fetch origin master\ngit merge --no-ff origin/master\ngit push william logger-safe-async-io"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-25 20:16:38+00:00",
+                    "text": "Thanks its merged into logger-safe-async-io now."
+                }
+            ]
+        },
+        {
+            "number": 251,
+            "user": "jvdp1",
+            "date": "2020-11-24 20:58:30+00:00",
+            "title": "Update links in stdlib_bitsets to navigate easily from specs to code (and vice versa)",
+            "text": "The following has been done:\n\n\nSpecs: Correction of some FORD links + typos\n\n\ncode: addition of links to the specs for easier navigation",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-28 12:30:08+00:00",
+                    "text": "I'll merge this PR. It is mainly addition of link and correction of typos."
+                }
+            ]
+        },
+        {
+            "number": 250,
+            "user": "14NGiestas",
+            "date": "2020-11-23 05:22:14+00:00",
+            "title": "Fixes CI failing on MacOS",
+            "text": "This fixes the MacOS CI issue, updating the gcc version to the right one.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-23 15:50:01+00:00",
+                    "text": "It seems to work, thank a lot! I will merge it."
+                }
+            ]
+        },
+        {
+            "number": 249,
+            "user": "awvwgk",
+            "date": "2020-11-22 21:28:58+00:00",
+            "title": "Support for Intel oneAPI compilers",
+            "text": "I just tried to setup a CI for the Intel oneAPI compilers for stdlib and noticed that src/tests/io/test_savetxt.f90 is triggering an ICE in ifort (see https://github.com/awvwgk/fortran-stdlib/runs/1439256395) and src/stdlib_ascii.f90 is triggering an ICE in the ifx compiler (see https://github.com/awvwgk/fortran-stdlib/runs/1439276984).\nI have seen there are compile issues with PGI/NVHPC, NAG and flang already for stdlib. Does this mean stdlib currently only supports GCC?",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-22 21:41:10+00:00",
+                    "text": "The ifx error is not very informative:\n/home/runner/work/fortran-stdlib/fortran-stdlib/src/stdlib_ascii.f90(73): catastrophic error: **Internal compiler error: internal abort** Please report this error along with the circumstances in which it occurred in a Software Problem Report.  Note: File and line given may not be explicit cause of this error."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-22 21:48:01+00:00",
+                    "text": "The NAG issues were partially related to CMake - #108 - however, I am not sure if it was resolved. Presumably, PGI will also have issues with submodules, error stop, and other F2018 features.\nThe short answer to your question is yes."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-11-22 21:48:35+00:00",
+                    "text": "I've never seen an informative ICE so far. Unfortunately, I don't have a local Intel oneAPI installation on my machine (yet), so I wasn't able to pin it down to a more specific part in the implementation. At least with Intel Parallel Studio stdlib builds just fine, so this seems to be Intel oneAPI specific."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-22 22:13:06+00:00",
+                    "text": "Does this mean stdlib currently only supports GCC?\n\nI always try to compile stdlib with gfortran (9.3.1) and Intel ifort (19.1.1), and until now, it was always fine. I got some issues with one of the first versions of ifort 2017, but it has been solved with an update of ifort.\n@awvwgk  Which version of ifort did you use?\nI didn't test Intel oneAPI yet."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-11-22 22:17:16+00:00",
+                    "text": "On my local machine, I use Intel Parallel Studio 2020, Update 2 (ifort 19.1.1.217 20200306), which seems to work just fine.\nOn the CI example it should be Intel oneAPI 2021.1 beta10, ifort 20.2.1.20200827, ifx 2019.0.0.20201005 (?)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-22 23:49:37+00:00",
+                    "text": "On my laptop (Ubuntu 20.04) I have ifort (IFORT) 2021.1 Beta 20200827 (from oneAPI) and it doesn't ICE until compiling the tests:\n/home/milan/Work/fortran/stdlib/src/tests/io/test_savetxt.f90: catastrophic error: **Internal compiler error: segmentation violation signal raised** Please report this error along with the circumstances in which it occurred in a Software Problem Report.  Note: File and line given may not be explicit cause of this error."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-22 23:52:54+00:00",
+                    "text": "nvfortran 20.9-0 doesn't implement real128 yet:\n$ FC=nvfortran cmake .. -DCMAKE_MAXIMUM_RANK=4\n-- The Fortran compiler identification is PGI 20.9.0\n-- Check for working Fortran compiler: /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran\n-- Check for working Fortran compiler: /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran  -- works\n-- Detecting Fortran compiler ABI info\n-- Detecting Fortran compiler ABI info - done\n-- Checking whether /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran supports Fortran 90\n-- Checking whether /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran supports Fortran 90 -- yes\n-- Performing Test f18errorstop\n-- Performing Test f18errorstop - Success\n-- Performing Test f03rank\n-- Performing Test f03rank - Failed\n-- Performing Test f03real128\n-- Performing Test f03real128 - Failed\n-- Configuring done\n-- Generating done\n-- Build files have been written to: /home/milan/Work/fortran/stdlib/build"
+                }
+            ]
+        },
+        {
+            "number": 248,
+            "user": "milancurcic",
+            "date": "2020-11-22 18:19:48+00:00",
+            "title": "Revert \"Bitsets3\" to diagnose CI issues",
+            "text": "Reverts #239\nThis PR is to diagnose CI issue in #247. It should not be merged.",
+            "comments": []
+        },
+        {
+            "number": 247,
+            "user": "milancurcic",
+            "date": "2020-11-22 16:51:20+00:00",
+            "title": "CI failure for macos-latest, 8",
+            "text": "CI is failing for macos-latest, 8 as of the last merge into master (#239). See https://github.com/fortran-lang/stdlib/runs/1438725329.\nI have re-run the CI jobs to make sure the same error repeats. The error comes from a symbol missing in one of the shared libraries:\ndyld: lazy symbol binding failed: Symbol not found: ___addtf3\n  Referenced from: /Users/runner/work/stdlib/stdlib/build/src/tests/quadrature/test_trapz\n  Expected in: /usr/lib/libSystem.B.dylib\n\nThe same error repeats for several other tests that rely on this symbol. Others are okay.\nI have no knowledge of macOS so I'm not sure where to start with this one.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-11-22 17:11:37+00:00",
+                    "text": "Can you try to send a drFt PR reverting the last merge and see if it fixes the CI? It might not even be related to the last merge.\n\u2026\nOn Sun, Nov 22, 2020, at 9:51 AM, Milan Curcic wrote:\n\n\n CI is failing for macos-latest, 8 as of the last merge into master\n (#239 <#239>). See\n https://github.com/fortran-lang/stdlib/runs/1438725329.\n\n I have re-run the CI jobs to make sure the same error repeats. The\n error comes from a symbol missing in one of the shared libraries:\n\n `dyld: lazy symbol binding failed: Symbol not found: ___addtf3\n   Referenced from:\n /Users/runner/work/stdlib/stdlib/build/src/tests/quadrature/test_trapz\n   Expected in: /usr/lib/libSystem.B.dylib\n `\n The same error repeats for several other tests that rely on this\n symbol. Others are okay.\n\n I have no knowledge of macOS so I'm not sure where to start with this one.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#247>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWEEIIXRQAIYTJSGYLTSRE6RLANCNFSM4T6S2IJA>."
+                },
+                {
+                    "user": "Romendakil",
+                    "date": "2020-11-22 18:08:06+00:00",
+                    "text": "That  symbol should be part of libgcc_s.1.dylib, maybe a problem with the brewed gcc/gfortran-8?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-22 18:24:33+00:00",
+                    "text": "@certik To confirm, I did what you suggested in #248."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-11-22 18:30:10+00:00",
+                    "text": "Thanks Milan. It looks like the error is indeed unrelated to the latest merge and rather is caused by some changes in the CI itself as Jurgen pointed out.\n\u2026\nOn Sun, Nov 22, 2020, at 11:24 AM, Milan Curcic wrote:\n\n\n @certik <https://github.com/certik> To confirm, I did what you\n suggested in #248 <#248>.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#247 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWFY3PPKUVHJSSKR3SLSRFJO5ANCNFSM4T6S2IJA>."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-11-23 05:35:14+00:00",
+                    "text": "It was just a matter of updating the links as the warning said in the \"Install Gfortran on MacOS\" task.\nI've fixed in #250\nEDIT: The warning was hidden in the task. Is there a way to make such warnings appear in github's output?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-23 15:54:15+00:00",
+                    "text": "Fixed by #250."
+                }
+            ]
+        },
+        {
+            "number": 246,
+            "user": "14NGiestas",
+            "date": "2020-11-16 22:18:32+00:00",
+            "title": "Small fix to issue #245",
+            "text": "It seems the command set-env is deprecated (since it is exploitable), so the Ford CI is failing.\nI believe this small fix solves the issue: GH Workflow environment files",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-16 22:24:17+00:00",
+                    "text": "Great, thank you! Do you mind also submitting one to fpm, see here?"
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-11-16 22:25:45+00:00",
+                    "text": "Great, thank you! Do you mind also submitting one to fpm, see here?\n\nGladly :D"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-16 22:26:49+00:00",
+                    "text": "This is a small technical change that seems to fix the problem, so I will go ahead and merge it."
+                }
+            ]
+        },
+        {
+            "number": 245,
+            "user": "wclodius2",
+            "date": "2020-11-16 20:45:17+00:00",
+            "title": "Logger safe async io",
+            "text": "Changes in four files:\n\ndoc/specs/index.md - added stdlib_logger.html to the index;\ndoc/specs/stdlib_logger.md - described the changes in stdlib_logger.f90;\nsrc/tests/logger/test-stdlib_logger.f90 - added a blank after a comma in the output;\nsrc/stdlib_logger.f90 - numerous changes\n\nthe code handles new_line calls in the message string properly (added by @jvdp1, but undocumented in stdlib_logger.md)\na character string buffer was added to logger_type and alen_buffer integer to track the number of active characters in the buffer;\nthe code replaced multiple calls to write statements with single calls with line breaks generated by inserting new_line in the output string, in order to make the output thread and asynchronous IO safe;\nshortened a number of lines most of them 80+ characters long\nchanged Rrea_only_error to read_only_error",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-16 22:18:31+00:00",
+                    "text": "@14NGiestas if your fix for docs build works, can you submit it as a separate PR? Then we can merge it and rebase this PR to master so that the docs build."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-11-16 22:21:52+00:00",
+                    "text": "@14NGiestas if your fix for docs build works, can you submit it as a separate PR? Then we can merge it and rebase this PR to master so that the docs build.\n\nIt is already a separate PR #246. I'm just waiting the CI to finish."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-18 00:12:06+00:00",
+                    "text": "I have committed and pushed fixes for the unit = -999 and the potentially too short suffix in both log_error and log_io_error."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-22 17:33:51+00:00",
+                    "text": "Do you expect that this is async I/O safe also for SPMD programs using MPI or coarrays? Specifically, in a pattern where multiple processes are logging to the same file, or stdout. Granted, a safer programming pattern in this case would be for each process to write to its own dedicated logger file. Should we make note of this in the docs?\n\nWould an OpenMP do loop with a logger do the trick? I have a similar example in one of my codes, however I put the logger in a critical OMP section with the first implementation."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-22 17:52:26+00:00",
+                    "text": "While a test would be useful I don't know how to write it. Parallel programming was not in demand for my work. In particular, how do we ensure that asynchronous calls aren't accidentally synchronous? Do we want to special case the cmake compiler flags and Makefile.manual flags for stdlib_logger.f90 and test_stdlib_logger.f90?\nA note to the effect of \"While every effort has been made to make the code thread and asynchronous I/O safe, it is always best to have each process write to its own dedicated logger file\" might be useful.\nOn a related note, should I add an asynchronous argument to the subroutine add_log_file?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-23 19:28:57+00:00",
+                    "text": "While a test would be useful I don't know how to write it. Parallel programming was not in demand for my work. In particular, how do we ensure that asynchronous calls aren't accidentally synchronous? Do we want to special case the cmake compiler flags and Makefile.manual flags for stdlib_logger.f90 and test_stdlib_logger.f90?\n\nCould such a test be satisfying, assuming that most compilers support basic OpenMP directives?\n...\ntype(logger_type) :: logger\ncharacter (len = 30) :: cdumy\n...\n\ncall logger % add_log_file( 'log.txt')\ncall logger % configure(indent = .true., time_stamp = .true.)\n....\n!$omp parallel default(none) shared(logger)\n!$omp do\ndo i = 1, 100\n  !$ write(cdummy, '(i0)') omp_get_thread_num()\n  !$omp atomic\n  call logger % log_message( ' Message from thread '//trim(cdummy) )'\nenddo\n!$omp end do\n!$omp end parallel\n....\nSuch a test would be more about thread then asynchronous safety.\nTo \"mimick\" MPI, an array of loggers could be used, and each thread would used its own logger.\nHowever, what/how should be tested to have a proper test?\n\nA note to the effect of \"While every effort has been made to make the code thread and asynchronous I/O safe, it is always best to have each process write to its own dedicated logger file\" might be useful.\n\nIMO it is a good idea to add it in the specs, especially if we claim it should asynchornous/thread/process-safe.\n\nOn a related note, should I add an asynchronous argument to the subroutine add_log_file?\n\nIt would be good indeed. Probably it is best to do it in another PR independent from this one."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-23 21:20:32+00:00",
+                    "text": "A note to the effect of \"While every effort has been made to make the code thread and asynchronous I/O safe, it is always best to have each process write to its own dedicated logger file\" might be useful.\n\n@wclodius2, I agree. Do you mind adding this note in the spec document where you find it most appropriate?\nI think this will then be good to merge."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-24 01:15:40+00:00",
+                    "text": "I have added the sentence to stdlib_logger.md just before the note at the end of the introduction.\n@jvdp1 I have no experience with Open MP. My gut feeling is that an additional test wouldn't hurt, but it should probably be written by you as a separate PR. Things to think about if you should decide to do it.\n\nIt appears that compiling with gfortran for open MP requires the compiler flag -fopenmp. Would that flag apply to the library as a whole or just the test code?\nDo you envision the code as a separate \"application\" or part of the current test case?\nI find going through a hundred lines of output a bit daunting. Would ten lines be a sufficient test?"
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2020-11-24 06:48:53+00:00",
+                    "text": "Does this PR handles access to the buffer from different threads? Because having a buffer string without guarding the critical region does not guarantee one thread will not overwrite the buffer while the other thread was writing. I need to review the code to better understand that, but I belive It's up to the user put the logger call in a guarded region (omp critical, for e.g.)."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-24 07:47:24+00:00",
+                    "text": "@wclodius2 I will propose another test later, when this is merged.\n\nDoes this PR handles access to the buffer from different threads? Because having a buffer string without guarding the critical region does not guarantee one thread will not overwrite the buffer while the other thread was writing. I need to review the code to better understand that, but I belive It's up to the user put the logger call in a guarded region (omp critical, for e.g.).\n\nGood point. No, there is no guarding within stdlib_logger that different threads access to the buffer at the same time (that is why I set it in an atomic section in the example above). We could add orphaned OpenMP directives in stdlib_logger. However, as @14NGiestas , I would think it is up to the user to put the logger call in a guarded region. In that case, a sentence in the specs should be added for multi-thread programs.\nNote that this issue should not apppear in MPI/coarray-type programs."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-24 16:59:31+00:00",
+                    "text": "@14NGiestas FWIW the string buffer is in a logger object, and not a module variable. With a little extra work it could be made a procedure variable."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-24 19:03:24+00:00",
+                    "text": "FWIW with my latest push five of six CI/Builds passed. The one that failed \"CI / Build (macos-latest, 9) (pull_request)\" failed in running test_stdlib_bitset_large with a file read error. It passes that test on my system with gfortran 10.2."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-24 21:09:41+00:00",
+                    "text": "FWIW with my latest push five of six CI/Builds passed. The one that failed \"CI / Build (macos-latest, 9) (pull_request)\" failed in running test_stdlib_bitset_large with a file read error. It passes that test on my system with gfortran 10.2.\n\nI tested it on my computer (Fedora) with gfortran 9.3.1, and there were no issues.\nI rerun the tests, but they still failed."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-24 23:18:22+00:00",
+                    "text": "FWIW the Mac OS run that fails uses gfortran 9.3.0. It fails with an unexpected End-of-File, which I have trouble understanding as I would expect that error to occur only if there were a coding error that affects all runs. A glance at the code in stdlib_bitsets_large.f90 and test_stdlib_bitset_large.f90 doesn't show anything wrong with the pertinent sections of code. Further, CI / Build (ubuntu-latest, 9) also uses gfortran 9.3.0 and passes the tests. Maybe it is a bad disk sector involving the source code. I hate boggles!"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-25 07:20:54+00:00",
+                    "text": "FWIW the Mac OS run that fails uses gfortran 9.3.0. It fails with an unexpected End-of-File, which I have trouble understanding as I would expect that error to occur only if there were a coding error that affects all runs. A glance at the code in stdlib_bitsets_large.f90 and test_stdlib_bitset_large.f90 doesn't show anything wrong with the pertinent sections of code. Further, CI / Build (ubuntu-latest, 9) also uses gfortran 9.3.0 and passes the tests. Maybe it is a bad disk sector involving the source code. I hate boggles!\n\nI tested it again on my computer with different compilers and debug options. It always passed the tests! So no idea..."
+                }
+            ]
+        },
+        {
+            "number": 244,
+            "user": "wclodius2",
+            "date": "2020-11-16 13:14:54+00:00",
+            "title": "Logger2 - Changes mostly to make output thread and Asynchronous iO safe",
+            "text": "Changed three files:\n\n/src/stdlib_logger.f90\n\nFixed typos: Rrea_only_error to read_only_error, shortened lines to under 80 columns\nMade output thread and asynchronous IO safe by making it a single string formatted using the new_line function\n\n\n/doc/specs/stdlib_logger.md documented the changes in API in stdlib_logger.f90\n/doc/specs/index.md included the logger in the index.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-16 16:43:35+00:00",
+                    "text": "Thanks @wclodius2 for this PR. It seems that the branch logger2 is on top of bitset3, which makes things difficult to review. Would it be possible to rebase logger2 on master? @certik @milancurcic any tips on how to this?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-16 17:34:51+00:00",
+                    "text": "Assuming upstream is https://github.com/fortran-lang/stdlib and origin is git@github.com:wclodius2/stdlib (if using SSH keys auth) or https://github.com/wclodius2/stdlib (if using password auth), then in William's local git repo, I think this is the procedure:\ngit checkout master # go to master branch in the local repo\ngit fetch upstream # fetch updates from the remote repo (fortran-lang/stdlib)\ngit merge upstream/master # merge updates into local master\ngit checkout -b logger-safe-async-io # create and switch to the new branch\n# make changes to the files\ngit add <changed-file> && git commit -m \"commit message\" # for each meaningful unit of change\ngit push origin logger-safe-async-io"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-16 22:19:39+00:00",
+                    "text": "Closing in favor of #245"
+                }
+            ]
+        },
+        {
             "number": 243,
             "user": "jvdp1",
             "date": "2020-10-30 18:07:45+00:00",
@@ -12,6 +434,61 @@
                     "user": "jvdp1",
                     "date": "2020-10-30 18:08:28+00:00",
                     "text": "I add @wclodius2 as a reviewer"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-01 14:41:45+00:00",
+                    "text": "@jvdp1:\nIt looks like you did some revisions before adding me as a reviewer so I am missing some context. My idea, when I suggested using new_line, was to recursively insert new_line in a single character string at the points where we had breaks in write statements, and use that string for a single write to each file. This would have changed format_output_string from a procedure that performs writes to one that returns output string. You seem to be going for a more incremental approach.\n\nAll changes can be found here.\nI am not sure to understand what was your approach. Sorry.\nMy idea was to lead the logger writes something like:\nERROR: Possibles reasons:\n    1) first reason\n    2) second reason\n\nwith\ncall global%log_error('Possible reasons'//new_line('a')//'1) first reason'//new_line('a')//'2) second reason')\nTherefore, the user puts some formatting in the message.\nWas it your aim too?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-01 16:24:24+00:00",
+                    "text": "Here is an additional example of what should be nice to achieve:\n\ncode:\n\n    call global % log_message(&\n    'Example of an issue: the new_line() is considered as a character:' //   &\n    new_line('a')//                                                                                         &\n    ' -1) first bullet point: this is a long sentence on purpose. It should'  //   &\n   'be longer than 72 characters;'//new_line('a')                                     //   &\n    ' -2) second bullet point' ) \n\nHere is the current output (without the proposed changes):\n\n2020-11-01 17:18:03.241: Example of an issue: the new_line() is\n    considered as a character:\n -1) first bullet point: this is a long\n    sentence on purpose. It should be longer than 72 characters;\n -2)\n    second bullet point\n\n\nHere is the output with the proposed changes:\n\n2020-11-01 17:23:07.982: Example of an issue: the new_line() is\n    considered as a character:\n     -1) first bullet point: this is a long sentence on purpose. It\n    should be longer than 72 characters;\n     -2) second bullet point"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-01 17:40:02+00:00",
+                    "text": "The output as shown looks very good. My one concern is what might happen if the output unit is asynchronous. In that case the output from different write statements to the same unit might become separated by writes from other parts of the code. This is not a new problem. It was inherent in my original approach. A way around that is to write the output initially to a single string, inserting new_line for the formatting, and then output that string with a single write to each output unit. It becomes a bit tricky with new_line already in the input string, but I think it is doable. Why don't you continue to make the changes you want to get the formatting for your inputs. Then, after you commit your changes to the main branch, I start a new branch to implement the single output string using your mods as a guide for the treatment of new_line in the input string."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-01 19:45:14+00:00",
+                    "text": "My one concern is what might happen if the output unit is asynchronous. In that case the output from different write statements to the same unit might become separated by writes from other parts of the code. This is not a new problem. It was inherent in my original approach. A way around that is to write the output initially to a single string, inserting new_line for the formatting, and then output that string with a single write to each output unit. It becomes a bit tricky with new_line already in the input string, but I think it is doable.\n\nThis issue was indeed present before the proposed changes. Note that the new_line is already provided by the user in the string. Therefore, I guess it could be considered as a character (as any other ones).\n\nWhy don't you continue to make the changes you want to get the formatting for your inputs. Then, after you commit your changes to the main branch, I start a new branch to implement the single output string using your mods as a guide for the treatment of new_line in the input string.\n\nNice proposition. I believe I finished my changes and it is ready for reviewers. I tested them in a real program with several scenarios, and I was satisfied with the output. Hopefully I covered all possible scenarios."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-02 00:34:37+00:00",
+                    "text": "Outside of the two minor comments, the code looks good to me."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-02 15:19:55+00:00",
+                    "text": "Outside of the two minor comments, the code looks good to me.\n\nI will wait that other users review the proposed changes too."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-13 18:00:55+00:00",
+                    "text": "Please merge if/when ready."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-13 19:45:59+00:00",
+                    "text": "Please merge if/when ready.\n\nThanks for the final review. With 3 reviewers, I will now merge it."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-13 20:01:46+00:00",
+                    "text": "I used it mainly in one of our Fortran programs and was in overal pleased by this implementation.\n\nA way around that is to write the output initially to a single string, i\n\n@wclodius2 are you still interested in implementing such a proposition?\nWhile using the logger, I got the following situation:\n...some code...\ncall global%log_message('Initial value is: '//value2char(rdummy)\n...some code...\ncall global%log_message('New value is: '//value2char(rdummy)\n...some code...\nIt would have been nice to have something like:\n...some code...\ncall global%append_to_buffer_message('Initial value is: '//value2char(rdummy))\n...some code...\ncall global%appent_to_buffer_message('New value is: '//value2char(rdummy))\n...some code...\ncall global%log_message()   !write he buffer to file unit(s), and initialise the buffer to''\nThis is probably further than your initial thoughs"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-13 20:20:27+00:00",
+                    "text": "Yes it is further than my initial thoughts, which was to make the code thread/asynchronous IO \"safe\". I could do what you want as part of my rewrite, but what you are proposing has some ambiguities. In the appended strings what would you want done with date/time, module/procedure? What should be the formatting of the appended string?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-14 18:46:16+00:00",
+                    "text": "Yes it is further than my initial thoughts, which was to make the code thread/asynchronous IO \"safe\". I could do what you want as part of my rewrite, but what you are proposing has some ambiguities. In the appended strings what would you want done with date/time, module/procedure? What should be the formatting of the appended string?\n\nI would expect that date/time/module/procedure woud be initialized once when the string is still empty. Additional appended strings would not contain this information. It might be no sense, and could be considered later if others are interested.\nAt this stage, I think it is more important to have a code thread/asynchronous IO safe."
                 }
             ]
         },
@@ -50,7 +527,93 @@
             "date": "2020-10-27 19:14:26+00:00",
             "title": "Include a `split` function (202X feature)",
             "text": "Fortran 202X will include a new intrinsic split function:\nj3-fortran/fortran_proposals#187\nIt was approved, and then the API was changed after approving it. We should implement the latest approved version in stdlib, and play with it and ensure that the API looks good. And if we discover some improvements, we should propose them at the February 2021 Fortran Standards meeting.\nThen once split becomes part of the next Fortran standard, we can have a section in stdlib called \"backwards compatibility\", where we can have a \"reference implementation\" of such new features, so that people can use them right away even if some compiler might not support them yet.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-01 01:44:15+00:00",
+                    "text": "I put an implementation here: https://github.com/milancurcic/fortran202x_split.\nThis is a \"naive\" implementation--I went for what seemed to me as the simplest solution. The split_first_last specific subroutine, which is the second form listed in 20-139, does much of the grunt work. I wrote it in a mostly functional style, so it does some unnecessary copies that we may want to refactor in an imperative style.\nFor tests so far I only used the three examples from 16.9.194 in 20-007. They seem okay. More tests will be needed at the time of PR for stdlib.\nAt this time, I'd like to get feedback on this before I prepare a PR for stdlib."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-06 21:15:11+00:00",
+                    "text": "Thank you for the implementation. I played a bit with it and it looks good to me. The API seemed a bit strange at the start.\nI wonder if the version with pos is not a bit overlapping with the intrinsic function index (note: I understand that this is a implementation of the proposed standard)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-11-06 21:48:55+00:00",
+                    "text": "@jvdp1 thanks for the feedback. That is precisely why I suggested we do this, to get more experience about the API and perhaps propose some changes to it before it gets standardized. @jvdp1 how would you change the API to be more natural?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-07 01:01:33+00:00",
+                    "text": "Here's my impression of the API.\n\nInput dummy argument set is a scalar character string that contains all separators to be used for delimiting tokens. For example, if you pass \";, \" as a value of set, then any of these characters will be used for delimiting. In this current definition, I don't think it's possible to delimit using a multiple-character string, although I can't think of a use case for this. It seems to me that a more intuitive API would be for set to be an array of characters, so:\n\ncharacter, intent(in) :: set(:)\ninstead of\ncharacter(*), intent(in) :: set\nThen you'd pass it as [\";\", \",\", \" \"] instead of \";, \". But this is I think more a matter of style than anything else.\n\nI found the API to be idiomatic Fortran--subroutines with intent(in out) arguments for output--which is not in itself a bad thing and helps minimize unnecessary copies. I only wish there was also a convenience function for when a user only wants the tokens as a result and nothing else, and doesn't mind an extra copy. The interface would look like this:\n\npure function split(string, set) result(tokens)\n  character(*), intent(in) :: string\n  character(*), intent(in) :: set\n  character(:), allocatable :: tokens(:)\nand then you call it like this:\ntokens = split(string, set)\nwhich would allow a more functional style by passing split(string, set) as an argument to other functions.\nSo, to that end, I'd propose that in the stdlib we also include this 4th specific procedure, even if it ends up being non-standard, or an extension. So we'd have a total of 4 forms of split:\n\nsubroutine split(string, set, tokens, separator)\nsubroutine split(string, set, first, last)\nsubroutine split(string, set, pos, back)\nfunction split(string, set)"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-07 11:45:10+00:00",
+                    "text": "Unfortunately in Fortran you can not force functions and subroutines under the same interface. So the last split has to be named differently."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-07 11:52:39+00:00",
+                    "text": "Yes, I remembered this rule later. If people desire this as a function, maybe string_tokens, or strtok to mirror the C analog."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-08 16:25:39+00:00",
+                    "text": "@jvdp1 thanks for the feedback. That is precisely why I suggested we do this, to get more experience about the API and perhaps propose some changes to it before it gets standardized. @jvdp1 how would you change the API to be more natural?\n\nFirst I expected a function (similar to scan that has a similar interface (scan(string, set [,back [,kind]]). I was thus a bit surprised that it was a subroutine. However it does make sense with the different ouputs.\nSecond, I don't see the value of the return value pos, if you can get separator, or first. (Maybe efficiency?) I must miss something there (note that I didn't read all the discussions about this proposition). Furthermore this version of split is quite similar to the intrinsic function index.\nFinally, I was wondering why last was not optional. Isn't it that last(1:ntokens-1)=fist(2:ntokens)-1 (or somehting like that)? Do I miss something?\nAnyway, this version would be already a great addition in stdlib and later in the Standard."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-09 06:06:36+00:00",
+                    "text": "Yes, pos is useful for efficiency if you're searching for a delimiter at a specific position in the string. Both other forms parse the whole string.\nYou can't predict the values of last based on values of first because if token(n) is an empty string, last(n) is first(n)-1."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-11-09 06:32:34+00:00",
+                    "text": "We should also do comparisons with Python and other languages, as we usually do for stdlib.\n\u2026\nOn Sun, Nov 8, 2020, at 11:06 PM, Milan Curcic wrote:\n\n\n Yes, `pos` is useful for efficiency if you're searching for a delimiter\n at a specific position in the string. Both other forms parse the whole\n string.\n\n You can't predict the values of `last` based on values of `first`\n because if `token(n)` is an empty string, `last(n)` is `first(n)-1`.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#241 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWHVKFSQ2PSCCE7OD43SO6BHTANCNFSM4TBIUC4Q>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-09 19:48:47+00:00",
+                    "text": "Similar capability in other languages:\n\nC and C++ strtok\nPython split\nJulia split\nMATLAB strsplit\nGo split\nRust split"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-09 19:59:19+00:00",
+                    "text": "The key differences seem to be:\n\nBehavior of the separator. Fortran split works like that of C and C++ strtok (multiple characters in a string are possible separators), whereas in Python, Julia, MATLAB, and Go, the whole delimiter string is used as a single delimiter. Rust's delimiter allows specifying a pattern. For a few of these implementations, delimiter defaults to an empty space if omitted;\nResult value. Fortran split updates the in out argument in-place. strtok returns a pointer to the beginning of the tokens sequence. Others simply return a list or array of strings as function result.\nUnlike others, Fortran split allows returning first and last indices instead of tokens. If this functionality exists in other languages, it's defined in some other function. So, Fortran here packs multiple functionalities under one name, a design that I'm not fond of, but can get used to it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-11-10 00:10:49+00:00",
+                    "text": "Thanks @milancurcic, very helpful, exactly what I was looking for. The first example:\nhttps://github.com/milancurcic/fortran202x_split/blob/a49ccf5b0775732cc4d1087c71fd513d4e921a6a/test/main.f90#L13\nI think is natural. That corresponds to the function split_tokens:\nhttps://github.com/milancurcic/fortran202x_split/blob/a49ccf5b0775732cc4d1087c71fd513d4e921a6a/src/fortran202x_split.f90#L14\nSo I think I like the API of split_tokens.\nI am not a fond of bundling the other functionality into the same split overload.\nIn terms of usability, I think the split_tokens will be the most useful and helpful. The other split_first_last and split_pos might not be as useful, it's hard to tell. I would feel much better if they could be used in stdlib in the experimental section first and see."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-10 13:45:07+00:00",
+                    "text": "I am also not fond of the current API, but even like that, it would be a nice addition.\nI would suggest to add the current version in the experimental namespace of stdlib, such that people can test it."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-11 00:20:02+00:00",
+                    "text": "I added the string_tokens function which is a thin wrapper around split_tokens.\nThis allows the user to do:\ntokens = string_tokens(string, set)\nThere is also a simple benchmark program in app/main.f90 to compare the run-time between string_tokens function and the equivalent split_tokens subroutine, given a decent size input string (data included in the repo). On my laptop:\n$ fpm run\n split subroutine, elapsed  0.482727677     seconds\n string_tokens function, elapsed  0.565418363     seconds"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-11 06:21:43+00:00",
+                    "text": "Thank you @milancurcic for the function and the test. Can the difference be explained by calling the subroutine inside the function? Or was the subroutine inlined in the function?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-11 15:49:39+00:00",
+                    "text": "The subroutine is not inlined:\n  pure function string_tokens(string, set) result(tokens)\n    !! Splits a string into tokens using characters in set as token delimiters.\n    character(*), intent(in) :: string\n    character(*), intent(in) :: set\n    character(:), allocatable :: tokens(:)\n    call split_tokens(string, set, tokens)\n  end function string_tokens\nbut it allocates the function result before returning it to the caller. It's this extra allocation that makes the difference.\nThere is probably some minimal overhead with calling the subroutine, but it should be negligible."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-11-18 06:39:33+00:00",
+                    "text": "A long discussion on the split function was held during the Fortran Monthly call (November 2020) (from5:39)."
+                }
+            ]
         },
         {
             "number": 240,
@@ -112,7 +675,7 @@
                 {
                     "user": "peteroupc",
                     "date": "2020-10-22 04:15:10+00:00",
-                    "text": "Just for your information you should use algorithms avoiding floating-point arithmetic when possible (or at least make such implementations an option).  For example, there are algorithms of the exponential distribution that use comparisons only (von Neumann's method, for one) as well as exact samplers of the Binomial distribution (e.g., Farach-Colton and Tsai, \"Exact Sublinear Binomial Sampling\"; the \"Internal DLA\" paper by Bringmann and others).  Even the Poisson distribution can be sampled without using the exponential function (e.g. \"On Buffon Machines and Numbers\").  Perhaps the most familiar example of a distribution of this kind is the discrete (and continuous) normal distribution sampler by Karney.  See also my section on \"Specific Non-Uniform Distributions\" in \"Randomization and Sampling Methods\".\nIn fact, as the authors of \"Exact Sublinear Binomial Sampling\" found, BTPE can oversample the tail of a binomial distribution (or at least the GNU Scientific Library implementation of BTPE at the time of the paper can)."
+                    "text": "Just for your information you should use algorithms avoiding floating-point arithmetic when possible (or at least make such implementations an option).  For example, there are algorithms of the exponential distribution that use comparisons only (von Neumann's method, for one) as well as exact samplers of the Binomial distribution (e.g., Farach-Colton and Tsai, \"Exact Sublinear Binomial Sampling\"; the \"Internal DLA\" paper by Bringmann and others).  Even the Poisson distribution can be sampled without using the exponential function (e.g. \"On Buffon Machines and Numbers\").  Perhaps the most familiar example of a distribution of this kind is the discrete (and continuous) normal distribution sampler by Karney.  See also my section on \"Specific Non-Uniform Distributions\" in \"Randomization and Sampling Methods\".\nIn fact, as the authors of \"Exact Sublinear Binomial Sampling\" found, BTPE can oversample the tail of a binomial distribution (or at least the GNU Scientific Library implementation of BTPE at the time of the paper can).\nFor a simpler description of the Bringmann algorithm, see my page \"Miscellaneous Observations on Randomization\"."
                 },
                 {
                     "user": "Jim-215-Fisher",
@@ -217,6 +780,31 @@
                     "user": "wclodius2",
                     "date": "2020-10-21 02:20:49+00:00",
                     "text": "@jvdp1 thanks for the thorough review."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-13 18:52:02+00:00",
+                    "text": "A bit set for each index `bit` in the range `0\u2026bits-1` has a value of 0 or 1.  A value of 1 for index `bit` can be considered as including the `bit` value in the subset, i.e., the value `1110` can be considered as defining the subset (1, 2, 3). This was how Wirth defined sets in Pascal.\n\u2026\n On Nov 13, 2020, at 11:42 AM, Milan Curcic ***@***.***> wrote:\n\n\n @milancurcic commented on this pull request.\n\n In doc/specs/stdlib_bitsets.md <#239 (comment)>:\n\n > +equivalently be considered as a sequence of logical values or as a\n +subset of the integers 0 ... `bits-1`. The bits are indexed from 0 to\n or as a subset of the integers 0 ... bits-1.\n\n This confuses me. The equivalent integer values are 0 and 1, not 0 through bits-1, correct?\n\n Do you mean to say something like this?\n\n \"It can equivalently be considered as a sequence of logical values or as a sequence of integers 0 and 1 with indices in the range 0... bits-1?\"\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#239 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOTR4LOOIPRJ6D2QW63SPV42PANCNFSM4R6QFU5A>."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-13 18:59:28+00:00",
+                    "text": "Okay, thanks, I understand now. All good."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-13 19:02:45+00:00",
+                    "text": "Your example \"i.e., the value 1110 can be considered as defining the subset (1, 2, 3)\" was what made it click for me. Do you agree that we include it in the spec? Something like this:\n\"It can equivalently be considered as a sequence of logical values or as a subset of the integers 0 ... bits-1. For example, the value 1110 can be considered as defining the subset of integers [1, 2, 3].\""
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-13 19:04:57+00:00",
+                    "text": "Sounds good to me."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-22 15:38:48+00:00",
+                    "text": "I will go ahead and merge this considering there aren't any objections. Thank you @wclodius2 and all the reviewers."
                 }
             ]
         },
@@ -250,6 +838,11 @@
                     "user": "jvdp1",
                     "date": "2020-09-29 18:49:30+00:00",
                     "text": "As mentioned in this comment, I copied your branch in my repo, and all actions passed.\nIMO, the best thing to do is to close #236 and open a new and clean PR, as explained in this comment"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-16 21:25:44+00:00",
+                    "text": "I am now getting a similar sounding error, but the detailed error reported by \"View workflow run\" is different\n1\nRun sed -i .bak 's/^[[:blank:]]*graph:  *[Tt]rue/graph: false/' \"${FORD_FILE}\"\n19\nError: Unable to process command '::set-env name=MAYBE_SKIP_SEARCH::--no-search' successfully.\n20\nError: The set-env command is disabled. Please upgrade to using Environment Files or opt into unsecure command execution by setting the ACTIONS_ALLOW_UNSECURE_COMMANDS environment variable to true. For more information see: https://github.blog/changelog/2020-10-01-github-actions-deprecating-set-env-and-add-path-commands/\nIt appears that GitHub has deprecated a sed command (set-env) that FORD processing currently uses."
                 }
             ]
         },
@@ -293,6 +886,21 @@
                     "user": "ivan-pi",
                     "date": "2020-09-25 20:02:08+00:00",
                     "text": "Suggestion for further improvement: allow to_lower and to_upper to convert strings of arbitrary length - this seems to me to be the most common usage.\n\nThis has been requested as part of the strings module. I have wondered already if it would be easier to just have a single function with the interface:\npure function upper(str) result(ustr)\ncharacter(len=*), intent(in) :: str\ncharacter(len=len(str)) :: ustr\nend function\nand get rid of the single character case conversions entirely. As you say, the most common usage will be arbitrary length strings, so I am not sure if we need a specialization for single letters. The arbitrary length version can be used on single characters too (hopefully the compilers are capable enough to remove the loop for characters with len=1).\nThe reason I included the case conversions in the first plase was just to cover the same functionality as the <ctype.h> header file from C."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-12 20:56:24+00:00",
+                    "text": "@arjenmarkus @ivan-pi @14NGiestas Is this PR good to go or should this comment still be addressed?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-11-13 14:51:10+00:00",
+                    "text": "Argh, I had intended to rely to these remarks, but never got around to it. I agree: in C the situation is completely different - there are characters and there are arrays of characters. In Fortran we have character strings but not a separate character type. The suggested interface (and almost trivial implementation) looks good to me."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-11-13 15:07:03+00:00",
+                    "text": "Okay, I will merge this then. The suggested interface can go in as a new PR."
                 }
             ]
         },
@@ -1844,6 +2452,11 @@
                     "user": "wclodius2",
                     "date": "2020-09-30 03:00:46+00:00",
                     "text": "I have created a PR for a branch called bitsets3. The PR had one one that failed on ubuntu, out of six attempts, three on ubuntu and three on macOS.."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-11-02 03:23:07+00:00",
+                    "text": "At this point @jvdp1 has performed an extensive review of the code, and @14NGiestas has commented on some parts of it It would be useful if someone else also extensively reviewed the code."
                 }
             ]
         },
@@ -7403,6 +8016,31 @@
                     "user": "scivision",
                     "date": "2020-01-14 16:48:13+00:00",
                     "text": "Until PGI 19.4, PGI struggled with Fortran 2003 and 2008 is really buggy if there at all. 19.10 was the first PGI that was usable with Fortran 2008 syntax in my opinion."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-11-22 22:19:33+00:00",
+                    "text": "I just tested NVHPC 20.9 and it still fails to compile stdlib, with roughly the same errors as already highlighted in this issue."
+                },
+                {
+                    "user": "Romendakil",
+                    "date": "2020-11-22 22:45:01+00:00",
+                    "text": "Our code never worked with NVHPC or its predecessor PGI. There were so many errors already at the level of F2003 code. And it really compiles a factor 3-5 slower than ifort.\n\nI just tested NVHPC 20.9 and it still fails to compile stdlib, with roughly the same errors as already highlighted in this issue."
+                },
+                {
+                    "user": "scivision",
+                    "date": "2020-11-23 18:53:13+00:00",
+                    "text": "Since Intel oneAPI:\n\nhas \"complete\" Fortran 2018 support\nis free to use (not just for education as with prior license)\ngenerally has better performance than PGI/NVHPC for CPU tasks\n\nand since as above PGI/NVHPC still has trouble with Fortran 2003 support, I don't really consider using it in my work. Those who need to use NVHPC for GPU are already stuck with Fortran 95 syntax and stdlib would, in my opinion, become significantly more of a maintenance burden and more heavily reliant on preprocessors."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-11-23 19:47:38+00:00",
+                    "text": "Those who need to use NVHPC for GPU are already stuck with Fortran 95 syntax and stdlib would, in my opinion, become significantly more of a maintenance burden and more heavily reliant on preprocessors.\n\nSo true... \ud83d\ude22"
+                },
+                {
+                    "user": "scivision",
+                    "date": "2020-11-24 15:46:14+00:00",
+                    "text": "Also, there's the triumvirate of NVHPC, Flang classic, and LLVM/F18 Flang. I am not sure what Nvidia's long term plan is, it could be that they're pouring effort into f18 Flang to then rebase NVHPC on. That would be pretty awesome.\nIn the meantime, there are a significant community of HPC devs who seem to feel that Fortran 95 (or 77) + preprocessing stack is adequate for now, so I can't speak for them. My approach is to simply use the current Fortran standard in my work, and make shims to interface with the older preprocessed Fortran when needed.\nI am almost always able to avoid compiler preprocessors by using CMake or Meson configure_file to avoid duplicated code for select type and select rank. Well, I've just pushed the preprocessing up to the build system, but this helps me avoid compiler quirks as I also have to do this when accommodating Fortran file system operations across operating systems--which is where some of the compiler quirks broke my Fortran preprocessing, but easily worked with configure_file in CMake or Meson."
                 }
             ]
         },
@@ -12156,6 +12794,31 @@
                     "user": "awvwgk",
                     "date": "2020-09-05 08:41:18+00:00",
                     "text": "The of popular Fortran projects in the wiki got quite out of date, in case it should still be maintained, one could automate at least the way meta data is fetched, a hacky example to do so using shields.io is in the details below.\n\n\n\n\nProject\nStars\nContributors\n\n\n\n\nABINIT\n\n\n\n\nADflow\n\n\n\n\naenet\n\n\n\n\narpack-ng\n\n\n\n\nbandup\n\n\n\n\nbspline-fortran\n\n\n\n\nCastro\n\n\n\n\nCFD\n\n\n\n\nCFL3D\n\n\n\n\nclfortran\n\n\n\n\nCompDam\n\n\n\n\ncoretran\n\n\n\n\ncp2k\n\n\n\n\nCTSM\n\n\n\n\ndatetime-fortran\n\n\n\n\nDBCSR\n\n\n\n\nDFTB+\n\n\n\n\nElmerFEM\n\n\n\n\nfdict\n\n\n\n\nfds\n\n\n\n\nFEconv\n\n\n\n\nfgsl\n\n\n\n\nFLAP\n\n\n\n\nFlexi\n\n\n\n\nfluidity\n\n\n\n\nFMS\n\n\n\n\nFOODIE\n\n\n\n\nforpy\n\n\n\n\nfortran2018-examples\n\n\n\n\nFortran-Astrodynamics-Toolkit\n\n\n\n\nfortran-csv-module\n\n\n\n\nfortranlib\n\n\n\n\nfortran-machine\n\n\n\n\nFortranPatterns\n\n\n\n\nfortran-utils\n\n\n\n\nfox\n\n\n\n\nfreeCappuccino\n\n\n\n\nftl\n\n\n\n\nfunctional-fortran\n\n\n\n\nFV3-GFS\n\n\n\n\nGALAHAD\n\n\n\n\nGFR\n\n\n\n\ngtk-fortran\n\n\n\n\nh5fortran\n\n\n\n\nHANDE-QMC\n\n\n\n\nIAMR\n\n\n\n\nICAR\n\n\n\n\njson-fortran\n\n\n\n\nkdtree2\n\n\n\n\nLaGriT\n\n\n\n\nLAPACK\n\n\n\n\nlesgo\n\n\n\n\nMODFLOW6\n\n\n\n\nMOM6\n\n\n\n\nMPAS\n\n\n\n\nNASTRAN-93\n\n\n\n\nNASTRAN-95\n\n\n\n\nNek5000\n\n\n\n\nNetCDF-Fortran\n\n\n\n\nneural-fortran\n\n\n\n\nnode-fortran\n\n\n\n\nnode.fortran\n\n\n\n\nnumerical-methods-fortran\n\n\n\n\nNWChem\n\n\n\n\nOFF\n\n\n\n\nogpf\n\n\n\n\nOpenBLAS\n\n\n\n\nOpenCMISS\n\n\n\n\nOpenCoarrays\n\n\n\n\nOpenSWPC\n\n\n\n\npFUnit\n\n\n\n\nPIC Skeleton Codes\n\n\n\n\nPoisFFT\n\n\n\n\npyplot-fortran\n\n\n\n\nQuantum ESPRESSO\n\n\n\n\nROMS\n\n\n\n\nSciFortran\n\n\n\n\nSHTOOLS\n\n\n\n\nsigma\n\n\n\n\nslsqp\n\n\n\n\nSNAP\n\n\n\n\nspecfem3d\n\n\n\n\nStarlink\n\n\n\n\nstdlib\n\n\n\n\nStringiFor\n\n\n\n\ntcp-client-server\n\n\n\n\nTRACMASS\n\n\n\n\nTruchas\n\n\n\n\ntsunami\n\n\n\n\nVTKFortran\n\n\n\n\nWAVEWATCH III\n\n\n\n\nWPS\n\n\n\n\nwrf_hydro_nwm_public\n\n\n\n\nWRF"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-05 14:38:30+00:00",
+                    "text": "I found one more large Fortran project: https://github.com/MITgcm/MITgcm (the MIT General Circulation Model, homepage: http://mitgcm.org/)"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-05 14:39:59+00:00",
+                    "text": "@awvwgk: is it possible to sort the list by the number of stars?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-05 14:49:19+00:00",
+                    "text": "These projects are not meant as projects for transition to stdlib, but more as reference projects for us to learn how if Fortran used in real-life applications.\n\nSpeaking of real-life applications, I also found this huge list of programs from the Radiation Safety Information Computational Center: https://rsicc.ornl.gov/Catalog.aspx?c=CCC\nI'm sure there are several other government agencies, where Fortran is(was) the go-to language ;)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-11-05 14:49:42+00:00",
+                    "text": "Not without accessing the GH API directly, I'm currently cheating by using shields.io to access to GH API.\nMy suggestion would be to add all the packages from this list to the package index on fortran-lang and than we can figure out how to get this functionality into the package index."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-11-05 17:09:28+00:00",
+                    "text": "I don't want to maintain the list of projects at the wiki anymore. I want to port all of them to https://fortran-lang.org/packages/ and remove the wiki. We can implement sorting by stars at https://fortran-lang.org/packages/ or any other statistics that we need."
                 }
             ]
         },
@@ -12475,7 +13138,13 @@
             "date": "2019-12-19 18:17:45+00:00",
             "title": "Interface to POSIX I/O API",
             "text": "stdlib may include a module which provides an interface to the POSIX I/O calls in the C standard library.  Such a module would support higher level functionality proposed in #14 on Unix-like platforms.\nThis module, or specific components, could be conditionally integrated into stdlib by the build system (CMake, autotools, etc) depending on whether they are available.\nSuch a module could also be extended to include more POSIX calls, e.g. thread support, memory allocation, lower-level system calls.  For now, I'd say to keep the scope more narrow in order to keep it achievable.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-11-24 14:48:33+00:00",
+                    "text": "I discovered today that the major compiler vendors all provide(d) POSIX interfaces:\n\nIntel Fortran - POSIX* Library Procedures\nNAG - UNIX Process Primitives Module\nIBM - XL Fortran Posix bindings\nOracle - POSIX Library for Sun Fortran Compilers\nCOMPAQ Fortran for Unix and Linux Systems\nAbsoft Support Library\n\nAdditionally, there are several disjoint community efforts:\n\nM_system by @urbanjost\nfortran-posix by @dram\nThe Fortran 90 Posix interface project by Klaus Ramst\u00f6ck\nfortranposix\nAlgorithm 821: A Fortran interface to POSIX threads\nforthreads from @ohm314 (also described in an ACM journal article)\nPSX (from Starlink)\nfsocket\nfortran-server\n\nThe amount of reinvention in the Fortran community is distressing.\nEdit: a F77 interface was proposed by IEEE (see IEEE Standard for Information Technology - POSIX(R) FORTRAN 77 Language Interfaces), but from what I can gather it never gained widespread adoption and was later withdrawn."
+                }
+            ]
         },
         {
             "number": 21,
