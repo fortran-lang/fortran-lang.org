@@ -92,7 +92,7 @@ Work in progress:
 * (WIP) [#257](https://github.com/fortran-lang/fpm/pull/257): Implement `fpm install`.
 * (WIP) [#260](https://github.com/fortran-lang/fpm/pull/260): Fix CI to test release build.
 
-fpm is still in early development and we need as much help as we can get.
+`fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
 
 * Use it and let us know what you think! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm, and the [manifest reference](https://github.com/fortran-lang/fpm/blob/master/manifest-reference.md) to learn what are all the things that you can specify in the fpm.toml file.
