@@ -61,7 +61,7 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 ## Fortran Package Manager
 
-Here's what's new in fpm:
+Here's what's new in `fpm`:
 
 * [#259](https://github.com/fortran-lang/fpm/pull/259): Update the instructions for building from source in README.md.
 * [#246](https://github.com/fortran-lang/fpm/pull/246): Automated binary releases in CI.
