@@ -32,7 +32,7 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 ## Fortran Standard Library
 
-Here's what's new in stdlib:
+Here's what's new in `stdlib`:
 
 * [#239](https://github.com/fortran-lang/stdlib/pull/239): Implementation of bitsets in `stdlib_bitsets`.
 * [#243](https://github.com/fortran-lang/stdlib/pull/243),
