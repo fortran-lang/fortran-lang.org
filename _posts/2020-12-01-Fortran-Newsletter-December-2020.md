@@ -17,7 +17,7 @@ This month we've had a few updates to the website:
 
 * [#156](https://github.com/fortran-lang/fortran-lang.org/pull/156):
 Updates to the mini-book on building Fortran programs, including the addition of
-short guides on meson and CMake.
+short guides on Meson and CMake.
 You can read the mini-book [here](https://fortran-lang.org/learn/building_programs).
 * [#169](https://github.com/fortran-lang/fortran-lang.org/pull/169):
 Add PSBLAS to the package index.
