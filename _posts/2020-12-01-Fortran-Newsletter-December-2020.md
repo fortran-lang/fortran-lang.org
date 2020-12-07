@@ -156,13 +156,6 @@ Recent updates include:
 * OpenACC lowering (enter/exit data, update, init, shutdown, wait directives)
 * OpenMP structure checker updates; semantic checks for copyin clause; schedule class
 
-### LFortran
-
-What's new in LFortran:
-
-TODO @certik
-
-You can follow LFortran on Twitter for latest updates: [@lfortranorg](https://twitter.com/lfortranorg).
 
 ## Events
 
