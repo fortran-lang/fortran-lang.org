@@ -48,7 +48,7 @@ jobs:
     
     # Sets Jekyll output directory using PR id
     - name: Define output directory
-      run: echo "::set-env name=BUILD_DIR::pr/${{github.event.issue.number}}"
+      run: echo "BUILD_DIR=pr/${{github.event.issue.number}}" >> $GITHUB_ENV
 
     # Appends PR-based output directory to Jekyll baseurl variable
     - name: Update Jekyll site config
