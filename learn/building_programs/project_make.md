@@ -29,8 +29,8 @@ Before going into detail with ``make``, there are a few points to consider first
 If you think ``make`` is suitable for your needs, than you can start writing
 your ``Makefile``. For this course we will use real world examples from the
 package index, which use (at the point of writing) different build systems
-than ``make``. This guide should present a generally useful style to write
-``make``, but also serve as demonstration of useful features.
+than ``make``. This guide should present a general recommended style to write
+``make``, but also serve as demonstration of useful and interesting features.
 
 {% include tip.html content="Even if you find ``make`` unsuitable to build your project, it is *the* tool to automate workflows defined by files. Maybe you can leverage its power in a different context." %}
 
@@ -172,8 +172,8 @@ Some compilers also offer to generate dependencies in ``make`` format.
 
 Before diving into the dependency generation, we will outline the concept of
 a robust take on the dependency problem.
-Each source file provides (``module``) or requires (``use``) modules,
-a robust approach can process all source files independently
+First, we want an approach that can process all source files independently,
+while each source file provides (``module``) or requires (``use``) modules.
 When generating the dependencies only the name of the source file and the
 module files are known, no information on the object file names should be
 required.
