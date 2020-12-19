@@ -220,7 +220,7 @@ To generate the respective dependency map automatically we will use an
 #!/usr/bin/awk -f
 
 BEGIN {
-    # Fortran is case insensitive, disable case sensitivity for matching:
+    # Fortran is case insensitive, disable case sensitivity for matching
     IGNORECASE = 1
 }
 
@@ -246,7 +246,7 @@ $2 ~ /^[a-zA-Z][a-zA-Z1-9_]*,?$/ {
     gsub(/,/, "", $2)
     # count used module names per file to avoid using modules twice in our list
     if (usec[FILENAME,$2]++ == 0) {
-        # add to the module list, the generated module name is expected
+        # add to the used modules, the generated module name is expected
         # to be lowercase, the FILENAME is the current source file
         use[++iu] = sprintf("$(%s) += $(%s.mod)", FILENAME, tolower($2))
     }
@@ -257,9 +257,9 @@ $2 ~ /^[a-zA-Z][a-zA-Z1-9_]*,?$/ {
 # - the second argument ($2) can be everything, as long as delimited by quotes
 $1 ~ /^(#:?)?include$/ &&
 $2 ~ /^["'].+["']$/ {
-    # Remove a quotes from the included file name
+    # Remove quotes from the included file name
     gsub(/'|"/, "", $2)
-    # count included files per file to avoid having duplicated in our list
+    # count included files per file to avoid having duplicates in our list
     if (incc[FILENAME,$2]++ == 0) {
         # Add the included file to our list, this might be case-sensitive
         inc[++ii] = sprintf("$(%s) += %s", FILENAME, $2)
@@ -275,13 +275,17 @@ END {
 }
 ```
 
-This script makes a few assumptions about the source code it parses, so it will not work with all Fortran code, but for this example it will suffice.
+This script makes a few assumptions about the source code it parses, so it will
+not work with all Fortran code (namely submodules are not supported), but for
+this example it will suffice.
 
 {% capture note %}
 
 The above script uses the ``awk`` language, which is designed for the purpose
-of text stream processing. In ``awk`` you can define groups which are evaluated
-on certain events, *e.g.* when a line matches a specific pattern.
+of text stream processing and uses a C-like syntax. In ``awk`` you can define
+groups which are evaluated on certain events, *e.g.* when a line matches a
+specific pattern, usually expressed by a
+<a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank" rel="noopener"> regular expression</a>.
 
 This ``awk`` script defines five groups, two of them use the special pattern
 ``BEGIN`` and ``END`` which are run before the script starts and after the script
