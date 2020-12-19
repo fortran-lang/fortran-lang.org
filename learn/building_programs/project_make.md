@@ -4,31 +4,28 @@ title: An introduction to make
 permalink: /learn/building_programs/project_make
 ---
 
-We have shortly discussed the basics of ``make``, this chapter gives thoughts
-and strategies to make ``make`` scale for larger projects.
+We briefly discussed the basics of ``make``. This chapter gives ideas
+and strategies to scale ``make`` for larger projects.
 
-Before going into detail with ``make``, there are a few points to consider first:
+Before going into detail with ``make``, consider a few points:
 1. ``make`` is a Unix tool and might give you a hard time when porting to non-Unix
    platforms. That said, there are also different flavors of ``make`` available,
    not all might support the features you want to use.
-2. while ``make`` gives you full control over the build process, it also
-   means you are fully responsible for the entire build process, from the start
-   to the end in every detail you have to specify the rules for your project.
+2. While ``make`` gives you full control over the build process, it also
+   means you are responsible for the entire build process, and you have to specify the rules for every detail of your project.
    You might find yourself spending a significant amount of time writing and
-   maintaining your ``Makefile``, this is usually time you cannot use for
-   developing your source.
-3. you can work with your ``Makefile``, but think about the other developers
-   on your project (your friends or your coworkers or maybe somebody visiting your
-   open source project). How much time do you expect them to spend learning your
-   ``Makefile`` and would they be able to debug or add functionalities?
-4. pure ``make`` will not scale. You will soon write or use auxiliary programs
-   to dynamically or statically generate your ``Makefile``, those introduce
-   dependencies and possible sources of errors. Testing and documenting those
-   tools should not be neglected.
+   maintaining your ``Makefile`` instead of developing your source code.
+3. You can work with your ``Makefile``, but think about other developers
+   on your project who may not be familiar with ``make``. How much time do you expect them to spend learning your
+   ``Makefile`` and would they be able to debug or add features?
+4. Pure ``make`` will not scale. You will soon add auxiliary programs
+   to dynamically or statically generate your ``Makefile``. Those introduce
+   dependencies and possible sources of errors. The effort needed to test and document those
+   tools should not be underestimated.
 
 If you think ``make`` is suitable for your needs, than you can start writing
 your ``Makefile``. For this course we will use real world examples from the
-package index, which use (at the point of writing) different build systems
+package index, which (at the time of writing) use build systems other
 than ``make``. This guide should present a general recommended style to write
 ``make``, but also serve as demonstration of useful and interesting features.
 
@@ -39,7 +36,7 @@ than ``make``. This guide should present a general recommended style to write
 
 For this part we will work with
 <a href="https://github.com/jacobwilliams/fortran-csv-module/tree/1.2.0" target="_blank" rel="noopener"> the Fortran CSV module (v1.2.0)</a>.
-Aim is it to write a ``Makefile`` to compile this project to a static library.
+Our goal is to write a ``Makefile`` to compile this project to a static library.
 Start by cloning the repository
 
 ```
@@ -49,7 +46,7 @@ cd fortran-csv-module
 
 {% include note.html content="For this part we will work with the code from tag ``1.2.0``, to make it as reproducible as possible. Feel free to use the latest version or another project instead." %}
 
-The project just downloaded uses FoBiS as build system, you can check the
+This project uses FoBiS as build system, and you can check the
 ``build.sh`` for options used with FoBiS. We are about to write a ``Makefile``
 for this project. First, we check the directory structure and the source files
 
@@ -71,9 +68,9 @@ for this project. First, we check the directory structure and the source files
             ├── csv_test.f90
             └── csv_write_test.f90
 
-We find seven differently named Fortran source files, the four in ``src`` should
+We find seven different Fortran source files; the four in ``src`` should
 be compiled and added to a static library while the three in ``src/tests``
-contain individual programs depending on this static library.
+contain individual programs that depend on this static library.
 
 Start by creating a simple ``Makefile``:
 
@@ -168,14 +165,14 @@ which results in several additional lines even for such a simple project.
 The main drawback of ``make`` for Fortran is the missing capability to
 determine module dependencies. This is usually solved by either adding those
 by hand or automatically scanning the source code with an external tool.
-Some compilers also offer to generate dependencies in ``make`` format.
+Some compilers (like the Intel Fortran compiler) also offer to generate dependencies in ``make`` format.
 
 Before diving into the dependency generation, we will outline the concept of
 a robust take on the dependency problem.
 First, we want an approach that can process all source files independently,
 while each source file provides (``module``) or requires (``use``) modules.
 When generating the dependencies only the name of the source file and the
-module files are known, no information on the object file names should be
+module files are known, and no information on the object file names should be
 required.
 
 If you check the dependency section above you will note that all dependencies are
@@ -216,7 +213,7 @@ $(src/tests/csv_write_test.f90): $(csv_module.mod)
 The same strategy of creating a map is already used for the module files, now
 it is just expanded to the object files as well.
 
-To generate the respective dependency map automatically we will use a simple
+To generate the respective dependency map automatically we will use an
 ``awk`` script here
 
 ```awk
@@ -256,9 +253,7 @@ END {
 }
 ```
 
-This is a particular simple script which makes a few assumptions on the source
-code it is going to parse, so it will certainly not work for all Fortran code,
-but for this example it will suffice.
+This script makes a few assumptions about the source code it parses, so it will not work with all Fortran code, but for this example it will suffice.
 
 {% capture note %}
 
@@ -328,7 +323,7 @@ Make the script executable (``chmod +x gen-deps.awk``) and test it with
 
 Note that the scripts output will use recursively expanded variables and not
 define any dependencies yet, because out-of-order declaration of variables
-might be necessary and do not want to create any target by accident.
+might be necessary and we do not want to create any target by accident.
 You can verify that the same information as in the above handwritten snippet is
 present. The only exception is the additional dependency on the
 ``iso_fortran_env.mod``, since it is an undefined variable it will just expand
