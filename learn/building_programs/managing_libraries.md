@@ -14,7 +14,7 @@ Libraries contain any number of object files in a compact form, so that
 the command-line becomes far shorter:
 
 ```shell
-$ gfortran -o tabulate tabulate.f90 function.o supportlib.a
+$ gfortran -o tabulate tabulate.f90 functions.o supportlib.a
 ```
 
 where "supportlib.a" is a collection of one, two or many object files,
@@ -104,8 +104,8 @@ a dynamic link library)
 
 There is one more thing to be aware of: On Windows you must
 explicitly specify that a procedure is to be _exported_, i.e. is visible
-in the dynamic library. There are several ways - depending on the
-compiler you use - to achieve this. One method is via a so-called
+in the dynamic library. There are several ways — depending on the
+compiler you use — to achieve this. One method is via a so-called
 compiler directive:
 
 ```fortran
@@ -129,11 +129,11 @@ we look at the `tabulate` program in the file "tabulate.f90".
 
 ## GNU/Linux and gfortran
 The `tabulate` program requires a user-defined routine `f`. If we
-let it reside in a dynamic library, say "function.dll", we can simply
+let it reside in a dynamic library, say "functions.dll", we can simply
 replace the implementation of the function by putting another dynamic
 library in the directory. No need to rebuild the program as such.
 
-On Cygwin it is not necessary to explicitly export a procedure - all
+On Cygwin it is not necessary to explicitly export a procedure — all
 publically visible routines are exported when you build a dynamic library.
 Also, no import library is generated.
 
@@ -141,14 +141,14 @@ Since our dynamic library can be built from a single source file, we
 can take a shortcut:
 
 ```shell
-$ gfortran -shared -o function.dll function.f90
+$ gfortran -shared -o functions.dll functions.f90
 ```
 
-This produces the files "function.dll" and "function.mod". The
+This produces the files "functions.dll" and "user\_functions.mod". The
 utility `nm` tells us the exact name of the function `f`:
 
 ```shell
-$ nm function.dll
+$ nm functions.dll
 ...
 000000054f9d7000 B __dynamically_loaded
                  U __end__
@@ -165,21 +165,21 @@ other routine "f" that might be defined in another module.
 The next step is to build the program:
 
 ```shell
-$ gfortran -o tabulate tabulate.f90 function.dll
+$ gfortran -o tabulate tabulate.f90 functions.dll
 ```
 
 The DLL and the .mod file are used to build the executable program
 with checks on the function's interface, the right name and the reference
-to "a" DLL, called "function.dll".
+to "a" DLL, called "functions.dll".
 
-You can replace the shared library "function.dll" by another one, implementing
+You can replace the shared library "functions.dll" by another one, implementing
 a different function "f". Of course, you need to be careful to use the correct
 interface for this function. The compiler/linker are not invoked anymore, so they
 can do no checking.
 
 ## Windows and Intel Fortran
 The setup is the same as with Linux, but on Windows it is necessary
-to explicitly export the routines. And an import library is generated -
+to explicitly export the routines. And an import library is generated —
 this is the library that should be used in the link step.
 
 The source file must contain the compiler directive, otherwise the function `f`
@@ -193,27 +193,27 @@ real function f( x )
 Again we take a shortcut:
 
 ```shell
-$ ifort -exe:function.dll function.f90 -dll
+$ ifort -exe:functions.dll functions.f90 -dll
 ```
 
-This produces the files "function.dll", "function.mod" as well as "function.lib" (and two
+This produces the files "functions.dll", "user\_functions.mod" as well as "functions.lib" (and two
 other files of no importance here). The "dependency walker" program tells us
 that the exact name of the function "f" is `FUNCTION_mp_F`. It is also exported, so that
 it can be found by the linker in the next step:
 
 ```
-$ ifort tabulate.f90 function.lib
+$ ifort tabulate.f90 functions.lib
 ```
 
 Note that we need to specify the name of the export library, not the DLL!
 
 (Note also: the Intel Fortran compiler uses the name of the first source file as the
-name for the executable - here we do without the `-exe` option.)
+name for the executable — here we do without the `-exe` option.)
 
 Just as under Cygwin, the DLL and the .mod file are used to build the executable program
 with checks on the function's interface, the right name and the reference
-to "a" DLL, called "function.dll".
+to "a" DLL, called "functions.dll".
 
-You can replace the shared library "function.dll" by another one, but the same
+You can replace the shared library "functions.dll" by another one, but the same
 caution is required: while the implementation can be quite different, the
 function's interface must be the same.

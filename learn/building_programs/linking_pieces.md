@@ -29,10 +29,10 @@ program tabulate
 end program tabulate
 ```
 
-Note the `use` statement - this will be where we define the function `f`.
+Note the `use` statement — this will be where we define the function `f`.
 
 We want to make the program general, so keep the
-specific source code - the implementation of the function `f` -
+specific source code — the implementation of the function `f` —
 separated from the general source code. There are several ways to
 achieve this, but one is to put it in a different source file. We can
 give the general program to a user and they provide a specific source code.
@@ -60,12 +60,12 @@ program. Because the program "tabulate" depends on the module
 first. A sequence of commands to do this is:
 
 ```shell
-$ gfortran -c function.f90
-$ gfortran tabulate.f90 function.o
+$ gfortran -c functions.f90
+$ gfortran tabulate.f90 functions.o
 ```
 
 The first step compiles the module, resulting in an object file
-"function.o" and a module intermediate file, "function.mod". This module
+"functions.o" and a module intermediate file, "user\_functions.mod". This module
 file contains all the information the compiler needs to determine that
 the function `f` is defined in this module and what its interface is. This
 information is important: it enables the compiler to check that you call
@@ -77,13 +77,13 @@ check anything.
 The second step invokes the compiler in such a way that:
 
 * it compiles the file "tabulate.f90" (using the module file);
-* it invokes the linker to combine the object files tabulate.o and function.o into an
-executable program - with the default name "a.out" or "a.exe" (if you
+* it invokes the linker to combine the object files tabulate.o and functions.o into an
+executable program — with the default name "a.out" or "a.exe" (if you
 want a different name, use the option "-o").
 
 What you do not see in general is that the linker also adds a number of
 extra files in this link step, the run-time libraries. These run-time
-libraries contain all the "standard" stuff - low-level routines that do
+libraries contain all the "standard" stuff — low-level routines that do
 the input and output to screen, the `sin` function and much more.
 
 If you want to see the gory details, add the option "-v". This instructs
