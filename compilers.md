@@ -43,10 +43,8 @@ compiler.
 
 ### Intel
 
-[Intel Parallel Studio XE](https://software.intel.com/en-us/parallel-studio-xe)
-is Intel's suite of compilers, tools, and libraries for Fortran, C, C++, and
-Python. Intel offers the Linux edition of their compiler suite for free for
-[open source contributors](https://software.intel.com/en-us/parallel-studio-xe/choose-download/open-source-contributor).
+[Intel® oneAPI Toolkits](https://software.intel.com/content/www/us/en/develop/tools/oneapi/all-toolkits.html) successor to  Intel® Parallel Studio XE and Intel® System Studio, offers a unified toolset to develop and deploy applications and solutions across CPU, GPU, and FPGA architectures. Toolkits include the new DPC++ programming language, as well as familiar C, C++ and Fortran languages. The Intel® Fortran Compiler Classic (ifort driver) in the Intel® oneAPI HPC Toolkit includes a full implementation of the Fortran 2018 standard. You can find [installation guides](https://software.intel.com/content/www/us/en/develop/articles/installation-guide-for-intel-oneapi-toolkits.html) for Linux, Windows and macOS. Note that Intel® oneAPI is free to install and use for commercial and non-commercial purposes.
+
 
 ### NAG
 
@@ -60,14 +58,10 @@ platforms include supporting tools for software development: source file
 polishers, dependency generator for module and include files, call-graph
 generator, interface builder and a precision unifier.
 
-### PGI
+### NVIDIA
 
-[PGI compilers](https://www.pgroup.com/products/index.htm)
-deliver the performance you need on CPUs, with OpenACC and CUDA
-Fortran for HPC applications development on GPU-accelerated systems. OpenACC and
-CUDA programs can run several times faster on a single Tesla V100 GPU compared
-to all the cores of a dual-socket server, and interoperate with MPI and OpenMP
-to deliver the full power of today’s multi-GPU servers.
+The [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk) C, C++, and Fortran compilers, former [PGI compilers](https://www.pgroup.com/products/index.htm), support GPU acceleration of HPC modeling and simulation applications with standard C++ and Fortran, OpenACC® directives, and CUDA®. GPU-accelerated math libraries maximize performance on common HPC algorithms, and optimized communications libraries enable standards-based multi-GPU and scalable systems programming.
+
 
 ### HPE / Cray
 
