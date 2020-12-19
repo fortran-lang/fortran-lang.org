@@ -43,10 +43,16 @@ compiler.
 
 ### Intel
 
-[Intel Parallel Studio XE](https://software.intel.com/en-us/parallel-studio-xe)
+[Intel oneAPI](https://software.intel.com/content/www/us/en/develop/tools/oneapi/all-toolkits.html)
 is Intel's suite of compilers, tools, and libraries for Fortran, C, C++, and
-Python. Intel offers the Linux edition of their compiler suite for free for
-[open source contributors](https://software.intel.com/en-us/parallel-studio-xe/choose-download/open-source-contributor).
+Python. Intel oneAPI HPC Toolkit provides
+[two Fortran compilers](https://software.intel.com/content/www/us/en/develop/articles/intel-oneapi-fortran-compiler-release-notes.html):
+* Intel Fortran Compiler Classic (`ifort`), a mature compiler
+  with full Fortran 2018 support; and
+* Intel Fortran Compiler Beta (`ifx`), a new, LLVM-based compiler
+  that supports Fortran 95 and partially newer versions of the standard.
+
+Intel oneAPI is available for free.
 
 ### NAG
 
