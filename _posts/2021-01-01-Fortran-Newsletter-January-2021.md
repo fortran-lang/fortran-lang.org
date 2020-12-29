@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: January 2021"
 category: newsletter
-author: Milan Curcic, Jérémie Vandenplas, Laurence Kedward, Gary Klimowicz, Ondřej Čertík
+author: Milan Curcic, Jérémie Vandenplas, Laurence Kedward, Gary Klimowicz, Ondřej Čertík, Sebastian Ehlert
 ---
 
 Welcome to the January 2021 edition of the monthly Fortran newsletter.
@@ -17,14 +17,14 @@ This month we've had a few updates to the website:
 
 * [#171](https://github.com/fortran-lang/fortran-lang.org/pull/171):
 Add Sebastian to the list of authors in the building-programs mini-book
-* [#173](https://github.com/fortran-lang/fortran-lang.org/pull/173):
-Add Octopus to the package index
-* [#178](https://github.com/fortran-lang/fortran-lang.org/pull/178):
+* [#178](https://github.com/fortran-lang/fortran-lang.org/pull/178),
+  [#188](https://github.com/fortran-lang/fortran-lang.org/pull/188):
 Fix build preview
 * [#179](https://github.com/fortran-lang/fortran-lang.org/pull/179):
 Fix word spelling error in quickstart page
-* [#180](https://github.com/fortran-lang/fortran-lang.org/pull/180):
-Add TOML-Fortran to the package index
+* [#173](https://github.com/fortran-lang/fortran-lang.org/pull/173),
+  [#180](https://github.com/fortran-lang/fortran-lang.org/pull/180):
+Add Octopus and TOML-Fortran to the package index
 * [#182](https://github.com/fortran-lang/fortran-lang.org/pull/182):
 Update compilers page following Intel oneAPI release
 
@@ -33,11 +33,9 @@ Ongoing work:
 * [#160](https://github.com/fortran-lang/fortran-lang.org/pull/160) (WIP):
 In-depth introduction for Fortran with Make.
 * [#186](https://github.com/fortran-lang/fortran-lang.org/pull/186) (WIP):
-Add missing packages to the list of popular Fortran projects
+Add missing packages from the list of popular Fortran projects
 * [#187](https://github.com/fortran-lang/fortran-lang.org/pull/187) (WIP):
 Correct Compiler page and tutorial regarding Intel oneAPI and PGI to NVIDIA
-* [#188](https://github.com/fortran-lang/fortran-lang.org/pull/188) (WIP):
-Use setup-ruby 2.7 to fix CI build
 
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
@@ -99,12 +97,75 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 Here's what's new in `fpm`:
 
-
-TO DO
+* [Alpha release version 0.1.3](https://github.com/fortran-lang/fpm/releases/tag/v0.1.3)
+* [setup-fpm action](https://github.com/marketplace/actions/setup-fpm):
+  GitHub Action to setup the Fortran Package Manager on Ubuntu, MacOS and Windows runners
+* [discussion board](https://github.com/fortran-lang/fpm/discussions):
+  For questions & answers, sharing of ideas, showing off projects and, of course, discussions around fpm
+* [#248](https://github.com/fortran-lang/fpm/pull/248):
+  Refactor backend for incremental rebuilds
+* [#266](https://github.com/fortran-lang/fpm/pull/251):
+  Dependency management and `fpm update` subcommand
+* [#255](https://github.com/fortran-lang/fpm/pull/255)
+  Setting the compiler and specifying test or app target
+* [#262](https://github.com/fortran-lang/fpm/pull/262):
+  Add -fcoarray=single to default gfortran flags
+* [#257](https://github.com/fortran-lang/fpm/pull/257):
+  Implement `fpm install`
+* [#260](https://github.com/fortran-lang/fpm/pull/260):
+  Fix CI to test release build
+* [#267](https://github.com/fortran-lang/fpm/pull/267):
+  Fix enumeration of non-library link objects
+* [#268](https://github.com/fortran-lang/fpm/pull/268):
+  Fix dependency tracking issue in bootstrap version
+* [#271](https://github.com/fortran-lang/fpm/pull/271):
+  Fix Windows run and test commands
+* [#273](https://github.com/fortran-lang/fpm/pull/273):
+  Update developer documentation (manifest + command line)
+* [#274](https://github.com/fortran-lang/fpm/pull/274):
+  Update README with link to setup-fpm github action.
+* [#280](https://github.com/fortran-lang/fpm/pull/280):
+  Create specification for example section
+* [#281](https://github.com/fortran-lang/fpm/pull/281):
+  Cleanup: Remove archived Rust prototype
+* [#284](https://github.com/fortran-lang/fpm/pull/284):
+  Document model and backend for developers
+* [#285](https://github.com/fortran-lang/fpm/pull/285):
+  CI: update naming of release binaries
+* [#286](https://github.com/fortran-lang/fpm/pull/286):
+  Implement check for duplicated program names
+* [#289](https://github.com/fortran-lang/fpm/pull/289):
+  Add support for same compilers as Fortran version to Haskell version
+* [#291](https://github.com/fortran-lang/fpm/pull/291):
+  Initial implementation of `fpm build --show-model`
+* [#292](https://github.com/fortran-lang/fpm/pull/292):
+  Specify the correct help for `fpm run -h`
+* [#293](https://github.com/fortran-lang/fpm/pull/293):
+  Fix: missing error check after `new_package` call
+* [#294](https://github.com/fortran-lang/fpm/pull/294):
+  Add: support for detecting .f and .F files
+* [#300](https://github.com/fortran-lang/fpm/pull/300):
+  Remove -coarray=single option from ifort compiler default options
+* [#303](https://github.com/fortran-lang/fpm/pull/303):
+  Fixes to source parsing
+* [#304](https://github.com/fortran-lang/fpm/pull/304):
+  Remove note on not supported dependencies in program targets
+* [#307](https://github.com/fortran-lang/fpm/pull/307):
+  Fix: program object file collision
+* [#315](https://github.com/fortran-lang/fpm/pull/315):
+  Remove: -ffast-math in gfortran default release flags
+* [#322](https://github.com/fortran-lang/fpm/pull/322):
+  Group sources by package in the model
 
 Work in progress:
 
-TO DO
+* [First beta release](https://github.com/fortran-lang/fpm/milestone/1) (WIP):
+  First feature-complete release of the Fortran implementation.
+* [#230](https://github.com/fortran-lang/fpm/pull/230),
+  [#261](https://github.com/fortran-lang/fpm/pull/261) (WIP):
+  Specification of the fpm CLI.
+* [#316](https://github.com/fortran-lang/fpm/pull/316) (WIP):
+  Update subcommand "new" to reflect the addition of support for examples
 
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
