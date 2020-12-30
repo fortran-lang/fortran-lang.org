@@ -36,7 +36,8 @@ In-depth introduction for Fortran with Make.
 Add missing packages from the list of popular Fortran projects
 * [#187](https://github.com/fortran-lang/fortran-lang.org/pull/187) (WIP):
 Correct Compiler page and tutorial regarding Intel oneAPI and PGI to NVIDIA
-
+* [#174](https://github.com/fortran-lang/fortran-lang.org/issues/174) (WIP):
+We are searching for a representative Fortran code snippet for the website and are looking forward to suggestions.
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
 We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
