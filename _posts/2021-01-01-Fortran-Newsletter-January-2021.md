@@ -35,7 +35,7 @@ In-depth introduction for Fortran with Make.
 * [#186](https://github.com/fortran-lang/fortran-lang.org/pull/186) (WIP):
 Add missing packages from the list of popular Fortran projects
 * [#187](https://github.com/fortran-lang/fortran-lang.org/pull/187) (WIP):
-Correct Compiler page and tutorial regarding Intel oneAPI and PGI to NVIDIA
+Correct compiler page and tutorial regarding Intel oneAPI and PGI to NVIDIA
 * [#174](https://github.com/fortran-lang/fortran-lang.org/issues/174) (WIP):
 We are searching for a representative Fortran code snippet for the website and are looking forward to suggestions.
 
@@ -101,7 +101,7 @@ Here's what's new in `fpm`:
 * [Alpha release version 0.1.3](https://github.com/fortran-lang/fpm/releases/tag/v0.1.3)
 * [setup-fpm action](https://github.com/marketplace/actions/setup-fpm):
   GitHub Action to setup the Fortran Package Manager on Ubuntu, MacOS and Windows runners
-* [discussion board](https://github.com/fortran-lang/fpm/discussions):
+* [Discussion board](https://github.com/fortran-lang/fpm/discussions):
   For questions & answers, sharing of ideas, showing off projects and, of course, discussions around fpm
 * [#248](https://github.com/fortran-lang/fpm/pull/248):
   Refactor backend for incremental rebuilds
@@ -172,6 +172,7 @@ Work in progress:
 Here's how you can help today:
 
 * Use it and let us know what you think! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm, and the [manifest reference](https://github.com/fortran-lang/fpm/blob/master/manifest-reference.md) to learn what are all the things that you can specify in the fpm.toml file.
+* Browse existing *fpm* packages on the [fortran-lang website](https://fortran-lang.org/packages/fpm)
 * Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.
 * Adapt your Fortran package for fpm and submit it to the [Registry](https://github.com/fortran-lang/fpm-registry).
 * Improve the documentation.
