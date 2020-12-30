@@ -213,6 +213,7 @@ commenting in any of these repositories:
 * [fortran-lang/stdlib](https://github.com/fortran-lang/stdlib)
 * [fortran-lang/fpm](https://github.com/fortran-lang/fpm)
 * [fortran-lang/fpm-registry](https://github.com/fortran-lang/fpm-registry)
+* [fortran-lang/setup-fpm](https://github.com/fortran-lang/setup-fpm)
 * [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org)
 * [fortran-lang/benchmarks](https://github.com/fortran-lang/benchmarks)
 * [j3-fortran/fortran_proposals](https://github.com/j3-fortran/fortran_proposals)
