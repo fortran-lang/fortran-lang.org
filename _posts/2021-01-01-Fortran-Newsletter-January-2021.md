@@ -15,29 +15,29 @@ Fortran news from the previous month.
 
 This month we've had a few updates to the website:
 
-* [#171](https://github.com/fortran-lang/fortran-lang.org/pull/171):
-Add Sebastian to the list of authors in the building-programs mini-book
 * [#178](https://github.com/fortran-lang/fortran-lang.org/pull/178),
   [#188](https://github.com/fortran-lang/fortran-lang.org/pull/188):
 Fix build preview
 * [#179](https://github.com/fortran-lang/fortran-lang.org/pull/179):
 Fix word spelling error in quickstart page
 * [#173](https://github.com/fortran-lang/fortran-lang.org/pull/173),
-  [#180](https://github.com/fortran-lang/fortran-lang.org/pull/180):
-Add Octopus and TOML-Fortran to the package index
+  [#180](https://github.com/fortran-lang/fortran-lang.org/pull/180),
+  [#186](https://github.com/fortran-lang/fortran-lang.org/pull/186):
+Add missing packages from the list of popular Fortran projects to the package index
 * [#182](https://github.com/fortran-lang/fortran-lang.org/pull/182):
 Update compilers page following Intel oneAPI release
+* [#160](https://github.com/fortran-lang/fortran-lang.org/pull/160),
+  [#171](https://github.com/fortran-lang/fortran-lang.org/pull/171):
+In-depth introduction for Fortran with Make.
 
 Ongoing work:
 
-* [#160](https://github.com/fortran-lang/fortran-lang.org/pull/160) (WIP):
-In-depth introduction for Fortran with Make.
-* [#186](https://github.com/fortran-lang/fortran-lang.org/pull/186) (WIP):
-Add missing packages from the list of popular Fortran projects
 * [#187](https://github.com/fortran-lang/fortran-lang.org/pull/187) (WIP):
 Correct compiler page and tutorial regarding Intel oneAPI and PGI to NVIDIA
 * [#174](https://github.com/fortran-lang/fortran-lang.org/issues/174) (WIP):
 We are searching for a representative Fortran code snippet for the website and are looking forward to suggestions.
+* [#190](https://github.com/fortran-lang/fortran-lang.org/pull/190) (WIP):
+Add links to fpm contributing guidelines
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
 We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
