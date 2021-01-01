@@ -2,9 +2,10 @@
 layout: post
 title: "Fortran newsletter: January 2021"
 category: newsletter
-author: Milan Curcic, Jérémie Vandenplas, Laurence Kedward, Gary Klimowicz, Ondřej Čertík, Sebastian Ehlert
+author: Jérémie Vandenplas, Sebastian Ehlert, Laurence Kedward, Milan Curcic, Gary Klimowicz, Ondřej Čertík
 ---
 
+Happy New Year!
 Welcome to the January 2021 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.
@@ -201,11 +202,15 @@ TO DO
 * We had our 7th Fortran Monthly call on December 15.
 You can watch the recording below:
 
-
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/S_xQCSRlefE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
+
+* [Episode 6](https://adspthepodcast.com/2021/01/01/Episode-6.html) of the
+Algorithms+Data Structures=Programs (ADSP) Podcast discussed Fortran and
+the recent fortran-lang developments.
+* [First year of Fortran-lang](https://medium.com/modern-fortran/first-year-of-fortran-lang-d8796bfa0067) by Milan Curcic.
 
 ## Contributors
 
