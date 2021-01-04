@@ -186,16 +186,30 @@ environment in which new open source Fortran projects are created and published 
 
 ### Classic Flang
 
-TO DO
+There are several pull requests out for evaluation.
 
-The Classic Flang biweekly call has been set up to discuss issues and plans
-for the next pull requests to be validated and merged. Our next calls are Wednesday, December 16 and 30, 8:00 AM Pacific time. The notes from previous calls, upcoming agenda and a link to join the call can be found
-[here](https://docs.google.com/document/d/1-OuiKx4d7O6eLEJDBDKSRnSiUO2rgRR-c2Ga4AkrzOI).
+Only one pull request was merged in December:
+
+* [PR#951 Fix for ICE in atomic instruction generation](https://github.com/flang-compiler/flang/pull/951)
 
 ### LLVM Flang
 
-TO DO
+Alexis-Perry Holby (aperry@lanl.gov) has taken over the Flang biweekly calls.
+An invitation was sent to the _flang-dev_ LLVM email list on December 22nd.
+Call notes will be sent to the _flang-dev_ email list and also recorded [here]( https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
 
+Recent development updates:
+
+* Semantic analysis fix for index-names of `FORALL` statements
+* Continued work on parser support for `ALLOCATE`
+* Build tidying
+* OpenMP semantic checks: atomic, flush
+* Continued work on new driver
+* Fix for list-directed REAL output editing
+* Bug fixes: USE of USE of generic, crash in folding (#48437), crash in OpenMP semantic check (#48308), `IMPLICIT_NONE(EXTERNAL)`
+* Implement `STORAGE_SIZE()`, `SIZEOF()`, and `C_SIZEOF()`
+* OpenACC: update serial construct clauses for 3.1, enforce restriction on routine directive and clauses
+* OpenMP: adding important clauses to OmpClause, task reduction clause
 
 ## Events
 
