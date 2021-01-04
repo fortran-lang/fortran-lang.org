@@ -2,6 +2,949 @@
     "name": "fortran-lang/stdlib",
     "issues": [
         {
+            "number": 286,
+            "user": "Jim-215-Fisher",
+            "date": "2020-12-29 22:40:34+00:00",
+            "title": "Probability Distribution and Statistical Functions -- Beta Distribution Module",
+            "text": "This is the second round of probability distribution and statistical functions, continuing from #240. Since the whole modular structure has been changed, each distribution will have its own PR.\nThis PR contains beta distributions. Files uploaded are:\nsrc/stdlib_stats_distribtuion_beta.fypp\nsrc/CMakeLists.txt\nsrc/Makefile.manual\nsrc/tests/test_distribution_beta.f90\nsrc/tests/CMakeLists.txt\nsrc/tests/Makefile.manual\ndoc/specs/stdlib_stats_distribution_beta.md\ndoc/specs/index.md",
+            "comments": []
+        },
+        {
+            "number": 285,
+            "user": "awvwgk",
+            "date": "2020-12-29 16:04:55+00:00",
+            "title": "stdlib cannot be used as CMake subproject",
+            "text": "Using stdlib as CMake subproject is currently not possible. Attempting to include stdlib by add_subdirectory or with the FetchContent module will fail with:\n\u276f cmake -B _build -G Ninja -DCMAKE_INSTALL_PREFIX=$PWD/_dist\n-- Retrieving stdlib from https://github.com/fortran-lang/stdlib\nCMake Error at _build/_deps/stdlib-src/CMakeLists.txt:5 (include):\n  include could not find load file:\n\n    /home/awvwgk/projects/src/git/stdlib-cmake-example/cmake/stdlib.cmake\n\n\nCMake Error at _build/_deps/stdlib-src/src/CMakeLists.txt:36 (fypp_f90):\n  Unknown CMake command \"fypp_f90\".\n\n\n-- Configuring incomplete, errors occurred!\nSee also \"/home/awvwgk/projects/src/git/stdlib-cmake-example/_build/CMakeFiles/CMakeOutput.log\".",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-12-29 22:46:13+00:00",
+                    "text": "Yes, we need to fix it.\nLong term, I am hoping to simply let fpm generate the cmake files and we check them into the repository, and we ensure that they can be used as a cmake subproject."
+                }
+            ]
+        },
+        {
+            "number": 284,
+            "user": "awvwgk",
+            "date": "2020-12-29 09:35:40+00:00",
+            "title": "Fix subproject build",
+            "text": "Required changes to use stdlib as subproject in CMake.",
+            "comments": []
+        },
+        {
+            "number": 283,
+            "user": "awvwgk",
+            "date": "2020-12-28 10:19:01+00:00",
+            "title": "Improve compilation load by splitting stdlib_stats_moment submodule",
+            "text": "This is an attempt to reduce the memory usage when compiling stdlib with default max rank of 15. Tested with ninja generator (-G Ninja) and GCC 10.2 on a laptop with two physical cores and 8GB RAM.\nThe first commit on this branch allows compilation with one ninja job and peak memory usage of ~7GB. The second commit on this branch allows compilation with two ninja jobs and peak memory usage of ~7GB.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-12-28 10:46:46+00:00",
+                    "text": "This is a significant improvement for quite a straightforward restructuring, great stuff @awvwgk! I get similar results with the \"Makefiles\" generator on my smaller laptop which previously would not have handled it."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-28 11:18:48+00:00",
+                    "text": "The peak memory usage should be around ~3.5GB for one build job. We also tried building on a bigger machine (8 cores, 64GB RAM, thanks @rivwgk) and got a peak memory usage of ~10GB. Maybe we could add a minimum system requirement for building stdlib in the README as well based on this data."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-28 11:57:39+00:00",
+                    "text": "Nice job @awvwgk. I much prefer this solution than limiting the number of ranks.\nI tested it on my computer with gfortran 9.3.1. The peak memory usage was <3.5GB with 1 job.\n\nMaybe we could add a minimum system requirement for building stdlib in the README as well based on this data.\n\nGood idea.  #282 is then not needed. Or it could be in complement to #282 (in case somenone would like stdlib on a computer that cannot handle the compilation with 15 ranks)?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-12-28 12:10:47+00:00",
+                    "text": "I much prefer this solution than limiting the number of ranks.\n\nI agree, and perhaps recommended practice for future contributions can be to limit the number of generated procedures per submodule?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-28 12:20:48+00:00",
+                    "text": "Or it could be in complement to #282 (in case somenone would like stdlib on a computer that cannot handle the compilation with 15 ranks)?\n\nThere should be some documentation regarding the option for the maximum rank. Reducing the maximum supported rank is still increasing the compilation speed significantly and most projects might never go beyond rank 4 arrays.\n\nI agree, and perhaps recommended practice for future contributions can be to limit the number of generated procedures per submodule?\n\nThis is hard to measure and enforce unless we find something automatic, e.g. conda-build can report peak resource usage after a successful build."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-12-28 12:42:32+00:00",
+                    "text": "This is hard to measure and enforce unless we find something automatic\n\nThere's no need to enforce or automate this; I suggest merely a recommended practice for contributors to limit the number of generated procedures per submodule (e.g. <200). This is easily determined from the template files."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-28 12:49:21+00:00",
+                    "text": "Lines of code is significant as well here, there is quite a difference in the resource usage between moment, moment_scalar and moment_all in this submodule, the moment routines are compile intense enough to require splitting the mask version from the normal version."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-28 20:37:44+00:00",
+                    "text": "This improves the build process and doesn't change the library itself, so I'll go ahead and merge it given at least 2 approvals."
+                }
+            ]
+        },
+        {
+            "number": 282,
+            "user": "jvdp1",
+            "date": "2020-12-27 15:38:28+00:00",
+            "title": "Add note about RAM issues to README.md",
+            "text": "This is a note on how to avoid RAM issues during compilation on \"low RAM\" computers.\nFixes #217 and #281",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-28 19:29:39+00:00",
+                    "text": "Great, thank you. This note will be helpful. I added a suggestion to reword things a bit for clarity.\n\nThank you @milancurcic for your suggestions. I accepted them. They are more general than mine, and make them still valid, even if PR #283 is accepted later."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-28 20:39:58+00:00",
+                    "text": "Thank you @jvdp1!"
+                }
+            ]
+        },
+        {
+            "number": 281,
+            "user": "brocolis",
+            "date": "2020-12-27 04:41:24+00:00",
+            "title": "Unable to build stdlib on low memory computer",
+            "text": "When I attempt to build stdlib with make -f Makefile.manual, gfortran eats all available memory and it makes the computer unusable. Unfortunately there was no way to know if the process was about to end, then after 30 minutes I manually killed the gfortran process.\nHere are the screenshots.\nCommand prompt\n\nTask manager\n\nComputer: Windows 10 x64, Memory (total): 8GB\ngfortran: 10.2.0, x64",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2020-12-27 08:31:40+00:00",
+                    "text": "Hi @brocolis, please see this comment for a solution previously mentioned.\nThis is an issue/solution that should be mentioned prominently in the README.\nSince you're already using fpm, you may want to try the stdlib-fpm package which limits the maximum rank because of this issue.\n\nIs there a way to exploit submodules here and break templated routines across different compilation units? This could better exploit parallelism during builds and reduce peak memory usage."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2020-12-28 01:46:12+00:00",
+                    "text": "Hi @LKedward . Both solutions work for me. Thank you."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-28 10:22:06+00:00",
+                    "text": "Is there a way to exploit submodules here and break templated routines across different compilation units? This could better exploit parallelism during builds and reduce peak memory usage.\n\nI tried to reduce the compilation load in #283 and got the default settings to compile with a peak memory usage of ~7 GB on two parallel build jobs."
+                }
+            ]
+        },
+        {
+            "number": 280,
+            "user": "waynelapierre",
+            "date": "2020-12-24 17:03:31+00:00",
+            "title": "Better Interoperability with R Language",
+            "text": "I have been both a Fortran and R user for a while. R's native interface with Fortran is not very straightforward to use. By straightforward, I mean compiling a Fortran function on the fly in the R environment. Meanwhile, Rcpp, R's improved interface with C++, makes it very straightforward to develop R packages with C++. However, R and C++ are very different languages.\nOn the other hand, R and Fortran are both numerical programming languages with 1-based indexing. Vectorization is always encouraged in R, which is consistent with the design philosophy of Fortran. I think if Fortran could have a better interface with R and its standard library could contain more stats and optimization functions, more users will use Fortran to write R packages.",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-24 21:35:55+00:00",
+                    "text": "Hello @waynelapierre,\nThis sounds like a great idea! I think making it easy to interoperate with Fortran is beneficial to both languages in the end.\nI had a quick look at this tutorial about Rcpp. Ironically, on slide 14 is a sketch of  \"The Interface\" [to Fortran], which became S, which led to R. So many years later, there is so many layers of abstraction between them, that you need to write new code to find your way back...\nTaking a quick look I see that the C interface to R revolves around a SEXP object (pointer). I assume this could be passed around in Fortran as a type(c_ptr). But for a smoother transition I guess it would be necessary to write some C/C++ code using the \"ISO_Fortran_Bindings\" introduced in F2018 to get more straightforward access into the underlying R memory. Some very basic examples of what this looks like appear in this thread. I don't really know enough about R to say more.\nAt least initially I would suggest exploring the R-Fortran bridge in a repository separate from stdlib. But we are more than happy to receive help with statistics and optimization routines!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-24 21:47:32+00:00",
+                    "text": "We plan to have automatic wrappers to other languages such as Python in LFortran. We would be happy to add an R backend also. Interoperability of Fortran with other languages is key."
+                },
+                {
+                    "user": "waynelapierre",
+                    "date": "2020-12-25 00:14:34+00:00",
+                    "text": "R and Matlab both started as a wrapper of Fortran codes and were designed as tools for engineers and statisticians. That's why R and Matlab both use 1-based indexing and have built-in data types and functions related to linear algebra. Over time, R and Matlab transitioned to use C/C++ for performance. People claim that is because Fortran does not have a good package manager and lacks good support for strings. That is not true. C/C++ does not have a good package manager, either. For most scientific computing tasks, strings are not that important. I personally think the lack of a good standard library is the reason why Fortran loses a lot of users.\nIf Fortran could have a good standard library and convenient interface to R. I am sure more users will use Fortran to develop R packages. For most engineers or statisticians, C/C++ is too complicated and unintuitive."
+                },
+                {
+                    "user": "sakamoti",
+                    "date": "2020-12-25 07:00:21+00:00",
+                    "text": "I have the fortran(2008) library written by myself as a dynamic library on my system, and use it from fortran and R. If fortran is the main program, I can use many fortran full features (including classes). However, when using R's fortran interface (.Fortran  or .C functions) from inside R's environment, arguments can be passed only in C or f77 format (I think).\n(It might be the best idea to try using SEXP via c/c++, but I don't familiare with SEXP.)\nI'm not familiar with c++ or c. I've intentionally written a f77 wrapper routines for R in order to use the new fortran routines (OOP and other new feature) from R.\nThe seamless integration of fortran and R is very welcome."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-25 18:52:56+00:00",
+                    "text": "I just did a small experiment following the instructions on page 20 of this R newsletter. Here are the Fortran routines to start with:\n! Rfun_f.f90\n!\nmodule Rfun\n  \n  use iso_c_binding\n  implicit none\n  \ncontains\n\n  subroutine fooC() bind(C,name=\"fooC\")\n    ! do nothing\n  end subroutine\n\n  subroutine barC(x, len) bind(C,name=\"barC\")\n    double precision :: x\n    integer :: len\n    ! do nothing\n  end subroutine\n\n  type(c_ptr) function mycall(obj) bind(C,name=\"mycall\")\n    type(c_ptr), value :: obj\n    myCall = obj\n  end function\n  \nend module\nNext, you need an interface file, here called Rfun.c with the following contents:\n#include <Rinternals.h>\n#include <R_ext/Rdynload.h>\n\n// These are the routines defined in Rfun.f90\nvoid fooC();\nvoid barC(double *, int*);\nSEXP mycall(SEXP obj);\n\nstatic const R_CMethodDef cMethods[] = {\n  {\"fooC\",  (DL_FUNC) &fooC, 0},\n  {\"barC\", (DL_FUNC) &barC, 2},NULL};\n\nstatic const R_CallMethodDef callMethods[] = {\n  {\"mycall\", (DL_FUNC) &mycall, 1},NULL};\n\nvoid R_init_Rfun(DllInfo *info)\n{\n  R_registerRoutines(info,cMethods,callMethods,NULL,NULL);\n}\nThe next step is to compile the Fortran routines into a shared library using the R command line tool:\nR CMD SHLIB Rfun.c Rfun_f.f90 -o Rfun.so\n\nThis creates a shared library object Rfun.so. Using the dyn.load() function in R you can load the library and access the functions using the .C and .Call primitives (no need for the .Fortran function):\n$ R\n\nR version 3.4.4 (2018-03-15) -- \"Someone to Lean On\"\nCopyright (C) 2018 The R Foundation for Statistical Computing\nPlatform: x86_64-pc-linux-gnu (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\n  Natural language support but running in an English locale\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R.\n\n> dyn.load(\"Rfun.so\")\n> a = 1:8\n> a\n[1] 1 2 3 4 5 6 7 8\n> .Call(\"mycall\",a)\n[1] 1 2 3 4 5 6 7 8\n> \n\nGranted, this only works for functions and subroutines with the the bind(C) attribute (careful with lower and upper case names!). The remaining challenge is to access the SEXP internals and gain access to the underlying R memory (actually allocated in C) in a safe and portable way.\nI think it would be great if LFortran could build the necessary glue code automatically."
+                },
+                {
+                    "user": "sakamoti",
+                    "date": "2020-12-30 02:28:21+00:00",
+                    "text": "We can see the definition of SEXP in the R terminal.\nfile.show(file.path(R.home(\"include\"),\"Rinternals.h\"))\nIn the Rinternals.h , SEXP is defined as a pointer of the the struct of SEXPREC.\ntypedef struct SEXPREC *SEXP;\n#define SEXPREC_HEADER \\\n    struct sxpinfo_struct sxpinfo; \\\n    struct SEXPREC *attrib; \\\n    struct SEXPREC *gengc_next_node, *gengc_prev_node\n\n/* The standard node structure consists of a header followed by the\n   node data. */\ntypedef struct SEXPREC {\n    SEXPREC_HEADER;\n    union {\n\tstruct primsxp_struct primsxp;\n\tstruct symsxp_struct symsxp;\n\tstruct listsxp_struct listsxp;\n\tstruct envsxp_struct envsxp;\n\tstruct closxp_struct closxp;\n\tstruct promsxp_struct promsxp;\n    } u;\n} SEXPREC;\n\nSEXPREC has C's union.\nAccording to \"Modern fortran explained (incorporating Fortran 2018), pp.371\", union can't interoperable with fortran.\n\nNo fortran type is interoperable with a C union type, a C structure type that contains a bit field, or a C structure type that contains a flexible array member.\n\nThough I don't know how to acces the SEXP internals from fortran, I have the same opinion of @ivan-pi 's one.\n\nThe remaining challenge is to access the SEXP internals and gain access to the underlying R memory (actually allocated in C) in a safe and portable way."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-30 09:08:00+00:00",
+                    "text": "The SEXP (S-expression) is an opaque pointer to an underlying SEXPREC object (this is a common design pattern in C). Client code is not supposed to manipulate the SEXPREC directly, but only using methods provided by the various R headers, that provide a limited view into the node."
+                },
+                {
+                    "user": "waynelapierre",
+                    "date": "2020-12-30 22:05:20+00:00",
+                    "text": "https://cran.r-project.org/web/packages/dotCall64/index.html"
+                }
+            ]
+        },
+        {
+            "number": 279,
+            "user": "jvdp1",
+            "date": "2020-12-23 19:09:36+00:00",
+            "title": "stdlib compatible with fpm",
+            "text": "During the December call, @ivan-pi mentioned it would be nice that fpm could use stdlib as a package.\n@certik mentioned that a possible solution would be to provide a tarball with pre-processed fypp files (similarly to the generation of binaries for fpm). This option requires that fpm being able to use tarballs.\n@LKedward proposed another solution, that is an auto-generated mirror of stdlib that contains pre-processed files (see @LKedward project).\nBoth options have pros and cons. In both cases, I think the strucutre of stdlib must be modified to be compatible with the structure needed by fpm.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2020-12-23 23:24:22+00:00",
+                    "text": "Yes. Ideally, it should require no preprocessing. The fpm package should just be .f90 files and .c files.  That is probably not\npossible, but if it could be done with a \"MSWindows-stdlib\" and a \"Everyone Else\" that would be great, where there are routines that will run anywhere, and then a separate directory expanded out for the special platform variations. If that is not feasible, the distributed code should contain only simple conditionals (no macros) and a simple fpp(1) program, preferably written in Fortran, should be bundled for use with fpm and fpm should provide a few defined values like OSTYPE and COMPILER.  @LKedward put out an fpm package for stdlib, but I believe he did so as an alpha-release proof-of-concept.\nI think it should be far more a two-way street than it is, as I think the bar is too high for some people to be interested in stdlib.\nstdlib should be supporting people working together on a github+fpm prototype for some of the libraries where I think people\ncan more easily try out tough ideas and compare and test using much more typical steps until a prototype solidifies enough to start the process of becoming part of stdlib. That is, a domain-specific module can garner some general agreement and then be proposed as a more complete proposition (with touch-points along the way).\nRight now there are several libraries, some already available via fpm that people can try and discuss, and hopefully merge into a stdlib proposal, such as random numbers, strings, Gregorian calendar, ... . Adding them piecemeal and without a defined overall scope into stdlib seems like it has been problematic so far.  Essentially, spin-off mini-projects that can be worked on by an interested subgroup that would still be highly available to the general community (via a git repository and fpm) that would require only building that subset.\nstdlib should be available via fpm, and an fpm-based process should exist with a defined pathway into stdlib. Assuming\nsome buy-in by owners of existing libraries  I think that might speed things up.  Ironically, stdlib seems to be running around the same speed as the standard committee.  I think that is closer to the successful modules that have appeared around recent Open Source languages and deserves a closer look."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2020-12-27 08:48:41+00:00",
+                    "text": "Thanks for opening @jvdp1. Preprocessing aside, the main restructurings necessary for stdlib-fpm were moving the tests folder out of the library src folder and some consideration of the .dat files needed by the tests.\nThere's been some discussion on the issue of passing inputs to tests; currently the path to .dat files must be relative to the top level directory, hence these files are trivially relocated there in my stdlib-fpm package.\nFinally I want to emphasis that support for preprocessors remains a definite goal for fpm. Unfortunately the implementation is complicated slightly by how it interacts with the detection of module dependencies."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-27 15:47:33+00:00",
+                    "text": "Thanks for opening @jvdp1. Preprocessing aside, the main restructurings necessary for stdlib-fpm were moving the tests folder out of the library src folder and some consideration of the .dat files needed by the tests.\n\nI don't remember the reasons that tests was inside src in stdlib. However, would it not be easier to move tests in stdlib to follow the structure needed by fpm? For a new user, it could sound strange that the structure of stdlib does not follow the structure needed y fpm, although both projects are fortran-lang projects.\n\nFinally I want to emphasis that support for preprocessors remains a definite goal for fpm. Unfortunately the implementation is complicated slightly by how it interacts with the detection of module dependencies.\n\nfpm should definitely support preprocessing. However, I think it would be good that a tarball (or a repository) with generated files is available for users who don't want to install,e.g., fypp."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-27 16:20:03+00:00",
+                    "text": "See #7 for how the current structure was chosen. I agree that it should move to fpm-recommended structure."
+                }
+            ]
+        },
+        {
+            "number": 278,
+            "user": "Jim-215-Fisher",
+            "date": "2020-12-22 16:19:57+00:00",
+            "title": "Probability Distribution and Statistical Functions -- Gamma Distribution Module",
+            "text": "This is the second round of probability distribution and statistical functions, continuing from #240. Since the whole modular structure has been changed, each distribution will have its own PR.\nThis PR contains gamma distributions. Files uploaded are:\nsrc/stdlib_stats_distribtuion_gamma.fypp\nsrc/stdlib_stats_distribution_normal.fypp\nsrc/stdlib_stats_distribution_uniform.fypp\nsrc/stdlib_stats_distribution_PRNG.fypp\nsrc/stdlib_stats_distribution_special.fypp\nsrc/CMakeLists.txt\nsrc/Makefile.manual\nsrc/tests/test_distribution_gamma.f90\nsrc/tests/CMakeLists.txt\nsrc/tests/Makefile.manual\ndoc/specs/stdlib_stats_distribution_gamma.md\ndoc/specs/index.md",
+            "comments": []
+        },
+        {
+            "number": 277,
+            "user": "hsnyder",
+            "date": "2020-12-22 05:13:26+00:00",
+            "title": "Proposal: gaussian quadrature",
+            "text": "Hi everyone.\nWould there be interest in adding methods to compute Gaussian quadrature points and weights (plus possibly Gauss-Lobatto points and weights)? I'd be happy to offer the implementation if there is interest.",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-22 07:50:11+00:00",
+                    "text": "Sofar the library contains the trapezoid and Simpson rules only. More\nsophisticated rules are certainly welcome, I'd say.\n\nOp di 22 dec. 2020 om 06:13 schreef Harris Snyder <notifications@github.com\n\u2026\n:\n Hi everyone.\n\n Would there be interest in adding methods to compute Gaussian quadrature\n points and weights (plus possibly Gauss-Lobatto points and weights)? I'd be\n happy to offer the implementation if there is interest.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#277>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR7REA2IL4CCH7ACJGLSWATIJANCNFSM4VFEBWXA>\n ."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-22 17:03:31+00:00",
+                    "text": "I'd be certainly interested in these. In a previous reply #112 (comment) I suggested these might be more suitable for a separate package. On second thought, since many Fortran users are physicists and engineers, at least for the classic Gaussian rules it might be beneficial to provide them here. If nothing else, the feedback from other stdlib developers and page visitors can help design a tidy API.\nI have some very old Gaussian quadrature routines dating back to 1966 available here: https://github.com/ivan-pi/stroud_quad. If I am not mistaken they are accurate up to 10-11 digits for most cases."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-22 17:11:37+00:00",
+                    "text": "Thank you for your proposition.\nI agree wth @arjenmarkus and @ivan-pi: it would be good to have them in stdlib ;)"
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2020-12-22 21:03:25+00:00",
+                    "text": "Okay, sounds like the idea has some support. I'll wait another couple of days (holidays coming up anyway) and if there aren't any objections raised we can discuss an API"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-22 21:06:39+00:00",
+                    "text": "@hsnyder do not wait. We want this in stdlib, as we agreed the scope of stdlib can be roughly as scipy, and thus it definitely includes quadrature rules. Go ahead and start proposing the API. See also my comment with an implementation accurate to full double precision: #112 (comment)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-22 21:08:06+00:00",
+                    "text": "I think this is a duplicate of #112. But I'll keep it open, we can close both #277 and #112 once this is implemented in stdlib."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-22 21:48:28+00:00",
+                    "text": "The NAG and IMSL mathematical libraries both offer Gaussian quadrature weights:\n\nNAG\nIMSL"
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2020-12-23 01:32:48+00:00",
+                    "text": "Thanks for the input everyone. Lots of options re: implementation it seems (depending on licenses)\nRegarding API, I would strongly prefer returning the points and weights directly and having the user use sum(f(x)*w) rather than having the user pass in a function and having the library perform the integration.\nOne idea regarding the API: something virtually identical to what @certik has here: https://github.com/certik/hfsolver/blob/b4c50c1979fb7e468b1852b144ba756f5a51788d/src/quadrature.f90\ni.e.\nfunction gauss_pts(n) and function gauss_weights(n)\nbut since you'll always want both, I could see the argument for a subroutine\nsubroutine gauss_xw(n,x,w), where x and w would be intent(out)\nWe should provide analagous functions for lobatto points and weights, as well, and perhaps others. Thoughts?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-23 17:13:43+00:00",
+                    "text": "I am not a typical user for such functions. However, I suggest to use a similar API to trapz and trapz_weights"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-23 18:42:20+00:00",
+                    "text": "@hsnyder yes, we can lump them together to return points and weights at once. The same for lobatto. Indeed, returning them to the user is the way to go."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2020-12-23 19:03:15+00:00",
+                    "text": "@jvdp1 I think that since the use case for gaussian quadrature is a bit different (usually you're integrating a function rather than discrete samples), it makes more sense to return the points and weights instead.\n@certik sounds good, I like your tabulated implementation from hfsolver. I propose to use that as the basis for an implementation, and fall back on another implementation in the n > 64 case. From what various people have posted in this thread and in #112, it seems like there are several options. Is there a favourite among them? Quadpack perhaps?"
+                }
+            ]
+        },
+        {
+            "number": 276,
+            "user": "Jim-215-Fisher",
+            "date": "2020-12-22 00:20:43+00:00",
+            "title": "Probability Distribution and Statistical Functions -- Exponential Distribution Module",
+            "text": "This is the second round of probability distribution and statistical functions, continuing from #240. Since the whole modular structure has been changed, each distribution will have its own PR.\nThis PR contains exponential distributions. Files uploaded are:\nsrc/stdlib_stats_distribtuion_exponential.fypp\nsrc/CMakeLists.txt\nsrc/Makefile.manual\nsrc/tests/test_distribution_exponential.f90\nsrc/tests/CMakeLists.txt\nsrc/tests/Makefile.manual\ndoc/specs/stdlib_stats_distribution_exponential.md\ndoc/specs/index.md",
+            "comments": []
+        },
+        {
+            "number": 275,
+            "user": "awvwgk",
+            "date": "2020-12-21 18:39:57+00:00",
+            "title": "Add all three MSYS2 systems to Windows CI",
+            "text": "Windows testing is currently limited to the MinGW version preinstalled by choco (GCC 8.1). This PR uses the MSYS2 toolchains to test for the latest GCC/MinGW versions as well.\nIn total three new CI tests are added:\n\nGCC in MSYS POSIX environment\nnative MinGW64 compiler\nnative MinGW32 compiler (see #274 regarding test failure)\n\nWith the adjustment of the thresholds in test_mean, this PR also fixes #274",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-29 07:31:38+00:00",
+                    "text": "I`ll merge this PR. Thank you @awvwgk for the addition of MSYS@ systems to the CI."
+                }
+            ]
+        },
+        {
+            "number": 274,
+            "user": "awvwgk",
+            "date": "2020-12-21 14:05:21+00:00",
+            "title": "stats: test mean fails for Windows MinGW32",
+            "text": "Just found this issue while trying the MSYS2 toolchains for different projects on GH actions. The test is passing in the MSYS POSIX environment and with the MinGW64 toolchain, but fails with the MinGW32 toolchain.\nOutput from the failing test is not very helpful:\n17/24 Testing: mean\n17/24 Test: mean\nCommand: \"D:/a/fortran-stdlib/fortran-stdlib/build/src/tests/stats/test_mean.exe\" \"D:/a/fortran-stdlib/fortran-stdlib/build/src/tests/stats\"\nDirectory: D:/a/fortran-stdlib/fortran-stdlib/src/tests/stats\n\"mean\" start time: Dec 21 13:57 Coordinated Universal Time\nOutput:\n----------------------------------------------------------\n Check failed.\nERROR STOP 1\n\nError termination. Backtrace:\n\nCould not print backtrace: libbacktrace could not find executable to open\n#0  0x714c6af3\n#1  0x714590ce\n#2  0x713aadb6\n#3  0x4e9502\n#4  0x43d07d\n#5  0x41c45a\n#6  0x43ce9d\n#7  0x401395\n<end of output>\nTest time =   0.01 sec\n----------------------------------------------------------\nTest Failed.\n\"mean\" end time: Dec 21 13:57 Coordinated Universal Time\n\"mean\" time elapsed: 00:00:00\n----------------------------------------------------------\n\nFor details on the build see: https://github.com/awvwgk/fortran-stdlib/runs/1589260298?check_suite_focus=true",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-21 14:20:26+00:00",
+                    "text": "Thanks for reporting the issue. THe backtrace is not really useful :( Is there a way to get the output of the different tests to try to identify the problem?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-21 14:23:08+00:00",
+                    "text": "The ctest log is uploaded here: https://github.com/awvwgk/fortran-stdlib/actions/runs/435893875#artifacts, I just copied the relevant part in the issue."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-21 18:47:19+00:00",
+                    "text": "I could debug the failing tests a bit, the numerical thresholds are a bit too tight for Win32 in those two testcases:\n\n  \n    \n      stdlib/src/tests/stats/test_mean.f90\n    \n    \n         Line 109\n      in\n      b0ab3bb\n    \n    \n    \n    \n\n        \n          \n           call check( sum( abs( mean(cd3,2) - sum(cd3,2)/real(size(cd3,2), dp) )) < dptol) \n        \n    \n  \n\n\n\n  \n    \n      stdlib/src/tests/stats/test_mean.f90\n    \n    \n         Line 123\n      in\n      b0ab3bb\n    \n    \n    \n    \n\n        \n          \n           call check( sum( abs( mean(d4,2) - sum(d4,2)/real(size(d4,2), dp) )) < dptol)"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-21 19:03:04+00:00",
+                    "text": "Thank you. Annoying... Is increasing the threshold a possibility?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-21 19:07:57+00:00",
+                    "text": "The deviation for the first case was 2.7061524833201538E-013, slightly above the test threshold of 2.2204460492503131E-013. I didn't investigate the second test case, but using 2000*epsilon(1._dp) worked just fine."
+                }
+            ]
+        },
+        {
+            "number": 273,
+            "user": "Jim-215-Fisher",
+            "date": "2020-12-21 02:29:56+00:00",
+            "title": "Probability Distribution and Statistical Functions -- Normal Distribution Module ",
+            "text": "This is the second round of probability distribution and statistical functions, continuing from #240. Since the whole modular structure has been changed, each distribution will have its own PR.\nThis PR contains normal distributions. Files uploaded are:\nsrc/stdlib_stats_distribtuion_normal.fypp\nsrc/CmakeLists.txt\nsrc/Makefile.manual\nsrc/tests/test_distribution_normal.f90\nsrc/tests/CmakeLists.txt\nsrc/tests/Makefile.manual\ndoc/specs/stdlib_stats_distribution_normal.md\ndoc/specs/index.md",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-27 17:26:39+00:00",
+                    "text": "Hello @Jim-215-Fisher ,\nit's an impressive undertaking what you have here!\nI just gave the files a quick glance and noticed certain calls to real(val) might not be what was desired. To preserve the precision of the real part of a complex number you need to use the full syntax: real(cval,kind= ...). An alternative is to use cval%re. A discussion of this pitfall can be found here."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-12-28 15:39:03+00:00",
+                    "text": "Hello @Jim-215-Fisher ,\nit's an impressive undertaking what you have here!\nI just gave the files a quick glance and noticed certain calls to real(val) might not be what was desired. To preserve the precision of the real part of a complex number you need to use the full syntax: real(cval,kind= ...). An alternative is to use cval%re. A discussion of this pitfall can be found here.\n\nThanks for the point. I will take a look of it. Originally, I was using cval%re and cval%im, but it did not pass the compilation on ubuntu 7,8,9."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-12-28 16:10:50+00:00",
+                    "text": "Hello @Jim-215-Fisher ,\nit's an impressive undertaking what you have here!\nI just gave the files a quick glance and noticed certain calls to real(val) might not be what was desired. To preserve the precision of the real part of a complex number you need to use the full syntax: real(cval,kind= ...). An alternative is to use cval%re. A discussion of this pitfall can be found here.\n\nI checked the Fortran 2018 Handbook, it states like this for real(A, [KIND]):\n\"if A is type complex and KIND is not present, the kind type parameter is the kind type parameter of A.\"\nThis is the result I desired in the code. Maybe I missed something."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-28 16:27:32+00:00",
+                    "text": "I checked the Fortran 2018 Handbook, it states like this for real(A, [KIND]):\n\"if A is type complex and KIND is not present, the kind type parameter is the kind type parameter of A.\"\nThis is the result I desired in the code. Maybe I missed something.\n\nIn that case consider my comment void. I was basing my comment of the comments I read on Fortran Discourse."
+                }
+            ]
+        },
+        {
+            "number": 272,
+            "user": "Jim-215-Fisher",
+            "date": "2020-12-20 16:14:57+00:00",
+            "title": "Probability Distribution and Statistical Functions -- Uniform Distribution Module",
+            "text": "This is part of probability distribution and statistical functions for uniform distribution. In addition to original real variable functions, integer and complex variables related functions were added. The files uploaded are:\nsrc/stdlib_stats_distribution_uniform.fypp\nsrc/CMakeLists.txt\nsrc/Makefile.manual\nsrc/tests/stats/test_distribution_uniform.f90\nsrc/tests/CMakeLists.txt\nsrc/tests/Makefile.manual\ndoc/specs/index.md\ndoc/specs/stdlib_stats_distribution_uniform.md",
+            "comments": []
+        },
+        {
+            "number": 271,
+            "user": "Jim-215-Fisher",
+            "date": "2020-12-19 18:36:42+00:00",
+            "title": "Probability Distribution and Statistical Functions  -- PRNG Module",
+            "text": "This is the second round of probability distribution and statistical functions, continuing from #240. Since the whole modular structure has been changed, each distribution will have its own PR.\nThis PR contains random number generators used for probability distributions. Files uploaded are:\nsrc/stdlib_stats_distribtuion.PRNG.fypp\nsrc/CmakeLists.txt\nsrc/Makefile.manual\nsrc/tests/test_distribution_PRNG.f90\nsrc/tests/CmakeLists.txt\nsrc/tests/Makefile.manual\ndoc/specs/stdlib_stats_distribution_PRNG.md\ndoc/specs/index.md",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-20 19:02:48+00:00",
+                    "text": "Thank you @Jim-215-Fisher for this PR. Is it ready for review?"
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-12-20 19:04:46+00:00",
+                    "text": "Thank you @Jim-215-Fisher for this PR. Is it ready for review?\n\nYes. I think it is ready."
+                }
+            ]
+        },
+        {
+            "number": 270,
+            "user": "jvdp1",
+            "date": "2020-12-18 21:42:14+00:00",
+            "title": "Add gfortran 10 to CI",
+            "text": "To solve issues with Github actions (doc deployment) in #261 and #269.\nApparently gfortran (version 10) was renamed gfortran-10 in MacOS. Therefore, I modified the different scripts to consider it correctly.\nI also added gfortran-10 to the current evaluated versions (7, 8, and 9).",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-20 18:19:51+00:00",
+                    "text": "There are several PRs with failed actions due to this issue. Therefore, I will merge it."
+                }
+            ]
+        },
+        {
+            "number": 269,
+            "user": "arjenmarkus",
+            "date": "2020-12-18 16:45:11+00:00",
+            "title": "String list",
+            "text": "Here is a very preliminary implementation of a modules for handling lists of strings (see issue #268). The implementation is based on a derived type that holds an array of separate strings, but the suggestion made by @esterjo of using a single long string and an indexing array is well worth considering. Therefore consider this as a proposal for the behaviour and the interface.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-21 02:52:11+00:00",
+                    "text": "I agree with @jvdp1 regarding t_string -> string_type and t_stringlist -> stringlist_type.\nThe module should be called stdlib_stringlist (like the source file).\nWould stringarray not be a more appropriate name for this derived type?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-21 12:36:41+00:00",
+                    "text": "I have no problem with the suggestions :). Just one remark: \"initialise\" is\nquite acceptable according to a dictionary I checked (even though it is UK\nspelling).\n\nAnd I see why there are build failures: no documentation yet. Well, I will\nwork on that.\n\nOp ma 21 dec. 2020 om 03:52 schreef Milan Curcic <notifications@github.com>:\n\u2026\n I agree with @jvdp1 <https://github.com/jvdp1> regarding t_string ->\n string_type and t_stringlist -> stringlist_type.\n\n The module should be called stdlib_stringlist (like the source file).\n\n Would stringarray not be a more appropriate name for this derived type?\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#269 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5L75ENZZBGSGLQMRTSV2Z6VANCNFSM4VBNHQ2Q>\n ."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-21 12:41:12+00:00",
+                    "text": "And I see why there are build failures: no documentation yet. Well, I will work on that.\n\nIt is partly due to that. There is also the issue that gfortran is called now gfortran-10 in MacOS. This PR #270 solves this issue. So you might want to rebase your branch to pass this action."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-21 16:24:52+00:00",
+                    "text": "Just one remark: \"initialise\" is quite acceptable according to a dictionary I checked (even though it is UK spelling).\n\nIt is, it's why I scolded the ReviewDog. :) I think we can just ignore it."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-22 07:53:45+00:00",
+                    "text": "Yes, my remark also reflects my personal grievances against those smart\naleck spelling checkings.\n\nOp ma 21 dec. 2020 om 17:25 schreef Milan Curcic <notifications@github.com>:\n\u2026\n Just one remark: \"initialise\" is quite acceptable according to a\n dictionary I checked (even though it is UK spelling).\n\n It is, it's why I scolded the ReviewDog. :) I think we can just ignore it.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#269 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR75RDQ5KOIE2JFSSA3SV5ZGJANCNFSM4VBNHQ2Q>\n ."
+                }
+            ]
+        },
+        {
+            "number": 268,
+            "user": "arjenmarkus",
+            "date": "2020-12-17 11:28:22+00:00",
+            "title": "Proposal for lists of strings",
+            "text": "Last tuesday, during the december call, it was mentioned that support for a list of strings might be useful. This is a straightforward proposal for such a feature in the standard library.\nFortran has supported variable-length strings since the 2003 standard, but it does not have a native type to handle collections of strings of different lengths. Such collections are quite useful though and the language allows us to define a derived type that can handle such collections.\nThis proposal considers the features that would be useful for this derived type, a list of strings. It does not prescribe the methods for implementing the type. Given the ease by which arrays are handled in Fortran, it is possible to use allocatable arrays, but perhaps a linked list may prove to be more efficient, at least in certain scenarios of use. Therefore the proposal concentrates on the usage.\nA further limitation of the proposal: there is no provision for nested strings or for storing data with the string.\nMethods for the list of strings:\n\n\nMethod insert - insert a new string after the given index.\nSpecial index values: head and end, where head means insert the new string before the first one and end means insert it after the last one. Arithmetic with end is possible: end-1 means insert before the last element and so on.\nNote: besides a string you can also insert another list or an ordinary array of strings (in the latter case all inserted strings will be of the same length as the array)\nConvenience method:\nappend - same as insert with index = end\nIndices beyond the bounds of the list:\nShould they cause an error? Or should they be interpreted as insert at the start or at the end as if head or end were given? Or should the list simply grow to that length? This potentially causes holes.\n\n\nMethod delete - delete a single string or a range of strings from the list.\nhead and end have similar meanings as with insert.\n\n\nMethod replace - replace a string with a new value at the indicated location.\nNote: should we support replacement with multiple strings? My initial take at this is: no, if you want to do that, it can be done with a combination of insert and delete. The replace method is a convenient way to deal with individual strings.\n\n\nMethod: get - get one element from the list and return it as a string\n\n\nMethod: range - get all strings in a given range and return them as a new list.\n\n\nMethod: index - find the index of the first occurrence of a string in the list. Returns 0 (zero) if there is no such string. May also look for the last.\n\n\nMethod: index_sub - similar to index but rather than the entire string, a matching substring is sought for.\n\n\nMethod: destroy - destroy the list\n\n\nAssignment: you can use lists in the context:\n\n\n  list1 = list2\nwhere list1 gets a copy of the entire list of strings.\nSome methods will be subroutines, others will be functions. Special attention should be paid to error conditions. A guiding principle: no surprises. The philosophy might be: the list is - conceptually - infinitely long and if an element has not been set, then it is an empty string (a string of length 0).",
+            "comments": [
+                {
+                    "user": "Romendakil",
+                    "date": "2020-12-17 11:32:55+00:00",
+                    "text": "This looks very similar to the implementation of iso_varying_string by Rich Townsend."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-17 12:14:34+00:00",
+                    "text": "Really? I should have a look at that then. I thought that was about\nsupporting strings of variable length, whereas I was thinking of managing a\nlist of strings of varying lengths. But if you are right, then this becomes\nsuperfluous :).\n\nOp do 17 dec. 2020 om 12:33 schreef J\u00fcrgen Reuter <notifications@github.com\n\u2026\n:\n This looks very similar to the implementation of iso_varying_string by\n Rich Townsend.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#268 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6FPO77SPZ5ZEX4XIDSVHT7NANCNFSM4U7P3HOA>\n ."
+                },
+                {
+                    "user": "Romendakil",
+                    "date": "2020-12-17 12:16:31+00:00",
+                    "text": "Really? I should have a look at that then. I thought that was about supporting strings of variable length, whereas I was thinking of managing a list of strings of varying lengths. But if you are right, then this becomes superfluous :). Op do 17 dec. 2020 om 12:33 schreef J\u00fcrgen Reuter <notifications@github.com\n\nNo, sorry, I was too hasty. You are right. I supports strings of variable length as a container of allocatable character arrays. But it doesn't implement arrays of strings of varying length."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-17 12:20:21+00:00",
+                    "text": "No problem - that happens to all of us :).\n\nBTW, I realised that it might be good to include a \"split\" method as well:\nsplit a string into substrings based on separator characters, but I should\nhave a lok at the discussion on split(). I have been postponing that ...\n\nOp do 17 dec. 2020 om 13:16 schreef J\u00fcrgen Reuter <notifications@github.com\n\u2026\n:\n Really? I should have a look at that then. I thought that was about\n supporting strings of variable length, whereas I was thinking of managing a\n list of strings of varying lengths. But if you are right, then this becomes\n superfluous :). Op do 17 dec. 2020 om 12:33 schreef J\u00fcrgen Reuter <\n ***@***.***\n\n No, sorry, I was too hasty. You are right. I supports strings of variable\n length as a container of allocatable character arrays. But it doesn't\n implement arrays of strings of varying length.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#268 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZ23HJAWOHVFY4GKVDSVHZDDANCNFSM4U7P3HOA>\n ."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-12-17 13:57:37+00:00",
+                    "text": "I think that this addition would really be amazing.\nComments\n\nthere is no provision ... for storing data with the string.\n\nCan you bit more specific? What do you mean by that?\n\nIndices beyond the bounds of the list:\nShould they cause an error? Or should they be interpreted as insert at the start or at the end as if head or end were given? Or should the list simply grow to that length? This potentially causes holes.\n\nIMHO if append is provided, out of bounds indices should cause an error.\n\nNote: should we support replacement with multiple strings? My initial take at this is: no\n\nI don't understand why not. I think that it would be quite convenient and I do not see the potential pitfall lurking.\nAdditional methods\nI would find very useful to run on lists of strings the following methods.\n\nto_number: convert numerical values and return arrays of reals and/or (when applicable) integers and (optionally) their location in the list. I understand it might have a complicated API but it would be a killer feature for me.\nunique: return a list of unique strings (with optional case insensitivity, I would vote for the default to be case sensitive).\nupper, lower, capitalise. camelcase, ... (see StringiFor for more): those can be implemented in the first instance to individual strings and then applied to the entire list. Hopefully their names are self-explanatory.\n\nAdditional operators\n\n// would concatenate lists of strings\ncompare lists with ==\n\nInput/output\nI admit that I have no exact idea here, but I would like to make the access to the lists as simple as possible for input and output. So I'll throw in the topic for potential discussion.\nI hope that I am not repeating something that has been already proposed or discussed during the monthly call (apologies in that case): unfortunately, I didn't have still the chance to catch-up with the recording.\nAm I putting too much stuff in the plate? \ud83d\ude04"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-18 08:38:33+00:00",
+                    "text": "What I meant by \"not storing data with the string\" is: the module I propose only stores strings, it does not function as a dictionary to associate arbitrary data with a string. Such functionality would be welcome too, but it would complicate matters a bit. I first want this one sorted out.\nI will have a look at your suggestions. A first comment: I do not know if Fortran allows overloading of // - I have never seen it myself. The specification as I posted it is far from complete, I definitely acknowledge that :).\nI did sit down yesterday to get started with a proof-of-concept implementation - currently two methods: insert and get. They work nicely."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-18 09:51:16+00:00",
+                    "text": "I will have a look at your suggestions. A first comment: I do not know if Fortran allows overloading of // - I have never seen it myself.\n\nIt does in fact! You can run this small example to check it:\nmodule test\n  implicit none\n  interface operator(//)\n      module procedure sum_ints\n  end interface\ncontains\n  pure function sum_ints(a,b) result(c)\n    integer, intent(in) :: a, b\n    integer :: c\n    c = a + b\n  end function\nend module\n\nprogram use_test\n  use test\n  print *, \" 2 + 3 = \", 2//3\nend program\n\nI can't find it right now, but there is a Fortran library for dictionaries somewhere on GitHub, that uses overloading of // for building key//value for pairs. In the issue #69 (string handling routines), I believe there were even some suggestions to use this to directly concatenate strings and numerical values (e.g. '2 + 3 ='//5).\nIn general I like the proposed the API, the idea of an infinitely long lists also sounds like it might fit to Fortran well. One question concerning this is would the list have a size method?\nI also see some overlap with the split discussion in #241. Particularly the comment from @esterjo:\n\nHow about this:\nThere should be a string_array type. This type:\n\nWould hold all the \"string\" elements of the array by storing them side by side in one contiguous character string, called \"data\".\nIt would also store an index array (possibly empty) whose nth element marks the end of the nth string in the \"data\".\nA string type would be an instance of this where this index array is empty\nMaking use of this index array would allow for a function to return the nth string in the \"data\"\n\nInheriting form this string_array would be a split_string type:\n\nIt would be no different, but it's index array would simply be the locations of delimiters in the contiguous character string\nBy making use of this index array this child-type would have a function to return the nth token (perhaps overloading the one used by the parent type), which would just be the nth string in the \"data\" without the first character\nPerhaps it holds an array of delimiters\n\nSome things I like about this kind of implementation:\n\nit reduces memory fragmentation because you do not allocate multiple chunks of heap for each string in the array, while also avoiding padding short strings like a simple character array of fixed size elements.\nsplitting a string type does not reallocate it's character vector, but simply modifies the index array\nextra capacity can be added to the end of the \"data\" array to allow for fast addition of small string_arrays to the end.\nif the index array has 2 columns, then the string elements can be accessed as if they are laid out in a matrix"
+                },
+                {
+                    "user": "Romendakil",
+                    "date": "2020-12-18 09:55:55+00:00",
+                    "text": "What I meant by \"not storing data with the string\" is: the module I propose only stores strings, it does not function as a dictionary to associate arbitrary data with a string. Such functionality would be welcome too, but it would complicate matters a bit. I first want this one sorted out.\nI will have a look at your suggestions. A first comment: I do not know if Fortran allows overloading of // - I have never seen it myself. The specification as I posted it is far from complete, I definitely acknowledge that :).\nI did sit down yesterday to get started with a proof-of-concept implementation - currently two methods: insert and get. They work nicely.\n\nYes, also the iso_varying_string module by Rich Townsend uses overloading of the (//) operator:\n  interface operator(//)\n     module procedure op_concat_VS_VS\n     module procedure op_concat_CH_VS\n     module procedure op_concat_VS_CH\n  end interface operator(//)\n\nfor the three different cases of varying string with itself, and attaching a character to varying string from left and right."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-18 10:55:28+00:00",
+                    "text": "That is an alternative implementation I had not thought about. The nice\nthing about it is that the memory remains contiguous, even though if you do\nenough manipulations, of course, at some point you will have memory\nfragmentation. Well, worth checking out :).\n\nOp vr 18 dec. 2020 om 10:51 schreef Ivan Pribec <notifications@github.com>:\n\u2026\n I will have a look at your suggestions. A first comment: I do not know if\n Fortran allows overloading of // - I have never seen it myself.\n\n It does in fact! You can run this small example to check it:\n\n module test\n   implicit none\n   interface operator(//)\n       module procedure sum_ints\n   end interface\n contains\n   pure function sum_ints(a,b) result(c)\n     integer, intent(in) :: a, b\n     integer :: c\n     c = a + b\n   end function\n end module\n\n program use_test\n   use test\n   print *, \" 2 + 3 = \", 2//3\n end program\n\n I can't find it right now, but there is a Fortran library for dictionaries\n somewhere on GitHub, that uses overloading of // for building key//value\n for pairs. In the issue #69\n <#69> (string handling\n routines), I believe there were even some suggestions to use this to\n directly concatenate strings and numerical values (e.g. '2 + 3 ='//5).\n\n In general I like the proposed the API, the idea of an infinitely long\n lists also sounds like it might fit to Fortran well. One question\n concerning this is would the list have a size method?\n\n I also see some overlap with the split discussion in #241\n <#241>. Particularly the\n comment from @esterjo <https://github.com/esterjo>:\n\n How about this:\n\n There should be a string_array type. This type:\n\n    - Would hold all the \"string\" elements of the array by storing them\n    side by side in one contiguous character string, called \"data\".\n    - It would also store an index array (possibly empty) whose nth\n    element marks the end of the nth string in the \"data\".\n    - A string type would be an instance of this where this index array is\n    empty\n    - Making use of this index array would allow for a function to return\n    the nth string in the \"data\"\n\n Inheriting form this string_array would be a split_string type:\n\n    - It would be no different, but it's index array would simply be the\n    locations of delimiters in the contiguous character string\n    - By making use of this index array this child-type would have a\n    function to return the nth token (perhaps overloading the one used by the\n    parent type), which would just be the nth string in the \"data\" without the\n    first character\n    - Perhaps it holds an array of delimiters\n\n Some things I like about this kind of implementation:\n\n    - it reduces memory fragmentation because you do not allocate multiple\n    chunks of heap for each string in the array, while also avoiding padding\n    short strings like a simple character array of fixed size elements.\n    - splitting a string type does not reallocate it's character vector,\n    but simply modifies the index array\n    - extra capacity can be added to the end of the \"data\" array to allow\n    for fast addition of small string_arrays to the end.\n    - if the index array has 2 columns, then the string elements can be\n    accessed as if they are laid out in a matrix\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#268 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4E2FKQZWJJIQ2IZZTSVMQ2VANCNFSM4U7P3HOA>\n ."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-12-18 11:07:56+00:00",
+                    "text": "A first comment: I do not know if Fortran allows overloading of // - I have never seen it myself.\n\nIt can be overloaded like any other operator (e.g. ==).\n\nI did sit down yesterday to get started with a proof-of-concept implementation - currently two methods: insert and get. They work nicely.\n\nBrilliant! Why don't you share this with a (draft?) pull request so it can be discussed and reviewed by our knowledgeable community?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-18 11:11:13+00:00",
+                    "text": "Well, I discovered a small issue after I added another test and solved that\nthis morning. I will put it in a pull request later today.\n\nOp vr 18 dec. 2020 om 12:08 schreef Emanuele Pagone <\nnotifications@github.com>:\n\u2026\n A first comment: I do not know if Fortran allows overloading of // - I\n have never seen it myself.\n\n It can be overloaded like any other operator (e.g. ==).\n\n I did sit down yesterday to get started with a proof-of-concept\n implementation - currently two methods: insert and get. They work nicely.\n\n Brilliant! Why don't you share this with a (draft?) pull request so it can\n be discussed and reviewed by our knowledgeable community?\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#268 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR72VJP7X7N3B5W2UHDSVMZZXANCNFSM4U7P3HOA>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-18 16:47:11+00:00",
+                    "text": "Just created a pull request for this.\n\nOp vr 18 dec. 2020 om 12:10 schreef Arjen Markus <arjen.markus895@gmail.com\n\u2026\n:\n Well, I discovered a small issue after I added another test and solved\n that this morning. I will put it in a pull request later today.\n\n Op vr 18 dec. 2020 om 12:08 schreef Emanuele Pagone <\n ***@***.***>:\n\n> A first comment: I do not know if Fortran allows overloading of // - I\n> have never seen it myself.\n>\n> It can be overloaded like any other operator (e.g. ==).\n>\n> I did sit down yesterday to get started with a proof-of-concept\n> implementation - currently two methods: insert and get. They work nicely.\n>\n> Brilliant! Why don't you share this with a (draft?) pull request so it\n> can be discussed and reviewed by our knowledgeable community?\n>\n> \u2014\n> You are receiving this because you authored the thread.\n> Reply to this email directly, view it on GitHub\n> <#268 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR72VJP7X7N3B5W2UHDSVMZZXANCNFSM4U7P3HOA>\n> .\n>"
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-18 17:32:01+00:00",
+                    "text": "Referring to my comment that @ivan-pi  mentioned from #241\nI should have also added that sorting may mean sorting the index array, and setting a \"sorted\" flag to true. No need to reallocate and reorder the data elements. However, it's probably best to just actually reallocate and sort the data, so that scanning through it in sorted order will not cause you do jump around memory randomly.\nBut yes @arjenmarkus, insertion and modification of elements would be inefficient and would require reallocating at least part of the data for each insertion. Anecdotally, in my day to day programming I typically use arrays of strings in R (usually for data science and statistical modeling). I rarely modify the elements of a character vector or insert elements after I have generated the array. Instead, querying, appending, sorting, getting unique values, and splitting are by far the most common operations. Given that, I will say that I'm a big fan of having two or more implementations optimized for different uses."
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-18 18:00:35+00:00",
+                    "text": "So there may be a \"sort_view\" method subroutine to only sort the index array, and a \"sort_inplace\" subroutine to actually sort the character data"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-20 13:52:34+00:00",
+                    "text": "This inspired me to implement a new method: sort that returns a sorted\nlist. The implementation uses an index array that is the item that is\npassed to the sorting algorithm. This way, the number of allocations is\nkept low. (The sorting algorithm may not be the most efficient possible,\nbut I like it for its conciseness and functional programming style)\n\nOp vr 18 dec. 2020 om 19:00 schreef esterjo <notifications@github.com>:\n\u2026\n So there may be a \"sort_view\" method to sort the index array, and a\n \"sort_inplace\" to actually sort the character data\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#268 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR26CHF56BCSB5BRM3TSVOKFFANCNFSM4U7P3HOA>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-31 09:04:47+00:00",
+                    "text": "I just committed preliminary documentation and a more complete implementation. There are quite a few things that ought to be added (and possibly improved) but it is getting into shape, IMHO."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-12-31 12:58:14+00:00",
+                    "text": "Thanks @arjenmarkus! I hope I'll be able to test it a little bit at some point.\nConcerning the sorting routines, should not these be a more generic part of stdlib and then applied to this case as only one of the possible applications? What do you think @jvdp1 @certik @milancurcic?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-31 15:49:45+00:00",
+                    "text": "Thank you @arjenmarkus for the implementation. I will try to have a look at it next week.\n\nConcerning the sorting routines, should not these be a more generic part of stdlib and then applied to this case as only one of the possible applications? What do you think @jvdp1 @certik @milancurcic?\n\n@epagone I think that sorting algoritghms are definetely in the scope of stdlib, and are needed at several places (e.g., for sparse matrices, computation of median,...). Therefore sorting procedures should have their own module. See some discussions around sorting algorithms and implementations in #98."
+                }
+            ]
+        },
+        {
+            "number": 267,
+            "user": "certik",
+            "date": "2020-12-10 20:12:09+00:00",
+            "title": "Use distinct file names",
+            "text": "This seems to avoid a filename race conditions on macOS.\nFixes #264.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 20:18:26+00:00",
+                    "text": "The actual problem seems to be that the ctest tests are executed in parallel, and the tests in test_stdlib_bitset_64 and in test_stdlib_bitset_large where both reading/writing to test.txt. That is definitely a bug, that was fixed.\nHowever, even after renaming the test file in test_stdlib_bitset_large, the test test_stdlib_bitset_64 failed, even though I didn't find another test that would be writing to test.txt. I don't have an explanation for this. But I renamed the test.txt in test_stdlib_bitset_64 also and that seemed to fix the problem."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 20:20:49+00:00",
+                    "text": "I am going to merge this, as this seems to fix it. We will watch the master and see."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-10 20:22:53+00:00",
+                    "text": "Thank you. Hopefully it is fixed indeed!"
+                }
+            ]
+        },
+        {
+            "number": 266,
+            "user": "certik",
+            "date": "2020-12-10 20:06:48+00:00",
+            "title": "Implement sleep",
+            "text": "https://gcc.gnu.org/onlinedocs/gfortran/SLEEP.html\nI had a real need here:\n540e2f7\nFor debugging purposes.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-11 18:10:59+00:00",
+                    "text": "There is already a sleep in stdlib here .\nIs it not what you want?"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-12-11 23:11:42+00:00",
+                    "text": "It looked like an implementation that was doing a sleep with a loop, if there is a sleep() already in stdlib that is great.\n\u2026\n     On 12/11/2020 1:11 PM Jeremie Vandenplas ***@***.***> wrote:\n\n\n\n\n\n     There is already a sleep in stdlib here https://github.com/fortran-lang/stdlib/blob/7b246420d8a3fdad70f65f6de25f2f218ad33df5/src/stdlib_system.F90#L5 .\n\n     Is it not what you want?\n\n     \u2014\n     You are receiving this because you are subscribed to this thread.\n     Reply to this email directly, view it on GitHub #266 (comment) , or unsubscribe https://github.com/notifications/unsubscribe-auth/AHDWN3IKDNL2AOWAK2CE6FDSUJOEJANCNFSM4UVRDPWQ ."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-17 19:41:29+00:00",
+                    "text": "I will close this issue. @certik Please reopen it if you feel it is needed."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-17 20:05:02+00:00",
+                    "text": "Awesome, I missed it! I am sorry. I am glad it is already there."
+                }
+            ]
+        },
+        {
+            "number": 265,
+            "user": "certik",
+            "date": "2020-12-10 19:46:19+00:00",
+            "title": "Failure debug",
+            "text": "",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 20:21:49+00:00",
+                    "text": "Closing in favor on #267."
+                }
+            ]
+        },
+        {
+            "number": 264,
+            "user": "certik",
+            "date": "2020-12-10 18:22:58+00:00",
+            "title": "Failure on macOS in master",
+            "text": "There is an error in master on macOS 9:\nhttps://github.com/fortran-lang/stdlib/runs/1532433788?check_suite_focus=true\nI first noticed it in #263, but it couldn't have been caused by that PR. The first time it appeared seems to be after merging #260, but probably also unrelated.\nWe need to fix it.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-10 18:58:05+00:00",
+                    "text": "It is related to the PR #239 .But the issue appears much later. I (and I believe @wclodius2  too) already try to fix it. I never could reproduce it on my computer (Fedora) with both gfortran and ifort 19.\nRe-running the actions usually usually result in all passed actions. It seems to be quite random, and is only in the in-tree built apparently."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 19:06:29+00:00",
+                    "text": "It needs to be debugged. I think it fails somewhere around here:\n\n  \n    \n      stdlib/src/tests/bitsets/test_stdlib_bitset_large.f90\n    \n    \n         Line 265\n      in\n      4bf52a4\n    \n    \n    \n    \n\n        \n          \n           call set3 % read_bitset(unit)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 19:08:28+00:00",
+                    "text": "It actually fails for me on my laptop. Bisecting the error."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-10 19:09:08+00:00",
+                    "text": "Note that for the PR #261 (unrelated to bitsets), all tests passed.\n\nIt actually fails for me on my laptop. Bisecting the error.\n\nGood! Hopefully you can fix it."
+                },
+                {
+                    "user": "Romendakil",
+                    "date": "2020-12-10 19:09:58+00:00",
+                    "text": "Things that come to my mind are race conditions around the test.txt file, or a problem somewhere maybe with the case-insensitiveness of the default macOS file system."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 19:13:32+00:00",
+                    "text": "Here is the backtrace:\n Test bitset I/O: input, read_bitset, output, and write_bitset\nSTDLIB_BITSETS % READ_BITSET: Invalid character in bitset literal in UNIT\nERROR STOP A character string had an invalid character.\n\nError termination. Backtrace:\n#0  0x7f31ac1032ed in ???\n#1  0x7f31ac103ed5 in ???\n#2  0x7f31ac104f86 in ???\n#3  0x561872a8c764 in __stdlib_bitsets_MOD_error_handler\n\tat /home/ondrej/repos/stdlib/src/stdlib_bitsets.f90:2161\n#4  0x561872a93818 in __stdlib_bitsets_MOD_read_bitset_unit_large\n\tat /home/ondrej/repos/stdlib/src/stdlib_bitsets_large.f90:1178\n#5  0x561872a897b4 in test_io\n\tat /home/ondrej/repos/stdlib/src/tests/bitsets/test_stdlib_bitset_large.f90:37\n#6  0x561872a8b5ab in test_stdlib_bitset_large\n\tat /home/ondrej/repos/stdlib/src/tests/bitsets/test_stdlib_bitset_large.f90:14\n#7  0x561872a8b5ed in main\n\tat /home/ondrej/repos/stdlib/src/tests/bitsets/test_stdlib_bitset_large.f90:2\n\nI use gfortran and Ubuntu 18.04."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-10 19:44:32+00:00",
+                    "text": "I use gfortran and Ubuntu 18.04.\n\nStrange. I just tried again on my computer (Fedore 31) with gfortran, and I couldn't reproduce it. Good luck! The backtrace doesn't seem to be useful."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 19:45:41+00:00",
+                    "text": "I made a mistake. I removed the     call test_string_operations() in attempts to simplify it, which actually causes an error, but a different error (the sets were not initialized)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 19:46:50+00:00",
+                    "text": "I am debugging it at #265."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 20:24:10+00:00",
+                    "text": "Fixed by #267. The master (7b24642) now passes. But let's keep watching it in case the problem is still there."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-12-10 22:54:06+00:00",
+                    "text": "Now that Ondrej has apparently fixed it it doesn\u2019t matter, but I use a MacBook Pro with gfortran 8.1.0 and 10.2.0 and ifort 18.0.3 installed and was never able to reproduce the error with any of the three compilers. From the naming I suspect the Mac that was failing was running gfortran 9.something.\n\u2026\n On Dec 10, 2020, at 11:58 AM, Jeremie Vandenplas ***@***.***> wrote:\n\n\n It is related to the PR #239 <#239> .But the issue appears much later. I (and I believe @wclodius2 <https://github.com/wclodius2> too) already try to fix it. I never could reproduce it on my computer (Fedora) with both gfortran and ifort 19.\n Re-running the actions usually usually result in all passed actions. It seems to be quite random, and is only in the in-tree built apparently.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#264 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOWT3REFZSAXXAKIXYLSUEK47ANCNFSM4UVNFIMQ>."
+                }
+            ]
+        },
+        {
+            "number": 263,
+            "user": "rscohn2",
+            "date": "2020-12-10 16:02:36+00:00",
+            "title": "oneapi package name change",
+            "text": "rscohn2@rscohn1-MOBL:Debug$ sudo apt-get install intel-oneapi-ifort\n[sudo] password for rscohn2:\nReading package lists... Done\nBuilding dependency tree\nReading state information... Done\nNote, selecting 'intel-oneapi-compiler-fortran' instead of 'intel-oneapi-ifort'\nintel-oneapi-compiler-fortran is already the newest version (2021.1.1-189).\nintel-oneapi-compiler-fortran set to manually installed.\n0 upgraded, 0 newly installed, 0 to remove and 18 not upgraded.\nrscohn2@rscohn1-MOBL:Debug$",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 17:58:14+00:00",
+                    "text": "Looks like they changed the name of the package. The error seems unrelated to this PR."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-10 18:23:18+00:00",
+                    "text": "I created an issue for the failure: #264."
+                }
+            ]
+        },
+        {
+            "number": 262,
+            "user": "wclodius2",
+            "date": "2020-12-10 04:23:22+00:00",
+            "title": "Three potential additions to stdlib",
+            "text": "I now find myself with some free time that I would like to put in to extending the STDLIB. I have some preliminary work on three topics that might be useful to users of STDLIB: error codes, hash tables/unordered maps, and the unicode database. I would appreciate some guidance as to which topic people would find  most useful and whether the interest in any topic is high enough to justify inclusion in STDLIB.\nFor error codes the idea is to standardize how the stdlib identifies and distinguises error conditions. I have a list of 100+ error code names, each with unique integer values. The names currently follow a pattern language in which a suffix is used to indicate the general source of the error: _failure, in which the outside world is not as expected, _error, in which the programmer likely made a mistake, and _fault, in which the processor is likely at fault. This pattern language makes the names a little unwieldy so I am considering dropping it. I have also defined a subroutine that takes an error code as an argument and stops processing with an error stop with an error code dependent string as the stop code. The resulting codes could be made part of stdlib_error.f90 and the subroutine part of an overloaded error_stop. FWIW this approach was inspired by a [posting by Richard A. O'Keefe in the Erlang mail list] (http://erlang.org/pipermail/erlang-questions/2015-March/083608.html).\nThe hash tables/unordered maps are composed of two or three modules: a module of hash functions, a module of hash tables using key/value pairs to implement an unordered map, and perhaps a module of hash tables using keys to implement an unordered set. The hash functions would have to be non-cryptographic to be legal in the US. Ideally there should be several different functions so the function can be changed in the event of excessive collisions. My idea is to use 64 bit hashes as reasonable for large data sets, though I can be persuaded to use 32 bit hashes. I have tentatively identified the Fowler-Noll-Voh (FNV) hash, the Murmur hash, and the Spooky hash as 64 bit public domain hash functions of interest. If anyone believes that any of these hashes are cryptographic let me know, or if you know of \"better\" hash functions. The hashes will be a transliteration to signed arithmetic assuming two's complement arithmetic and overflow detection can be turned off. The hash table will store the key and the value as (transferred) eight bit integer arrays. The tables can come in two implementations: chaining and open tables. They will use power of two table sizes, which assumes that the hash functions do an excellent job of randomizing bits.\nThe Unicode consortium maintains a database of character properties for the UCS character set. This database is the basis of the Python module unicodedata. This database is necessary for assigning code points to categories (e.g., number, letter, and punctuation), converting strings to one of the four normalization forms, and case folding. I consider this data necessary for the implementation of a UCS based varying string module. The initial implementation would be a module with procedures that use 32 bit integer scalars and arrays to represent UCS code points and strings. Several of the Unicode categories (\"Bidi\", \"General Category\", \"Decomposition\", and \"Numerical\") would be represented by enumerations in category specific types whose only components are eight bit integers. The text files in the UCD and Unihan directories that make up the database take up about 70.5 MBytes, so supporting this database requires a very significant download. The rank one arrays implementing this database take up a comparable amount of runtime storage.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2020-12-10 13:43:25+00:00",
+                    "text": "I personally would vote for hash tables."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-10 19:06:20+00:00",
+                    "text": "Needing often hash tables in my work, I am in favor of hash tables ;) I often use a lookup3-based function.\nNote that standardizing the error codes in stdlib would be useful too."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-12-12 23:33:09+00:00",
+                    "text": "@jvdp1 I  have experimented with lookup3 and could include it. Which version do you use, the single 32 bit integer result or the dual 32 bit integer result?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-13 17:58:47+00:00",
+                    "text": "@jvdp1 I have experimented with lookup3 and could include it. Which version do you use, the single 32 bit integer result or the dual 32 bit integer result?\n\nI use a simplified version of the single 32 bit integer function. Is it relevant to implement lookup3 if Spooky hash is available? Starting with the 3 hash functions you proposed would be already nice IMO."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-12-14 01:50:29+00:00",
+                    "text": "I guess the question is whether it would be useful to have a 32 bit specific hash in addition to the 64 bit hashes? A 32 bit hash:\n\nIs probably sufficient for the vast majority of hash table usages, i.e. tables with significantly less than one million entries;\nWill reduce memory traffic in hash comparisons and computations;\nWill slightly reduce memory requirements, though the requirements will likely be dominated by the keys and associated data."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-14 20:40:35+00:00",
+                    "text": "I think it could be good to start with 64 bit hashes. 32 bit hash functions may be implemented later if there is interest, or if it is straighforward ti implement.."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-12-15 00:04:43+00:00",
+                    "text": "Generally a thirty two bit hash is simpler than a sixty four bit one. FWIW I want to include a salt (an arbitrary integer of the appropriate kind that changes the mapping of the hash to potentially reduce hash bucket collisions) in the hash function algorithms. I can see two ways of doing it:\n\nAssociate with each algorithm a derived type with different implementations (int8 arrays, int16 arrays, character strings, etc) as type bound procedures and the salt as its sole component; or\nHave the different implementations be stand alone procedures, with the salt as one argument and a component of the hash table, with the table initialization and remapping setting the salt and mapping of entries using the salt.\n\nMy initial implementation used the first, but now I am inclined to the second. Any preferences?"
+                }
+            ]
+        },
+        {
+            "number": 261,
+            "user": "jvdp1",
+            "date": "2020-12-09 09:27:50+00:00",
+            "title": "Proposition to add levels to stdlib_logger",
+            "text": "As discussed in #254, I propose to add a level option.\nThis allows to ignore logging messages: logging messages with a level less severe than the threshold will be ignored.\nThe threshold values for the different levels must still be discussed (e.g., especially for text_error_level).\nWIP:\n\n Update the specs.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-12 18:37:32+00:00",
+                    "text": "I think it is ok for review. @wclodius2 could you have another look,  please? Comments from other reviewers would be nice too ;)"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-13 18:11:23+00:00",
+                    "text": "While I would have error_level and io_error_level have the same severity as they both indicate problems with the application, I would have text_error_level have a different severity as it typically indicates a problem with the contents of an input file. I would have text_error_level have the higher severity. The rest of the edits I think look good.\n\nThanks @wclodius2 for your comment. I increased the severity level of text_error_level."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-18 11:38:03+00:00",
+                    "text": "I have reviewed the changes introduced by levels. While I am not familiar with the full logger implementation, the changes are clear and I could not spot any errors. The test also appears to cover all of the changes.\nCurrently the levels are organized into a hierarchy. The other possibility would be to think of levels as switches. Assuming the processor uses a binary representation of integers, the levels can be set as:\nnone_level = 0\ntext_error_level = shiftl(1,0) \nio_error_level = shiftl(1,1) ! or the error levels can have the same switch\nerror_level = shiftl(1,2)\nwarning_level = shiftl(1,3)\ninformation_level = shiftl(1,4)\ndebug_level = shiftl(1,5)\nall_level = text_error_level + io_error_level + error_level + warning_level + &\n                 information_level + debug_level\nThe decimal values of the levels in the sequence are (0, 1, 2, 4, 8, 16, ...).\nThe benefit of this representation is that you can selectively turn on only certain combinations by addition of the switches (or subtracting from all_levels). On the other hand this might only be intuitive to users with sufficient knowledge of the underlying binary representation.\nI am not saying we need to do it this way, but thought it might be worth discussing what are the pros and cons. The decision we make here will serve as a pattern for similar usage cases appearing in other modules\n\nThank you for your review. Your approach is interesting.\nI mainly follow the approach used in Julia and Python loggers.\nOne of my ideas was to potentially add an option through which the user could customize the different levels. Your approach could then be quite easy because the user could simply specify the rank of the level, instead of an abstract value."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-20 18:40:12+00:00",
+                    "text": "I have reviewed the changes introduced by levels. While I am not familiar with the full logger implementation, the changes are clear and I could not spot any errors. The test also appears to cover all of the changes.\nCurrently the levels are organized into a hierarchy. The other possibility would be to think of levels as switches. Assuming the processor uses a binary representation of integers, the levels can be set as:\nnone_level = 0\ntext_error_level = shiftl(1,0) \nio_error_level = shiftl(1,1) ! or the error levels can have the same switch\nerror_level = shiftl(1,2)\nwarning_level = shiftl(1,3)\ninformation_level = shiftl(1,4)\ndebug_level = shiftl(1,5)\nall_level = text_error_level + io_error_level + error_level + warning_level + &\n                 information_level + debug_level\nThe decimal values of the levels in the sequence are (0, 1, 2, 4, 8, 16, ...).\nThe benefit of this representation is that you can selectively turn on only certain combinations by addition of the switches (or subtracting from all_levels). On the other hand this might only be intuitive to users with sufficient knowledge of the underlying binary representation.\nI am not saying we need to do it this way, but thought it might be worth discussing what are the pros and cons. The decision we make here will serve as a pattern for similar usage cases appearing in other modules\n\nThank you for your review. Your approach is interesting.\nI mainly follow the approach used in Julia and Python loggers.\nOne of my ideas was to potentially add an option through which the user could customize the different levels. Your approach could then be quite easy because the user could simply specify the rank of the level, instead of an abstract value.\n\n@certik @milancurcic @wclodius2 What do you think about @ivan-pi 's proposition?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-28 18:29:27+00:00",
+                    "text": "Thank you for this addition and sorry for the late review. I think levels will be very useful for larger applications and frameworks that use the logger under the hood but allow the user to control the verbosity.\nI think @ivan-pi's idea is good as it would allow finer control into which logs exactly to allow and which to suppress. I think the \"levels\" approach is useful and should go forward as is. Then we should consider to also have a \"switches\" approach for finer control as a separate PR (but best to first discuss it in the issues)."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-28 19:23:08+00:00",
+                    "text": "I think @ivan-pi's idea is good as it would allow finer control into which logs exactly to allow and which to suppress. I think the \"levels\" approach is useful and should go forward as is. Then we should consider to also have a \"switches\" approach for finer control as a separate PR (but best to first discuss it in the issues).\n\nThank you @milancurcic for your comments. I'll merge this PR as is later today, and open an issue to discuss the 'switches\" approach for finer control."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-29 07:34:41+00:00",
+                    "text": "I'll merge this PR. Thank you all for your comments.\nI'll open an issues about @ivan-pi 's switches approach for finer control later."
+                }
+            ]
+        },
+        {
+            "number": 260,
+            "user": "awvwgk",
+            "date": "2020-12-08 22:03:12+00:00",
+            "title": "Add CI testing with Intel Fortran compiler",
+            "text": "Read more on Intel oneAPI: https://fortran-lang.discourse.group/t/intel-releases-oneapi-toolkit-free-fortran-2018/471\nThis finally implements support for Intel oneAPI compilers to test stdlib.\nRequires #257\nFixes #249",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-12-08 22:07:00+00:00",
+                    "text": "This is amazing, thank you!!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-08 22:10:33+00:00",
+                    "text": "It took only 1.5 min to install, and it overall finishes quickly. Very usable!"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-08 22:15:37+00:00",
+                    "text": "If you only require ifort it is an okay but still largish amount of package downloads. Note, if you also require MKL you won't get around caching the whole 10GB installation in /opt/intel."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-08 22:19:08+00:00",
+                    "text": "The CI says Need to get 393 MB of archives., so it is only 393 MB?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-08 22:22:49+00:00",
+                    "text": "Only ifort, icc and Intel MPI, if you add any of the Intel libraries to the mix, the download size quickly explodes (try installing intel-oneapi-basekit instead). And compression works quite nicely for multiple instructions paths in a fat binary from my experience for binaries compiled with Intel, same applies probably also to the apt packages."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-08 22:28:10+00:00",
+                    "text": "I tried to install it on my laptop running Ubuntu 18.04 using the exact commands in this PR. Everything installs fine. I load the variables. But then trying to compile any program gives:\n$ ifort a.f90 \nifort: error #10105: ld: core dumped\nifort: warning #10102: unknown signal(-1408259920)\nifort: error #10106: Fatal error in ld, terminated by unknown"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-08 22:34:31+00:00",
+                    "text": "That is a known issue, they broke binutils with the update from beta10 to the release version and supplied patches only for Ubuntu 20.04 and later. So you either have to downgrade manually to the beta10 version, which is broken for stdlib or upgrade your Ubuntu to 20.04 (sounds like fun).\nI can't find it in the release notes anymore but I definitely remember a list of supported OS somewhere for the binutils issue."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-09 00:13:38+00:00",
+                    "text": "I am going to go ahead and merge this. We can then further improve in master."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-09 00:14:56+00:00",
+                    "text": "@junghans, here is how we got Intel Fortran working, and it seems to work really nicely (small download, quick run)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-09 15:13:45+00:00",
+                    "text": "Quick follow-up, here are the release notes stating the binutils issue: https://software.intel.com/content/www/us/en/develop/articles/intel-oneapi-fortran-compiler-release-notes.html"
+                }
+            ]
+        },
+        {
+            "number": 259,
+            "user": "ivan-pi",
+            "date": "2020-12-06 18:48:21+00:00",
+            "title": "Input() function",
+            "text": "Is there any interest to have a Python-like input() function?\nEffectively, this would be a convenience function for the following pattern:\n    write(output_unit,'(A)',advance='no') 'Enter a value: '\n    read(input_unit,'(A)') buffer\n    str = trim(buffer)\nthe purpose of which is to collect some user input together with a friendly prompt message. The Fortran interface could be something like:\n  impure function input(prompt,stat) result(str)\n    character(len=*), intent(in), optional :: prompt\n      !! Text that is displayed as a prompt.\n    integer, intent(out), optional :: stat\n      !! Status flag used to raise an exception.\n    character(len=:), allocatable :: str\n  end function\nIn Python 2 they used to have two versions, input and raw_input. The first would try to evaluate the input argument and return it with the correct type, while raw_input would return a string. In Python 3 raw_input was removed and input returns a string. The user must then explicitly use eval or a type-conversion routine like int or float to get the desired value.\nOne issue I don't know how to deal with yet in Fortran are trailing whitespaces. The Python function preserves trailing whitespaces:\n>>> s = input('Enter a value: ')\nEnter a value:     4     \n>>> s\n'    4    '\n\nTo achieve this in Fortran it might be necessary to interface with C.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2020-12-06 19:04:25+00:00",
+                    "text": "I think this would be helpful. A small utility function, useful in small quick programs for interacting with the user.\n\u2026\nOn Sun, Dec 6, 2020, at 11:48 AM, Ivan Pribec wrote:\n\n\n Is there any interest to have a Python-like `input()`\n <https://docs.python.org/3/library/functions.html#input> function?\n\n Effectively, this would be a convenience function for the following pattern:\n\n     write(output_unit,'(A)',advance='no') 'Enter a value: '\n     read(input_unit,'(A)') buffer\n     str = trim(buffer)\n the purpose of which is to collect some user input together with a\n friendly prompt message. The Fortran interface could be something like:\n\n   impure function input(prompt,stat) result(str)\n     character(len=*), intent(in), optional :: prompt\n       !! Text that is displayed as a prompt.\n     integer, intent(out), optional :: stat\n       !! Status flag used to raise an exception.\n     character(len=:), allocatable :: str\n   end function\n In Python 2 they used to have two versions, `input` and `raw_input`.\n The first would try to evaluate the input argument and return it with\n the correct type, while `raw_input` would return a string. In Python 3\n `raw_input` was removed and `input` returns a string. The user must\n then explicitly use `eval` or a type-conversion routine like `int` or\n `float` to get the desired value.\n\n One issue I don't know how to deal with yet in Fortran are trailing\n whitespaces. The Python function preserves trailing whitespaces:\n\n `>>> s = input('Enter a value: ')\n Enter a value:     4\n >>> s\n '    4    '\n `\n To achieve this in Fortran it might be necessary to interface with C.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#259>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWCVWMVHGN7RFV5OPQLSTPGYDANCNFSM4UPQPNGQ>."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-07 13:13:01+00:00",
+                    "text": "I find this pattern used often in \"beginner\" programs, e.g.\nradius = str2real(input(\"Enter a radius: \"))\nprint *, \"Area of circle: \", radius*pi**2\nend\nBut like you suggest for quick interactive programs, before you are able to build a full-fledged CLI, it can also come handy. Having string-to-numerical type conversions routines is required to make this useful.\nI found a solution in Fortran, that appears to work correctly with trailing whitespaces and even tabs: https://stackoverflow.com/questions/50680306/how-can-i-know-the-length-of-user-input-with-trailing-whitespaces-in-fortran\nThe trick is to read the string one character at a time."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-07 14:45:08+00:00",
+                    "text": "\ud83d\udc4d I think this would be a great addition, especially for beginners as you say, and tutorials."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-07 14:57:17+00:00",
+                    "text": "I agree with others: I think input() would be a great addition!\nShould it go in stdlib_io?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-07 15:16:05+00:00",
+                    "text": "I think `stdlib_io` is a suitable place for it.\n\u2026\nOn Mon, 7 Dec 2020 at 15:57, Jeremie Vandenplas ***@***.***> wrote:\n I agree with others: I think input() would be a great addition!\n Should it go in stdlib_io?\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#259 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AFA33S7G3XB33JSXJQDJDQ3STTUN5ANCNFSM4UPQPNGQ>\n ."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-07 15:17:22+00:00",
+                    "text": "I think stdlib_io is the only suitable place for it. :)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-07 15:22:45+00:00",
+                    "text": "Let's do it!\n\u2026\nOn Mon, Dec 7, 2020, at 8:17 AM, Milan Curcic wrote:\n\n\n I think `stdlib_io` is the only suitable place for it. :)\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#259 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWGGHSKOZKJHJIOUG2TSTTWZLANCNFSM4UPQPNGQ>."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-12-07 21:11:15+00:00",
+                    "text": "I found a solution in Fortran, that appears to work correctly with trailing whitespaces and even tabs: https://stackoverflow.com/questions/50680306/how-can-i-know-the-length-of-user-input-with-trailing-whitespaces-in-fortran\nThe trick is to read the string one character at a time.\n\nIt might be worth having a look also at John Burkardt's filum.f90 (LGPL). In particular, subroutines s_to_i4, s_to_r8, s_to_r8vec, etc.. are relevant here (although others might be very useful for stdlib in general). They need modernisation but I found them to be pretty robust."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-12-08 01:20:07+00:00",
+                    "text": "I have a similar routine called rd() that has significant trailing spaces and returns a string by default, but if given an optional numeric value returns a value of that type in a module called M_io.f90 that is part of the GPF (General Purpose Fortran) files, but was extracted\ngit clone https://github.com/urbanjost/M_io\n\nthat might further the discussion.\nthe text for the manpage reads\nNAME\nrd(3f) - [M_io] ask for string from standard input with user-definable prompt\n(LICENSE:PD)\n\n  function rd(prompt,default) result(strout)\n\n   character(len=*),intent(in)              :: prompt\n\n   character(len=*),intent(in)              :: default\n         or\n   integer,intent(in)                       :: default\n         or\n   real,intent(in)                          :: default\n         or\n   doubleprecision,intent(in)               :: default\n\n   character(len=:),allocatable,intent(out) :: strout\n\nDESCRIPTION\n   Ask for string or value from standard input with user-definable prompt\n   up to 20 times.\n\n       Do not use the function in an I/O statement as not all versions of\n       Fortran support this form of recursion. Numeric values may be input in\n       standard INTEGER, REAL, and DOUBLEPRECISION formats or as whole numbers\n       in base 2 to 36 in the format BASE#VALUE.\n\nOPTIONS\n       prompt Prompt string; displayed on same line as input is read from\n\n       default\n              default answer on carriage-return. The type of the default     \n             determines the type of the output.\n\nRETURNS\n       strout returned string or value. If an end-of-file or system error is\n              encountered the string \"EOF\" is returned, or a \"Nan\" numeric\n              value.\n\nEXAMPLE\n       Sample program:\n\n          program demo_rd\n          use M_io, only : rd\n          character(len=:),allocatable :: mystring\n          doubleprecision              :: d\n          real                         :: r\n          integer                      :: i\n\n          INFINITE: do\n             mystring=rd('Enter string or \"STOP\":',default='Today')\n             if(mystring.eq.'STOP')stop\n             i=rd('Enter integer:',default=huge(0))\n             r=rd('Enter real:',default=huge(0.0))\n             d=rd('Enter double:',default=huge(0.0d0))\n\n             write(*,*)'I=', i, 'R=', r, 'D=',d,  'MYSTRING=', mystring\n          enddo INFINITE\n\n          end program demo_rd\n\nAUTHOR\n       John S. Urban, 1993\n\nLICENSE\n       Public Domain\n\n              determines the type of the output."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-12-08 01:48:49+00:00",
+                    "text": "PS:\nIf you change getline to read_line it handles tabs, and is available as a fpm package. There are a lot of related routines in\nGPF\nIf I would suggest a change it would be that it allow multiple values as well, allowing for a default seperator of space and comma for numbers and with strings you could argue, but would probably have to be an argument passed in but I still use , a lot so you can entr something like green,red by default.  Another variant I have allows for a block of help text to be displayed if you enter \"?\" as the value and never takes a blank string or the string ? which is a little less general just for an idea to discuss but it is not available on-line."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-12-11 03:26:19+00:00",
+                    "text": "I did not mean my reference to my similar routine to end discussion here. I thought it might serve as an example on how trailing spaces and returning non-string types and the idea of a default might be worth discussing. Seems like everything stopped after the post of the rd() function when I was hoping to further it.  I also like having an option to color the prompt using ANSI escape sequences but not all terminal (emulators) support that.  I think not having a retry like mine is probably better handled by returning an error; if not putting a limit on retries like mine does is recommended as you can otherwiseinadvertently cause a program to enter an infinite loop when input is not coming from interactive input."
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-11 03:49:56+00:00",
+                    "text": "@urbanjost no worries at all. Would you be interested in sending a PR with code + specs for the input() function? I think we all agree that would be helpful, now we just need to nail down the specifics."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2020-12-11 22:52:42+00:00",
+                    "text": "Thanks, but I can't at this time.  I made a small fpm package with a seed anyone pursuing this is welcome to use with no restrictions.\nIt is the subdirectory in  miscellaneous under the directory M_input.  It contains\nan input(3f) function as close to the description as I could manage with the time I have available.\ngit clone  https://github.com/urbanjost/miscellaneous\ncd miscellaneous/M_input\nfpm run \nIf you use \"fpm run --compiler NAME\" you will find it is never as simple as it seems if you enter ctrl-D at the prompt for a number or enter a huge integer string like\n11111111111111111111111111111111111111111111111111111111111111111111111\n\nyou will find ifort, nvfortran, and gfortran all handle it differently. It should handle Inf and NaN more robustly, but I have seen other parts of stdlib that should be able to handle that so I did not duplicate it here. It would be useful if a version of stdlib was available as a simple fpm(1) package.\nHope it is helpful, but I have to opt out on this one. Having had a routine like this for a long time I find I use it mostly in a quick prototype; but I use the getline(3f) routine that it uses a lot, actually."
+                }
+            ]
+        },
+        {
+            "number": 258,
+            "user": "ivan-pi",
+            "date": "2020-12-06 18:11:26+00:00",
+            "title": "Compatability module",
+            "text": "Another thing which came to mind should be part of an stdlib are: compatibility functions for compilers not fully implementing standards.\nTwo examples we encountered in CP2K or DBCSR:\n\nnewunit argument for open from F2008. If memory serves it was the Cray compiler which was rather late in implementing this one. Providing higher-level OO wrappers will probably make this a moot point, though.\nfindloc from F2008. Implemented in GCC  9.0 & Intel 2018\n\nWhile missing intrinsics could be provided in a compat module, is redefining an intrinsic probably not doable transparently without using the CPP.\n\nOriginally posted by @dev-zero in #1 (comment)\nI thought it would be good to break this into a separate issue.\nOne more example I found are the command_argument_count and get_command_argument intrinsics. Although these are widely supported now, I found the F2KCLI project contains several implementations targeting older compilers.",
+            "comments": []
+        },
+        {
+            "number": 257,
+            "user": "awvwgk",
+            "date": "2020-12-05 12:17:30+00:00",
+            "title": "Improve check for F18 error stop",
+            "text": "This PR improves the Fortran 2018 error stop check by running the example and checking for a correctly reported return code from the program.\nThe current check gives a false positive result for ifort 21.1 BETA 20200827, which compiles F18 error stop syntax but does not propagate the error code correctly. Since this is probably a bug I reported this upstream as well:\nhttps://community.intel.com/t5/Intel-Fortran-Compiler/Fortran-2018-error-stop/m-p/1234424#M153065",
+            "comments": [
+                {
+                    "user": "Romendakil",
+                    "date": "2020-12-05 12:25:37+00:00",
+                    "text": "BTW, I checked our code (https://gitlab.tp.nt.uni-siegen.de/whizard/public) with ifort 21.1 BETA 20200827, and the new compiler has several problems, apparently with deallocation and garbage collection. I'm preparing a reproducer for at least one issue for Intel, but roughly 80% of our test suite fails with the new ifort, so I doubt that this is only one problem."
+                }
+            ]
+        },
+        {
+            "number": 256,
+            "user": "jvdp1",
+            "date": "2020-12-04 19:31:41+00:00",
+            "title": "debug_logger: add log_debug to logger",
+            "text": "Following the discussion in #254, I propose to add a subroutine call log_debug with the following API:\nDescription\nWrites the string message to self % log_units with optional additional text.\nSyntax\ncall self % log_debug( message [, module, procedure ] )\nBehavior\nIf time stamps are active, a time stamp is written, followed\nby module and procedure if present, and then\nmessage is written with the prefix 'DEBUG: '.\nQUESTION: Is this API OK? Or should it be more similar to the API of log_error with stat and errmsg?",
+            "comments": [
+                {
+                    "user": "wclodius2",
+                    "date": "2020-12-04 23:18:01+00:00",
+                    "text": "I think the API is good. In particular I would not add a stat or errmsg."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-09 09:11:48+00:00",
+                    "text": "Thank you for the review. I'll merge it and submit the next PR mentioned in #254"
+                }
+            ]
+        },
+        {
             "number": 255,
             "user": "jvdp1",
             "date": "2020-11-29 18:07:28+00:00",
@@ -46,6 +989,16 @@
                     "user": "wclodius2",
                     "date": "2020-11-30 03:10:37+00:00",
                     "text": "The draft and the proposition for testing look mostly reasonable. A few comments on it:\n\nThere is one case of \"...be NOT printed.\" that should be \"...NOT be printed.\"\nThe levels have the prefix \"stdlib_\" that I consider wordy and superfluous. I consider the stdlib_ prefix useful for avoiding naming conflicts between modules, but unnecessary for module entities. If you insist on a prefix I would make it \"log_\".\nIn the test code you use more vertical white space than I would now. I would not insert four blank lines to separate constructs. Because others objected to my inserting blank lines into my if ... then ... else ... end if, I no longer do that though you may be doing that to be consistent with my earlier style in the test code.\nThe if ( self % level > stdlib_..._level) return should have a blank between level and )."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-04 22:05:58+00:00",
+                    "text": "Thank you for your comments. I integrated them, and submitted a first PR  (#256) for adding log_debug."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2020-12-04 23:15:30+00:00",
+                    "text": "Great!"
                 }
             ]
         },
@@ -241,6 +1194,41 @@
                     "user": "milancurcic",
                     "date": "2020-11-22 23:52:54+00:00",
                     "text": "nvfortran 20.9-0 doesn't implement real128 yet:\n$ FC=nvfortran cmake .. -DCMAKE_MAXIMUM_RANK=4\n-- The Fortran compiler identification is PGI 20.9.0\n-- Check for working Fortran compiler: /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran\n-- Check for working Fortran compiler: /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran  -- works\n-- Detecting Fortran compiler ABI info\n-- Detecting Fortran compiler ABI info - done\n-- Checking whether /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran supports Fortran 90\n-- Checking whether /opt/nvidia/hpc_sdk/Linux_x86_64/2020/compilers/bin/nvfortran supports Fortran 90 -- yes\n-- Performing Test f18errorstop\n-- Performing Test f18errorstop - Success\n-- Performing Test f03rank\n-- Performing Test f03rank - Failed\n-- Performing Test f03real128\n-- Performing Test f03real128 - Failed\n-- Configuring done\n-- Generating done\n-- Build files have been written to: /home/milan/Work/fortran/stdlib/build"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-01 16:50:31+00:00",
+                    "text": "I just tried to setup a CI for the Intel oneAPI compilers for stdlib and noticed that src/tests/io/test_savetxt.f90 is triggering an ICE in ifort (see https://github.com/awvwgk/fortran-stdlib/runs/1439256395) and src/stdlib_ascii.f90 is triggering an ICE in the ifx compiler (see https://github.com/awvwgk/fortran-stdlib/runs/1439276984).\nI have seen there are compile issues with PGI/NVHPC, NAG and flang already for stdlib. Does this mean stdlib currently only supports GCC?\n\n@awvwgk Did you report the ICEs to Intel? I just installed it on my local computer, and got also ICEs."
+                },
+                {
+                    "user": "Romendakil",
+                    "date": "2020-12-01 17:02:57+00:00",
+                    "text": "Hm, where did you get the Beta version for Intel 2021? Normally, I get informed when there is a new version. That they are having problems with their new release is deeply disturbing. Can someone give me a link to a product page?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-01 17:06:37+00:00",
+                    "text": "@Romendakil FWIW I got it from here. I followed the install instructions for apt on Ubuntu and installed basekit and hpckit. Beta 2021.1 is what's inside."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-01 17:52:15+00:00",
+                    "text": "Did you report the ICEs to Intel? I just installed it on my local computer, and got also ICEs.\n\nNot yet, I finally got around to download the oneAPI compilers, but I still have to isolate the problem and create a minimal working example for a report.\nEdit:\nTracked the first ICE in oneAPI ifort down and reported at https://community.intel.com/t5/Intel-oneAPI-Base-Toolkit/ICE-ifort-2021-1-Beta-20200827/m-p/1233189#M756\nprogram mwe\n   implicit none\n   integer, parameter :: dp = selected_real_kind(15)\n\n   real(dp) :: d(2, 3), e(2, 3)\n   logical :: stat\n   d = reshape([1, 2, 3, 4, 5, 6], [2, 3])\n   e = reshape([1, 2, 3, 4, 5, 6], [2, 3])\n   stat = all(abs(e-d) < epsilon(1.0_dp))\n\nend program mwe\nWill produce an ICE with -standard-semantics flag:\n> ifort --version\nifort (IFORT) 2021.1 Beta 20200827\nCopyright (C) 1985-2020 Intel Corporation.  All rights reserved.\n\n> ifort mwe.f90 -standard-semantics\nmwe.f90: catastrophic error: **Internal compiler error: segmentation violation signal raised** Please report this error along with the circumstances in which it occurred in a Software Problem Report.  Note: File and line given may not be explicit cause of this error.\ncompilation aborted for mwe.f90 (code 1)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-03 14:22:17+00:00",
+                    "text": "Update: The ICE in ifort will be fixed in the release version of oneAPI, I will open a PR to add the CI once oneAPI is finally out of beta.\nI didn't bother looking into the failure of ifx, since I didn't get a single project compiled with it so far, which makes it quite unusable in my opinion."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-03 21:01:51+00:00",
+                    "text": "Update: The ICE in ifort will be fixed in the release version of oneAPI, I will open a PR to add the CI once oneAPI is finally out of beta.\n\nGreat. Thanks @awvwgk for the update."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-05 15:35:42+00:00",
+                    "text": "Looks like there has been another update of the oneAPI compilers, but I'm very happy I did not get any of those, as they are completely broken now: https://github.com/awvwgk/fortran-stdlib/runs/1503801636#step:8:109\n-- Check for working Fortran compiler: /opt/intel/oneapi/compiler/2021.1.1/linux/bin/intel64/ifort  -- broken\nCMake Error at /usr/local/share/cmake-3.16/Modules/CMakeTestFortranCompiler.cmake:45 (message):\n  The Fortran compiler\n\n    \"/opt/intel/oneapi/compiler/2021.1.1/linux/bin/intel64/ifort\"\n\n  is not able to compile a simple test program.\n\n  It fails with the following output:\n\n    Change Dir: /home/runner/work/fortran-stdlib/fortran-stdlib/build/CMakeFiles/CMakeTmp\n    \n    Run Build Command(s):/usr/bin/make cmTC_946e7/fast && /usr/bin/make -f CMakeFiles/cmTC_946e7.dir/build.make CMakeFiles/cmTC_946e7.dir/build\n    make[1]: Entering directory '/home/runner/work/fortran-stdlib/fortran-stdlib/build/CMakeFiles/CMakeTmp'\n    Building Fortran object CMakeFiles/cmTC_946e7.dir/testFortranCompiler.f.o\n    /opt/intel/oneapi/compiler/2021.1.1/linux/bin/intel64/ifort    -c /home/runner/work/fortran-stdlib/fortran-stdlib/build/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_946e7.dir/testFortranCompiler.f.o\n    Linking Fortran executable cmTC_946e7\n    /usr/local/bin/cmake -E cmake_link_script CMakeFiles/cmTC_946e7.dir/link.txt --verbose=1\n    /opt/intel/oneapi/compiler/2021.1.1/linux/bin/intel64/ifort      CMakeFiles/cmTC_946e7.dir/testFortranCompiler.f.o  -o cmTC_946e7 \n    ifort: error #10105: ld: core dumped\n    ifort: warning #10102: unknown signal(1776847024)\n    ifort: error #10106: Fatal error in ld, terminated by unknown\n    CMakeFiles/cmTC_946e7.dir/build.make:86: recipe for target 'cmTC_946e7' failed\n    make[1]: *** [cmTC_946e7] Error 1\n    make[1]: Leaving directory '/home/runner/work/fortran-stdlib/fortran-stdlib/build/CMakeFiles/CMakeTmp'\n    Makefile:121: recipe for target 'cmTC_946e7/fast' failed\n    make: *** [cmTC_946e7/fast] Error 2\n\nEdit:\nJust found the the release notes here. Apparently this is supposed to be the production release now..."
                 }
             ]
         },
@@ -612,6 +1600,46 @@
                     "user": "jvdp1",
                     "date": "2020-11-18 06:39:33+00:00",
                     "text": "A long discussion on the split function was held during the Fortran Monthly call (November 2020) (from5:39)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2020-12-09 16:46:01+00:00",
+                    "text": "Comment from Youtube user ES on https://youtube.com/watch?v=HI-Yhn7Q8Ko:\n\nHere's how I might choose to implement split in C++ (but you should be able to do it similarly in Fortran (which I'm still learning)):\nThe function or subroutine would have a string input, a set of delimiters input, and it would return/modify a \"split_string\" object whose structure would look like:\n\nmembers: the string itself, an array of index locations of the delimiters in the string\nmember functions: A \"get_nth_tocken\" function to return the nth token of the string. Or even overload the operator[].\n\nThis way I keep allocations small and to a minimum, and scan through the string only once to construct the index array.\nIn my opinion, the best solution would have to involve a derived type because of the ragged array nature of the collection of tokens. Otherwise, the only solution that makes sense to me in the discussion is the split_first_last and the \"find\" version."
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-09 20:19:07+00:00",
+                    "text": "Hi everyone, my name is Edger Sterjo and I made the comment that Milan mentioned above. Sorry that I haven't participated more often, but I am very interested in what you are doing. As I said in the youtube thread, I think the right place for ideas like the one I proposed would be in a library (perhaps stdlib). As a user, libraries are more important to me than intrinsics.\nI would rather have compiler developers focus on optimizing do concurrent, coarrays, gpu offloading, etc than worry about something that may be better placed in a library which can be built by the community. (Which is why I'm excited about stdlib)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-09 20:55:26+00:00",
+                    "text": "@esterjo thank you and welcome! I personally agree and would like new additions to Fortran to first go into a library, get the API ironed out, get some usage, and only then propose it for the Fortran standard itself if there is interest. But other people at the committee have a different opinion on this and voted to have this in the language itself right away. So the second best we can do is to implement this into stdlib and identify potential issues with the API, and submit proposals for the committee to fix some of the issues that we found, and that is what @milancurcic plans to do. :)"
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-09 21:30:25+00:00",
+                    "text": "@certik Got it. Thank you for clarifying the situation for me, I wasn't aware."
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-09 21:48:40+00:00",
+                    "text": "Apologies if this isn't the right place, but as a broad comment, if I could make one wish to the ISO gods it would be to make it easier for a user to build libraries. This would make it easier for the language to grow with the community"
+                },
+                {
+                    "user": "certik",
+                    "date": "2020-12-09 22:05:51+00:00",
+                    "text": "@esterjo, you can propose that at https://github.com/j3-fortran/fortran_proposals, just open a new issue and try to describe the features you have in mind in more detail that would make it easier to build libraries. We can discuss it there."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-10 10:20:22+00:00",
+                    "text": "Comment from Youtube user ES on https://youtube.com/watch?v=HI-Yhn7Q8Ko:\n\nHere's how I might choose to implement split in C++ (but you should be able to do it similarly in Fortran (which I'm still learning)):\nThe function or subroutine would have a string input, a set of delimiters input, and it would return/modify a \"split_string\" object whose structure would look like:\n\nmembers: the string itself, an array of index locations of the delimiters in the string\nmember functions: A \"get_nth_tocken\" function to return the nth token of the string. Or even overload the operator[].\n\nThis way I keep allocations small and to a minimum, and scan through the string only once to construct the index array.\nIn my opinion, the best solution would have to involve a derived type because of the ragged array nature of the collection of tokens. Otherwise, the only solution that makes sense to me in the discussion is the split_first_last and the \"find\" version.\n\n\nHi @esterjo, I think your idea with a \"split string\" type is good. First we would need to agree upon some encapsulated string type (see #69). There are several disjoint community efforts in this direction already. With the new deferred-length character strings, it is quite simple to use something like:\ntype :: string\n  character(len=:), allocatable :: s\nend type\nA generic interface can be used to overload the split function to return an array of type(string), allocatable :: string_tokens(:) which are of the correct length each. Internally, this function could call split_first_last or split_pos to minimize internal memory shuffling. For Fortran users too lazy to bother with derived types, it will not clash with the version that returns characters with trailing whitespace.\nWith the great strides fpm has been making, it is already becoming easier to use other community packages. In fact you can already test the version @milancurcic  prepared at: https://github.com/milancurcic/fortran202x_split"
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-17 03:40:46+00:00",
+                    "text": "How about this:\nThere should be a string_array type. This type:\n\nWould hold all the \"string\" elements of the array by storing them side by side in one contiguous character string, called \"data\".\nIt would also store an index array (possibly empty) whose nth element marks the end of the nth string in the \"data\".\nA string type would be an instance of this where this index array is empty\nMaking use of this index array would allow for a function to return the nth string in the \"data\"\n\nInheriting form this string_array would be a split_string type:\n\nIt would be no different, but it's index array would simply be the locations of delimiters in the contiguous character string\nBy making use of this index array this child-type would have a function to return the nth token (perhaps overloading the one used by the parent type), which would just be the nth string in the \"data\" without the first character\nPerhaps it holds an array of delimiters\n\nSome things I like about this kind of implementation:\n\nit reduces memory fragmentation because you do not allocate multiple chunks of heap for each string in the array, while also avoiding padding short strings like a simple character array of fixed size elements.\nsplitting a string type does not reallocate it's character vector, but simply modifies the index array\nextra capacity can be added to the end of the \"data\" array to allow for fast addition of small string_arrays to the end.\nif the index array has 2 columns, then the string elements can be accessed as if they are laid out in a matrix"
                 }
             ]
         },
@@ -681,6 +1709,26 @@
                     "user": "Jim-215-Fisher",
                     "date": "2020-10-24 03:16:13+00:00",
                     "text": "Just for your information you should use algorithms avoiding floating-point arithmetic when possible (or at least make such implementations an option). For example, there are algorithms of the exponential distribution that use comparisons only (von Neumann's method, for one) as well as exact samplers of the Binomial distribution (e.g., Farach-Colton and Tsai, \"Exact Sublinear Binomial Sampling\"; the \"Internal DLA\" paper by Bringmann and others). Even the Poisson distribution can be sampled without using the exponential function (e.g. \"On Buffon Machines and Numbers\"). Perhaps the most familiar example of a distribution of this kind is the discrete (and continuous) normal distribution sampler by Karney. See also my section on \"Specific Non-Uniform Distributions\" in \"Randomization and Sampling Methods\".\nIn fact, as the authors of \"Exact Sublinear Binomial Sampling\" found, BTPE can oversample the tail of a binomial distribution (or at least the GNU Scientific Library implementation of BTPE at the time of the paper can).\n\nThanks for the info. I will take a look of it."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-12-03 22:48:51+00:00",
+                    "text": "I am going to update for the second round. Because of major change in module structure, should I initiate a new PR or just continue in this old one?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-04 09:38:44+00:00",
+                    "text": "I am going to update for the second round. Because of major change in module structure, should I initiate a new PR or just continue in this old one?\n\nDoes the new changes contain the same info? If yes, I suggest to update this PR."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2020-12-17 17:24:04+00:00",
+                    "text": "I am going to update for the second round. Because of major change in module structure, should I initiate a new PR or just continue in this old one?\n\nDoes the new changes contain the same info? If yes, I suggest to update this PR.\n\nInstead of one big module plus one submodule structure, I split the statistical distributions into each individual module, which will be easier to maintain. Also, in the new update, it will contain more distributions and new function calls."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-17 19:47:45+00:00",
+                    "text": "I am going to update for the second round. Because of major change in module structure, should I initiate a new PR or just continue in this old one?\n\nDoes the new changes contain the same info? If yes, I suggest to update this PR.\n\nInstead of one big module plus one submodule structure, I split the statistical distributions into each individual module, which will be easier to maintain. Also, in the new update, it will contain more distributions and new function calls.\n\nThank you for the details. Following your description, I would propose that you submit one PR per module, if possible. It would be easier to review than a very long PR."
                 }
             ]
         },
@@ -1040,6 +2088,46 @@
                     "user": "jvdp1",
                     "date": "2020-10-10 20:32:42+00:00",
                     "text": "The initial implementation of this proposal is ready for PR. Anyone interested is welcome to review it. I have implemented three distributions at the moment, uniform, normal and binomial distribution random number generators and pdf, cdf functions. Will implement more distributions and functions after collecting comments and suggestions.\nThe code is in my branch https://github.com/Jim-215-Fisher/stdlib/tree/stats_distribution\n\nThank you @Jim-215-Fisher . Can you open a PR? It will be easier for reviewing and discussing the API and code."
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-17 14:17:41+00:00",
+                    "text": "I'd like to call out this RNG library, which I use regularly. There is a Fortran wrapper to the version producing 32bit random values online but I think it's worth implementing the whole thing. I use this library with C++. There the API is that one first instantiates an RNG object (say pcg), and a distribution object (say normal_dist) and calls like normal_dist(pcg) return a normal variate using this particular RNG. I find this API very smooth and flexible. Allows switching out RNGs. But I have no problem with a strictly procedural implementation either.\nAlso, looking at some of the implementations in the links, I see that a few of them generate 2 uniform random numbers to return only 1 variate. See for example, the Box-Muller implementation in GSL, where they explain their choice. This is may be a bit wasteful as two covariates might be returned instead of 1, when the algorithm produces 2 independent covariates. Saving one of the covariates computed using a SAVE attribute or simply filling entire arrays at once may be a better implementation."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2020-12-17 19:59:27+00:00",
+                    "text": "I'd like to call out this RNG library, which I use regularly. There is a Fortran wrapper to the version producing 32bit random values online but I think it's worth implementing the whole thing. I use this library with C++. There the API is that one first instantiates an RNG object (say pcg), and a distribution object (say normal_dist) and calls like normal_dist(pcg) return a normal variate using this particular RNG. I find this API very smooth and flexible. Allows switching out RNGs. But I have no problem with a strictly procedural implementation either.\n\nI was intrigued by the simplicity of this generator and attempted a quick Fortran version. I haven't verified it's correctness yet, but the timings are promising (roughly the same order as the intrinsic random_number subroutines in gfortran and Intel fortran). I have compared the bit sequences of the random integers from this version, and the Fortran wrapper of the C version, and they are equal. The conversion from signed integers to double is still problematic. Portability might also be an issue.\nI would suggest preserving the discussion of a random number generator object under issue #135."
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-20 04:12:49+00:00",
+                    "text": "Just for reference here is libstdc++'s implementation of the gaussian variate generator, which is a very standard implementation of Marsaglia's algorithm with each call saving one of the two variates generated for the next call: https://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/a15735_source.html#l01783"
+                },
+                {
+                    "user": "David-Duffy",
+                    "date": "2020-12-21 00:55:53+00:00",
+                    "text": "Just looking at\nThomas, D. B., Luk. W., Leong, P. H. W., and Villasenor, J. D. 2007. Gaussian random number generators. ACM Comput. Surv. 39, 4, Article 11 (October 2007)\nhttp://doi.acm.org/10.1145/1287620.1287622\nIn my code, I use the ratio of uniforms (2 uniforms per single gaussian) algo, but this review suggests a Ziggurat algorithm as\naccurate (ie especially producing the correct number of extreme deviates), uncorrelated,  and 5 times faster than Box-Muller). I have a vague memory of Fortran code for this somewhere."
+                },
+                {
+                    "user": "David-Duffy",
+                    "date": "2020-12-21 02:14:21+00:00",
+                    "text": "There is a useful discussion of implementing the ziggurat gaussian RNG for numpy here:\nnumpy/numpy#2047"
+                },
+                {
+                    "user": "epagone",
+                    "date": "2020-12-21 12:35:27+00:00",
+                    "text": "In my code, I use the ratio of uniforms (2 uniforms per single gaussian) algo, but this review suggests a Ziggurat algorithm as\naccurate (ie especially producing the correct number of extreme deviates), uncorrelated, and 5 times faster than Box-Muller). I have a vague memory of Fortran code for this somewhere.\n\nMaybe this one?"
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-22 21:09:42+00:00",
+                    "text": "@David-Duffy you're absolutely right. It appears Ziggurat is the fastest option for gaussians, and doesn't seem to be worst statistically from what I've been reading.\nThere's a paper on a generalized version to unimodal distributions with unbounded support. According to the authors performance is better than, for example, what is used by GCC's implementation of random.h or in Boost's random.h. The paper gives thorough pseudo-code too, which I appreciate.\nEDIT: However, on GPU the reverse seems to hold, because \"...in a GPU, the performance of the slow route will apply to all threads in a warp, even if only one thread uses the route. If the warp size is 32 and the probability of taking the slow route is 2 percent, then the probability of any warp taking the slow route is (1 - 0.02)^32, which is 47 percent! So, because of thread batching, the assumptions designed into the ziggurat are violated, and the performance advantage is destroyed.\""
+                },
+                {
+                    "user": "David-Duffy",
+                    "date": "2020-12-22 23:53:03+00:00",
+                    "text": "\"a generalized version\" - yes, I had been looking at their C++ code, but dreading how how long it would take to fully test a Fortran port. One reason Boost etc are using time-tested algorithms rather than bleeding edge,"
                 }
             ]
         },
@@ -2748,6 +3836,21 @@
                     "user": "milancurcic",
                     "date": "2020-09-10 03:51:02+00:00",
                     "text": "I agree--we'll fix that."
+                },
+                {
+                    "user": "zmiimz",
+                    "date": "2020-12-27 16:32:14+00:00",
+                    "text": "I have access to workstations with many hundreds GB of RAM, so I tested RAM usage with the default configuration. gfortran 10.1 (and gfortran 8.3) requires approx 26 GB during stdlib_stats_moment.f90 compilation and produces ~1.8 GB assembler code file in /tmp"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-27 17:27:20+00:00",
+                    "text": "I have access to workstations with many hundreds GB of RAM, so I tested RAM usage with the default configuration. gfortran 10.1 (and gfortran 8.3) requires approx 26 GB during stdlib_stats_moment.f90 compilation and produces ~1.8 GB assembler code file in /tmp\n\nThank you @zmiimz for these detals. Did you check these numbers when the number of ranks is limited to 7 (instead of 15)? Would it be more manageable?\nA (temporary) solution could be to set the default number of ranks at 7, and to add an option to increase the number of ranks until 15 when the user wants it."
+                },
+                {
+                    "user": "zmiimz",
+                    "date": "2020-12-27 18:25:34+00:00",
+                    "text": "Yes, with cmake .. -DCMAKE_MAXIMUM_RANK=7 it looks definitely better and requires <2 GB of RAM.  Cannot say about exact RAM usage ( I am detecting this just visually in htop)"
                 }
             ]
         },
@@ -2941,6 +4044,11 @@
                     "user": "certik",
                     "date": "2020-07-02 19:35:31+00:00",
                     "text": "@MuellerSeb thanks for the idea. I think we'll provide an example with fpm. We first have to get fpm working with stdlib. Then to use it would be just adding stdlib to your dependencies."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2020-12-29 15:20:36+00:00",
+                    "text": "I just tried to use stdlib as subproject in CMake and it is in fact currently impossible. I collected a patch for this in #284."
                 }
             ]
         },
@@ -6241,6 +7349,16 @@
                     "user": "masuday",
                     "date": "2020-06-09 17:41:23+00:00",
                     "text": "@certik Thank you for chiming. I agree with you, and I am making a PR in a couple of days."
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-21 23:10:20+00:00",
+                    "text": "I'd like to call out this RNG library, which I use regularly (currently the C++ version). See also wiki. There is a Fortran wrapper to the version producing 32bit random outputs but I think it's worth implementing the whole thing. It seems to have become quite popular lately. There is also an explicit SIMD version of one of the 32-bit output variants in C by way of AVX intrinsics.\nEDIT: but a generator with less than 64bit state isn't recommended for scientific applications"
+                },
+                {
+                    "user": "esterjo",
+                    "date": "2020-12-22 03:01:02+00:00",
+                    "text": "Also, I noticed that the author of xorshiro256++ has a \"vectorized\" implementation. I put it in quotes because he doesn't explicitly use SIMD instrinsics, but writes it in a way that makes it extremely easy for the compiler to vectorize (on gcc use -O3 -fdisable-tree-cunrolli -march=native). A strategy I greatly prefer to explicit SIMD. Not necessary for now, but it would be good to lay the groundwork for optimizing stdlib functions later by leaving reminders in the comments."
                 }
             ]
         },
@@ -13777,6 +14895,21 @@
                     "user": "certik",
                     "date": "2019-12-18 19:16:39+00:00",
                     "text": "As for your question: no, we would not expect such functions or methods to be highly performant. I think everyone understands that there is some computational cost associated with reproducibility.\n\nI see, thanks. In that case, it seems that bit-reproducible capabilities should be implemented in addition to high performance (but not strictly bit-reproducible) capabilities, not instead of them."
+                },
+                {
+                    "user": "warrickball",
+                    "date": "2020-12-15 14:48:12+00:00",
+                    "text": "I thought I'd emerge from the shadows to voice my support for this proposal. Our specific use case is running the same code on different architectures with different compilers and still obtaining the identical result. This requires a variety of compiler flags and code style but we get correctly-rounded (towards zero, IIRC) mathematical functions from crlibm, which is mirrored on GitHub here. We now routinely test that our outputs are identical when run after building with gfortran on (Intel) Macs, gfortran on Linux (Intel and AMD), ifort on Linux (Intel) and\u2014added recently\u2014gfortran on a Raspberry Pi 4."
+                },
+                {
+                    "user": "marshallward",
+                    "date": "2020-12-15 15:27:52+00:00",
+                    "text": "@warrickball That is encouraging news.  I also supported the idea of testing with a prescribed libm.  However, there is the deeper problem that the compiler is under no obligation to use libm and is free to use its own code.  For example, I think Intel strongly defers to libimf.a, although I believe this can be overridden.  Your own experience seems to confirm that it is possible.\nWe are moving towards implementing our own transcendentals, with a similar goal of platform-independent results, but we still have some ways to go.  (The transcendentals are working, but there are some newly discovered problems...)"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2020-12-15 16:19:23+00:00",
+                    "text": "Your remark about transcendentals reminded me of an article by Anton\nShterenlikht on the subject of transcendentals not too long ago. It focuses\non the behaviour at branch cuts and the like. See\nhttps://dl.acm.org/doi/10.1145/3301318.\n\nOp di 15 dec. 2020 om 16:28 schreef Marshall Ward <notifications@github.com\n\u2026\n:\n @warrickball <https://github.com/warrickball> That is encouraging news. I\n also supported the idea of testing with a prescribed libm. However, there\n is the deeper problem that the compiler is under no obligation to use libm\n and is free to use its own code. For example, I think Intel strongly defers\n to libimf.a, although I believe this can be overridden. Your own\n experience seems to confirm that it is possible.\n\n We are moving towards implementing our own transcendentals, with a similar\n goal of platform-independent results, but we still have some ways to go.\n (The transcendentals are working, but there are some newly discovered\n problems...)\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#12 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRY25KJ25USDGRBMWDLSU56ATANCNFSM4J37JFNQ>\n ."
                 }
             ]
         },
@@ -14247,6 +15380,11 @@
                     "user": "certik",
                     "date": "2019-12-22 18:23:30+00:00",
                     "text": "Why don't you try to submit a PR. If you lower the amounts of CMake lines we have to maintain, then we can have a discussion if it outweighs the added complexity. If the PR adds CMake lines while doing the same things, then probably its not worth it.\n\u2026\nOn Sun, Dec 22, 2019, at 11:19 AM, zbeekman wrote:\n >\n > I recommend against depending on a \"key man\" for any specific task, for example Zaak's CMake expertise.\n\n I definitely agree with the sentiment here. We don't want our \"bus\n factor\" to be low. (I.e., how many people getting hit by a bus will\n cause the project problems...)\n\n I think that having the automation of setting up tests will improve the\n project because people already don't want to write tests. Making the\n lowest possible barrier to entry, i.e., name it with the same name and\n prefix `test_` and put it in the `tests` subdirectory will go a long\n way towards making it easy for people to contribute. Even if they have\n no CMake experience adding the test to CMake makes it so that they\n don't need to do anything... It's not THAT hard to loop over a target's\n source files and look for ones that correspond to tests. If the CMake\n is well commented even relative novices should be able to follow along.\n\n Even if adding tests is automated, we should document manually adding\n tests; sometimes you need to do this. We can have examples of manual\n tests too. However, I think that the automation and ease of use make it\n worthwhile to have automated finding and running of tests. The build\n system could even warn you if you add a new source file without a\n corresponding test.\n\n I know CMake can be awkward, and scary, but creating this will\n ultimately lead to fewer lines of CMake code and should make peoples\n lives easier, and lead to more tests being submitted with PRs.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#7?email_source=notifications&email_token=AAAFAWHN3CN5BPCWDV7HL2TQZ6VTHA5CNFSM4J25IBJKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEHPWWFY#issuecomment-568290071>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWHAJMINE4QBDARAXJTQZ6VTHANCNFSM4J25IBJA>."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2020-12-27 18:17:24+00:00",
+                    "text": "As noticed by @LKedward here and mentioned in #279, the current directory structure of stdlib is different than the directory structure required by fpm. I think it could be strange for new users to find that the directory structure of stdlib is different than the one of fpm  Therefore it could be good to revise the directorty stucture of stdlib. It would also help its support by fpm."
                 }
             ]
         },
