@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: February 2021"
 category: newsletter
-author: Sebastian Ehlert
+author: Sebastian Ehlert, Milan Curcic, Laurence Kedward
 ---
 
 Welcome to the February 2021 edition of the monthly Fortran newsletter.
@@ -149,6 +149,11 @@ Call notes will be sent to the _flang-dev_ email list and also recorded [here]( 
 You can watch the recording below:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/QfiBUAgI3kw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+* This year fortran-lang will be applying as a mentor organisation for [Google Summer of Code](https://summerofcode.withgoogle.com/).
+We have started working on the application and the project ideas; you can join the ongoing discussion [here](https://github.com/fortran-lang/fpm/discussions/339).
+If you'd like to help us flesh out the ideas, or have a project idea of your own, please join our upcoming video call on (Milan TODO).
+If you're a student, or know students who are [eligible to participate](https://developers.google.com/open-source/gsoc/faq#what_are_the_eligibility_requirements_for_participation), and you'd like to help build the Fortran ecosystem please reach out and let us know.
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
