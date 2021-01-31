@@ -2,6 +2,62 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 193,
+            "user": "awvwgk",
+            "date": "2021-01-30 13:58:26+00:00",
+            "title": "Monthly newsletter for February 2021",
+            "text": "I put together a draft for the February monthly newsletter and populated it from the repository activities.\n\n collect PRs from stdlib\n collect PRs from fpm, setup-fpm and fpm-registry\n collect PRs from fortran-lang.org\n add link to Fortran monthly call recording\n update contributor data (@LKedward)\n add updates on classic flang\n add updates on LLVM flang\n add updates on LFortran (@certik)\n\nPlease review and edit if needed. As usual, please add your name to the authors list if you add, edit, or review content.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-30 14:40:39+00:00",
+                    "text": "Thanks for starting! I'll update contributor data tomorrow."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-30 16:38:50+00:00",
+                    "text": "Thanks for starting it. Do you think we should mention GSoC to try gather early interest from prospective students? Something like:\n\nThis year fortran-lang will be applying as an Org for Google Summer of Code. We started working on the application and the project ideas. If you'd like to help us flesh them out, please join our video call on (Milan TODO). If you're a student and you'd like to help build the Fortran ecosystem, or have a project idea you'd like to work on, please reach out and let us know (how exactly? Milan TODO).\n\nI think this would go in the Events section."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-30 16:45:41+00:00",
+                    "text": "Regarding news from Classic Flang and LLVM Flang: @AlexisPerry, would you like to provide updates from both Flang projects for the monthly newsletter? We distribute these on the mailing list (131 subscribers), Discourse, and Twitter (604 followers). Flang updates in the newsletter may bring new users, and who knows, maybe even new contributors.\nHere's a sample newsletter from last month and what Flang updates look like: https://fortran-lang.org/newsletter/2021/01/01/Fortran-Newsletter-January-2021/#compilers\nPreviously @gklimowicz has been helping with these, but he stepped back and mentioned your name. It would be very helpful if you agreed to do it! :)"
+                }
+            ]
+        },
+        {
+            "number": 192,
+            "user": "awvwgk",
+            "date": "2021-01-03 09:21:26+00:00",
+            "title": "Sort fpm registry alphabetically",
+            "text": "The fpm registry at packages/fpm is currently sorted chronologically in the order of addition to the registry, a more useful sorting would be alphabetically.\nIt appears that Liquid is not able to sort a hash map alphabetically (!) by itself, therefore implementing this in Liquid will be ugly.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-03 11:29:29+00:00",
+                    "text": "Perhaps the best option is to structure the index differently, as an array instead of a hash map"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-03 12:23:25+00:00",
+                    "text": "A hash map is the right representation for the registry, I see no need to adapt it due to the shortcomings of a templating language. An easy fix from the fpm-registry side would be sorting the index before committing it, alternatively we have to search for a gem that can add the feature we need for the webpage here."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-04 10:52:45+00:00",
+                    "text": "True, though the index is only a serialisation, converting to an array serialisation does not preclude implementation as a hash map. I'd rather not complicate the build with additional Ruby code so sorting the index would be preferred.  It's unfortunate to rely on the ordering of the data for rendering the site but your proposed solution is perhaps the simplest."
+                }
+            ]
+        },
+        {
+            "number": 191,
+            "user": "awvwgk",
+            "date": "2021-01-03 09:15:26+00:00",
+            "title": "Fix author/maintainer output in fpm registry",
+            "text": "Joins arrays of author/maintainer names with \" and \".\nAlso, simplifies fetching of registry in workflow file.",
+            "comments": []
+        },
+        {
             "number": 190,
             "user": "awvwgk",
             "date": "2020-12-30 20:47:50+00:00",
@@ -30,6 +86,21 @@
                     "user": "LKedward",
                     "date": "2020-12-30 10:31:41+00:00",
                     "text": "Thanks for starting @jvdp1 and thanks for populating the fpm section @awvwgk - it was a busy month for fpm!\nLeft a few minor suggestions but everything else looks good. I'll update the contributor data tomorrow."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-04 16:36:04+00:00",
+                    "text": "Thank you, @gklimowicz!\n@certik are there any updates for LFortran or is this good to go?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-01-04 17:30:49+00:00",
+                    "text": "There are updates, but I don't have time to write them down, so this is good to go."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-04 18:25:45+00:00",
+                    "text": "Okay, sounds good, we can defer LFortran news to the next newsletter. I'll merge now. Thank you all!"
                 }
             ]
         },
