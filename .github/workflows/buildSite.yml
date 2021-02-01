@@ -49,9 +49,7 @@ jobs:
     # Download latest fpm-registry index
     - name: Download fpm-registry index
       run: |
-        cd ${{env.SRC_DIR}}/_data
-        wget ${{env.FPM_INDEX}}
-        mv index.json fpm_registry_index.json
+        wget ${{env.FPM_INDEX}} -O ${{env.SRC_DIR}}/_data/fpm_registry_index.json
 
     # Run Jekyll build and copy output to PUBLISH_DIR
     - name: Build Jekyll Site
