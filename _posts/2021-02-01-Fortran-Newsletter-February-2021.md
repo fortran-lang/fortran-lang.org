@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: February 2021"
 category: newsletter
-author: Sebastian Ehlert, Milan Curcic, Laurence Kedward, Jérémie Vandenplas
+author: Sebastian Ehlert, Milan Curcic, Laurence Kedward, Jérémie Vandenplas, Alexis Perry-Holby
 ---
 
 Welcome to the February 2021 edition of the monthly Fortran newsletter.
@@ -134,13 +134,40 @@ environment in which new open source Fortran projects are created and published 
 
 ### Classic Flang
 
-TODO
+There are a number of pull requests out for evaluation.
+
+A total of 12 pull requests were merged in January.
+
+* [PR#932 Do not assume unempty derived types](https://github.com/flang-compiler/flang/pull/932)
+* [PR#957 Support Prefetch Directive](https://github.com/flang-compiler/flang/pull/957)
+* [PR#947 Fix gcc-10 compilaton issues](https://github.com/flang-compiler/flang/pull/947)
+* [PR#948 Expand CI to run with GCC-9/10 and LLVM-9/10/11](https://github.com/flang-compiler/flang/pull/948)
+* [PR#949 USE rename should check if renamed sptr is available in the scope](https://github.com/flang-compiler/flang/pull/949)
+* [PR#971 Remove dwarfdump_prolog.f90 test since it is dependent on codegen](https://github.com/flang-compiler/flang/pull/971)
+* [PR#940 Flang should generate debug location for limited instructions in prolog](https://github.com/flang-compiler/flang/pull/940)
+* [PR#977 Update apt data before installing sphinx](https://github.com/flang-compiler/flang/pull/977)
+* [PR#751 Fix for len intrinsic returning int*8 in some cases](https://github.com/flang-compiler/flang/pull/751)
+* [PR#956 Minor FileCheck pattern fixes](https://github.com/flang-compiler/flang/pull/956)
+* [PR#978 Fix the readme to point to the correct flang-dev list](https://github.com/flang-compiler/flang/pull/978)
+* [PR#979 Rename direct header to avoid windows conflict](https://github.com/flang-compiler/flang/pull/979)
+
 
 ### LLVM Flang
 
-TODO
+Recent development updates:
 
-Call notes will be sent to the _flang-dev_ email list and also recorded [here]( https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
+* OpenMP semantic checks: private, firstprivate, lastprivate, Workshare Construct, `DO` loop restrictions
+* Detect call to abstract interface
+* OpenMP - add task_reduction clause, make reduction clause part of OmpClause
+* New Driver - adding support for various options, testing improvements, standard macro pre-definitions, fixed-form detection, CMake improvements
+* OpenACC - semantic checks to enforce declare directive restrictions
+* Internal subprogram improvements
+* OpenMP/OpenACC - Extend CheckNoBranching to handle branching provided by LabelEnforce
+* Disallow `INTENT` attribute on procedure dummy arguments
+* Module file improvements and bug fixes
+* Add tests for procedure arguments with implicit interfaces
+
+Call notes will be sent to the _flang-dev_ email list and also recorded [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
 
 
 ## Events
