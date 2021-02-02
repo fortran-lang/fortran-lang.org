@@ -2,6 +2,181 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 194,
+            "user": "certik",
+            "date": "2021-01-19 19:23:09+00:00",
+            "title": "Develop criteria for inclusion of special functions",
+            "text": "Currently Fortran implements special functions in an inconsistent way.\nAs an example, sin, cos, exp are supported for all complex arguments. But the error function is only available for real arguments (complex implementation provided as a library). The Bessel functions are only defined for integer orders (I had to implement my own for half integer orders).\nWe should develop criteria by which to decide what special functions belong into standard Fortran, and which don't.\nThere are several ways to go about it. The three main approaches that come to my mind are listed below, there are probably others (please propose them below).\nOption 1\n\nFortran should have no special functions, but rather those should be delegated to libraries such as stdlib.\n\nAs a consequence, the Bessel functions already in Fortran should be deprecated.\nOption 2\n\nWe decide on classes of special functions to include, and we should include all (complex) variants and all parameters.\n\nAs a consequence, we should add the remaining Bessel functions, and erf for complex arguments.\nOption 3\n\nWe decide on subset of a class of special functions, based for example on what is provided by libm (part of GNU libc).\n\nThat seems to be the current approach.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-01-19 19:37:12+00:00",
+                    "text": "Option 4\nFortran should support correctly-rounded implementations of the special functions in table 9.1 of IEEE 754-2008, as amended or extended in later revisions.  Other special functions not already in the language should be included only when strong guarantees about rounding can be supported."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-01-19 19:38:14+00:00",
+                    "text": "Here are two more ideas:\nOption 5\n\nImplement all special functions that people ask for in stdlib first. This will provide a solid (trusted) reference implementation that is being used by (hopefully) a lot of people. Then the most frequented special functions could be considered for inclusion into Fortran itself. Or perhaps left in stdlib if stdlib becomes popular.\n\nOption 6\n\nAs fpm becomes more popular, ensure good implementations of special functions are available as libraries, implemented correctly and easy to use as dependencies as fpm packages. Later on, we can consider adding them to stdlib or the Fortran standard itself.\n\n\nThe advantages of Option 5 and 6 are that they are low friction, but they provide high value: as an example, I had to implement my own implementation of Bessel functions because the (Fortran) implementation in SciPy was providing incorrect values in some cases."
+                }
+            ]
+        },
+        {
+            "number": 193,
+            "user": "difference-scheme",
+            "date": "2021-01-17 18:09:28+00:00",
+            "title": "Allow the default constructors of derived-types to initialize private fields",
+            "text": "One of the most annoying restrictions in the language is that Fortran's default constructors for derived types do not always allow one to initialize the private fields of these types. That is, if one has a derived type like the following,\ntype :: AClass\n   private\n   class(BClass), allocatable :: b\ncontains\n   procedure :: some_method_of_aclass_that_uses_b\nend type AClass\n\n\nas it happens extremely frequently in object-oriented programming, then the language will typically forbid passing some instance of BClass to the default constructor that generates objects of type AClass, e.g. the following, perfectly reasonable code, would not be allowed\nsubroutine some_other_procedure(b)\n   class(BClass), intent(in) :: b\n      \n   ! local declaration of an object of AClass\n   class(AClass), allocatable :: a\n\n   ! initialization using default constructor of AClass\n   a = AClass(b)\nend subroutine some_other_procedure\n\n\nif some_other_procedure is not a part of the module in which AClass is declared. One has to either\n\nremove the private access specifier from the  AClass derived type, in order to be able to use the default constructor, which is unacceptable in object-oriented programming, since the latter relies critically on implementation hiding, or\nwrite a user-defined constructor (despite the obvious triviality of the above example), with all the hoop-jumping and verbosity that this involves in Fortran, like overloading the name of the derived type, etc.\nput all these declarations into the same module, which is rarely possible in practice.\n\nThe net result presently is that the object-oriented programmer has to write user-defined constructors for all but the very simplest of his classes (namely those that contain no fields at all)!\nAllowing the initialization of private components by Fortran's default constructors, even if these are called from external scoping units, would go a long way in removing some of the drudgery that the language presently imposes on object-oriented programmers.",
+            "comments": [
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-19 03:26:42+00:00",
+                    "text": "You will know Fortran is not, and likely never will be, a fully class-based, object-oriented language the way are some other programming languages e.g., Java.  Limitations with adopting OO approaches in Fortran are going to remain because of how the language evolves with ISO IEC standards process, committee consensus where language bloat and resource constraints all around, particularly with compiler implementations, are a matter of major concern.\nUnder the circumstances, some verbosity with custom initialization procedures is what programmers have to author in order to workaround such aspects.  What really are the issues - beyond verbosity - with this such workarounds is the question.  You may find the point - oh, it's way too verbose even for trivial situations - to be insufficient to convince a committee."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-21 20:52:47+00:00",
+                    "text": "To answer the question \"what really are the issues - beyond verbosity - with such workarounds\":\nThe language is inconsistent.\nIt provides a single feature (the derived type) to support both the notions of \"structures\", and \"classes\" (as they are called in other languages) in a unified manner. Hence, the programmer can rightly expect that the language's main facility to construct such derived types (the default constructor) will work equally well for both these application cases, i.e. structures and classes.\nWell, it doesn't.\nIt works for structures, but not (in general) for classes (where implementation hiding is of paramount importance). I consider this a design flaw in the language, a \"wart\" as such things have been called in the past. It makes the language inconsistent, and hence nonintuitive to use, especially for newbies.\nGood, consistent design would provide a single default means to construct instances of both cases, consistent with the language's aim of offering only a single feature to support both structures and classes. It is ok if the language wishes to offer more functionality (like, e.g., user-defined constructors) than the bare minimum required by consistency, but the bare minimum (the default constructor) must work!\nSo, my proposal is essentially one of \"wart removal\", as it has been done repeatedly in the past."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-01-21 21:00:11+00:00",
+                    "text": "What specific change are you proposing -- simply ignoring accessibility of components in a structure constructor?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-01-21 21:13:12+00:00",
+                    "text": "@difference-scheme , I understand that most of the time one wants a public constructor whose arguments are simply the components of my type, but if we make that public by default then I don't see how I can prevent users of some module from using and relying on it in cases where I don't want that to be the case."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-21 21:26:49+00:00",
+                    "text": "@klausler My aim so far was simply to point out the problem, not necessarily to show a specific way to overcome it.\nI could imagine, that simply ignoring the accessibility of components in a structure constructor might lead to a lot of trouble. This needs to be thought through by someone with much more insight into how Fortran handles access attributes than myself."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-21 21:55:42+00:00",
+                    "text": "@everythingfunctional I am not sure I understood your concern.\nWhat does \"that\" refer to in your sentence \"but if we make that public\"? The constructor/underlying derived type itself?\nThe problem I pointed out is one related to access attributes of derived type components, not of derived types themselves!"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-01-21 22:04:42+00:00",
+                    "text": "In Fortran, the derived type name and its default constructor have the same name. However, the default constructor is not made public along with the type if any of its components (without default initializers) are private. If you're suggesting that the default constructor should be made public even if its components are private, that can cause an issue, because I no longer have a way of making the default constructor private if the type is public. There are times where that is exactly what I want to do. I want to have complete control over how users of my type are allowed to construct instances of it, so that I can prevent them from being able to construct an object with inconsistent internal state."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-21 22:25:56+00:00",
+                    "text": "@difference-scheme wrote Jan 21, 2021 3:51 PM EST:\n\n.. It works for structures, but not (in general) for classes ..\n\nPer the Fortran standard, there is no such distinction.  Fortran language has intrinsic types and derived types.\nThe issue here is with PRIVATE components for a derived type: programmers have 2 options:\n\nWhen applicable, employ default initialization of derived type components e.g.,\n\ntype :: BClass\n   integer :: n = 0\nend type\n\nWhen default initialization is inapplicable such as with components of allocatable attribute, one may employ a generic interface with the same name as the derived type e.g.,\n\ninterface BClass\n   module procedure Construct_BClass1\n   module procedure Construct_BClass2\n   ..\nend interface\nSo then the matter becomes some programmer finding it too \"verbose\" and/or added work having to code one or more such functions (Construct_BClass1, etc.).\nMy point is if the verbosity and/or the tedium on the designer of the derived type (BClass) to do the above is the issue, this will not make priority.\nHence my question above as to what really are the issues - beyond verbosity - with the facilities in the current language."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-21 23:35:02+00:00",
+                    "text": "@everythingfunctional \"However, the default constructor is not made public along with the type if any of its components (without default initializers) are private.\"\nCould you point me to the Section number in the document of the Fortran 2018 standard where this is stated/discussed? Thanks."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-01-21 23:44:36+00:00",
+                    "text": "Sure. In Section 7.5.10 Construction of derived-type values, there are two constraints when taken together imply the way I phrased it.\nC799 (R756) A component-spec shall be provided for a nonallocatable component unless it has default initialization\nC7102 (R756) The type name and all components of the type for which a component-spec appears shall be accessible in the scoping unit containing the structure constructor."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-22 00:15:12+00:00",
+                    "text": "@everythingfunctional wrote Jan 21, 2021 6:44 PM EST:\n\n.. Section 7.5.10 Construction of derived-type values, there are two constraints when taken together imply the way I phrased it. ..\n\n@everythingfunctional ,\nPlease note the standard isn't prohibitive the way your statement would come across since a reader might overlook the parenthesis.  This is given what those constraints do not cover when it comes to PRIVATE derived type components with ALLOCATABLE attribute in addition to those with default initialization.\nmodule m\n   type :: t\n      private\n      integer, public :: n = 0\n      real :: x = 99.0\n      character(len=:), allocatable :: s\n   end type\ncontains\n   subroutine print_t( a )\n      type(t) , intent(in) :: a\n      print *, \"a%n: \", a%n\n      print *, \"a%x: \", a%x\n      print *, \"Is a%s allocated? \", allocated(a%s)\n   end subroutine \nend module\n   use m\n   type(t) :: foo\n   foo = t( n=42 )\n   call print_t( foo )\nend \nFrom what I can deduce, this example conforms and a couple of processors agree.\n\nC:\\Temp>ifort /standard-semantics /warn:all /stand:f18 c.f90\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.1.2 Build 20201208_000000\nCopyright (C) 1985-2020 Intel Corporation.  All rights reserved.\nMicrosoft (R) Incremental Linker Version 14.26.28806.0\nCopyright (C) Microsoft Corporation.  All rights reserved.\n-out:c.exe\n-subsystem:console\nc.obj\nC:\\Temp>c.exe\na%n:  42\na%x:  99.00000\nIs a%s allocated?  F\nC:\\Temp>gfortran -Wall -std=f2018 c.f90 -o gcc-c.exe\nC:\\Temp>gcc-c.exe\na%n:           42\na%x:    99.0000000\nIs a%s allocated?  F\nC:\\Temp>"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-22 00:23:29+00:00",
+                    "text": "As I commented upthread, an author of a derived type can implement one or more functions to add to the generic interface in a manner that does satisfy the rules toward generic resolution in the standard.  The consumer can then \"construct\" using the default structure constructor or the one added to the interface depending on the situation.  See below.\nmodule m\n   type :: t\n      private\n      integer, public :: n = 0\n      real :: x = 99.0\n      character(len=:), allocatable :: s\n   end type\n   interface t\n      module procedure construct_t_1\n   end interface \ncontains\n   subroutine print_t( a )\n      type(t) , intent(in) :: a\n      print *, \"a%n: \", a%n\n      print *, \"a%x: \", a%x\n      print *, \"Is a%s allocated? \", allocated(a%s)\n      if ( allocated(a%s) ) then\n         print *, \"a%s: \", a%s\n      end if    \n   end subroutine\n   function construct_t_1( s ) result(new_t)\n      ! Argument list\n      character(len=*), intent(in) :: s\n      ! Function result\n      type(t) :: new_t\n      new_t%s = s\n   end function \nend module\n   use m\n   type(t) :: foo\n   type(t) :: bar\n   foo = t( n=42 )\n   call print_t( foo )\n   bar = t( s=\"Hello\" )\n   call print_t( bar )\nend \n\nC:\\Temp>ifort /standard-semantics /warn:all /stand:f18 c.f90\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.1.2 Build 20201208_000000\nCopyright (C) 1985-2020 Intel Corporation.  All rights reserved.\nMicrosoft (R) Incremental Linker Version 14.26.28806.0\nCopyright (C) Microsoft Corporation.  All rights reserved.\n-out:c.exe\n-subsystem:console\nc.obj\nC:\\Temp>c.exe\na%n:  42\na%x:  99.00000\nIs a%s allocated?  F\na%n:  0\na%x:  99.00000\nIs a%s allocated?  T\na%s: Hello\nC:\\Temp>gfortran -Wall -std=f2018 c.f90 -o gcc-c.exe\nC:\\Temp>gcc-c.exe\na%n:           42\na%x:    99.0000000\nIs a%s allocated?  F\na%n:            0\na%x:    99.0000000\nIs a%s allocated?  T\na%s: Hello\nC:\\Temp>"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-22 00:28:54+00:00",
+                    "text": "As worded, the original post and the subsequent comments by OP come across as the case where an author (or author(s)) is unwilling to do the bit of extra work to extend the generic interface as I show in my previous comment.  The hesitation can be due to added verbosity, programmer time, or laxity, or whatever.\nGiven where things are with Fortran though with all the resource constraints, especially with committee time, this will then be a rather low priority.  Hence my suggestion to provide more of a justification with more detailed examples."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-01-22 01:20:09+00:00",
+                    "text": "@FortranFan , your example does not have any private components without default initializers, hence it does not contradict my statement or the constraints in the standard."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-01-22 01:21:45+00:00",
+                    "text": "@FortranFan , oh, I see. You just meant if someone skipped my parenthetical. Yes, my statement is not quite correct without that parenthetical."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-22 19:05:09+00:00",
+                    "text": "@everythingfunctional\n\nHowever, the default constructor is not made public along with the type if any of its components (without default initializers) are private.\n\n\nSure. In Section 7.5.10 Construction of derived-type values, there are two constraints when taken together imply the way I phrased it.\nC799 (R756) A component-spec shall be provided for a nonallocatable component unless it has default initialization\nC7102 (R756) The type name and all components of the type for which a component-spec appears shall be accessible in the scoping unit containing the structure constructor.\n\nJust to wrap this up.\nYour first statement, that I quoted above, is wrong. In particular, it does not follow in any way from the two constraints of the Fortran standard cited in your second statement.\nThere is an implicit assumption in your whole argument/concern, namely that the access specifiers of derived type components (appearing in a component-spec) affect in some way the accessibility of the type itself, and accordingly its structure constructor. This is wrong.\nDerived types as a whole have their own access specifiers, that are independent of the access specifiers of their components. The standard is very clear about this. Section \"7.5.2.2. Accessibility\" states (I'm quoting from the draft for ballot of the 2018 standard, so the numbering might not be the final one):\n\"The accessibility of a type name is determined as specified in 8.5.2. [i.e. by its own access specifier].The accessibility of a type name does not affect, and is not affected by, the accessibility of its components and type-bound procedures.\"\nThe comment in brackets in the above quote is mine. So, in summary, Section 7.5.2.2. of the standard invalidates your entire concern."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-22 20:42:08+00:00",
+                    "text": "@klausler After some thought, and after I had a look into the standard, here is the specific change that I propose. The aforementioned constraint C7102:\n\nC7102 (R756) The type name and all components of the type for which a component-spec appears shall be accessible in the scoping unit containing the structure constructor.\n\nshould be relaxed/changed to:\n\"The type name shall be accessible in the scoping unit calling the structure constructor.\"\nThis essentially follows your suggestion of ignoring the accessibilty of components during the initialization process.\nI have come to the conclusion that it doesn't make any sense to honour the privacy/accessibility of something that doesn't exist (in memory, because it hasn't been initialized) yet. Notice, that I have also changed the word \"containing\" (which I find ambiguous) into \"calling\" (but this is a minor thing).\nI believe this change should be backwards compatible, as it simply relaxes a former, more stringent, constraint.\nI'd be grateful for any feedback that you might have. Kudos for your original suggestion!"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-01-22 20:50:08+00:00",
+                    "text": "I don't think this is a good idea.  If a component is private, the designer of the derived type has chosen to hide that part of the implementation from the interface."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-22 21:03:17+00:00",
+                    "text": "@klausler Yes, but private or not, he (the designer) still needs to initialize that component.\nThe change would simply bring the default structure constructor on an equal footing with a user-defined constructor. The latter is allowed to effect such initialization, then why should we deny the same right to the structure constructor? It is as much associated to the derived type as a user-defined constructor is!"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-01-22 21:13:11+00:00",
+                    "text": "The interface to a user-defined constructor (a generic interface with the same name as the derived type) is under control of the designer of the type, who can hide or expose aspects of the implementation as they see fit.  Allowing private components to appear in a structure constructor would expose parts of the implementation that the type's designer has chosen to hide.\nWhen components are inaccessible, the implementation is free to remove them, change their types, rename them, and extend them without worrying about needing clients to make concomitant changes, so long as the published interface remains unchanged.  Ignoring accessibility restrictions for structure constructors would wreck that guarantee."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-22 21:33:55+00:00",
+                    "text": "@klausler I see your point. Thanks for the feedback."
+                },
+                {
+                    "user": "difference-scheme",
+                    "date": "2021-01-23 00:40:38+00:00",
+                    "text": "From @klausler's last comment, I have to conclude that (due to the very way the language is designed) it is impossible to avoid the aforementioned asymmetry between default/structure constructors and user-defined constructors, without breaking the principle of information hiding in some form. I will therefore close this issue."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-23 01:51:47+00:00",
+                    "text": "@difference-scheme wrote Jan. 22, 2021 7:40 PM EST:\n\n.. aforementioned asymmetry between default/structure constructors and user-defined constructors..\n\nThis point is wrong, there is no such asymmetry."
+                }
+            ]
+        },
+        {
+            "number": 192,
+            "user": "urbanjost",
+            "date": "2021-01-09 04:35:01+00:00",
+            "title": "Allowing an INTEGER array as a LUN on WRITE() statements",
+            "text": "I have seen code many times with conditional execution of WRITE statements and loops repeatedly executing a WRITE statement using multiple LUNs to provide logging, verbose modes, and debug modes.  Aside from the possibility of side-effects\nfrom functions called on the WRITE statements (which current methods have an issue with as well) I was wondering what thoughts there might be on allowing the LUN to be an INTEGER array, including of zero length (in which case I would prefer it be a no-op for efficiency). To illustrate the concept\nI put together a little sample program.\nprogram testit\n! Possible use cases, hopefully intuitively obvious would be such as :\nuse,intrinsic :: iso_fortran_env, only : stdin=>input_unit, stdout=>output_unit, stderr=>error_unit\nlogical :: verbose_on=.true.\ninteger,allocatable :: luns(:)\ninteger :: log\n   ! assuming verbose_on and luns() are set in a module or global area and there are many WRITE\n   ! statements thoughout the program\n   if(verbose_on)then\n      luns=[stdout]\n   else\n      luns=[integer ::]\n   endif\n   write(luns,*)'verbose or debug message (one of many throughout the program)'\n\n   ! when you want to duplicate output in multiple files\n   open(newunit=log,file='record.log')\n   luns=[log,stdout]\n   write(luns,*)'message'\n\nend program testit",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-10 02:38:26+00:00",
+                    "text": "As a working example of the basic concept, here is procedure called WRT() that simulates a basic list-directed write statement\nthat can take up to ten intrinsic scalar variables and an array as a LUN for anyone interested in experimenting with the concept.\nmodule M_wrt\nuse, intrinsic :: iso_fortran_env, only : stderr=>error_unit\nprivate\npublic :: wrt\ncontains\nfunction str(g0, g1, g2, g3, g4, g5, g6, g7, g8, g9, nospace)\nimplicit none\nclass(*),intent(in),optional  :: g0, g1, g2, g3, g4, g5, g6, g7, g8, g9\nlogical,intent(in),optional   :: nospace\ncharacter(len=:), allocatable :: str\ncharacter(len=4096)           :: line\ninteger                       :: istart, increment\n   if(present(nospace))then\n      increment=merge(1,2,nospace)\n   else\n      increment=2\n   endif\n   istart=1\n   line=''\n   if(present(g0))call print_g(g0)\n   if(present(g1))call print_g(g1)\n   if(present(g2))call print_g(g2)\n   if(present(g3))call print_g(g3)\n   if(present(g4))call print_g(g4)\n   if(present(g5))call print_g(g5)\n   if(present(g6))call print_g(g6)\n   if(present(g7))call print_g(g7)\n   if(present(g8))call print_g(g8)\n   if(present(g9))call print_g(g9)\n   str=trim(line)\ncontains\nsubroutine print_g(g)\nuse,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64, real32, real64, real128\nclass(*),intent(in) :: g\n   select type(g)\n      type is (integer(kind=int8));     write(line(istart:),'(i0)') g\n      type is (integer(kind=int16));    write(line(istart:),'(i0)') g\n      type is (integer(kind=int32));    write(line(istart:),'(i0)') g\n      type is (integer(kind=int64));    write(line(istart:),'(i0)') g\n      type is (real(kind=real32));      write(line(istart:),'(1pg0)') g\n      type is (real(kind=real64));      write(line(istart:),'(1pg0)') g\n      type is (real(kind=real128));     write(line(istart:),'(1pg0)') g  !*! NOTE: nvfortran does not support this type\n      type is (logical);                write(line(istart:),'(l1)') g\n      type is (character(len=*));       write(line(istart:),'(a)') trim(g)\n      type is (complex);                write(line(istart:),'(\"(\",1pg0,\",\",1pg0,\")\")') g\n   end select\n   istart=len_trim(line)+increment\nend subroutine print_g\nend function str\nsubroutine wrt(luns,g0, g1, g2, g3, g4, g5, g6, g7, g8, g9,iostat)\nimplicit none\ninteger,intent(in)           :: luns(:)\nclass(*),intent(in),optional :: g0, g1, g2, g3, g4, g5, g6, g7, g8, g9\ninteger,intent(out),optional :: iostat\ninteger                      :: i\ncharacter(len=256)           :: msg\n   do i=1,size(luns)\n      write(luns(i),'(a)',iostat=iostat,iomsg=msg)str(g0,g1,g2,g3,g4,g5,g6,g7,g8,g9)\n      if(iostat.ne.0)then\n         write(stderr,'(*(g0))')'<ERROR>*write*:',trim(msg)\n      endif\n   enddo\nend subroutine wrt\nend module M_wrt\nA simple use of the WRT() procedure demonstrates it can take arbitrary scalars and write to no files\nor multiple files depending on the size and contents of the LUN array.\nprogram demo_wrt\nuse, intrinsic :: iso_fortran_env, only : stdin=>input_unit, stdout=>output_unit, stderr=>error_unit\nuse M_wrt, only: wrt\nimplicit none\ninteger,allocatable :: luns(:)\ninteger :: iostat=0\n   luns=[integer ::] ! a null list allows for turning off verbose or debug mode output \n   call wrt(luns,'NULL LIST:',huge(0),'PI=',asin(1.0d0)*2.0d0,iostat=iostat)\n   write(*,*)'IOSTAT=',iostat\n   luns=[stderr,stdout] ! multiple files can be used to create a log file\n   call wrt(luns,'TWO FILES:',huge(0),'PI=',asin(1.0d0)*2.0d0,iostat=iostat)\n   write(*,*)'IOSTAT=',iostat\n   ! unlike direct use of WRITE a function can be used as a list of LUNS if it returns an INTEGER array.\nend program demo_wrt\nThe wrt() procedure should be able to take up to any nine intrinsic scalars of the types listed:\ngfortran demo.f90;./a.out\n IOSTAT=           0\nTWO FILES: 2147483647 PI= 3.1415926535897931\nTWO FILES: 2147483647 PI= 3.1415926535897931\n IOSTAT=           0\n[urbanjs@localhost ~]$ ifort demo.f90;./a.out\n IOSTAT=           0\nTWO FILES: 2147483647 PI= 3.141592653589793\nTWO FILES: 2147483647 PI= 3.141592653589793\n IOSTAT=           0\nNote the default is to place a space between output values. This can be suppressed using \"nospace=.true\"."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-10 17:03:10+00:00",
+                    "text": "Should the Fortran committee decide to pursue this - note it'll likely require a lot of effort and convincing and influencing - it will be a long wait (years) before an implementation starts to support the facility.\nIn the meantime, practitioners who are interested in this can consider a workaround with IMPURE ELEMENTAL and try to work within the stipulations of this option:\nmodule m\ncontains\n   impure elemental subroutine write_dat( lun, dat )\n      integer, intent(in)  :: lun\n      class(*), intent(in) :: dat\n      select type ( dat )\n         type is ( integer )\n            write( lun, advance=\"no\", fmt=\"(*(g0,1x))\" ) dat\n         type is ( character(len=*) )\n            write( lun, advance=\"no\", fmt=\"(*(g0,1x))\" ) trim(dat)\n      end select\n   end subroutine\nend module\n   use, intrinsic :: iso_fortran_env, only : stdout => output_unit\n   use m, only : write_dat\n   integer :: luns(2)\n   open( newunit=luns(1), file=\"foo.dat\" )\n   luns(2) = stdout\n   call write_dat( luns, \"Hello World!\" )\n   call write_dat( luns, \"The answer is\" )\n   call write_dat( luns, 42 )\nend\n\nC:\\Temp>gfortran -Wall -std=f2018 io.f90 -o io.exe\nC:\\Temp>io.exe\nHello World! The answer is 42\nC:\\Temp>type foo.dat\nHello World! The answer is 42\nC:\\Temp>"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-10 18:15:15+00:00",
+                    "text": "It had not occurred to me that calling an elemental function with a zero-sized array conditionally executed the function, but it makes sense on reflection. Worked fine when I added calls with the EMPTY array.\nmodule m \ncontains \n   impure elemental subroutine write_dat( lun, dat ) \n      integer, intent(in)  :: lun \n      class(*), intent(in) :: dat \n      select type ( dat ) \n         type is ( integer ) \n            write( lun, advance=\"no\", fmt=\"(*(g0,1x))\" ) dat \n         type is ( character(len=*) ) \n            write( lun, advance=\"no\", fmt=\"(*(g0,1x))\" ) trim(dat) \n      end select \n   end subroutine \nend module \n   use, intrinsic :: iso_fortran_env, only : stdout => output_unit \n   use m, only : write_dat \n   integer :: luns(2) \n   integer :: empty(0) \n   open( newunit=luns(1), file=\"foo.dat\" ) \n   luns(2) = stdout \n   call write_dat( luns, \"Hello World!\" ) \n   call write_dat( luns, \"The answer is\" ) \n   call write_dat( luns, 42 ) \n   call write_dat( luns, NEW_LINE('A') ) \n    \n   call write_dat( empty, \"AGAIN:Hello World!\" ) \n   call write_dat( empty, \"The answer is\" ) \n   call write_dat( empty, 42 ) \n   call write_dat( luns, NEW_LINE('A') ) \nend"
+                }
+            ]
+        },
+        {
+            "number": 191,
+            "user": "Beliavsky",
+            "date": "2021-01-03 20:11:45+00:00",
+            "title": "Add format string corresponding to list-directed I/O",
+            "text": "I suggest that format string \"(LD)\" be added that corresponds to list-directed READ and WRITE in READ and WRITE statements. Having such a format would allow read (unit,fmt) and write (unit,fmt) to handle both formatted and list-directed output, removing the need for if blocks such as\nif (format_present) then\n   write (unit,fmt) a,b\nelse \n   write (unit,*) a,b\nend if\n\nThe idea was proposed and discussed here, where Ron Shephard explains how it would simplify reading data.  The \"(LD)\" syntax was suggested by Bill Long.",
+            "comments": []
+        },
+        {
             "number": 190,
             "user": "FortranFan",
             "date": "2020-12-24 02:40:42+00:00",
@@ -1302,6 +1477,41 @@
                     "user": "wclodius2",
                     "date": "2020-07-12 20:19:04+00:00",
                     "text": "Like I said I have no strong feelings about no intent. The users can do a lot of things in almost any programming language that I would consider foolish. With no intent the user could also write the code in such a way that when he provides no argument so the default is used, the routine behaves like an INTENT(IN) and behaves like INTENT(INOUT) otherwise.. Whatever we decide we should discuss the implications for no intent, either requiring that an argument with the DEFAULT may not have the INTENT(INOUT) or INTENT(OUT) (implicitly allowing no intent), or require that arguments with the DEFAULT attribute must have  one of the attributes INTENT(IN) or VALUE (implicitly disallowing no intent).\n\u2026\n On Jul 12, 2020, at 2:07 PM, Jeremie Vandenplas ***@***.***> wrote:\n\n\n Unfortunately no intent is not equivalent to intent(inout), though I wouldn\u2019t object strongly if the revised proposal dropped allowing default assignment for no intent. INTENT(INOUT) means that the input value is always intended to be used and an output value is always expected. No INTENT could behave as an INTENT(IN), INTENT(OUT), or INTENT(INOUT), and its behavior could depend dynamically on the other arguments.\n\n Thank you for the precisions. Therefore, because \"no intent\" could behabe as an intent(out), wouldn't it make sense to not allowing default assignment for \"no intent\"? Otherwise, users could just drop \"intent(out)\" and add a default value for an argument actually behaving as intent(out)\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub <#175 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDORHEY47PL72S6NERJLR3IJWTANCNFSM4OXT2LXA>."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-01-20 19:25:40+00:00",
+                    "text": "I don't like specifying the default value in the argument list as in real function quadratic(x, a, b, c=0). I am ok with using default (and not mix this with optional).\nOne objection from the committee I believe is that the syntax integer, intent(in), default :: c = 0 implies the save attribute. So perhaps this syntax should be used instead: integer, intent(in), default(0) :: c."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-20 19:33:36+00:00",
+                    "text": "One objection from the committee I believe is that the syntax integer, intent(in), default :: c = 0 implies the save attribute.\n\nI don't understand this objection because dummy arguments can't have a save attribute.\nI am also okay with not mixing default and optional. I slightly prefer the default :: c = 0 syntax, but default(0) :: c is fine too."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-01-20 19:40:17+00:00",
+                    "text": "You need to decide whether the default value of a dummy argument (or just that fact that it has one) is meant to be a characteristic of the procedure or not.  This matters in the implementation, because it determines whether an implementation has the freedom to implement the default value in the caller (as in C++) or in the called subprogram, or whether the language is forcing one or the other.\nWhy this matters: if the default value of a dummy argument is an expression involving other dummy arguments, host-associated variables, module or COMMON objects, &c., implementing the evaluation of the default value in the caller can be difficult or impossible.  But if default values are expressions to be evaluated if need be in the called subprogram, then the value need not be part of the characteristics or interface, and the implementation of the calling side is no different from an OPTIONAL argument; and one could argue that an explicit interface need not distinguish between OPTIONAL and having a default value for purposes of procedure pointer assignment and other interface compatibility checking."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-01-20 19:46:44+00:00",
+                    "text": "Peter, when I discussed that at the last meeting (after the plenary), I think our idea was to implement the default value in the caller, which enables the compiler to compile the subroutine ahead of time without any if statements, and call it exactly the same way no matter if the user provides the default argument or not.\nYou have a good point about what if the default value is an expression involving other dummy arguments that it might be impossible. I don't know yet if it is impossible, and so a prior compiler implementation would be in order here. At least in gfortran it seems any of these expressions (such as a length of an array) is part of the function signature, so this would be also."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-01-20 19:57:03+00:00",
+                    "text": "Peter, when I discussed that at the last meeting (after the plenary), I think our idea was to implement the default value in the caller, which enables the compiler to compile the subroutine ahead of time without any if statements, and call it exactly the same way no matter if the user provides the default argument or not.\nYou have a good point about what if the default value is an expression involving other dummy arguments that it might be impossible. I don't know yet if it is impossible, and so a prior compiler implementation would be in order here. At least in gfortran it seems any of these expressions (such as a length of an array) is part of the function signature, so this would be also.\n\nsubroutine host(defaultY)\n  real, intent(in) :: defaultY\n  call solver(f)\n contains\n  real function f(x, y)\n    real, intent(in) :: x, y\n    default(defaultY) :: y\n    ...\n  end function\nend subroutine\n\nSeems like a compelling use case to me, but the default has to be implemented in the called subprogram to make it work.  So there's reasons why defaults should be implemented in callees, and the only argument for implementing them in callers (it might save a predictable branch) is weak and also has other obvious solutions."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-01-20 21:28:43+00:00",
+                    "text": "I see. The nested subroutine f has access to the variables in the parent scope, such as defaultY, so this would work if the default is not part of the signature, using the current mechanism for nested subroutines. But if it is part of the signature of f, then one needs access to defaultY inside the function solver, which currently is not possible. Good point, thank you @klausler."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-01-21 19:19:33+00:00",
+                    "text": "I see. The nested subroutine f has access to the variables in the parent scope, such as defaultY, so this would work if the default is not part of the signature, using the current mechanism for nested subroutines. But if it is part of the signature of f, then one needs access to defaultY inside the function solver, which currently is not possible. Good point, thank you @klausler.\n\nHere's an idea: extend the VALUE attribute to accept an expression, and allow it to be applied to an OPTIONAL dummy argument as its default value.   (You could also accept VALUE with an expression to specify a per-invocation initializer for a local variable, too, I suppose.)"
                 }
             ]
         },
@@ -1815,7 +2025,13 @@
             "date": "2020-02-28 02:15:29+00:00",
             "title": "Namelist delimiter proposal update",
             "text": "This patch contains two main modifications to the namelist delimiter\nproposal:\n\n\nThe introduction has been modified for clarity and to include the\nproposed change, rather than simply a discussion of the problem.\n\n\nThe introduction and proposal sections have been modified to clarify\nthat list-directed output would be unaffected by the change.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "marshallward",
+                    "date": "2021-01-02 13:25:24+00:00",
+                    "text": "I am not sure how to submit this, and other feedback suggests that I am the only person on the planet who is concerned about this, so I am going to close this."
+                }
+            ]
         },
         {
             "number": 158,
@@ -5919,6 +6135,16 @@
                     "user": "FortranFan",
                     "date": "2020-03-06 23:21:25+00:00",
                     "text": "To those interested in this issue, here's a comment to take note at comp.lang.fortran thread where \"Lynn McGuire\" posted:\n\nThe number one dysfunctional item in Fortran is variable typing and\ndeclaration.  At the 1977 specs, much less the 1990 specs, all Fortran\nvariables should be explicitly declared and typed.  The implicit rule is\nok for small programs.  Not at all for anything more than say, a\nthousand lines of code."
+                },
+                {
+                    "user": "elecprog",
+                    "date": "2021-01-12 19:23:48+00:00",
+                    "text": "I've been thinking a bit more on this issue lately, especially having used Fortran some more (after seemingly having partially opened Pandora's box with this thread).\nFirst four assumptions I'm making (which to my knowledge are true, but please correct me if I'm wrong):\n\nWe really want to get rid of implicit by default, but implicit semantics themselves don't have to go (in the short term at least).\nHaving code not compile\u2014but not break\u2014is a lesser evil than implicit by default, if that code can automatically be fixed.\nIf implicit none changes the semantics of the code, this always results in the code failing to compile.\nProgram units are easily detected.\n\nIf these assumptions are true, getting rid of implicit typing as a default is actually pretty straightforward:\nMake implicit none the default in the next standard and include a tool that detects the outer most program units, sees if there is any implicit statement and if not adds\nIMPLICIT INTEGER (I-N), REAL (A-H, O-Z)\nOptionally this tool could even verify if this change is needed, but it doesn't have to.\nAdditionally we could deprecate the implicit statement all together and leave it up to vendors if they support old code or not."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-01-12 20:33:31+00:00",
+                    "text": "Thanks @elecprog for writing down the assumptions that you used. Under your assumptions I think your proposal could work.\nThe issue that we have is that we can't get a community agreement on the assumptions. I have seen opposition to the assumption 2., and consequently also 1. I personally agree with 2. (i.e., implicit by default being more evil), but some others disagreed (older code not compiling being more evil: Fortran historically tries very hard to compile older code, so I understand this position)."
                 }
             ]
         },
@@ -8646,6 +8872,16 @@
                     "user": "rouson",
                     "date": "2020-02-27 04:22:18+00:00",
                     "text": "I haven't read this entire thread, but I like the original idea and have been thinking for some time about repurposing the AdHoc repository to automate and democratize the generation of a standards-conformance table.   Because AdHoc stores compiler bug reproducers, its build scripts are designed to continue building the remainder of the repository after a compile-time error occurs.   This makes it feasible to generate a standards-conformance table based on a test suite that includes code with features not supported by the involved compilers.  The build scripts could automatically generated table in GitHub Markdown structured something like the following:\n\n\n\n\nCompiler A\nCompiler B\n\n\n\n\nFeature A\nYes\nNo\n\n\nFeature B\nPartial\nYes\n\n\n\nEach entry would correspond to a unique subdirectory.  Contributors would submit pull requests with tests that enable the build/test scripts to set the value of each entry according to the following rules:\n\n\"No\" for an empty subdirectory or one in which all tests fail,\n\"Yes\" if all tests in the subdirectory pass, or\n\"Partial\" otherwise.\n\nFor example, the following directory tree would yield the above table if the tests foo.f90, bar.f90, and foobartoo.f90 pass but foobar.f90 fails:\n$ tree tests\ntests/\n\u251c\u2500\u2500 compiler-a\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 feature-a\n\u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2514\u2500\u2500 foo.f90\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 feature-b\n\u2502\u00a0\u00a0     \u251c\u2500\u2500 bar.f90\n\u2502\u00a0\u00a0     \u2514\u2500\u2500 foobar.f90\n\u2514\u2500\u2500 compiler-b\n    \u251c\u2500\u2500 feature-a\n    \u2514\u2500\u2500 feature-b\n        \u2514\u2500\u2500 foobartoo.f90\n\nFor free compilers, the tests could be run at no cost using GitHub continuous integration features.  For non-free compilers, another mechanism for running the tests might be required.  The degree of comprehensiveness of the test suite would be determined by the community."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-08 16:07:19+00:00",
+                    "text": "A case for consider in a test suite for the Fortran standard, this one with finalization.\n! Unit Test #: Test-1.F2018-7.5.6\n! Author     : FortranFan\n! Reference  : https://j3-fortran.org/doc/year/18/18-007r1.pdf\n!\n! Description:\n! Section 7.5.6.3 When finalization occurs in above pdf\n! c.f. page 80 paragraph starting line 17:\n! When finalization occurs\n!\n\nmodule m\n   type :: t\n      character(len=12) :: name = \"default\"\n   contains\n      final :: final_t\n   end type\n   interface t\n      module procedure construct_t\n   end interface\ncontains\n   function construct_t( name ) result(r)\n      character(len=*), intent(in), optional :: name\n      type(t) :: r\n      if ( present(name) ) r%name = name\n   end function\n   subroutine final_t( this )\n      type(t), intent(inout) :: this\n      print *, \"final_t: this%name = \", this%name\n      return\n   end subroutine\n   subroutine sub1()\n      type(t), allocatable :: foo\n      foo = t( name=\"constructor\" )\n      foo%name = \"foo\"\n   end subroutine\n   subroutine sub2()\n      type(t), allocatable :: foo\n      allocate( foo )\n      foo = t( name=\"constructor\" )\n      foo%name = \"foo\"\n   end subroutine\nend module\n   blk1: block\n      use m, only : sub1\n      print *, \"Block 1: Two lines from final_t are expected\"\n      call sub1()\n   end block blk1\n   print *\n   blk2: block\n      use m, only : sub2\n      print *, \"Block 2: Three lines from final_t are expected\"\n      call sub2()\n   end block blk2\nend\nConsider the program output using gcc version 10.0.1 (experimental)):\n\nC:\\temp>gfortran -Wall -std=f2018 p.f90 -o p.exe\nC:\\temp>p.exe\nBlock 1: Two lines from final_t are expected\nfinal_t: this%name = foo\nBlock 2: Three lines from final_t are expected\nfinal_t: this%name = foo\n\nWhereas the output I expect per the Fortran standard is this:\n\nBlock 1: Two lines from final_t are expected\nfinal_t: this%name = constructor\nfinal_t: this%name = foo\nBlock 2: Three lines from final_t are expected\nfinal_t: this%name = default\nfinal_t: this%name = constructor\nfinal_t: this%name = foo"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-01-09 00:42:37+00:00",
+                    "text": "Here's a variant of the previous case, this one involves the expr on the right-hand side to include a component of the variable on the LHS:\n! Unit Test #: Test-2.F2018-7.5.6\n! Author     : FortranFan\n! Reference  : https://j3-fortran.org/doc/year/18/18-007r1.pdf\n!\n! Description:\n! Section 7.5.6.3 When finalization occurs in above pdf\n! c.f. page 80 paragraph starting line 17:\n! When finalization occurs\n!\n\nmodule m\n   type :: t\n      character(len=12) :: name = \"default\"\n   contains\n      private\n      procedure, pass(lhs) :: add_t\n      procedure, pass(this) :: clone_t\n      generic, public :: operator(+) => add_t\n      generic, public :: clone => clone_t\n      final :: final_t\n   end type\n   interface t\n      module procedure construct_t\n   end interface\ncontains\n   function construct_t( name ) result(r)\n      character(len=*), intent(in), optional :: name\n      type(t) :: r\n      if ( present(name) ) r%name = name\n   end function\n   subroutine final_t( this )\n      type(t), intent(inout) :: this\n      print *, \"final_t: this%name = \", this%name\n      return\n   end subroutine\n   function add_t( lhs, rhs ) result(r)\n      class(t), intent(in) :: lhs\n      type(t), intent(in)  :: rhs\n      type(t) :: r\n      r%name = trim(lhs%name) // \"+\" // trim(rhs%name)\n   end function\n   function clone_t( this ) result(r)\n      class(t), intent(in) :: this\n      type(t) :: r\n      r%name = trim(this%name) // \"*\"\n   end function\n   subroutine sub()\n      type(t), allocatable :: foo\n      foo = t( name=\"constructor\" )\n      print *, \"1\"\n      foo%name = \"foo\"\n      foo = foo%clone()\n      print *, \"2\"\n      foo = foo + foo\n      print *, \"3\"\n   end subroutine\nend module\n   use m, only : sub\n   call sub()\nend\ngfortran program output is\n\n1\n2\n3\nfinal_t: this%name = foo*+foo*\n\nThe expected program output is\n\nfinal_t: this%name = constructor\n1\nfinal_t: this%name = foo\nfinal_t: this%name = foo*\n2\nfinal_t: this%name = foo*\nfinal_t: this%name = foo*+foo*\n3\nfinal_t: this%name = foo*+foo*"
                 }
             ]
         },
@@ -10212,6 +10448,11 @@
                     "user": "vansnyder",
                     "date": "2020-05-09 20:10:13+00:00",
                     "text": "Array-like syntax would be the most natural, but obviously conflicts with, er, array syntax.\n\nTom:\nI proposed array/function syntax for structure components, getters, and setters at the X3J3 meeting in Albuquerque in 1986, when % was still controversial. John Reid, Rex Paige, and Brian Smith understood it. Others said \"Fortran programmers want to see what their program is doing.\" Of course, you DO NOT want to see HOW your program is doing things. Parnas had explained that 16 years earlier.\nThere is no syntax conflict. Processors can already work out the difference between function and array references. Setters would not be a new problem. Indeed, an assignment to an array element is an invocation of a setter that the processor knows how to write and inline."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-18 01:15:58+00:00",
+                    "text": "If the protected attribute is allowed for members of derived types as already under discussion in #16 and #156, the \"getter\" problem would be solved for many usage cases.\nI can still imagine instances where I would like to have something closer to the idea of Pythons @property decorator. An example of what I have in mind is something along the lines of\n\ntype :: matrix\n  real, allocatable :: A(:,:)\n  integer, property :: rows = size(matrix%A,1)  ! a read-only property\n  integer, property :: cols = size(matrix%A,2)   ! a read-only property\ncontains\n  procedure :: get_nrows  ! I would like to avoid having to write this function\nend type\n\ntype(matrix) :: mat \n\nmat%A = reshape([1,2,3,4],[2,2])\n\nprint *, A%rows, A%cols    ! prints:       2       2\n\nI am guessing this would conflict with the way some intrinsic functions work. The gfortran documentation says that size() will only return a meaningful result for an allocated array. On the other hand ifort appears to return 0 as the size of unallocated objects. In any case the idea is that the actual call to size() would be made when the member A%rows is referenced somewhere. It would probably make sense to limit the allowable property functions to pure intrinsic functions."
                 }
             ]
         },
@@ -10889,6 +11130,16 @@
                     "user": "septcolor",
                     "date": "2020-07-27 03:22:01+00:00",
                     "text": "@wclodius2 Thanks very much for clarification! I will read the original and revised drafts (and this thread) more carefully..."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-20 19:19:52+00:00",
+                    "text": "Just to remember that a revised version of the proposal is in the MR: #175 . It doesn't appear clearly in this thread..."
+                },
+                {
+                    "user": "vansnyder",
+                    "date": "2021-01-21 02:09:49+00:00",
+                    "text": "During the development of Fortran 90, back when it was still called Fortran 8x, there was a proposal for an AUTOMATIC attribute. When RECURSIVE was added, the argument was that every variable that isn't SAVE is automatic. The standard's definition of \"automatic variable\" was needlessly narrowed to one that used a variable to specify a bound or length parameter. I no longer have records from that time; I sent them to the Computer History Museum. Loren Meissner is the curator for them.\nHad the AUTOMATIC attribute been retained, an obvious definition of AUTOMATIC with initialization would have meant automatic initialization, not SAVE. Specifying the AUTOMATIC attribute without initialization would simply confirm what we already say now. Explicitly specifying AUTOMATIC and SAVE for a particular variable should be prohibited. Explicitly specified AUTOMATIC would override default SAVE. AUTOMATIC would naturally be prohibited for storage-associated variables.\nOnce AUTOMATIC is defined that way, all that is necessary to provide default values for absent optional arguments is to define an absent OPTIONAL argument that has initialization to be a local automatic variable.\nThe PRESENT intrinsic should still be available to inquire whether there was an associated actual argument. Even if there's a value for a local variable acting in lieu of the absent dummy argument, it's still useful to know whether the actual argument was present."
                 }
             ]
         },

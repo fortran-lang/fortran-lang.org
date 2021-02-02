@@ -2,6 +2,517 @@
     "name": "fortran-lang/stdlib",
     "issues": [
         {
+            "number": 308,
+            "user": "awvwgk",
+            "date": "2021-01-26 17:02:51+00:00",
+            "title": "Subprocesses and Multiprocessing",
+            "text": "Motivation\nSpawning or forking synchronous and asynchronous processes in an Fortran application is currently not easily doable in a cross-platform way. This is usually required for job servers which cannot access a functionality from a dynamically loaded library but have to access this functionality by other means, e.g. invoking a program with some input (standard input, files or arguments) and processing its output (standard output or files). Redesigning the functionality to allow dynamically loading symbols is not always possible or desirable.\nA current alternative is the execute_command_line which allows to create a new shell or CMD instance, which in turn can invoke commands. Together with OpenMP, MPI or coarrays this can be done even asynchronous but is tedious and somewhat errorprone. Using a shell or CMD instance has some security and speed implications as well.\nPossible API\n\nprocedural API similar to POSIX API (basically thin iso_c_binding wrapper)\nobject oriented API similar to Python's subprocess module\n\nAvailable Implementations\nFeel free to add entries to this list.\nFor POSIX API:\n\nM_process\nfortran-unix\nfortyxima\n\nFor Windows API?",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-26 18:27:15+00:00",
+                    "text": "I few months ago I was trying to replicate the process API from Rust. Ultimately, I got stuck exactly on this issue and tried to solicit some help/ideas at Fortran Discourse: https://fortran-lang.discourse.group/t/ideas-for-command-module/439/4\nA number of Fortran Posix API's are linked here: #22 (comment) It's a shame the Fortran community didn't unite earlier, and instead allowed compiler vendors to role out several incompatible Posix interfaces.\nEdit: the C runtime library for Microsoft Windows has the _spawn, _wspawn Functions which seem to fit the purpose."
+                }
+            ]
+        },
+        {
+            "number": 307,
+            "user": "ivan-pi",
+            "date": "2021-01-21 00:03:41+00:00",
+            "title": "Modify goal and workflow of stdlib",
+            "text": "Currently the front page of stdlib states:\n\nstdlib is both a specification and a reference implementation. [...] if the Committee wants to standardize some feature already available in stdlib, it would base it on stdlib's implementation.\n\nAs I understand things, the Fortran committee has little to do with the actual implementation. Instead this is primarily a job of the compiler vendors (of course they are able to influence the standardization process to some degree). On the other hand the committee has everything to do with the specification which defines the interface and the behavior.\nSince the introduction of submodules, the interface part, and the implementation (behavior) can be decoupled from each other. For the language users who are willing to use a compatible C/C++ compiler (meaning the majority of currently available compilers) this provides an opportunity to speed development efforts by interfacing with external libraries such as the C++ standard library, Boost, libm, and other respected sources, in order to converge to a specification faster.\nThe current work flow document asks contributors to present a draft Fortran implementation in stage 3. I am wondering if we could agree to a modified work flow that would allow contributors to still propose an experimental Fortran API, but draft the implementation in C or C++ potentially with external dependencies? A reasonable requirement for the routine to move out of experimental would still be a Fortran implementation, as an assurance that Fortran can \"stand on it's own\".\nI realize this approach has many downsides, e. g. having to maintain a mixed Fortran/C/C++ repository, introduce a bunch of preprocessor commands and optional flags, increase the potential for memory leaks and C related bugs, and finally introduced unwanted dependencies to the project.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-21 01:10:26+00:00",
+                    "text": "I think that if we can agree (on a case by case basis) that the pros of a C or C++ implementation outweigh the cons (which you listed), that's fine with me. Fortran compilers usually come with companion C and C++ compilers, so it wouldn't impact compiling from source for developers, and it wouldn't impact users who download the binary files.\nBut I don't see why this needs the workflow to be modified.  Does the workflow doc say that the implementation must be in Fortran? The specification would describe the Fortran API, which you'd need to have regardless of the implementation language under the hood."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-21 08:57:26+00:00",
+                    "text": "But I don't see why this needs the workflow to be modified. Does the workflow doc say that the implementation must be in Fortran?\n\nOn more careful reading it actually doesn't. It only says \"a reference implementation\" should be provided.\nThe primary advantage I see is that the C code might be already available. As an example to develop and test an efficient Fortran sorting function from scratch would likely take someone several man-hours/days. If we could agree to Fortranic interface and just use the C qsort function for our implementation we could have a fast and verified sorting routine sooner. qsort is in fact already allowed as a non-standard extension in some compilers, however the interface is bothersome.\n(The article Engineering a Sort Function by Bentley & McIlroy from Bell laboratories explains the trickery that actually goes into a performant sort function.)"
+                }
+            ]
+        },
+        {
+            "number": 306,
+            "user": "jvdp1",
+            "date": "2021-01-19 20:51:47+00:00",
+            "title": "stdlib_logger:  structure of the different log messages?",
+            "text": "With the PR #261, a hierarchy of levels for the different types of log messages was added in stdlib_logger led by @wclodius2 . Currently the user can only choose a level from which all messages with a level higher than the chosen level can be written. See these specs for more details on the different levels.\nDuring the review of the #261, @ivan-pi proposed another possibility that would consider the different levels as switches.\nUsig a binary representation of integers, levels would look like:\nnone_level = 0\ntext_error_level = shiftl(1,0) \nio_error_level = shiftl(1,1) ! or the error levels can have the same switch\nerror_level = shiftl(1,2)\nwarning_level = shiftl(1,3)\ninformation_level = shiftl(1,4)\ndebug_level = shiftl(1,5)\nall_level = text_error_level + io_error_level + error_level + warning_level + &\n                 information_level + debug_level\nThis representation would allow the user to turn on selectively only certains combinations of log messages needed to be written to the output.\nI often use stdlib_logger and I am happy with the current behaviour. However, I can see the advantages of such an approach.\nWhat do you think?",
+            "comments": [
+                {
+                    "user": "wclodius2",
+                    "date": "2021-01-20 03:18:50+00:00",
+                    "text": "I am also happy with the current behavior. I worry that allowing arbitrary combinations of levels would be hard to reason about, and hard to test (With six levels I believe there are 64 different combinations)."
+                }
+            ]
+        },
+        {
+            "number": 305,
+            "user": "LucaArgentiUCF",
+            "date": "2021-01-19 20:22:41+00:00",
+            "title": "Special Functions",
+            "text": "There is a standard for the class of numerical functions that are needed in scientific computation. Traditionally, that was for a long time the \"blue book\" *Handbook of Mathematical Functions\", by Abramowitz and Stegun. However, the American National Institute of Standard and Technology (NIST) has sing long ago taken the burden on its shoulder. After countless years of work and revision, the new\nDigital Library of Mathematical Functions (DLMF) \nhas been published.\nThe DLMF is a the perfect starting point to broaden the standard library. All formulas are tested, some are implemented, and all rigorously referenced and documented. So there is no better blueprint.\nAnywhere would be good to start, but I suggest\n\nconfluent hypergeometric functions\nlegendre and related functions\northogonal polynomials\nCoulomb functions\nspherical-group coefficients (3j, 6j, 9j)",
+            "comments": [
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2021-01-19 20:44:24+00:00",
+                    "text": "I like the idea. The special functions are needed in almost all areas. Currently, there are only gamma, log_gamma and bessel functions as standard intrinsic, we need more functions like beta, incomplete gamma, incomplete beta functions etc."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-20 08:55:37+00:00",
+                    "text": "Definitely. There are quite a number of libraries out there that claim to\ncalculate these functions. But a good reference is necessary to ensure the\nquality. In addition to the NIST library, I have a digital copy of the book\n\"The Mathematical Function Computation Handbook\" by Nelson Beebe, He pays a\nlot of attention to the accuracy and to the corner cases. It could serve as\na second opinion :).\n\nOp di 19 jan. 2021 om 21:44 schreef Jing <notifications@github.com>:\n\u2026\n I like the idea. The special functions are needed in almost all areas.\n Currently, there are only gamma, log_gamma and bessel functions as standard\n intrinsic, we need more functions like beta, incomplete gamma, incomplete\n beta functions etc.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#305 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4FENMILBTKIDQHO7DS2XVLVANCNFSM4WJL6ZSQ>\n ."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 11:09:18+00:00",
+                    "text": "Hello @LucaArgentiUCF ,\nI think this issue might be a duplicate of #179 and #102. The former thread contains a link to a proposal with a specification for a special functions module. (The proposal to include such functions directly in the Fortran language standard was ultimately scrapped or rejected.)\nIf we could agree on an interface, that would be a good first step. We could also \"borrow\" the interfaces from the major vendor libraries:\n\nIMSL\u00ae Fortran Math Special Functions Library\nNAG FL Interface S (Specfun) Approximations of Special Functions (this appears to be an interface to the specfun package)\n\nI had a go at implementing the inverse error function last year using some preprocessing magic: #179 (comment)\nI also started an implementation for a (non-special) cube root function: #214. Initially I thought it would be an easy one, but it turns out catching all the corner cases and guaranteeing full precision over the entire range of floating point variable range, while maintaining good performance is quite tricky. You definitely need a very good understanding of the mathematics, hardware, and numerical analysis if you want to produce high quality implementations.\nUltimately, I halted work on the erfinv function, because I lacked the knowledge (and time) to implement the tests recommed in post #179 (comment) to tabulate the units in last place (ULP). I would appreciate any help to push the erfinv further."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-20 11:51:00+00:00",
+                    "text": "The SLATEC library on the Netlib site seems to offer quite a few routines\nfor special functions as well.\n\nThings I am wondering about:\n\n   - Should we formulate accuracy requirements, beyond the obvious\n   (reasonable range, reasonable number of decimals, ...)?\n   - All these venerable codes use some means to determine machine\n   parameters - Fortran now offers standard functions. Replace the old probing\n   code by modern Fortran means?\n   - Would there be a license problem if we adopt and adapt these codes?\n\nMostly thinking out loud :).\n\nOp wo 20 jan. 2021 om 12:09 schreef Ivan Pribec <notifications@github.com>:\n\u2026\n Hello @LucaArgentiUCF <https://github.com/LucaArgentiUCF> ,\n\n I think this issue might be a duplicate of #179\n <#179> and #102\n <#102>. The former thread\n contains a link to a proposal with a specification for a special functions\n module. (The proposal to include such functions directly in the Fortran\n language standard was ultimately scrapped or rejected.)\n\n If we could agree on an interface, that would be a good first step. We\n could also borrow the interfaces from the major vendor libraries:\n\n    - IMSL\u00ae Fortran Math Special Functions Library\n    <https://help.imsl.com/fortran/current/html/fnlspecfunc/index.html>\n    - NAG FL Interface S (Specfun) Approximations of Special Functions\n    <https://www.nag.com/numeric/nl/nagdoc_latest/flhtml/s/sconts.html>\n    (this appears to be an interface to the specfun\n    <https://www.netlib.org/specfun/> package)\n\n I had a go at implementing the inverse error function last year using some\n preprocessing magic: #179 (comment)\n <#179 (comment)>\n\n I also started an implementation for a (non-special) cube root function:\n #214 <#214>. Initially I\n thought it would be an easy one, but it turns out catching all the corner\n cases and guaranteeing full precision over the entire range of floating\n point variable range, while maintaining good performance can be very\n tricky. You definitely need a very good understand of both the mathematics,\n hardware, and numerical analysis if you want to produce high quality\n implementations.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#305 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRYRPP7GQCGXERJBYMLS222W7ANCNFSM4WJL6ZSQ>\n ."
+                },
+                {
+                    "user": "LucaArgentiUCF",
+                    "date": "2021-01-20 13:38:09+00:00",
+                    "text": "I agree the issue overlaps with 179. However, I think that the Digital Library of Mathematical Functions (DLMF) is as authoritative and standard a reference as one can ever possibly get. My suggestion, therefore, would be to shape the special function libraries in terms of one module per DLMF chapter, and figure out which already existing libraries provide the functionalities.\nRegarding TOMS, I do not quite get the statement that I have read in some threads that \"it is not usable\". Unless this sentiment meant to imply poor quality of the library (?), the copyright restrictions to CALGO are not particularly severe: for software past 2013, the rights are with the authors, so one can just ask them (I guess they would be happy to give the rights to use to a standard library they can boast about). For software prior to that date there is only the non-commercial-use clause. Maybe someone see that as a no-go. However, fortran users are for the most part from academia and research centers, so the library modules could include such a disclaimer. Or, if one has just one or two functions from TOMS in a module, one could try to convince ACM to issue a special perpetual no-cost license for those functions in the library. It may be seen by them as a way to promote CALGO, provided that their contribution is advertised in the description of the library.\nCheers,\nLuca"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 14:23:23+00:00",
+                    "text": "For software prior to that date there is only the non-commercial-use clause. Maybe someone see that as a no-go. However, fortran users are for the most part from academia and research centers, so the library modules could include such a disclaimer.\n\nI don't think this is fully the case. There are numerous engineering companies in the aeronautical, petrochemical, and other industries (optics, physics, astronomy, finance, defense, environment...) which are using Fortran. (I remember at a few Fortran monthly calls we had an employee from Boeing join in.) The projects listed on the fortran-lang page: https://fortran-lang.org/packages/scientific are likely only the tip of the Fortran iceberg.\nThe presence of the vendor libraries make me think there must be clients willing to pay for them. Personally, I work at the Technical University of Munich which is a high-ranking public research university, yet we don't have direct access to these libraries. (Access to the NAG library is available indirectly through the SuperMUC cluster funded by the Bavarian Academy of Sciences and Humanities. This resource is shared among many European universities, but even internally we need to submit a formal request to gain access.)\nI have seen in multiple places of the Julia libraries they rolled their own versions of mathematical algorithms to avoid the ACM license. I lack experience with software licenses and their application in practice to judge whether this was really necessary or not."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-20 14:29:36+00:00",
+                    "text": "The Netlib site is a trifle vague, On their FAQ page:\n\n\n* 2.3) Are there restrictions on the use of software retrieved from Netlib?\n* Most netlib software packages have no restrictions on their use but we\nrecommend you check with the authors to be sure. Checking with the authors\nis a nice courtesy anyway since many authors like to know how their codes\nare being used.\n\n\nSo, unless code is associated with a TOMS algorithm, it is likely to come\nwith a very permissive license.\n\nOp wo 20 jan. 2021 om 15:23 schreef Ivan Pribec <notifications@github.com>:\n\u2026\n For software prior to that date there is *only* the non-commercial-use\n clause. Maybe someone see that as a no-go. However, fortran users are for\n the most part from academia and research centers, so the library modules\n could include such a disclaimer.\n\n I don't think this is fully the case. There are numerous engineering\n companies in the aeronautical, petrochemical, and other industries (optics,\n physics, astronomy, finance, defense, environment...) which are using\n Fortran. (I remember at a few Fortran monthly calls we had an employee from\n Boeing join in.) The projects listed on the fortran-lang page:\n https://fortran-lang.org/packages/scientific are likely only the tip of\n the Fortran iceberg.\n\n The presence of the vendor libraries make me think there must be clients\n willing to pay for them. Personally, I work at the Technical University of\n Munich which is a high-ranking public research university, yet we don't\n have direct access to these libraries. (Access to the NAG library is\n available indirectly through the SuperMUC cluster funded by the Bavarian\n Academy of Sciences and Humanities. This resource is shared among many\n European universities, but even internally we need to submit a formal\n request to gain access.)\n\n I have seen in multiple places of the Julia libraries they rolled their\n own versions of mathematical algorithms to avoid the ACM license. I lack\n experience with software licenses and their application in practice to\n judge whether this was really necessary or not.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#305 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR34HWOOZMQS2PVEBD3S23RO3ANCNFSM4WJL6ZSQ>\n ."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 14:32:02+00:00",
+                    "text": "All these venerable codes use some means to determine machine parameters - Fortran now offers standard functions. Replace the old probing code by modern Fortran means?\n\n\nI have seen this done in a few places previously. One example is here:\nhttps://github.com/certik/fortran-utils/blob/master/src/legacy/amos/d1mach.f90\nI can't remember which code it was, but I think I have seen the D1MACH function replaced by a static array somewhere.\nConcerning SLATEC, I believe it is in the public domain. @jacobwilliams has refactored several components from SLATEC."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 16:11:21+00:00",
+                    "text": "Matching the special functions introduced in C++17 is another reasonable goal:\nhttps://en.cppreference.com/w/cpp/numeric/special_functions"
+                }
+            ]
+        },
+        {
+            "number": 304,
+            "user": "brocolis",
+            "date": "2021-01-19 15:11:39+00:00",
+            "title": "Add supported compilers MinGW 8, 9, 10",
+            "text": "Add supported compilers MinGW 8, 9, 10 (x86_64 and i686) on Windows 10.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-20 18:15:37+00:00",
+                    "text": "@brocolis Did you install the GCC versions from http://winlibs.com/? We might be able to download the corresponding GCC versions from https://github.com/brechtsanders/winlibs_mingw/releases/ and actually test them in the CI to keep supporting a wide range of compilers on Windows as well."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-21 10:51:48+00:00",
+                    "text": "@awvwgk I did download and build MinGW/GFortran from sources. I used the scripts written by https://github.com/StephanTLavavej/mingw-distro/ with minor modifications."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-21 10:56:46+00:00",
+                    "text": "Thanks for the clarification. Using this approach would be taxing on the CI runners, if you find a good way to (semi-)automatically install different GCC versions on Windows, let me know, I would be interested to extend the stdlib CI testing for those at some point."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-22 13:34:45+00:00",
+                    "text": "Hello. I'm not familiar with CI setup. Anyway, I'll upload the binaries/build scripts to the internet in the next few days."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-26 11:33:38+00:00",
+                    "text": "Hello. I'm not familiar with CI setup. Anyway, I'll upload the binaries/build scripts to the internet in the next few days.\n\nOK, mingw/gfortran-8.4.0, 9.3.0 and 10.2.0 for Windows (i686, x64) are now available at https://fortran.rocks/all.html"
+                }
+            ]
+        },
+        {
+            "number": 303,
+            "user": "jvdp1",
+            "date": "2021-01-18 22:21:56+00:00",
+            "title": "Fix missing dependencies in Makefile",
+            "text": "Fixes #302",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-18 23:28:54+00:00",
+                    "text": "\ud83d\udc4d \ud83d\ude4f"
+                }
+            ]
+        },
+        {
+            "number": 302,
+            "user": "milancurcic",
+            "date": "2021-01-18 21:51:55+00:00",
+            "title": "CI fails in manual Makefile build",
+            "text": "Manual Makefile build fails following the merge of #301: https://github.com/fortran-lang/stdlib/runs/1724103766?check_suite_focus=true. I re-ran the jobs to make sure it's reproducible. It is. #301 build was fine at the PR stage. But I think it's incompatible with the parallel Makefile build introduced in #294.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-18 22:16:11+00:00",
+                    "text": "Dependencies for some submodules seem to be missing. I'll have a look."
+                }
+            ]
+        },
+        {
+            "number": 301,
+            "user": "jvdp1",
+            "date": "2021-01-17 16:20:49+00:00",
+            "title": "Fix some issues with Makefiles mentioned in #294",
+            "text": "Fixing the following issues related to Makefiles mentioned in #294:\n\nGenerated .f90 files by fypp can now be cleaned with the clean rule\nDependency added for common.fypp",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-18 21:10:40+00:00",
+                    "text": "Thanks @jvdp1, I will merge."
+                }
+            ]
+        },
+        {
+            "number": 300,
+            "user": "awvwgk",
+            "date": "2021-01-16 12:57:24+00:00",
+            "title": "Fix compilation error for NAG",
+            "text": "NAG detects a duplicated name for error_handler which is defined as module procedure as well as the name of the interface of said procedure:\nError: src/stdlib_bitsets.f90, line 2131: ERROR_HANDLER previously declared as a generic procedure name\n       detected at ERROR_HANDLER@(\n\nSee #108 for discussion on NAG.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-17 16:28:54+00:00",
+                    "text": "Thanks @awvwgk  for this workaround. However, it a bug in the compiler, I am not sure if it is wise to introduce this workaround."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-17 16:34:17+00:00",
+                    "text": "I'm not sure if this is actually a compiler error, since it flags a name clash between an overloaded interface and a procedure name. Somebody with more detailed knowledge of the standard could probably help out here."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-17 17:08:12+00:00",
+                    "text": "I'm not sure if this is actually a compiler error, since it flags a name clash between an overloaded interface and a procedure name. Somebody with more detailed knowledge of the standard could probably help out here.\n\nI am not sure neither. I will just flag a few people: @certik @sblionel @milancurcic @everythingfunctional : any ideas/comments?"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-01-17 18:24:29+00:00",
+                    "text": "Could I see a small but complete example that shows the problem? I tried to figure it out from the Files Changed but am worried I might be missing something.\n15.4.3.4.1p3 says \"A generic name may be the same as any one of the procedure names in the generic interface, or the same as any accessible generic name.\" I haven't thought about this related to submodules."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-17 18:41:23+00:00",
+                    "text": "A minimal example reproducing the issue would be\nmodule stdlib_bitsets\n    implicit none\n    private\n\n    public :: error_handler\n\n    interface error_handler\n        module subroutine error_handler( message, error, status, &\n            module, procedure )\n            character(*), intent(in)           :: message\n            integer, intent(in)                :: error\n            integer, intent(out), optional     :: status\n            character(*), intent(in), optional :: module\n            character(*), intent(in), optional :: procedure\n        end subroutine error_handler\n    end interface error_handler\n\ncontains\n\n    module subroutine error_handler( message, error, status, module, procedure )\n        character(*), intent(in)           :: message\n        integer, intent(in)                :: error\n        integer, intent(out), optional     :: status\n        character(*), intent(in), optional :: module\n        character(*), intent(in), optional :: procedure\n        ! <snip>\n    end subroutine error_handler\n\nend module stdlib_bitsets\nRunning nagfor -c yields:\nNAG Fortran Compiler Release 7.0(Yurakucho) Build 7038\nError: example.f90, line 20: ERROR_HANDLER previously declared as a generic procedure name\n       detected at ERROR_HANDLER@(\n[NAG Fortran Compiler pass 1 error termination, 1 error]\n\nUsing the module procedure and the same generic interface name as the procedure name works, so this might be submodule related.\nmodule stdlib_bitsets\n    implicit none\n    private\n\n    public :: error_handler\n\n    interface error_handler\n        module procedure :: error_handler\n    end interface error_handler\n\ncontains\n\n    subroutine error_handler( message, error, status, module, procedure )\n        character(*), intent(in)           :: message\n        integer, intent(in)                :: error\n        integer, intent(out), optional     :: status\n        character(*), intent(in), optional :: module\n        character(*), intent(in), optional :: procedure\n        ! <snip>\n    end subroutine error_handler\n\nend module stdlib_bitsets"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-01-17 19:03:52+00:00",
+                    "text": "Thanks. I don't see a problem with this code. ifort doesn't complain, but I can confirm a recent NAG does. I'll ask Malcolm about it."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-01-18 00:36:47+00:00",
+                    "text": "Malcolm says, \"Thanks for your bug report. I concur that this is a bug. It should be fixed in build 7041.\""
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-18 09:17:23+00:00",
+                    "text": "I will close this PR since the issue is now fixed upstream. Thanks everybody."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-18 09:18:58+00:00",
+                    "text": "Malcolm says, \"Thanks for your bug report. I concur that this is a bug. It should be fixed in build 7041.\"\n\nThank you for this quick answer. Nice that it will be fixed."
+                }
+            ]
+        },
+        {
+            "number": 299,
+            "user": "awvwgk",
+            "date": "2021-01-16 11:52:15+00:00",
+            "title": "Build fails with Intel Fortran 18",
+            "text": "I just rolled back my Intel version to check which Intel compilers are supported with stdlib. Testing the range from Intel 16 to Intel 20, I found Intel 18 and older will currently fail to compile stdlib.\nTested on OpenSUSE with\n\nCMake 3.19.2\nninja 1.10.2\nfypp 3.0.0 (Python 3.9.1)\nifort versions failing\n\n18.0.2.20180210\n17.0.7.20180403\n17.0.5.20170817\n16.0.3.20160415\n16.0.0.20150815\n\n\n\nConfiguration test results look similar to latest Intel oneAPI compilers:\n-- Performing Test f18errorstop - Failed\n-- Performing Test f03rank - Success\n-- Performing Test f03real128 - Success\n\nThe build for Intel 18 also generates the warning\nifort: command line warning #10159: invalid argument for option '-stand'\n\nAll builds fail for stdlib_quadrature_simps with\n[79/171] Building Fortran object src/CMakeFil...tran_stdlib.dir/stdlib_quadrature_simps.f90.o\nFAILED: src/CMakeFiles/fortran_stdlib.dir/stdlib_quadrature_simps.f90.o src/mod_files/stdlib_quadrature@stdlib_quadrature_simps.smod \n/software/intel/parallel_studio_xe_2018/compilers_and_libraries_2018.2.199/linux/bin/intel64/ifort  -Isrc -Isrc/mod_files -module src/mod_files/ -warn declarations,general,usage,interfaces,unused -standard-semantics -stand f18 -c src/CMakeFiles/fortran_stdlib.dir/stdlib_quadrature_simps.f90-pp.f90 -o src/CMakeFiles/fortran_stdlib.dir/stdlib_quadrature_simps.f90.o\nifort: command line warning #10159: invalid argument for option '-stand'\nsrc/stdlib_quadrature_simps.f90(50): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    integral =  simps38(y(1:4), dx) + simps(y(4:6), dx)\n------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(54): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    integral = simps(y(1:3), dx) + simps38(y(3:6), dx)\n-------------------------------^\nsrc/stdlib_quadrature_simps.f90(70): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps38(y(1:4), dx) + simps(y(4:n), dx)\n---------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(74): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps(y(1:n-3), dx) + simps38(y(n-3:n), dx)\n-----------------------------------^\nsrc/stdlib_quadrature_simps.f90(113): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    integral =  simps38(y(1:4), dx) + simps(y(4:6), dx)\n------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(117): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    integral = simps(y(1:3), dx) + simps38(y(3:6), dx)\n-------------------------------^\nsrc/stdlib_quadrature_simps.f90(133): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps38(y(1:4), dx) + simps(y(4:n), dx)\n---------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(137): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps(y(1:n-3), dx) + simps38(y(n-3:n), dx)\n-----------------------------------^\nsrc/stdlib_quadrature_simps.f90(176): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    integral =  simps38(y(1:4), dx) + simps(y(4:6), dx)\n------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(180): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    integral = simps(y(1:3), dx) + simps38(y(3:6), dx)\n-------------------------------^\nsrc/stdlib_quadrature_simps.f90(196): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps38(y(1:4), dx) + simps(y(4:n), dx)\n---------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(200): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps(y(1:n-3), dx) + simps38(y(n-3:n), dx)\n-----------------------------------^\nsrc/stdlib_quadrature_simps.f90(260): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps38(y(1:4), x(1:4)) + simps(y(4:n), x(4:n))\n-------------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(264): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps(y(1:n-3), x(1:n-3)) + simps38(y(n-3:n), x(n-3:n))\n-----------------------------------^\nsrc/stdlib_quadrature_simps.f90(271): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                integral = 0.5_sp * ( simps38(y(1:4), x(1:4)) + simps(y(4:n), x(4:n)) &\n----------------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(272): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    + simps(y(1:n-3), x(1:n-3)) + simps38(y(n-3:n), x(n-3:n)) )\n----------------------^\nsrc/stdlib_quadrature_simps.f90(323): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps38(y(1:4), x(1:4)) + simps(y(4:n), x(4:n))\n-------------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(327): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps(y(1:n-3), x(1:n-3)) + simps38(y(n-3:n), x(n-3:n))\n-----------------------------------^\nsrc/stdlib_quadrature_simps.f90(334): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                integral = 0.5_dp * ( simps38(y(1:4), x(1:4)) + simps(y(4:n), x(4:n)) &\n----------------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(335): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    + simps(y(1:n-3), x(1:n-3)) + simps38(y(n-3:n), x(n-3:n)) )\n----------------------^\nsrc/stdlib_quadrature_simps.f90(386): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps38(y(1:4), x(1:4)) + simps(y(4:n), x(4:n))\n-------------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(390): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                        integral = simps(y(1:n-3), x(1:n-3)) + simps38(y(n-3:n), x(n-3:n))\n-----------------------------------^\nsrc/stdlib_quadrature_simps.f90(397): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                integral = 0.5_qp * ( simps38(y(1:4), x(1:4)) + simps(y(4:n), x(4:n)) &\n----------------------------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(398): error #6284: There is no matching specific function for this generic function reference.   [SIMPS]\n                    + simps(y(1:n-3), x(1:n-3)) + simps38(y(n-3:n), x(n-3:n)) )\n----------------------^\nsrc/stdlib_quadrature_simps.f90(445): error #6284: There is no matching specific function for this generic function reference.   [SIMPS_WEIGHTS]\n                        w(4:n) = w(4:n) + simps_weights(x(4:n)) ! position 4 needs both rules\n------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(450): error #6284: There is no matching specific function for this generic function reference.   [SIMPS_WEIGHTS]\n                        w(1:n-3) = simps_weights(x(1:n-3))\n-----------------------------------^\nsrc/stdlib_quadrature_simps.f90(461): error #6284: There is no matching specific function for this generic function reference.   [SIMPS_WEIGHTS]\n                w(4:n) = w(4:n) + simps_weights(x(4:n))\n----------------------------------^\nsrc/stdlib_quadrature_simps.f90(463): error #6284: There is no matching specific function for this generic function reference.   [SIMPS_WEIGHTS]\n                w(1:n-3) = w(1:n-3) + simps_weights(x(1:n-3))\n--------------------------------------^\nsrc/stdlib_quadrature_simps.f90(513): error #6284: There is no matching specific function for this generic function reference.   [SIMPS_WEIGHTS]\n                        w(4:n) = w(4:n) + simps_weights(x(4:n)) ! position 4 needs both rules\n------------------------------------------^\nsrc/stdlib_quadrature_simps.f90(518): error #6284: There is no matching specific function for this generic function reference.   [SIMPS_WEIGHTS]\n                        w(1:n-3) = simps_weights(x(1:n-3))\n-----------------------------------^\nsrc/CMakeFiles/fortran_stdlib.dir/stdlib_quadrature_simps.f90-pp.f90(751): catastrophic error: Too many errors, exiting\ncompilation aborted for src/CMakeFiles/fortran_stdlib.dir/stdlib_quadrature_simps.f90-pp.f90 (code 1)",
+            "comments": []
+        },
+        {
+            "number": 298,
+            "user": "awvwgk",
+            "date": "2021-01-16 10:48:03+00:00",
+            "title": "Intel Fortran and -standard-semantics",
+            "text": "Compiling stdlib with Intel Fortran compilers sets the -standard-semantics flag. Unfortunately, this requires all Fortran projects in the dependency tree compiled by Intel Fortran to inherit this compilation flag since it changes the name mangling of the symbols. Setting the -standard-semantic flag by add_compile_options in the CMake build files makes it difficult to overwrite by dependent projects.\nIs there a reason why stdlib requires -standard-semantics? Would it be possible to make this optional for projects that want to use the stdlib project but don't want to use -standard-semantics flag?",
+            "comments": [
+                {
+                    "user": "Romendakil",
+                    "date": "2021-01-16 11:03:38+00:00",
+                    "text": "This is for backward compatibility with Ifort 17 (and earlier). Ifort 18 and newer doesn\u2019t need this any more. It is mainly for the automatic allocation I believe."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-16 11:16:04+00:00",
+                    "text": "In this case -assume realloc_lhs would be a more suitable option for Intel 17 and earlier without changing the name mangling for dependent project.\nAlso, I tested compiling stdlib with a range of Intel versions and found it can only be compiled with Intel 19 or newer right now (notes to open an issue on this as well see #299) ."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-18 22:39:46+00:00",
+                    "text": "I don't remember the reason. Was it @MarDiehl who introduced this option?\nHere  is a possible solution. Following this post, adding the option \"-assume nostd_mod_proc_name\" could solve the issue.\nHowever, since it doesn't seem possible to compile stdlib with Intel ifort 18 and lower, is this option still a problem? On the other hand, it could be removed if not appropriate anymore for the newest versions of ifort."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-18 23:05:29+00:00",
+                    "text": "blame says it was introduced in #205 with 39bb56c."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-01-21 14:13:19+00:00",
+                    "text": "The general idea was to check for standard conformance. I was not aware of the fact that this also implies a different scheme for name mangling.  The name -assume nostd_mod_proc_name indicates that Intel thinks that this mangling scheme is standard conforming. I would assume that this is related to interoperability with C."
+                }
+            ]
+        },
+        {
+            "number": 297,
+            "user": "awvwgk",
+            "date": "2021-01-15 19:36:25+00:00",
+            "title": "Ubuntu runners are failing",
+            "text": "The CI on the Ubuntu runner is currently hitting a certificate verification failure In the GFortran install step:\nErr:21 https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04  Release\n  Certificate verification failed: The certificate is NOT trusted. The received OCSP status response is invalid.  Could not handshake: Error in the certificate verification. [IP: 195.135.221.134 443]\n...\nE: The repository 'https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04  Release' no longer has a Release file.\n\nNeeds investigation (might get fixed on the image).",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-15 19:41:02+00:00",
+                    "text": "Restarting the job fixed the issue"
+                }
+            ]
+        },
+        {
+            "number": 296,
+            "user": "brocolis",
+            "date": "2021-01-10 04:14:47+00:00",
+            "title": "test_loadtxt_qp error with gfortran-7.4.0 (32-bit) on Windows",
+            "text": "I got an error testing test_loadtxt_qp.f90 with gfortran-7.4.0 (32-bit) on Windows.\nHere are the debugging sessions.\nGDB-8.2\n\nGDB-9.1",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-10 11:17:23+00:00",
+                    "text": "Hi @brocolis, I believe this test is not supported on Windows (due to quad precision) and is hence ignored when running the tests with cmake ctest.\nIf you're running these tests with the fpm package that I recommended to you then unfortunately there is no way to ignore these tests on Windows (except for deleting them)."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-10 19:53:53+00:00",
+                    "text": "Hi @LKedward. After a few more testing I found that stdlib passes all tests when compiled by gfortran-9.3.0 (32 bit) or gfortran-8.4.0 (64 bit) or gfortran-10.2.0 (64 bit). When stdlib is compiled by gfortran-7.4.0 (32 bit), I have to remove tests tests\\io\\test_loadtxt_qp.f90, tests\\io\\test_savetxt_qp.f90 and tests\\stats\\test_var.f90 from the Makefile, then stdlib passes the test command.\n\n\n\nCompiler\nPlatform\nBuild\nTest\n\n\n\n\ngfortran 7.4.0\nmingw 32-bit\n\u2705\n\u274c\n\n\ngfortran 8.4.0\nmingw 64-bit\n\u2705\n\u2705\n\n\ngfortran 9.3.0\nmingw 32-bit\n\u2705\n\u2705\n\n\ngfortran 10.2.0\nmingw 64-bit\n\u2705\n\u2705\n\n\n\nBuild command\nmake -f Makefile.manual FYPPFLAGS=-DMAXRANK=4\nTest command\nmake -f Makefile.manual FYPPFLAGS=-DMAXRANK=4 test"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-11 08:42:44+00:00",
+                    "text": "Thanks for the comprehensive testing @brocolis, that's helpful in pinpointing this as a compiler bug.\nI was testing with gfortran 8.1.0 on mingw 64-bit where the same tests build but fail to run.\nSo stdlib requires at least gfortran >= 8.4.0 on mingw-w64.\n(See also: #58 and #61 where this bug is first mentioned.)\nThe quad precision tests should probably be enabled in the MSYS workflows which use gfortran 10.2.0"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-11 08:47:44+00:00",
+                    "text": "There are several with GFortran 7 and stdlib (even on Linux). See e.g., #171.\nIt should be probably mentioned in #293."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-11 09:39:19+00:00",
+                    "text": "Maybe it is worth updating to GCC 7.5, the previous minor version of GCC 7 are known to be buggy but most of those issues have been resolved in GCC 7.5."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-11 10:01:46+00:00",
+                    "text": "Maybe it is worth updating to GCC 7.5,\n\nSee my previous comment; this issue also affects gcc 8.1.0 on mingw-64bit which is what runs in the 'plain' Windows CI. The affected tests are currently not run in the Windows CI. These test can however be enabled in the recent MSYS2-based workflows which run 10.2.0."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-11 10:11:12+00:00",
+                    "text": "The latest version of the GCC 8 series is 8.4, which works nicely. We are using 8.1 because it is the latest version uploaded on chocolatey and preinstalled on the Windows image. choco is apparently not the best way to get MinGW installations given the incomplete version history, so we shouldn't rely on them for our CI."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-13 23:08:56+00:00",
+                    "text": "OK, a few more tests: gfortran-7.5.0 (32 bit) and gfortran-7.5.0 (64 bit) don't work either. The error message is \"At line 60 of file test_var.f90\". gfortran-8.4.0 (32 bit) and gfortran-11-20210110 (experimental) (64 bit) work.\n\n\n\nCompiler\nPlatform\nBuild\nTest\n\n\n\n\ngfortran 7.5.0\nmingw 32-bit\n\u2705\n\u274c\n\n\ngfortran 7.5.0\nmingw 64-bit\n\u2705\n\u274c\n\n\ngfortran 8.4.0\nmingw 32-bit\n\u2705\n\u2705\n\n\ngfortran-11-20210110 (experimental)\nmingw 64-bit\n\u2705\n\u2705\n\n\n\nYes I agree I should focus efforts on the currently maintained compilers."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-14 07:43:27+00:00",
+                    "text": "Thanks for testing this, it's a valuable insight. Too bad it's a GCC 7 issue you are only hitting on Windows. It also looks like GCC 7 is dropped from the supported releases at https://gcc.gnu.org/, so we probably can't expect to get fixed in future releases."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-15 08:55:25+00:00",
+                    "text": "Hello. Yes, it's a bit strange that stdlib works with gfortran-7 on Linux, but not on Windows; It may be something with my setup, but I can't say for sure without knowing the root cause. I'll now close this issue.\nThank you."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-30 21:55:37+00:00",
+                    "text": "Hi. I discovered a version of gfortran on my machine, that was installed by GNU Octave-4.4.1. I report that stdlib also doesn't work with gfortran-7.2.0 (x64) on Windows."
+                }
+            ]
+        },
+        {
+            "number": 295,
+            "user": "awvwgk",
+            "date": "2021-01-08 21:19:20+00:00",
+            "title": "Manual makefile issues",
+            "text": "Finally arrived at testing the manual Makefile of stdlib and found a few issues I want to raise.\nFirst, the Makefile does not run in parallel due to missing dependencies between certain object files. Apparently the parallel build with the manual Makefile is not tested in the CI, therefore this issue has not popped up so far. Adding the missing dependencies does resolve the parallel build issue (see #294).\nSecond, the clean rule does not allow to remove all the build artifacts from the source tree, the fypp preprocessed files are not captured by the remove command in the clean rule. This means I have to manually remove the fypp preprocessed files in case I want to change the maximum array rank for the build, which is annoying. Related to this, the SRC variable interlaces build artifacts (fypp preprocessed files) and actual source files.\nFinally, I found the explicit rules regarding the preprocessing confusing, the set is generated implicitly by the %.f90: %.fypp rule already and the given list seems to be incomplete as well (there are other subtle issues to this rule, which makes it dangerous without a scope). Interestingly their is no dependency from the common.fypp to any fypp preprocessed file which includes the file, which means there is no rebuild triggered for changes in the global fypp header.\nIn summary, the manual Makefile is currently pretty fragile at the moment and due to the fixed compiler name in also very limited in scope.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-18 22:25:28+00:00",
+                    "text": "Fixed with #294 (first point) and #301 (second and third points).\nThank you @awvwgk for opening these issues.\nI'll close this issue."
+                }
+            ]
+        },
+        {
+            "number": 294,
+            "user": "awvwgk",
+            "date": "2021-01-08 19:05:41+00:00",
+            "title": "Fix dependencies in manual Makefile",
+            "text": "This PR fixes the manual Makefile by including the correct dependencies. The manual Makefile build could fail in full parallel builds due to missing dependencies.\nTo test this use a slow computer and let make create as many build jobs as allowed by the dependency network with:\nmake -f Makefile.manual FYPPFLAGS=-DMAXRANK=4 -j\nThis error might be hard to catch in a sequential CI build due to the correct ordering of the source files in SRC variable.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-08 19:14:11+00:00",
+                    "text": "Still fails occasionally for stdlib_quadrature_trapzd.o even if the dependency on stdlib_quadrature.o is explicitly specified in the Makefile. Typos in make are just annoying."
+                }
+            ]
+        },
+        {
+            "number": 293,
+            "user": "awvwgk",
+            "date": "2021-01-07 22:13:56+00:00",
+            "title": "Write a more verbose introduction to building stdlib",
+            "text": "explicitly spell out the requirements on compilers, build system and preprocessor\nadd a short paragraph on how to install the build dependencies using pip or conda\nexplain the CMake build step by step\nlist all important CMake configuration options in the README\nadd the CMake install command to the build instructions\nmove the paragraph about the max array rank into the build instructions",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-14 15:57:54+00:00",
+                    "text": "With no further suggestions, I'll go ahead and merge."
+                }
+            ]
+        },
+        {
+            "number": 292,
+            "user": "awvwgk",
+            "date": "2021-01-07 19:33:23+00:00",
+            "title": "Is stdlib versioned?",
+            "text": "While writing package files for stdlib (see #291) I encountered a quite simple issue what puzzled me: What is the version number of stdlib?\nIt turns out that some package files simply don't work if there is no version number specified, i.e. pkg-config will not use any pc-file without a Version entry. Not specifying any version is therefore not possible if I want to use stdlib in a non-CMake project. I could just define a dummy version number for my purpose, but this calls for trouble.\nMaybe this issue has been discussed already somewhere, but I didn't found any hint on this here.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-08 01:16:30+00:00",
+                    "text": "Currently, no. It should be. You can think of stdlib being in perpetual 0.1.0, but that version number is not specified anywhere.\nThere have been discussions scattered across this repo, monthly call, and Discourse:\n\n#216\nJuly 2020 discussion on stdlib structure\nStabilization of Rust language and stdlib features\n\nTL'DR:\n\nWe started with the idea of having 2 separate namespaces/APIs, experimental and stable. Everything goes into experimental (equivalent to 0.x.x), and when parts of stdlib make it into the Standard, they become \"stable\" (equivalent to 1.x.x). Separate namespaces/APIs means that experimental functions are in separate modules from stable ones. So there could be a stdlib_experimental_io module, and a stdlib_stable_io module. Functions can exist only in one or the other. But of course, this wasn't too meaningful because we don't have anything stable. So every module has the word \"experimental\" in it.\nThis structure was challenged by @wclodius2 in #216. I mostly agreed and we discussed it on a call and had a follow-up discussion on Discourse.\nWe tentatively agreed to unify \"experimental\" and (future) \"stable\" into the same namespace, and start semantic versioning. We didn't start it in practice.\nWe also agreed to keep track of what's experimental or stable on a per procedure basis, by noting in the source code docstrings and spec docs, similar to Rust.\n\nSo, let's start versioning and making releases, like we do for fpm."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-08 18:27:40+00:00",
+                    "text": "Thanks for the comprehensive summary. Really looking forward to see the first release of stdlib."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-19 08:31:17+00:00",
+                    "text": "With #291 merged there is now a dummy version in place."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-19 20:26:32+00:00",
+                    "text": "So, let's start versioning and making releases, like we do for fpm.\n\nI agree with that. A couple of questions:\n\nShould we start with, let say, the version 0.1.0?\nWould all procedures still remain in the \"experimental\" namespace? Or should some produres be associated with the new version?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-20 07:16:02+00:00",
+                    "text": "Version 0.1.0 is a reasonable choice."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 16:35:18+00:00",
+                    "text": "* Would all procedures still remain in the \"experimental\" namespace? Or should some produres be associated with the new version?\n\n\nAccording to the workflow established in #94:\n\nIn order to move from experimental to release, the specification document must be approved by the wide community and the standards committee (informally). If that happens, it has now been blessed for broad use and we can move the code into the main section of stdlib, and the particular specification document becomes part of the Fortran Standard Library.\n\nPersonally, I would preserve everything in experimental for now.\n@certik also suggested to introduce release notes, for example: https://github.com/sympy/sympy/wiki/Writing-Release-Notes"
+                }
+            ]
+        },
+        {
+            "number": 291,
+            "user": "awvwgk",
+            "date": "2021-01-07 09:48:29+00:00",
+            "title": "Export package files",
+            "text": "Part 3/3 for #287, status: required.\nChanges:\n\nset project version (just 0 as dummy) and project description in CMake (required to generate a valid pc-file)\nexport CMake package fortran_lang-config.cmake for CMake projects\nexport pkg-config file fortran_lang.pc for non-CMake projects\n\nImportant: This PR defines a version number for stdlib. This should be considered carefully (see #292).",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-07 19:11:29+00:00",
+                    "text": "Tested this by integrating a local installation of stdlib with make via pc-file and with meson via CMake package."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-18 17:26:49+00:00",
+                    "text": "@milancurcic  approved thi PR. I 'll merge it."
+                }
+            ]
+        },
+        {
+            "number": 290,
+            "user": "awvwgk",
+            "date": "2021-01-06 23:08:31+00:00",
+            "title": "Rename CMake project from stdlib to fortran_stdlib",
+            "text": "Part 2/3 for #287, status: optional. If you do not like this approach we can do #287 without it.\nChanges:\n\nrename CMake project from stdlib to fortran_stdlib\nreuse the PROJECT_NAME CMake variable instead of using fortran_stdlib directly\n\nReasoning:\n\nexported CMake targets usually match the project name (fortran_stdlib seems less likely to clash with something compared to stdlib)\nallows to easily use PROJECT_NAME to write reusable/transferable CMake code for different projects (interesting for fpm generated CMake files as well)\nPROJECT_NAME is accessible in configure_file and can be used to create more general template files",
+            "comments": []
+        },
+        {
+            "number": 289,
+            "user": "awvwgk",
+            "date": "2021-01-06 22:32:40+00:00",
+            "title": "API docs workflow",
+            "text": "Just a question out of curiosity is there a particular reason to perform the build of the API documentation on the OSX runner?\nThe OSX runner happens to be the most expensive runner available on GH actions and the workflow doesn't seem to need any OSX specific features to run FORD on the source of stdlib.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-06 22:36:27+00:00",
+                    "text": "Good question. @zbeekman wrote the API docs workflow. Indeed, a Linux OS should be fine, as I often run FORD on my machine."
+                },
+                {
+                    "user": "zbeekman",
+                    "date": "2021-01-07 16:01:22+00:00",
+                    "text": "There was an issue when using the Linux images due to using some of the python markdown extensions. It may now be resolved, we can look into it at some point."
+                }
+            ]
+        },
+        {
+            "number": 288,
+            "user": "awvwgk",
+            "date": "2021-01-06 22:29:35+00:00",
+            "title": "Follow GNU install conventions",
+            "text": "Part 1/3 for #287, status: optional. If you do not like this approach we can do #287 without it.\nChanges:\n\nremove hard coded subpaths for installation with CMake\nallow customization of install locations by GNUInstallDirs module\nenable project installation on CI testing (CMake targets are only generated on install)\n\nReasoning:\n\nallows customization of the include directory if it shouldn't go into the top-level include directory\nmakes the life of packagers easier, because we don't have to patch the CMakeLists.txt, but can use command line arguments instead to apply our directory naming conventions",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-11 16:25:54+00:00",
+                    "text": "Since this is a simple change I will go ahead and merge this PR with two approvals."
+                }
+            ]
+        },
+        {
+            "number": 287,
+            "user": "awvwgk",
+            "date": "2021-01-05 19:00:30+00:00",
+            "title": "Using stdlib in meson",
+            "text": "Using stdlib is currently only possible with CMake by inclusion as subproject or by systemwide installation (either /usr or /usr/local prefix). The first approach excludes certain CMake setups and other build systems like meson, while the latter is not acceptable in case several compilers are used for development.\nAn usual approach to install packages in a local prefix is exporting CMake package files or pkg-config files, the latter makes the project discoverable by most non-CMake build systems.\nAre there plans in the short-term to allow exporting of package files to make stdlib accessible for other projects?",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-06 19:51:26+00:00",
+                    "text": "I don't know of any plans for this. I'm not too familiar with pkg-config files so I don't use them regularly. It would be helpful for people who use them to post here and express that this is a desired feature. But even if it's useful for only you, I'd say just go ahead because something like this increases ease of use without adding complexity for the end-user."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-06 23:00:10+00:00",
+                    "text": "I used pkg-config recently to link with the Intel MKL libraries and found it easy enough to use. Essentially, using pkg-config requires writing a small file with some meta-data about the project, the required link flags and include folders of the library.\nOne downside in case of Fortran is that the link flags might be compiler specific (in C this is less of a problem as icc borrows the gcc front-end). Intel MKL offers a \"link line advisor\" tool which helps generate the right flags that can be pasted into a pkg-config file (ideally you only do this once upon installation). The GNU Scientific library (and also it's Fortran wrapper FSGL) offer pkg-config files, meaning some potential users will be familiar with this already."
+                }
+            ]
+        },
+        {
             "number": 286,
             "user": "Jim-215-Fisher",
             "date": "2020-12-29 22:40:34+00:00",
@@ -29,7 +540,33 @@
             "date": "2020-12-29 09:35:40+00:00",
             "title": "Fix subproject build",
             "text": "Required changes to use stdlib as subproject in CMake.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-02 12:22:51+00:00",
+                    "text": "I created a repo to ease the review process of this PR: https://github.com/awvwgk/stdlib-cmake-example\nYou can check the subprojects/CMakeLists.txt and switch between my fork and this repo to investigate the difference for CMake integration."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-05 17:17:56+00:00",
+                    "text": "I'm a true CMake n00b so I can't comment on the code. It seems good to me.\nBut I played with the stdlib-cmake-example and it works like a charm. Actually, CMake fetching stdlib and using it as a dependency felt like magic because I never did anything like that with CMake. So I think this will significantly lower the bar for using stdlib for some users.\nI'm still a bit confused what this PR addresses exactly. If I'm not mistaken, the stdlib-cmake-example works as is with the current master. I think that is using the fetch method. Does this PR then allow using stdlib with the other method described in the stdlib-cmake-example README? Likely just me not understanding the CMake lingo.\nAnyhow, whichever it is, I trust that this is good to go."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-05 17:30:54+00:00",
+                    "text": "I'm still a bit confused what this PR addresses exactly. If I'm not mistaken, the stdlib-cmake-example works as is with the current master. I think that is using the fetch method. Does this PR then allow using stdlib with the other method described in the stdlib-cmake-example README? Likely just me not understanding the CMake lingo.\n\n@milancurcic It does not, I currently let it fetch from my fork instead of the fortran-lang/stdlib repo (see https://github.com/awvwgk/stdlib-cmake-example/blob/623da353140578646daf125f6b6dd46981d9947a/subprojects/CMakeLists.txt#L11-L21). I force-pushed the repo a few times, the initial example fetching from fortran-lang/stdlib is still in the actions log at https://github.com/awvwgk/stdlib-cmake-example/runs/1636468980?check_suite_focus=true and has actually failed (see #285).\nThe repo README still explains it with the fortran-lang/stdlib repo, which will start to work once this PR is merged. Also, I will than match the implementation with the docs again \ud83d\ude09."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-05 17:34:00+00:00",
+                    "text": "@awvwgk Perfect, that's clear now. :)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-05 17:35:16+00:00",
+                    "text": "I'll go ahead and merge this PR, we can still revert or patch it later."
+                }
+            ]
         },
         {
             "number": 283,
@@ -270,6 +807,151 @@
                     "user": "hsnyder",
                     "date": "2020-12-23 19:03:15+00:00",
                     "text": "@jvdp1 I think that since the use case for gaussian quadrature is a bit different (usually you're integrating a function rather than discrete samples), it makes more sense to return the points and weights instead.\n@certik sounds good, I like your tabulated implementation from hfsolver. I propose to use that as the basis for an implementation, and fall back on another implementation in the n > 64 case. From what various people have posted in this thread and in #112, it seems like there are several options. Is there a favourite among them? Quadpack perhaps?"
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-02 03:10:28+00:00",
+                    "text": "I've started working on an implementation... Should we provide separate implementations for getting the points and weights in real32, or support double precision only and let the user convert if they care? If we do want to offer real32 versions, is it important that the whole implementation be real32, or can the computation be done in 64 and then down-converted?\nI'd be surprised if there's a lot of use of 32 bit platforms anymore, but figured I'd ask."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-04 12:59:31+00:00",
+                    "text": "Wrt 32 bits platforms: probably not that much indeed, but that is a different matter than 32 bits versus 64 bits reals ;).\nFor the sort of problems I work on professionally, 32 bits (or, I prefer to talk of single precision, the two are not entirely equivalent), offer in general quite enough precision. Single-precision means 5 or 6 decimals. If you consider such quantities as the water depth (to borrow from my field), that would typically mean better than 1 mm precision (assuming water depths up to 1 km). That is far more precise than any measurements in that field. Using single-precision means a more economic use of memory and disk space. That is certainly not to say that double-precision does not enter my field of expertise - I merely mean that both types of real precision are still useful.\nThat said, I would say that for the purposes of this part of the standard library it suffices to have double-precision points and weights and have a convenient interface to convert to single-precision."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-04 18:02:01+00:00",
+                    "text": "Hi @arjenmarkus\nGood points - it was lazy of me to conflate 32 bit reals with 32 bit platforms. As per your suggestion, I'll provide interfaces for both kinds of reals, but the back-end computation of the nodes and weights will be done in 64 bit."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-06 19:59:32+00:00",
+                    "text": "Should we provide separate implementations for getting the points and weights in real32, or support double precision only and let the user convert if they care? If we do want to offer real32 versions, is it important that the whole implementation be real32, or can the computation be done in 64 and then down-converted?\n\n@hsnyder Sorry for the late chime in on this.\nIf feasible, ideal would be to have 32, 64, and 128-bit real specific procedures. i.e. if the implementation is the same for all three but only the interface changes, I think we should provide them.\nBut if the implementation is different for each, then I suggest pick one that's most useful for you (e.g. real64). If there are users who also want real32, they will chime in or contribute code.\nI recommend against providing a real32 interface that is real64 under the hood, for two reasons:\n\nUsers would think they're using a real32 procedure, but they wouldn't be getting the benefit of real32 because it's real64 under the hood. IMO this interface would be misleading.\nUsers can convert to real32 themselves if they really need that.\n\nI also tend to use real32 for the same reason as @arjenmarkus.\nWhat do you think?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-07 13:22:47+00:00",
+                    "text": "I agree with the previous comments that single precision reals are still sufficient for many engineering applications.\nI agree with @milancurcic  only partially concerning the misleading interface. For Gaussian quadrature typically the user will only calculate the weights once at the beginning of the program, this calculation will normally be only a minor fraction of the total calculation cost.\nRecently, Larry Young, a retired chemical engineer with interest in numerics, camshaft design, and also Fortran, wrote a very comprehensive monograph about collocation methods and Gaussian quadrature. A PDF version can be found at: https://www.tildentechnologies.com/Numerics/\nHe provides a through analysis of the accuracy and algorithmic efficiency of various methods for computing Gaussian quadrature weights. Quoting from section 2.4.8 on page 94:\n\nGauss or Lobatto points and weights with n= 100 can be calculated in only 25 or 60 \u03bcsec with recurrent and composite calculations, respectively, while a million points and weights can be calculated in less than 0.3 sec.\nWith nAsmpof 40 the switch from recurrent to composite method causes a factor of 3 to 4 increase in computation time, but the overall time is so small it hardly seems relevant, so the small improvement in accuracy seems justified.\n\n(I believe this paragraph applies to double precision calculations on a Intel Core i7-7600u, 2.8 GHz)\nThe conditioning of the calculations is such that you are typically able to obtain at least 14 decimals (out of a range of 16 decimals for 64-bit reals). Assuming the conditioning issues remain similar for single precision reals, it would mean you only get 5-6 decimals for a range of 7. Especially, when using single precision Gaussian quadrature coefficients I think it would be crucial to have all the digits correct. This only seems possible if you compute them in higher precision, initialize them as known constants, or load them from a file. Given that most processors with supporting Fortran compilers provide double precision reals, I don't think this would really be a problem.\nHaving written this, I support your option # 2, users should convert to a single precision real themselves."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-07 14:05:15+00:00",
+                    "text": "Option 2 has the benefit that people will be aware of the difference in\nprecision. Yes ,that is worthwhile.\n\nOp do 7 jan. 2021 om 14:23 schreef Ivan Pribec <notifications@github.com>:\n\u2026\n I agree with the previous comments that single precision reals are still\n sufficient for many engineering applications.\n\n I agree with @milancurcic <https://github.com/milancurcic> only partially\n concerning the misleading interface. For Gaussian quadrature typically the\n user will only calculate the weights once at the beginning of the program,\n this calculation will normally be only a minor fraction of the total\n calculation cost.\n\n Recently, Larry Young, a retired chemical engineer with interest in\n numerics, camshaft design, and also Fortran, wrote a very comprehensive\n monograph about collocation methods and Gaussian quadrature. A PDF version\n can be found at: https://www.tildentechnologies.com/Numerics/\n\n He provides a through analysis of the accuracy and algorithmic efficiency\n of various methods for computing Gaussian quadrature weights. Quoting from\n section 2.4.8 on page 94:\n\n Gauss or Lobatto points and weights with n= 100 can be calculated in only\n 25 or 60 \u03bcsec with recurrent and composite calculations, respectively,\n while a million points and weights can be calculated in less than 0.3 sec.\n\n With nAsmpof 40 the switch from recurrent to composite method causes a\n factor of 3 to 4 increase in computation time, but *the overall time is\n so small* it hardly seems relevant, so the small improvement in accuracy\n seems justified.\n\n (I believe this paragraph applies to double precision calculations on a\n Intel Core i7-7600u, 2.8 GHz)\n\n The conditioning of the calculations is such that you are typically able\n to obtain at least 14 decimals (out of a range of 16 decimals for\n 64-reals). Assuming the conditioning issues remain similar for single\n precision reals, it would mean you only get 5-6 decimals for a range of 7.\n Especially, when using single precision Gaussian quadrature coefficients I\n think it would be crucial to have all the digits correct. This only seems\n possible if you compute them in higher precision, initialize them as known\n constants, or load them from a file. Given that most processors with\n supporting Fortran compilers provide double precision reals, I don't think\n this would really be a problem.\n\n Having written this, I support your option # 2, users should convert to a\n single precision real themselves.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#277 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4EGFDH3OJ34ZH6EGLSYWYTNANCNFSM4VFEBWXA>\n ."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-08 15:28:14+00:00",
+                    "text": "Good points all around. I'm in agreement that we should provide a 64 bit version only, for all the reasons already discussed. I have a bit of work done on the implementation already, but looking at the workflow document it looks like I'm supposed to post the spec first? I'll write that as soon as I have a chance, and will post it for discussion.\nI'll also look at the monograph linked by ivan-pi, sounds interesting.\nDo we use a typical fork and PR workflow? Should I fork the stdlib, put my implementation in my copy, and then open a PR?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-08 15:36:07+00:00",
+                    "text": "@hsnyder Great, thank you!\nWe don't need the full and final spec before opening the PR. What's important to discuss before the PR is the API of the function, i.e. procedure name, dummy arguments, their types, etc. We can develop the spec doc during the PR. There should be a complete spec done before the PR is merged. In summary:\n\nDiscuss API in this thread and get consensus;\nOpen a PR with implementation and spec draft.\n\n\nDo we use a typical fork and PR workflow? Should I fork the stdlib, put my implementation in my copy, and then open a PR?\n\n\ud83d\udc4d"
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-10 22:30:47+00:00",
+                    "text": "Understood. Here are the subroutine signatures I propse:\n    subroutine gausslegendre(x,w,interval)\n        real(real64), intent(out) :: x(:), w(:)\n        real(real64), optional, intent(in) :: interval(2) ! This defaults to [-1.0_real64, 1.0_real64]\n    end subroutine\n\n    subroutine gausslobatto(x,w,interval)\n        real(real64), intent(out) :: x(:), w(:)\n        real(real64), optional, intent(in) :: interval(2) ! This defaults to [-1.0_real64, 1.0_real64]\n    end subroutine\n\nx and w are the points and weights respectively. The size of the arrays passed is used to determine the number of points to be calculated (which is obvious, I suppose). The optional arguments a and b, if provided, will scale the points and weights for the interval [a,b] (the default would be [-1,1] ).\nI'm not particularly married to the actual names, though these seem clear to me without being excessively verbose.\nEDIT: updated function signatures in accordance with the below comments from @gareth-d-ga  and @milancurcic"
+                },
+                {
+                    "user": "gareth-d-ga",
+                    "date": "2021-01-11 07:59:56+00:00",
+                    "text": "You might consider making the domain of integration (interval(2)) an optional argument to gausslegendre_xw and gauslobatto_xw, with a default value of [-1.0_real64, 1.0_real64]. Then there is no need for shift_xw.\nsubroutine gausslegendre_xw(x, w, interval)\n    real(real64), intent(out) :: x(:), w(:)\n    real(real64), optional, intent(in) :: interval(2) ! This defaults to [-1.0_real64, 1.0_real64]\nend subroutine\n\nsubroutine gausslobatto_xw(x, w, interval)\n    real(real64), intent(out) :: x(:), w(:)\n    real(real64), optional, intent(in) :: interval(2) ! This defaults to [-1.0_real64, 1.0_real64]\nend subroutine"
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-11 15:48:38+00:00",
+                    "text": "Excellent idea, I updated the proposed API in accordance with your suggestion."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-11 17:21:19+00:00",
+                    "text": "In the naive interpretation of the name gausslegendre_xw, the _xw part suggests to me that this returns x and w (correct), but also that this serves to differentiate it from gausslegendre_somethingelse.\nIn other words, is there anything else that these quadratures could do or return? If not, then the _xw part is redundant. Can we do:\nsubroutine gausslegendre(x, w, interval)\n    ...\nsubroutine gausslobatto(x, w, interval)\n    ...\n\n?"
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-11 17:25:05+00:00",
+                    "text": "Another good point, I've updated the proposed API"
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-11 18:12:43+00:00",
+                    "text": "Actually, @milancurcic, I'm having second thoughts about that... \"gausslegendre\" suggests the function has something to do with gauss-legendre quadrature, but \"gausslegendre_xw\" more clearly signifies that the function returns the points and weights. If it's too terse we could change the suffix to \"_ptswts\", but I prefer \"_xw\" personally.\nNot that big a deal either way, but curious for your reaction."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-11 18:39:42+00:00",
+                    "text": "You're right that \"gausslegendre_xw\" is more specific. But the arguments already document this.\nIs there anything else that \"gausslegendre\" could be confused with? In other words, a user coming to the library and wanting the Gauss-Legendre quadrature--would they wonder what \"gausslegendre\" does assuming that they see the subroutine signature?\nIf some appendage is required, _xw is my favorite.\n@arjenmarkus @jvdp1 @ivan-pi what do you think about the naming?\nFor reference, here's a short list of names elsewhere:\n\nJulia:\n\ngausslegendre in FastGaussQuadrature.jl\nlegendre in GaussQuadrature.jl\n\n\nPython:\n\nleggauss in numpy.polynomial.legendre\n\n\nC:\n\ngsl_integration_gl* in GNU Scientific Library"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-11 19:40:55+00:00",
+                    "text": "I am not a typical user of such procedures.\nHowever, regarding the name, if gausslegendre cannot be confused with another procedure having a different objective, then I think that _xw is redundant because x and w are already in the API as arguments.\nTo add to @milancurcic 's list:\n\n\nR: gaussLegendre\n\n\nNumpy: leggauss\n\n\nSee also name examples of such F90 procedures here"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-12 07:21:17+00:00",
+                    "text": "I can imagine that another procedure in this context might be the direct\napplication of the quadrature method to a given function. That would likely\nbe called \"integrate_gausslegendre\" or something along those lines, though.\nAlso the name of the encompassing module could serve as an indicator. I\nmust admit that I did not immediately associate the \"_xw\" with the\nx-coordinates and weights ;).\nThat said, I lean towards \"gausslegendre\" without the suffix (but\ndefinitely both names, not one of the abbreviations or omissions that are\nused in the Julia, Python or C examples).\n\nOp ma 11 jan. 2021 om 20:41 schreef Jeremie Vandenplas <\nnotifications@github.com>:\n\u2026\n I am not a typical user of such procedures.\n However, regarding the name, if gausslegendre cannot be confused with\n another procedure having a different objective, then I think that _xw is\n redundant because x and w are already in the API as arguments.\n\n To add to @milancurcic <https://github.com/milancurcic> 's list:\n\n    -\n\n    R: gaussLegendre\n    <https://www.rdocumentation.org/packages/pracma/versions/1.9.9/topics/gaussLegendre>\n    -\n\n    Numpy: leggauss\n    <https://numpy.org/doc/stable/reference/generated/numpy.polynomial.legendre.leggauss.html>\n\n See also name examples of such F90 procedures here\n <https://people.sc.fsu.edu/~jburkardt/f_src/quadrule/quadrule.html>\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#277 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR74AODW7YRW6EY2RUTSZNH5NANCNFSM4VFEBWXA>\n ."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-17 19:26:39+00:00",
+                    "text": "So I was working on the implementation for this and realized that under the hood there's an implementation of calulating the legendre polynomials and their derivatives. So I thought, why not expose it? The most natural function name for computing the legendre polynomial is, in my opinion, simply legendre. The derivative could be dlegendre.\nAnyways, I propose adding these functions as well. Proposed API:\nelemental real function legendre (N, x)\n    integer :: N ! which legendre polynomial?\n    real :: x ! the point to evaluate at\nend function\n\nelemental real function dlegendre (N, x)\n    integer :: N ! which legendre polynomial?\n    real :: x ! the point to evaluate at\nend function\n\nWe could make these generic and supply implementations for real32 and real64 - really no reason not to in this case.\n\nA seperate concern: I was thinking about the method name gausslobatto and to be honest it is ambiguous. For example, gauss-chebyshev-lobatto quadrature also exists. The correct term is gauss-legendre-lobatto quadrature. So I propose amending the names suggested above to gauss_legendre and gauss_legendre_lobatto. Is that okay?\nLastly, regarding @arjenmarkus's thought about offering integrate_gauss_legendre, I'm open to offering the implementation but I'll need someone else to propose the API - I'm still pretty new to fortran and don't understand much about passing procedures as function arguments."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-18 01:36:11+00:00",
+                    "text": "Anyways, I propose adding these functions as well. Proposed API:\nreal function legendre (N, x)\n    integer :: N ! which legendre polynomial?\n    real :: x ! the point to evaluate at\nend function\n\nreal function dlegendre (N, x)\n    integer :: N ! which legendre polynomial?\n    real :: x ! the point to evaluate at\nend function\n\nWe could make these generic and supply implementations for real32 and real64 - really no reason not to in this case. We can't make these functions elemental, but we could supply versions for scalar x and for arrays of any valid rank.\n\nI believe this is something we want and has been mentioned previously in issue #179. See page 15 of this former WG5 proposal: https://wg5-fortran.org/N1651-N1700/N1688.pdf\nI can't see any reason why this could not be an elemental function. If the arguments are scalars, then as long as you put the elemental attribute in front, it should just work. (The use of an elemental procedure does not fit well with the way the polynomials are actually calculated, using the recurrence relations.) I guess the actual challenge is writing a bullet-proof implementation which works accurately for any N or x."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-18 02:27:43+00:00",
+                    "text": "I had thought that only single-argument functions could be elemental but you're right of course, we can make them elemental. I have an implementation that is iterative rather than recursive. I believe it will work. I've edited my above post to reflect the use of elemental.\nShould these polynomial functions be in stdlib_quadrature, or in another module? stdlib_math or stdlib_functions maybe?"
+                },
+                {
+                    "user": "bcornille",
+                    "date": "2021-01-18 02:58:50+00:00",
+                    "text": "A common pattern for evaluating Legendre polynomials is to request the result of all polynomials up to a certain order. For this case it would be beneficial to have an interface like\nsubroutine legendre(N, x, p)\n    integer :: N ! highest legendre polynomial degree\n    real :: x ! the point to evaluate\n    real :: p(0:N)\nend subroutine\n\nThe downside of this interface is of course it is not a function and it cannot be marked elemental. It could be made into a GENERIC interface for single and multi-point evaluation as well as array or scalar output. I have implemented some classes for Gauss-Legendre and Labatto-Legendre cardinal function evaluation that use this type of interface. They also store the reference interval nodes and weights, which could be useful for reuse in quadrature over many segments. An interface for requesting nodes and weights for arbitrary intervals is provided. Implementing gaussian quadrature as a class may not be right for stdlib, but it would allow efficient re-use of a single quadrature scheme over many intervals."
+                },
+                {
+                    "user": "bcornille",
+                    "date": "2021-01-18 03:27:26+00:00",
+                    "text": "I think it's true that you can't mix subroutines and functions. The generic would have to be something like\ninterface legendre\n    module subroutine legendre_scalar(N, x, p)\n        integer :: N\n        real :: x\n        real :: p\n    end subroutine\n    module subroutine legendre_array(N, x, p)\n        integer :: N\n        real :: x\n        real :: p(0:N)\n   end subroutine\nend interface\n\nI know this would not be compatible with your currently proposed API. Two more overloads for x(:) input could also be added. The upside here is flexibility, but the downside is of course the scalar cases have a poorer API than the functions."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-18 03:33:02+00:00",
+                    "text": "I think it's true that you can't mix subroutines and functions.\n\nSorry, I deleted the post that @bcornille was responding to here, because I realized it was based on a misread of his first post.\nHmmm, I do prefer the function interface for the scalar/elemental case... What about including the function versions I proposed above, and, seperately:\nsubroutine legendre_upto (N, x, p)\n    integer :: N ! highest legendre polynomial degree\n    real :: x ! the point to evaluate\n    real :: p(0:N)\nend subroutine\n\nWe can change the suffix to something else (upto isn't the best), but my point is what about using a different procedure name to offer that interface as well?"
+                },
+                {
+                    "user": "bcornille",
+                    "date": "2021-01-18 03:43:04+00:00",
+                    "text": "@hsnyder That seems like a perfectly reasonable solution as well. I'm new to this forum so I would open up the discussion and utility of this additional function to others.\nI do think there may be some value in the use of a class for the Gaussian quadrature scheme since the calculation of nodes and weights of a certain order could be expensive if redone for many intervals. The implementation of Gauss-Legendre and Labatto-Legendre cardinal functions I mentioned can be founde here. There is some additional setup done, but something similar could be done where the quadrature scheme is setup with a call to a type-bound procedure and then provide additional type-bound procedures to get the nodes, weights, or pass a function and an interval to do the integration. This may be much more OO-style than desired for stdlib."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-18 14:47:02+00:00",
+                    "text": "I would strongly prefer a simple subroutine call that just gives me the nodes and weights. I agree that an object would be useful for some applications but I think we should provide the simpler interface and let the user build scaffolding around it if it's of use to them, rather than force them to deal with a more complex API when they just want the nodes and weights once.\nBut yes, let's see what the rest of the community thinks."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-18 16:39:51+00:00",
+                    "text": "I would strongly prefer a simple subroutine call that just gives me the nodes and weights. I agree that an object would be useful for some applications but I think we should provide the simpler interface and let the user build scaffolding around it if it's of use to them, rather than force them to deal with a more complex API when they just want the nodes and weights once.\n\nIn the past, the preference has been for simple procedures, over OOP. If OOP is desired by the community, it can be always built on top of the simpler procedures."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-18 16:45:57+00:00",
+                    "text": "There have been multiple similar discussions in other issues. Ultimately, the choice between a procedural or OO interface will be a user preference and so we could provide both. In some applications, there is good potential for code reuse meaning once the procedural interface for gausslegendre is available, we can build a derived type with members x and w and various methods (integration, interval selection, etc). (Of course you could also do it the other way round, the procedural interface uses the derived type internally.)\nPersonally, my interest in Gaussian quadrature is related to solving one-dimensional PDE's with the method of weighted residuals. A fully fledged package for this purpose (like the one in preparation by Tilden Technologies (TT) would cover all of the following functionalities (imaged borrowed from the TT website):\n\nOn the other hand looking at the Scipy library, currently it only provides routines for Gaussian quadrature (fixed_quad), nodes and weights of such quadratures (roots_legendre) and evaluation of orthogonal polynomials (eval_legendre and legendre, where the latter returns a np.poly1d object containing which contains the coefficients of the polynomial in monomial form).\nA search on GitHub for eval_legendre returns around 6000 code hits, the majority of which appear to be simply copies of the original scipy repository. In between you can find actual usage cases in electrostatic solvers, quantum mechanics, et cetera. If we could count the number of times they are used from Boost, Julia, R, MATLAB, and C, and all of the historical Fortran codes, I am sure we can conclude that evaluation and quadrature are used frequently enough to deserve inclusion in stdlib. On the other hand the full orthogonal polynomial tool set would probably be better pursued as a fpm project first (less need for review, more flexibility to experiment with API, etc.)."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-01-18 16:58:59+00:00",
+                    "text": "My use case is also weighted residual techniques and I'd love to see more functionality in the stdlib cater to that sort of thing. However, I'm also mindful of scope creep.. I really just want to get the quadrature functions in ASAP, and since I'm internally computing the legendre polys, I figured why not expose an API for that too. We can revisit other functionality related to PDE solvers in future proposals. @ivan-pi I'd be happy to work on the extended functionality with you in the future if you want."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-18 17:11:43+00:00",
+                    "text": "I agree we should not pursue any advanced targets at the moment. I am looking forward to reviewing your pull request \ud83d\udc4d.\nHopefully, the procedural interfaces will open a door to other polynomials and quadratures and get more people involved."
                 }
             ]
         },
@@ -382,6 +1064,21 @@
                     "user": "Jim-215-Fisher",
                     "date": "2020-12-20 19:04:46+00:00",
                     "text": "Thank you @Jim-215-Fisher for this PR. Is it ready for review?\n\nYes. I think it is ready."
+                },
+                {
+                    "user": "Jim-215-Fisher",
+                    "date": "2021-01-08 18:10:33+00:00",
+                    "text": "I agreed completely. Actually I prepared a module as a container to include all the probability modules and export the public access procedures. I thought it might be reduntant to have a separate PR.\n\nPersonally, I am OK with including this pending a few comments.\nI inspected the original xorshift256 code in C and this seems to be a faithful reproduction. Testing with TestU01 could give us more assurance. But I think this is best done in a separate repository.\nI appreciate you following our suggestion of splitting the distributions module for ease of the review process. However, on inspection of the remaining modules I think we should change it in the next pull request.\nThe way I see it, there should be a top module stdlib_stats_distributions which exports all the public routines for uniform, normal, and other distributions and also the random_seed routine needed for the PRNG generator used internally. The implementations of the random-number generator used internally, and the actual distributions functions can then go in sub-modules."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-18 17:30:06+00:00",
+                    "text": "Thank you @Jim-215-Fisher for this PR. I have no additional comments for now.\n@ivan-pi @milancurcic any other comments? If not, I suggest that we mege this PR as is. So we can move to the next one associated to this PR. Are you ok with that?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-18 18:07:23+00:00",
+                    "text": "I agree. +1 to merge and move to the next pull request."
                 }
             ]
         },
@@ -430,6 +1127,31 @@
                     "user": "arjenmarkus",
                     "date": "2020-12-22 07:53:45+00:00",
                     "text": "Yes, my remark also reflects my personal grievances against those smart\naleck spelling checkings.\n\nOp ma 21 dec. 2020 om 17:25 schreef Milan Curcic <notifications@github.com>:\n\u2026\n Just one remark: \"initialise\" is quite acceptable according to a\n dictionary I checked (even though it is UK spelling).\n\n It is, it's why I scolded the ReviewDog. :) I think we can just ignore it.\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#269 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR75RDQ5KOIE2JFSSA3SV5ZGJANCNFSM4VBNHQ2Q>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-04 15:21:59+00:00",
+                    "text": "Thanks for the comments - I will give a more detailed reply later.\n\nOp zo 3 jan. 2021 om 17:58 schreef Sebastian Ehlert <\nnotifications@github.com>:\n\u2026\n ***@***.**** commented on this pull request.\n\n I looked over the API documentations and left a few comments on the API\n design. Mainly the special positions list_head and list_end are\n inconsistent in my opinion.\n ------------------------------\n\n In doc/specs/stdlib_stringlist.md\n <#269 (comment)>:\n\n > +call list%insert( list_head, \"The first string\" )\n\n +call list%insert( 20, \"The last string\" )\n\n +\n\n +write(*,*) 'The last:    ', list%get(list_end)\n\n +write(*,*) 'Beyond that: ', list%get(30)\n\n +```\n\n +The special position `list_head` represents the position *before* the first element. Likewise,\n\n +the special position `list_end` represents the position of the *last* element. You can\n\n +use these positions to insert a string before the first string that is already in the\n\n +list or to insert after the last string that has been inserted.\n\n +\n\n +If you specify a position beyond the last, the `list%get()` method simply returns an empty\n\n +string.\n\n +\n\n +You can also specify *negative* positions, but they are interpreted as going back from the\n\n +last inserted string. If you need the last but one string, you can do so innthis way:\n\n\n \u2b07\ufe0f Suggested change\n\n -last inserted string. If you need the last but one string, you can do so innthis way:\n\n +last inserted string. If you need the last but one string, you can do so in this way:\n\n\n ------------------------------\n\n In doc/specs/stdlib_stringlist.md\n <#269 (comment)>:\n\n > +The special position `list_head` represents the position *before* the first element. Likewise,\n\n +the special position `list_end` represents the position of the *last* element. You can\n\n\n This feels inconsistent to me. list_head represents an element outside of\n the list, while list_end represents an element in the list. I would\n prefer either having both special indices refer to elements inside or\n outside the list, but not mixed.\n ------------------------------\n\n In doc/specs/stdlib_stringlist.md\n <#269 (comment)>:\n\n > +write(*,*) 'The last:    ', list%get(list_end)\n\n +write(*,*) 'Beyond that: ', list%get(30)\n\n +```\n\n +The special position `list_head` represents the position *before* the first element. Likewise,\n\n +the special position `list_end` represents the position of the *last* element. You can\n\n +use these positions to insert a string before the first string that is already in the\n\n +list or to insert after the last string that has been inserted.\n\n +\n\n +If you specify a position beyond the last, the `list%get()` method simply returns an empty\n\n +string.\n\n +\n\n +You can also specify *negative* positions, but they are interpreted as going back from the\n\n +last inserted string. If you need the last but one string, you can do so innthis way:\n\n +\n\n +```fortran\n\n +write(*,*) 'The last but onw: ', list%get(list_end-1)\n\n\n \u2b07\ufe0f Suggested change\n\n -write(*,*) 'The last but onw: ', list%get(list_end-1)\n\n +write(*,*) 'The last but one: ', list%get(list_end-1)\n\n\n ------------------------------\n\n In doc/specs/stdlib_stringlist.md\n <#269 (comment)>:\n\n > +\n\n +#### Class\n\n +\n\n +Function\n\n +\n\n +#### Arguments\n\n +\n\n +`list`: the stringlist variable to retrieve a string from\n\n +\n\n +`string`: the string to be found in the list\n\n +\n\n +`back` (optional): logical argument indicating the first occurrence should be returned (`false`) or the last (`true`)\n\n +\n\n +#### Result value\n\n +\n\n +The result is either the index of the string in the list or -1 if the string was not found\n\n\n Why is -1 chosen here? The intrinsics index/scan/verify return 0 on\n \u201cfailure\u201d rather than -1.\n ------------------------------\n\n In doc/specs/stdlib_stringlist.md\n <#269 (comment)>:\n\n > +\n\n +#### Class\n\n +\n\n +Function\n\n +\n\n +#### Arguments\n\n +\n\n +`list`: the stringlist variable to retrieve a string from\n\n +\n\n +`substring`: the substring in question\n\n +\n\n +`back` (optional): logical argument indicating the first occurrence should be returned (`false`) or the last (`true`)\n\n +\n\n +#### Result value\n\n +\n\n +The result is either the index of the string in the list or -1 if the string was not found\n\n\n Same question on the return code as with index.\n ------------------------------\n\n In doc/specs/stdlib_stringlist.md\n <#269 (comment)>:\n\n > +\n\n +Experimental\n\n +\n\n +#### Description\n\n +\n\n +Concatenate a list with a string, a list of strings or a plain array\n\n +\n\n +#### Syntax\n\n +\n\n +`concatenatedlist = list // string`\n\n +\n\n +`concatenatedlist = string // list`\n\n +\n\n +#### Class\n\n +\n\n +Assignment\n\n\n \u2b07\ufe0f Suggested change\n\n -Assignment\n\n +Operator\n\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#269 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRYDPU7YK2MEIS2OPQ3SYCO4FANCNFSM4VBNHQ2Q>\n ."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-06 08:13:33+00:00",
+                    "text": "I have been thinking about the use of integers to indicate the head and the end of the list. Clearly this is a bad design choice, as there is no way to make it unambiguous. My current idea is to use instead a special derived type, something along the lines:\ntype list_special_index_type\n     logical :: head = .true.\n    integer :: offset = 0\nend type\nwith appropriate operations + and - for defining an offset. Then there can be no confusion about the meaning.\n(Of course, a bit more work, but that is limited :))."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-06 10:35:01+00:00",
+                    "text": "I have been thinking about the use of integers to indicate the head and the end of the list. Clearly this is a bad design choice, as there is no way to make it unambiguous. My current idea is to use instead a special derived type, something along the lines:\ntype list_special_index_type\n logical :: head = .true.\n integer :: offset = 0\nend type\nwith appropriate operations + and - for defining an offset. Then there can be no confusion about the meaning.\n(Of course, a bit more work, but that is limited :)).\n\nI really like this solution: it seems to address at once most of the shortcomings that I have identified. I had a very limited amount of time to play with it but the current implementation seems to work already very well.\nThe aspects that I did not like much.\n\nAs already commented in the related issue, I believe that the sorting method should not be part of this PR but it should be included in the stdlib sorting module and stdlib_stringlist should depend on it.\nI would prefer to encapsulate into the derived type the control variables (e.g. list_head, list_end in the current implementation, head and offset in the future one) to not \"pollute\" the user namespace. It is a bit more verbose but I think it's a better choice.\nI do not understand fully the need to hard code the initial_size = 20 parameter to a somewhat arbitrary value that also \"pollutes\" the user namespace (see previous point).\nI personally believe that the only way to let the user add an element to an already \"initialised\" list should be with the append method. Any other attempt to add new elements \"out of bounds\" should return an error. Quite strict, I know, but I think it's safer.\n\nThanks @arjenmarkus  for doing this!"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-10 17:29:27+00:00",
+                    "text": "@arjenmarkus I suspect you initiated this project in an old branch. The stdlib_ascii module is the old version you already modified (and is now in the master branch). The solution would be to rebase against the master branch."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-11 10:59:53+00:00",
+                    "text": "Is it? I recently did a rebase. Okay, I will have to check.\n\nOp zo 10 jan. 2021 om 18:29 schreef Ivan Pribec <notifications@github.com>:\n\u2026\n @arjenmarkus <https://github.com/arjenmarkus> I suspect you initiated\n this project in an old branch. The stdlib_ascii module is the old version\n you already modified (and is now in the master branch). The solution would\n be to rebase against the master branch.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#269 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4BPWLFYPSB23YLEP3SZHPYHANCNFSM4VBNHQ2Q>\n ."
                 }
             ]
         },
@@ -529,6 +1251,41 @@
                     "user": "jvdp1",
                     "date": "2020-12-31 15:49:45+00:00",
                     "text": "Thank you @arjenmarkus for the implementation. I will try to have a look at it next week.\n\nConcerning the sorting routines, should not these be a more generic part of stdlib and then applied to this case as only one of the possible applications? What do you think @jvdp1 @certik @milancurcic?\n\n@epagone I think that sorting algoritghms are definetely in the scope of stdlib, and are needed at several places (e.g., for sparse matrices, computation of median,...). Therefore sorting procedures should have their own module. See some discussions around sorting algorithms and implementations in #98."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-08 16:38:06+00:00",
+                    "text": "Thanks @arjenmarkus! I hope I'll be able to test it a little bit at some point.\nConcerning the sorting routines, should not these be a more generic part of stdlib and then applied to this case as only one of the possible applications? What do you think @jvdp1 @certik @milancurcic?\n\nAs @jvdp1 has mentioned already, I think we all agree sorting routines are in the scope of stdlib. But I also think we should not shy away from providing specific sort methods which are private to the module in development (in this case list of strings). This could be either due to using a specialized algorithm more suitable than a generic one, or simply as a temporary building block."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-08 16:57:15+00:00",
+                    "text": "As @jvdp1 has mentioned already, I think we all agree sorting routines are in the scope of stdlib. But I also think we should not shy away from providing specific sort methods which are private to the module in development (in this case list of strings). This could be either due to using a specialized algorithm more suitable than a generic one, or simply as a temporary building block.\n\n@ivan-pi I understand and agree with the rationale and the general principle. However, is this the case? I am far from an expert of sorting algorithms, but to my eyes the one in the relevant PR does not seem to be tailored to list of strings (except for the data type)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-08 19:36:56+00:00",
+                    "text": "I am not an expert for sorting algorithms either. I've tried to compile a list of available routines in #98. I've had a look at the implementation from @arjen. If we were to generalize the sorting routine and move it out of the string list module, we would need to:\n\nAgree to introduce string_type as the suggested OO string type (similar to varying_string or the many string types defined by others; see #69)\nProvide a generic argsort routine which takes an array of  type(string_type) and returns the indices that would sort an array."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-08 19:45:52+00:00",
+                    "text": "I am not an expert for sorting algorithms either. I've tried to compile a list of available routines in #98. I've had a look at the implementation from @arjen. If we were to generalize the sorting routine and move it out of the string list module, we would need to:\n1. Agree to introduce `string_type` as the suggested OO string type (similar to `varying_string` or the many string types defined by others; see #69)\n\n\nI see this as an advantage to keep the ball rolling also on the front of stdlib string types. We can always roll back at a later time if, for some reason, this implementation is unsuitable: we are still in \"experimental mode\".\n\n2. Provide a generic `argsort` routine which takes an array of  `type(string_type)` and returns the indices that would sort an array.\n\n\nI don't know if this would be a lot of work but to me it does not seem super-complicated."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-25 19:59:26+00:00",
+                    "text": "I am making progress with the implementation of a better way to specify the indices and en passant with the various versions to be supported. This made me think of some design questions for which I would like some advice:\n\nI want to avoid error conditions, so whatever index you give, beyond the end OR beyond the beginning it always succeeds (modulo memory issues). An alternative is to set an error flag when especially negative indices are passed in.\nHandling negative indices (to the \"left\" of the head of the list) requires a choice: I first thought of handling that as an implicit shift to the right of all other entries, so that the most negative index becomes 1. and all the other entries simply shift. But that does not feel good. An alternative could be to simply extend the list to the left, so that\ncall list%insert( 1, \"A\")\ncall list%insert( -10, 'B' )\nwrite(*,*) list%get(-10)\nproduces \"B\".\nInserting a string at position n will shift all strings with index >n to the right. But if we implement negative indices like above, it might make sense to have an operation to shift them to the left as well.\n\nOf course, negative indices may be not so useful in the first place and I should not put too much effort in that feature. If so, the alternative of flagging an error is probably best.\nWhat do you think?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-01-25 22:21:23+00:00",
+                    "text": "This is the behavior on Python:\n>>> a = [1, 2, 3]\n>>> a[2]\n3\n>>> a[0]\n1\n>>> a[-1]\n3\n>>> a.insert(-10, 4)\n>>> a\n[4, 1, 2, 3]\n\nIt looks like it prepends it at the beginning? Notice that a negative index wraparounds from the right when you do a[-1]."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-27 15:22:32+00:00",
+                    "text": "Hm, negative indices start at the end and when you get outside the list the\nitem is either inserted at the start (negative indices) or at the end.\n\nWell, that is an acceptable model, as well, I suppose :). Perhaps even more\nthan trying to accommodate for inserting in arbitrary places. I can\ncertainly do that.\n\nOp ma 25 jan. 2021 om 23:21 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com\n\u2026\n:\n This is the behavior on Python:\n\n >>> a = [1, 2, 3]\n >>> a[2]\n 3\n >>> a[0]\n 1\n >>> a[-1]\n 3\n >>> a.insert(-10, 4)\n >>> a\n [4, 1, 2, 3]\n\n It looks like it prepends it at the beginning?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#268 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5SQZD2Q7ZAWSL5XF3S3XVHFANCNFSM4U7P3HOA>\n ."
                 }
             ]
         },
@@ -900,6 +1657,11 @@
                     "user": "urbanjost",
                     "date": "2020-12-11 22:52:42+00:00",
                     "text": "Thanks, but I can't at this time.  I made a small fpm package with a seed anyone pursuing this is welcome to use with no restrictions.\nIt is the subdirectory in  miscellaneous under the directory M_input.  It contains\nan input(3f) function as close to the description as I could manage with the time I have available.\ngit clone  https://github.com/urbanjost/miscellaneous\ncd miscellaneous/M_input\nfpm run \nIf you use \"fpm run --compiler NAME\" you will find it is never as simple as it seems if you enter ctrl-D at the prompt for a number or enter a huge integer string like\n11111111111111111111111111111111111111111111111111111111111111111111111\n\nyou will find ifort, nvfortran, and gfortran all handle it differently. It should handle Inf and NaN more robustly, but I have seen other parts of stdlib that should be able to handle that so I did not duplicate it here. It would be useful if a version of stdlib was available as a simple fpm(1) package.\nHope it is helpful, but I have to opt out on this one. Having had a routine like this for a long time I find I use it mostly in a quick prototype; but I use the getline(3f) routine that it uses a lot, actually."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-10 21:16:38+00:00",
+                    "text": "Deleting the example github repository, so thought I would put a copy of the alpha version here for anyone interested in the future.\nmodule M_input\nuse,intrinsic :: iso_fortran_env, only : stdin=>input_unit, stderr=>error_unit\nimplicit none\nprivate\npublic :: getline\npublic :: input\ninteger,parameter,private :: dp=kind(0.0d0)\ninterface input\n   module procedure rd_character\n   module procedure rd_integer\n   module procedure rd_real\n   module procedure rd_dp\nend interface input\ncontains\n!>NAME\n!>   getline(3f) - [M_input] read line from specified LUN into allocatable string\n!>                 up to line length limit\n!>   (LICENSE:PD)\n!>\n!>SYNTAX\n!>  function getline(line,lun) result(ier)\n!>\n!>   character(len=:),allocatable,intent(out) :: line\n!>   integer,intent(in),optional              :: lun\n!>   integer,intent(out)                      :: ier\n!>\n!>DESCRIPTION\n!>   Read a line of any length up to programming environment maximum\n!>   line length. Requires Fortran 2003+.\n!>\n!>   It is primarily expected to be used when reading input which will\n!>   then be parsed.\n!>\n!>   The input file must have a PAD attribute of YES for the function\n!>   to work properly, which is typically true.\n!>\n!>   The simple use of a loop that repeatedly re-allocates a character\n!>   variable in addition to reading the input file one buffer at a\n!>   time could (depending on the programming environment used) be\n!>   inefficient, as it could reallocate and allocate memory used for\n!>   the output string with each buffer read.\n!>\n!>OPTIONS\n!>   LINE   line read. Trailing spaces are significant.\n!>   LUN    optional LUN (Fortran logical I/O unit) number. Defaults\n!>          to stdin.\n!>RETURNS\n!>   IER    zero unless an error occurred. If not zero, LINE returns the\n!>          I/O error message.\n!>\n!>EXAMPLE\n!>  Sample program:\n!>\n!>   program demo_getline\n!>   use,intrinsic :: iso_fortran_env, only : stdin=>input_unit\n!>   use M_input, only : getline\n!>   implicit none\n!>   character(len=:),allocatable :: line\n!>      open(unit=stdin,pad='yes')\n!>      INFINITE: do while (getline(line)==0)\n!>         write(*,'(a)')'['//line//']'\n!>      enddo INFINITE\n!>      if(is_iostat_end(ier))stop 'end of file'\n!>      write(*,'(*(g0))')'<ERROR>ended on ',trim(line)\n!>   end program demo_getline\n!>\n!>LICENSE\n!>   MIT License\n\nfunction getline(line,lun) result(ier)\nimplicit none\n\n!>> getline(3f): read line from LUN into allocatable string up to length limit\n\ncharacter(len=:),allocatable,intent(out) :: line\ninteger,intent(in),optional              :: lun\ninteger                                  :: ier\ncharacter(len=256)                       :: message\n\ninteger,parameter                        :: buflen=1024\ncharacter(len=:),allocatable             :: line_local\ncharacter(len=buflen)                    :: buffer\ninteger                                  :: isize\ninteger                                  :: lun_local\n\n   line_local=''\n   ier=0\n   if(present(lun))then\n      lun_local=lun\n   else\n      lun_local=stdin\n   endif\n   open(lun_local,pad='yes')\n\n   INFINITE: do\n   ! read characters from line and append to result\n      message=''\n      read(lun_local,iostat=ier,fmt='(a)',advance='no',size=isize,&\n      & iomsg=message) buffer\n      ! read next buffer (might use stream I/O for files\n\n      ! other than stdin so system line limit is not limiting\n      if(isize.gt.0)line_local=line_local//buffer(:isize)\n      ! append what was read to result\n      if(is_iostat_eor(ier))then\n      !if hit EOR reading is complete unless backslash ends the line\n         ier=0\n         ! hitting end of record is not an error for this routine\n         exit INFINITE\n         ! end of reading line\n     elseif(ier.ne.0)then\n     ! end of file or error\n        line=trim(message)\n        exit INFINITE\n     endif\n   enddo INFINITE\n   line=line_local\nend function getline\n\n!>NAME\n!>input(3f) - [M_input] ask for string from standard input with\n!>            user-definable prompt\n!>(LICENSE:PD)\n!>\n!>  function input(prompt,default) result(strout)\n!>\n!>   character(len=*),intent(in)              :: prompt\n!>\n!>   Any one of\n\n!>    character(len=*),intent(in),optional     :: default\n!>    integer,intent(in),optional              :: default\n!>    real,intent(in),optional                 :: default\n!>    integer,parameter                        :: dp=kind(0.0d0)\n!>    real(kind==dp),intent(in),optional       :: default\n!>\n!>   character(len=:),allocatable,intent(out) :: strout\n!>\n!>DESCRIPTION\n!>   Ask for string or value from standard input with user-definable prompt\n!>\n!>   Do not use the function in an I/O statement as not all versions of\n!>   Fortran support this form of recursion. Numeric values may be input\n!>   in standard INTEGER, REAL, and DOUBLEPRECISION formats.\n!>\n!>OPTIONS\n!>   prompt    Prompt string; displayed on same line as input is read from\n!>   default   default answer on carriage-return. The type of the default\n!>             determines the type of the output.\n!>RETURNS\n!>   strout    returned string or value. If an end-of-file or system error\n!>             is encountered the null character is returned when returning\n!>             a string, or a \"Nan\" numeric value for REAL values or\n!>             HUGE(0) for an INTEGER.\n!>EXAMPLE\n!>  Sample program:\n!>\n!>   program demo_input\n!>   use M_input, only : input\n!>   character(len=:),allocatable :: mystring\n!>   integer,parameter,private :: dp=kind(0.0d0)\n!>   real(kind=dp)                :: d\n!>   real                         :: r\n!>   integer                      :: i\n!>\n!>   INFINITE: do\n!>      mystring=input('Enter string or \"STOP\":',default='Today')\n!>      if(mystring.eq.'STOP')stop\n!>      i=input('Enter integer:',default=huge(0))\n!>      r=input('Enter real:',default=huge(0.0))\n!>      d=input('Enter double:',default=huge(0.0d0))\n!>\n!>      write(*,'(*(g0))')'I=',i,' R=',r,' D=',d,' MYSTRING=',mystring\n!>   enddo INFINITE\n!>\n!>   end program demo_input\n!>\n!>LICENSE\n!>   MIT License\n\nfunction rd_character(prompt,default,iostat) result(strout)\nimplicit none\n\n!>> rd_character(3fp): ask for string with user-definable prompt\n\ncharacter(len=*),intent(in)           :: prompt\ncharacter(len=*),intent(in),optional  :: default\ninteger,optional,intent(out)          :: iostat\ncharacter(len=:),allocatable          :: strout\n\ninteger                               :: len_prompt\ninteger                               :: iostat_local\n!>*!integer                               :: idum\n\n   len_prompt=len(prompt)\n   iostat_local=0\n\n   if(len_prompt.gt.0)then\n      write(*,'(a)',advance='no')prompt\n   else\n      write(*,'(\"Enter value>\")',advance='no')prompt\n   endif\n   iostat_local=getline(strout,stdin)\n   if(iostat_local.ne.0)then\n      !*!attempt to work-around nvfortran and gfortran bug|unexpected feature\n      !*! once a ctrl-D |EOF is encountered gfortran|nvfortran do not allow subsequent reads\n      !*!if(is_iostat_end(iostat_local))rewind(stdin,iostat=idum)\n      !*!if(is_iostat_end(iostat_local))open(stdin,pad='yes')\n      if(is_iostat_end(iostat_local))backspace stdin\n      strout=char(0)\n   elseif(present(default).and.strout.eq.'')then\n      strout=default\n   endif\n   if(present(iostat))iostat=iostat_local\nend function rd_character\n\nfunction nan()\ncharacter(len=3),save :: nanstring='NaN'\nreal(kind=dp) :: nan\n   read(nanstring,*)nan\nend function nan\n\nfunction rd_dp(prompt,default,iostat) result(dvalue)\nimplicit none\n\n!>> rd_dp(3fp): ask for DOUBLE number with user-definable prompt\n\nreal(kind=dp)                         :: dvalue\ncharacter(len=*),intent(in)           :: prompt\nreal(kind=dp),intent(in)              :: default\ninteger,intent(out),optional          :: iostat\n\ncharacter(len=:),allocatable          :: strout\ncharacter(len=256)                    :: message\ninteger                               :: iostat_local\n\n   iostat_local=0\n   strout=rd_character(prompt,iostat=iostat_local)\n   if(iostat_local.ne.0)then\n      write(*,'(*(g0))')'<ERROR>*input* failed to read from stdin:',strout\n      dvalue=nan()\n   elseif(strout.eq.'')then\n      dvalue=default\n   else\n      read(strout,*,iostat=iostat_local,iomsg=message)dvalue\n      if(iostat_local.ne.0)then\n            write(stderr,'(*(g0))') &\n            & '<ERROR>*input* input ['//strout//'] failed as a number:', &\n            & trim(message)\n            dvalue=nan()\n      endif\n   endif\n   if(present(iostat))iostat=iostat_local\nend function rd_dp\n\nfunction rd_real(prompt,default,iostat) result(rvalue)\nimplicit none\n!>> rd_real(3fp): ask for REAL number input with user-definable prompt\nreal                         :: rvalue\nreal(kind=dp)                :: dvalue\ncharacter(len=*),intent(in)  :: prompt\nreal,intent(in)              :: default\ninteger,intent(out),optional :: iostat\n   !*! what about Nan, Inf, -Inf? Likely place for compiler bugs\n   dvalue=rd_dp(prompt,dble(default),iostat)\n   if(dvalue.ne.dvalue)then\n      write(stderr,'(*(g0))') &\n      & '<ERROR>*input* value [',dvalue,'] is indefinite'\n      rvalue=huge(0.0)\n   else\n      rvalue=real(dvalue)\n   endif\nend function rd_real\n\nfunction rd_integer(prompt,default,iostat) result(ivalue)\nimplicit none\n!>> rd_integer(3fp): ask for INTEGER number with user-definable prompt\ninteger                      :: ivalue\nreal(kind=dp)                :: dvalue\ncharacter(len=*),intent(in)  :: prompt\ninteger,intent(in)           :: default\ninteger,intent(out),optional :: iostat\n   dvalue=rd_dp(prompt,dble(default),iostat)\n   !*! what about Nan, Inf, -Inf?\n   if(dvalue.ne.dvalue)then\n      write(stderr,'(*(g0))') &\n      & '<ERROR>*input* value [',dvalue,'] is indefinite'\n      ivalue=huge(0)\n   elseif(dvalue.gt.huge(0))then\n      write(stderr,'(*(g0))') &\n      & '<ERROR>*input* value [',dvalue,'] greater than ', huge(0)\n      ivalue=huge(0)\n   elseif(dvalue.lt.1-huge(0))then\n      write(stderr,'(*(g0))') &\n      & '<ERROR>*input* value [',dvalue,'] less than ', 1-huge(0)\n      ivalue=1-huge(0)\n   else\n      ivalue=nint(dvalue)\n   endif\nend function rd_integer\n\nend module M_input"
                 }
             ]
         },
@@ -2128,6 +2890,21 @@
                     "user": "David-Duffy",
                     "date": "2020-12-22 23:53:03+00:00",
                     "text": "\"a generalized version\" - yes, I had been looking at their C++ code, but dreading how how long it would take to fully test a Fortran port. One reason Boost etc are using time-tested algorithms rather than bleeding edge,"
+                },
+                {
+                    "user": "rryley",
+                    "date": "2021-01-15 13:42:56+00:00",
+                    "text": "The R documents provide a listing of the available probability distributions.  Considering another, independent request for better interop with R, it might save some effort to follow the R conventions as much as possible.\nHere is the list: https://cran.r-project.org/doc/manuals/r-release/R-intro.html#Probability-distributions\nIs there another discussion on what should be in the statistical methods portion of the Fortran Standard Library?  The GNU Scientific Library stats section is limited.  I also think the R stats package provides a good model of what should be included, but that might be too ambitious.  If you have R installed, open up the REPL and type:\nlibrary(help=\"stats\") for a list of what is available."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-15 13:50:23+00:00",
+                    "text": "Is there another discussion on what should be in the statistical methods portion of the Fortran Standard Library?\n\n@rryley Different PRs were already submitted regarding probability distributions (#271, #272, #273, #26, #278, #286, ...). It seems some of them cover the R probability distributions."
+                },
+                {
+                    "user": "peteroupc",
+                    "date": "2021-01-22 03:35:11+00:00",
+                    "text": "I want to draw attention in this issue thread to algorithms for geometric and binomial variates published from 2013 through 2015, by Bringmann and colleagues as well as Farach-Colton/Tsai, which were designed especially for small p parameters (geometric) or large numbers of trials (binomial).\nSee my notes on samplers for both distributions.\nREFERENCES:\n\nBinomial: K. Bringmann, F. Kuhn, et al., \u201cInternal DLA: Efficient Simulation of a Physical Growth Model.\u201d In: Proc. 41st International Colloquium on Automata, Languages, and Programming (ICALP'14), 2014.\nBinomial: Farach-Colton, M. and Tsai, M.T., 2015. Exact sublinear binomial sampling. Algorithmica 73(4), pp. 637-651.\nGeometric: Bringmann, K., and Friedrich, T., 2013, July. Exact and efficient generation of geometric random variates and random graphs, in International Colloquium on Automata, Languages, and Programming (pp. 267-278)."
                 }
             ]
         },
@@ -2413,6 +3190,21 @@
                     "user": "certik",
                     "date": "2020-09-16 14:35:16+00:00",
                     "text": "I see. I feel this must go into the API that is above the low level API.\nI see his architecture all over many of the other issues in stdlib. In this case, the API layers as I can see them could be (from lowest to highest):\n\n\nlowest level: the goal is to output the correct ANSI string without having to deal with ansi sequences directly, but there should be no over head and it should be as simple as possible. The two proposed solutions would both work:\n\nprint *, fg_red, bg_green, bold, 'Hello!', reset\nprint *, color('Hello!', fg=fg_red, bg=bg_green, style=style_bold) (notice the fg_red is not a string \"red\" to avoid string parsing / comparison, and just efficiently output the ANSI sequence)\n\n\n\nhigher level: a function color that can work in many ways, output both ANSI or HTML output and allows to turn off colors\n\n\nhigh level: some intermediate representation (XML) that can be parsed into, and then manipulated to any output (HTML, ANSI, latex, ...)"
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-29 18:06:01+00:00",
+                    "text": "It would be nice to have some sort of pre-alpha version of this module in stdlib. I'd certainly use it.\nI believe many programmers don't use colors, because colors are not cheap. He has to find a third party library, figure how to install and use. This process is not always easy.\nWriting use stdlib_color and instantly get beautiful output on any platform is a good idea, imho."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-30 02:02:34+00:00",
+                    "text": "I was hoping a few people would try it via fpm or even GPF and bounce around some ideas and firm it up before trying to go straight to stdlib.  It is very easy to access it from fpm.  That has not been happening so perhaps a more direct approach would be better. There are a number of stdlib projects (sort, split, LAPACK interface, ...) that I think are occupying a lot of resources and I did not want things to get even more fragmented and I was hoping some other things that would make this better (some system routines like ISATTY, Regular Expressions, ...) would emerge quickly that would make this simpler. Would you find one interface style preferable?  Would other options like cursor positioning (\"curses\" type functions) be something you want too or should we just look at color?  To use ANSI in-line color it is really useful to be able to use the ANSI query strings to detect color support, etc. and that is hard to do without a C interface to raw mode and so far stdlib has been avoiding such things, which is another limiting feature. Maybe just keeping it simple and doing basic text attributes really is the starting point and all that can come later. I have some old (really old) basic color conversion routines that might be useful for allowing HLS color models as a supplement for RGB values (I find HLS much more intuitive myself)."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-30 21:02:44+00:00",
+                    "text": "Hi @urbanjost . I think you are right. I've tried M_escape with fpm and it works beautifuly on Windows. Yes, I use only basic color formatting (don't need cursor positioning).\nIt seems that the only open question is the redirection issue pointed out above."
                 }
             ]
         },
@@ -4049,6 +4841,36 @@
                     "user": "awvwgk",
                     "date": "2020-12-29 15:20:36+00:00",
                     "text": "I just tried to use stdlib as subproject in CMake and it is in fact currently impossible. I collected a patch for this in #284."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-05 17:45:42+00:00",
+                    "text": "I created a template project using stdlib in CMake at https://github.com/awvwgk/stdlib-cmake-example, if there is interest I can transfer it to the @fortran-lang organization."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-05 17:58:21+00:00",
+                    "text": "\ud83d\udc4d for fortran-lang/stdlib-cmake-example."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-05 18:08:45+00:00",
+                    "text": "Looks like I cannot transfer the repo because I'm missing permissions in fortran-lang."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-05 18:11:48+00:00",
+                    "text": "Okay, that will be easy to fix, but let's wait to hear from @certik @jvdp1 @ivan-pi @everythingfunctional and any others."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-01-05 18:27:41+00:00",
+                    "text": "Thank you @awvwgk fr this proposition.\nI think it is a good idea to move this in fortran-lang. When fpm will be ready to use stdlib, it will give a complete view on how to integrate easily stdlib with different tools. Some comments in the README of stdlib should be then probably added to point the users to this example."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-12 17:16:16+00:00",
+                    "text": "With no objections, stdlib-cmake-example has moved to fortran-lang/stdlib-cmake-example.\nThanks to @awvwgk for making it."
                 }
             ]
         },
@@ -9120,6 +9942,11 @@
                     "user": "scivision",
                     "date": "2020-01-27 19:40:54+00:00",
                     "text": "NAG could require CMake 3.16.3 like:\nif(CMAKE_Fortran_COMPILER_ID STREQUAL NAG)\n  cmake_policy(VERSION 3.16.3)\nendif()\nwhile allowing other compilers to use older CMake"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-16 12:50:16+00:00",
+                    "text": "I can report a successful build with NAG 7.0 and CMake 3.16 after a minimal patch\ndiff --git a/src/stdlib_bitsets.fypp b/src/stdlib_bitsets.fypp\nindex ad52517..f1f204d 100644\n--- a/src/stdlib_bitsets.fypp\n+++ b/src/stdlib_bitsets.fypp\n@@ -2006,7 +2006,7 @@ module stdlib_bitsets\n \n     end interface operator(<=)\n \n-    interface error_handler\n+    interface\n         module subroutine error_handler( message, error, status, &\n             module, procedure )\n             character(*), intent(in)           :: message\n@@ -2015,7 +2015,7 @@ module stdlib_bitsets\n             character(*), intent(in), optional :: module\n             character(*), intent(in), optional :: procedure\n         end subroutine error_handler\n-    end interface error_handler\n+    end interface\n \n contains\n \nUnfortunately the tests still fail\nThe following tests FAILED:\n\t 13 - stdlib_logger (Child aborted)\n\t 15 - corr (Child aborted)\n\t 16 - cov (Child aborted)\n\t 17 - mean (Child aborted)\n\t 18 - moment (Child aborted)\n\t 19 - rawmoment (Child aborted)\n\t 20 - var (Child aborted)\n\t 21 - varn (Child aborted)\n\nTest log: LastTest.log.gz"
                 }
             ]
         },
@@ -9588,6 +10415,11 @@
                     "user": "jacobwilliams",
                     "date": "2020-01-13 04:06:28+00:00",
                     "text": "Here are some of mine:\n\nhttps://github.com/jacobwilliams/fortran-search-and-sort\nhttps://github.com/jacobwilliams/stringsort (see also here about natural sorting of strings)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-08 19:19:30+00:00",
+                    "text": "A few more:\nSorting routines in various libraries\n\nACM\n\nAlgorithm 402 (version linked here is part of CLAWPACK)\n\n\nHSL\n\nKB07\n\n\nIBM Engineering and Scientific Subroutine Library (ESSL)\n\nISORT, SSORT, and DSORT\nISORTX, SSORTX, and DSORTX\nISORTS, SSORTS, and DSORTS\n\n\nIMSL\n\nSORT_REAL\nSVRGN\nSVRGP\nSVIGN\nSVIGP\nSVRBN\nSVRBP\nSVIBN\nSVIBP\n\n\nLAPACK\n\nslasrt\ndlasrt\n\n\nNAG\n\nSearching and sorting\n\n\nNumerical Recipes\nORDERPACK\nSLATEC (search for the routines ipsort, isort, spsort, ssort, dpsort, dsort, and hpsort)\n\nVarious user routines\n\nSorting in Fortran by Michael Rutter\nsorting programs in Fortran by Jean-Pierre Moreau\nSorting by John Mahaffy\nFORTRAN Bubble Sort Speghetti Code by Thomas W Bennet\nMULTI-THREADED SORT by Bal Software\nquicksort by Tim Hoar\nlcpsort - Module for sorting and merging ASCII text strings by N. Shamsundar, University of Houston (a C version by the same author is provided here)\nqsort_inline by Joseph M. Krahn at FortranWiki\nCoding Fortran: a sorting module by Michael Wirth\nParsing and Sorting with Fortran by Mike Rourke\nquicksort by @t-nissie and a modified version by @1AdAstra1\nSelection sort by C.-K. Shene\nLexicalSort by unknown author from comp.lang.fortran newsgroup\nAncora sul sort di \u2018Compilati vs. Interpretati\u2019 \u2013 2; blog post comparing various Fortran sort implementations (in Italian!)\nM_sort by @urbanjost\nsimple_fortran_argsort by @Astrokiwi\nBubble Sort (WikiBooks)\nGnome sort (Rosetta Code)\nInsertion sort (Rosetta Code)\n\nInternet forums and discussion boards\n\nordering function in Fortran (comp.lang.fortran)\nReverse quick sort in Fortran (StackExchange)\nSorting an array from lowest to greatest FORTRAN (StackExchange)\nFortran Bubble Sort Algorithm (StackExchange)\nOpen-source version of Intel Fortran sort routines (StackExchange) provided by Rafik Zurob\n\nInterfaces to C qsort\n\nOracle\nIntel Fortran\n\nPublished works\n\nBooks\n\nAlgorithms and Data Structures in F and Fortran by Robin Vowels (see chapter 1)\nIntroduction to Programming with Fortran by Ian Chivers and Jane Sleightholme (see pp. 703-732)\nFortran 90 & 95 Array and Pointer Techniques (eBook) by Loren P. Meissner (see chapters 2 and 3)\n\n\nArticles\n\nTransferable FORTRAN Subroutine for Rapid Extended Sorting\nTechnical Note: Efficient sorting routines in FORTRAN 77"
                 }
             ]
         },
@@ -10062,6 +10894,41 @@
                     "user": "ivan-pi",
                     "date": "2020-04-15 18:51:16+00:00",
                     "text": "The NLopt library contains several constrained and unconstrained nonlinear optimization routines and comes with a Fortran interface (geared toward the old F77 style of Fortran). Ironically, many of the routines are translations of old Fortran ones to C using f2c. I find the NLopt API very intuitive and simple to use. I made a pull request with a modern Fortran interface for NLopt a while ago. Maybe it could serve as a template for the stdlib one."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-06 11:52:27+00:00",
+                    "text": "Would root bracketing routines be in scope for this issue? I believe so but I am struggling to find any prior art in this area. I remember some in the Numerical Recipes (that have a well-known troublesome licence) and szero/dzero of MATH77 (that have some partial bracketing embedded to expand the initial search range).\nAre you aware of any high-quality bracketing routines available in the wild?"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-06 13:41:48+00:00",
+                    "text": "Usually such algorithms and high-quality implementations can be found on\nnetlib - https://www.netlib.org/.\n\nOp wo 6 jan. 2021 om 12:52 schreef Emanuele Pagone <notifications@github.com\n\u2026\n:\n Would root bracketing routines be in scope for this issue? I believe so\n but I am struggling to find any prior art in this area. I remember some in\n the Numerical Recipes (that have a well-known troublesome licence) and\n szero/dzero of MATH77 (that have some partial bracketing embedded to\n expand the initial search range).\n\n Are you aware of any high-quality bracketing routines available in the\n wild?\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#87 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4HH6RVHPQYQYQS3B3SYRFIZANCNFSM4KC5DBQQ>\n ."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-06 18:09:50+00:00",
+                    "text": "Usually such algorithms and high-quality implementations can be found on netlib - https://www.netlib.org/. Op wo 6 jan. 2021 om 12:52 schreef Emanuele Pagone <notifications@github.com\n\u2026\n: Would root bracketing routines be in scope for this issue? I believe so but I am struggling to find any prior art in this area. I remember some in the Numerical Recipes (that have a well-known troublesome licence) and szero/dzero of MATH77 (that have some partial bracketing embedded to expand the initial search range). Are you aware of any high-quality bracketing routines available in the wild? \u2014 You are receiving this because you are subscribed to this thread. Reply to this email directly, view it on GitHub <#87 (comment)>, or unsubscribe https://github.com/notifications/unsubscribe-auth/AAN6YR4HH6RVHPQYQYQS3B3SYRFIZANCNFSM4KC5DBQQ .\n\nI am well aware of netlib but maybe I do not know the right keywords and I couldn't find much. I will check what other languages offer."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-06 19:53:57+00:00",
+                    "text": "After searching a bit about bracketing routines in other languages, I have found only one solution and another partial one.\n\nIMO Boost has the best \"packaged\" solution (untested) with the routine Bracket and Solve Root:\n\n\nbracket_and_solve_root is a convenience function that calls TOMS 748 algorithm internally to find the root of f(x). It is generally much easier to use this function rather than TOMS 748 algorithm, since it does the hard work of bracketing the root for you. It's bracketing routines are quite robust and will usually be more foolproof than home-grown routines, unless the function can be analysed to yield tight brackets.\n\nTOMS 748 is an improved Brent's method with some additional constraints (see the Notes here).\n\nJulia's find_zeros (again, untested) claims to automatically find multiple roots in a specified interval, but I couldn't find anything regarding expanding an interval to try bracket a root.\n\nTo my surprise, I could not easily find anything relevant in python."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-06 23:54:38+00:00",
+                    "text": "I would definitely say bracketing is part of this issue. From the looks of it, the Julia find_zeros will attempt to find multiple roots on a defined interval, by dividing that interval into sub-intervals and checking for a difference in sign. It doesn't attempt to automatically expand the interval in search of a sign difference.\nI guess the reason you cannot find much prior art is that writing at least a simple bracket search is not that hard. For a fixed interval you divide it into smaller pieces. For an open interval you expand (e.g. by multiply the interval with a constant factor). In applications where I required a root-finder my problems typically had some \"intrinsic\" brackets (e.g. related to known solution limits), or I had a good initial guess (e.g. from a previous time step), meaning I could safely use an iterative method without bracketing.\nI think the way Boost does it is most flexible, either you can call the root-finding routine directly (on your interval of choice directly), or you allow the root-finder to expand/shrink the bracket as necessary. I would be in favor of having this. I would point out however, the Boost functions is limited to monotonic functions. Such bracketing routines will also fail at double roots (e.g. like in case of the function x^2). Unfortunately, no design will be completely foolproof.\nI also found the NAG library has a solution: NAG FL Interface - C05 (Roots)\nThe IMSL Fortran library on the other hand only provides one bracketed root-finding method (Brent's) and one iterative one (M\u00fcller's method): IMSL - Chapter 7: Nonlinear equations"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-07 07:29:33+00:00",
+                    "text": "Wrt Netlib: I searched for \"Newton\" and came across quite a few references.\nI also have a number of the minimisation routines developed by Mike Powell.\nProbably of less relevance for the standard library is a collection of\narticles on probabilistic optimisation algorithms (I have implemented them\nin Tcl, my other favourite language, based on these articles). I can also\ndig up some other stuff concerning root finding and the like. Mind you: it\nis one thing to have an algorithm, it is quite another to ensure that they\nalways provide an answer (or detect that things are going wrong).\n\nIt might also be a good idea to consider \"automatic differentiation\" as the\nbasis for algorithms that require (first-order) derivatives, like\nNewton-Raphson.\n\nOp do 7 jan. 2021 om 00:54 schreef Ivan Pribec <notifications@github.com>:\n\u2026\n I would definitely say bracketing is part of this issue. From the looks of\n it, the Julia find_zeros will attempt to find multiple roots on a\n *defined* interval, by dividing that interval into sub-intervals and\n checking for a difference in sign. It doesn't attempt to automatically\n expand the interval in search of a sign difference.\n\n I guess the reason you cannot find much prior art is that writing at least\n a simple bracket search is not that hard. For a fixed interval you divide\n it into smaller pieces. For an open interval you expand (e.g. by multiply\n the interval with a constant factor). In applications where I required a\n root-finder my problems typically had some \"intrinsic\" brackets (e.g.\n related to known solution limits), or I had a good initial guess (e.g. from\n a previous time step), meaning I could safely use an iterative method\n without bracketing.\n\n I think the way Boost does it is most flexible, either you can call the\n root-finding routine directly (on your interval of choice directly), or you\n allow the root-finder to expand/shrink the bracket as necessary. I would be\n in favor of having this. I would point out however, the Boost functions is\n limited to monotonic functions. Such bracketing routines will also fail at\n double roots (e.g. like in case of the function x^2). Unfortunately, no\n design will be completely foolproof.\n\n I also found the NAG library has a solution: NAG FL Interface - C05\n (Roots)\n <https://www.nag.com/numeric/nl/nagdoc_latest/flhtml/c05/c05conts.html>\n\n The IMSL Fortran library on the other hand only provides one bracketed\n root-finding method (Brent's) and one iterative one (M\u00fcller's method): IMSL\n - Chapter 7: Nonlinear equations\n <https://help.imsl.com/fortran/6.0/math/default.htm?turl=zbren.htm>\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#87 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR3IE4WF57JEGHMFKLLSYTZ4VANCNFSM4KC5DBQQ>\n ."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-07 11:22:38+00:00",
+                    "text": "I guess the reason you cannot find much prior art is that writing at least a simple bracket search is not that hard. For a fixed interval you divide it into smaller pieces. For an open interval you expand (e.g. by multiply the interval with a constant factor).\n\nTrue, but if you want to do a proper job (that is efficient and takes into account subtle numerical problems), it's not that trivial. Have a look at the algorithm of MATH77(that only looks outside of an interval to bracket a root):\n\nWhen F1$\\times \\text{F2} > 0$ at the initial point, iterates are generated\naccording to the formula $x = x_{\\min } + (x_{\\min } - x_{\\max }) \\times\n\\rho$, where the subscript ``min\" is associated with the $(x, f)$ pair\nthat has the smallest value for $|f|$, and $\\rho $ is 8 if $r = f_{\\min\n}:/:(f_{\\max } - f_{\\min }) \\geq 8$, else $\\rho = \\max (\\kappa /4, r)$,\nwhere $\\kappa $ is a count of the number of iterations that have been\ntaken without finding $f$'s with opposite signs.  If X1 and X2 have the\nsame value initially (and F1 and F2 equal F(X1)), then the next $x$ is a\ndistance $0.008 + |x_{\\min }|/4$ from $x_{\\min }$ taken toward~0.  (If\nX1 = X2 = 0, the next $x$ is $-$.008.)\n\nIt is a bit like coding on your own the scalar root finding method: it's not that hard, but to do it properly it's much harder.\n\nIn applications where I required a root-finder my problems typically had some \"intrinsic\" brackets (e.g. related to known solution limits), or I had a good initial guess (e.g. from a previous time step), meaning I could safely use an iterative method without bracketing.\n\nMe too...in some cases, but not all.\n\nI think the way Boost does it is most flexible, either you can call the root-finding routine directly (on your interval of choice directly), or you allow the root-finder to expand/shrink the bracket as necessary. I would be in favor of having this. I would point out however, the Boost functions is limited to monotonic functions. Such bracketing routines will also fail at double roots (e.g. like in case of the function x^2). Unfortunately, no design will be completely foolproof.\n\nAgreed\n\nI also found the NAG library has a solution: NAG FL Interface - C05 (Roots)\nThe IMSL Fortran library on the other hand only provides one bracketed root-finding method (Brent's) and one iterative one (M\u00fcller's method): IMSL - Chapter 7: Nonlinear equations\n\nNice, thanks."
                 }
             ]
         },
