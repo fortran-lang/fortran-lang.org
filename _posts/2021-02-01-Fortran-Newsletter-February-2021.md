@@ -178,8 +178,8 @@ You can watch the recording below:
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/QfiBUAgI3kw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 * This year fortran-lang will be applying as a mentor organisation for [Google Summer of Code](https://summerofcode.withgoogle.com/).
-We have started working on the application and the project ideas; you can join the ongoing discussion [here](https://github.com/fortran-lang/fpm/discussions/339).
-If you'd like to help us flesh out the ideas, or have a project idea of your own, please join our upcoming video call on Tuesday (2/2) at 3 pm Eastern Time (see call info [here](https://github.com/fortran-lang/fpm/discussions/339#discussioncomment-326239)).
+We have started working on the application and the project ideas; you can join the ongoing discussion [here](https://fortran-lang.discourse.group/t/google-summer-of-code-2021/658).
+If you'd like to help us flesh out the ideas, or have a project idea of your own, please join our upcoming video calls on February 9 and 16 (call info will be posted in the Discourse thread), or write directly in the Discourse thread.
 If you're a student, or know students who are [eligible to participate](https://developers.google.com/open-source/gsoc/faq#what_are_the_eligibility_requirements_for_participation), and you'd like to help build the Fortran ecosystem please reach out and let us know.
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
