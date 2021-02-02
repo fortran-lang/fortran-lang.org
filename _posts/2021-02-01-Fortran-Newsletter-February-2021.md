@@ -48,8 +48,8 @@ Here's what's new in `stdlib`:
   Follow GNU install conventions
 * [#284](https://github.com/fortran-lang/stdlib/pull/284):
   Required changes to be able to use `stdlib` as a subproject in CMake
-* [CMake example](https://github.com/fortran-lang/stdlib-cmake-example)
-  integration of the Fortran standard library in CMake projects
+* [CMake example](https://github.com/fortran-lang/stdlib-cmake-example):
+  Integration of the Fortran standard library in CMake projects
 
 Work in progress:
 
