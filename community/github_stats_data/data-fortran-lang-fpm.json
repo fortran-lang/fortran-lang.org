@@ -2,6 +2,293 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 345,
+            "user": "LKedward",
+            "date": "2021-01-29 12:43:12+00:00",
+            "title": "Update: fpm_backend with dynamic openmp scheduling",
+            "text": "I noticed the parallel compilation time for my stdlib-fpm package was quite poor (on 4 threads) and realised the default static scheduling of threads was causing poor utilisation since compilation times can vary significantly between individual targets. (This is less of a problem for higher core counts)\nThis PR makes dynamic scheduling explicit when using OpenMP for parallel compilation which gives much better utilisation (2x improvement for stdlib-fpm) and avoids implementation-dependent choice of scheduling. We have no pressing need for static scheduling and the overhead for dynamic scheduling appears to be small compared to the time for compilation.",
+            "comments": []
+        },
+        {
+            "number": 344,
+            "user": "milancurcic",
+            "date": "2021-01-27 20:50:53+00:00",
+            "title": "Using fpm to upgrade fpm itself",
+            "text": "Say I have fpm-0.1.3 and want to upgrade to current master or some future tag like v0.1.4. After the step 2 of #253 is implemented (so that the fpm.toml is in root dir), I think this should be possible by going through the following steps:\n\nfpm new a dummy project.\nAdd fpm as a dependency to the manifest and specify the v0.1.4 tag.\nRun fpm install. This will build the fpm library and binary as a dependency and put it to ~/.local/bin.\n\nThis will be somewhat awkward and not easy to do. Having the fpm upgrade command do this for you would be useful and nice UX I think.\nWhat do you think?",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-28 08:05:22+00:00",
+                    "text": "This workflow can't work, executables are currently only installed from the root project but not from the dependencies and I don't think it is a good idea to change this behaviour.\nMaybe a more pip like syntax could be desirable here\nfpm install https://github.com/fortran-lang/fpm\n\nThis would clone into a temporary directory, build the project and install into ~/.local/bin."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-28 14:49:18+00:00",
+                    "text": "Yes, I didn't suggest that workflow as a solution, but used it as an example of what the user would have to do if it had worked as I thought.\nfpm install https://github.com/fortran-lang/fpm\n\nseems nice to me, though not as easy as fpm upgrade. What do you think about this command being an alias for what you suggested?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-28 14:54:29+00:00",
+                    "text": "fpm upgrade would require a local registry of fpm installed packages to check for all packages that should be updated."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-28 15:02:07+00:00",
+                    "text": "Why? What fpm installed packages depend on an fpm binary?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-28 15:04:45+00:00",
+                    "text": "Ah, now I understand, we are talking about a self-upgrade command here. I thought we are talking about a general upgrade strategy and fpm was used as example."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-28 16:26:43+00:00",
+                    "text": "Just as a note, self-upgrading programs are usually not well-received in most packaging ecosystems (except maybe in their own one). The user experience of updating fpm would preferably boil down to pacman -Syu fpm, brew upgrade fpm or mamba update fpm. I'm not sure if fpm has to roll its own self-updating strategy at all."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-01-28 16:35:56+00:00",
+                    "text": "I also add that I think the misunderstanding above suggests one more potential problem: IIRC fpm update updates the dependencies of the project, whereas the proposed fpm upgrade would be an upgrade of fpm itself. This is somehow inconsistent and can confuse the user."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-28 16:46:39+00:00",
+                    "text": "self-upgrading programs are usually not well-received in most packaging ecosystems (except maybe in their own one)\n\nThis is no surprise for obvious reasons. I would too recommend that people don't write self-upgrading fpm packages, but to use fpm to do that for them. :)\n\nThe user experience of updating fpm would preferably boil down to pacman -Syu fpm, brew upgrade fpm or mamba update fpm.\n\nIn theory, I think you're right, but in practice it doesn't work. There are so many system-specific package managers that there would be a lot of work for the fpm developers to keep shipping updates on all of them. System-specific managers also have an end-of-life for updates.\nI don't think this is a priority now, but wanted to get a pulse from people. It could also be a plugin (#211) or 3rd party tool, so people like me who want to use it, can."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-01-28 19:14:22+00:00",
+                    "text": "On Windows there's a problem when trying to upgrade a program that is currently running (already in use Error). On Linux, it should work.\nTentative implementation\nhttps://gist.github.com/brocolis/e2fc06743652f939d95d351b16721f5c"
+                }
+            ]
+        },
+        {
+            "number": 343,
+            "user": "awvwgk",
+            "date": "2021-01-23 18:18:13+00:00",
+            "title": "Fortran fpm help_test invokes fpm",
+            "text": "The help_test currently invokes fpm, this usually triggers a complete rebuild of both debug and release version unconditionally.\n\n  \n    \n      fpm/fpm/test/help_test/help_test.f90\n    \n    \n        Lines 21 to 46\n      in\n      c485357\n    \n    \n    \n    \n\n        \n          \n           ! debug version \n        \n\n        \n          \n           'fpm run -- --version                           ',& ! verify fpm version being used \n        \n\n        \n          \n           'fpm run -- --help        > fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help new     >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help update  >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- build --help >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help run     >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help test    >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help runner  >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help install >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help list    >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- help help    >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           'fpm run -- --version    >> fpm_scratch_help.txt',& \n        \n\n        \n          \n           ! release version  \n        \n\n        \n          \n           'fpm run --release -- --version                           ',& ! verify fpm version being used \n        \n\n        \n          \n           'fpm run --release -- --help        > fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help new     >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help update  >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- build --help >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help run     >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help test    >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help runner  >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help install >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help list    >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- help help    >> fpm_scratch_help3.txt',& \n        \n\n        \n          \n           'fpm run --release -- --version    >> fpm_scratch_help3.txt',& \n        \n    \n  \n\n\nIt might also invoke another version of fpm or completely fail if no fpm is in the PATH.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-24 03:06:58+00:00",
+                    "text": "A lot has changed since it was written, including where a \"run\" only did a build test if the binary was missing, but it was my understandng that each test was run in an environment that was created on demand and included the fpm command. It is running the help on the latest version built by the fpm command. I have not looked recently at a build log but the last time I looked it displayed the expected version number and did not show a build of fpm itself in the log file.  So it has been testing the latest version successfully in the manner expected.  Need a better definition of exactly how the test environment is deployed that the tests run in, but what you describe sounds basically what would be desired if the test environment is set up the way I thought; so need some more details, as I believe those conditions are not supposed to occur for the test environment."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-24 07:30:31+00:00",
+                    "text": "You can see a new build starting in the testing environment at https://github.com/fortran-lang/fpm/runs/1754249868?check_suite_focus=true#step:12:2331 in the test step.\nAlso a common case I encountered this was when testing a bootstrapped build with\nfpm run -- test"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-24 15:15:42+00:00",
+                    "text": "It builds the latest version if required and runs the new copy to verify it gets the expected results. It is slower than expected but is doing the intended test. I believe there is an item open to add more actual fpm tests; but testing the actual executable in the CLI and help tests was intentional. I might have misunderstood the exact nature of the test environment?  Is it overwriting something? I thought the test environment was created on the fly specifically to do testing like this. What exactly is damaged?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-24 18:16:43+00:00",
+                    "text": "The rebuild appears to be because the test invokes both the debug and --release configurations. In the CI, the --release version is not built prior to running the tests and hence it is built during execution of help_test.\nI would say that the desired behaviour for tests is to test the current build configuration only. i.e. fpm test tests the debug configuration and fpm test --release only tests the --release configuration. The reason for this is that Haskell fpm allows other configurations as specified by --flag and in fact this is what is used in the CI.\nThe --release version is not directly built at all by the CI since the release version used for binaries is specified explicitly with --flag in order to get static executables:\n\n  \n    \n      fpm/.github/workflows/CI.yml\n    \n    \n         Line 36\n      in\n      c485357\n    \n    \n    \n    \n\n        \n          \n           RELEASE_FLAGS: --flag --static --flag -g --flag -fbacktrace --flag -O3 \n        \n    \n  \n\n\nHence this test is not actually running at all for the binary release version specified in our CI.\nThis problem is related to #328 in terms of a test needing information about its context. A possible solution suggested by Brad is to provide environment variables for the build output directory, however this does rely on some specification of the output file structure which has thus far been avoided.\nIt is worth noting also that cli_test solves a similar problem by providing an alternate entry point within the test executable instead of invoking the main fpm executable.."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-24 20:10:47+00:00",
+                    "text": "I made the cli_test version before discussions about just what the test environment was. During development of the  help_test I made inquiries about whether fpm could be called and at the time that apparently was considered OK. I was under the impression the test environment was a virtual platform created on demand for the tests and had the f-fpm command in it's path.\nSo exactly what is the test platform? Unit tests etc. are satisfactory for testing procedures and objects (I have used such tests before they had a name) but at some point if you are building an application you want to test the application, both test and production versions; especially since I do not even have several of the environments available that the tests run on.  So what is the best way to call the latest version of the program fpm from a test? Even if not done for fpm itself an environment variable giving a path to a built version would seem reasonable. I\nPS:\nI am particularly surprised the test environment even has h-fpm in it; I have been using f-fpm for months on different platforms just bootstrapping it on machines with just gfortran and git."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-25 09:57:13+00:00",
+                    "text": "Yes you're right @urbanjost, we do need a way of testing the application end-to-end in addition to unit tests. As you're aware we have previously found bugs with the CLI this way. The issue for discussion is what is the best way to call the executable from a test. For the reasons I mentioned I don't think calling fpm run from within the test is the best option. (The problem isn't with the test environment.)\nSince we don't have support for the required path environment variables currently (needs discussion/specification), do you think you would be able to test the same functionality by invoking the test executable like the cli_test?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-01-25 16:32:19+00:00",
+                    "text": "I think that fpm needs a facility for integration/end-2-end testing.\n\nTests are specified for a given executable.\nTests are run in an isolated directory\nIt must be possible to specify\na. the runner (i.e. equivalent to fpm run --runner)\nb. command line arguments (i.e. equivalent to fpm run --args)\nc. Any inputs which should be copied into the isolated directory\nd. A way (optionally) of checking the \"screen\" outputs\ne. A way (optionally) of checking output files\n\nGiven that we would like to at least encourage these test be portable (i.e. work for any environment that fpm supports), d and e imply some sort of fpm specific scripting language. Or maybe fpm could carry around a Bash implementation to run these scripts?\nWhat do you guys think?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-25 16:41:50+00:00",
+                    "text": "That would be a great addition, with 1, 2, 3a-c the important functionality. 3d and 3e could possibly be implemented outside of fpm by a package used as dev-dependency or by a combination of --runner and --args for a test. A related issue on this is #179."
+                }
+            ]
+        },
+        {
+            "number": 342,
+            "user": "awvwgk",
+            "date": "2021-01-23 14:28:43+00:00",
+            "title": "Fix broken link in contributing guidelines",
+            "text": "Closes #340",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-23 15:04:39+00:00",
+                    "text": "CI passes after rerunning so not sure if there's some non-determinism (?) in the tests. Think it was the 'help_test' that failed. (This test is actually a little problematic since it invokes fpm run to run Fortran fpm, but this doesn't test the release flags properly.)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-23 18:28:41+00:00",
+                    "text": "Think it was the 'help_test' that failed. (This test is actually a little problematic since it invokes fpm run to run Fortran fpm, but this doesn't test the release flags properly.)\n\nI opened #343 to discuss this."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-30 13:07:02+00:00",
+                    "text": "Since this is a simple change, I'll go ahead and merge."
+                }
+            ]
+        },
+        {
+            "number": 341,
+            "user": "MarkWieczorek",
+            "date": "2021-01-21 15:25:51+00:00",
+            "title": "build script=\"make all\" no longer works",
+            "text": "About a year ago, I was able to compile of complex project of mine using a pre-existing Makefile. After finding out about the environment variables $BUILD_DIR and $FC, this was pretty easy, I only needed to specify the following:\n[library]\nbuild-script = \"make all F95=$FC LIBPATH=$BUILD_DIR MODPATH=$BUILD_DIR\"\n\nHowever, I just updated to the latest alpha version (0.1.3), and this does't seem to work anymore: the makefile is not being executed and instead fpm is trying to compile the file in the src directory.\nIs there a way to specify using a prexisting makefile, or a way pass optional variables to the Makefile?",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-21 15:41:30+00:00",
+                    "text": "Are you using the Haskell (fpm-haskell-0.1.3*) or Fortran (fpm-0.1.3*) client? This is not yet implemented in the latter."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-21 15:42:07+00:00",
+                    "text": "Hello @MarkWieczorek,\nnote the build-script was an \"experimental\" feature available in the bootstrap fpm (the Haskell version). In the meantime a Fortran version of fpm has been built. You can check the manifest reference to see what is available.\nExecutables for the Haskell version can be found in the assets section of the latest release.\nA specification for the build-script feature is currently under discussion in #249."
+                },
+                {
+                    "user": "MarkWieczorek",
+                    "date": "2021-01-21 15:50:33+00:00",
+                    "text": "I'm using the Fortran client. Should the Haskell version be the default? or is the plan to make the Fortran version the default?\nSo, I am guessing the answer is: Check back later\nThat's fine with me. However, I just want to emphasize that if you want old, or complicated projects to work with fpm, eventually, you will need to pass environment variables to the makefile!"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-21 15:53:14+00:00",
+                    "text": "The Fortran version is (and will remain) the default. The build script is just one of the features which hasn't been implemented yet in the Fortran version."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-22 10:01:23+00:00",
+                    "text": "Thanks for the feedback @MarkWieczorek. Support for a custom build script is one of two (big) priority items remaining in our milestone . I'll close this issue as a duplicate of #219."
+                }
+            ]
+        },
+        {
+            "number": 340,
+            "user": "ivan-pi",
+            "date": "2021-01-21 10:22:01+00:00",
+            "title": "Link in contributing guide is broken",
+            "text": "You can learn how from this great tutorial.\n\nThe link at the end of the contributing is broken. The correct address is:\nhttps://app.egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github",
+            "comments": []
+        },
+        {
+            "number": 337,
+            "user": "milancurcic",
+            "date": "2021-01-12 22:20:53+00:00",
+            "title": "Allow hyphens in fpm project names in \"fpm new\"",
+            "text": "fpm new currently requires a package name to be a valid Fortran name.\n$ fpm new test-new\n<ERROR>the new directory basename must be an allowed                    \n       Fortran name. It must be composed of 1 to 63 ASCII               \n       characters and start with a letter and be composed               \n       entirely of alphanumeric characters [a-zA-Z0-9]                  \n       and underscores.                                                 \nSTOP 4\n\nTo have a hyphen in a package name is rather common though. For example, we have stdlib-cmake-example, there's toml-f and others, and I enjoy using hyphens as well.\nThis PR removes the restriction to use hyphens in new fpm package names in fpm new. The function that I used to do that (to_fortran_name()) can be easily expanded to other special characters if a need arises.\nIf you try this PR, you should get:\n$ ./fpm new test-new\n + mkdir -p test-new\n + cd test-new\n + mkdir -p test-new/src\n + mkdir -p test-new/test\n + mkdir -p test-new/app\n + git init test-new\nInitialized empty Git repository in /your/path/to/fpm/build/gfortran_debug/app/test-new/.git/\n\n$ cd test-new\n$ head fpm.toml \nname = \"test-new\"\nversion = \"0.1.0\"\nlicense = \"license\"\nauthor = \"Jane Doe\"\nmaintainer = \"jane.doe@example.com\"\ncopyright = \"2021 Jane Doe\"\n\n\n[library]\nsource-dir=\"src\"\n\n$ cat src/test-new.f90 \nmodule test_new\n  implicit none\n  private\n\n  public :: say_hello\ncontains\n  subroutine say_hello\n    print *, \"Hello, test-new!\"\n  end subroutine say_hello\nend module test_new\n\nI also updated the error message that you get if you pass some other special character:\n$ ./fpm new test^new\n<ERROR> the fpm project name must be made of up to 63 ASCII letters,    \n        numbers, underscores, or hyphens, and start with a letter.      \nSTOP 4\n\nWe can discuss at a later time if there are some other special characters that we'd want to allow.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-13 01:32:29+00:00",
+                    "text": "Forcing the directory, package, and module name to be the same and to be an allowable Fortran module name was a deliberate decision. Obviously, the module name must conform to these rules, and it was considered that the simplest solution was to enforce them all being consistent.  This disallows such options as the package and directory name being UTF-8 and so on so it is defnitely restrictive. I do not know if the discussions are still available, but now that there is auto-discovery it is far less of an issue. The question I have is should there be an option to name the package and the module independently instead of making a special case where dashes are replaced with underscores?  If we are going to relax the restriction I think it would be better to leave the default behavior as-is and allow for an optional parameter to name the directory and project. I do not know if UTF-8 or other characters are allowed or easily supported in all the places the name might appear, but I believe toml-f supports UTF-8.  So if we allowed any arbitrary name would it cause issues with git, github, gitlab, the fpm repository and/or toml files ?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-13 08:16:47+00:00",
+                    "text": "I agree that we might have to enforce some restrictions on the project name (e.g. I would consider newlines always invalid), but requiring it to be a valid Fortran identifier seems harsh. Allowing more freedom in fpm-new is very welcome from my side (in fact all my fpm packages but one are using hyphens in the project name).\nI like the idea to just underscorify everything we can't use in Fortran, in case we encounter problems with the names of the targets, archive, directories a similar approach could be used as well. The limitations of the programming language shouldn't be imposed on the user in my opinion.\nAlso, cargo allows a --name option in the new subcommand to specify the project name independently from the project directory. For our case this doesn't solve the issue with the name of the module but I would consider this a placeholder anyway, so chances are good that it will be renamed."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-13 08:53:37+00:00",
+                    "text": "Thanks @milancurcic, I too use hyphens commonly in package names and welcome this change. The proposed solution of replacing with underscores where needed seems reasonable.\nWith that said, I think the relevant discussion that drives the current behaviour is #153 (Prevent Name Collisions Between Packages) where it was agreed that all module names should be prefixed by the package name. This check is not yet implemented in fpm; when implemented, there will be a small burden on users to ensure modules are correctly prefixed by the fortranised package name. Alternatively, the module namespace prefix could be specified in the manifest separately."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-13 09:03:03+00:00",
+                    "text": "As an aside: we should be thinking about the support for UTF-8. That is a\nrather tricky topic, as it may well depend on what the compilers allow\n(think of file names).\n\nNote: My remark is not to complicate matters for fpm, just to remind us of\nthe topic in general.\n\nOp wo 13 jan. 2021 om 09:53 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n Thanks @milancurcic <https://github.com/milancurcic>, I too use hyphens\n commonly in package names and welcome this change. The proposed solution of\n replacing with underscores where needed seems reasonable.\n\n With that said, I think the relevant discussion that drives the current\n behaviour is #153 <#153>\n (Prevent Name Collisions Between Packages) where it was agreed that all\n module names should be prefixed by the package name. This check is not yet\n implemented in *fpm*; when implemented, there will be a small burden on\n users to ensure modules are correctly prefixed by the fortranised package\n name. Alternatively, the module namespace prefix could be specified in the\n manifest separately.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#337 (comment)>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR7SCYPKAPV6PIIPXCDSZVNSDANCNFSM4V74FQJQ>\n ."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-13 09:05:29+00:00",
+                    "text": "For UTF-8 support I will link to the upstream issue at TOML-Fortran (toml-f/toml-f#3) as this will become relevant."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-13 17:17:46+00:00",
+                    "text": "With this PR, I didn't mean to ignore #153, which I still think is important. But I forgot about it in the moment.\nWhen fpm checks that all module names do begin with the project name, the change in this PR will require an extra clause explaining the restriction to the user. For example:\n\nFpm requires that the names of all modules in your package begin with the package name. If your package name contains hyphens (-), the module names should have underscores (_) in place of hyphens.\n\nor similar. So there is a bit of burden that is being put on the user with this. On the other side, with this PR fpm new already generates correct module names with underscores instead of hyphens. Further, when the #153 check is implemented, fpm will be able to tell the user exactly how to prefix the module names. For example, if package name is \"my-fortran-lib\", fpm can report something like:\n<ERROR> All module names in this package must begin with \"my_fortran_lib\"."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-14 01:11:15+00:00",
+                    "text": "Even now nothing obvious breaks if the directory is renamed, as I have done myself several times so I would prefer a second parameter for naming the directory to a non-default value, but at least for now this is satisfactory for the specific case of a dash.\nI can picture where the user might want the entire directory name to be a UTF8 string which could produce a project name of something like  \"___\" so in the long term I think this will need revisited,  but during the original discussion I think the conclusion was something along the lines \"of a consistent name is simplest and most intuitive, let us go with the restriction and revisit if if there are complaints\", which, lo and behold is the case so lets go with this as it covers the most common case and appears to be commonly desired.  If there are requests for other changes I think the additional option would be cleaner, but this has been the only request so far.\nI believe it is telling that other package managers appear to address this with an additional option, but apparently in the reverse order of precedence I would suggest (the name always names the directory and an alternate project name is allowed for).  After trying it that might be better, as it allows for things like fpm . --backfill.  So in the future if the name on \"new\" allows for any name, but if it is required you supply a \"Fortran-acceptable\" name  as well as the primary project name if the directory name is not one I would go with that.\nfpm new ANY_DIRECTORY_NAME --name PACKAGE_NAME\nappears to be how cargo handles this. I am wondering if anyone using cargo could see if PACKAGE_NAME is required with unusual directory names or if there are any other restrictions. The documentation I read does not mention it, but I wonder what would something like \"cargo --new ___\"  or \"cargo --new @\"  do.  And right now, what about \"fpm new ./---\" ? Obviously unlikely a Linux user in particular would use that particular name, but non-ASCII characters could produce something as bad."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-01-14 15:39:56+00:00",
+                    "text": "I think there would be value in a CLI parameter to specify a directory name different from the project name. I have projects like this. For example, the repo and directory are called \"datetime-fortran\" and \"functional-fortran\" (to help them stand out on GitHub), but the fpm project names (and modules) are called \"datetime\" and \"functional\" because \"fortran\" is redundant in the context of fpm.\n\nI can picture where the user might want the entire directory name to be a UTF8 string which could produce a project name of something like \"___\" so in the long term I think this will need revisited\n\nNo, currently only hyphen is converted to an underscore. I don't think this should expand to all special ASCII characters and definitely not all Unicode. If the restriction is lifted, it should be on a character by character basis and motivated by user requests.\n\nAnd right now, what about \"fpm new ./---\" ?\n\nThis will error out because you need to start it with a letter. fpm new a--- should work with this PR but I didn't test it. I doubt this will be a common use of fpm new.\nThank you all for the feedback, I will go ahead and merge."
+                }
+            ]
+        },
+        {
+            "number": 336,
+            "user": "AndreMikulec",
+            "date": "2021-01-06 00:49:06+00:00",
+            "title": "Building R CRAN packages with Fortran code using \"fpm\" is not possible, but should be!",
+            "text": "All,\nFirst,\nThank you for the wonderful work on the \"fpm\".\nSecond,\nIn the manual \"Writing R Extensions\"\nIn the section \"1.2.3 Using F9x code\"\nhttps://cran.r-project.org/doc/manuals/r-release/R-exts.html\nreads\nModern versions of Fortran support modules, \nwhereby compiling one source file creates a module file which is then included in others. \n(Module files typically have a .mod extension: they do \ndepend on the compiler used and so should never be included in a package.) \nThis creates a dependence which make will not know about \nand often causes installation with a parallel make to fail\n\nBut the page https://github.com/Fortran-lang/fpm/blob/master/PACKAGING.md\nreads in the section \"Single-module library\"\nfpm first ran gFortran to emit the binary object (math_constants.o) \nand module (math_constants.mod) files. \n. . .\nUniquely and exactly map a source file (.f90) to its object (.o) and module (.mod) files.\n\nIn conclusion,\nMay one consider creating the modules with the .f90 extension (instead of the .mod extension),\nso in the future, one can use \"fpm\" in the processes of building\nR CRAN package that contains Fortran source code.\nFortran is found in many places in the 20,000 R CRAN packages.\nThis could be a great area of expansion for the \"fpm\".\nIf \"fpm\" can get compatible as a helper method to build R CRAN packages that contain Fortran code,\nthen this situation may be a big boost to  \"fpm\" (and Fortran).\nHere are the Fortran files found in R CRAN packages.\n.f -> 4,192 hits\nhttps://github.com/search?q=org%3Acran+extension%3Af\n.f90 -> 881 hits\nhttps://github.com/search?q=org%3Acran+extension%3Af90\n.f95 -> 156 hits\nhttps://github.com/search?q=org%3Acran+extension%3Af95\nAndre Mikulec\nAndre_Mikulec@Hotmail.com",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-01-06 01:53:05+00:00",
+                    "text": "Hi @AndreMikulec, we definitely want fpm to work with the R ecosystem. Can you expand on your proposal? I don't understand how it would help to rename .mod to .f90, or why that is a good idea.\nIn general, our approach is to first figure out a good workflow that makes sense for Fortran, and then work with other communities such as Spack, Conda, R, etc., how to make it work."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-06 12:07:16+00:00",
+                    "text": "Hi @AndreMikulec, thanks for opening this issue.\nRegarding Fortran modules, fpm automatically works out the inter-module dependencies and builds objects in the correct order and in parallel where possible, so there is no need to worry about the .mod files.\nI am not familiar with R CRAN packages and how they are built, however I see no fundamental reason why fpm can't already be used to build the Fortran dependencies. It looks like the CRAN packages are in a compatible folder structure for fpm.\nAfter a brief look it looks like CRAN packages cannot have multiple Fortran modules in different files since, as you mention, module dependencies are not accounted for currently; using fpm would solve this issue."
+                },
+                {
+                    "user": "AndreMikulec",
+                    "date": "2021-01-10 04:10:25+00:00",
+                    "text": "First\n\".mod\" is not-a-file-extension, of a file, that contains Fortran code.\nFile extensions\nhttp://fortranwiki.org/fortran/show/File+extensions\nThe \".mod\" file extension is a \"compiler specific thing\".  So, this not a  \"Fortran Package Manager?  So, is this a \"Compiler-Specific-Fortran Package Manager\"?\nA quick discussion is here:\nA primary problem for distributing a compiled library for a specific platform\nis that module files are compiler-specific.\n\nhttp://fortranwiki.org/fortran/show/Library+distribution\nSecond\nIn R,  to create a \"dll\" that is loadable into R, one does the following:\nR CMD SHLIB [options] files | linker options\nTherefore, one does, the following to create a .dll on windows (or to create an equivalent shared object on Linux, Mac, or Solaris).\nR CMD SHLIB  *.f90 \n(The command to create (and install) an R CRAN package that contains compiled Fortran is R CMD INSTALL (and this is just a thick wrapper (and more)  over 'R CMD SHLIB . . .'.\nIn the Fortran packaging system (if, it is, to be able to work with R Fortran compiling):\n\"R\" would replace \"gfortran\".  \"CMD SHLIB options\" would be, of course, options.  \"link options\" would be options, of course, sent to the linker.  The rest is controlled by either variables that were set when R was compiled or variables set in the environment where \"R CMD SHLIB . . .\" is ran.\nSummary\nWhat I am, essentially saying, is that the packaging system should more \"flexible\" than what is there now."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-10 09:10:13+00:00",
+                    "text": "@AndreMikulec Thank you for your input on this.\nFrom my experience of interfacing Fortran projects with C and Python, the process of creating an extension for another language is quite orthogonal to reusing Fortran packages/modules in Fortran projects. Currently fpm focus primarily on the latter, but we want to make fpm more flexible to allow interfacing with other languages as well.\nIf I read the R CRAN documentation on extensions correctly a Fortran extension module must be bound either via iso_c_binding as C external to R or as non-module procedure using a Fortran 77 style implicit interface. This is quite similar to the approach used to bind to Python. In any case this requires to export a shared object, but in general no special attention beside include paths or link line arguments. Building shared objects is something fpm currently can't do, but should be able to do at some point.\nFrom the R CRAN documentation I get the impression that extensions all builds around the autoconf intrastructure and rely pretty heavily on automake and m4 features, but correct me if I'm wrong. Comparing this again to Python which relies heavily on setuptools to build extensions, I found that building Python extensions without setuptools becomes much easier.\nIn summary, we first have to give fpm some basic intercompatibility functionality and than build on-top of this more elaborated language specific extensions."
+                },
+                {
+                    "user": "AndreMikulec",
+                    "date": "2021-01-12 13:51:41+00:00",
+                    "text": "R CMD SHLIB does not provide any infrastructure to interface Fortran to another language.  Interfacing to another language is not the objective.  Interfacing to another language (if the R package author wishes to do so), would be a function of the chosen compiler (of which can actually be many different compilers and OS platforms) and/or handwritten code (or code generated from an external helper tool) by the author.\nThe \"autoconf intrastructure\" does not matter.  The point is that, the situation would be useful to be able to replace out \"gfortran\" or \"ifort\" or \"whatever\", using \"R CMD SHLIB\", and replace out \".mod\" files with just \".f90\" files.\nThe replacement of gfortran\" or \"ifort\" or \"whatever\", using \"R CMD SHLIB\" should not be (obviously) too hard.\nHowever, leaving \"fpm\" hardcoded to use only \".mod\" files (to store Fortran module code) would eliminate the ability of a user of \"fpm\" to use R as an \"alternate\"(specific) compiler."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-12 14:44:18+00:00",
+                    "text": "I think we are talking about different things here. There might be a confusion between shared modules and Fortran module files here. The creation of the shared module, which can be eventually loaded into R, does not depend on the Fortran module files.\nCreating a shared module is independent of the actual compilation of the Fortran source code to object files. Replacing the compiler with R CMD SHLIB would not yield the expected result in the context of fpm.\nThe important step for creation of the shared module from the already available object file following the naming convention required by R from the fpm side."
+                }
+            ]
+        },
+        {
+            "number": 335,
+            "user": "LKedward",
+            "date": "2021-01-03 14:49:43+00:00",
+            "title": "Fix: performance regression from #303",
+            "text": "33ad2ce (#303) introduced a severe performance regression when checking for empty source files during the source parsing phase. This is particularly noticeable on Windows.\nThis PR adds a string_len_trim routine to check for empty source files instead of inefficiently using string_cat.\nI see 5-10x improvement in the time to construct the model from this PR for a project with ~80 source files.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-06 17:59:13+00:00",
+                    "text": "I'm going ahead and merge this PR."
+                }
+            ]
+        },
+        {
+            "number": 334,
+            "user": "awvwgk",
+            "date": "2021-01-03 13:33:23+00:00",
+            "title": "Remove a name clash in the fpm testsuite",
+            "text": "local variable uses same name as used module (testsuite)\n\nSee: https://groups.google.com/g/comp.lang.fortran/c/FdOcg3dGuK4",
+            "comments": []
+        },
+        {
             "number": 331,
             "user": "urbanjost",
             "date": "2020-12-28 20:48:54+00:00",
@@ -328,6 +615,11 @@
                     "user": "certik",
                     "date": "2020-12-24 12:36:34+00:00",
                     "text": "Just like Sebastian, I felt it should not create examples by default.\n\nUrbanjost explained above why it's a good idea to include them by default.\n\nI think it's for a wider discussion what the default behavior should be.\n\nContrary to what was said, I use new very frequently, just like git init. I use it for all kinds of quick projects to test things out. So the default behavior matters a lot I think.\n\u2026\nOn Sun, Dec 20, 2020, at 5:29 PM, Milan Curcic wrote:\n\n\n I think example/ and a program source file in it should be created by\n default, as originally implemented in this PR, and for the same reason\n that @urbanjost <https://github.com/urbanjost> explained above.\n\n Let's get more eyes on this. @certik <https://github.com/certik>\n @everythingfunctional <https://github.com/everythingfunctional>\n @LKedward <https://github.com/LKedward> what do you think is a saner\n default?\n\n Otherwise I think this PR is good to go.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#316 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAAFAWG5PD7YAMYOUTWER2DSV2JF3ANCNFSM4VBOAU7Q>."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-30 13:06:17+00:00",
+                    "text": "@urbanjost could you bring this branch up-to-date with the default branch again. I'll try to have a look over the changes hopefully next week(end)."
                 }
             ]
         },
@@ -424,6 +716,16 @@
                     "user": "certik",
                     "date": "2020-12-17 18:28:52+00:00",
                     "text": "Yes, I asked @everythingfunctional to open an issue for this, as he mentioned this at our last Fortran call.\nIt's a broader issue of: do we want to use fpm as a vehicle to extend Fortran, or to provide default pre-processing (for all compilers, for example using fypp), etc.\nAnd for now I recommend to stick to standard Fortran. We can still deliver most of our goals with that.\nIn general, I would like to see Fortran being used without pre-processing.\nIf it turns out there is no other way, we can (in the future) make fpm do all kinds of default pre-processing."
+                },
+                {
+                    "user": "interkosmos",
+                    "date": "2021-01-26 20:05:17+00:00",
+                    "text": "C preprocessor macros are probably the most common, and they are supported (at least) by GNU Fortran, IFORT, and LLVM. The only problem is that the different implementations do not predefine the same macros. It should therefore be the task if fpm to set common macros (e.g., operating system identifier) if preprocessing/conditional compilation is selected."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-01-27 07:48:38+00:00",
+                    "text": "Another problem is that the C preprocessor does not conform to Fortran\nsyntax. That limits the kinds of macros that you can reasonably apply. But\nan #if ... #endif construction is probably safe.\n\nOp di 26 jan. 2021 om 21:05 schreef Philipp <notifications@github.com>:\n\u2026\n C preprocessor macros <https://en.wikipedia.org/wiki/C_preprocessor> are\n probably the most common, and they are supported (at least) by GNU Fortran,\n IFORT, and LLVM. The only problem is that the different implementations do\n not predefine the same macros. It should therefore be the task if *fpm*\n to set common macros (e.g., operating system identifier) if\n preprocessing/conditional compilation is selected.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#308 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR3Q6NYUH27YZVAY7CLS34OAZANCNFSM4U47H6UA>\n ."
                 }
             ]
         },
@@ -1591,6 +1893,41 @@
                     "user": "awvwgk",
                     "date": "2020-11-25 19:57:29+00:00",
                     "text": "Sounds like a good idea, having to maintain redundant information in different places is really error prone. For meson and CMake I use configure_file to insert build system meta data as parameter into Fortran source code. I very much in favour of having a configure_file or similar option for fpm as well."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-22 16:13:41+00:00",
+                    "text": "@awvwgk is a configure_file in your case a Fortran include file? Nevermind, I see configure_file is essentially a preprocessor mechanism.\nWould there be any advantages to doing this with a (read-only) namelist or maybe having a public fpm_tools module which contains some functions and subroutines to recover such meta-data from some cached build/toml files?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-22 16:18:58+00:00",
+                    "text": "Preferably we keep in line with existing configure_file implementations as present in CMake and meson instead of making up our own: https://mesonbuild.com/Configuration.html. In a multi-build system approach one might want to use the same template for fpm, CMake and meson and get the same result independent of the build system used."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-22 16:55:58+00:00",
+                    "text": "Can you point me to a Fortran example of yours in a public repository? I still have trouble grasping if the concept relies upon use of the cpp/fpp preprocessor or are the input files preprocessed independently by CMake/meson.\nIs the following a valid setup example?\nI have a template file called projconfig.fi.in, containing\ncharacter(*), parameter :: version = \"@FPM_VERSION_STR@\"\ninteger, parameter :: version_major = @FPM_VERSION_MAJOR@\ninteger, parameter :: version_minor = @FPM_VERSION_MINOR@\ninteger, parameter :: version_bugfix = @FPM_VERSION_BUGFIX@\n\nIn the manifest file of the project, we then specify this as a target for configuration, with the actual preprocessing/replacement done by an extension to fpm or a special command. The template substitution rules would follow the same definitions as CMake and Meson.\nFinally in the main module of my project, I can include the configured template file as:\nmodule myproject\n\n  include \"projconfig.fi\"\n\nend module"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-22 17:04:56+00:00",
+                    "text": "For an example see:\nhttps://github.com/MarDiehl/stdlib_os/blob/c03a636/src/os.name.in\nhttps://github.com/MarDiehl/stdlib_os/blob/c03a636/src/os.f90#L43\nI made a small implementation here when working on the fpm-dist command\nhttps://github.com/fortran-lang/fpm/blob/e2a837b/fpm/src/fpm/dist/meson.f90#L433-L473"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-22 17:18:37+00:00",
+                    "text": "For an example see:\nhttps://github.com/MarDiehl/stdlib_os/blob/c03a636/src/os.name.in\nhttps://github.com/MarDiehl/stdlib_os/blob/c03a636/src/os.f90#L43\n\nInteresting, if stdlib-os currently relies upon this configuration mechanism, and we want fpm to rely upon on stdlib-os in the future to get the operating system ID, does this mean that to bootstrap fpm using the Haskell version, it is necessary to use the current build-script feature (using CMake) or extend the Haskell version to support OS identification and configure file template substitution? This reminds me of the movie Inception..."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-22 17:24:02+00:00",
+                    "text": "You can just cut the loop short and drop Haskell fpm from it, with support for configure_file in Fortran fpm we are already fine to dependent on stdlib_os once it is ported to fpm. No need to make life more complicated than necessary, just look for changeable parts were changes are simple to make."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-01-24 04:02:05+00:00",
+                    "text": "As a simpler scheme that leverages some of the existing fpm components and required user knowledge, and does not require a preprocessor I would propose something like this:\no fpm parses the fpm.toml file (which it already does) and obtains the version number and other metadata such as the project name and author.  It then gets the compiler name from the command line, and the current time, and possibly the compiler options and the OS type.\no the build commands could add a -D $OS_TYPE and -D $COMPILER option or equivalent to the compiles, which I think all  major compilers support for use with cpp/fpp or their equivalent.\no using the metatadata it writes and compiles a module called fpm_metadata that creates a type of METADATA.\nThis could be ignored by the fpm user, but if desired they could include \"use fpm_metadata, only : metadata\" in their program and then get to at least a standard set of keywords by using such things as:\nwrite(*,*)'VERSION',metadata%version\nwrite(*,*)'COMPILE_TIME',metadata%compile_time\nand so on.  As more functions become available (via stdlib, preferably) such things as the equivalent of the output of a uname(1) command could also become default behavior.\nThis would require no preprocessing of the user code, supply a standard set of variables that could be used by all packages,\nand allow for standard names to be used in preprocessing and leverage the existing TOML configuration file and syntax. Since the existing code already parses the TOML file and it already contains some of the most common metadata such as the version number this would fit into the existing fpm quite naturally, I believe.\nThe drawback to the user would be that no such module would exist  outside of fpm.  So adding -DFPM to the build lines would allow for #ifdef FPM to be used as a preprocessor directive, and leaving the built code in build/ for the user to grab or use as a template for a build outside of fpm(1) would be desirable."
                 }
             ]
         },
@@ -1713,7 +2050,53 @@
             "date": "2020-11-22 09:01:00+00:00",
             "title": "build-script location",
             "text": "Currently the build-script can specified in the [library] table with:\nlibrary.build-script = \"build.mk\"\nFor an executable only project, a library table would still be required to select a build script, even if no library sources are actually available.\nAdding the build-script to the [build] table feels more intuitive. Either as build-script or to reduce redundancy, just script:\nbuild.build-script = \"build.mk\"\nbuild.script = \"build.mk\"\nThis might be a breaking change for some projects using this fpm feature.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 20:27:10+00:00",
+                    "text": "In Cargo, the default behavior is to check for a file named build.rs in the root of the package. A custom build script can be specified as:\n[package]\n# ...\nbuild = \"custom_build_name.rs\"\n\nTo disable automatic build script detection the setting is simply build = false. The possibility to use other build systems is then delegated to custom user packages which are called from build.rs.\nThe suggestion from @certik in #94 was to allow any kind of build script, be it a binary executable, shell script, Makefile, or other build system. Since fpm is only allowed to interact with the build script through environment variables and the output of the build script to standard output prepended with fpm:. This seemed like a reasonable idea. Upon further thought, I am worried this might become an obstacle for cross-compatibility between different operating systems. In this case fpm will need to report to the user to install CMake, Meson, Make, bash, etc. or whatever build system necessary.\nIn any case, do we also want to support such automatic build script detection?\nRelated to the immediate issue above, I agree that the [library] section does not feel right in case of executable-only projects. The build.script seems more fitting, also considering the fact the link keyword is in the same table."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-20 21:51:10+00:00",
+                    "text": "I always wondered why Makefiles take such a special role in fpm, while CMake and meson are standardized enough to give a somewhat predictable behaviour for third-party tools, a Makefile can hide all kind of surprises and caveats inside (I never get tired of a random Makefile suddenly starting to write stuff in my home directory).\nInteracting with other build files will always be difficult for fpm, have a look at fortran-lang/fortran-lang.org#157 for an incomplete list. Preferably we can convince projects to switch to fpm, but most likely we will end up with projects supporting fpm and their original build system. My projects currently all support meson, but many have additional fpm support or CMake support, depending on the communities they find use in.\n\nIn any case, do we also want to support such automatic build script detection?\n\nPlease don't, those features should be opt-in only, I don't want fpm to start auto-detecting my meson build files and force me to disable another of the automatic detection features in my projects."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 22:56:30+00:00",
+                    "text": "I certainly agree we don't want fpm interacting with other build systems aimed to be use independently from fpm.\nMy proposition/question was only related to the way Cargo automatically looks for a build.rs file. Under this model behavior, and the suggestion from @certik, fpm could look for build.sh, build.mk, build.cmake, etc.\nBut given that Fortran is not a monolithic/centralized language like Rust, and that there is a large variety of different build systems in everday use, it makes more sense to require package developers to specify a build script explicitly and save us the trouble from having to disable it manually.\n(I admit to having a soft spot for auto-detecting a build.f90 program; the idea of writing a Fortran executable to specify a foreign language package build sounds both crazy and very fascinating at the same time.)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-20 23:17:07+00:00",
+                    "text": "Okay, let's try to make the manifest syntax a bit more concrete.\nI would propose we could have external build scripts (as array of strings), they are invoked by fpm and we just hope they play nicely together with fpm, but guarantee for nothing:\nbuild.script = [\"make\", \"-f\", \"build.mk\"]  # or just [\"build.mk\"], make extension is detected\nbuild.script = [\"sh\", \"build.sh\"]  # or just [\"build.sh\"], shell extension is detected\nbuild.script = [\"python\", \"build.py\"]  # or just [\"build.py\"], Python extension is detected\nbuild.script = [\"ruby\", \"build.rb\"] # or just [\"build.rb\"], Ruby extension is detected\nbuild.script = [\"cmake\"]  # we might detect that it is CMake and run multiple steps for this script\nAnd actual build scripts like proposed in #94 (provided as string), we will allow any format supported by fpm (f90, f, F90, F and c) as well as scripts (we can detect extensions as well and try to call the script with the correct program):\nbuild.script = \"build.f90\"  # compile and run Fortran executable\nbuild.script = \"build.c\"  # compile and run C executable\nbuild.script = \"build.sh\"  # run shell script\nbuild.script = \"build.py\"  # run Python script\nbuild.script = \"build.rb\"  # run Ruby script\nThe script is expected to produce fpm: instructions which fpm parses and uses to build the project.\nThis might require a new table of build-dependencies at some point, which are usable in the build script."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-21 00:36:41+00:00",
+                    "text": "This might require a new table of build-dependencies at some point, which are usable in the build script.\n\nThis only seems to make sense for build scripts which are C or Fortran executables, allowing fpm to resolve (and reuse) their dependencies. Am I right? (I see many signs fpm will ultimately evolve also into a C package manager. )\nIs there any intrinsic benefit to supporting build scripts in dynamic languages directly (apart from user convenience)? This could be done after all in a Fortran main program:\n! build.f90\nwrite(*,*) \"fpm:rerun-if-changed=build.py\"\ncall execute_command_line(\"python build.py\")\nend"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-22 11:01:04+00:00",
+                    "text": "I wonder whether we should perhaps separate discussion of build scripts into those with one-way and two-way communication with fpm. The former, implemented experimentally in Haskell version, receive inputs via environment variables and are expected to place libraries in the correct location. The latter have reverse-communication with fpm via stdout (#94) for more advanced behaviour.\nMy intention for #219 was only to initially implement one-way build scripts to support cases such as #341. In terms of specification I think that we should avoid hard-coding the detection of specific file-extensions or build systems and simply have an array of strings to be invoked at the command line by fpm (I like your proposed syntax for this above @awvwgk).\nWhile I like the idea of build.f90 etc., I'm hesitant to prioritise build scripts with reverse communication at such an early stage in fpm development. IMHO I think we should encourage package maintainers to adopt the native fpm package structure and work with them to improve fpm accordingly."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-22 15:56:03+00:00",
+                    "text": "That is a good way to look at it. I imagine in a one way setup, the script invoked would be responsible to place all the necessary executable files, module files, and binaries into a specified folder.\nWould it then be up to the package developer to hard code any flags required for linkage straight into the manifest of the package?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-22 16:04:03+00:00",
+                    "text": "In terms of specification I think that we should avoid hard-coding the detection of specific file-extensions or build systems and simply have an array of strings to be invoked at the command line by fpm (I like your proposed syntax for this above @awvwgk).\n\nWould this also work in the eventual case of a Fortran main program? For example:\nbuild.script = ['$FPM_FC', 'build.f90', '-o', 'build', '&&', './build']\n\nI can imagine this would become unwieldy, if my build program requires some other fpm-sourced modules.\nBut I agree to prioritise the first case (no reverse communication), as it would already enable a lot more complex projects."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-22 16:13:36+00:00",
+                    "text": "Would this also work in the eventual case of a Fortran main program? For example:\nbuild.script = ['$FPM_FC', 'build.f90', '-o', 'build', '&&', './build']\n\n\nThis should not be allowed, because we will guard the command execution against variable expansion and command chaining at some point, see #166.\nI took some inspiration from docker where entry points and commands are defined differently by syntax, of course we can separate the one and two way communication more easily by allowing separate entries which are mutually exclusive. The advantage of only allowing a string for a two way build script instead of a full command line is that we move the complexity from the package manifest (configuration file) to the build script (full programming language)."
+                }
+            ]
         },
         {
             "number": 248,
@@ -2765,7 +3148,28 @@
             "date": "2020-10-28 11:09:25+00:00",
             "title": "Support custom build script",
             "text": "Match behaviour of bootstrap version",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-19 22:03:21+00:00",
+                    "text": "I would prefer to restructure the build-script logic in the package manifest first, see #249, before implementing the logic in Fortran fpm."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 15:35:13+00:00",
+                    "text": "I could not find any previous discussion pertaining to the bootstrap fpm design of the build-script logic. It seems to be something that @everythingfunctional built in initially to get the project off the ground?\nEdit: I found a former discussion in this issue: #118\nDo any of the libraries used to bootstrap fpm actually require a custom build script? If not, I don't see any reasons why not to restructure the build script logic in the manifest. Since fpm is still in an alpha stage, I don't think this will cause many problems for users."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-01-20 18:02:59+00:00",
+                    "text": "I did indeed come up with the initial design primarily on my own. I was trying be compatible with what I believed to be common best practice in Makefiles, but we did discuss some changes that probably ought to be made. Primarily I think we concluded that all \"inputs\" to the build scripts should be through environment variables prefixed with FPM_, and any information the script would like to report back to fpm would be via stdout on lines prefixed with fpm:. This is similar to Cargo's design, and I agree it seems to be working out pretty well for them.\nI'm open to suggestions on how such scripts should be specified and executed in fpm.toml. Mine was just a first draft."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-20 21:14:07+00:00",
+                    "text": "Thanks @everythingfunctional for the explanation. I suggest we shift to #249 to figure out a specification."
+                }
+            ]
         },
         {
             "number": 218,
@@ -4676,6 +5080,16 @@
                     "user": "certik",
                     "date": "2020-09-10 18:41:25+00:00",
                     "text": "Awesome, thank you @interkosmos !"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-19 19:20:25+00:00",
+                    "text": "@interkosmos Do you have a public repository available?"
+                },
+                {
+                    "user": "interkosmos",
+                    "date": "2021-01-19 21:22:21+00:00",
+                    "text": "@ivan-pi: Not yet, although, I did not work on the interface library in the last weeks.\nCurrent status:\n-------------------------------------------------------------------------------\nLanguage                     files          blank        comment           code\n-------------------------------------------------------------------------------\nFortran 90                      26            149            129           1045\n-------------------------------------------------------------------------------\nSUM:                            26            149            129           1045\n-------------------------------------------------------------------------------\n\nI try to publish an alpha release in the next time."
                 }
             ]
         },
@@ -4919,6 +5333,36 @@
                     "user": "awvwgk",
                     "date": "2020-09-07 18:00:02+00:00",
                     "text": "True, it usually feels like a compiler command when using it, but there is a lot automation for us hidden in the compiler.\nI thought of it more like a dependency since it is handled in conda like one (see https://conda-forge.org/docs/maintainer/knowledge_base.html#openmp). Also meson is handling it usually as a dependency rather than a compiler command (see https://mesonbuild.com/Dependencies.html#openmp).\nHaving a dependency model that allows propagating linker and compiler flags would be well suited for OpenMP as well in fpm. OpenMP would be useful as simple prototype if dependencies require to export link or compile flags to a dependent project. Projects using OpenMP must propagate at least the linker flag, possibly also the library with the OpenMP implementation to dependent projects to allow correct linking."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-04 11:35:10+00:00",
+                    "text": "It would be good to get this implemented so that we can self-bootstrap Fortran fpm with parallel builds enabled.\nI am however still opposed to the treatment of OpenMP as a dependency in the manifest syntax; OpenMP isn't just an additional library for linking, it changes the way the compiler behaves in processing sources and in generating code. Similarly the invocation flag and link libraries are different for each compiler. Hence why I think an entry like openmp=true in the existing [build] table is more appropriate (#112). What do other people think?\n\nHaving a dependency model that allows propagating linker and compiler flags would be well suited for OpenMP as well in fpm.\n\nAgreed, but I see no reason to conflate the manifest syntax for OpenMP with that of package dependencies."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-04 11:45:03+00:00",
+                    "text": "I think we should get #112 working first, this would allow us to define flags on a per package basis (optimization) and global flags that propagate in the dependency tree (fast-math). Based on this we can easily implement OpenMP as either a build.openmp entry or a dependency."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-04 12:10:25+00:00",
+                    "text": "I am however still opposed to the treatment of OpenMP as a dependency in the manifest syntax; OpenMP isn't just an additional library for linking, it changes the way the compiler behaves in processing sources and in generating code. Similarly the invocation flag and link libraries are different for each compiler.\n\nKeep in mind that OpenMP is versioned as well, how do we deal with the fact that a program requires OpenMP version 4.5 or newer if the compiler used only provides OpenMP 3.x?\nAnother important thing is linking against the OpenMP runtime, if you use LLVM and GCC toolchains on your system you can link GCC applications with the LLVMs OpenMP runtime library and vice versa, depending on the features used. Same holds true for Intel OpenMP which can safely be linked into GCC compiled application instead of the GCC OpenMP runtime library.\nCreating an OpenMP dependency, which exports compiler flags to the dependent projects would allow to safely support various OpenMP implementation including versioning and also gives you the freedom to overwrite the OpenMP dependency by creating a mock fpm-package to export your special OpenMP setup."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-04 12:56:57+00:00",
+                    "text": "Can these cases not also be specified in the [build] table, e.g.:\n[build]\nopenmp = true\nopenmp-version = \"^4.5\"\nopenmp-library = \"iomp5\"\nWe will already need logic for correctly exporting compiler options to dependents, why not use the same model for OpenMP?\nPerhaps I am misunderstanding you; is your intention that there is no special code for handling OpenMP and that the OpenMP dependency is processed internally in exactly the same way as any other dependency?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-04 13:35:57+00:00",
+                    "text": "I would prefer to extend the current dependency model to support OpenMP on equal footing with normal fpm dependencies. With a solution for #112 we should be able to create an fpm package that will enable OpenMP support in its dependents.\nSupporting OpenMP with this approach wouldn't require any special entries in build and allows to test if this is a suitable model for OpenMP before implementing a special shortcut with build.openmp in the package manifest. I'm not opposed to create a build.openmp entry, but I wouldn't make it the first step for supporting OpenMP."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-04 14:14:03+00:00",
+                    "text": "... we should be able to create an fpm package that will enable OpenMP support in its dependents.\n\nAh I see, I understand what you mean now. Thanks for explaining (and for your patience ;)). This is an elegant approach.\nSo a hypothetical default OpenMP package manifest might look something like this then:\nname=\"OpenMP\"\n\n[build]\ncompile-args.gfortran= [\"-fopenmp\"] # append\ncompile-args.ifort= [\"-qopenmp\"]\n# etc...\nor, to introduce a possible general syntax, perhaps:\nname=\"OpenMP\"\n\n[build]\n[[compiler-arg]]\ngfortran= [\"-fopenmp\"]\nifort= [\"-qopenmp\"]\n# ...\nexport = \"link\"         # export arg to linker command only\n# export = \"dependents\" # export arg up to dependent packages only\n# export = \"all\"        # export arg to entire project"
                 }
             ]
         },
@@ -6857,6 +7301,11 @@
                     "user": "ivan-pi",
                     "date": "2020-11-27 11:19:02+00:00",
                     "text": "To aid the discussion I have tried to summarize some of the available optimization flags. Note that the specific optimizations will slightly differ between compilers. As a single example, to optimize for executable size, gfortran has the flag -Os, however the Intel documentation recommends using -O1.\n(perhaps this table can also be moved to a Wiki)\n\n\n\nFlag\ngfortran\nifort\nnagfor\nflang\nCray\nIBM\n\n\n\n\n-O\nequal to -O1\n/\nequal to -O2\nequal to -O2\n\nequal to -O2\n\n\n-O0\nno optimization (default)\nno optimization\nno optimization\ndisable optimization\ndisable optimization\ndisable optimization\n\n\n-O1\noptimize\noptimize for size\nminimal quick optimisation\nbetween -O0 and -O2\nconservative optimization\nno effect, reserved for future use\n\n\n-O2\noptimize even more\nmaximize speed (default)\nnormal optimisation (default)\nmoderate optimization\ndefault optimization\noptimize for performance\n\n\n-O3\noptimize yet more\nsimilar to -O2 with additional floating point optimizations\nfurther optimisation\nfull optimization\naggresive optimisation\nadditional optimization (similar to gfortran -Ofast)\n\n\n-O4\n/\n/\nmaximal optimisation\nreserved for future use\n/\naggresive optimization\n\n\n-O5\n/\n/\n/\n/\n/\nequal to -O4 with additional interprocedure analysis\n\n\n-Ofast\nsimilar to -O3 with unsafe math\n/\n/\nsimilar to -O3 with   further math optimizations\n/\n/\n\n\n-fast\n/\nmaximize speed across   entire program\n/\n/\n/\n/\n\n\n-Os\noptimize for size\n/\n/\nlike -O2 but reduces code   size\n/\n/\n\n\n-Oz\n/\n/\n/\nlike -Os, but reduces   code size further\n/\n/\n\n\n-Og\nturns on optimizations   which do not interfere with debugging\n/\n/\n/\n/\n/\n\n\n\nSince we are limited by the available compilers for CI, I would suggest to only handle the -O0, -O1, -O2, and -O3 flags for now, which are common for most Fortran compilers."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-01-04 15:12:57+00:00",
+                    "text": "With #322 the package scope of the source files is now available in the fpm model, extending each package object in the fpm model by its compilation profile would allow to implement customized arguments on per package basis.\nThe main issue to solve is the presentation of the build arguments in the package manifest.\nI would suggest to use a table of tables either in build or in the top-level:\n[build.profile.*]  # with * = debug, release, ...\nThe command line argument could be --profile <debug|release|...> to access the compilation profile.\nWe should abstract as many options as possible in specific entries in a profile (optimization, fast-math, ...), but we won't get around implementing compiler vendor specific arguments. Again I would suggest to represent them with a table of tables:\n[build.profile.*]  # with * = debug, release, ...\n[build.profile.*.compile-args]  # link-args, global-args ?\ngnu = [\"...\", \"...\"]\nintel = [\"...\", \"...\"]  # Intel with GCC like CLI on Unix\nintel-cl = [\"...\", \"...\"]  # Intel with MSVS like CLI on Windows\nflang = [\"...\", \"...\"]\n# or inverted?\n[build.profile.*.gnu]\ncompile-args = [\"...\", \"...\"]\nlink-args = [\"...\", \"...\"]\nglobal-args = [\"...\", \"...\"]\nThe allowed IDs should preferably match existing IDs used in CMake or meson. Internally, all abstracted options could be implemented using the same representation as the compile-args table.\nWe will require three kinds of arguments, compile arguments for the current project (e.g. -O3), link arguments for the current project (e.g. -flto) and all dependent projects and global compile arguments for all dependent projects (e.g. -fopenmp, -fast-math). We can than fine-tune the exact scopes of the arguments at a later stage.\nImplementing the three different kind of arguments allows us to prototype profiles for the different compilers without having to modify fpm. Options and profiles we choose to stabilize in fpm can get specific entries in the profile or build tables later."
                 }
             ]
         },
@@ -7113,6 +7562,16 @@
                     "user": "lauvergn",
                     "date": "2020-07-07 18:08:02+00:00",
                     "text": "Yes, it's a little more complicated, but it makes life so much easier for the end user. That is the whole point of fpm. :)\n\nYes, that will great !!\nalias gardhor"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-01-19 19:24:36+00:00",
+                    "text": "Is this issue still relevant?\nI recall @LKedward mentioning somewhere that my fortran_lsp repo could be built fpm, meaning that this has been resolved."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-01-22 09:27:46+00:00",
+                    "text": "Hi @ivan-pi, yes I believe this issue is now solved."
                 }
             ]
         },
