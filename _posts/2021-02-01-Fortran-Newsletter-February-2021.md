@@ -15,7 +15,7 @@ Fortran news from the previous month.
 
 This month we've had a few updates to the website:
 
-* [#190](https://github.com/fortran-lang/fortran-lang.org/pull/190) (WIP):
+* [#190](https://github.com/fortran-lang/fortran-lang.org/pull/190):
   Add links to fpm contributing guidelines
 
 Ongoing work:
