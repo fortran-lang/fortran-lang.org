@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: February 2021"
 category: newsletter
-author: Sebastian Ehlert, Milan Curcic, Laurence Kedward
+author: Sebastian Ehlert, Milan Curcic, Laurence Kedward, Jérémie Vandenplas
 ---
 
 Welcome to the February 2021 edition of the monthly Fortran newsletter.
