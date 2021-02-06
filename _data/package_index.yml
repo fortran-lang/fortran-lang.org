@@ -7,6 +7,15 @@
 #  'license'     (optional) override automatic github license. Mandatory if automatic detection fails.
 #  'version'     (optional) override automatic github version. Set to 'none' to hide.
 #
+# Fields for gitlab projects:
+#  'name'        (mandatory)
+#  'gitlab'      (mandatory) format: <user>/<repo>
+#  'description' (mandatory) single line description
+#  'categories'  (mandatory)
+#  'tags'        (optional) used for searching. Don't include category name here.
+#  'license'     (optional) override automatic gitlab license. Mandatory if automatic detection fails.
+#  'version'     (optional) override automatic gitlab version. Set to 'none' to hide.
+#
 # Fields for non github projects:
 #  'name'        (mandatory)
 #  'url'         (mandatory)
@@ -159,35 +168,60 @@
   categories: interfaces
 
 - name: sqliteff
-  url: https://gitlab.com/everythingfunctional/sqliteff
+  gitlab: everythingfunctional/sqliteff
   description: A thin wrapper around the SQLite library
   categories: interfaces
   tags: sql database
-  license: MIT
+
+- name: fortran-curl
+  github: interkosmos/fortran-curl
+  description: Fortran 2008 interface bindings to libcurl
+  categories: interfaces
+  tags: https curl imap libcurl smtp gopher
 
 - name: mpifx
   github: dftbplus/mpifx
   description: Modern Fortran wrappers around MPI routines
   categories: interfaces
   tags: mpi fypp
-  version: none
 
 - name: scalapackfx
   github: dftbplus/scalapackfx
   description: Modern Fortran wrappers around ScaLAPACK routines
   categories: interfaces
   tags: mpi fypp pblas blacs
-  version: none
 
 - name: ELSI
-  url: https://gitlab.com/elsi_project/elsi_interface
+  gitlab: elsi_project/elsi_interface
   description: A software interface designed for electronic structure codes to connect with ELPA, libOMM, PEXSI, EigenExa, SLEPc, NTPoly, BSEPACK, LAPACK, MAGMA, and other solver libraries.
   categories: interfaces
   tags: electronic-stucture mpi gpu
-  version: 2.6.0
   license: BSD-3-Clause
 
+- name: FKB
+  github: scientific-computing/FKB
+  description: Fortran Keras Bridge - A two-way deep learning bridge between Keras and Fortran
+  categories: interfaces
+  tags: deep-learning data-science machine-learning neural-networks
+  version: none
+
+# --- Compiler
+
+- name: hipfort
+  github: ROCmSoftwarePlatform/hipfort
+  description: Fortran interfaces for ROCm libraries
+  categories: programming
+  tags: hip rocm
+  license: MITx11
+
 # --- Programming utilities ---
+
+- name: fpm
+  github: fortran-lang/fpm
+  description: Fortran Package Manager
+  categories: programming
+  tags: build-system package-manager
+  version: none
 
 - name: FORD
   github: Fortran-FOSS-Programmers/ford
@@ -203,12 +237,10 @@
   tags: metaprogramming
 
 - name: vegetables
-  url: https://gitlab.com/everythingfunctional/vegetables
+  gitlab: everythingfunctional/vegetables
   description: A Fortran testing framework written using functional programming principles.
   categories: programming
   tags: testing assert
-  license: MIT
-  version: 4.0
 
 - name: pFUnit
   github: Goddard-Fortran-Ecosystem/pFUnit
@@ -218,11 +250,10 @@
   license: NASA-1.3
 
 - name: erloff
-  url: https://gitlab.com/everythingfunctional/erloff
+  gitlab: everythingfunctional/erloff
   description: Errors and logging for fortran
   categories: programming
   tags: errors logging
-  license: BSD-3-Clause
 
 - name: fytest
   url: https://bitbucket.org/aradi/fytest/src/develop/
@@ -244,6 +275,7 @@
   categories: programming numerical
   tags: algorithmic derivative ad
   license: MIT
+  version: 3.16-v2
 
 # --- Data types ---
 
@@ -329,19 +361,16 @@
   tags: upper lower quoted join replace white space string conversion tokens split
   version: none
 
-- name: Strings for Fortran
-  url: https://gitlab.com/everythingfunctional/strff
-  description: A library of string functions for Fortran.
+- name: strff
+  gitlab: everythingfunctional/strff
+  description: Strings for Fortran - A library of string functions for Fortran.
   categories: strings
-  tags:
-  license: MIT
 
 - name: iso_varying_string
-  url: https://gitlab.com/everythingfunctional/iso_varying_string
+  gitlab: everythingfunctional/iso_varying_string
   description: Implementation of the Fortran ISO_VARYING_STRING module in accordance with the standard
   categories: strings
   tags: varying length character strings
-  license: MIT
 
 # --- File input / output ---
 
@@ -353,11 +382,12 @@
   version: none
 
 - name: FortJSON
-  url: https://gitlab.com/elsi_project/fortjson
+  gitlab: elsi_project/fortjson
   description: A JSON library designed with portability across HPC architectures in mind
   categories: io
   tags: json hpc
   license: BSD-3-Clause
+  version: none
 
 - name: json-fortran
   github: jacobwilliams/json-fortran
@@ -412,7 +442,7 @@
   github: jacobwilliams/fortran-csv-module
   description: Read and write CSV Files using modern Fortran
   categories: io
-  tags:
+  tags: csv
   license: BSD-3-Clause
 
 - name: M_IO
@@ -424,11 +454,10 @@
   version: none
 
 - name: jsonff
-  url: https://gitlab.com/everythingfunctional/jsonff
+  gitlab: everythingfunctional/jsonff
   description: Routines for building JSON structures in Fortran
   categories: io
-  tags:
-  license: MIT
+  tags: json
 
 - name: NPY for Fortran
   github: MRedies/NPY-for-Fortran
@@ -450,12 +479,11 @@
   tags:
   version: none
 
-- name: Parser for Fortran
-  url: https://gitlab.com/everythingfunctional/parff
+- name: parff
+  gitlab: everythingfunctional/parff
   description: The foundations of a functional style parser combinator library
   categories: io
-  tags:
-  license: MIT
+  tags: parser
 
 - name: Serialbox
   github: GridTools/serialbox
@@ -501,7 +529,6 @@
   categories: graphics interfaces
   tags: animation plot surface contour
   license: MIT
-  version: none
 
 - name: gtk-fortran
   github: vmagnin/gtk-fortran
@@ -550,6 +577,7 @@
   description: Finite element software for numerical solution of partial differential equations
   categories: numerical
   tags: pde fe
+  license: GPL-2.0
   version: none
 
 - name: fortranlib
@@ -632,6 +660,7 @@
   description: Parallel Sparse BLAS
   categories: numerical data-types
   tags: linear algebra mpi
+  license: BSD-3-Clause
 
 - name: GALAHAD
   github: ralna/GALAHAD
@@ -655,11 +684,10 @@
   license: BSD-3-Clause
 
 - name: quaff
-  url: https://gitlab.com/everythingfunctional/quaff
+  gitlab: everythingfunctional/quaff
   description: Quantities for Fortran. Make math with units more convenient
   categories: numerical
   tags:
-  license: MIT
 
 - name: rng_fortran
   github: jannisteunissen/rng_fortran
@@ -864,12 +892,11 @@
   license: LGPL-2.1-only
 
 - name: Truchas
-  url: https://gitlab.com/truchas/truchas
+  gitlab: truchas/truchas
   description: 3D Multiphysics Simulation of Metal Casting and Processing
   categories: scientific
   tags: fluid dynamics metal casting multiphysics hpc
   license: BSD-3-Clause
-  version: none
 
 - name: dftatom
   github: certik/dftatom
@@ -885,7 +912,7 @@
   categories: scientific
   tags: stellar astrophysics
   license: GPL-2
-  version: 12778
+  version: 15140
 
 - name: Wannier90
   github: wannier-developers/wannier90
@@ -900,7 +927,7 @@
   categories: scientific
   tags: particle physics parallel mpi monte carlo optimization sampling integration
   license: GPL-2.0-or-later
-  version: 2.8.4
+  version: 2.8.5
 
 - name: HANDE
   github: hande-qmc/hande
@@ -910,14 +937,14 @@
   version: none
 
 - name: OpenMolcas
-  url: https://gitlab.com/Molcas/OpenMolcas
+  gitlab: Molcas/OpenMolcas
   description: Quantum chemistry software package for multiconfigurational approaches to the electronic structure
   categories: scientific
   tags: electronic-structure casscf caspt2
   license: LGPL-2.1
 
 - name: Octopus
-  url: https://gitlab.com/octopus-code/octopus
+  gitlab: octopus-code/octopus
   description: Real-space Time-Dependent Density Functional Theory code
   categories: scientific
   tags: electronic-structure
