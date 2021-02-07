@@ -60,8 +60,8 @@
         // Sort by subsentence length descending
         subs = subs.sort(function(a,b){return b.split(" ").length - a.split(" ").length})
     
-        var fields = ['name','description','tags','license','github','url'];
-        var fieldWeights = [10.0,1.0,1.0,0.1,1.0,0.1];
+        var fields = ['name','description','tags','license','github','gitlab','url'];
+        var fieldWeights = [10.0,1.0,1.0,0.1,1.0,1.0,0.1];
     
         // Loop over projects JSON
         var i;
@@ -124,6 +124,9 @@
                 if (results[i].github != "" && !project.fpm){
                     out += '<h3><a href="https://github.com/'+project.github+'" target="_blank">';
                     out += '<i class="devicon-github-plain colored"></i> '+project.name+'</a></h3>';
+                } else if (results[i].gitlab != "" && !project.fpm){
+                    out += '<h3><a href="https://gitlab.com/'+results[i].gitlab+'" target="_blank">';
+                    out += '<i class="devicon-gitlab-plain colored"></i> '+project.name+'</a></h3>';
                 } else {
                     out += '<h3><a href="'+project.url+'" target="_blank">';
                     if (project.fpm){
