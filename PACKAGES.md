@@ -61,7 +61,7 @@ Fortran-lang package index, as written in this document
 
 ## Package index requests
 
-Package index requests are made by pull requests against the [fortran-lang.github.io repository](https://github.com/fortran-lang/fortran-lang.github.io/).
+Package index requests are made by pull requests against the [fortran-lang.org repository](https://github.com/fortran-lang/fortran-lang.org/).
 See [this guide](https://guides.github.com/activities/forking/) for guidance on forking and making pull requests.
 
 Package details are listed in the `_data/package_index.yml` data file.
