@@ -1,25 +1,26 @@
 <footer>
   <div class="container">
-    <div class="col-narrow">
-    {% for nav in site.translations[site.lang].nav %}
-      <a href="{{ site.baseurl }}{{ nav.url }}">{{ nav.title }}</a>
-      {% unless forloop.last %}
-        &middot;
-      {% endunless %}
-    {% endfor %}
-    </div>
-
-    <div class="col-narrow">
-    {% for lang in site.languages %}
-      {% if lang == site.default_lang and site.default_locale_in_subfolder != true %}
-      <a href="{{ site.baseurl_root }}{{ page.url }}">{% t langs.{{ lang }} %}</a>
-      {% else %}
-      <a href="{{ site.baseurl_root }}/{{ lang }}{{ page.url }}">{% t langs.{{ lang }} %}</a>
-      {% endif %}
-      {% unless forloop.last %}
-        &middot;
-      {% endunless %}
-    {% endfor %}
+    <div class="col-wide">
+      <p>
+      {% for nav in site.translations[site.lang].nav %}
+        <a href="{{ site.baseurl }}{{ nav.url }}">{{ nav.title }}</a>
+        {% unless forloop.last %}
+          &middot;
+        {% endunless %}
+      {% endfor %}
+      </p>
+      <p>
+      {% for lang in site.languages %}
+        {% if lang == site.default_lang and site.default_locale_in_subfolder != true %}
+        <a href="{{ site.baseurl_root }}{{ page.url }}">{% t langs.{{ lang }} %}</a>
+        {% else %}
+        <a href="{{ site.baseurl_root }}/{{ lang }}{{ page.url }}">{% t langs.{{ lang }} %}</a>
+        {% endif %}
+        {% unless forloop.last %}
+          &middot;
+        {% endunless %}
+      {% endfor %}
+      </p>
     </div>
 
     <div class="col-narrow">
