@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    
+    <title>Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/201/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/201/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/building_programs/runtime_libraries" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/201/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/201/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    
+<header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+      <b>: </b> 
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/201" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+         pull request 201</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+         <span class="sr-only"></span>
+		    <img src="/pr/201/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/201/" class="navbar-brand">
+		    <img src="/pr/201/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+          <a href="/pr/201/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/packages/">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+            <i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+            <i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+            <i class="fab fa-github"></i> <i class="icon-link" >GitHub</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/201/news.xml" target="_blank">
+            <i class="fas fa-rss"></i> <i class="icon-link" >RSS feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+          
+          
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+
+  <a href="/pr/201/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Building programs</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><a href="/pr/201/learn/building_programs">
+        Introduction</a></li>
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/learn/building_programs/compiling_source">
+          Compiling the source code</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/learn/building_programs/linking_pieces">
+          Linking the objects</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li>
+          <b><a href="/pr/201/learn/building_programs/runtime_libraries">
+            Run-time libraries</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/learn/building_programs/include_files">
+          Include files and modules</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/learn/building_programs/managing_libraries">
+          Managing libraries (static and dynamic libraries)</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/learn/building_programs/build_tools">
+          Build tools</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/learn/building_programs/project_make">
+          An introduction to make</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/learn/building_programs/distributing">
+          Distributing your programs</a></li>
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Run-time libraries</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+      </div>
+
+      <p>To illustrate that even a simple program depends on external run-time
+libraries, here is the output from the <code class="highlighter-rouge">ldd</code> utility that reports such
+dependencies:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ldd tabulate.exe
+        ntdll.dll <span class="o">=&gt;</span> /cygdrive/c/WINDOWS/SYSTEM32/ntdll.dll <span class="o">(</span>0x7ff88f2b0000<span class="o">)</span>
+        KERNEL32.DLL <span class="o">=&gt;</span> /cygdrive/c/WINDOWS/System32/KERNEL32.DLL <span class="o">(</span>0x7ff88e450000<span class="o">)</span>
+        KERNELBASE.dll <span class="o">=&gt;</span> /cygdrive/c/WINDOWS/System32/KERNELBASE.dll <span class="o">(</span>0x7ff88b9e0000<span class="o">)</span>
+        cygwin1.dll <span class="o">=&gt;</span> /usr/bin/cygwin1.dll <span class="o">(</span>0x180040000<span class="o">)</span>
+        cyggfortran-5.dll <span class="o">=&gt;</span> /usr/bin/cyggfortran-5.dll <span class="o">(</span>0x3efd20000<span class="o">)</span>
+        cygquadmath-0.dll <span class="o">=&gt;</span> /usr/bin/cygquadmath-0.dll <span class="o">(</span>0x3ee0b0000<span class="o">)</span>
+        cyggcc_s-seh-1.dll <span class="o">=&gt;</span> /usr/bin/cyggcc_s-seh-1.dll <span class="o">(</span>0x3f7000000<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Other compilers or other versions of the same compiler will probably
+require different dynamic libraries. As long as you run the program on
+the same computer — or, more accurately, within the same environment —
+there should be no problem. However, when such a library cannot be
+found, you will get (hopefully) an error message and the program stops
+immediately.</p>
+
+<p>Therefore it is good to know what libraries are required. On Linux and
+Linux-like environments, the <code class="highlighter-rouge">ldd</code> utility is a great help. On Windows,
+you may want to use the <code class="highlighter-rouge">dependency walker</code> (the latest version, which
+works very nicely with Windows 10, is found here: <a href="https://github.com/lucasg/Dependencies">https://github.com/lucasg/Dependencies</a>)</p>
+
+<p>Another thing you should know is where the program tries to find these
+libraries. That is a vast subject in its own right and full of
+complications and history. Here we merely scratch the surface:</p>
+
+<p><em>On Linux:</em></p>
+
+<ul>
+  <li>The environment variable <code class="highlighter-rouge">LD_LIBRARY_PATH</code> is used. It consists of a
+list of directories to be searched, each directory separated via colons
+(:) from the others. For instance: <code class="highlighter-rouge">/usr/lib:/usr/local/lib</code> — typical
+system directories.</li>
+  <li>At the link step you can also use an option to set <code class="highlighter-rouge">RPATH</code>, a list
+of directories that is put into the executable file itself.</li>
+  <li>Then there are several system directories that are searched.</li>
+</ul>
+
+<p><em>On Windows:</em></p>
+
+<ul>
+  <li>The directory containing the executable program may also contain
+dynamic libraries.</li>
+  <li>The environment variable “PATH” is used. Again a list of directories
+to be searched, but now the separating character is the semicolon (;).</li>
+  <li>A set of system directories is searched.</li>
+</ul>
+
+<p>Unfortunately, the details can change from one version of the operating
+system to the next. The above is merely an indication — use tools like
+“ldd” or “dependency walker” to find out what libraries are loaded and
+where they are found.</p>
+
+<p>If you want to share your program with colleagues or clients or simply
+users all over the world, you will have to take care that, besides the
+program, you also distribute the libraries it depends on. For more
+information: see below.</p>
+
+
+
+      <div class="container-flex">
+
+        
+          
+            <a href="/pr/201/learn/building_programs/linking_pieces" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        
+
+        
+          
+          <a href="/pr/201/learn/building_programs/include_files"
+          style="margin-left: auto;">
+            <h3>
+              Next
+              <i class="fas fa-arrow-circle-right"></i>
+            </h3>
+          </a>
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+      <p>
+      
+        <a href="/pr/201/learn/">Learn</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/compilers/">Compilers</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/community/">Community</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/packages/">Packages</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/news/">News</a>
+        
+      
+      </p>
+      <p>
+      
+        
+        <a href="/pr/201/learn/building_programs/runtime_libraries">English</a>
+        
+        
+      
+      </p>
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.org/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/201/assets/js/fortranlang.js"></script>
+    <script src="/pr/201/assets/js/page_nav.js"></script>
+    <script src="/pr/201/assets/js/gh-contributors.js"></script>
+    <script src="/pr/201/assets/js/package_search.js"></script>
+    <script src="/pr/201/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
