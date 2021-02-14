@@ -6,4 +6,98 @@ title: Home
 {% capture active %}{% t nav_key.home %}{% endcapture %}
 {% include nav.html active=active %}
 
-{% tf index.html %}
+<section class="masthead">
+  <h1>{% t home.tagline %}</h1>
+  <p><a href="{{ site.baseurl }}/learn/" class="btn">{% t home.get_started %}</a></p>
+</section>
+
+<section class="front-section">
+  <div class="container">
+    <div class="col-wide">
+      {% tf features.html %}
+
+    </div>
+
+    <div class="col-narrow">
+
+      <div class="news-section">
+        <h2 id="news"><i class="far fa-newspaper"></i> News</h2>
+
+        {% comment %} <dl class="nvim-posts"> {% endcomment %}
+          <table>
+            {% assign posts_to_show = 5 %}
+            {% for post in site.posts limit:posts_to_show %}
+            <tr>
+              <td><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>&nbsp;&nbsp; </td>
+              <td style="white-space: nowrap; text-align: right">{{ post.date | date:"%d %b %Y" }}</td>
+            </tr>
+            {% comment %} <dd></dd> {% endcomment %}
+            {% endfor %}
+          </table>
+          {% comment %} </dl> {% endcomment %}
+
+        <p><a href="{{ site.baseurl }}/news">{% t more %}…</a></p>
+        </br>
+        <a class="twitter-timeline" data-height="500" href="https://twitter.com/fortranlang?ref_src=twsrc%5Etfw"></a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="front-section shaded">
+  <div class="container">
+    <div class="col-wide">
+      <h2 id="faqs">FAQ</h2>
+
+      <dl class="faqs">
+        {% tf faqs.html %}
+
+      </dl>
+    </div>
+
+    <div class="col-narrow">
+      <h2 id="chat">{% t home.join_us %}</h2>
+
+      {% include mailing_list.html %}
+
+      {% include discourse.html %}
+
+      {% include twitter.html %}
+
+      {% include rss_feed.html %}
+
+      {% tf open_source.html %}
+
+    </div>
+
+  </div>
+</section>
+
+<section class="front-section">
+  <div class="container">
+    <h2>{% t home.make_fortran_better %}</h2>
+
+    <div class="col-narrow">
+      {% tf write_proposals.html %}
+    </div>
+
+    <div class="col-narrow">
+      {% tf develop_tools.html %}
+    </div>
+
+  </div>
+</section>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-narrow">
+      {% tf write_software.html %}
+    </div>
+
+  </div>
+</section>
