@@ -9,6 +9,8 @@ Before starting to translate, make sure to setup *jeykll* as described in the
 
 To add a new language to the webpage add the language name to the *languages* array
 in the [``_config.yml``](./_config.yml) file.
+The language name should be represented by its two letter code, the full name of the
+language will be provided in the localized configuration files at ``./_i18n/<lang>.yml``.
 The first language in the arrays is the default language and is used in the main tree
 at ``https://fortran-lang.org`` while additional trees are generated under
 ``https://fortran-lang.org/<lang>``.
@@ -26,11 +28,13 @@ cp _i18n/en.yml _i18n/<lang>.yml
 ```
 
 You can now start to fill the keyword translations in the new ``<lang>.yml`` file.
+Make sure to keep the same structure as in the English language file, since missing
+keywords will be dropped rather than filled in from the default language.
 
 
 ### Translating content
 
-To translate the content of the main page ([``_i18n/en/index.html``](./i18n/en/index.html))
-create a copy in the new language tree under ``_i18n/<lang>/index.html``.
-Pages that do not have a translation will be used from the default language automatically,
-therefore you can translate one page at a time.
+To translate the content of the main page create a copy of the included HTML or markdown
+files from the English subtree in the new language tree under ``_i18n/<lang>/``.
+Files that do not have a translation will be used from the default language automatically,
+therefore you can translate one file at a time.
