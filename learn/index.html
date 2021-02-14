@@ -7,4 +7,107 @@ description: Learning resources for beginners and experts alike
 {% capture active %}{% t nav_key.learn %}{% endcapture %}
 {% include nav.html active=active %}
 
-{% tf learn/index.html %}
+<section class="masthead">
+  <h1>{{ page.title }}</h1>
+  <h3>{{ page.description }}</h3>
+</section>
+
+<section class="front-section shaded">
+  <div class="container">
+    <h2>{% t learn.getting_started %}</h2>
+
+    <div class="col-narrow">
+      {% tf learn/new_to_fortran.html %}
+      <a class="button center" href="{{site.baseurl}}/learn/quickstart">
+        <i class="fas fa-book"></i>
+        {% t learn.quickstart_tutorial %}
+      </a>
+
+    </div>
+
+    <div class="col-narrow">
+      <a class="button center blue" href="https://fortran-lang.discourse.group/" target="_blank">
+        {% tf learn/looking_for_help.html %}
+        <i class="fab fa-discourse"></i>
+        {% t fortran_lang_discourse %}
+      </a>
+
+    </div>
+
+  </div>
+  </br>
+</section>
+
+<section class="front-section">
+  <div class="container">
+
+    <h2 id="book-index">{% t mini_book_tutorials %}</h2>
+
+    {% for category in site.data.learning.categories %}
+
+    <h3>
+      {% if category.fa-icon %}
+      <i class="{{category.fa-icon}}"></i>
+      {% endif %}
+      {{ category.name }}</h3>
+
+    <div class="container-flex">
+      {% assign catBooks = site.data.learning.books | where_exp:"book", "book.category == category.name"%}
+
+      {% for book in catBooks %}
+      <div class="col-flex">
+        <h3>
+          <i class="fas fa-book"></i>
+          <a href="{{ site.baseurl }}{{ book.link }}" >
+            {{ book.title }}
+          </a></h3>
+          <p> {{ book.description }} </p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% endfor %}
+
+  </div>
+  </br>
+</section>
+
+<section class="front-section shaded">
+  <div class="container">
+
+    <h2 id="book-index">{% t learn.other_resources %}</h2>
+
+    <h3> <i class="fas fa-server"></i> {% t learn.on_the_web %} </h3>
+    <ul>
+
+      {% for refLink in site.data.learning.reference-links %}
+      <li>
+        <a href="{{ refLink.url }}" target="_blank"><b>
+            {{ refLink.name }}
+          </b></a>
+          {{ refLink.description }}
+      </li>
+      {% endfor %}
+
+    </ul>
+
+    <h3> <i class="fas fa-book-open"></i> {% t learn.in_print %}</h3>
+    <ul>
+
+      {% assign refBooks = site.data.learning.reference-books | sort: "year" | reverse %}
+      {% for refBook in refBooks %}
+      <li>
+        <i>{{ refBook.author }}</i>. {{ refBook.year }}.
+        <a href="{{ refBook.url }}" target="_blank"><b>
+            {{ refBook.title }}
+          </b></a>.
+          {{ refBook.edition }}.
+          {{ refBook.location }}.
+          {{ refBook.publisher }}
+      </li>
+      {% endfor %}
+
+    </ul>
+
+  </div>
+</section>

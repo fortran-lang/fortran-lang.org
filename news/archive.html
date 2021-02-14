@@ -6,4 +6,24 @@ title: News archive
 {% capture active %}{% t nav_key.news %}{% endcapture %}
 {% include nav.html active=active %}
 
-{% tf news/archive.html %}
+<section class="front-section">
+  <div class="container">
+    <div class="newsletter col-wide">
+
+      <h1><a href="{{ site.baseurl }}/news">{% t nav_key.news %}</a> / {% t news.archive %}</h1>
+
+      {% assign postsByYearMonth = site.categories.newsletter | group_by_exp:"post", "post.date | date: '%B %Y'"  %}
+      {% for yearMonth in postsByYearMonth %}
+      <h3>{{ yearMonth.name }}</h3>
+      <ul>
+        {% for post in yearMonth.items %}
+        <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
