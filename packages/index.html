@@ -1,15 +1,15 @@
 ---
 layout: default
-title: Fortran Packages
-description: A rich ecosystem of high-performance code
+title: page.packages.title
+description: page.packages.description
 ---
 
 {% capture active %}{% t nav_key.packages %}{% endcapture %}
 {% include nav.html active=active %}
 
 <section class="masthead">
-  <h1>{{ page.title }}</h1>
-  <h3>{{ page.description }}</h3>
+  <h1>{% t page.title %}</h1>
+  <h3>{% t page.description %}</h3>
 </section>
 
 <section class="front-section shaded">
@@ -53,7 +53,7 @@ description: A rich ecosystem of high-performance code
           <i data-feather="{{ sitePage.feather-icon }}"></i>
           {% endif %}
           <a href="{{ site.baseurl }}{{ sitePage.url }}" >
-            {{ sitePage.title }}
+            {% t sitePage.title %}
             {% if sitePage.code_category == 'fpm' %}
             {% assign catProjects =  site.data.fpm_registry_index.packages %}
             {% else %}

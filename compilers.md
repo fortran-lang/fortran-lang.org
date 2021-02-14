@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Fortran Compilers
-navbar: Compilers
+title: page.compilers.title
+navbar: nav_key.compilers
 ---
 
 {% tf compilers.md %}
