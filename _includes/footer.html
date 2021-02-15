@@ -11,10 +11,11 @@
       </p>
       <p>
       {% for lang in site.languages %}
+        {% assign this_lang = site.translations[lang].langs[lang] %}
         {% if lang == site.default_lang and site.default_locale_in_subfolder != true %}
-        <a href="{{ site.baseurl_root }}{{ page.url }}">{% t langs.{{ lang }} %}</a>
+        <a href="{{ site.baseurl_root }}{{ page.url }}">{{ this_lang }}</a>
         {% else %}
-        <a href="{{ site.baseurl_root }}/{{ lang }}{{ page.url }}">{% t langs.{{ lang }} %}</a>
+        <a href="{{ site.baseurl_root }}/{{ lang }}{{ page.url }}">{{ this_lang }}</a>
         {% endif %}
         {% unless forloop.last %}
           &middot;
