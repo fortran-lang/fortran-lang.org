@@ -7,6 +7,15 @@
 #  'license'     (optional) override automatic github license. Mandatory if automatic detection fails.
 #  'version'     (optional) override automatic github version. Set to 'none' to hide.
 #
+# Fields for gitlab projects:
+#  'name'        (mandatory)
+#  'gitlab'      (mandatory) format: <user>/<repo>
+#  'description' (mandatory) single line description
+#  'categories'  (mandatory)
+#  'tags'        (optional) used for searching. Don't include category name here.
+#  'license'     (optional) override automatic gitlab license. Mandatory if automatic detection fails.
+#  'version'     (optional) override automatic gitlab version. Set to 'none' to hide.
+#
 # Fields for non github projects:
 #  'name'        (mandatory)
 #  'url'         (mandatory)
@@ -22,7 +31,7 @@
 #
 # When adding a new library:
 #  - Check it shows up in the expected category page(s)
-#  - Temporarily use the category 'preview' and check 
+#  - Temporarily use the category 'preview' and check
 #     check the badges render correctly at /explore/category/preview
 #
 # No need to repeat keywords from 'description' in 'tags'
@@ -82,7 +91,7 @@
   categories: libraries
   tags: redo
   version: none
- 
+
 - name: Futility
   github: CASL/Futility
   description: Fortran utilities including unit test harness, arbitrary length strings, parameter list objects, timers, geometry definitions, file wrappers, linear algebra tools, and parallel computing support
@@ -90,11 +99,17 @@
   version: none
   license: "Apache v2.0"
 
+- name: Fortran Astrodynamics Toolkit
+  github: jacobwilliams/Fortran-Astrodynamics-Toolkit
+  description: A Modern Fortran Library for Astrodynamics
+  categories: libraries
+  license: BSD-3-Clause
+
 # --- Interfaces ---
 
 - name: forpy
   github: ylikx/forpy
-  description: allows you to use Python features in Fortran 
+  description: allows you to use Python features in Fortran
   categories: interfaces
   tags: dict list tuple numpy python matplotlib scipy
   license: GPL-3.0
@@ -104,7 +119,7 @@
   github: modern-fortran/tcp-client-server
   description: A minimal Fortran TCP client and server demonstrating c interoperability
   categories: interfaces examples
-  tags: 
+  tags:
   version: none
 
 - name: clfortran
@@ -119,7 +134,7 @@
   github: urbanjost/M_process
   description: Read and write lines to or from a process from Fortran via a C wrapper
   categories: interfaces
-  tags: 
+  tags:
   version: none
 
 - name: M_system
@@ -131,7 +146,7 @@
 
 - name: Focal
   github: LKedward/focal
-  description: A module library which wraps calls to the OpenCL runtime API with a higher abstraction level 
+  description: A module library which wraps calls to the OpenCL runtime API with a higher abstraction level
   categories: interfaces
   tags: gpu compute accelerator
 
@@ -142,36 +157,77 @@
   tags: posix libc
   license: BSD-2-clause
 
+- name: node-fortran
+  github: IonicaBizau/node-fortran
+  description: Fortran bridge for Node.js which allows you to run Fortran code from Node.js
+  categories: interfaces
+
+- name: node.fortran
+  github: IonicaBizau/node.fortran
+  description: Execute Node.js in your Fortran programs
+  categories: interfaces
+
 - name: sqliteff
-  url: https://gitlab.com/everythingfunctional/sqliteff
+  gitlab: everythingfunctional/sqliteff
   description: A thin wrapper around the SQLite library
   categories: interfaces
   tags: sql database
-  license: MIT
+
+- name: fortran-curl
+  github: interkosmos/fortran-curl
+  description: Fortran 2008 interface bindings to libcurl
+  categories: interfaces
+  tags: https curl imap libcurl smtp gopher
 
 - name: mpifx
   github: dftbplus/mpifx
   description: Modern Fortran wrappers around MPI routines
   categories: interfaces
   tags: mpi fypp
-  version: none
 
 - name: scalapackfx
   github: dftbplus/scalapackfx
   description: Modern Fortran wrappers around ScaLAPACK routines
   categories: interfaces
   tags: mpi fypp pblas blacs
-  version: none
 
 - name: ELSI
-  url: https://gitlab.com/elsi_project/elsi_interface
+  gitlab: elsi_project/elsi_interface
   description: A software interface designed for electronic structure codes to connect with ELPA, libOMM, PEXSI, EigenExa, SLEPc, NTPoly, BSEPACK, LAPACK, MAGMA, and other solver libraries.
   categories: interfaces
   tags: electronic-stucture mpi gpu
-  version: 2.6.0
   license: BSD-3-Clause
 
+- name: FKB
+  github: scientific-computing/FKB
+  description: Fortran Keras Bridge - A two-way deep learning bridge between Keras and Fortran
+  categories: interfaces
+  tags: deep-learning data-science machine-learning neural-networks
+  version: none
+
+- name: flibcpp
+  github: swig-fortran/flibcpp
+  description: Fortran bindings to the C++ Standard Library
+  categories: interfaces
+  tags: c++
+
+# --- Compiler
+
+- name: hipfort
+  github: ROCmSoftwarePlatform/hipfort
+  description: Fortran interfaces for ROCm libraries
+  categories: programming
+  tags: hip rocm
+  license: MITx11
+
 # --- Programming utilities ---
+
+- name: fpm
+  github: fortran-lang/fpm
+  description: Fortran Package Manager
+  categories: programming
+  tags: build-system package-manager
+  version: none
 
 - name: FORD
   github: Fortran-FOSS-Programmers/ford
@@ -187,12 +243,10 @@
   tags: metaprogramming
 
 - name: vegetables
-  url: https://gitlab.com/everythingfunctional/vegetables
+  gitlab: everythingfunctional/vegetables
   description: A Fortran testing framework written using functional programming principles.
-  categories: programming 
+  categories: programming
   tags: testing assert
-  license: MIT
-  version: 4.0
 
 - name: pFUnit
   github: Goddard-Fortran-Ecosystem/pFUnit
@@ -202,11 +256,10 @@
   license: NASA-1.3
 
 - name: erloff
-  url: https://gitlab.com/everythingfunctional/erloff
+  gitlab: everythingfunctional/erloff
   description: Errors and logging for fortran
   categories: programming
   tags: errors logging
-  license: BSD-3-Clause
 
 - name: fytest
   url: https://bitbucket.org/aradi/fytest/src/develop/
@@ -228,13 +281,57 @@
   categories: programming numerical
   tags: algorithmic derivative ad
   license: MIT
+  version: 3.16-v2
+
+- name: camfort
+  github: camfort/camfort
+  description: Light-weight verification and transformation tools for Fortran
+  categories: programming
+  tags: refactoring
+  license: Apache-2.0
+
+- name: findent
+  url: https://sourceforge.net/projects/findent/
+  description: Indents/beautifies/converts Fortran sources
+  categories: programming
+  tags: formatter converter
+  license: BSD-3-Clause
+  version: 3.1.7
+
+- name: fprettify
+  github: pseewald/fprettify
+  description: auto-formatter for modern fortran source code
+  categories: programming
+  tags: formatter
+  license: GPL-3.0
+
+- name: shroud
+  github: LLNL/shroud
+  description: generate Fortran and Python wrappers for C and C++ libraries
+  categories: programming
+  tags: interface-generator c++
+
+- name: SWIG-Fortran
+  github: swig-fortran/swig
+  description: SWIG for C++ to Fortran interface generation
+  categories: programming
+  tags: interface-generator c++
+  license: GPL-3.0
+
+- name: f90wrap
+  github: jameskermode/f90wrap
+  description: F90 to Python interface generator with derived type support
+  categories: programming
+  tags: interface-generator python
+  license: GPL-3.0
+  version: none
 
 # --- Data types ---
 
 - name: Fortran template library
   github: SCM-NV/ftl
   description: Generic containers, versatile algorithms, easy string manipulation, and more
-  categories: data-types 
+  categories: data-types
   tags: resizeable array container linked list hash map regex string shared pointer
   version: none
   license: LGPL-3.0-or-later
@@ -268,7 +365,7 @@
 
 - name: datetime-fortran
   github: wavebitscientific/datetime-fortran
-  description: Date and time manipulation 
+  description: Date and time manipulation
   categories: data-types
   tags: day year month calendar weekday clock
   license: MIT
@@ -286,14 +383,14 @@
   github: jannisteunissen/lookup_table_fortran
   description: Linear lookup table implemented in modern Fortran
   categories: data-types
-  tags: 
+  tags:
   version: none
 
 - name: FyCollections
   url: https://bitbucket.org/aradi/fycollections/src/develop/
   description: generic collection templates for Fortran
   categories: data-types
-  tags: 
+  tags:
   license: BSD-2-Clause
 
 
@@ -310,22 +407,19 @@
   github: urbanjost/M_strings
   description: Fortran string manipulations
   categories: strings
-  tags: upper lower quoted join replace white space string conversion tokens split 
+  tags: upper lower quoted join replace white space string conversion tokens split
   version: none
 
-- name: Strings for Fortran
-  url: https://gitlab.com/everythingfunctional/strff
-  description: A library of string functions for Fortran.
+- name: strff
+  gitlab: everythingfunctional/strff
+  description: Strings for Fortran - A library of string functions for Fortran.
   categories: strings
-  tags: 
-  license: MIT
 
 - name: iso_varying_string
-  url: https://gitlab.com/everythingfunctional/iso_varying_string
+  gitlab: everythingfunctional/iso_varying_string
   description: Implementation of the Fortran ISO_VARYING_STRING module in accordance with the standard
   categories: strings
   tags: varying length character strings
-  license: MIT
 
 # --- File input / output ---
 
@@ -337,11 +431,12 @@
   version: none
 
 - name: FortJSON
-  url: https://gitlab.com/elsi_project/fortjson
+  gitlab: elsi_project/fortjson
   description: A JSON library designed with portability across HPC architectures in mind
   categories: io
   tags: json hpc
   license: BSD-3-Clause
+  version: none
 
 - name: json-fortran
   github: jacobwilliams/json-fortran
@@ -354,7 +449,7 @@
   github: szaghi/VTKFortran
   description: Library to parse and emit files conforming VTK (XML) standard
   categories: io
-  tags: 
+  tags:
   license: GPL-3.0
   version: none
 
@@ -369,7 +464,7 @@
   github: andreww/fox
   description: A Fortran XML library
   categories: io
-  tags: 
+  tags:
   license: BSD-3-Clause
   version: none
 
@@ -377,7 +472,7 @@
   github: victorsndvg/FEconv
   description: utility and library for converting between mesh and finite element field formats
   categories: io
-  tags: ansys msh nastran bdf vtk 
+  tags: ansys msh nastran bdf vtk
   version: none
 
 - name: h5fortran
@@ -396,23 +491,22 @@
   github: jacobwilliams/fortran-csv-module
   description: Read and write CSV Files using modern Fortran
   categories: io
-  tags: 
+  tags: csv
   license: BSD-3-Clause
 
 - name: M_IO
   github: urbanjost/M_io
   description: Fortran module for common I/O tasks
   categories: io
-  tags: delete slurp swallow dirname split path 
+  tags: delete slurp swallow dirname split path
   license: Unlicense
   version: none
 
 - name: jsonff
-  url: https://gitlab.com/everythingfunctional/jsonff
+  gitlab: everythingfunctional/jsonff
   description: Routines for building JSON structures in Fortran
   categories: io
-  tags: 
-  license: MIT
+  tags: json
 
 - name: NPY for Fortran
   github: MRedies/NPY-for-Fortran
@@ -423,7 +517,7 @@
 - name: FiNeR
   github: szaghi/FiNeR
   description: INI ParseR and generator
-  categories: io 
+  categories: io
   tags: config
   license: GPL-3.0
 
@@ -431,15 +525,14 @@
   github: jannisteunissen/config_fortran
   description: Configuration file parser for Fortran
   categories: io
-  tags: 
+  tags:
   version: none
 
-- name: Parser for Fortran
-  url: https://gitlab.com/everythingfunctional/parff
+- name: parff
+  gitlab: everythingfunctional/parff
   description: The foundations of a functional style parser combinator library
   categories: io
-  tags: 
-  license: MIT
+  tags: parser
 
 - name: Serialbox
   github: GridTools/serialbox
@@ -483,9 +576,8 @@
   github: kookma/ogpf
   description: Object based interface to GnuPlot for Fortran
   categories: graphics interfaces
-  tags: animation plot surface contour 
+  tags: animation plot surface contour
   license: MIT
-  version: none
 
 - name: gtk-fortran
   github: vmagnin/gtk-fortran
@@ -497,7 +589,7 @@
   github: urbanjost/M_draw
   description: Low-level vector graphics library
   categories: graphics
-  tags: 
+  tags:
   version: none
 
 - name: fortran-xlib
@@ -511,8 +603,14 @@
   github: interkosmos/fortran-sdl2
   description: A collection of ISO C binding interfaces to Simple DirectMedia Layer 2.0 (SDL 2.0), for multimedia and game programming in Fortran
   categories: graphics interfaces
-  tags: 
+  tags:
   version: none
+
+- name: Illustrate
+  github: ccsb-scripps/illustrate
+  description: Biomolecular Illustration Tool
+  categories: graphics
+  tags: pdb
 
 # --- Numerical libraries ---
 
@@ -534,6 +632,7 @@
   description: Finite element software for numerical solution of partial differential equations
   categories: numerical
   tags: pde fe
+  license: GPL-2.0
   version: none
 
 - name: fortranlib
@@ -566,7 +665,7 @@
 
 - name: ParaMonte
   github: cdslaborg/paramonte
-  description: A general-purpose high-performance MPI/Coarray-parallel Monte Carlo simulation library implemented in Fortran 2018 with interfaces to C/C++/Fortran/MATLAB/Python 
+  description: A general-purpose high-performance MPI/Coarray-parallel Monte Carlo simulation library implemented in Fortran 2018 with interfaces to C/C++/Fortran/MATLAB/Python
   categories: numerical
   tags: parallel mpi coarray monte carlo mcmc c cpp matlab python statistics bayesian stochastic optimization sampling integration machine learning
   version: 1.0.0
@@ -587,22 +686,22 @@
 
 - name: fgsl
   github: reinh-bader/fgsl
-  description: Fortran interface to the GNU Scientific Library 
+  description: Fortran interface to the GNU Scientific Library
   categories: numerical interfaces
-  tags: 
+  tags:
 
 - name: SciFortran
   github: aamaricci/SciFortran
   description: collection of fortran modules and procedures for scientific calculations.
   categories: numerical
-  tags: 
+  tags:
   version: none
 
 - name: Los Alamos Grid Toolbox (LaGriT)
   github: lanl/LaGriT
   description: a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance
   categories: numerical
-  tags: 
+  tags:
   license: BSD
 
 - name: DBCSR
@@ -616,6 +715,7 @@
   description: Parallel Sparse BLAS
   categories: numerical data-types
   tags: linear algebra mpi
+  license: BSD-3-Clause
 
 - name: GALAHAD
   github: ralna/GALAHAD
@@ -628,7 +728,7 @@
   github: jacobwilliams/slsqp
   description: SLSQP nonlinear constrained optimizer
   categories: numerical
-  tags: nonlinear programming equality inequality constraints 
+  tags: nonlinear programming equality inequality constraints
   license: BSD-3-Clause AND MIT
 
 - name: NumDiff
@@ -639,11 +739,10 @@
   license: BSD-3-Clause
 
 - name: quaff
-  url: https://gitlab.com/everythingfunctional/quaff
+  gitlab: everythingfunctional/quaff
   description: Quantities for Fortran. Make math with units more convenient
   categories: numerical
-  tags: 
-  license: MIT
+  tags:
 
 - name: rng_fortran
   github: jannisteunissen/rng_fortran
@@ -710,6 +809,17 @@
   categories: scientific
   license: Public domain
 
+- name: lesgo
+  github: lesgo-jhu/lesgo
+  descriptipon: The Large-Eddy Simulation framework from the Turbulence Research Group at Johns Hopkins University
+  categories: scientific
+  version: none
+
+- name: Tracmass
+  github: TRACMASS/tracmass
+  description: Lagrangian particle tracking code
+  categories: scientific
+
 - name: fds
   github: firemodels/fds
   description: Large-eddy simulation code for low-speed flows, with an emphasis on smoke and heat transport from fires.
@@ -721,6 +831,11 @@
   description: Quantum ESPRESSO is an integrated suite of Open-Source computer codes for electronic-structure calculations and materials modeling at the nanoscale
   categories: scientific
   tags: electronic structure calculations quantum chemistry physics molecular dynamics mpi
+
+- name: BandUP
+  github: band-unfolding/bandup
+  description: Band Unfolding code for Plane-wave based calculations
+  categories: scientific
 
 - name: fluidity
   github: FluidityProject/fluidity
@@ -741,7 +856,7 @@
 
 - name: cp2k
   github: cp2k/cp2k
-  description: quantum chemistry and solid state physics software package that can perform atomistic simulations 
+  description: quantum chemistry and solid state physics software package that can perform atomistic simulations
   categories: scientific
   tags: quantum chemistry physics molecular dynamics metadynamics mpi cuda
   license: GPL-2.0
@@ -766,9 +881,17 @@
   categories: scientific
   tags: electronic structure calculations quantum chemistry physics molecular dynamics mpi
 
+- name: NASTRAN 93
+  github: nasa/NASTRAN-93
+  description: NASTRAN is the NASA Structural Analysis System, a finite element analysis program (FEA)
+  categories: scientific
+  tags: finite element structural
+  license: NASA-1.3
+  version: none
+
 - name: NASTRAN 95
   github: nasa/NASTRAN-95
-  description: NASA Structural Analysis System, a finite element analysis program (FEA) completed in the early 1970's 
+  description: NASA Structural Analysis System, a finite element analysis program (FEA) completed in the early 1970's
   categories: scientific
   tags: finite element structural eigne stability loads
   license: NASA-1.3
@@ -804,6 +927,18 @@
   tags: fluid dynamics fluid simulation computational fluid dynamics turbulence high performance computing hpc cfd
   version: none
 
+- name: ICAR
+  github: NCAR/icar
+  description: The Intermediate Complexity Atmospheric Research model
+  categories: scientific
+  version: none
+
+- name: aenet
+  github: atomisticnet/aenet
+  description: Atomic interaction potentials based on artificial neural networks
+  categories: scientific
+  version: none
+
 - name: ADflow
   github: mdolab/adflow
   description: A finite volume RANS solver tailored for gradient-based aerodynamic design optimization
@@ -812,12 +947,11 @@
   license: LGPL-2.1-only
 
 - name: Truchas
-  url: https://gitlab.com/truchas/truchas
+  gitlab: truchas/truchas
   description: 3D Multiphysics Simulation of Metal Casting and Processing
   categories: scientific
   tags: fluid dynamics metal casting multiphysics hpc
   license: BSD-3-Clause
-  version: none
 
 - name: dftatom
   github: certik/dftatom
@@ -833,7 +967,7 @@
   categories: scientific
   tags: stellar astrophysics
   license: GPL-2
-  version: 12778
+  version: 15140
 
 - name: Wannier90
   github: wannier-developers/wannier90
@@ -848,7 +982,108 @@
   categories: scientific
   tags: particle physics parallel mpi monte carlo optimization sampling integration
   license: GPL-2.0-or-later
-  version: 2.8.4
+  version: 2.8.5
+
+- name: HANDE
+  github: hande-qmc/hande
+  description: Open source stochastic quantum chemistry
+  categories: numerical scientific
+  tags: qmc electronic-structure
+  version: none
+
+- name: OpenMolcas
+  gitlab: Molcas/OpenMolcas
+  description: Quantum chemistry software package for multiconfigurational approaches to the electronic structure
+  categories: scientific
+  tags: electronic-structure casscf caspt2
+  license: LGPL-2.1
+
+- name: Octopus
+  gitlab: octopus-code/octopus
+  description: Real-space Time-Dependent Density Functional Theory code
+  categories: scientific
+  tags: electronic-structure
+  license: GPL-2.0
+  version: none
+
+- name: MOM6
+  github: NOAA-GFDL/MOM6
+  description: Modular Ocean Model
+  categories: scientific
+  license: GPL-3.0
+  version: none
+
+- name: FMS
+  github: NOAA-GFDL/FMS
+  description: Flexible Modeling System
+  categories: scientific
+
+- name: SNAP
+  github: lanl/SNAP
+  description: proxy application to model the performance of a modern discrete ordinates neutral particle transport application
+  categories: scientific
+  license: BSD-3-Clause
+  version: none
+
+- name: CTSM
+  github: ESCOMP/CTSM
+  description: The Community Terrestrial Systems Model
+  categories: scientific
+  license: BSD-3-Clause
+
+- name: MPAS-Model
+  github: MPAS-Dev/MPAS-Model
+  description: collaborative project for developing atmosphere, ocean, and other earth-system simulation components for use in climate, regional climate, and weather studies
+  categories: scientific
+  license: BSD-3-Clause
+
+- name: CFL3D
+  github: nasa/CFL3D
+  description: Structured-grid, cell-centered, upwind-biased, Reynolds-averaged Navier-Stokes (RANS) code
+  categories: scientific
+  license: Apache-2.0
+  version: none
+
+- name: CompDam_DGD
+  github: nasa/CompDam_DGD
+  description: continuum damage mechanics (CDM) material model intended for use with the Abaqus finite element code
+  categories: scientific
+  license: NASA-1.3
+
+- name: OpenSWPC
+  github: tktmyd/OpenSWPC
+  description: A Seismic Wave Propagation Code by Parallel Finite Difference Method
+  categories: scientific
+
+- name: flexi
+  github: flexi-framework/flexi
+  description: Open Source High-Order Unstructured Discontinuous Galerkin Fluid Dynamics Solver
+  categories: scientific
+  version: none
+
+- name: MITgcm
+  github: MITgcm/MITgcm
+  description: M.I.T General Circulation Model master code and documentation repository
+  categories: scientific
+  keywords: ocean-modelling gfd automatic-differentiation data-assimilation exoplanets climate-science
+
+- name: Specfem3D
+  github: geodynamics/specfem3d
+  description: Simulates acoustic (fluid), elastic (solid), coupled acoustic/elastic, poroelastic or seismic wave propagation in any type of conforming mesh of hexahedra (structured or not)
+  categories: scientific
+  version: none
+
+- name: DFT-D4
+  github: dftd4/dftd4
+  description: A Generally Applicable Atomic-Charge Dependent London Dispersion Correction
+  categories: scientific
+  tags: dft-d dispersion-correction
+
+- name: libmbd
+  github: jhrmnn/libmbd
+  description: Many-body dispersion library
+  categories: scientific
+  tags: dispersion-correction
 
 - name: xtb
   github: grimme-lab/xtb
@@ -856,6 +1091,47 @@
   categories: scientific
   tags: quantum-chemistry computational-chemistry atomistic-simulations
   license: LGPL-3.0-or-later
+
+- name: eT
+  gitlab: eT-program/eT
+  description: electronic structure program with coupled cluster, multiscale and multilevel methods
+  categories: scientific
+  tags: electronic-structure coupled-cluster
+
+- name: tinker
+  github: TinkerTools/tinker
+  description: Software Tools for Molecular Design
+  categories: scientific
+  tags: molecular-modeling
+  license: custom
+  version: none
+
+- name: siesta
+  gitlab: siesta-project/siesta
+  description: A first-principles materials simulation code using DFT
+  categories: scientific
+  tags: electronic-structure density-functional-theory
+
+- name: Dalton
+  gitlab: dalton/dalton
+  description: Powerful molecular electronic structure program
+  categories: scientific
+  tags: electronic-structure relativistic
+  license: LGPL-2.1
+
+- name: LSDalton
+  gitlab: dalton/lsdalton
+  description: Linear scaling molecular electronic structure program
+  categories: scientific
+  tags: electronic-structure relativistic
+  license: LGPL-2.1
+
+- name: BigDFT
+  gitlab: l_sim/bigdft-suite
+  description: fast, precise, and flexible DFT code for ab-initio atomistic simulation
+  categories: scientific
+  tags: electronic-structure wavelets density-functional-theory
+  license: custom
 
 # --- Examples / demos / templates ---
 
@@ -872,7 +1148,7 @@
   categories: examples
   tags:
   version: none
-  
+
 - name: Numerical methods in fortran
   github: planelles20/numerical-methods-fortran
   description: Solving linear, nonlinear equations, ordinary differential equations
@@ -888,35 +1164,8 @@
   version: none
   license: Apache2.0
 
-- name: HANDE
-  github: hande-qmc/hande
-  description: Open source stochastic quantum chemistry
-  categories: numerical scientific
-  tags: qmc electronic-structure
+- name: Tsunami
+  github: modern-fortran/tsunami
+  description: A parallel shallow water equations solver
+  categories: examples
   version: none
-
-- name: OpenMolcas
-  url: https://gitlab.com/Molcas/OpenMolcas
-  description: Quantum chemistry software package for multiconfigurational approaches to the electronic structure
-  categories: scientific
-  tags: electronic-structure casscf caspt2
-  license: LGPL-2.1
-
-- name:
-  url: https://gitlab.com/octopus-code/octopus
-  description: Real-space Time-Dependent Density Functional Theory code
-  categories: scientific
-  tags: electronic-structure
-  license: GPL-2.0
-
-- name: DFT-D4
-  github: dftd4/dftd4
-  description: A Generally Applicable Atomic-Charge Dependent London Dispersion Correction
-  categories: scientific
-  tags: dft-d dispersion-correction
-
-- name: libmbd
-  github: jhrmnn/libmbd
-  description: Many-body dispersion library
-  categories: scientific
-  tags: dispersion-correction

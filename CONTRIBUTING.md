@@ -1,6 +1,6 @@
-# Contributing to fortran-lang.github.io
+# Contributing to fortran-lang.org
 
-Fortran-lang.github.io is open-source and contributions are welcome!
+Fortran-lang.org is open-source and contributions are welcome!
 
 * See [PACKAGES](./PACKAGES.md) for how to add an entry to the [Package index](https://fortran-lang.org/packages)
 
@@ -35,22 +35,22 @@ can be previewed locally, however this is not mandatory since site previews can 
 pull request process (see below for more information).
 See [README.md](README.md) for how to setup Jekyll and build the site.
 
-The GitHub repository master branch only ever contains the 'source code' for the website, not the final
+The GitHub repository default branch only ever contains the 'source code' for the website, not the final
 compiled result; an automated service compiles this source code every time an update is pushed and stores
 the compiled result on the [`gh-pages`](https://github.com/fortran-lang/fortran-lang.org/tree/gh-pages) branch
 which is served up at <https://fortran-lang.org>.
 
 Therefore, as a contributor you only need to upload changes to the site source code and not the compiled result, because
-this is built automatically from the source code on the master branch.
+this is built automatically from the source code on the default branch.
 
 
 ## Workflow
 
-Contributions to the site are made by pull request to the github repository: <https://github.com/fortran-lang/fortran-lang.github.io/>.
+Contributions to the site are made by pull request to the github repository: <https://github.com/fortran-lang/fortran-lang.org/>.
 
 The workflow for doing so takes the following form:
 
-1. Create/update a personal fork of fortran-lang.github.io
+1. Create/update a personal fork of fortran-lang.org
    - (See  [github help: syncing a fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork) )
 
 2. Create a new branch in your fork
@@ -61,7 +61,7 @@ The workflow for doing so takes the following form:
 4. Push your modified branch to your local fork
    - _e.g._ `git push --set-upstream origin fix-spelling-homepage`
 
-5. Create a pull request in the fortran-lang/fortran-lang.github.io from your modified fork branch
+5. Create a pull request in the fortran-lang/fortran-lang.org from your modified fork branch
    - (See [github help: creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) )
 
 __Note: Before opening a pull request you must build your changes locally using Jekyll (see [README.md](README.md)) to verify that your changes build correctly and render as you expect.__
@@ -74,7 +74,7 @@ This avoids having to manually copy suggestions to your local copy and push back
 If you use the "Commit suggestion" button, you will need to update the local copy on your computer using `git pull` if you
 intend to push more edits from your computer.
 
-Once your pull request is approved, usually by at least two other community members, it will be merged into the fortran-lang.github.io master branch by the maintainers at which point it will be published to the fortran-lang.org site.
+Once your pull request is approved, usually by at least two other community members, it will be merged into the fortran-lang.org default branch by the maintainers at which point it will be published to the fortran-lang.org site.
 
 If required, the repository maintainers can build a public preview of your proposed changes which will be available to view at `fortran-lang.org/pr/<pr_id>/` where `<pr_id>` is the numeric identifier of your pull request.
 

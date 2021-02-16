@@ -43,10 +43,31 @@ layout: default
                    {% else %}
                    <img src="https://img.shields.io/github/license/{{ project.github }}">
                {% endif %}</td>
-              <td> <img src="https://img.shields.io/github/stars/{{ project.github }}?style=social"></td>
-              <td> <img src="https://img.shields.io/github/forks/{{ project.github }}?style=social&label=Fork"> </td>
+              <td> <img src="https://img.shields.io/github/stars/{{ project.github }}"></td>
+              <td> <img src="https://img.shields.io/github/forks/{{ project.github }}"> </td>
               <td> <img src="https://img.shields.io/github/last-commit/{{ project.github }}?color=blue"> </td>
               <td> <img src="https://img.shields.io/github/issues/{{ project.github }}"> </td>
+              {% else %}
+              {% if project.gitlab %}
+              <td> <h3><a href="https://gitlab.com/{{ project.gitlab }}" target="_blank">
+                  <i class="devicon-gitlab-plain colored"></i>
+                {{ project.name }}</a></h3> </td>
+              <td> {% if project.version %}
+                  {% if project.version != 'none' %}
+                  <img src="https://img.shields.io/badge/version-{{ project.version | replace: " ", "%20" | replace: "-", "--" }}-green.svg">
+                  {% endif %}
+                  {% else %}
+                  <img src="https://badgen.net/gitlab/release/{{ project.gitlab }}?color=green">
+              {% endif %}</td>
+              <td> {% if project.license %}
+                   <img src="https://img.shields.io/badge/license-{{ project.license | replace: " ", "%20" | replace: "-", "--" }}-green">
+                   {% else %}
+                   <img src="https://badgen.net/gitlab/license/{{ project.gitlab }}">
+               {% endif %}</td>
+              <td> <img src="https://badgen.net/gitlab/stars/{{ project.gitlab }}"></td>
+              <td> <img src="https://badgen.net/gitlab/forks/{{ project.gitlab }}"> </td>
+              <td> <img src="https://badgen.net/gitlab/last-commit/{{ project.gitlab }}?color=blue"> </td>
+              <td> <img src="https://badgen.net/gitlab/open-issues/{{ project.gitlab }}"> </td>
               {% else %}
               <td> <h3><a href="{{ project.url }}" target="_blank">
                 {% if project.url contains "gitlab.com" %}
@@ -71,6 +92,7 @@ layout: default
               <td></td>
               <td></td>
               {% endif %}
+              {% endif %}
           </tr>
           <tr><td colspan="7" class="light">
               {{ project.description }}
@@ -94,7 +116,7 @@ layout: default
         <!-- <h2 id="faqs">FAQ</h2> -->
         
         See
-	  <a href="https://github.com/fortran-lang/fortran-lang.github.io/blob/master/PACKAGES.md" target="_blank">
+	  <a href="https://github.com/fortran-lang/fortran-lang.org/blob/master/PACKAGES.md" target="_blank">
       <i class="devicon-github-plain colored"></i> here</a> for how to get your project listed.
   
     </div>

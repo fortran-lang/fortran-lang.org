@@ -20,7 +20,7 @@ with gfortran.
 
 ### LLVM Flang
 
-[Flang](https://github.com/llvm/llvm-project/tree/master/flang)
+[Flang](https://github.com/llvm/llvm-project/tree/main/flang)
 is a new front-end for Fortran 2018 that has been recently
 added to LLVM.
 It is implemented in modern C++ and uses a Fortran-oriented MLIR dialect for lowering to LLVM IR.
@@ -66,14 +66,9 @@ platforms include supporting tools for software development: source file
 polishers, dependency generator for module and include files, call-graph
 generator, interface builder and a precision unifier.
 
-### PGI
+### NVIDIA
 
-[PGI compilers](https://www.pgroup.com/products/index.htm)
-deliver the performance you need on CPUs, with OpenACC and CUDA
-Fortran for HPC applications development on GPU-accelerated systems. OpenACC and
-CUDA programs can run several times faster on a single Tesla V100 GPU compared
-to all the cores of a dual-socket server, and interoperate with MPI and OpenMP
-to deliver the full power of today’s multi-GPU servers.
+The [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk) C, C++, and Fortran compilers, former [PGI compilers](https://www.pgroup.com/products/index.htm), support GPU acceleration of HPC modeling and simulation applications with standard C++ and Fortran, OpenACC® directives, and CUDA®. GPU-accelerated math libraries maximize performance on common HPC algorithms, and optimized communications libraries enable standards-based multi-GPU and scalable systems programming.
 
 ### HPE / Cray
 
