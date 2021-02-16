@@ -15,6 +15,4 @@ A list of popular IDEs that provide good Fortran support is provided in alphabet
 - [NAG Fortran Builder](https://www.nag.com/content/nag-fortran-builder-0) is a commercial product, available in Windows and MacOS and supports NAG's own Fortran Compiler.
 - [Plato](https://www.silverfrost.com/16/ftn95/plato.aspx) is a commercial product, cross-platform, comes with Silverfrost's Fortran FTN95 own Fortran compiler.
 - [SimplyFortran](https://simplyfortran.com/) is a commercial product, cross-platform with support of the GNU Fortran compiler.
-- [Visual Studio](https://visualstudio.microsoft.com/) its *Community Edition 2019* is a free product, available only in Windows and supports only the commercial* Intel's Fortran compiler. 
-
-*Intel offers a commercial Fortran compiler. However, if you are a student, an educator, or an open-source contributor, you may [qualify for free software](https://software.intel.com/content/www/us/en/develop/articles/qualify-for-free-software.html).
+- [Visual Studio](https://visualstudio.microsoft.com/) its *Community Edition 2019* is a free product, available in Windows and macOS and supports only Intel's Fortran compiler, now bundled with many other free-to-use HPC tools under *Intel oneAPI*.
