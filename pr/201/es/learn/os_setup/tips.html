@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    
+    <title>Lenguaje de programación Fortran</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/201/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/201/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/os_setup/tips" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/201/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/201/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    
+<header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+      <b>Vista previa: </b> Usted está viendo cambios no publicados para
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/201" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+         solicitud de integración 201</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+         <span class="sr-only"></span>
+		    <img src="/pr/201/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/201/es/" class="navbar-brand">
+		    <img src="/pr/201/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+          <a href="/pr/201/es/learn/">Aprender</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/es/compilers/">Compiladores</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/es/community/">Comunidad</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/es/packages/">Paquetes</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/es/news/">Noticias</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+            <i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+            <i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+            <i class="fab fa-github"></i> <i class="icon-link" >GitHub</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/201/es/news.xml" target="_blank">
+            <i class="fas fa-rss"></i> <i class="icon-link" >Canal RSS</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+    
+  
+
+  <a href="/pr/201/es/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Retornar al índice Aprender Fortran
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Setting up your OS</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><a href="/pr/201/es/learn/os_setup">
+        Introducción</a></li>
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/es/learn/os_setup/choose_compiler">
+          Choosing a compiler</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/es/learn/os_setup/install_gfortran">
+          Installing GFortran</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/es/learn/os_setup/text_editors">
+          Text Editors</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/201/es/learn/os_setup/ides">
+          IDEs</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li>
+          <b><a href="/pr/201/es/learn/os_setup/tips">
+            Smart Tips</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Smart Tips</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+      </div>
+
+      <p>To conclude, we give a few tips that may help you to choose a compiler and an editor or an IDE.</p>
+
+<ul>
+  <li>Check <a href="https://www.fortran.uk/fortran-compiler-comparisons/">this site</a> for a comprehensive comparison of Fortran compilers.</li>
+  <li>Since NVFortran version 17.1, the support for compute capability 2.0 (Fermi) and lower has been removed. This is important because, at any time, only the latest compiler version is free to download. Users with older GPUs will not be able to run CUDA Fortran with the current (20.7) or future versions. Read <a href="https://www.wikiwand.com/en/CUDA#/GPUs_supported">this wiki</a> to find your GPU’s compute capability and cross-check with the latest CUDA SDK that supports it.</li>
+  <li>There are many online Fortran compilers. These are websites that offer a basic text editor and allow you to compile and run your code on a remote server. They are particularly useful for quick prototyping and testing. Although we promised neutrality, we recommend that you check out the open-source and free <a href="https://godbolt.org/">Compiler Explorer</a>, an amazing tool with unique features.</li>
+  <li>Arguably the most popular text editor, according to recent online surveys, is the Visual Studio Code, developed by Microsoft.</li>
+  <li>The most popular free IDEs are the Code::Blocks and Geany. Many commercial IDEs give up to 30 days of free trial. Keep in mind that the prices of commercial IDEs may vary, and some may be quite affordable. Finally, if you are a student, an open-source developer, or a …hobbyist <em>Fortraner</em> do not hesitate to contact those companies and request a discount. There have been cases, e.g., in r/fortran, where representatives, from at least one company, have offered discount codes to individuals looking for affordable complete solutions (IDE + compiler).</li>
+  <li>Finally, please join us on <a href="https://fortran-lang.discourse.group/">Fortran Discourse</a> and do not hesitate to post your questions and request for further information.</li>
+</ul>
+
+
+      <div class="container-flex">
+
+        
+          
+            <a href="/pr/201/es/learn/os_setup/ides" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Anterior
+            </h3>
+          </a>
+        
+
+        
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+      <p>
+      
+        <a href="/pr/201/es/learn/">Aprender</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/es/compilers/">Compiladores</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/es/community/">Comunidad</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/es/packages/">Paquetes</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/es/news/">Noticias</a>
+        
+      
+      </p>
+      <p>
+      
+        
+        
+        <a href="/pr/201/learn/os_setup/tips">English</a>
+        
+        
+          &middot;
+        
+      
+        
+        
+        <a href="/pr/201/es/learn/os_setup/tips">Español</a>
+        
+        
+          &middot;
+        
+      
+        
+        
+        <a href="/pr/201/fr/learn/os_setup/tips">Français</a>
+        
+        
+      
+      </p>
+    </div>
+
+    <div class="col-narrow">
+      El código fuente de esta página está  <a href="https://github.com/fortran-lang/fortran-lang.org/">hospedado en GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/201/assets/js/fortranlang.js"></script>
+    <script src="/pr/201/assets/js/page_nav.js"></script>
+    <script src="/pr/201/assets/js/gh-contributors.js"></script>
+    <script src="/pr/201/assets/js/package_search.js"></script>
+    <script src="/pr/201/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>

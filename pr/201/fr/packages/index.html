@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    
+    <title>Paquets Fortran - Le langage de programmation Fortran</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/201/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/201/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/packages/" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/201/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/201/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    
+<header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+      <b>Aperçu du site: </b> Ceci est un aperçu de modifications non publiées de
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/201" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+         Requête de publication 201</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+         <span class="sr-only"></span>
+		    <img src="/pr/201/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/201/fr/" class="navbar-brand">
+		    <img src="/pr/201/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/fr/learn/">Apprendre</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/fr/compilers/">Compilateurs</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/fr/community/">Communauté</a>
+		    
+			</li>
+		
+		    
+		    <li class="current">
+		    
+          <a href="/pr/201/fr/packages/">Paquets</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+          <a href="/pr/201/fr/news/">Actualités</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+            <i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+            <i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+            <i class="fab fa-github"></i> <i class="icon-link" >GitHub</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/201/fr/news.xml" target="_blank">
+            <i class="fas fa-rss"></i> <i class="icon-link" >Fil RSS</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="masthead">
+  <h1>Paquets Fortran</h1>
+  <h3>Un riche écosystème de codes haute performance</h3>
+</section>
+
+<section class="front-section shaded">
+  <div class="container">
+    <h2>Chercher un paquet</h2>
+
+    <div class="col-center">
+      <form class="search-form" action="/pr/201/fr/packages/search" method="get">
+        <input type="text" name="query" class="search-box" placeholder="Search for a package">
+        <input type="submit" value="" class="search-btn">
+      </form>
+    </div>
+
+    <div class="col-narrow">
+      <h3><i data-feather="list"></i>
+  Index des paquets</h3>
+<p>
+L'index des paquets fortran-lang est maintenu par la communauté et liste des
+projets open source relatifs au Fortran.
+Cela inclut aussi bien des applications scientifiques à grande échelle, que des
+bibliothèques de fonctions, des interfaces Fortran et des outils de 
+développement.
+</p>
+<p>
+Cliquez
+<a href="https://github.com/fortran-lang/fortran-lang.org/blob/master/PACKAGES.md" target="_blank">
+  <i class="devicon-github-plain colored"></i> ici</a> pour demander que votre 
+projet apparaisse.
+</p>
+<p>
+Utilisez le champ ci-dessus pour chercher dans l'index par mot-clé, nom de 
+paquet ou nom d'auteur.
+</p>
+
+    </div>
+
+    <div class="col-narrow">
+      <h3><i data-feather="tag"></i>
+        Mots-clés les plus courants
+      </h3>
+      <div id="package-topics"></div>
+    </div>
+
+  </div>
+</section>
+
+<section class="front-section">
+  <div class="container">
+    <h2>Parcourir les paquets par catégorie</h2>
+
+    <div class="container-flex">
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="box"></i>
+          
+          <a href="/pr/201/fr/packages/data-types" >
+            Types de données et conteneurs
+            
+            (11)
+          </a></h3>
+          <p> page.packages.category.data-types.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="edit"></i>
+          
+          <a href="/pr/201/fr/packages/examples" >
+            Exemples et modèles
+            
+            (5)
+          </a></h3>
+          <p> page.packages.category.examples.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="package"></i>
+          
+          <a href="/pr/201/fr/packages/fpm" >
+            Registre des paquets FPM
+            
+            (32)
+          </a></h3>
+          <p> page.packages.category.fpm.description </p>
+      </div>
+      
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="monitor"></i>
+          
+          <a href="/pr/201/fr/packages/graphics" >
+            Graphisme, tracé et interfaces utilisateur
+            
+            (8)
+          </a></h3>
+          <p> page.packages.category.graphics.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="external-link"></i>
+          
+          <a href="/pr/201/fr/packages/interfaces" >
+            Bibliothèques d'interfaçage
+            
+            (23)
+          </a></h3>
+          <p> page.packages.category.interfaces.description </p>
+      </div>
+      
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="file-text"></i>
+          
+          <a href="/pr/201/fr/packages/io" >
+            Entrées, sorties et analyse syntaxique
+            
+            (22)
+          </a></h3>
+          <p> page.packages.category.io.description </p>
+      </div>
+      
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="layers"></i>
+          
+          <a href="/pr/201/fr/packages/libraries" >
+            Bibliothèques
+            
+            (11)
+          </a></h3>
+          <p> page.packages.category.libraries.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="pie-chart"></i>
+          
+          <a href="/pr/201/fr/packages/numerical" >
+            Calcul numérique
+            
+            (31)
+          </a></h3>
+          <p> page.packages.category.numerical.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="tool"></i>
+          
+          <a href="/pr/201/fr/packages/programming" >
+            Utilitaires pour programmer
+            
+            (11)
+          </a></h3>
+          <p> page.packages.category.programming.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="bar-chart"></i>
+          
+          <a href="/pr/201/fr/packages/scientific" >
+            Codes scientifiques
+            
+            (45)
+          </a></h3>
+          <p> page.packages.category.scientific.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+      
+      <div class="col-flex">
+        <h3>
+          
+          <i data-feather="type"></i>
+          
+          <a href="/pr/201/fr/packages/strings" >
+            Caractères et chaînes
+            
+            (7)
+          </a></h3>
+          <p> page.packages.category.strings.description </p>
+      </div>
+      
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+    </div>
+  </div>
+</section>
+
+<section class="front-section shaded">
+  <div class="container">
+    <div class="col-wide">
+      Cliquez
+<a href="https://github.com/fortran-lang/fortran-lang.org/blob/master/PACKAGES.md" target="_blank">
+  <i class="devicon-github-plain colored"></i> ici</a> pour demander que votre 
+projet apparaisse.
+
+    </div>
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+      <p>
+      
+        <a href="/pr/201/fr/learn/">Apprendre</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/fr/compilers/">Compilateurs</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/fr/community/">Communauté</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/fr/packages/">Paquets</a>
+        
+          &middot;
+        
+      
+        <a href="/pr/201/fr/news/">Actualités</a>
+        
+      
+      </p>
+      <p>
+      
+        
+        
+        <a href="/pr/201/packages/">English</a>
+        
+        
+          &middot;
+        
+      
+        
+        
+        <a href="/pr/201/es/packages/">Español</a>
+        
+        
+          &middot;
+        
+      
+        
+        
+        <a href="/pr/201/fr/packages/">Français</a>
+        
+        
+      
+      </p>
+    </div>
+
+    <div class="col-narrow">
+      Les sources de ce site sont <a href="https://github.com/fortran-lang/fortran-lang.org/">hébergées sur GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/201/assets/js/fortranlang.js"></script>
+    <script src="/pr/201/assets/js/page_nav.js"></script>
+    <script src="/pr/201/assets/js/gh-contributors.js"></script>
+    <script src="/pr/201/assets/js/package_search.js"></script>
+    <script src="/pr/201/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
