@@ -14,7 +14,7 @@ with gfortran.
 
 ### LLVM Flang
 
-[Flang](https://github.com/llvm/llvm-project/tree/master/flang)
+[Flang](https://github.com/llvm/llvm-project/tree/main/flang)
 is a new front-end for Fortran 2018 that has been recently
 added to LLVM.
 It is implemented in modern C++ and uses a Fortran-oriented MLIR dialect for lowering to LLVM IR.
