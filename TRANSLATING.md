@@ -80,3 +80,40 @@ copying the complete posts.
 Note that this allows to have posts visible only in certain language subtrees, which
 can be useful if you want to announce local events or have translated versions of
 the English posts.
+
+
+## Resources
+
+If you plan to translate the webpage we collected some resources that might be helpful to aid you in the process.
+You can always reach out on the Discourse for native speakers or discuss potential translations.
+
+- [Original thread on internationalization](https://fortran-lang.discourse.group/t/promoting-fortran-in-non-english-languages/678/21)
+
+
+### Automatic translation tools
+
+- [DeepL](https://www.deepl.com/translator)
+- [Google](https://translate.google.com/)
+- [SYSTRAN](https://translate.systran.net/?lang=en)
+- [Reverso](https://www.reverso.net/)
+
+
+### Terminology
+
+- [IATE](https://iate.europa.eu/home) (Interactive Terminology for Europe) is the EU’s terminology database.
+- [TERMIUM Plus®](https://www.btb.termiumplus.gc.ca/), one of the largest terminology and linguistic data banks in the world.
+- [Royal Spanish Academy](http://revistas.rae.es/bilrae/article/view/218/525)
+  proposes solutions for the translation of technicalities, neologisms and foreign words in Spanish.
+
+
+### Bilingual Dictionaries
+
+- https://www.wordreference.com/
+- https://www.collinsdictionary.com/
+- https://dictionary.cambridge.org/
+
+
+### Translation project
+
+- [g95](https://www.g95.org/downloads.shtml) provides translated manuals
+- [gcc](https://translationproject.org/latest/gcc/) compiler messages available in 19 languages
