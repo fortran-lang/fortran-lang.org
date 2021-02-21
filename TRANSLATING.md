@@ -1,6 +1,33 @@
 Translation and Internationalization
 ====================================
 
+The fortran-lang.org webpage uses the
+[jekyll-multiple-languages-plugin](https://github.com/kurtsson/jekyll-multiple-languages-plugin)
+to support translations for multiple languages.
+The plugin provides three main functionalities to allow the localization of content:
+
+- `translate`, `t`:
+  replace expression with content from language file in ``_i18n/<lang>.yml`` file,
+  this functionality does not provide a fallback to the default language.
+  The translate function does not expand liquid templates.
+- `translate_file`, `tf`:
+  include file from ``_i18n/<lang>/`` subtree, this functionality automatically
+  falls back to the default language subtree if no translation is available.
+  Liquid templating is possible here like usual.
+- `translate_link`, `tl`
+  localization of permalinks is currently not used.
+
+The default behaviour of jekyll is mostly retained, new pages are added in the main
+subtree as usual. To provide the possibility to localize page content all English
+keywords or content blocks are included with ``{% t ... %}`` or ``{% tf ... %}`` in the
+main tree while the actual content is provided in the English subtree at ``_i18n/en/``.
+Therefore, it is best to have content and markup separated for all localized pages.
+
+The content of the language configuration file is available as ``site.translations[lang]``.
+Note that you cannot reliably access content of other language files by this mean.
+The ``site.baseurl`` variable is localized as well, to access the actual root, *e.g.*
+to get to the assets directory to include CSS use the ``site.baseurl_root`` variable instead.
+
 
 ## Adding a new language.
 
@@ -49,3 +76,7 @@ Posts are limited to their language scope, to include the posts from the English
 the recommended strategy is to create symbolic links from the entries in
 ``_i18n/en/_posts`` to the localized variant ``_i18n/<lang>/_posts`` instead of
 copying the complete posts.
+
+Note that this allows to have posts visible only in certain language subtrees, which
+can be useful if you want to announce local events or have translated versions of
+the English posts.
