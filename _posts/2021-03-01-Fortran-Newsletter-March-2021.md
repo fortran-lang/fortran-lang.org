@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: March 2021"
 category: newsletter
-author: Milan Curcic, Laurence Kedward
+author: Milan Curcic, Laurence Kedward, Ondřej Čertík
 ---
 
 Welcome to the March 2021 edition of the monthly Fortran newsletter.
@@ -131,8 +131,35 @@ environment in which new open source Fortran projects are created and published 
 
 * The LFortran team is excited to announce that LFortran is now a [NumFOCUS sponsored project](https://numfocus.org/project/lfortran).
 Please consider donating to LFortran to accelerate its development.
+* 4 people contributed code in the last month:
+    [Gagandeep Singh](https://github.com/czgdp1807),
+    [Dominic Poerio](https://dompoer.io/),
+    [Rohit Goswami](https://rgoswami.me/),
+    [Ondřej Čertík](https://ondrejcertik.com/).
+* Recent Merge Requests highlights:
+    * Complex type support (thanks to [Gagandeep Singh](https://github.com/czgdp1807)):
+        [!654](https://gitlab.com/lfortran/lfortran/-/merge_requests/654),
+        [!657](https://gitlab.com/lfortran/lfortran/-/merge_requests/657),
+        [!658](https://gitlab.com/lfortran/lfortran/-/merge_requests/658),
+        [!660](https://gitlab.com/lfortran/lfortran/-/merge_requests/660),
+        [!663](https://gitlab.com/lfortran/lfortran/-/merge_requests/663),
+        [!664](https://gitlab.com/lfortran/lfortran/-/merge_requests/664).
+        [!672](https://gitlab.com/lfortran/lfortran/-/merge_requests/672).
+    * Multiline REPL (thanks to [Dominic Poerio](https://dompoer.io/)):
+        [!655](https://gitlab.com/lfortran/lfortran/-/merge_requests/655),
+        [!662](https://gitlab.com/lfortran/lfortran/-/merge_requests/662),
+        [!670](https://gitlab.com/lfortran/lfortran/-/merge_requests/670),
+        [!674](https://gitlab.com/lfortran/lfortran/-/merge_requests/674).
+    * Initial support for runtime math functions:
+        [!667](https://gitlab.com/lfortran/lfortran/-/merge_requests/667),
+        [!673](https://gitlab.com/lfortran/lfortran/-/merge_requests/673),
+    * [!648](https://gitlab.com/lfortran/lfortran/-/merge_requests/648): Implement --show-stacktrace
+    * [!666](https://gitlab.com/lfortran/lfortran/-/merge_requests/666): Refactor
+      ImplicitCast nodes handling
+    * [!665](https://gitlab.com/lfortran/lfortran/-/merge_requests/665): Fixed
+      floating point printing
 
-TODO @certik: Other LFortran news
+
 
 ## Events
 
