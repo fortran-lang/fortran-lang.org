@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: March 2021"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Laurence Kedward
 ---
 
 Welcome to the March 2021 edition of the monthly Fortran newsletter.

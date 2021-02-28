@@ -2,11 +2,722 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 215,
+            "user": "milancurcic",
+            "date": "2021-02-25 16:47:25+00:00",
+            "title": "Newsletter for March 2021",
+            "text": "Outstanding items:\n\n @LKedward contributors data + add yourself to authors\n @certik LFortran news + add yourself to authors\n @milancurcic update Youtube URL for the monthly meeting, once uploaded\n\nWe won't have Flang news this month (@AlexisPerry on vacation), but we'll continue next month.\nAnybody else, please review, edit or add anything I missed, and add yourself to authors please.",
+            "comments": []
+        },
+        {
+            "number": 214,
+            "user": "zmoon",
+            "date": "2021-02-22 14:58:52+00:00",
+            "title": "Other commercial compilers with free community versions",
+            "text": "Maybe the compilers page could mention that the NVIDIA offering is currently available for free, like it does for Intel.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-22 15:18:41+00:00",
+                    "text": "I agree--mind filing a PR?\nShould we say the same thing about the AMD compiler? It looks like it's free to download but I haven't tried it."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-22 15:23:39+00:00",
+                    "text": "Most of the commercial compilers are offering free community versions.\nI think we should include this information for the commercial compilers, maybe together with known platform and architecture constraints:\n\nIntel oneAPI, x86_64, Linux / Windows / MacOS\nNVHPC, x86_64 / PowerPC / ARM, Linux\nIBM XL, PowerPC, Linux / AIX\nAOCC, x86_64, Linux\n\nEdit: I did use the community versions of Intel oneAPI, NVHPC and AOCC already, hadn't got a chance to spin up a VM or setup QEMU to try IBM XL yet."
+                }
+            ]
+        },
+        {
+            "number": 213,
+            "user": "awvwgk",
+            "date": "2021-02-21 23:15:06+00:00",
+            "title": "Link to vendor community platforms for compiler support",
+            "text": "Should the compiler page include links to community platforms provided by the compiler vendors?\nIntel has a forum for community support:\nhttps://community.intel.com/t5/Intel-Fortran-Compiler/bd-p/fortran-compiler\nNVIDIA offers a discourse instance for their NVHPC compilers:\nhttps://forums.developer.nvidia.com/c/accelerated-computing/hpc-compilers/nvc-nvc-and-nvfortran/313\nI have used those two sites only to drop off bug reports and hope for an employee to file those as legitimate bug reports, which worked quite well with NVIDIA so far.",
+            "comments": []
+        },
+        {
+            "number": 212,
+            "user": "awvwgk",
+            "date": "2021-02-21 18:05:49+00:00",
+            "title": "Localize javascript components in `assets/js`",
+            "text": "The javascript in assets/js contains a few keywords that should be localized as well after #201 is merged.\n\n  \n    \n      fortran-lang.org/assets/js/gh-contributors.js\n    \n    \n         Line 329\n      in\n      8ca4ed7\n    \n    \n    \n    \n\n        \n          \n                       <i><b> {{nContrib}} contributions </b></i> \n        \n    \n  \n\n\n\n  \n    \n      fortran-lang.org/assets/js/gh-contributors.js\n    \n    \n         Line 423\n      in\n      8ca4ed7\n    \n    \n    \n    \n\n        \n          \n                   <b>Repository: </b> \n        \n    \n  \n\n\n\n  \n    \n      fortran-lang.org/assets/js/gh-contributors.js\n    \n    \n         Line 425\n      in\n      8ca4ed7\n    \n    \n    \n    \n\n        \n          \n                   <option value=\"all\">All</option> \n        \n    \n  \n\n\n\n  \n    \n      fortran-lang.org/assets/js/gh-contributors.js\n    \n    \n         Line 431\n      in\n      8ca4ed7\n    \n    \n    \n    \n\n        \n          \n                   <b>User plots: </b>",
+            "comments": []
+        },
+        {
+            "number": 211,
+            "user": "awvwgk",
+            "date": "2021-02-21 16:08:17+00:00",
+            "title": "Displaying localized information from _data/ entries",
+            "text": "One open issue for the localization are the entries in _data, some of those are automatically generated, like the fpm registry and therefore hard to translate. Other entries like the in press part of the learning resources might be a suitable candidate for localized information, i.e. displaying French books only on the French subtree.\nNote that the default language, English, has only access to the English translation file, while all other languages have at least access to the English translation file and their own translation file, in case we want to pull off some tricks with liquid for this.\nLocalizing _data entries in the translation file would lead to a significant bloat, but we might be able to add additional localized _data directories in the language subtrees in the _i18n directory. A possible solution would be to use subtrees in the _data dir to store localized versions of data and global versions on the toplevel.\n_data\n|-- en/\n|-- es/\n|-- fr/",
+            "comments": []
+        },
+        {
+            "number": 210,
+            "user": "awvwgk",
+            "date": "2021-02-21 15:45:52+00:00",
+            "title": "Add package guide to webpage",
+            "text": "The package guide is currently just a markdown file in this repository, but would be very well suited for the webpage as well. Since the markdown file contains some technicalities specific to the jekyll setup as well, those could be separated and added to the wiki in the repository.\nRelated #183",
+            "comments": []
+        },
+        {
+            "number": 209,
+            "user": "vmagnin",
+            "date": "2021-02-19 18:12:36+00:00",
+            "title": "Small error in CONTRIBUTING.md",
+            "text": "In the workflow section, I read:\n\n\nPush your modified branch to your local fork\ne.g. git push --set-upstream origin fix-spelling-homepage\n\n\nI guess it should be \"to your distant fork\" (or remote fork?)",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-21 15:53:01+00:00",
+                    "text": "Not sure what the best formulation here would be, but local is not optimal, maybe one could drop the local without problems here. Feel free to send a patch with an improved formulation on this part."
+                }
+            ]
+        },
+        {
+            "number": 208,
+            "user": "awvwgk",
+            "date": "2021-02-17 19:14:40+00:00",
+            "title": "Fix package information",
+            "text": "update eT, libmbd, siesta, illustrate",
+            "comments": []
+        },
+        {
+            "number": 207,
+            "user": "smeskos",
+            "date": "2021-02-16 18:55:46+00:00",
+            "title": "Correct subtitle of setting up your os",
+            "text": "Minor improvements:\n\nat the subtitle\nINTEL->Intel\nupdate info about Visual Studio and Intel oneAPI",
+            "comments": []
+        },
+        {
+            "number": 206,
+            "user": "awvwgk",
+            "date": "2021-02-14 09:07:18+00:00",
+            "title": "Add books to learning section",
+            "text": "Suggested by @Beliavsky in #202\n\nIntroduction to Computational Economics Using Fortran\nFortran 2018 with Parallel Programming\n\nCloses #202",
+            "comments": []
+        },
+        {
+            "number": 205,
+            "user": "awvwgk",
+            "date": "2021-02-14 08:23:57+00:00",
+            "title": "Add more electronic structure and atomistic simulation packages",
+            "text": "Add packages suggested in https://fortran-lang.discourse.group/t/some-fortran-related-sites-and-packages/712\n\nIllustrate\nTinker (no open-source license)\neT\nSiesta\nDalton\nLSDalton\nBigDFT (no open-source license)\n\nOnly merge after #196",
+            "comments": []
+        },
+        {
+            "number": 204,
+            "user": "Beliavsky",
+            "date": "2021-02-10 00:52:19+00:00",
+            "title": "Mention comp.lang.fortran and Stack Overflow under \"looking for help\"",
+            "text": "I suggest that links to comp.lang.fortran, Stack Overflow: Fortran, and Reddit: Fortran be added at https://fortran-lang.org/learn/ .",
+            "comments": []
+        },
+        {
+            "number": 203,
+            "user": "Beliavsky",
+            "date": "2021-02-10 00:28:29+00:00",
+            "title": "Change title for \"Setting up your OS\" to \"Setting up your Fortran compiler\"",
+            "text": "I think \"Setting up your OS\" should be renamed \"Setting up your Fortran compiler\", since it does not discuss something like installing Linux. Also, \"developement\" should be \"development\".",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-14 09:09:25+00:00",
+                    "text": "@Beliavsky, feel free to send a patch for these changes."
+                },
+                {
+                    "user": "smeskos",
+                    "date": "2021-02-14 11:12:29+00:00",
+                    "text": "I would leave the title as is _\"Setting up your OS\", since to set something up has the meaning to prepare something for use or to be used with something else and not necessarily just to install it, and, of course, in the current context I think by \"something\" Fortran is implied, at least this is what I had in mind when I wrote it. However, in the explanation below the title, the word \"setup\" is definitely a mistake since when it is a single word it is a noun and not a verb, I think it can be replaced with \"How to install a Fortran compiler and set up a development environment in Windows, Linux and macOS\".\nAnyway, I am going to wait a couple of days in case there are more opinions/suggestions on the matter and I will submit a new PR with whatever we decide."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-15 19:16:19+00:00",
+                    "text": "I agree to leave the title as is. Although \"Setting up your OS\" is a tad too general, the subtitle, visible from the Learn page, is exact and to the point. This mini-book explains more than just setting up the Fortran compiler."
+                }
+            ]
+        },
+        {
+            "number": 202,
+            "user": "Beliavsky",
+            "date": "2021-02-10 00:15:58+00:00",
+            "title": "books to add",
+            "text": "Fortran 2018 with Parallel Programming (2019) by Subrata Ray\nIntroduction to Computational Economics Using Fortran (2018) by Hans Fehr and Fabian Kindermann",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-14 09:07:46+00:00",
+                    "text": "Books can be added at https://github.com/fortran-lang/fortran-lang.org/blob/master/_data/learning.yml, I opened #206 to add the two books."
+                }
+            ]
+        },
+        {
+            "number": 201,
+            "user": "awvwgk",
+            "date": "2021-02-09 23:29:02+00:00",
+            "title": "Internationalization for fortran-lang",
+            "text": "This patch introduces the infrastructure for localization support of the webpage using the jekyll-multiple-languages-plugin. You can checkout my i18n branch locally and add a new language as described in #197 (comment) to play around with the feature. Feedback is more than welcome on this patch.\n\n allow to replace page body with localized version\n have markup only in main tree while translations provide content for page bodies\n localize webpage title\n localize all keywords in the main tree\n localize all keywords in _include\n localize all keywords in _layouts\nlocalize permalinks\n localize page names\n avoid copying assets in every language subtree\n include language navigation in footer\n add documentation for translators\n\nThis PR does not add localization to any language yet, a build preview will only show if nothing is broken.\nThis pull request includes the Spanish translation provided by @aslozada and the French translation provided by @vmagnin, the side can be previewed at https://fortran-lang.org/pr/201/.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-02-09 23:52:57+00:00",
+                    "text": "How does the translation work? I couldn't figure it out ---- do you just translate the text, or do you need to copy the html for each language, which becomes redundant?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-10 08:04:22+00:00",
+                    "text": "@certik I added a brief guide here describing the basic process, it still needs a bit of polishing though.\nThe html body, including the markup, is currently just copied to have something to start working and try the plugin. I'll look into separating the markup from the translation later today."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-10 17:42:55+00:00",
+                    "text": "In the SymPy webpage, only the text itself is translated, all the markup is reused from the parent. So that way you are free to change the layout and all translations will still work. Furthermore, if you change a text in the English version, the translated version will simply show the English text until it is translated. So translations are always up to date in both layout and text (although parts of the text might not always be translated until somebody updates it).\nUnless we can figure out something similar, it will become a nightmare to make any changes to the English page, as it will not be reflected in the translations, neither in layout nor text."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-11 10:23:27+00:00",
+                    "text": "I have translated the keywords in my _i18n/fr.yml file.\nAs far as I can test, everything is OK except:\n\nthe packages: section has no effect on the \"Packages\" page.\nThe sentence \"RSS clients can follow the RSS feed\" (homepage) can not be translated neither in the fr.yml file nor in the fr/index.html file."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-11 11:06:29+00:00",
+                    "text": "@vmagnin Thanks for testing, I noticed a few missing keywords while skimming through the code yesterday, but found no time to push another patch before midnight.\nThere was one RSS client sentence that was difficult to localize as it was using liquid templating inside to generate some links, so the general setup of this sentence + link generation needs reconsideration first. Might have been this one."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-12 08:55:18+00:00",
+                    "text": "@awvwgk ,\nThe \"Localize leftover keywords\" commit fixed the RSS problem.\nConcerning the \"Packages\" page, the section packages: is working with the subpages (for example packages/fpm), but not with the main packages page."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 09:11:53+00:00",
+                    "text": "This might be partly due to the page titles, which are not localized yet but taken directly from the front matter of the main tree. They have to be handled differently for some reason."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-14 11:40:21+00:00",
+                    "text": "Hi Sebastian @awvwgk\nmy translations of the homepage _i18n/fr/index.hmtl and of the keywords _i18n/fr.yml are ready. I have not yet committed them to my fork. Before doing it, let me know:\n\nShould I commit them directly in my _i18n branch or create a _i18n_fr branch?\nShould I make a Pull Request? Or should I wait?\nIn the first case, should I make a Pull Request to your fork, or to the original project https://github.com/fortran-lang/fortran-lang.org ?\n\nI will now begin translating the other main sub-pages, at a slower pace."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-14 12:12:53+00:00",
+                    "text": "Thanks for spearheading this @awvwgk and @vmagnin, this is a big project and is looking promising! However I want to second Ond\u0159ej's concerns about layout duplication and the subsequently increased workload for future changes \u2014 have you worked out a way to avoid this at all?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-14 12:13:41+00:00",
+                    "text": "@vmagnin First, that's really amazing. It also means I better hurry up here ;).\nLet's try to keep things simple. git can handle feature branches built on non-merged feature branches sufficiently well, the GitHub UI is not that great for reviewing such kind of PRs. But since your French translation lives in a separate subtree this might work out just fine.\nIf you are fine with rebasing your changes on my i18n branch as I proceed building this branch up, I see no problem to create a separate (draft) PR on the fortran-lang repo, which is probably more visible than my fork to the community. This would allow to gather feedback on the translation and the infrastructure separately if we coordinate correctly here."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-14 12:14:51+00:00",
+                    "text": "However I want to second Ond\u0159ej's concerns about layout duplication and the subsequently increased workload for future changes \u2014 have you worked out a way to avoid this at all?\n\nYes, I have found a way to separate the content from the markup, just have to push the patch here."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-14 12:48:10+00:00",
+                    "text": "Patch is in, basically we can exploit that no document in the _i18n tree will generate a page, and scatter the content in separate files which are included with the translate_file function at the correct places."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-14 15:54:32+00:00",
+                    "text": "I think I got everything now, but more eyes will help to catch oversights and mistakes. Let's have a #build_preview for this PR."
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-14 15:55:32+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/201/"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-14 17:52:32+00:00",
+                    "text": "Thanks @awvwgk\nit seems you did a great job in your last commits! I will git rebase tomorrow and take my time to carefully merge my work with yours. And complete the translations of keywords in the .yml file.\nThe \"preview\" feature is very interesting!"
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-14 22:41:12+00:00",
+                    "text": "I think I got everything now, but more eyes will help to catch oversights and mistakes. Let's have a #build_preview for this PR.\n\nI hope to help with these eyes. I think it's great that information about Fortran can be released in other languages.\nThe discourse tag in the global section seems to be broken. The tags mailing_list, rss_feed and the others on the right side of the webpage work correctly."
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-14 22:42:05+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/201/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-15 08:53:44+00:00",
+                    "text": "Great stuff! I'll hopefully have time to review in detail later this week. Only noticed one thing so far which is that the package category descriptions seem to be missing, e.g. https://fortran-lang.org/pr/201/packages/, https://fortran-lang.org/pr/201/packages/data-types.\nEDIT: I can see the definitions in the yml file, but not sure why they're not rendering :-/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-15 10:10:52+00:00",
+                    "text": "EDIT: I can see the definitions in the yml file, but not sure why they're not rendering :-/\n\nI just noticed that I used the yml entry in the description but not passed it to the translate / t function in the layout later."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-15 11:11:25+00:00",
+                    "text": "I have successfully git rebase, dispatched the content of my fr/index.html into the new files and translated the new keywords in the fr.yml file.\nConcerning the homepage I have noted only two small problems:\n\nOn the right margin, the \"News\" title is not translated and the translation of \"More\" does not appear, but they do in the compilers and news sub-pages.\nThere is no keyword in the .yml file to translate the \"FAQ\" title."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-15 20:52:58+00:00",
+                    "text": "I added a Spanish version to my fork, containing the file es.yml and the directory es.\nFor the translation, I followed the recommendations of the Royal Spanish Academy (dictionary of the Spanish language and pan-Hispanic dictionary of doubts). As already mentioned in the Discourse, some words and expressions do not have a direct equivalent. So I await your suggestions.\nAs already commented by @vmagnin, there is no keyword in the .yml to FAQ title.\nI have also noticed that in the section Getting started, the title and its content, are not in the i81n directory."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-15 21:06:39+00:00",
+                    "text": "@aslozada Cool, thanks a lot for your effort and the feedback.\nYou probably mean this \u201cGetting started\u201d here?\n\nThis part is generated from the _data/learning.yml file, which is not yet localized, similar to the package index and other items under _data except for the navigation. I have no good idea yet how to localize those without duplicating the data (like I did for the navigation), might be something I will save for the second pass."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-15 21:23:42+00:00",
+                    "text": "Concerning the langs: section in the .yml files, what should we do?\nIn the en.yml file, the names of languages are in English.\nAnd @aslozada has translated them in Spanish:\nlangs:\n  en: Ingl\u00e9s\n  fr: Franc\u00e9s\n  de: Alem\u00e1n\n  es: Espa\u00f1ol\n\nI think they should be written as in the language itself:\nlangs:\n  en: English\n  fr: Fran\u00e7ais\n  de: Deutsch\n  es: Espa\u00f1ol\n\nThe user will identify it faster, even more if there is languages using other characters (Asiatic, Arabic, Russian...)\nNote also that each time a new language will be added, we will have to update that section in all languages."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-15 21:47:10+00:00",
+                    "text": "With 22097f3 the language keys in the footer should be shown in the respective language. The language name will be taken from the _i18n/<lang>.yml from\nlangs:\n  <lang>: <name>\nSo no language file has to provide translations for all other available language but itself."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-16 08:43:52+00:00",
+                    "text": "Following a git rebase with the two last commits, I have got some problems on my local version:\n\nThe faq keyword has disappeared from both English and French homepages.\nConcerning the footer, on the French version both English and French (Fran\u00e7ais) languages appear. But in the English version, only English appears."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-16 08:49:58+00:00",
+                    "text": "I suggest that when the three of us feel ready, @aslozada and myself make a pull request with our Spanish and French versions at about the same time. In order that @awvwgk can add them to the site preview and announce that we have a preliminary trilingual version of Fortran-lang.org."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-18 09:45:04+00:00",
+                    "text": "I have pushed to my fork the French translation of the site, including the homepage, and learn, community, packages subpages:\nhttps://github.com/vmagnin/fortran-lang.org/tree/i18n/_i18n\nI have not yet worked on the compilers.md file."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-18 22:07:29+00:00",
+                    "text": "@aslozada @vmagnin Excellent work on the translations, I cherry-picked your commits on my branch i18n and included them here.\nThe footer should be fixed now, also I symlinked all the posts from the main tree to the French and Spanish _posts directory, since posts are strictly limited to the respective subtree.\nLet's have a look at another #build_preview, feedback is always welcome."
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-18 22:08:37+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/201/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-18 22:22:07+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-18 22:23:04+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/201/"
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-19 00:14:11+00:00",
+                    "text": "\u00a1Qu\u00e9 ch\u00e9vere!\nI'm still translating the compilers.md page. I will update this soon.\nI noticed that a tag for the search-box, in the packages section, is missing.\nIn my local account, I did some tests to translate the text in the search-box.\nThese are the changes:\n\nin the file _i18n / *. yml :\n\nfor the section package  add the tag placeholder\nplaceholder: Search for a package (in the English version)\nplaceholder: Buscar un paquete (in the Spanish version)\n\nin packages/index.html, modify the Front Matter with placeholder: page.packages.placeholder,\nand in the col-center section with\n<input type = \"text\" name = \"query\" class = \"search-box\" placeholder = {% t page.placeholder%}>\n\nthe change works \"well\", however, only the first word of the text is used, even with the text in quotes.\nEnglish version\n\nSpanish version"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-19 08:37:39+00:00",
+                    "text": "Great work, buddies! @awvwgk  @aslozada\nThe only remaining problem I see in both translations is that we have no keyword in the .yml files for \"Get Involved\" on the Community page.\nAnd just by curiosity, is there any particular reason for the \"Compilers\" page to be an .md file?\nIn any case, that file will not be the easier to translate, with so many technical terms..."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 08:55:46+00:00",
+                    "text": "Got the search placeholder fixed and also localized the getting involved header. I put in some DeepL stubs in the translation files, let me know if there is a better translation."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-19 19:52:29+00:00",
+                    "text": "Giving an extra look:\nthe js function makeContributorInterface,   in assets/js/gh-contributors.js,  contains the values\nRepository and  User plots\nEnglish version\n\nSpanish version"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 20:06:08+00:00",
+                    "text": "@aslozada Have you found a way to localize this part?"
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-19 21:15:01+00:00",
+                    "text": "@aslozada Have you found a way to localize this part?\n\nI'm trying to pass tags, from  the file *. yml, as arguments to js function in directory assets/js. This part works, but some errors are generated in the image list that is more below."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-20 11:03:22+00:00",
+                    "text": "Regarding templating javascript, I setup fortranlang.js as a kind of module that is included on all pages and that exports a fortranlang object/namespace. The intention is that  fortranlang.js is the only javascript file that is templated with Jekyll and all other javascript files are pure javascript. You can define new fields in fortranlang.js (like the existing baseurl field) that represents the text to be translated which will be accessible in the other javascript files via the fortranlang namespace.\nEdit: I'm happy to provide assistance updating the javascript files."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-20 11:56:42+00:00",
+                    "text": "I would suggest to keep the javascript changes for separate patch."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-21 15:32:28+00:00",
+                    "text": "Finally, what are the guidelines for future PRs that change existing content or add new pages?\n\nIf localized content is changed this has to be documented somehow. In case one of the content blocks of the main page is changed all localized versions should be updated. I suggest to open an issue under the i18n label, showing the previous version and the new version and asking for updates of the translated content (maybe with a checklist for all available languages to keep track of the progress).\nAdded content is less problematic, because in the translate_file / tf case it is filled in from the English version by default, it only requires some attention when new keywords are added to the language file (translate / t case) to fill in English version or automatic translated stubs in the other language files (together with a FIXME or TODO note maybe)."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-21 17:13:07+00:00",
+                    "text": "@awvwgk Would the changes be added by pull request or by a procedure like that used for the French and Spanish preliminary versions?\n\nI suggest add to checklist, in the patch of infrastructure for localization, the js components (labels),  and the data in the directory _data."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-21 18:06:58+00:00",
+                    "text": "@awvwgk Would the changes be added by pull request or by a procedure like that used for the French and Spanish preliminary versions?\n\nEither way would work, can't tell which will be best in practice.\n\nI suggest add to checklist, in the patch of infrastructure for localization, the js components (labels), and the data in the directory _data.\n\nI opened #211 for the _data entries, and #212 for the javascript localization."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-21 20:38:44+00:00",
+                    "text": "... maybe with a checklist for all available languages to keep track of the progress ...\n\nmaybe,\nChecklist to keep track of translation to name_language language\nEvery section corresponds to an item of navigation menu\n\nMain page\n\n\n Features\n FAQ\n Make a Fortran Better\n Join Us!\n\n\nLearn\n\n\n Getting Started\n Mini-book Tutorials\n Other Resources\n\n\nFortran Compilers\n\n\n Open Source Compilers\n Commercial Compilers\n Discontinued\n Note\n\n\nCommunity\n\n\n Fortran-lang Community Projects\n Get Involved\n Fortran-lang Contributors\n\n\nPackages\n\n\n Find a Package\n Browser Package by category"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-22 16:16:05+00:00",
+                    "text": "How do we want to proceed with this patch? I would love to see it merged sooner than later since it basically touches every file in the repository and will therefore be very likely to collide with most other patches and PRs."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-22 16:22:12+00:00",
+                    "text": "I think we might be able to use this work to get to the state where I think we should get. However, I am afraid we are not there. For example, I can see a file like this in this PR:\n<h3> <i data-feather=\"edit\"></i>\n  Gu\u00eda del colaborador</h3>\n<p>\n\u00bfDesea contribuir con c\u00f3digo y contenido?\nConsulte las gu\u00edas para colaboradores en cada reposit\u00f3rio para \nobtener informaci\u00f3n sobre el flujo del trabajo y de las\npr\u00e1cticas recomendadas.\n</p>\n<ul>\n  <li> <a href=\"https://github.com/fortran-lang/stdlib/blob/master/WORKFLOW.md\" target=\"_blank\" rel=\"noopener\">Gu\u00eda del colaborador para stdlib</a> </li>\n  <li> <a href=\"https://github.com/fortran-lang/fpm/blob/master/CONTRIBUTING.md\" target=\"_blank\" rel=\"noopener\">Gu\u00eda del colaborador para fpm</a> </li>\n  <li> <a href=\"https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md\" target=\"_blank\" rel=\"noopener\">Gu\u00eda del colaborador para fortran-lang.org</a> </li>\n</ul>\n\nAnd that I strongly believe is not the way to do it, because it is replicating the markup in every translation. So the minute we change the layout in the English version, all the translations will be wrong. It should not be the job of translators to fiddle with markup and trying to reproduce the English one. Neither should it be the job of contributors who improve the layout to do so in 30+ languages.\nI strongly believe the way to do it is to translate just the sentences / paragraphs / words and use automated system to show immediately in each translation what sentences got updated and must be translated. Markup should be correct right away.\nNote: You can look at the SymPy webpage where we do exactly what I described."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-22 16:59:19+00:00",
+                    "text": "SymPy is using a gettext based solution, which I would prefer as well. There are two discontinued jekyll plugins (https://github.com/Stonelinks/jekyll-gettext-plugin and https://github.com/ruby-gettext/jekyll-task-i18n) which can use po-files, but I'm not too keen to use discontinued software here."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-22 17:38:36+00:00",
+                    "text": "And that I strongly believe is not the way to do it, because it is replicating the markup in every translation.\n\nI agree; it looks to me that the duplicated markup here is isolated to a few tf translation files \u2014 presumably we can eliminate duplicated markup from this PR simply by removing markup from the tf files or by replacing them with translation expression as used everywhere else. Is this not correct @awvwgk, or am I missing something? I'd like to understand before we write-off this PR to search for other solutions."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-22 18:00:34+00:00",
+                    "text": "The main issue with the plugin used here is that we don't get safe fallbacks in case we use the t command but get a silent failure. The tf option is safer as it is falling back safely to the default language, yet it requires separate files, the currently chosen structure is the smallest acceptable chunk size in my opinion, because the default language, English, is handled like any other translated language. Moving all the content to the translation file is also inacceptable in my opinion, because we would end up with a single yml file for the complete content of the English main tree.\ngettext has the great advantage that we are actually replacing strings with a safe fallback, it allows to write the page in the default language as usual and add a translation on top afterwards with a po-file in an automatic and safe way. But we don't have actively maintained gettext support for jekyll."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-22 18:23:21+00:00",
+                    "text": "Thanks for explaining and I see why the gettext approach would be much more preferable. It is a shame that those plugins have been discontinued."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-22 18:41:51+00:00",
+                    "text": "I would claim this patch is how far we can get with jekyll, unless we want to start maintaining a plugin ourselves for this purpose or switch to a different static page generator with better internationalization support.\nI checked hugo already as a simple replacement for jekyll with built-in internationalization, but it basically offers the same solution we have in the patch here. Check gohugoio/hugo#1744 (comment) why hugo is not using gettext and their reasoning behind this decision."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-22 22:54:38+00:00",
+                    "text": "Does Jekyll allow to translate a sentence by sentence? It will be really tough for translators to try to figure out which parts of the English versions got updated."
+                }
+            ]
+        },
+        {
+            "number": 200,
+            "user": "awvwgk",
+            "date": "2021-02-09 09:31:35+00:00",
+            "title": "Link teaching resources and course material?",
+            "text": "Is it on scope for the webpage to link external course material or teaching resources from the learn page? I'm mainly thinking about pure Fortran programming courses and also more domain-specific specific courses that include Fortran introductions to teach other more specific concepts.\nIf we agree that it is on scope, what would be criteria to list a course on the learn page?",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-09 18:10:45+00:00",
+                    "text": "I'm aware of several great resources including:\n\nProgramming in Fortran (course offered at the Leibniz-Rechenzentrum)\nPRACE Course: Advanced Fortran Topics\nKursmaterial f\u00fcr Wissenschaftliches Programmieren (Modern Fortran, 2017) from B\u00e1lint @aradi at Bremen Center for Computational Materials Science\nModern Fortran Programming for Chemists and Physicists, course by Pekka Manninen from University of Helsinki (includes coarrays)\nExpressing Object-Oriented Concepts in Fortran90 \nParallel Programming Workshop (materials from the High-Performance Computing Center in Stuttgart)\nProgramming in Modern Fortran (I believe this is a tutorial written by @interkosmos)\n2018 Workshop on Fortran Modernization for Scientific Applications (with lectures by @arjenmarkus and @aradi)\nIntroduction to Programming using Fortran 95/2003/2008\nScientific Programing and Numerical Computation (course by Wu-ting Tsai from National Taiwan University; the explanation of FFT is great!)\nIntroduction to Modern Fortran (course given by Nick Maclaren from the University of Cambridge Computing Service, derived from a course by Steve Morgan from the University of Liverpool; I think this course offers some good arguments why Fortran is more suitable for domain scientists than C++)\nUser Notes on Fortran Programming (UNFP)\nDesigning and Building Parallel Programs , by Ian Foster (contains descriptions of several non-standard Fortran dialects like Fortran M and High Performance Fortran)\nParallel programming with Fortran 2008 and 2018 coarrays, course by Anton Shterenlikht from the University of Bristol\nProfessional Programmer's Guide to Fortran77, by Clive G. Page, University of Leicester, UK\nFortran90 for Fortran77 Programmers by Clive G. Page\nIntroduction to Computer Programming Using  Fortran 95 (training materials from ARCHER, the UK National Supercomputing Service)\nCombining Object-Oriented Techniques with Co-arrays in Fortran 2008, by Robert W. Numrich (this report covers roughly the same material)\nParallel programming in Fortran with Coarrays, by John Reid: ftp://ftp.numerical.rl.ac.uk/pub/talks/jkr.reading.5XI08.pdf\nIntroduction to Co-Array Fortran, by Robert W. Numrich\nFortran 90 for the Fortran 77 Programmer, by Bo Einarsson and Yurij Shokin\nFortran Tutorial, older tutorial by Erik Boman, Stanford University\nFortran 90 Tutorial, older tutorial by Paul Hargrove and Sarah Whitlock, both at Stanford University\nFortran 90 Tutorial by C.-K. Shene, Michigan Technologial University\n\nPersonally, I find these resources very helpful. I've got several more links hidden in my browser bookmarks \ud83e\udd2f .\nAs a temporary solution, I would feel okay to put these in the \"Other Resources\" section on the Learn page. But it might be a good idea to introduce some further subcategories (e.g. links related to the standards committee, Fortran blogs, third-party lectures, ...).\nI also think we should ask the authors for permission to link their lectures. Some of them might be available openly only for convenience of access for the students taking their courses, and not really meant for the general public.\nEdit: concerning criteria, I think it would be good to only consider materials >= F2003. The older F90/95 targeted courses, while technically still valid, can be misleading with respect to solutions available in the latest standard."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-09 18:25:14+00:00",
+                    "text": "I agree it's in scope. About criteria, I don't know, good question. I agree with @ivan-pi on recent material. Otherwise I think it will be difficult to come up with hard criteria, especially for say, quality. I'd say let's list everything we can find that we collectively and subjectively agree is high enough quality to be useful. I think most finished tutorials out there will meet this \"criterion\".\nI think we should also link paid courses like that of @everythingfunctional. But we need to clearly mark is as non-free.\nI suggest not including courses that happened in the past and don't provide course notes for download (e.g. I couldn't find any from the 2018 Workshop on Fortran Modernization for Scientific Applications)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-09 18:36:06+00:00",
+                    "text": "I suggest not including courses that happened in the past and don't provide course notes for download (e.g. I couldn't find any from the 2018 Workshop on Fortran Modernization for Scientific Applications).\n\nThey are linked in the timetable (similar to FortranCon2020). Perhaps ease of access is another criterion."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-09 18:37:58+00:00",
+                    "text": "I think this is definitely in scope. Thanks @ivan-pi for the list. I think we can be inclusive and link pretty much anything, as long as we neatly organize it so that people reading the page can find what they want."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-09 19:01:53+00:00",
+                    "text": "They are linked in the timetable (similar to FortranCon2020). Perhaps ease of access is another criterion.\n\nAlternatively we can obtain permission from authors and organizers and host the material on our website."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-02-09 19:40:57+00:00",
+                    "text": "As for me, you are very welcome to link my Scientific programming course (I'll probably record a new version with youtube videos this spring). You have also definitely my permission to link or host the material I used on the 2018 workshop."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-10 11:16:38+00:00",
+                    "text": "Thanks @aradi.\nIn the meantime I updated the list with a few more courses. Perhaps some categorization would be beneficial, like courses which cover co-arrays, object-oriented features, F77 to F90 conversion...\nEdit: of course the Fortran wiki already maintains a comprehensive list - http://fortranwiki.org/fortran/show/Tutorials"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-15 08:30:37+00:00",
+                    "text": "I propose that we include a few non-english courses, like the german one proposed by @ivan-pi .\nConcerning the French language, I therefore propose that link:\nhttp://www.idris.fr/formations/fortran/\nThose very complete courses include Fortran 2003 and 2008 stuff. Not yet Fortran 2018, although there is some slides on obsolete features in the 2018 standard. But they seem to be regularly updated (two from 2020, one from 2019). Note that IDRIS is the computing science department of the CNRS, the big french national scientific research center.\nThe three basic, advanced and expert courses add up to 872 slides. The program sources are available. And there is exercises with solutions."
+                }
+            ]
+        },
+        {
+            "number": 199,
+            "user": "awvwgk",
+            "date": "2021-02-08 17:55:13+00:00",
+            "title": "Fix broken link for LLVM flang",
+            "text": "LLVM renamed their default branch from master to main\n\nFixes #198",
+            "comments": []
+        },
+        {
+            "number": 198,
+            "user": "arunningcroc",
+            "date": "2021-02-08 17:47:18+00:00",
+            "title": "Flang link on the compiler page",
+            "text": "The \"LLVM Flang\" link on the compilers page seems to be broken.\nhttps://fortran-lang.org/compilers/\nThe link leads to: https://github.com/llvm/llvm-project/tree/master/flang which is now a 404.\nIt seems that the LLVM flang project has now been merged to https://github.com/flang-compiler/flang which is listed on the compilers page as \"Current Flang\".",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-08 17:53:07+00:00",
+                    "text": "LLVM renamed their default branch from master to main, the link should now point to https://github.com/llvm/llvm-project/tree/main/flang"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-08 18:02:39+00:00",
+                    "text": "It seems that the LLVM flang project has now been merged to https://github.com/flang-compiler/flang which is listed on the compilers page as \"Current Flang\".\n\nNote that LLVM flang (former f18) is the successor of what is known as current flang, which in turn is based on the pgfortran frontend (now known as nvfortran). As announced inoffically on the NVIDIA forum nvfortran will at some point be using the LLVM flang frontend (see https://forums.developer.nvidia.com/t/fortran-2008-2018-support/164306)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-08 18:10:34+00:00",
+                    "text": "The PGI/NVIDIA/Flang compiler evolution/branding has been the most confusing of any compiler I've seen."
+                }
+            ]
+        },
+        {
+            "number": 197,
+            "user": "awvwgk",
+            "date": "2021-02-07 20:21:59+00:00",
+            "title": "Localization of the webpage",
+            "text": "Is there a way we can offer localization with the current website design? What would we have to do from a technical point of view to be able to put up a localized version of fortran-lang.org?\nInspired by @vmagnin's post at https://fortran-lang.discourse.group/t/promoting-fortran-in-non-english-languages/678",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-02-08 01:16:28+00:00",
+                    "text": "Yes I think that is a good idea, as long as people are willing to maintain the translations. Here is how we do it in for the SymPy's webpage:\nhttps://github.com/sympy/sympy.github.com#translations"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-08 10:19:15+00:00",
+                    "text": "As written in the Discourse, if translating pages is decided, I of course agree to work on the french translation. And of course, it could be a collaborative work if there is other people interested here."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-08 10:25:00+00:00",
+                    "text": "@vmagnin Definitely, I consider it more a matter of figuring out the technicalities to get this running with jekyll. I already found plenty of ugly solutions when searching for jekyll i18n, but nothing that strikes me as elegant and simple yet.\nOn this topic, I would contribute to German translations."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-08 10:35:20+00:00",
+                    "text": "Definitely, I consider it more a matter of figuring out the technicalities to get this running with jekyll.\n\nYes, the main problem is probably a technical one. How to transform the site into a multi-language site... It seems not trivial... And would probably need a lot of work."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-08 13:14:03+00:00",
+                    "text": "Maybe we could, at least as a first step, just translate the homepage. Perhaps it would be sufficient to make the site appears in Google with a good pagerank. I don't know if the number of pages available in the national language is taken into account in the Google algorithm... We could even make an experiment: we translate the homepage just in one language, and we wait some days (or weeks ?) to see if it has an effect on search engines.\nAnd I guess that once people have found the website, most will be able to understand something in the english pages."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-08 22:23:06+00:00",
+                    "text": "I found jekyll-multiple-languages-plugin which allows side localization with jekyll in an elegant way. First, I already created a branch i18n, where you can give it a try.\n\nadd your language in the _config.yml under languages (the first language is the default)\n\n\n  \n    \n      fortran-lang.org/_config.yml\n    \n    \n         Line 7\n      in\n      f14c12f\n    \n    \n    \n    \n\n        \n          \n           languages: [\"en\"] \n        \n    \n  \n\n\n\ncreate the file _i18n/<lang>.yml and the directory _i18n/<lang> (now you can visit http://127.0.0.1:4000/<lang>/ already, untranslated pages are taken from the default language branch)\nmirror the content of _i18n/en in your _i18n/<lang> directory, i.e. create _i18n/<lang>/index.html to translate the main page\n\nThere are a lot of small details I still have to figure out, but this basically looks like a suitable solution for the webpage."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-09 08:50:19+00:00",
+                    "text": "3. mirror the content of `_i18n/en` in your `_i18n/<lang>` directory, _i.e._ create `_i18n/<lang>/index.html` to translate the main page\n\n\n@awvwgk , I have forked your repository. I will try these days to translate just the homepage to begin. Just a question concerning your third point: should I mirror all the content of _i18n/en ? or just the files I want to translate ? (it's what I understand, but I am not sure...)\nAnother newbie question: I guess that to access to http://127.0.0.1:4000/<lang>/ I need to install jekyll on my machine? (seems to be available in Ubuntu)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-09 09:10:21+00:00",
+                    "text": "@vmagnin Just adding the files you translate is sufficient, the rest will be filled in automatically from the _i18n/en tree. Let me know if this works as expected. Note, currently my setup only allows to translate the body but not the keywords in the header and footer and so on, but I will look into this soon.\nTo setup the webpage locally follow the guide in the README at https://github.com/fortran-lang/fortran-lang.org#setup. After you have setup everything run bundle exec jekyll serve --watch in another terminal and open http://127.0.0.1:4000 in your webbrowser to get a live preview while you edit the content."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-09 12:08:07+00:00",
+                    "text": "This procedure works correctly. Jekyll server returns some warnings about deprecated arguments.\nfortran-lang.org/.bundle/ruby/2.7.0/gems/jekyll-3.8.6/lib/jekyll/tags/include.rb:194: warning: Using the last argument as keyword parameters is deprecated\nI am trying with a Spanish translation"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-09 17:16:54+00:00",
+                    "text": "I have done everything, including _i18n/fr.yml and _i18n/fr/index.html\nI can access to my local english version, but not the french version with http://127.0.0.1:4000/fr/ in my web browser:\nNot Found\n`/fr/' not found.\nWEBrick/1.6.0 (Ruby/2.7.1/2020-03-31) at 127.0.0.1:4000\nShould I install  jekyll-multiple-languages-plugin  with bundle ? I don't see it when I type \"bundle install\" (but I see Installing i18n 0.9.5)"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-09 17:27:08+00:00",
+                    "text": "Sorry, my second terminal (the jekyll one) was not opened in the i18n but the master branch...\nNow bundle install successfully installed the  jekyll-multiple-languages-plugin\nIt's OK, I have translated one sentence and I see it in http://127.0.0.1:4000/fr/\n:-)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-10 07:59:39+00:00",
+                    "text": "I put together a first draft patch for the localized homepage at #201, if you want to give it a try, there is now support for localizing (most of the) keywords in the navigation and footer and adding translated pages. The process is outlined here.\nIt has still a few plenty rough edges, so feedback is much appreciated. Stay tuned."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-10 12:47:36+00:00",
+                    "text": "Would it appropriate build a branch to each language during translation process?\ne.g.\ni81n\n|\n| -- Default language\n| -- English\n| -- Spanish\n| -- French\n| -- German\n| -- Czech\n..."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-10 17:35:22+00:00",
+                    "text": "I put together a first draft patch for the localized homepage at #201, if you want to give it a try, there is now support for localizing (most of the) keywords in the navigation and footer and adding translated pages. The process is outlined here.\nIt has still a few plenty rough edges, so feedback is much appreciated. Stay tuned.\n\n@awvwgk. If the general layout (_i18n /_layouts) is kept fixed, the final aspect of the footer is modified by adding words with a greater number of characters.  Some \"line breaks\" are introduced."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-11 08:42:28+00:00",
+                    "text": "Would it appropriate build a branch to each language during translation process?\n\nIn my opinion, it is not necessary, each language having its own directory. And it would multiply the number of branches in the project."
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-11 10:45:24+00:00",
+                    "text": "I put together a first draft patch for the localized homepage at #201, if you want to give it a try, there is now support for localizing (most of the) keywords in the navigation and footer and adding translated pages. The process is outlined here.\nIt has still a few plenty rough edges, so feedback is much appreciated. Stay tuned.\n\n@awvwgk. If the general layout (_i18n /_layouts) is kept fixed, the final aspect of the footer is modified by adding words with a greater number of characters. Some \"line breaks\" are introduced.\n\nThanks, @vmagnin. Yes, my comment is a bit confusing.\nPerhaps the following images describe better,\nFooter in the English version\n\nFooter in the Spanish version"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-11 10:48:54+00:00",
+                    "text": "I see, yes they are currently just 33% of the column wide. If we will have many languages there might be even problems with the language keys. I will probably try two rows in the footer instead."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-11 11:05:48+00:00",
+                    "text": "@aslozada , no, not confusing. My emoji was just meaning I have the same annoying (minor) problem. In my case, even for the GitHub message on the right."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-11 20:48:19+00:00",
+                    "text": "I made a second line for the languages, if we get many translations and small screens (mobile) line breaks can't be avoided, but this is something to worry about once we have that much translations:"
+                }
+            ]
+        },
+        {
+            "number": 196,
+            "user": "awvwgk",
+            "date": "2021-02-06 15:12:05+00:00",
+            "title": "Update package index",
+            "text": "new packages:\n\nfortran-curl\nFKB\nhipfort\nfpm\nflibcpp\ncamfort\nfindent\nfprettify\nshroud\nswig-fortran\nf90wrap\n\nupdates packages:\n\nsqliteff, elsi, vegetables, erloff, tapenade, strff, iso_varying_string, fortjson, fortran-csv-module, openmolcas, octopus, WHIZARD, MESA, Truchas, quaff, psblas3, ElmerFEM, ogpf, jsonff, parff\n\nnew features:\n\nuse https://badgen.net/ for gitlab badges",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-07 09:52:32+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-07 09:53:46+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/196/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-07 09:59:44+00:00",
+                    "text": "Hi @awvwgk, are you able to check the effect of these changes on the package search functionality? I think the Gitlab projects now need special attention in the Javascript search.\n\n  \n    \n      fortran-lang.org/assets/js/package_search.js\n    \n    \n        Lines 112 to 162\n      in\n      f3ea348\n    \n    \n    \n    \n\n        \n          \n           function resultsToHTML(results){ \n        \n\n        \n          \n               // Return HTML representation of search results \n        \n\n        \n          \n               // \n        \n\n        \n          \n            \n        \n\n        \n          \n               var out = \"\"; \n        \n\n        \n          \n               var i; \n        \n\n        \n          \n               for (i=0;i<results.length;i++){ \n        \n\n        \n          \n                \n        \n\n        \n          \n                   if (results[i].score > 0){ \n        \n\n        \n          \n                \n        \n\n        \n          \n                       project = results[i]; \n        \n\n        \n          \n                \n        \n\n        \n          \n                       if (results[i].github != \"\" && !project.fpm){ \n        \n\n        \n          \n                           out += '<h3><a href=\"https://github.com/'+project.github+'\" target=\"_blank\">'; \n        \n\n        \n          \n                           out += '<i class=\"devicon-github-plain colored\"></i> '+project.name+'</a></h3>'; \n        \n\n        \n          \n                       } else { \n        \n\n        \n          \n                           out += '<h3><a href=\"'+project.url+'\" target=\"_blank\">'; \n        \n\n        \n          \n                           if (project.fpm){ \n        \n\n        \n          \n                               out += '<i class=\"fas fa-cubes\"></i> '; \n        \n\n        \n          \n                           } else if (project.url.includes('gitlab.com')) { \n        \n\n        \n          \n                               out += '<i class=\"devicon-gitlab-plain colored\"></i> '; \n        \n\n        \n          \n                           } else if (project.url.includes('bitbucket.org')){ \n        \n\n        \n          \n                               out += '<i class=\"devicon-bitbucket-plain colored\"></i> '; \n        \n\n        \n          \n                           } \n        \n\n        \n          \n                           out += project.name+'</a></h3>'; \n        \n\n        \n          \n                       } \n        \n\n        \n          \n                        \n        \n\n        \n          \n                       out += '<p> '+project.description; \n        \n\n        \n          \n            \n        \n\n        \n          \n                       var cats = project.categories.split(\" \"); \n        \n\n        \n          \n                       out += ' (' \n        \n\n        \n          \n                       var j; \n        \n\n        \n          \n                       for (j=0;j<cats.length;j++){ \n        \n\n        \n          \n                           out += '<a href=\"'+fortranLang.baseurl+'/packages/'+cats[j]+'\">'+cats[j]+'</a>'; \n        \n\n        \n          \n                           if (j<cats.length-1){ \n        \n\n        \n          \n                               out += ', '; \n        \n\n        \n          \n                           } \n        \n\n        \n          \n                       } \n        \n\n        \n          \n                       out += ') </p>' \n        \n\n        \n          \n                        \n        \n\n        \n          \n                        \n        \n\n        \n          \n            \n        \n\n        \n          \n                       out += '<p class=\"light small\"><b>Tags: </b>'+project.tags+'</p>'; \n        \n\n        \n          \n                \n        \n\n        \n          \n                   } \n        \n\n        \n          \n                \n        \n\n        \n          \n               } \n        \n\n        \n          \n                \n        \n\n        \n          \n               return out; \n        \n\n        \n          \n            \n        \n\n        \n          \n           }"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-07 10:16:39+00:00",
+                    "text": "Seems the search is still finding results, see https://fortran-lang.org/pr/196/packages/search/?query=strff, but not generating the correct links."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-07 10:18:03+00:00",
+                    "text": "Seems the search is still finding results, see https://fortran-lang.org/pr/196/packages/search/?query=strff, but not generating the correct links.\n\nYep, and it would be nice to retain the Gitlab icons as well \ud83d\udc4d"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-07 10:43:21+00:00",
+                    "text": "I got the search working with 8623b32, somewhat tricky to find all the right places to add a new field, but now it seems fine."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-07 10:44:31+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-07 10:45:31+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/196/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-13 09:27:11+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-13 09:27:28+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-13 09:53:37+00:00",
+                    "text": "I added a bunch more of packages, mainly formatters I have recommended recently to colleagues and the interface generators discussed on the discourse."
+                }
+            ]
+        },
+        {
+            "number": 195,
+            "user": "aslozada",
+            "date": "2021-02-05 17:13:56+00:00",
+            "title": "XML file without style",
+            "text": "Hi,\nThe link news, in navbar class, returns a XML file without style.\n\nThis XML file does not appear to have any style information associated with it. The document tree is shown below.\n\n<title type=\"text\" xml:lang=\"en\">Fortran Newsletter</title>\n\n\n2021-02-02T22:08:53+00:00\n/news",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-05 17:26:07+00:00",
+                    "text": "Hi @aslozada, is there any part of the website that doesn't seem to work correctly? I can't find it. How do I reproduce the issue?"
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-05 17:31:26+00:00",
+                    "text": "In the navbar, the link news, https://fortran-lang.org/news.xml, returns a XML file without style."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-05 17:33:43+00:00",
+                    "text": "Hi @aslozada, are you referring to the RSS feed link?"
+                },
+                {
+                    "user": "aslozada",
+                    "date": "2021-02-05 17:35:02+00:00",
+                    "text": "Yes. In the \"button\" of RSS."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-05 17:37:39+00:00",
+                    "text": "Ah okay, the xml file that it links to is intended to be read by an RSS reader and hence it will not display properly in a Web browser."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-21 15:55:48+00:00",
+                    "text": "I'll close this issue as resolved."
+                }
+            ]
+        },
+        {
+            "number": 194,
+            "user": "awvwgk",
+            "date": "2021-02-02 22:52:49+00:00",
+            "title": "Rename all instances of fortran-lang.github.io to fortran-lang.org",
+            "text": "I noticed recently that all links to the repo at fortran-lang.org actually reference fortran-lang.github.io the default name of a GitHub pages hosted side. The link https://github.com/fortran-lang/fortran-lang.github.io still redirects correctly to this project, yet the documentation and guides seemed a bit inconsistent too me.\nAlso renames three instances of master branch to default branch.",
+            "comments": []
+        },
+        {
             "number": 193,
             "user": "awvwgk",
             "date": "2021-01-30 13:58:26+00:00",
             "title": "Monthly newsletter for February 2021",
-            "text": "I put together a draft for the February monthly newsletter and populated it from the repository activities.\n\n collect PRs from stdlib\n collect PRs from fpm, setup-fpm and fpm-registry\n collect PRs from fortran-lang.org\n add link to Fortran monthly call recording\n update contributor data (@LKedward)\n add updates on classic flang\n add updates on LLVM flang\n add updates on LFortran (@certik)\n\nPlease review and edit if needed. As usual, please add your name to the authors list if you add, edit, or review content.",
+            "text": "I put together a draft for the February monthly newsletter and populated it from the repository activities.\n\n collect PRs from stdlib\n collect PRs from fpm, setup-fpm and fpm-registry\n collect PRs from fortran-lang.org\n add link to Fortran monthly call recording\n update contributor data (@LKedward)\n add call info for next GSoC discussion meeting (@milancurcic)\n add updates on classic flang\n add updates on LLVM flang\nadd updates on LFortran (@certik)\n\nPlease review and edit if needed. As usual, please add your name to the authors list if you add, edit, or review content.",
             "comments": [
                 {
                     "user": "LKedward",
@@ -22,6 +733,41 @@
                     "user": "milancurcic",
                     "date": "2021-01-30 16:45:41+00:00",
                     "text": "Regarding news from Classic Flang and LLVM Flang: @AlexisPerry, would you like to provide updates from both Flang projects for the monthly newsletter? We distribute these on the mailing list (131 subscribers), Discourse, and Twitter (604 followers). Flang updates in the newsletter may bring new users, and who knows, maybe even new contributors.\nHere's a sample newsletter from last month and what Flang updates look like: https://fortran-lang.org/newsletter/2021/01/01/Fortran-Newsletter-January-2021/#compilers\nPreviously @gklimowicz has been helping with these, but he stepped back and mentioned your name. It would be very helpful if you agreed to do it! :)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-02 17:20:12+00:00",
+                    "text": "@certik Are there any updates from LFortran? It'd be great if this newsletter can go out today.\nI suggest we drop the Flang updates this month, and continue next month if we find a contributor."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-02 20:08:52+00:00",
+                    "text": "Let's drop LFortran also for this month."
+                },
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-02-02 21:46:46+00:00",
+                    "text": "Sorry for the delay in response.  I did not realize this was due today.  Since I'm new to this project, haven't learned the workflow yet, and we're on a short deadline, I'll just put my Flang updates here for now and would appreciate it if someone could integrate them into the document for me just this once.  If that's not a workable solution, please let me know how best to contribute and I will do so ASAP. Thanks!\n### Classic Flang\n\nThere are a number of pull requests out for evaluation.\n\nA total of 12 pull requests were merged in January.\n\n* [PR#932 Do not assume unempty derived types](https://github.com/flang-compiler/flang/pull/932)\n* [PR#957 Support Prefetch Directive](https://github.com/flang-compiler/flang/pull/957)\n* [PR#947 Fix gcc-10 compilaton issues](https://github.com/flang-compiler/flang/pull/947)\n* [PR#948 Expand CI to run with GCC-9/10 and LLVM-9/10/11](https://github.com/flang-compiler/flang/pull/948)\n* [PR#949 USE rename should check if renamed sptr is available in the scope](https://github.com/flang-compiler/flang/pull/949)\n* [PR#971 Remove dwarfdump_prolog.f90 test since it is dependent on codegen](https://github.com/flang-compiler/flang/pull/971)\n* [PR#940 Flang should generate debug location for limited instructions in prolog](https://github.com/flang-compiler/flang/pull/940)\n* [PR#977 Update apt data before installing sphinx](https://github.com/flang-compiler/flang/pull/977)\n* [PR#751 Fix for len intrinsic returning int*8 in some cases](https://github.com/flang-compiler/flang/pull/751)\n* [PR#956 Minor FileCheck pattern fixes](https://github.com/flang-compiler/flang/pull/956)\n* [PR#978 Fix the readme to point to the correct flang-dev list](https://github.com/flang-compiler/flang/pull/978)\n* [PR#979 Rename direct header to avoid windows conflict](https://github.com/flang-compiler/flang/pull/979)\n\n\n### LLVM Flang\n\nRecent development updates:\n\n* OpenMP semantic checks: private, firstprivate, lastprivate, Workshare Construct, `DO` loop restrictions\n* Detect call to abstract interface\n* OpenMP - add task_reduction clause, make reduction clause part of OmpClause\n* New Driver - adding support for various options, testing improvements, standard macro pre-definitions, fixed-form detection, CMake improvements\n* OpenACC - semantic checks to enforce declare directive restrictions\n* Internal subprogram improvements\n* OpenMP/OpenACC - Extend CheckNoBranching to handle branching provided by LabelEnforce\n* Disallow `INTENT` attribute on procedure dummy arguments\n* Module file improvements and bug fixes\n* Add tests for procedure arguments with implicit interfaces\n\nCall notes will be sent to the _flang-dev_ email list and also recorded [here]( https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY)\\\n."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-02 21:55:51+00:00",
+                    "text": "Thank you, @AlexisPerry!"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-02 21:58:57+00:00",
+                    "text": "Thanks @AlexisPerry, I added the flang updates to the newsletter. One way to contribute content to the newletter is by creating a review comment on the respective section and add the updates using GitHub's suggestion feature:\n```suggestion\n...\n```"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-02 22:05:41+00:00",
+                    "text": "I think this is good to go. @awvwgk please merge when ready, and thank you all!"
+                },
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-02-02 22:06:10+00:00",
+                    "text": "Thanks @AlexisPerry, I added the flang updates to the newsletter. One way to contribute content to the newletter is by creating a review comment on the respective section and add the updates using GitHub's suggestion feature:\n```suggestion\n...\n\n\n\nThank you so much @awvwgk !  I'll go that route next month.  :-)"
                 }
             ]
         },
@@ -144,6 +890,21 @@
                     "user": "smeskos",
                     "date": "2020-12-19 20:29:21+00:00",
                     "text": "I believe there is no conflict now with #182, the modifications I suggest here refer to Nvidia info on the compilers page and to the tutorial page."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-01 16:00:46+00:00",
+                    "text": "What do you think about keeping the PGI on the list, while adding NVIDIA (instead of replacing PGI with NVIDIA)? PGI downloads are still available (https://www.pgroup.com/support/release_archive.php), and from my limited experience, they're very different things. PGI compiler is mature and mostly working (last time I checked), but nvfortran is still rather experimental and can't compile some basic Fortran projects. Did you try both compilers? What is the current experience?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-01 16:04:38+00:00",
+                    "text": "Actually, the NVHPC are a rebranded version of the PGI compiler as far as I understood, with PGI reaching it end-of-life in the beginning of 2020 and NVHPC continuing from there on.\nIn fact NVHPC ships with PGI compilers which are just symlinks from pgfortran to nvfortran, so not much difference between the two in my opinion."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-01 16:11:11+00:00",
+                    "text": "OK, good, in that case no need to keep PGI around. I think this PR is good to go and I will merge it. Thank you both!"
                 }
             ]
         },
@@ -235,6 +996,16 @@
                     "user": "awvwgk",
                     "date": "2020-12-17 15:09:45+00:00",
                     "text": "I think the main reason for this that we are currently relying on shields.io to display the meta data, which has a rather strong focus on GH. It would be beneficial to have actually access to the meta data we are displaying rather than using a third-party provider for this purpose."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-06 16:28:32+00:00",
+                    "text": "I found a way to display additional information for gitlab hosted packages as well, see #196."
+                },
+                {
+                    "user": "jme52",
+                    "date": "2021-02-19 10:43:55+00:00",
+                    "text": "Thank you for your replies.\n\n\nFixed by #196, thank you.\n\n\nMaybe more important than my questions back in December: after the merge of #196, PACKAGES.md should be updated since now versions are automatically detected for some non-github sites."
                 }
             ]
         },
@@ -393,6 +1164,36 @@
                     "user": "certik",
                     "date": "2020-12-03 20:56:37+00:00",
                     "text": "@asmeurer wrote:\n\nBelieve it or not, quite a few people have never actually seen a Fortran program before.\n\nOh, we believe it. That is why where are all here trying to fix it. :) Thank you again for your feedback."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-15 14:44:28+00:00",
+                    "text": "Personally, I was very impressed by the Mandelbrot snippet on the Julia page:\nhttps://julialang.org/learning/code-examples/\nIn 14 lines, they compute and draw a Mandelbrot set in the terminal, like in Mandelbrot days (late 70's)...\nBut probably concerning Fortran, a short code computing something with array syntax would be better. The @certik  Laplace example is interesting, but the loop is difficult to read for someone not familiar with the method. Could be more readable if we put an image of the mathematical writing on the left, and the Fortran algorithm on the right? Fortran is the IBM Mathematical Formula Translating System, isn't it?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-15 15:09:14+00:00",
+                    "text": "Could be more readable if we put an image of the mathematical writing on the left, and the Fortran algorithm on the right? Fortran is the IBM Mathematical Formula Translating System, isn't it?\n\nThis is similar to what @rouson and others from the Sourcery Institute have, see here: http://www.sourceryinstitute.org/\nI'm not really sure custom unary and binary operators operating on derived types are the most representative element of Fortran though. A more \"low level\" example using array slicing might be more suitable.\nPerhaps an example including co-arrays is another good selling point. Visitors should realize from first sight, that Fortran is a parallel language."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-15 15:22:27+00:00",
+                    "text": "Perhaps an example including co-arrays is another good selling point. Visitors should realize from first sight, that Fortran is a parallel language.\n\nYes, I was also thinking it may be interesting (I am now reading the co-array article). Something with a very modern syntax, with the mathematical formula alongside..."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-15 15:59:41+00:00",
+                    "text": "If you need the math alongside, I think the example is not simple enough. @certik's Laplace example is too complex IMO."
+                },
+                {
+                    "user": "interkosmos",
+                    "date": "2021-02-15 16:18:55+00:00",
+                    "text": "I\u2019m throwing in a Mandelbrot implementation in modern Fortran:\n! mandelbrot.f90\nprogram main\n    implicit none\n    integer, parameter :: NCOLS = 80, NROWS = 40, MAX_ITER = 10\n    real,    parameter :: THRESHOLD = 2.0\n\n    character(len=1) :: buffer(NCOLS, NROWS)\n    integer          :: x, y\n    real             :: re, im\n    real             :: t1, t2\n\n    buffer(:, :) = ' '\n\n    call cpu_time(t1)\n\n    do concurrent (y = 1:NROWS)\n        im = -1.5 + (y - 1) * 3.0 / NROWS\n\n        do concurrent (x = 1:NCOLS)\n            re = -2.0 + (x - 1) * 3.0 / NCOLS\n\n            if (mandelbrot(cmplx(re, im), MAX_ITER, THRESHOLD) >= MAX_ITER) &\n                buffer(x, y) = '*'\n        end do\n    end do\n\n    do y = 1, NROWS\n        print '(*(a1))', buffer(:, y)\n    end do\n\n    call cpu_time(t2)\n    print '(\"Time: \", f8.6, \" sec\")', t2 - t1\ncontains\n    pure integer function mandelbrot(c, max_iter, threshold)\n        complex, intent(in) :: c\n        integer, intent(in) :: max_iter\n        real,    intent(in) :: threshold\n        complex             :: z\n\n        z = (0.0, 0.0)\n\n        do mandelbrot = 0, max_iter\n            z = z**2 + c\n            if (abs(z) > threshold) exit\n        end do\n    end function mandelbrot\nend program main\nShould work with all compilers and on all platforms, for example:\n$ gfortran -o mandelbrot mandelbrot.f90\n$ ./mandelbrot\n                                                                                \n                                                                                \n                                                                                \n                                                 *                              \n                                                  ***                           \n                                                 ***                            \n                                              *********                         \n                                              ********                          \n                                     * *   ************  *     *                \n                                      ********************* *****               \n                                      **************************                \n                                   ****************************                 \n                    *     *        *******************************              \n                     *********    *******************************               \n                     *********************************************              \n                *   *********************************************               \n                 ***********************************************                \n**************************************************************                  \n                 ***********************************************                \n                *   *********************************************               \n                     *********************************************              \n                     *********    *******************************               \n                    *     *        *******************************              \n                                   ****************************                 \n                                      **************************                \n                                      ********************* *****               \n                                     * *   ************  *     *                \n                                              ********                          \n                                              *********                         \n                                                 ***                            \n                                                  ***                           \n                                                 *                              \n                                                                                \n                                                                                \n                                                                                \n                                                                                \n                                                                                \nTime: 0.006165 sec\n\nEdit: Added @arjenmarkus\u2019s hints."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-02-15 16:37:04+00:00",
+                    "text": "Nice, just picking a few nits:\n\nPerhaps you can use the unlimited format:\n\nwrite(*,'(*(a))') buffer(:,iy)\n\nAnd if you check for a number of iterations larger than 10, there is no\nneed for MAX_ITER to be largerthan that, is there?\n\nAlso, the arguments max_iter and threshold could be taken from the host.\n\nOp ma 15 feb. 2021 om 17:19 schreef Philipp <notifications@github.com>:\n\u2026\n I\u2019m throwing in a Mandelbrot implementation in modern Fortran:\n\n ! mandelbrot.f90\n program main\n\n     implicit none\n\n     integer, parameter :: NCOLS = 80, NROWS = 40, MAX_ITER = 100\n\n     real,    parameter :: THRESHOLD = 2.0\n\n\n\n     character(len=1) :: buffer(NCOLS, NROWS)\n\n     character(len=8) :: fmt\n\n     integer          :: x, y\n\n     real             :: re, im\n\n     real             :: t1, t2\n\n\n\n     buffer(:, :) = ' '\n\n\n\n     call cpu_time(t1)\n\n\n\n     do concurrent (y = 0:NROWS)\n\n         im = -1.5 + y * 3.0 / NROWS\n\n\n\n         do concurrent(x = 0:NCOLS)\n\n             re = -2.0 + x * 3.0 / NCOLS\n\n\n\n             if (mandelbrot(cmplx(re, im), MAX_ITER, THRESHOLD) > 10) &\n\n                 buffer(x + 1, y + 1) = '*'\n\n         end do\n\n     end do\n\n\n\n     write (fmt, '(a, i0, a)') '(', NCOLS, '(a1))'\n\n\n\n     do y = 1, NROWS\n\n         print fmt, buffer(:, y)\n\n     end do\n\n\n\n     call cpu_time(t2)\n\n     print '(\"Time: \", f8.6, \" sec\")', t2 - t1\n contains\n\n     pure integer function mandelbrot(c, max_iter, threshold)\n\n         complex, intent(in) :: c\n\n         integer, intent(in) :: max_iter\n\n         real,    intent(in) :: threshold\n\n         complex             :: z\n\n\n\n         z = (0.0, 0.0)\n\n\n\n         do mandelbrot = 0, max_iter\n\n             z = z**2 + c\n\n             if (abs(z) > threshold) exit\n\n         end do\n\n     end function mandelbrot\n end program main\n\n Should work with all compilers and on all platforms, for example:\n\n $ gfortran -o mandelbrot mandelbrot.f90\n\n $ ./mandelbrot\n\n\n\n\n\n\n\n                                                  *\n\n                                                   ***\n\n                                                  ***\n\n                                               *********\n\n                                               ********\n\n                                      * *   ************  *     *\n\n                                       ********************* *****\n\n                                       **************************\n\n                                    ****************************\n\n                     *     *        *******************************\n\n                      *********    *******************************\n\n                      *********************************************\n\n                 *   *********************************************\n\n                  ***********************************************\n\n **************************************************************\n\n                  ***********************************************\n\n                 *   *********************************************\n\n                      *********************************************\n\n                      *********    *******************************\n\n                     *     *        *******************************\n\n                                    ****************************\n\n                                       **************************\n\n                                       ********************* *****\n\n                                      * *   ************  *     *\n\n                                               ********\n\n                                               *********\n\n                                                  ***\n\n                                                   ***\n\n                                                  *\n\n\n\n\n\n\n\n\n\n\n\n Time: 0.006165 sec\n\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#174 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5XPXUCBMWZBCH4QS3S7FCP7ANCNFSM4UMBJH2Q>\n ."
                 }
             ]
         },
@@ -1127,6 +1928,16 @@
                     "user": "certik",
                     "date": "2020-10-21 16:26:13+00:00",
                     "text": "Thanks everybody, I am glad this is in."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-13 10:01:39+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-13 10:02:06+00:00",
+                    "text": "The preview build for this PR has now been deleted."
                 }
             ]
         },
@@ -1445,6 +2256,16 @@
                     "user": "milancurcic",
                     "date": "2020-10-02 19:11:36+00:00",
                     "text": "It's now fixed by #141"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-13 10:01:14+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-13 10:01:30+00:00",
+                    "text": "The preview build for this PR has now been deleted."
                 }
             ]
         },
@@ -1508,6 +2329,16 @@
                     "user": "milancurcic",
                     "date": "2020-09-01 16:58:43+00:00",
                     "text": "Thank you all and thank you Laurence for updating the contributions data. I think it's good to go. I will merge in one hour."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-13 10:00:50+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-02-13 10:01:09+00:00",
+                    "text": "The preview build for this PR has now been deleted."
                 }
             ]
         },
@@ -3420,7 +4251,7 @@
             "number": 89,
             "user": "certik",
             "date": "2020-05-22 18:14:02+00:00",
-            "title": "Consider switching to Hugo from Jekyll",
+            "title": "Consider changing static site generator",
             "text": "I have great experience with Hugo for site generation --- a single binary download on all platforms, it's very fast to run, and overall seems robust.\nThe issue with Jekyll is that it's harder to install and you typically run into issue such as this one:\n#77 (comment)\nThis is relatively lower priority, since this website was primarily developed by @milancurcic and @LKedward and so I let them choose the technology. I opened this issue just as an alternative to know about.",
             "comments": [
                 {
@@ -3437,6 +4268,46 @@
                     "user": "LKedward",
                     "date": "2020-05-23 13:43:29+00:00",
                     "text": "I agree Jekyll isn't great for contributors to setup - I'm also not sure if it supports Windows or not?\nI find the Jekyll templating language very rudimentary at times, but this also means that it isn't too complicated to get started. I'm happy to stick with Jekyll for now, but we can reconsider later if need be."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-26 11:44:31+00:00",
+                    "text": "As discussed in #201, Jekyll isn't well-suited to robust internationalization, most notably it isn't possible to use a gettext-based approach which would offer a safe and automated workflow. Hugo similarly doesn't have support for using gettext.\nBased on this, we should re-open discussion of changing static site generator with a mind to support gettext-based translation.\nAs suggested by @certik, the sympy site uses jinja2 templating with an i18n extension that supports gettext. The generate script demonstrates this nicely.\nSome points for discussion/comment:\n\nAre there any objections to switching static site generator in order to robustly implement internationalization?\nDoes anyone have an objection to switching to jinja2?\nDoes anyone have any other suggestions for alternative site generators with gettext support?\nWhat are the specific requirements for site generators in order to port all of fortran-lang.org?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-26 12:56:41+00:00",
+                    "text": "Switching from jekyll to plain HTML + jinja2 seems like a major step back. jinja2 templating is not so much different to liquid templating in jekyll and we would loose the markdown support to gain gettext support.\nI'm fine with loosing markdown support only if we are able to replace it with something similarly like reStructuredText or Asciidoc in our static page generation, we need support for code-blocks and I'm not too eager writing those in plain HTML or some ugly template block."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-26 14:02:39+00:00",
+                    "text": "I'm fine with loosing markdown support only if we are able to replace it with something similarly like reStructuredText or Asciidoc in our static page generation, we need support for code-blocks and I'm not too eager writing those in plain HTML or some ugly template block.\n\nYes agreed, we definitely want to keep easy support for code-blocks."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-26 14:36:46+00:00",
+                    "text": "It looks like our website is a combination of html files and markdown. For html, moving to jinja is a step up.\nFor Markdown, we need to figure out a way how to translate Markdown documents in general. What are the options / alternatives? How is this done in Jekyll?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-26 14:39:12+00:00",
+                    "text": "Jekyll is using a Markdown to HTML converter, you have the choice between several vendors, usually kramdown is used (which we are using as well), but you can plugin other converters as well, e.g. if you want to use Asciidoc with Jekyll."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-26 14:44:48+00:00",
+                    "text": "Beside being able to write content in a human-readable markup, it's also important for me that GitHub can render it in the browser (in file views and PRs). I know GitHub renders md and rst but I don't know about adoc. Consider also how many people are familiar with these markups. Markdown is probably the most ubiquitous, and would impose the least friction to contributing writers."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-26 14:56:36+00:00",
+                    "text": "GitHub can basically render any known markup language: md, rst, adoc, textile, mediawiki, ... This shouldn't be a limitation. I'm not too attached to a particular markup language, but I have a slight preference for reStructuredText and Asciidoc because I found them easier to use in bigger technical documentations, especially when it comes to code-blocks in admonitions. We currently create those with a liquid capture block in the minibooks which is quite ugly.\nreStructuredText would be a natural choice when using sphinx as static side generator which has a gettext based i18n module"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-26 14:56:49+00:00",
+                    "text": "I strongly prefer Markdown. Let's keep using it.\nAs a start, we can simply require that the whole Markdown file must be translated, and perhaps the translation can keep a comment somewhere which exact English version was used. That way you can manually check if there was some change in the English version. We can even write a tool for this. So in some sense, it would be like gettext, but for the whole Markdown document at once. I think that's fine with me.\nMy main objection was for the html documents, and those would be fixed with jinja+gettext."
                 }
             ]
         },
