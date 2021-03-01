@@ -2,12 +2,945 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 372,
+            "user": "urbanjost",
+            "date": "2021-02-24 00:34:37+00:00",
+            "title": "close #371",
+            "text": "This should close #371.\nAfter running\n$fpm new TESTIT --app\n$fpm build --compiler ifort --verbose\n$fpm build --compiler ifort --verbose --release\nyou now get\n$fpm build --compiler ifort --verbose --release\n <INFO>BUILD_NAME:release\n <INFO>COMPILER:  ifort\n <INFO>COMPILER OPTIONS:   -fp-model precise -pc 64 -align all\n                           -error-limit 1 -reentrancy threaded -nogen-interfaces -assume byterecl\n                           -module build/ifort_release/TESTIT -I build/ifort_release/TESTIT\n$fpm build --compiler ifort --verbose --release\n <INFO>BUILD_NAME:debug\n <INFO>COMPILER:  ifort\n <INFO>COMPILER OPTIONS:   -warn all -check:all:noarg_temp_created\n                           -error-limit 1 -O0 -g -assume byterecl -traceback  -module\n                           build/ifort_debug/TESTIT -I build/ifort_debug/TESTIT",
+            "comments": []
+        },
+        {
+            "number": 371,
+            "user": "awvwgk",
+            "date": "2021-02-23 16:12:46+00:00",
+            "title": "Intel Fortran release mode uses different calling convention",
+            "text": "fpm sets -assume nounderscore if the --release flag is provided, but does not set this option for the default debug build. This means LAPACK / BLAS routines can only be called with Intel in debug mode right now.\n + ifort  -fp-model precise -pc 64 -align all -error-limit 1 -reentrancy threaded -nogen-interfaces -assume byterecl -assume nounderscore  -module build/ifort_release/multicharge -I build/ifort_release/multicharge build/ifort_release/multicharge/app_main.f90.o build/ifort_release/multicharge/libmulticharge.a  -llapack -lblas -llapack -lblas -o build/ifort_release/app/multicharge\nld: build/ifort_release/multicharge/libmulticharge.a(src_multicharge_blas.f90.o): in function `multicharge_blas_mp_mchrg_sgemv312':\nblas.f90:(.text+0x38a): undefined reference to `sgemv'\n...",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-23 16:42:01+00:00",
+                    "text": "Is this because you're not using a BIND(C) interface or does that not work for you?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-23 17:06:44+00:00",
+                    "text": "I never needed a bind(C) for interfacing with Fortran 77 APIs so far, also the linking works with Intel in debug but not with Intel in release, we shouldn't change the calling convention from one build mode to another."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-23 17:08:14+00:00",
+                    "text": "Using bind(C) to solve the issue for Intel release would break it for Intel debug and GCC."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-23 17:33:02+00:00",
+                    "text": "I never needed a bind(C) for interfacing with Fortran 77 APIs so far,\n\nApologies, ignore my comment, wasn't thinking"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-23 17:35:41+00:00",
+                    "text": "we shouldn't change the calling convention from one build mode to another\n\nI agree, it looks like -assume nounderscore should be removed from in the release flags as well.\nEdit: wrong way around."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-24 01:10:55+00:00",
+                    "text": "I believe --assume nounderscore should be removed from --release version. There were all kinds of issues with underscores with Intel and other vendors long ago; but to my knowledge they were resolved.  I built  a mixed ifort/icc fpm project (M_draw module from GPF) with no issues without it. Perhaps a bigger issue is that the Fortran fpm(1) assumes the compiler name given can handle both Fortran and C, or at least \"co-compiler\" C.  GNU and IBM and a few others do that; but Intel does not so you have to create a shell script called ifort that calls icc if the input file ends in .c right now and put that in your path before the ifort command and call the ifort command in the script with a full pathname, which is an ugly kludge when building  mixed F/C projects right now.  If anyone requires \"-assume nounderscore\" let me know."
+                }
+            ]
+        },
+        {
+            "number": 370,
+            "user": "urbanjost",
+            "date": "2021-02-21 02:12:54+00:00",
+            "title": "Changed behavior for run subcommand per @LKedwards suggestions",
+            "text": "Addresses #245 \ud83d\udc4d per @LKedward and @awvwgk suggestions\nSimplified it as introducing a BRE like M_match or depending on a C library seemed too much for such a basic feature, so added simple globbing. Only run was changed to not run everything\nby default; not test. Because the code for run and test is contained in a single procedure it does\ncause test to allow globbing for specific test names but that should be a transparent change to test.\n --target NAME(s)  list of specific application names to execute.\n                   No name is required if only one application exists.\n                   If no name is supplied and more than one candidate\n                   exists or a name has no match a list is produced\n                   and fpm(1) exits.\n                   Simple \"globbing\" is supported where \"?\" represents\n                   any single character and \"*\" represents any string.\n                   Therefore a quoted asterisk '*' runs all programs.\n\nThis adds no new command switches.\no  I could change my mind about allowing BRE (Basic Regular Expressions) via M_match, as it seems\nslightly odd to quote globbing expressions. On the other hand all CLI systems in common use allow\nglobbing, and not everyone may be familiar with RE  (eg. '.' would be required instead of ''.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-21 02:43:48+00:00",
+                    "text": "Also made an fpm-example script to explore some of the other topics discussed.  (It requires whiplash(1) which is probably not on MSWindows but I have used dialog(1) and tcdialog(1) on CygWin) just to explore using the basic plugin model.  Here I am using it with an fpm package with a lot of examples by just entering \"fpm example\" and like fpm-search it feels just like a part of fpm.\nA lot to think about (aliases, plugins, built-in scripting languages, abbreviations, response files) but that is fun too."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-21 17:32:47+00:00",
+                    "text": "Removing -all is simple; to facilitate discussion I added it. I like the switch but have concerns about the command becoming overloaded. Do not see a simple place to split it except to make example a separate command if it is starting to look too complicated. Still simpler than other package managers I have looked at but fpm is very intuitive so far IMO and I am hoping it can stay that way."
+                }
+            ]
+        },
+        {
+            "number": 369,
+            "user": "LKedward",
+            "date": "2021-02-20 13:51:56+00:00",
+            "title": "Separate build targets from model structure",
+            "text": "As discussed previously the list of build targets (build_target_t) is specific to the native backend and hence doesn't strictly belong in the model structure (which is ideally backend-independent).\nThis PR separates the list of build targets from the model structure and therefore provides a better distinction between the package representation and the fpm backend. In particular this refactoring removes some existing complication and redundancy in the treatment of compiler and linker flags which are now passed to the backend on a per target basis. As a result the backend is further simplified and importantly this paves the way for #112 (managing flags) and #358 (Improve support for include statements).",
+            "comments": []
+        },
+        {
+            "number": 368,
+            "user": "certik",
+            "date": "2021-02-19 18:05:33+00:00",
+            "title": "Support Lapack natively",
+            "text": "This is in some sense similar to #354. fpm should have a first class support for Lapack and its fast implementations. Many times you have to enable MKL in Intel with special options based on the Intel compiler version, and so on.\nI don't know exactly what we need to do technically, whether we can design a general mechanism in our package management, or simply hardwire Lapack like we will hardwire MPI.",
+            "comments": []
+        },
+        {
+            "number": 367,
+            "user": "certik",
+            "date": "2021-02-19 17:48:11+00:00",
+            "title": "Options in fpm.toml for free-form / fixed-form selection",
+            "text": "I think we need an option to select a default for the whole project, perhaps:\nproject_file_type = \"fixed-form\"\n\nand then we need an option to override the project level setting for a given file.\nSo you could select the whole project to be fixed-form, but can select two files to be free-form. And vice versa.\nThis issue is not about what fpm should do by default (see #366) for that. This issue is simply the mechanics how the free form should be selected. So mostly about syntax.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 18:16:27+00:00",
+                    "text": "I would prefer to decide this based on a separate source table rather than a keyword as suggested in #366 (comment)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 18:26:15+00:00",
+                    "text": "Your source table works based on an extension. What if you are using some legacy code in .f and want to use free-form also in .f? One could rename the legacy code extension."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 18:32:43+00:00",
+                    "text": "What if you are using some legacy code in .f and want to use free-form also in .f?\n\nWe should strongly discourage this, decisions like this should be based on per project basis, it would help to bring the point across that we are reclaiming f as extension for free format. The specification of file specific rules will already be incredible lengthy in the package manifest, it's not a clear design, someone might be tempted to automate writing those entries. If one really wants to have to have free and fixed format in the same project, a setup like this might work with a local subproject:\nfpm.toml\nsrc/\nlegacy/\n|-- fpm.toml\n|-- src/"
+                }
+            ]
+        },
+        {
+            "number": 366,
+            "user": "certik",
+            "date": "2021-02-19 17:40:26+00:00",
+            "title": "Proposal: add an option to select fixed-form, make free-form the default",
+            "text": "Proposal:\n\n\nMake fpm treat all Fortran file extensions (.f, .f90, ...) as free-form by default. fpm is responsible for calling each compiler properly with the correct options (so it would tell each compiler to treat it as free-form). Compilers do not need to change at all.\n\n\nfpm will have an option to turn fixed-form for legacy packages (both on per project or per file basis), such as https://github.com/ivan-pi/LINPACK\n\n\nNote: compilers do not need to change. This proposal is strictly what fpm does by default.\nThis proposal will allow people who want to\n\ncontinue using .f for fixed-form to do so (with a simple option in `fpm.toml)\ncontinue using .f90 for free-form to do so (by default)\nstart using .f for free-form to do so (by default)\n\nThis proposal is not about what fpm new does, that would be a separate issue.\nAnother way to look at this is that we need an option to select free-form / fixed-form anyway (see #367). The only question is what should be the default. Because we do not recommend to use fixed-form for new projects, the free-form should be the default, and fixed-form should be selected by an option.\nNote: this issue can be split into two parts:\na) how to select fixed-form and free-form, the syntax and mechanics of it: #367\nb) what should be the project level default (this issue)",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 18:14:47+00:00",
+                    "text": "I would suggest to add a source entry to the build table (or top-level), there we can decide to add file extensions for all three four supported languages in fpm (Fortran, C, C++ and of course legacy Fortran).\n[build.source]\nfortran = [\"f\", \"f90\"]\nfortran-legacy = [\"ftn\", \"for\"]\nc = [\"c\"]\ncpp = [\"cpp\", \"cc\"]\nThis should provide the overall most flexible design, we only have to decide on reasonable defaults."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-19 20:05:05+00:00",
+                    "text": "Doing it by file suffix introduces yet another (customizable) convention, just like compilers did.\nAn alternative is to completely divorce the legacy-modern / fixed-free forms from the source file suffix.\n\nAssume free format for all source files\nAllow customizing which suffixes denote source files. For example, default list for Fortran could be ['f', 'f90', 'f03', 'f08', 'f18', 'ftn'], but the user should be able to add, e.g. 'ff' to the list if they wish so\nHave a project wide legacy = true switch in the manifest to assume fixed-format for all source files\nHave a per-source file specific legacy = true switch in the manifest to assume fixed-format only for some files."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 20:23:12+00:00",
+                    "text": "An alternative is to completely divorce the legacy-modern / fixed-free forms from the source file suffix.\n\nI really, really like the idea. Still I'm a bit torn, because I'm using a mixed format project as starting point for my teaching next month. The fixed format part is a redistributed version of the dspev solver from LAPACK and the students never interact directly with this file... yet I would have to create a local subproject for just one file here, which does not look particular elegant.\nEdit: Probably could just convert the fixed format to free in this case..."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 20:49:44+00:00",
+                    "text": "@awvwgk your use case is precisely what I had in mind. I think we should allow per file setting also. In other words, perhaps let's do per extension and per file and per project."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-20 01:03:07+00:00",
+                    "text": "I agree with the goals and desired behaviors but having gone through this with many suffixes and compilers you want to pick two suffixes.\nAnd even to support .f as a free-format suffix fpm will have to copy the source file to .f90 for some commonly used compilers.\nSo short of only supporting certain compilers pick two suffixes -- .f and .ftn  or .f90 and .f and do not support any others unless it actually means something else like to preprocess it.\nEven if I start with a bunch of legacy code that ends in .for or .ftn It takes one ULS command (rename .old .new *.old) to \"convert\" to any new two-suffix system; so that is not asking much for users to get rid of .f03 and .f08 and such. We tried for a while to use such suffixes to actually connote specific standard conformance but in the long run it was a bad idea. Pick two."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-20 01:15:19+00:00",
+                    "text": "I think there's merit to restricting suffixes, as a more \"aggressive\" way to promote a convention. But I don't see a need for two suffixes, only one: .f. Compilers can be told to compile it in free or fixed form."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-23 19:36:55+00:00",
+                    "text": "Seems to have gonequiet, but since I read though over a dozen compiler manuals here is my last vote on the issue:\nAfter taking a survey of major compilers looking at supported suffixes that do not contain dates \".for\" comes close for fixed-format but PGI in particular seems to basically only support .f and .f90; but I would hate to have to specify which file is which in the toml file so location rather than suffix seems the easiest to me.\nAssume everything is free-format and ends in \".f\" or \".F\" unless placed in a subdirectory  like fixed/ or f77/ under app/, test/, example/, and src/. Since \"fixed\" is an English word that might be used for other purposes f77/ might be a better choice.  It still would be nice if the Standard supplied guidance, and if vendors allowed lists like  \"-free .f,.f90,.for,.ftn\".\nAs an aside, I did not know GNU allowed \"-x mysuffix  source.mysuffix\" until surveying what was available..  IBM and Intel and GNU all allow for custom suffixes, but it is not clear to me if the options can be specified multiple times.\nSo not my first choice, but looking at the different compilers and wondering what to do about \".cuf\" and noting that the only thing \"standardized\" is \".f\". and \".f90\"  (if supported, the meanings of .f77, .for, .ftn, .ff vary. For the compilers that allow the post-f90 standard-year suffixes like .f03, .f08, ...  at least all those assume free format, as expected ) I would say everything by default should be assumed free-format and should end in \"{.F,.f}\". \"if not now, when?\".\nAll the compilers I looked at had some way of saying the file was free-format or fixed-format regardless of the suffix with a compiler keyword so that is supportable.\nWhether a change is made or not the standard, fortran-lang, and fpm should strongly encourage just the use of {.F, .F90, .f, .f90} except for vendor-specific extensions like .CUF..  So if everything was \".f\" or \".F\" (as @milancurcic suggested) but I could move the file into a subdirectory called deprecated/ or fixed/  (I want to be able to change it with a move, not be editing a config file) I would be good with that.  If in the \"deprecated\" directory .f meant fixed and .f90 meant free I would not mind if the deprecated/ directory was the only place computed GOTO and  source without implicit interfaces were allowed either, but maybe that is too draconian.\nNote  a good number of vendors allow for a pragma-like comment in the source files but it varies from vendor to vendor even when implemented. If that had been done in the standard when free-format was introduced in Fortran90 like\nmodule, free ...::\nsubroutine,free:: name(...\nfunction,free:: name(...\nprogram,free:: name\n\nand then encouraged the use of one suffix (\".f|.F\")  I would have been happier about it. Until an explicit free or fixed specification was encountered you would have to have a default which for upward-compatibility probably would have been \"fixed\" which would mean that now-a days everyone would be complaining about having to specify \"free\" just like is heard about \"implicit none\" but it would have been better than the current state in my opinion.\nThen there are all tweaks to make for other programs like make(1) and editor syntax highlighting and ...\nI guess this was such a big change a file suffix was the easiest way to distinguish them, but C did not end up with \".c89\" and such; although I dimly do seem to remember using that for some C compiler once upon a time. Of course the battle over suffixes greater than three characters still seems to be ongoing (eg. \".htm\" versus \".html\") in some quarters."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-24 11:21:48+00:00",
+                    "text": "Assume everything is free-format and ends in \".f\" or \".F\" unless placed in a subdirectory like fixed/ or f77/ under app/, test/, example/, and src/. Since \"fixed\" is an English word that might be used for other purposes f77/ might be a better choice. It still would be nice if the Standard supplied guidance, and if vendors allowed lists like \"-free .f,.f90,.for,.ftn\".\n\nWhy not legacy/ instead of fixed/? The latter is more specific but I think the former explains better the rationale behind the potential new default of fpm.\n\nSo not my first choice, but looking at the different compilers and wondering what to do about \".cuf\" and noting that the only thing \"standardized\" is \".f\". and \".f90\" (if supported, the meanings of .f77, .for, .ftn, .ff vary. For the compilers that allow the post-f90 standard-year suffixes like .f03, .f08, ... at least all those assume free format, as expected ) I would say everything by default should be assumed free-format and should end in \"{.F,.f}\". \"if not now, when?\".\n\nI entirely agree.\n\nWhether a change is made or not the standard, fortran-lang, and fpm should strongly encourage just the use of {.F, .F90, .f, .f90} except for vendor-specific extensions like .CUF.. So if everything was \".f\" or \".F\" (as @milancurcic suggested) but I could move the file into a subdirectory called deprecated/ or fixed/ (I want to be able to change it with a move, not be editing a config file) I would be good with that. If in the \"deprecated\" directory .f meant fixed and .f90 meant free I would not mind if the deprecated/ directory was the only place computed GOTO and source without implicit interfaces were allowed either, but maybe that is too draconian.\n\nThis is what I have proposed in the \"originator\" issue. Let's discuss the suitability of such \"draconian\" rules there. Maybe we can find a way to make everyone happy without pushing it too much."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-24 14:12:05+00:00",
+                    "text": "Why not legacy/ instead of fixed/? The latter is more specific but I think the former explains better the rationale behind the potential new default of fpm.\n\nAccording to the article \"Defining Legacy Code\" there is no clear consensus among developers what legacy means. Even the reference LAPACK continues to be written in an old style of Fortran but is in widespread use (or at least the vendor versions are).\nThere is also the opinion of Bjarne Stroustrup (creator of C++):\n\n\"Legacy code\" often differs from its suggested alternative by actually working and scaling.\n\n\nInterestingly, in MFE I could not find any paragraph about conventions with file extensions (presumably, because they are not stated by the standard).\nThe book by Chirila & Lohmann contains the footnote:\n\nFiles containing modern Fortran source code usually have the extension .f90, but the reader may also encounter extensions .f77, .f, or .for, which correspond to older standards; likewise, some  developers  may  use  the  extensions .f95, .f03, or .f08,  to  highlight  use  of  features present in the latest revisions of the language\u2014but this practice is discouraged by some authors (e.g. Lionel [2]). To avoid problems, filenames should also not contain whitespace.\n\nMilan's new book also recommends sticking to .f90 for consistency.\nWhat I am trying to point out, is that newcomers to the language might be confused by any default fpm conventions, which differ from written resources, what they learn at university, web-pages, etc."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-24 14:26:08+00:00",
+                    "text": "Whether a change is made or not the standard, fortran-lang, and fpm should strongly encourage just the use of {.F, .F90, .f, .f90} except for vendor-specific extensions like .CUF.. So if everything was \".f\" or \".F\" (as @milancurcic suggested) but I could move the file into a subdirectory called deprecated/ or fixed/ (I want to be able to change it with a move, not be editing a config file) I would be good with that. If in the \"deprecated\" directory .f meant fixed and .f90 meant free I would not mind if the deprecated/ directory was the only place computed GOTO and source without implicit interfaces were allowed either, but maybe that is too draconian.\n\nThis is what I have proposed in the \"originator\" issue. Let's discuss the suitability of such \"draconian\" rules there. Maybe we can find a way to make everyone happy without pushing it too much.\n\nI don't like the idea of a deprecated/ folder tied to language features. For example the Fortran 2018 standard made the forall statetement obsolescent. Would \"good programming practice\" dictate I should move all my free-form F95+ programs containing the forall construct into a different folder? I don't think so."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-24 14:35:46+00:00",
+                    "text": "After taking a survey of major compilers looking at supported suffixes that do not contain dates \".for\" comes close for fixed-format but PGI in particular seems to basically only support .f and .f90; but I would hate to have to specify which file is which in the toml file so location rather than suffix seems the easiest to me.\n\nI tried to summarize the existing defaults for file extensions and the fixed-/free- compiler flags in issue #250. Please feel free to add any I might have missed."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-24 15:03:05+00:00",
+                    "text": "@ivan-pi wrote:\n\nWhat I am trying to point out, is that newcomers to the language might be confused by any default fpm conventions, which differ from written resources, what they learn at university, web-pages, etc.\n\nI agree that there is the risk of an initial confusion, I've already mentioned this elsewhere. However, I'd bet most of the books and written resources (except rare examples like fortran-lang.org) have no reference to fpm or stdlib. As a rethorical question: should we then scrap fpm and stdlib too? Obviously not."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-24 15:13:20+00:00",
+                    "text": "Yes, this discussion is meaningful only in the context of fpm.\nSo pointing to recommendations that are not fpm-aware, or prior to fpm, while useful to be aware of, are not relevant because they simply reiterate what major compilers use as default.\nRecall that this is not about trying to change the culture or conventions head on. This is about asking, \"if we are not tied to any past convention, what is the most sensible default for fpm?\". Whatever the answer is, use that for fpm, make fpm ubiquitous in the Fortran library ecosystem (it will take years, but it's feasible), and let users decide for themselves what suffix to use.\nFpm will eventually be no less significant tool than any major compiler."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-24 15:16:21+00:00",
+                    "text": "@ivan-pi\n\nI don't like the idea of a deprecated/ folder tied to language features. For example the Fortran 2018 standard made the forall statetement obsolescent. Would \"good programming practice\" dictate I should move all my free-form F95+ programs containing the forall construct into a different folder? I don't think so.\n\nI respect your opinion. I beg to differ: phasing out obsolescent features it's a healthy practice as long as it is managed not too abruptly, but we need to move on. IMO, exactly the fear of a too hasty language modernisation made Fortran adoption, usage and fields of application continuously shrink in the past couple of decades.\nMore specifically, I don't believe that we have to align to the standard specifications 100%. If, for example, forall is voted by the community as a useful modern default feature, we can keep it."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-24 15:56:01+00:00",
+                    "text": "@epagone,\nI should clarify, I am not necessarily against a folder with implicit fixed-form flag. In fact, I also adopt this type of convention when packaging legacy codes, e.g. https://github.com/ivan-pi/y12m/tree/main/src. But I am against mixing what is the fixed-/free- form issue, with the issue of deprecated and deleted language features.\nWhile I can relate strongly to your sentiment, about Fortran needing to move on (in 2017 my professors where still teaching in a basic F90 style with external subroutines and no modules), I maintain a skeptical attitude towards an alleged drop in Fortran adoption and usage.\nWhile Fortran might not be in the limelight anymore as a general purpose computing language, it still maintains high presence at most HPC centers. The fact the field of applications shrunk is not necessarily a bad thing, simply meaning that other programming languages (some of them influenced by Fortran) which were more suitable for those tasks appeared. From 1960 until 2020 the world population grew from 3 billion to 7.8 billion, and so did the computer penetration among all societal units (households, government organizations, companies, etc.). I find it hard to believe the total number of Fortran programmers would have gone down in the same period, even if the rate of growth might have decreased. I would echo @certik's words in a thread at Discourse:\n\nFortran has not realized its full potential. If we can realize Fortran\u2019s full potential, I think it will be a better language for scientific computing than Python."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-24 16:07:20+00:00",
+                    "text": "I think this branch of the discussion is definitely OT here (I should have replied in the other issue but, in a hurry, I was carried away, apologies). Anyway, I only partially agree with what you said but I am not in the position to provide a meaningful answer now because it touches several broader topics. A \"face to face\" conversation might be more effective and, if tomorrow there is time, it would be a good opportunity. I will stop here because we are OT."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-24 16:26:56+00:00",
+                    "text": "My apologies for getting carried away and derailing the thread too. I will join the call tomorrow. \ud83d\udc4d"
+                }
+            ]
+        },
+        {
+            "number": 365,
+            "user": "certik",
+            "date": "2021-02-19 16:50:48+00:00",
+            "title": "Proposal: maintain packages collectively at https://github.com/fortran-lang",
+            "text": "Fortran has many legacy packages, living at netlib and other places. Recently people have started resurrecting them. Initially people just provided a modern build system and ensured they build with recent compilers, examples of that would be:\n\nhttps://github.com/certik/minpack\n\nLately, people have started providing fpm build system for them, an example:\n\nhttps://github.com/ivan-pi/LINPACK\nhttps://github.com/ivan-pi/y12m\nhttps://github.com/ivan-pi/SMMP\nhttps://github.com/ivan-pi/fortran_lsp\n\nProposal: I propose that we allow to move such packages to the https://github.com/fortran-lang organization at GitHub.\nHere is how Rust does it:\n\nhttps://github.com/rust-lang\n\nThey have the core Rust packages (such as the compiler, package manager, etc.), but then they also have just Rust packages that they maintain collectively.\nFor Fortran this is even more natural: there are hundreds of existing packages / libraries / tools in Fortran that are abandoned and many of them are high quality. I can attest for example that both MINPACK and FFTPACK are high quality packages, FFTPACK for example even to this day competes very well in terms of performance (often within a factor of 2x against optimized FFTW). By maintaining them as a community under the fortran-lang organization we can effectively resurrect them, making them readily available using fpm and give them visibility and support as a community.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 16:56:12+00:00",
+                    "text": "Another thing to discuss is what kind of packages to host. I would propose any package that is abandoned and we are just resurrecting it. For packages that already have an active home somewhere else, such as https://github.com/opencollab/arpack-ng, we can leave those there (although they are certainly welcome to move under the fortran-lang umbrella if they wanted).\nFinally, for new packages that somebody writes from scratch, we will have to create some criteria, perhaps having at least 2 contributors or something like that."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 17:05:07+00:00",
+                    "text": "I like the idea of having community maintained Fortran packages here at @fortran-lang. What are the criteria to have an officially @fortran-lang hosted Fortran project (maybe even independently from being resurrected or newly created)? What minimal standards do we set for such a project?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 17:05:47+00:00",
+                    "text": "Rust also has a https://github.com/rust-lang-nursery to create new Rust packages. For now there is probably no need for such a staging area in @fortran-lang. Also, we might not want follow this line of thought too closely when deciding on a namespace for resurrected Fortran packages."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-19 17:10:29+00:00",
+                    "text": "I added two more packages to your list, also from Netlib with added fpm support.\nWhile I would like to see these codes flourish again, there are some challenges with the old Netlib codes:\n\nmany have gaps in their support for different real kinds (precisions are either single or double, sometimes both)\nsome require refactoring due to non-standard Fortran practices\nmost of them come with no interface module. Maybe a module with the external interfaces and potentially even intent attributes should be a minimum before they can be accepted into the collective. (\ud83d\ude22 maybe I will drop LINPACK.)\ndocumentation are just plain old text files\nlicensing terms are often not clear. While some are in the public domain, this is not good enough in certain jurisdictions."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 17:29:12+00:00",
+                    "text": "Keep in mind even on GitHub codes can die (to extend the where Fortran codes go to die metaphor), I have seen plenty of those already and also resurrected some.\nResurrecting a project is one thing, but making it useful is much more difficult, good documentation and examples are required for ones, availability is another issue (this will be solved by fpm). Than there might also be a performance issue with some of them. Let's take LINPACK as example, which has been rightfully superseded by LAPACK. There is almost no reason to built a project on LINPACK today, which could use the LAPACK API instead and profit from tuned libraries like MKL as well. If we resurrect a project based on LINPACK, what are the performance implications for such a project?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 17:56:31+00:00",
+                    "text": "Good points @ivan-pi and @awvwgk. I am glad you raised them.\nPerhaps we should aim to only include projects that will become useful. As an example we can maintain an fpm package for LAPACK (whose upstream sources would stay at https://github.com/Reference-LAPACK/lapack)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 18:00:53+00:00",
+                    "text": "Perhaps we should aim to only include projects that will become useful. As an example we can maintain an fpm package for LAPACK (whose upstream sources would stay at https://github.com/Reference-LAPACK/lapack).\n\nLAPACK is special in many regards, I would go so far to say that I never want to include LAPACK as fpm package but always by linking against an external library to actually make use of tuned libraries like MKL (see #330 for a related discussion)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 18:07:30+00:00",
+                    "text": "@awvwgk yes, that was a bad example, indeed I would like a special support for Lapack in fpm (#368) as well as for MPI (#354).\nFFTPACK would be a better example then. Or ARPACK (with upstream sources at https://github.com/opencollab/arpack-ng)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-19 18:57:35+00:00",
+                    "text": "Let's take LINPACK as example, which has been rightfully superseded by LAPACK. There is almost no reason to built a project on LINPACK today, which could use the LAPACK API instead and profit from tuned libraries like MKL as well. If we resurrect a project based on LINPACK, what are the performance implications for such a project?\n\nI agree new projects don't need LINPACK at all. My interest in the LINPACK routines was primarily due to a calling library by Sabine Van Huffel (see http://www.netlib.org/vanhuffel/readme), author of the book on Total Least Squares (TLS) Problems (the book has 1992 citation according to Google Scholar). According to her readme file, the routines have a LINPACK dependency. Ideally, sooner or later me or some other interested Fortranners would replace the LINPACK routines with the equivalent LAPACK ones (I have done this before in a different project).\nJust for comparison both Julia and Python both have easily accessible packages for TLS:\n\nTotalLeastSquares.jl\nscipy.odr (wrapper of ODRPACK from Netlib)\n\nI agree with both of your comments about LAPACK requiring special integration. This will also be crucial once we get to the point of calling LAPACK in stdlib."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 19:04:15+00:00",
+                    "text": "Another package that might be interesting here is MUDPACK, this is currently actively used in @dftbplus and redistributed with the code base. There would be at least one user for a resurrected MUDPACK.\nOther legacy projects are probably used in a similar fashion, embedded or redistributed in existing modern code bases."
+                }
+            ]
+        },
+        {
+            "number": 364,
+            "user": "urbanjost",
+            "date": "2021-02-19 03:26:20+00:00",
+            "title": "plugin alpha version",
+            "text": "This is a reconstituted  PR for and alpha version supporting plugins.  previous comments are very valuable and should be looked at in closed PR #362.  There were issues with rebasing the original PR to merge into the latest master and it was easier to just reintroduce the changes in the code.",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-19 03:58:29+00:00",
+                    "text": "Thank you @urbanjost . It works nicely on Windows 10."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-21 09:10:13+00:00",
+                    "text": "I ran into issue if the current directory contains a subdirectory named \"fpm\". If I rename the \"fpm\" subdirectory, it works."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-21 22:00:31+00:00",
+                    "text": "I have not been able to reproduce this. what is the value of your PATH environment variable and what is the path to the fpm-search program?  I am missing what could cause that behavior so I will probably need to ask you to build a test version.  Do you have more than one fpm command in your path? Was one of them in that fpm/ directory?  If you switched versions that could explain it."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-22 00:50:54+00:00",
+                    "text": "what is the value of your PATH environment variable\n\nset path=C:\\Tools;C:\\Dev\\MinGW-10.2.0-x64\\bin\n\nwhat is the path to the fpm-search program?\n\nC:\\Tools\\fpm-search.exe\n\nI am missing what could cause that behavior so I will probably need to ask you to build a test version.\n\nOK.\n\nDo you have more than one fpm command in your path? Was one of them in that fpm/ directory?\n\nNo."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-22 02:06:47+00:00",
+                    "text": "I made a single-file fpm package that creates a debug version of fpm. I think the output will have a good chance of showing what went wrong:\ngit clone https://github.com/urbanjost/bootstrap\ncd bootstrap\nfpm run -- search\nThat is, it should make a program called bootstrap that is a version of fpm. You might have to install the binary where you installed your version of fpm to duplicate the problem(?)\nYou can also just \"gfortran bootstrap/app/main.f90 -o fpm\" since it is a single file.\nSo if you can just compile and load that single file and temporarily replace your fpm command which the new version that might be the simplest."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-22 02:51:53+00:00",
+                    "text": "Hi @urbanjost.\nI've installed the binary into C:\\Tools then I ran set path=C:\\Tools;C:\\Dev\\MinGW-10.2.0-x64\\bin\nbootstrap search works\n\nIf I cd to a directory that contains a subdirectory named \"bootstrap\", then bootstrap search  fails"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-22 05:57:11+00:00",
+                    "text": "Thanks! Should work now."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-22 09:04:32+00:00",
+                    "text": "Yes, it works now. Thanks!."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-23 17:29:01+00:00",
+                    "text": "As @LKedward mentioned in #362,  the current file structure prevents fpm(1) from being used as an fpm(1) package, and that would be easy to change.\nIn addition to the reasons proposed I think for this fpm-NAME subpackage support to be most useful some of the independent apps that could result (such as a snapshot of fpm-search) could be distributed as part of the package with a pure fortran single-file bootstrap version of fpm.\nSo another example might be the new subcommand could remain with basic features, but variants of fpm-init could exist that like the D language package manager prompt you though building a more elaborate setup; or could let you select from the templates on the web page; ...\nSomeone might like to make an fpm-license command so you could enter \"fpm license MIT\" and create a LICENSE file.\nSo if it were a package and you wanted to upgrade or get a specific version it could be a matter of and fpm update and fpm install;  if a new user you get the repository,  cd into it and enter 'gfortran bootstrap/fpm.f90 -o fpm;./fpm install;rm ./fpm' or something close to that.  That could easily be distributed in a tar file for someone on a stand-alone system that just had git(1) and gfortran(1).\nHaskell fpm (h-fpm) can still build packages with fpm.mk and CLI options for loading and linking  that Fortran fpm (f-fpm)  lacks\nand Haskell has a number of standard features that make interacting with the OS easier (until stdlib supplies the equivalent of a POSIX interface for Windows?)  and such so I am wondering how they would best co-habitate but I would like to see fpm as an fpm package at least as a beta.\nSo is it time to have the fledgling leave the nest and have an fpm package for fpm,  as proposed?\no could allow for the engine to be used as a library; which could allow for modular development of package builders,\nTUI and GUI interfaces, ... if a standard interface is defined (and allowing for calling fpm-NAME as is done with git(1)\nand cargo(1) would allow for very transparent use of the subpackages).\no allow for building f-fpm with just git and gfortran installed\no not sure about handling the documentation and examples that are currently \"above\" the f-fpm fpm/ directory.  To support f-fpm and h-fpm should at least the version-specific files be branched?"
+                }
+            ]
+        },
+        {
+            "number": 363,
+            "user": "certik",
+            "date": "2021-02-17 00:25:33+00:00",
+            "title": "Reclaiming `.f` file extension for modern Fortran (free form)",
+            "text": "This was first seriously suggested here:\n#359 (comment)\nThis deserves an issue of its own. Let's discuss the pros and cons, here is a start:\nCons\n\nChange of established (by now) conventions to use .f for fixed-form and .f90 for free-form (see @sblionel's post for the history of this). Thus creating even more confusion.\nSyntax highlighting in Vim, GitHub, etc. might be incorrect for free-form code in .f files\nSome existing Fortran users might be disappointed with this choice\nWhile this can be implemented in fpm easily, it might break some other existing tools around Fortran\n\nPros\n\n.f is a nice extension, natural for Fortran\nIt does not have 90 in the name, thus nothing \"old\" about it\nWriting fixed-form is not recommended for new projects, so the default good extension should be reserved for free-form, rather than fixed-form\nNew Fortran users might like this new extension more\n\nRelevant other issues: #250, #359.",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-17 00:39:02+00:00",
+                    "text": "A comment about the syntax highlighting is that (at least locally), it can be changed without too much effort to still treat .f as free-form Fortran. For every editor I've seen the relationship between a file extension and it's format is an easily customizable mapping. And if this convention catches hold we may start to see the defaults changed as well. A big shift like this has to start somewhere."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-02-17 00:41:37+00:00",
+                    "text": "@certik because the standard is silent on file extensions, I assume that the goal is to influence compiler developers. Recent compiler support surveys by Chivers and Sleightholme track 10 compilers. That seems like a lot of people to influence and therefore a big effort.  I imagine it might face less resistance to propose a new extension that's not widely used.  One approach might be for the developer community to add support for the new extension in open-source compilers and then get some projects to adopt to the new extension if those projects only care about compiling with the open-source compilers.  That might go a long way toward demonstrating to the vendors that the community wants and supports the idea.\nSome suggestions:\n\n.fsf for \"free source form\" (which unfortunately could be mistakenly expanded to \"fixed source form\"),\n.mf for \"modern Fortran\" (along with other fun, unsavory interpretations),\n.mofo also for \"modern Fortran\" (and also with fun, unsavory interpretations), and\n.fo which is almost as short and sweet as .f but without the baggage of any suggested so far."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-17 00:44:32+00:00",
+                    "text": "@rouson thanks for the comment. This issue is for fpm to simply treat .f files as free-form which we can implement easily, and fpm would then use the appropriate compiler option for all existing commercial and open source compilers. So there is no technical issue from this perspective as far as I can tell, and compilers do not need to change their defaults. It is more of a symbolic issue, but see the other Cons above."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-17 00:53:52+00:00",
+                    "text": "I'm not sure I'd ever expect the compilers to change their default behavior for .f. They have far too many existing users to support that aren't interested in updating their code or migrating to fpm. But the rest of us can leave those user's behind and influence new tools to make our lives easier. (not that file extension is a burden at all).\nBut if we wanted to invent a new extension, I might go with .fm - Fortran, modern."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-17 01:19:21+00:00",
+                    "text": "@everythingfunctional to reformulate what you said, we are not leaving the users behind, I can easily imagine we would add a simple option to fpm.toml to treat .f as fixed-form for people who prefer that."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-02-17 01:36:35+00:00",
+                    "text": "Now that I understand the aim better, this proposal makes more sense -- although I'd still suggest choosing something new rather than overloading something well-established.  I have a new suggestion: .fpm, which of course indicates that the file is to be built by fpm, which, for the foreseeable future, is the only build system that will recognize whatever new extension is chosen.  As a bonus, it can also be interpreted as \"Fortran program, modern.\""
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-17 15:16:42+00:00",
+                    "text": "@certik , yeah, that statement was a bit hyperbolic. We do of course want to have an option to revert back to the old ways, if for know other reason than to make the transition easier for users wishing to adapt older code to use fpm.\nI do like @rouson suggestion of .fpm. Not quite as much as .f, but close."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-17 15:36:34+00:00",
+                    "text": "After spending a whole day filing bug reports due to new compiler and build systems releases, I'm not sure what gain we are expecting by deviating from existing conventions for file extensions. File extensions outside of the range of f and f90 will most likely introduce breakage down the line with either compilers and/or other build systems, which can become hard to debug once fpm allows to automatically export those build files."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-17 16:27:57+00:00",
+                    "text": "@certik I will consider the cons one by one.\n\n* Change of established (by now) conventions to use `.f` for fixed-form and `.f90` for free-form (see @sblionel's [post](https://stevelionel.com/drfortran/2013/01/11/doctor-fortran-in-source-form-just-wants-to-be-free/) for the history of this). Thus creating even more confusion.\n\n\nI agree and I like that you correctly mention \"by now\", i.e. it can be only a transitory confusion \u263a\ufe0f . I think that this is the only major issue that I personally have. However, if we decide to make this brave move, I think .f minimises the confusion in comparison to any other alternative \"new\" extension for free form.\n\n* Syntax highlighting in Vim, GitHub, etc. might be incorrect for free-form code in `.f` files\n\n\nFair point, but not really a big deal as already explained by @everythingfunctional above in a better way than I could.\n\n* Some existing Fortran users might be disappointed with this choice\n\n\nI'm not sure that I understand what you mean. I suspect that the real \"con\" can be understood investigating the cause of such disappointment.\n\n* While this can be implemented in `fpm` easily, it might break some other existing tools around Fortran\n\n\nI think this is a \"pro\" \ud83d\ude04 Please let me explain. If I am not wrong, one of the main motivations to start fpm in the first place was to relieve the burden off the shoulders of Fortraneers caused by using messy, hacky or complex solutions to build and distribute their code. For example, cmake is an amazing tool that can even calculate ray tracing but it is definitely not easy to master. In a sense, existing tools, are already \"broken\" because they require considerable effort to the average Fortran coder. fpm would solve this issue discouraging (mostly newcomers) to adopt other tools that do not support Fortran very well, saving frustration down the line.\nI think that @awvwgk's experience in the comment above reinforces some of these points."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-17 16:30:34+00:00",
+                    "text": "However, as the originator of the idea, I would like to point out that my aspiration is broader than \"just\" reclaiming .f (although at the moment it is the most \"visible\" proposal): I'd like to remove the legacy ties that make Fortran be recognised as a language stuck in the past, even just with purely cosmetic changes (e.g. what is the big deal in typing \"implicit none\" here and there?). Please have a look at the first post of the linked issue and feel free to suggest if there is any modern feature that can be \"activated\" by appropriate flags and that I have not considered."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-17 17:12:54+00:00",
+                    "text": "While this can be implemented in fpm easily, it might break some other existing tools around Fortran\n\n\nI think this is a \"pro\" smile Please let me explain. If I am not wrong, one of the main motivations to start fpm in the first place was to relieve the burden off the shoulders of Fortraneers caused by using messy, hacky or complex solutions to build and distribute their code. For example, cmake is an amazing tool that can even calculate ray tracing but it is definitely not easy to master. In a sense, existing tools, are already \"broken\" because they require considerable effort to the average Fortran coder. fpm would solve this issue discouraging (mostly newcomers) to adopt other tools that do not support Fortran very well, saving frustration down the line.\n\nWhile I for sure enjoy to deliberately break existing tool chains (usually with benign intentions to improve the overall robustness), it's not something I would put up as a project aim.\nThere is a worth in build systems like meson and CMake and I wouldn't call them broken for Fortran. Especially meson comes with a powerful project management system which allows to easily reuse code, which is no worse for Fortran than for C++. CMake has its particularities, but those are not aimed against Fortran, they are available for all supported programming languages on equal footing. I certainly don't enjoy writing CMake build files because it requires a lot of boilerplate I get for free in meson, but the resulting build system is solid across platforms and compilers which enables to focus on the important task at hand: writing better software.\n\nOn the actual topic of reclaiming the f extension for free format source code. There are already huge Fortran projects, like Vasp and Turbomole, that use only f as extension for their Fortran source, which is mostly free format. Obviously there has to be a way to still use fixed format source code in such a huge code base from the past decades. This is usually done manually in a huge Makefile.\nFor new projects this is less of a problem, so adopting f as default extension would work, with the minor annoyance of having to get the free-format argument right for every supported compiler."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-17 17:27:00+00:00",
+                    "text": "While I for sure enjoy to deliberately break existing tool chains (usually with benign intentions to improve the overall robustness), it's not something I would put up as a project aim.\nThere is a worth in build systems like meson and CMake and I wouldn't call them broken for Fortran. Especially meson comes with a powerful project management system which allows to easily reuse code, which is no worse for Fortran than for C++. CMake has its particularities, but those are not aimed against Fortran, they are available for all supported programming languages on equal footing. I certainly don't enjoy writing CMake build files because it requires a lot of boilerplate I get for free in meson, but the resulting build system is solid across platforms and compilers which enables to focus on the important task at hand: writing better software.\n\nI think that we are saying the same exact thing (maybe from a different point of view): CMake and meson work really well (but also Autotools, once everything has been set up properly, ok except it's not cross platform, but I hope you'll get the point in a second). The problem is exactly writing all the necessary boilerplate that does not let you focus on writing better software.\nIf we had already a valid, good all-around Fortran build system, why on Earth are we going the long way to build fpm from scratch?\nBTW, thanks for the examples and the links: I was not aware of Vasp and Turbomole. It gives me a lot of hope!"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-17 17:56:34+00:00",
+                    "text": "If we had already a valid, good all-around Fortran build system, why on Earth are we going the long way to build fpm from scratch?\n\nBecause it's fun.\nWhy would somebody take on the effort to write meson in the first place when there was CMake and autotools around? The Gnome project now moved completely from autotools to meson, so maybe meson was a good idea and offered something you wouldn't get in autotools. If you look at meson you will notice it can do so much less than CMake, meson is not turing complete like CMake, there is no real reason to use meson, except that meson build files require a fraction of the lines you would write for the equivalent CMake project while you still can do 90% of your usual tasks with ease.\nSo what's up with fpm? Why would we choose a configuration file format like TOML as input over a powerful DSL like offered by meson? If you need the DSL of meson to express non-trivial dependencies in your project, fpm will hardly ever become a real alternative, but if you want to prototype, you can get away with a single line in your fpm.toml input and start immediately.\nThere is a gap fpm can fill for Fortran, it won't replace CMake or meson, at least in my opinion, but maybe it will allow us to seamlessly integrate with existing CMake and meson projects instead of fracturing the Fortran community with yet another build system (remember FoBiS, foray, ...?)."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-17 18:38:50+00:00",
+                    "text": "There is a gap fpm can fill for Fortran, it won't replace CMake or meson, at least in my opinion, but maybe it will allow us to seamlessly integrate with existing CMake and meson projects instead of fracturing the Fortran community with yet another build system (remember FoBiS, foray, ...?).\n\nThe fpm interface to CMake or meson is still entirely to be written and mostly to be designed, AFAIK. I can't remotely see why there is a risk of \"fracturing the Fortran community\" if fpm assumes by default that .f is free from and then the back-end converts appropriately this to CMake, for example (heck, it's just a matter of adding a compiler flag in CMakeLists.txt).\nI really do not understand so much concern. Am I missing something?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-17 19:15:46+00:00",
+                    "text": "@awvwgk @epagone\nAll these other build systems that you discuss--CMake, Meson, autotools--are (mostly) language agnostic.\nfpm is language specific. It's exactly what Fortran lacks and needs. Just like Cargo for Rust.\nWe didn't start with the question how can we make CMake, Meson, or autotools, but better. We started with the question, what is it that Fortran needs? What will make a Fortran programmer happier? With special attention to new Fortran programmers, an endangered and almost extinct species.\nTry giving CMake or autotools to somebody new to these tools and watch them pull their hair out for a week straight. Let's face it, unless you dug your way through the mud and became an expert, using them sucks. I can't speak for Meson.\nThese tools are also not package managers but build systems, as far as I understand them.\nSo fpm does not aim to replace these tools. It's more orthogonal than competitive with them. Projects that need them will continue using them. You already don't need these tools for most new Fortran projects, and experience is vastly superior IMO.\nSure, designing and building fpm is a lot of fun. But saying we do it just for fun is misleading."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-17 19:19:05+00:00",
+                    "text": "Sure, designing and building fpm is a lot of fun. But saying we do it just for fun is misleading.\n\nI should have worded it better:\nBecause it makes programming Fortran fun."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-17 19:23:43+00:00",
+                    "text": "I wrote more on how I see the role of fpm in Understanding intent."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-17 19:30:20+00:00",
+                    "text": "Just two quotes to go back to the pros and cons of the discussion:\n@awvwgk wrote:\n\nI certainly don't enjoy writing CMake build files because it requires a lot of boilerplate\n\n@milancurcic wrote:\n\nTry giving CMake or autotools to somebody new to these tools and watch them pull their hair out for a week straight. Let's face it, unless you dug your way through the mud and became an expert, using them sucks.\n\nI totally agree with both and, from my standpoint, this is enough to \"take home\" the message that if we break direct compatibility with such tools is not a \"con\": they are already complicated, require time, effort and attention regardless. Plus, if we develop the relevant back-ends, the problem evaporates entirely.\nSaid that, I realise that I have been imprecise with my my wording and I am sorry if I might have also sounded too provocative (it was not my intention)."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-17 20:03:20+00:00",
+                    "text": "Try giving CMake or autotools to somebody new to these tools and watch them pull their hair out for a week straight. Let's face it, unless you dug your way through the mud and became an expert, using them sucks. I can't speak for Meson.\n\nMy experience is that CMake is very powerful but complicated (and verbose). Meson is more simple to use, with a Python like syntax (fpm seems to be of the same family, and I like that). Although Meson is quickly evolving, it still does not install correctly the .mod Fortran files. I tried migrating gtk-fortran to Meson  but I was blocked by that problem. It's multi-language and Fortran is not a priority.\nWhat I like in fpm is that it is totally oriented toward Fortran. It is simple to use, with a clear syntax. It is perfect for launching small projects (probably it will soon be OK for bigger projects). But the fpm killer feature is of course the way it can manage dependencies:  already, being able to automatically git clone other fpm projects is awesome. But if it becomes able to do that with CMake or Meson, wow! That's what Fortran needs to cure its scattered ecosystem.\nTo return to the subject, I have divided opinions about the .f90 problem. I have no experience of compiling old .f files from big libraries. I have always modernized old code written in my team when confronted to Fortran 77 codes (typically a few thousands lines). So I can't say much. Only that I am not sure .f90 is a so important problem. I don't know."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-17 22:46:34+00:00",
+                    "text": "Let's discuss CMake elsewhere (especially since we all agree on the pros and cons anyway and are just reformulating the same arguments with different words) and focus just on the .f in this issue.\nThe fact that Vasp uses .f for free form might be enough of an argument, as Vasp has historically been the single most used code on many HPC clusters based on CPU hours.\nMy personal preference so far is this:\n\nIf there is community will, then let's reclaim .f\nIf there is not enough community will, then let's stick to .f90\nUsing .fpm would be my third preference (i.e., I would not bother and just stick to .f90)\nAll other suggestions so far for other extensions\n\nThis issue is symbolic, at least for me. It is how Fortran is perceived, and if we managed to reclaim it and keep all the tooling working, I think this could be very exciting for newcomers to the language. And also it would be proof that our community is serious about Fortran and has the manpower (or will) to change things.\nHowever (and I can't stress this enough): doing something like this is only worth it if we are 100% serious about this. It is not worth doing if we are not convinced, as it will only fracture the Fortran ecosystem more.\nMy recommendation at this point: let's keep using .f90 for now and concentrate on making fpm better. But let's keep thinking about reclaiming .f. It is a thought that needs time. My initial reaction was \"not a good idea\". But thinking it through, I like it. But as I said, we have to be unanimous about this."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-17 23:07:53+00:00",
+                    "text": "@certik The way you phrased the title of this issue is a big question and beyond the scope of fpm. Regarding that question, I agree with your proposal.\nBut the question can be much simpler in the context of fpm: Should fpm assume free-form or fixed-form for .f files?\nOr perhaps the question is: Should fpm even make assumptions based on source file suffix? (I think not)\nI think fpm should assume free-form for all Fortran source files, and explicitly instruct the compiler to build fixed-form if specified in fpm.toml or by some other configuration means.\nThen you're not doing any kind of reclaiming, or having to convince compiler makers. You're just setting what we think should be a sane default in fpm, and perhaps even make a recommendation about suffix in the fpm guide.\nConsider this scenario:\n\nfpm assumes free-form for all source files.\nfpm recommends .f suffix for Fortran source files in the fpm guide.\nNew Fortran projects that use fpm adopt the .f convention.\nLet other projects be what they want (.f90, .F, .ftn, etc.)\n\nIf fpm is succesful in the long run (the Cargo of Fortran), .f adoption will happen naturally and effortlessly."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-17 23:18:22+00:00",
+                    "text": "In some way the problem of free- and fixed-form is really just a problem of language classification.\nGiven the large strides made in natural language processing (NLP) in the past few decades, I wonder if the classification of a much less complicated man-made programming language can be so difficult.\nAt least within the fpm ecosystem, and as long as we could build a robust free/fixed-form classifier, free- and fixed-form might be able to co-exist side by side under the same .f extension.\nSome cons of this approach:\n\nwe need to build a robust classifier\nit introduces an overhead of fpm having to analyze each file (it could cache the result though)\npotential problems once integration with other build tools (CMake, etc.) is desired\nnot sure how to deal with files that require preprocessing\n\nIf we would try to pursue the auto-detection path, we have a lot of tagged data sets due to the existing convention of .f and .f90. \ud83d\ude04\nEdit: some programming language classification tools as proof of concept\n\nhttps://github.com/IBM/programming-language-classifier\nhttps://github.com/gcrowder/programming-language-classifier\nhttps://reference.wolfram.com/language/ref/classifier/ProgrammingLanguage.html\nReyes, J., Ram\u00edrez, D., & Paciello, J. (2016, December). Automatic classification of source code archives by programming language: A deep learning approach. In 2016 International Conference on Computational Science and Computational Intelligence (CSCI) (pp. 514-519). IEEE. (download pdf)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-17 23:23:04+00:00",
+                    "text": "I thought about auto-detecting free/fixed-form in .f and I think the best is what @milancurcic suggested ---- assume free form for all extensions and if you have a fixed form, you have to specify that manually in fpm.toml. I think this is the way to go."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-17 23:31:18+00:00",
+                    "text": "Down the road this would break most of Fortran syntax highlighting. At least during a short transition period (likely on the order of decades), code editors would become forced to auto-detect or programmers would need to adjust their syntax highlighting settings manually. (For me personally it is not a problem, but for a beginner this might be discouraging.)\nAlternatively we would need to convince people to start renaming fixed-form files to .lf as in legacy Fortran or .of for old Fortran."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-02-17 23:43:04+00:00",
+                    "text": "You can't reliably auto-detect - it is possible to write code that is correct whether you interpret it as free form or fixed form.\nFixed form is obsolescent. If you want fpm to assume free-form for .f you can, but you'll be going against decades of convention and it is likely to cause more problems than it solves."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-17 23:45:10+00:00",
+                    "text": "You can't reliably auto-detect - it is possible to write code that is correct whether you interpret it as free form or fixed form.\n\nI realize such cases might exist hypothetically. But I don't think they pose a problem. In this special case you can just interpret the file as free-form. If it doesn't compile, then it must be the other form. If it doesn't compile as either, well then something is broken, the code, the compiler, or the standard (in this precise order)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-18 00:27:56+00:00",
+                    "text": "Upon reading some more about programming language classification, the most likely useful feature used to separate between the two forms are comments (C vs !).\nSince the language tokens are the same in both free- and fixed-form they cannot be used reliably. Luckily due to historical language features, and differing programming styles, it is likely that the frequency of tokens (including initial whitespace) can still be used for classification.\nIt would be counter-productive to write your modern Fortran code in an old-fashioned way using computed GOTO's, labelled statements, and other deprecated features, even if theoretically possible. Of course you can do it, even if just for the pleasure of proving a classifier can be wrong sometimes."
+                },
+                {
+                    "user": "mikolajpp",
+                    "date": "2021-02-19 08:23:36+00:00",
+                    "text": "I am a newcomer to Fortran, and this issue is something that coincidentally have been on my mind when I first picked up this language some weeks ago.\nFirst, without having a background in the history of fortran, it was confusing to know what extension to pick. I wanted to write \"modern fortran\", but using the \"f18\" for the latest standard feels a lot like naming a file after the current year. Then I found out  a lot of modern fortran code just uses \".f90\" so I stick to that.\nAesthetically it has been disturbing me, since Fortran is the only language I know that does not have unified convention (ok, you might say C++ has cpp, cxx, and cc, but these are of a different nature than Fortran's jungle of versions).\nAs for a constructive proposal, I myself thought of using \".ff\" for all my files (to differentiate it from \".f\"), but\nreading this whole thread reclaiming the \".f\" for modern free form Fortran appeals to me even more.\nI found modern fortran to be an appealing language and despite knowing Julia well, I find myself writing more and more code in Fortran.\nTaking a pragmatic stand, I would just like to be able to use fpm and plain \".f\" files for all my future projects.\nAlthough this might seem harsh, those who disagree with this choice or whose tools are incompatible can just continue using other tools. For users with no emotional stake in Fortran's past having a simple tool with uniform convention is what matter the most."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-19 15:17:55+00:00",
+                    "text": "Just to mention some thoughts found in previous discussions about this topic:\n\nsome have proposed that Fortran itself have a directive or option that indicates free or fixed format; which some compilers supply as an option now\nthat .fx  be a new extension that implies free format, implied implicit none, and no use of certain deprecated features along the lines of the F- project (and as new features appear that has the issue of what is \"deprecated\" at any particular time; just being a synonym for \".f90\" is less problematic)\nand others have suggested a magic string as the first line as in !FORTRAN_FREE.\n\nAll would still have issues with the assumptions utilties that supply highlighting might have.\nCurrently the suffix is totally outside of the standard specifications and is just a (well adapted) convention. Support of .F|.F90 implying preprocessing (and which preprocessor), support of previous \"standards\" such as .for, .ftn, ... is spotty. Many have argued the standard should state some preference for suffixes when source is in system files, which you have to admit is pretty obviously common.  One system allowed for directives in a single file that even allowed sections of C code mixed with fixed and free-format Fortran. I really liked that for building Fortran/C interfaces.\nI like the idea of \"reclaiming .f\"  but because there are a number of compilers and tools that would have to change it seems a bit of  a challenge without some kind of guidance or feature from the standard itself.\nIf I were going to try to go down this path I think I would say that .f is preferred but equivalent to .f90 and implies  free-format and that fixed-format should use .for or .ftn; (which would already be supported by a number of tools and compilers -- a good number treat .for and .ftn as equivalent to the current behavior with .f).\nI use .ff and .FF for essentially all new code, which in my environment implies a specific pre-processor is used, which is  not generally applicable but I mention it because I think at some point fpm will have a preprocessor(s) bundled with it and I think .fpm would be a good suffix to reserve for that; and if the preprocessor is also usable as an independent utility that would be easy to use with make and other tools that allow for creating your own suffix rules (my old environment auto-generates make files with a .ff rule but I am moving a lot to fpm slowly - a few M lines to go!).\nIf there were a suffix rule in fpm that allowed you to call any preprocessor as long as that preprocessor generated a flat .f90 file for distribution as a package (maybe multiple files for multiple passes to generate a MSWindows file and a Linux file and a BSD file and a ...) I would use that; but that would take some fleshing out -- having a \"standard\" preprocessor would be a lot simpler.\n.for seems to be generaly the same as .f,  .ftn seems to sometimes be treated like .f and sometimes like .f90;  looks like .f77 is supported more than I thought.  Updating the fortran Wiki and/or adding a page with recommendations in fortran.lang might be a good place to start.  I can see using .f77, and .f90 is widely supported but since I do not see anything enforcing .f03, .f15, .f08, actually mean that it is checked as conforming to a certain standard I think those should be STRONGLY discouraged. If anyone can add to this it would be great:\nMany compilers have options to specify assuming fixed or free-format. Some defaults are\nCray:\n\n.f, .for     Fixed-format source, compile\n.F, .FOR     Fixed-format source, preprocess, compile\n.f90, .f95, .f03, .f08, .f18, .ftn   Free-format source, compile\n.F90, .F95, .F03, .F08, .F18, .FTN   Free-format source, preprocess, compile\n\nFREE and FIXED\n!DIR$ FREE\n!DIR$ FIXED\n\nThe FREE and FIXED directives specify whether the source code in the program unit is written in free source form or fixed source form. The FREE and FIXED directives override the -f option, if specified, on the command line.These directives apply to the source file in which they appear, and they allow for switching source forms within a source file.Source form can be changed from within an INCLUDE file. After the INCLUDE file has been processed, the source form reverts back to the source form that was being used prior to processing of the INCLUDE file.\nIntel:\n   The ifort command interprets input files by their filename suffix as follows:\n\n   * Filenames with the suffix .f90 are interpreted as free-form\n     Fortran 95/90 source files.\n\n   * Filenames with the suffix .f, .for, or .ftn are interpreted as\n     fixed-form Fortran source files.\n\n   * Filenames  with the suffix .fpp, .F, .FOR, .FTN, or .FPP are\n     interpreted as fixed-form Fortran source files, which must\n     be preprocessed by the fpp preprocessor before being compiled.\n\n   * Filenames with the suffix .F90 are interpreted as free-form\n     Fortran source files, which must be  pre-processed  by  the\n     fpp preprocessor before being compiled.\n\nGfortran:\n  Enable preprocessing. The preprocessor is automatically invoked if\n  the file extension is .fpp, .FPP,  .F, .FOR, .FTN, .F90, .F95, .F03 or\n  .F08. Use this option to manually enable preprocessing of any kind of\n  Fortran file.\n\nSEE ALSO\n  *  [Fortran Wiki -- file extensions](http://fortranwiki.org/fortran/show/File+extensions)\n\n~"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 17:51:40+00:00",
+                    "text": "I like the idea of \"reclaiming .f\" but because there are a number of compilers and tools that would have to change it seems a bit of a challenge without some kind of guidance or feature from the standard itself.\n\nI just want to clarify this: compilers do not need to change.\nI opened a new issue #366 for a subset of what was discussed here."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-20 00:41:21+00:00",
+                    "text": "Since there is no standard for suffixes the compiler support varies extensively. Last I checked the Intel compiler had no switch to change the suffix meaning so .f always means fixed-format; but has very flexible directives such as \"!DEC$ FREEFORM and NONFREEFORM that let you change even in the middle of a procedure (which sounds horrible but can be justified when using INCLUDE files). So to use the compiler you would have to copy/link the file to a different filename, for example. So the compiler does not HAVE to change but if it does not compiling a \".f\" file as free-format becomes awkward. Every compiler is free to do what it wants. Some can compile from a pipe, some let you define suffixs to search for like \".fixed\" and \".free\".  So no matter what fpm does it is just another convention without some stand taken in the standard.\nfpm could always make file copies (my own build system does that primarily to allow for multiple concurrent builds so that is not totally unreasonable) but you cannot depend on the compiler being able to compile a \".f\" file as free-format  (although it is a common feature - GNU, NVidia, and Cray has such a switch, for example)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-20 01:07:20+00:00",
+                    "text": "Last I checked the Intel compiler had no switch to change the suffix meaning so .f always means fixed-format\n\nYou don't need that kind of switch. All you need is -free:\n$ cat fixed.f \nC     FIXED-FORM PROGRAM\n      PRINT *, 'HELLO'\n      END\n$ ifort fixed.f && ./a.out\n HELLO\n$ ifort -free fixed.f \nfixed.f(1): error #5082: Syntax error, found IDENTIFIER 'FIXED' when expecting one of: ( : % [ . = =>\nC     FIXED-FORM PROGRAM\n------^\ncompilation aborted for fixed.f (code 1)\n$ cat free.f \n! Free-form program\nprint *, 'hello'\nend\n$ ifort -free free.f && ./a.out\n hello"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-20 01:27:47+00:00",
+                    "text": "That was what I meant was missing. Oddly, the man page for ifort I have does not contain the -free switch, but I tried it and it works with the version I have; I started taking a survey because I certainly have used compilers in the past that had no such switch and I remember one in particular that also did not support .F and .F90 implying preprocessing; so far (Cray, GNU, NVidia, now Intel) they have one but they certainly are not required to have it as there is no language standard, just a de-facto standard that has painfully emerged (.fort, .ftn, .for, .f77, ...)."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-02-20 01:28:09+00:00",
+                    "text": "ifort also has -Tf to tell it that the filename is a Fortran file, if the extension is not one it recognizes. You also need -free if free-form.\nI do not believe it is worthwhile spending any effort to change established usage of extensions. If you want fpm to assume that all sources are free-form, go ahead, but I anticipate future complaints when someone tries to package some existing fixed-form code. When I wrote my post in 2013, I thought it was way too late to effect such a change - it's even later now. Spend your time on something new."
+                }
+            ]
+        },
+        {
+            "number": 362,
+            "user": "urbanjost",
+            "date": "2021-02-16 17:25:57+00:00",
+            "title": "simple plugin support where fpm-NAME commands are searched for",
+            "text": "Relating to  #361 and #211\nA simplistic plugin support method whereupon when a subcommand is\nnot found the PATH variable is used to search for commands of the\nform fpm-NAME and those are executed in lieu of an error message\nindicating an unknown subcommand was entered.\nThe executable is simply called. No data is passed via arguments,\nenvironment variables, or files (yet).\nThis allows for concurrent development. This is an alpha feature\nto support testing the pros and cons of plugins, aliases, a\nbuilt-in scripting language (see Fortran scheme, lua, ...),\nresponse files (see M_CLI2), ...\nThe subcommand must currently support its own help. The list subcommand\ndoes not currently list available plugins -- that is, nothing in fpm\ndocuments that external subcommand exists.\nThis allows related commands such as repository search, formatting\ntools, and other utilitites to develop independently of the core\nfpm functionality without bloating the core program with the many\nexternal packages that would be potentially useful to other functions,\nto allow for easier development of system-dependent subcommands, and\nso on.\nIt could become much more useful with the ability to pass categories\nof pathnames, but some of that exists with the --runner option.\nWith pathnames, you could say \"reformat all my source files\" or\n\"expand tabs in all my source files\" or \"edit my source files\"\nwithout the complex syntax required by the --runner option, and so on.\nBest example so far:\ninstall fpm-search(1) in your path, and you can use it using\nfpm search 'date|time'\nSince fpm-search is a stand-alone utility is requires no data to be passed\nto it but feels very much a part of fpm(1))); even though it requires\na very different set of packages to be installed than the core fpm(1)\npackage -- and development and installation can occur concurrently.",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-17 00:38:01+00:00",
+                    "text": "Hi @urbanjost . I like the idea. Currently there's an issue running it on Windows: \"<ERROR> unknown subcommand [search]\""
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-17 01:17:15+00:00",
+                    "text": "I do  not have an MSWindows environment so I will try to simulate it or get hold of one. I am guessing the separator() function did not work as I expected it to. A debug mode will hopefully sort it out shortly. I have been using on Linux RedHat and it is working as expected. I made a few other simple ones like a few of the simpler cargo ones to select example programs with an ncurses(3f) menu and to create a README file based on the output of tree(1) and it is interesting. I was thinking maybe a line in the fpm-search(1) help text saying where the directions are to add your project to the repository would be nice, by the way.\nIf I cannot sort it out if I make a debug version could you run  it on Windows?  You are running in a cmd Window or mingw or Cygwin or WLS or ...?\nI think I see it. On MSWindows an executable has to end in '.exe' or '.bat' if the suffix is left off (right?) and I did not check for that."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-17 01:32:03+00:00",
+                    "text": "Hi @urbanjost , yes I'm running it in a cmd.exe window. I'll run it on GDB and report later.\nAnd yes, I've just tested the patch in a linux vm and it works nicely, thanks!"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-17 02:20:39+00:00",
+                    "text": "Thank you for fpm-search. I was already using it as a stand-alone command but it is the perfect initial case for trying this type of         plug-in method too."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-17 02:57:35+00:00",
+                    "text": "Thank you @urbanjost , I've tested the latest patch. Here are the results:\n\nIf I put fpm.exe, fpm-search.exe and all dependencies into a single place, run set path=C:\\place, then fpm search package works\nIf I run set path=C:\\other;C:\\place, then fpm search package  fails."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-17 09:15:11+00:00",
+                    "text": "It is working as expected on Windows. Thank you @urbanjost."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-17 13:10:04+00:00",
+                    "text": "Thanks.  I will add some test cases for some of the routines like 'which(3f)' and 'separate(3f)' based on that."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-17 17:31:10+00:00",
+                    "text": "Thank you for starting it @urbanjost. I generally like and support this direction.\nIs this approach safe? For example, if a user mistypes fpm knit instead of fpm init, it will run fpm-knit, is there any chance that fpm-knit is something that already exists and is potentially destructive? I think this is highly unlikely, but thought I'd ask. I don't have much experience with security.\nIf not, perhaps plugins should be whitelisted in a config file?\nBut if yes, I think it would a very nice user experience to just fpm new fpm-myplugin, add some code, and easily play with a 3rd party command without having to tweak fpm itself."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-18 00:35:54+00:00",
+                    "text": "I like it better from a developmental standpoint in that even the standard package can be delivered and developed as a group of related utilities but still act in many ways like one monolithic application.  So far I see something similar in cargo-* and git-* and their might be others; but I find something lacking in communicating data and extending existing commands that I think would make this far more useful. Have to start somewhere and this change can be made with essentially no impact on existing behavior and seems to have corollaries in everything from rust::cargo to git. So using fpm-search as an example:\n\nThe utility can and does stand on it's own as a separate program -- so why access it this way? The search command is ultimately a basic function needed by fpm so it makes sense to appear to the user as a standard fpm subcommand. But it's function and requirements are significantly different than the model building function of fpm.  So doing it this way allows for concurrent development, minimizes the external dependencies such as an RE library, libcurl, a hash library (not that those might not all be needed by the module engine at some point) ... so I think that this model works for this particular command very well; could actually be used as-is even if fpm-search is included directly; and looses no functionality. Could list other pro/cons.\n\nSo personally I think the main functionality missing in the model build core is  providing compiler options that are easily distributed with the package. This lacking feature is the show-stopper I have seen listed most often by people who look at but do not adopt fpm.\nThe second highest priority in my view is having a simple CLI interface that lets you put a package into a repository and lets you search the repository(s).  And a local repository needs supported for in-house code development. The fpm-search program does the search of the current repository nicely.\nBut making usage and development extensible  and modular is my personal third priority.  So I think this is a reasonable first step too but think there is a missing functionality here.  Let's say I want to make an 'fpm edit' command that has some options like 'edit source file that build fails on' or 'edit files changed since last commit' or 'edit file I click on from tree of files'; or commands like 'reformat all my source files' ...  some nice way for an external program like this to query the model and git information would help a lot with that, although all these functions could be done as separate applications they could benefit from being able to \"talk\" to the model.  I would do that now on a POSIX machine but trying to think of a \"pure Fortran\" model is alluding me, other than maybe NAMELIST files. Everything I think of needs a system or C interface; which I would like to see avoided if possible.  So trying to think of a way to merge this and functionality like --runner and aliases provides as a next step.\nAfter looking at git-* usage it looked like this would be primarily a hidden feature to further modular development; but seeing the cargo-* usage it looks like it could get a large amount of community plugins contributed -- will be interesting to see if either starts developing.\nGot disconnected by the dogs in the middle of this. So the idea is:  I want to make a plugin that could benefit from basic model information. Picturing that when fpm runs a plugin it calls a routine called dumpmodel(3f) that writes a file in build/model.nml perhaps that has the TOML metatadata in a METADATA group, and a group for each major file grouping like TEST, EXAMPLE, BUILD_TARGETS, and APPS. Without knowing anything about the internals of fpm or TOML files I can use standard Fortran to read the file  (maybe file groups also have a MAX_LENGTH and MAX_NUMBER_OF_FILES value group) assuming at least for now the fpm command is always executed in the top directory of the package and write some \"model-aware\" plugins. If that was agreed to it would have to have long-term support for anyone to want to do much with it.  That allows for Fortran-based plugins to be developed where the interface to the model uses standard Fortran and no other knowledge is required.\nWe really do not have a --list option in the current core fpm that lists target source files. That would be handy. That is not what ''build --list' produces.\nSimple and standard to at least implement part of \"build.nml\".  Anyone think that would be a good thing to provide long-term?"
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-18 01:15:03+00:00",
+                    "text": "Regarding security, I've noticed that Windows Defender displays a notification the first time I run a newly built fpm.exe (with this PR #362 enabled). I was able to reproduce it:\n\n  \n    \n    fpm.mp4"
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-18 01:55:52+00:00",
+                    "text": "Regarding security, I've noticed that Windows Defender displays a notification the first time I run a newly built fpm.exe (with this PR #362 enabled). I was able to reproduce it:\nfpm.mp4\n\nYes, I'm sure fpm/fpm-search are not viruses/threats."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-18 03:57:43+00:00",
+                    "text": "Although I like writing fpm-search, I'm aware that it's a prototype and it will have a very short life, at least in its current form (We don't have the fpm-registry specification yet).\nIf security is a concern and if we don't find a way to avoid the Windows Defender scary notification, I'd rather transfer fpm-search to Fortran-Lang Org. I believe Fortran-Lang Org/Community could crowdfund a security certificate so that all binaries could be digitally signed and that will make Windows Defender happy I think.\nLet's see how that idea will evolve."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-18 14:22:47+00:00",
+                    "text": "Great stuff @urbanjost I like this approach! It's really nice to see it working already with fpm-search.\n\n\nto query the model and git information would help a lot with that, although all these functions could be done as separate applications they could benefit from being able to \"talk\" to the model. I would do that now on a POSIX machine but trying to think of a \"pure Fortran\" model is alluding me...\n\nRegarding access to the fpm model structure, a possible solution is to use fpm as a package dependency and to call the build_model procedure from your plugin package.\nThis isolates the plugin from whatever fpm version is installed on the system and doesn't require serialising then parsing the model structure (which would require maintenance and be dependent on the fpm version).\nfpm is a big package to have as a dependency, but we could always isolate the 'middle-end' (?) code that constructs the internal model as a separate package to help plugin developers.\nI would find this useful for prototyping ideas and/or customising fpmetc.\nUnfortunately fpm cannot yet be used as a git dependency due to the folder structure, but I don't think there is anything preventing us from fixing that now."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-02-19 09:48:36+00:00",
+                    "text": "I should report that the Windows Defender notification is unrelated to this PR. I noticed that Windows Defender started displaying a security notification when I build and run the master and other branches also.. My apologies."
+                }
+            ]
+        },
+        {
+            "number": 359,
+            "user": "epagone",
+            "date": "2021-02-15 16:42:09+00:00",
+            "title": "Default Modern Fortran flags",
+            "text": "TL;DR\nThis proposal aims at collecting and setting up with fpm a modern Fortran environment by default (e.g. no implicit typing, no fixed form, etc...), without requiring any change to the current compilers behaviour or the standard. Packaging of important legacy code (of critical importance for much of the Fortran community but usually requiring special flags regardless) would be supported overriding the mentioned defaults.\n\nAs of 2021 no one should reasonably write Fortran\n\nin fixed form\nwith implicit typing (thus making implicit none redundant as obvious)\nusing \"implicit save\" of module variables\nwhat else? Please suggest.\n\nI believe that fpm should provide default, overridable compiler flags enforcing the above. In this way, a little bit more dust and rust will be hopefully removed from the perception of the language to potential newcomers. Furthermore, since these changes are difficult to implement into the standard, fpm can be also presented as the only, long-awaited solution (by some practitioners, at least) to these issues.\nPackaging of legacy libraries would likely require regardless a tailored fpm.toml thus, it would be a matter of adding a few more specifications to override the above defaults.\nIn more detail.\nFixed Form\nThis idea started from this conversation where I dream of reclaiming the .f extension for new code without resorting to the current, Jurassic .f90 to specify free from. The only potential issue that I foresee in this case is that legacy dependencies will be compiled with different flags but, if I understand correctly the logic of fpm, this should not be an issue.\nHowever, it would be really amazing if fpm would be able to autodetect the source code form, as @ivan-pi suggested here, but I guess that it would require quite a lot more work.\nImplcit typing\nThis sounds pretty simple to do, e.g. -fimplicit-none with gfortran or -implicitnone with Intel Fortran.\nImplcit save\nIs this possible? Googling, I have seen that with gfortran -frecursive might do the trick but I am not sure if it is really the case and if it will trigger some other side-effect undesired in a \"default\" setup (Intel seems to have -recursive).\nWhat do you think?",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-15 17:29:30+00:00",
+                    "text": "As much as I'd love for fpm's defaults to encourage modern best practices, our desire for legacy codes to be ported to fpm packages and encourage \"legacy\" programmers to use it, means it's probably a no-go for a lot of our target users.\nThat said, I would love for us to have a convenient option to turn lots of this kind of stuff on. As I mentioned in the discussion for my proposal for how we might deal with the compiler flags (#350), I think we should have an additional built in \"profile\", kind of like --release but --strict (or something along those lines) and these would be reasonable additions there."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-15 17:38:31+00:00",
+                    "text": "Another thought, perhaps we should have some sort of survey/poll for each supported compiler about what flags should be included in the default (--debug) set. There would be 2 possible responses for each proposed flag:\n\nPlease don't turn this on\nPlease turn this on\n\nThus, if a certain percentage of respondents (say 10-15%) say please don't turn this on, we won't, even if there is a large percentage of respondents who would like it. If a sufficient number of respondents indicate they would like it (25-30% ?), we turn it on by default. Thus a non-response to a particular flag indicates ambivalence about it for that particular respondent.\nThe hard part will be setting up the survey with a reasonable set of flags to start with, and allowing participants to add additional suggestions. Does anyone know of a polling site that could accomplish such a thing?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-15 17:45:58+00:00",
+                    "text": "I was thinking about introducing a ~/.fpm/config.toml which allows to define additional compilers and maybe even overwrite built-in ones. While this goes against having reproducible environments in a way, a --custom build mode drawing from this configuration might work. Submitting a compiler profile as feedback to us might help us fill in missing compilers and refine existing compiler profiles."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-15 17:51:11+00:00",
+                    "text": "As much as I'd love for fpm's defaults to encourage modern best practices, our desire for legacy codes to be ported to fpm packages and encourage \"legacy\" programmers to use it, means it's probably a no-go for a lot of our target users.\n\nFair enough. I note that I never met a single example of such \"legacy\" programmer that still actively writes code in fixed form and with implicit typing. The vast majority of them leverage libraries (making occasional modifications) of legacy code that could be packaged with fpm without perpetrating and inflicting to the entire community ancient practices."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-15 18:00:37+00:00",
+                    "text": "I would also like to reclaim .f.\nAs a new and radically innovative (for Fortran standrads, at least) tool, we have a unique opportunity to set the tone and recommended best practices, and even shift some long trends. Trends become trends because one or a few people decided something, and many just took it and accepted it without questions.\nWhy do we have an idea of which source file suffixes correspond to fixed or free format? Because existing compilers told us.\nfpm should start with a clean slate and define its own conventions. Do we want fpm to always assume free format and explicit typing? I think so. But allow a flag (e.g. --legacy) to build valid legacy Fortran code. Having to add something like --legacy will serve as a gentle reminder for the user to update or modernize the code, if feasible."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-02-15 18:20:53+00:00",
+                    "text": "Given issues such as \"implicit save\", it'll be awesome if the Fortran enthusiasts with fpm and stdlib projects can consider venturing a bit into compiler development also, particularly with open-source ones in GCC/gfortran, front-end(s) to LLVM, etc.  That way, some added empathy can be brought forth toward Fortran practitioners.\nThis can then help Fortranners try out options such as -fno-implicit-save (just an illustrative example consistent with GCC/gfortran compiler option syntax) which might then flag an error at instructions like <type> :: var = val on account of the explicitly missing SAVE attribute in the declaration statement.\nOutside of something like this that gets into the compiler side of things, I don't see what fpm can do with implicit SAVE."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-15 18:31:20+00:00",
+                    "text": "Given issues such as \"implicit save\", it'll be awesome if the Fortran enthusiasts with fpm and stdlib projects can consider venturing a bit into compiler development also, particularly with open-source ones in GCC/gfortran, front-end(s) to LLVM, etc. That way, some added empathy can be brought forth toward Fortran practitioners.\nThis can then help Fortranners try out options such as -fno-implicit-save (just an illustrative example consistent with GCC/gfortran compiler option syntax) which might then flag an error at instructions like <type> :: var = val on account of the explicitly missing SAVE attribute in the declaration statement.\nOutside of something like this that gets into the compiler side of things, I don't see what fpm can do with implicit SAVE.\n\nThanks for the info. I was too optimist then. It is quite an ambitious task what you suggest but I know a lot of people that hate \"implicit save\" (I haven't been bitten by it, yet). Since you are talking about compiler development, it is worth CCing @certik"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-15 19:15:53+00:00",
+                    "text": "I was thinking about introducing a ~/.fpm/config.toml which allows to define additional compilers and maybe even overwrite built-in ones. While this goes against having reproducible environments in a way, a --custom build mode drawing from this configuration might work. Submitting a compiler profile as feedback to us might help us fill in missing compilers and refine existing compiler profiles.\n\nOne tweak that might make this option a bit safer would be that only the new command looks at ~/.fpm/config.toml and constructs the fpm.toml file for a new project to include the options set there. That way, projects are self contained and reproducible, but it's easier to get new projects configured the way you like. A workflow for updating the options for an existing project to your preferred set would be to create a new project and copy the relevant contents to the existing fpm.toml file. Or having the --custom flag to try out what's in your ~/.fpm/config.toml file with an existing project."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-02-15 19:17:27+00:00",
+                    "text": "As much as I'd love for fpm's defaults to encourage modern best practices, our desire for legacy codes to be ported to fpm packages and encourage \"legacy\" programmers to use it, means it's probably a no-go for a lot of our target users.\n\nYes, trying to \"reclaim\" .f is fraught on 2 fronts: it's a long-held \"convention\" .f signifies fixed-form source. besides several compilers have built-in \"logic\" to support the convention.\nThat's why I had suggested, even as it was somewhat light-heartedly, to attempt a new convention of .mf, that can be an easier route, a separate lane, to march ahead."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-16 12:10:06+00:00",
+                    "text": "That's why I had suggested, even as it was somewhat light-heartedly, to attempt a new convention of .mf, that can be an easier route, a separate lane, to march ahead.\n\nI see, but I am a bit hesitant: we all know that .mf is a well-established Metafont extension \ud83d\ude1d\nJokes aside, I consider this community the avant-guard of Fortran and I believe that we should be a bit more brave. On the other hand, I see that many of the key contributors of fpm have expressed scepticism and I accept it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-16 19:13:16+00:00",
+                    "text": "@epagone can you join us at a Fortran call? We can discuss that there. There are pros and cons. In general, the .f90 is a well accepted extension to modern Fortran (in free form) so probably best to stick to that, all things considered."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-16 19:26:40+00:00",
+                    "text": "@certik I can try. Do you mean the GSoC or the monthly call? I have seen that both have a quite packed agenda..."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-17 00:26:13+00:00",
+                    "text": "@epagone I meant the monthly call. We all have a packed agenda, but a video call has been very efficient at arriving at an agreement, or at least make progress on an issues such as the one that you posted.\nSince the inception of fpm it has been my vision to be brave and enforce quite a bit of checks by default. For example fpm used to check that module names agree with the filename, and was enforcing naming conventions based on the filesystem position. But others felt it was too restrictive, so fpm does not check that anymore.\nI still believe we should be strict by default, and only provide options to override the strict behavior for legacy codes.\nRegarding reclaiming .f, I still don't know if it is worth doing, but I am more open to it now after thinking about this more, so I created a separate issue for it at #363."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-02-17 00:42:04+00:00",
+                    "text": "My view is to leave .f alone - changing this will break so much stuff it isn't funny, and it would rely on everyone updating compilers.\nInstead consider agreeing on a new extension - I like .ffr - for Fortran Free Form. The standard can't do anything about this - it would have to be multiple compiler developers agreeing to support the new file type. I wouldn't get my hopes up."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-17 15:36:13+00:00",
+                    "text": "@certik\n\n@epagone I meant the monthly call. We all have a packed agenda, but a video call has been very efficient at arriving at an agreement, or at least make progress on an issues such as the one that you posted.\n\n\ud83e\udd14 ... what I meant is that the agenda of the call looks already packed with a few topics. Anyway, I have now shared my availability on Doodle and posted a short message on Discourse.\nI have a couple of questions:\n\n\nWould you be interested in including in the development roadmap of lfortran a sort of -fno-implicit-save flag, as suggested above? Is it something feasible that you would be interested in pursuing? I definitely believe that there is an unsatisfied demand for that.\n\n\nDo you have any other ideal feature that you would like to make default in a modern Fortran environment that I have not considered in my first comment?\n\n\nThank you."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-17 15:37:18+00:00",
+                    "text": "@sblionel\n\nMy view is to leave .f alone - changing this will break so much stuff it isn't funny, and it would rely on everyone updating compilers.\nInstead consider agreeing on a new extension - I like .ffr - for Fortran Free Form. The standard can't do anything about this - it would have to be multiple compiler developers agreeing to support the new file type. I wouldn't get my hopes up.\n\nThis proposal has zero ambition to convince any compiler vendors to change the way it behaves (at least in the short-medium term). It only suggests to set up by default some overridable, suitable flags to write Fortran in a modern way. However, I can see that this is a recurring misunderstanding: I have amended my first post with the hope to be more clear about it.\nPS: among all the many new, alternative extensions proposed for free form I like .ffr best. However, I believe that we should stick to .f because it provides the right message, IMO: i.e. there is no such thing as fixed form Fortran that is acceptable any more except for compatibility reasons with legacy code."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-02-17 16:23:52+00:00",
+                    "text": "Instead consider agreeing on a new extension\n\nGiven the Dr Fortran blogpost by Steve Lionel \"Source Form Just Wants to be Free\", maybe Fortranners should just \"suck it up\" and be willing to type a few more keystrokes for a 4-chaarcter extension instead of a new one with 1 or 2 or 3 alphanumeric characters!!\nAnd go with .free :-))"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-17 17:27:09+00:00",
+                    "text": "@epagone wrote:\n\nthinking ... what I meant is that the agenda of the call looks already packed with a few topics. Anyway, I have now shared my availability on Doodle and posted a short message on Discourse.\n\nPerfect, thanks!\n\nI have a couple of questions:\n1. Would you be interested in including in the development roadmap of `lfortran` a sort of `-fno-implicit-save` flag, as suggested above? Is it something feasible that you would be interested in pursuing? I definitely believe that there is an unsatisfied demand for that.\n\n\nYes, we already have an issue for that:\nhttps://gitlab.com/lfortran/lfortran/-/issues/148\n\n2. Do you have any other ideal feature that you would like to make default in a modern Fortran environment that I have not considered in my first comment?\n\n\nYes, tons of ideas. I would like LFortran in this mode to print warnings (or error messages) for all things that we do not consider \"modern\". That way people can update their code to be following the latest recommendations. Things like \"explicit imports\" use, something: only f1, f2 and other things."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-17 23:00:27+00:00",
+                    "text": "@epagone  wrote:\n\nI note that I never met a single example of such \"legacy\" programmer that still actively writes code in fixed form and with implicit typing.\n\nI just found an example of one such programmer/project: PLTMG: A Software Package for Solving Elliptic Partial Differential Equations. The latest version 13.0 from 2018 continues to be developed in fixed-form and uses both implicit typing and common blocks. An example declaration block in the code:\nc-----------------------------------------------------------------------\nc\nc            piecewise lagrange triangle multi grid package\nc\nc                  edition 13.0 - - - september, 2018\nc\nc-----------------------------------------------------------------------\n        subroutine mpiutl(isw)\ncx\n            use mthdef\n            implicit real(kind=rknd) (a-h,o-z)\n            implicit integer(kind=iknd) (i-n)\n            include \"mpif.h\"\n            common /atest6/nproc,myid,mpisw,mpirgn,mpiint,mpiflt\nThey also distribute the code via Netlib. \ud83d\ude04"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-17 23:21:08+00:00",
+                    "text": "@ivan-pi indeed, there are such cases, although they are a minority. They would be supported by fpm with a simple option in fpm.toml."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-02-18 01:20:29+00:00",
+                    "text": "I just found an example of one such programmer/project ..\n\nGood find.\nPersonally I'm not bothered about implicit typing as I am with what can be termed implicit mapping by which I mean the following:\n\nThe above snip is from the current Fortran standard (as per its proxy, 18-007r1 document), section 18.7 IMPLICIT statement, page 114, paragraph 3, lines 32 thru' 34.\nIf the standard can be enhanced to state:\n\nIf a mapping is not specified for a letter, the default for a program unit or an interface body shall be null.  The default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit,\"\n\nthat will be a major, major step forward.  Such a change will have NO backward compatibility issue with programs such as PLTMG because of the explicit IMPLICIT declarations.\nBut now, it is due to an unknown but likely very tiny list of programs that supposedly have neither IMPLICIT NONE nor the IMPLICIT declarations and which then make use of this `implicit mapping' that a monumental burden exists for all the modern Fortranners.\nWhere I work, a team had a situation in 2017 where a subtle bug got introduced due to a missing implicit none in an INTERFACE body.  Since an INTERAFCE body technically has no host scope, the implicit none from the outer body does not extend to it.  The team was lucky the bug had only caused loss of productivity, though it was considerable.   The damage could have been far worse.  There is far more to this story with some decisions since re: Fortran but I'll let that pass.\nSo the question I ask myself is this: what if compiler implementations become truly brave and they themselves stop supporting the implicit mapping by default.  Meaning, they don't conform to the standard by default, rather force users to apply some option, say -fimplicit-mapping (as per GCC/gfortran terminology), to get what the standard states with that one sentence.\nThe onus can then shift to those who want to continue with the old ways to do some \"extra\" work to avoid encountering errors with their unsafe coding practice.  All other Fortranners will be freed from having to ensure implicit none in every scope, they will get that as processor default.  If enough implementations do this, it will become easier for the standard to be updated."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-02-18 12:22:12+00:00",
+                    "text": "@ivan-pi another example of such ancient remnants of the olden days of FORTRAN that are still very good pieces of code: ORDERPACK uses implicit typing."
+                }
+            ]
+        },
+        {
+            "number": 358,
+            "user": "LKedward",
+            "date": "2021-02-15 12:09:44+00:00",
+            "title": "Improve support for include statements",
+            "text": "fpm currently has limited support for source file includes which I notice are used a lot in existing packages and are fundamental to c libraries. Specifically:\n\nfpm cannot yet track module dependencies in included files;\nfpm incremental rebuilds do not track changes in included files and;\nincluded file cannot have the .f90 suffix\n\nI am currently working on an update to fpm to address these shortcomings.",
+            "comments": []
+        },
+        {
+            "number": 357,
+            "user": "LKedward",
+            "date": "2021-02-13 13:09:23+00:00",
+            "title": "Update: install script for Fortran fpm",
+            "text": "Inline with the goal of #253 this PR updates the install script to build and install Fortran fpm by default after bootstrapping with the Haskell implementation. Based on the discussion in #344 I also added an --update flag to optionally pull from the latest tag similar to @brocolis' implementation. The existing behaviour of the install script is preserved if invoked with ./install.sh --haskell which will only install the Haskell implementation.\nAdditional flags are provided to specify the install location and whether to build with openmp and static linking.\nThis simplifies the bootstrapping process and the workflow for updating fpm.",
+            "comments": []
+        },
+        {
+            "number": 356,
+            "user": "everythingfunctional",
+            "date": "2021-02-12 16:38:58+00:00",
+            "title": "Statically linked executables for releases (OSX)",
+            "text": "Is there anyway we can produce statically linked executables for the releases? Right now the Mac version requires gcc@9 to be installed.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 16:50:59+00:00",
+                    "text": "Well, you can't link statically on OSX and I see no real way to circumvent this."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 17:15:49+00:00",
+                    "text": "If homebrew provides libgfortran.a we might have a change to link at least statically against the GCC libraries, but if we only get dylibs there is not much of a chance here, unfortunately."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-12 18:32:50+00:00",
+                    "text": "Well that's disappointing."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 18:39:24+00:00",
+                    "text": "Yeah, it's a real pain to distribute (Fortran) software for OSX. My personal strategy is to avoid distributing software for OSX outside of package managers, e.g. conda-forge does a decent job to support both OSX x86_64 and aarch64 architectures.\nEdit: homebrew packaging support seems to require GCC 4.9 as compiler for Fortran projects."
+                }
+            ]
+        },
+        {
+            "number": 355,
+            "user": "awvwgk",
+            "date": "2021-02-12 15:14:21+00:00",
+            "title": "Dependency tree is saved flattened",
+            "text": "The dependency tree is currently saved in a flattened form, it would be more useful to retain references between the dependencies in the tree and the cache file.",
+            "comments": []
+        },
+        {
+            "number": 354,
+            "user": "certik",
+            "date": "2021-02-09 18:30:52+00:00",
+            "title": "Support MPI natively",
+            "text": "Many Fortran codes use MPI and we should teach fpm about it and support it natively.\nThere are two main approaches to it:\n\n\nUse the mpi compiler wrappers such as mpif90, which are provided by MPI implementations such as mpich or openmpi. Those compiler wrappers call the compiler with correct flags to link all MPI libraries correctly.\n\n\nYou call the compiler wrappers mpif90 to figure out what flags to use, then you supply those flags manually when executing the given compiler.\n\n\nCMake supports both options and I have used both in my projects. There are pros and cons of each approach and I have discussed this with quite a lot of people already. I personally lean towards the second approach, which treats MPI as a 3rd party library that you depend on. Ultimately, that is what it is. However, for fpm, the user does not actually see how the compiler is being invoked anyway, so the first approach might also work. So I would choose whatever approach is easier to implement and maintain in fpm and I think we can even switch later (internally) if needed.\nLet's discuss the user facing design. It seems it might be as simple as adding mpi=true into fpm.toml for each executable that should be compiled with MPI. And fpm would then transitively enable MPI for each module and dependency that the executable needs. In terms of choosing which MPI implementation should be used, we can start by using whatever mpif90 is available in PATH.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-09 18:40:23+00:00",
+                    "text": "I love it. I think mpi=true is simple enough.\nThough it'd be a nice UX for fpm to auto-detect use mpi or include mpif.h by parsing source files. And we're already parsing at least use statements, no? Then the user doesn't have to do anything special and fpm takes care of it.\nWe can later special-case vendor-specific MPIs that are called differently than mpif90."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-09 18:50:46+00:00",
+                    "text": "Indeed, fpm could autodetect, and you can force mpi=true or mpi=false if the autodetection is wrong for some reason (say you have an mpi module in your project that is not actually an MPI)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 14:02:59+00:00",
+                    "text": "MPI behaves similar to OpenMP in this regard, being explicit about dependencies would suggest a package manifest entry like\n[dependencies]\nmpi = \"*\"  # Some MPI\nmpi = \"^3\"  # if MPI 3 features are required\nmpi = { version=\"*\", variant=\"mpich\" }  # if the MPICH implementation is explicitly required\nmpi.git = \"https://github.com/dftbplus/mpifx\"  # Use a wrapper library which in turn exports the MPI dependency\nWhich of course allows to select it on per executable basis as well through the dependencies table.\nIt makes a good candidate for a built-in dependencies which could be provided as mock packages like explained in #161 (comment) as well.\nAutomatic detection and smart activation would also work in this approach, fpm would just add MPI to the dependency tree if the respective use statement or include files are required."
+                }
+            ]
+        },
+        {
+            "number": 353,
+            "user": "certik",
+            "date": "2021-02-09 18:21:50+00:00",
+            "title": "Support for C and C++ source files and linking everything together",
+            "text": "Fpm already has a preliminary support for C and C++ source files. But there are still some issues to iron out. Here are a few that I am aware of, we should create individual issues out of these and link them here.\n\n\n One issue is that you currently have to manually specify stdc++ in fpm.toml. It should work automatically.\n\n\n I think we need to add tests for this and test it at our CI.\n\n\n Document this feature in our documentation\n\n\n Ensure this works with MPI. Fpm does not support MPI yet, so we should add support first (#354). I remember there being issues regarding whether the main program has to be linked as a C++ or Fortran project.",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-09 19:20:24+00:00",
+                    "text": "I will have a mixed Fortran/C++ package available soon (it's an interface to the nanoflann k-d tree library in C++). My current plan was to put\nlink = [\"stdc++\"]\n\ninside fpm.toml. The C++ library is a header only library, so it's easy to ship it with my wrapper modules. As long as the source folder is in the include path, I imagine that would be enough to get it to work.\nOne issue I'm afraid of is that in C++ different conventions exist in practice (.hpp, .cpp, .c++, .hh, .cc, ...). In fact even the C file extensions .c and .h are just conventions. I don't think we want fpm to become a full C/C++ package manager. Perhaps some restricted package layout is sufficient for the majority of mixed-language cases.\nFor more complex C/C++ dependencies it might be a better idea to delegate them to a conan or CMake adaptor. In Rust they have a cmake crate which uses the two-way build script interface. Vice-versa, C++ projects which would depend on fpm packages, could export CMake packages (once this is supported, see #69)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-10 00:15:22+00:00",
+                    "text": "It is tempting to also make fpm be a solid C++ package manager. But I have a suspicion there might be C++ specific issues that we might prefer to avoid addressing. That being said, every time I want to try something in C++ or depend on something, I am already missing fpm. I opened an issue for Mamba to create a C++ package manager cpm, but didn't get much traction.\nGiven that we will have CMake (#69) backends, I would love to make fpm working for C++ as much as we can make it work, and a user is not locked in, they can always export to CMake (or any other build system that we will write a backend for) if they need something more complex.\nIn fact, I am looking forward to start new C++ projects by simply creating an fpm package (by adding some option to fpm to create a sample Hello World program in C++ instead of Fortran) and then export it to CMake, as I never remember all the things one must do in CMake to make it work off top of my head.\nI think we can support all the .cpp and .h conventions for C++. In the default layout, I don't think there is anything that is Fortran specific, we simply follow the Cargo layout, more or less. So it should work for C++ also.\ncc @milancurcic"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-11 12:03:39+00:00",
+                    "text": "I remember there being issues regarding whether the main program has to be linked as a C++ or Fortran project.\n\n\nIn CMake, you need to manually specify the linker language is Fortran when adding executable targets in Fortran that depend on C++ libraries:\nadd_executable(main main.f90)\ntarget_link_libraries(main my_cpp_lib)\nset_property(TARGET main PROPERTY LINKER_LANGUAGE Fortran)\n\nAlternatively, you need to play with the CMAKE_<LANG>_LINKER_PREFERENCE setting. Apparently the default preference rules give C++ higher priority.\nWith the Intel Fortran compiler, when the executable is in C and depends on a Fortran subprogram, and linking is performed with ifort, one needs to add the flag -nofor-main.\n\nIn fact, I am looking forward to start new C++ projects by simply creating an fpm package (by adding some option to fpm to create a sample Hello World program in C++ instead of Fortran) and then export it to CMake, as I never remember all the things one must do in CMake to make it work off top of my head.\n\nDitto. I just spent the last 2 hours creating CMake files for my mixed Fortran/C++ project of five files..."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 14:09:11+00:00",
+                    "text": "Well, there is dds as C++ counterpart to fpm. The project happens to be in alpha stage, but I have seen some projects like https://github.com/marzer/tomlplusplus to actually support it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-12 14:39:49+00:00",
+                    "text": "@awvwgk finally somebody is doing it! Thanks for the link."
+                }
+            ]
+        },
+        {
+            "number": 352,
+            "user": "awvwgk",
+            "date": "2021-02-07 18:43:20+00:00",
+            "title": "Hacky fix for the help test",
+            "text": "Definitely not a beautiful solution, but gets the job done. This works with both Haskell and Fortran fpm for now, but we need a better way to handle such cases. See #179 and #328.\nCloses #343",
+            "comments": []
+        },
+        {
+            "number": 351,
+            "user": "vmagnin",
+            "date": "2021-02-05 10:33:23+00:00",
+            "title": "Problem using build-script to use gtk-fortran as a dependency",
+            "text": "Hi,\nFor some days, I am playing with fpm 0.1.3 alpha on Linux Kubuntu 20.10. I have especially tested the [dependencies] killing feature and it runs smoothly with the helloff.git example in the doc. I am now interested by the build-script variable, which is the true killing feature! I have begun testing it with my gtk-fortran project, which is CMake based. I will now present the details of the steps I have made and the problem:\n\nI have created a new fpm project:\n\n$ fpm new gtk_and_fpm\n$ fpm build\n$ fpm run\n\nI have modified the main.f90 as follows, in order to print the exact GTK 3 version available on the machine using directly the functions of GTK:\n\nprogram main\n  use gtk, only: gtk_get_major_version, gtk_get_minor_version, gtk_get_micro_version\n  implicit none\n\n  print '(A4,I0,A1,I0,A1,I0)', \"GTK \", gtk_get_major_version(),\".\", &\n    & gtk_get_minor_version(), \".\", gtk_get_micro_version()\nend program main\n\nI have first verified that the program is OK by compiling and running it by hand:\n\n~/Fortran/gtk_and_fpm/app$ gfortran main.f90 $(pkg-config --cflags --libs gtk-3-fortran) && ./a.out\nGTK 3.24.23\n\nI have added those lines in the fpm.toml of my gtk_and_fpm project:\n\n[dependencies]\ngtk-3-fortran = { git = \"https://github.com/vmagnin/gtk-fortran.git\" }\n\n\nI have added an FPM manifest at the root of the gtk-fortran project (gtk3 branch). The modules composing the gtk-fortran library itself is in the src/ directory of the project. And there was already a simple build.sh script there, that basically just do classical things : cd .. ; mkdir build ; cd build ; cmake .. ; make -j :\n\nname = \"gtk-3-fortran\"\nversion = \"3\"\nlicense = \"GPLv3\"\nauthor = \"The gtk-fortran team\"\nmaintainer = \"https://github.com/vmagnin/gtk-fortran/issues\"\ncopyright = \"2011-2021 The gtk-fortran team\"\n\n[library]\nbuild-script=\"src/build.sh\"\n\n\nWhen typing $ fpm build, the gtk-fortran project is correctly downloaded by git. The building process begins but stops here:\n\nWarning: Return value of function \u2018gtk_button_accessible_get_type\u2019 at (1) not set [-Wreturn-type]\nbuild/dependencies/gtk-3-fortran/src/gtk-auto.f90:36089:0:\n\n36089 | function gtk_container_accessible_get_type() bind(c)\n      | \nWarning: Return value of function \u2018gtk_container_accessible_get_type\u2019 at (1) not set [-Wreturn-type]\n + gfortran -c build/dependencies/gtk-3-fortran/src/gtkenums-auto.f90 -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fbounds-check -fcheck-array-temporaries -fbacktrace -fcoarray=single  -J build/gfortran_debug/gtk_and_fpm -I build/gfortran_debug/gtk_and_fpm -o build/gfortran_debug/gtk_and_fpm/build_dependencies_gtk-3-fortran_src_gtkenums-auto.f90.o\nf951: Error: Unexpected end of file in \u2018build/dependencies/gtk-3-fortran/src/gtkenums-auto.f90\u2019\n Command failed\nERROR STOP \n\nError termination. Backtrace:\n#0  0x7fc302314d01 in ???\n#1  0x7fc302315849 in ???\n#2  0x7fc302316f77 in ???\n#3  0x55ed6a4dc686 in __fpm_environment_MOD_run\n        at src/fpm_environment.f90:127\n#4  0x55ed6a4bc15f in build_target\n        at src/fpm_backend.f90:240\n#5  0x55ed6a4beef2 in __fpm_backend_MOD_build_package\n        at src/fpm_backend.f90:74\n#6  0x55ed6a4ae050 in __fpm_MOD_cmd_build\n        at src/fpm.f90:204\n#7  0x55ed6a4a65bf in MAIN__\n        at app/main.f90:26\n#8  0x55ed6a4a66c7 in main\n        at app/main.f90:9\n\n\nReading those warnings (that does not appear using CMake) and the final error, I suspect that the building is not made by my build.sh script, but directly by fpm. Note also that gtkenums-auto.f90 is not a module but a file that is included in the source code of the gtk-auto.90 module via an INCLUDE statement (that's probably why fpm failed).\n\n\nTherefore, the https://github.com/vmagnin/gtk-fortran/blob/gtk3/fpm.toml file is probably not correct. Can you please guide me to obtain a correct fpm.toml ? I tried some modifications on the local version on my machine but without success.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-05 11:49:24+00:00",
+                    "text": "Hi Vincent @vmagnin, thanks for reporting. Unfortunately the build-script feature is not yet implemented in the most recent version of fpm (see also #341, #219 for more info) and so yes you're right that fpm is trying to build the project itself.\n\nI have been able to build gtk-fortran directly with fpm and run the examples successfully (on Ubuntu) by renaming the included files to src/gtk-auto.inc and src/gtkenums-auto.inc, and adding the necessary link entries to the manifest. However I'm aware that this bypasses the various cmake logic that is used for this project and which I haven't looked into in much detail.\nI'm quite excited to be able to use gtk-fortran as an fpm package sometime in the future!"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-05 13:20:59+00:00",
+                    "text": "Hi Laurence @LKedward !\nit seems I am too much \"absolutely modern\" today... ;-)\nThanks for the referenced issues. I now understand the logic of the problem. I will be patient! It seems so promising...\nGreat news that you have built gtk-fortran with fpm! I will give a try to your method.\nConcerning CMake, it's a powerful tool. Two years ago I made an attempt to migrate to Meson because I feared it will be complicated to adapt CMake to GTK 4, and because GTK itself is now using Meson. But finally it was simple with CMake, and Meson is not yet installing correctly the .mod Fortran files:\nmesonbuild/meson#5374\nFinally the only thing I don't like with CMake is its verbose syntax. My neurons can't even remember $ cmake -D CMAKE_BUILD_TYPE=debug .., I am always searching in my bash history... I prefer the simple fpm or Meson syntax.\nI also read here some discussions about work on fpm detecting automatically the projects using CMake."
+                }
+            ]
+        },
+        {
+            "number": 350,
+            "user": "everythingfunctional",
+            "date": "2021-02-04 20:54:01+00:00",
+            "title": "A Possible Solution for Compiler Flags",
+            "text": "I have a proposed solution to the issue of how we deal with compiler flags.\nI propose adding a section to the fpm.toml file where compiler flags can be specified, with the following schema.\n\nThe top level table is named \"compiler-flags\" (I'm open to suggestions for a better name)\nThere is a table for each compiler. If a table is not specified for a compiler, then only the default/built-in profiles are available\nThere may be multiple tables for each compiler, whose name specifies the name of an available \"profile\"\nA profile table specifies a list of flags, as an array of strings\nA profile table may optionally specify a list of pairs of file and flags to be used for that file\nA profile only applies to a dependency if it does not explicitly override that profile\nSpecifying a profile with the same name as one of the default profiles overrides the default flags for that profile, including for dependencies, unless they also explicitly override that profile\n\nFor example:\n[compiler-flags]\n[compiler-flags.gfortran]\n[compiler-flags.gfortran.only_debug_symbols]\nflags = [\"-g\"]\nfiles = { \"src/special.f90\" = [\"-Wall\", \"-Werror\"] }\nOne can then use a specified profile like fpm build --profile only_debug_symbols. The default/built-in profiles would correspond to our existing modes, and the existing modes would be equivalent to specifying the profile explicitly. I.e. fpm build is equivalent to/implies fpm build --profile debug and fpm build --release is equivalent to/implies fpm build --profile release.\nThis has the following benefits:\n\nA library can override the default flags if they are not appropriate, and have its users respect that\nA project can specify some special profile in a convenient place for frequently used sets of flags\nA project/library need not override compiler flags for every file if only one file needs something special\nWe don't need to come up with and support a coherent set of \"features\" supported by every compiler\n\nI admit that the table structure seems somewhat deeply nested, so I'm open to suggestions of other schemas, but I think this covers everything that needs to be included.\nP.S. If this works out I'd like to suggest an additional built-in profile - strict - that includes all possible compile and run time checking, with all warnings treated as errors. I think this is a very useful option to have, even if not utilized very often.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-04 21:31:52+00:00",
+                    "text": "Too bad we can't steal a good idea from cargo here, since they never had to deal more than one compiler in their ecosystem. Requiring some deeper nesting in the package manifest seems inevitable for a good Fortran compiler support.\n\n\nThe top level table is named \"compiler-flags\" (I'm open to suggestions for a better name)\n\n\nI would prefer to put the profiles under the build table just to keep the root table clean.\n\n\nThere is a table for each compiler. If a table is not specified for a compiler, then only the default/built-in profiles are available\n\n\nAgreed. Using gfortran instead of gnu or gcc might be preferable for easy mapping between compiler executable name and profile, up to the moment someone is trying to compile with gfortran-9. Not sure what the best solution here would be.\n\n\nThere may be multiple tables for each compiler, whose name specifies the name of an available \"profile\"\n\n\nI made a similar proposal using a table of tables in #112 (comment), after thinking through different format this one seems to be the only feasible choice to support multiple compilers.\n\n\nA profile table specifies a list of flags, as an array of strings\n\n\nHow do you distinguish between compile arguments, link arguments and global arguments here?\n\n\nA profile table may optionally specify a list of pairs of file and flags to be used for that file\n\n\nThis warrants matching rules for file names, like \"src/fragile/**\" = [\"-O1\"] at some point. Not sure if arguments on per file basis should be encouraged by fpm, it will make the package manifest nearly unreadable depending on the complexity of the project.\n\n\nA profile only applies to a dependency if it does not explicitly override that profile\nSpecifying a profile with the same name as one of the default profiles overrides the default flags for that profile, including for dependencies, unless they also explicitly override that profile"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-04 21:35:31+00:00",
+                    "text": "How do you distinguish between compile arguments, link arguments and global arguments here?\n\nGood point. I'd suggest instead of having a single flags key, have compile, link, and global keys."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-04 21:38:04+00:00",
+                    "text": "This warrants matching rules for file names, like \"src/fragile/**\" = [\"-O1\"] at some point. Not sure if arguments on per file basis should be encouraged by fpm, it will make the package manifest nearly unreadable depending on the complexity of the project.\n\nAgreed. I would prefer not to encourage the use of per file compiler flags, but at some point somebody's going to \"need\" it, so we should have a way to do it."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-09 19:32:08+00:00",
+                    "text": "Agreed. Using gfortran instead of gnu or gcc might be preferable for easy mapping between compiler executable name and profile, up to the moment someone is trying to compile with gfortran-9. Not sure what the best solution here would be.\n\nPersonally, the only time I use different versions of the same compiler is to find the oldest compiler version which works. In Linux I can do this easily with update-alternatives.\nI can imagine problems when compiler-flags change meaning or are removed. But if a package required some specific compiler flags to make it work right, there is a high change the package was non-standard to begin with. Ideally the users would bring this up to the package maintainer who could find a workaround."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-09 21:04:31+00:00",
+                    "text": "Personally, the only time I use different versions of the same compiler is to find the oldest compiler version which works. In Linux I can do this easily with update-alternatives.\n\nPersonally, I have always at least the four last versions of gfortran installed: gfortran is the latest (10), then I have gfortran-9, gfortran-8, gfortran-7, etc. When I have long computations to run, I choose the fastest one! And the latest version is not necessarily the fastest. Sometimes there is some kind of regressions considering the speed when a new major version arrives, and it improves with the following minor versions... Not huge differences but it can be up to 5 to 10%... Not negligible."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-09 21:44:17+00:00",
+                    "text": "Same here, I have at least two versions of GCC available on the same system, usually gcc-7 and gcc-10, mainly for regression testing. Also, when working with conda-build the compiler name is usually something like powerpc64le-conda-linux-gnu-gfortran, which is still a gfortran compiler."
+                }
+            ]
+        },
+        {
+            "number": 349,
+            "user": "awvwgk",
+            "date": "2021-02-03 22:33:37+00:00",
+            "title": "Suggest to move the fpm version in the boostrapping process",
+            "text": "Fixes #347",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-05 16:55:43+00:00",
+                    "text": "Thank you!"
+                }
+            ]
+        },
+        {
+            "number": 348,
+            "user": "aslozada",
+            "date": "2021-02-03 19:53:06+00:00",
+            "title": "fpm new description in project README",
+            "text": "Hi,\nThe README.md file, in the master branch, describes that with the option new the files: fpm.toml, README.md, .gitignore, src/project_name.f90, app/main.f90 and test/main.f90 are built. However, in the pre-release v0.1.3 and the master branch, this option only generates the files: fpm.toml and README.md.\nis the README.md file, in master branch, outdated?",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-03 20:02:18+00:00",
+                    "text": "The README currently describes the behaviour of the Haskell version for bootstrapping Fortran fpm, rather than the behaviour of the actual Fortran implementation. The command line interfaces and the behaviour for the fpm new command unfortunately have diverged between those two version, which makes it more difficult to accurately describe the expected behaviour.\nI think the README should reflect the behaviour of the Fortran fpm version rather than the Haskell version."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-03 22:32:02+00:00",
+                    "text": "With Fortran fpm the command fpm new test_project produces:\ntest_project\n\u251c\u2500\u2500 .git/\n\u251c\u2500\u2500 .gitignore\n\u251c\u2500\u2500 README.md\n\u251c\u2500\u2500 app\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 main.f90\n\u251c\u2500\u2500 fpm.toml\n\u251c\u2500\u2500 src\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 test_project.f90\n\u2514\u2500\u2500 test\n    \u2514\u2500\u2500 main.f90\n\nWhile with Haskell fpm, no Fortran source is generated:\ntest_project\n\u251c\u2500\u2500 .git/\n\u251c\u2500\u2500 .gitignore\n\u251c\u2500\u2500 README.md\n\u2514\u2500\u2500 fpm.toml\n\nThis seems to be a bug in the Haskell version than."
+                }
+            ]
+        },
+        {
+            "number": 347,
+            "user": "vmagnin",
+            "date": "2021-02-01 09:40:06+00:00",
+            "title": "Bootstrapping: installation of the Fortran fpm version failed",
+            "text": "Dear community, this is my first steps with fpm. I have followed the bootstrapping instructions in the README.md file. Everything works fine (fpm test says: \"PASSED: all 109 tests passed\") until the final step:\n~/Fortran/fpm/fpm$ fpm run --runner cp -- ~/.local/bin\ncp: cannot create regular file '/home/vmagnin/.local/bin/fpm': Text file busy\nAs it is the first time I read that error, I have inquired:\nhttps://stackoverflow.com/questions/16764946/what-generates-the-text-file-busy-message-in-unix\nIs it because the fpm file tries to modify itself? (which is the objective of the bootstrap if I have understood...)\nI am working on Linux Kubuntu 20.10.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-01 15:00:44+00:00",
+                    "text": "Is it because the fpm file tries to modify itself?\n\nThanks for trying it out and reporting this problem @vmagnin. Yes you're right this is because we're trying to replace the Haskell version while it is running; it looks like this is only possible by unlinking the old executable first which doesn't happen with cp(1).\nA possible solution is to update the README to suggest mv(1) instead:\n$ fpm run --runner mv -- ~/.local/bin"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-02-01 17:16:56+00:00",
+                    "text": "Thanks @LKedward\nyour suggestion seems to have done the job, since there is no error message, and now when I launch fpm or fpm --help, the message seems longer with more options. I had not noted the previous version, but this is the version I have after bootstrapping:\n~/Fortran/fpm/fpm$ fpm --version\nVersion:     0.1.3, alpha\nProgram:     fpm(1)\nDescription: A Fortran package manager and build system\nHome Page:   https://github.com/fortran-lang/fpm\nLicense:     MIT\nOS Type:     Linux"
+                }
+            ]
+        },
+        {
+            "number": 346,
+            "user": "awvwgk",
+            "date": "2021-01-31 14:19:55+00:00",
+            "title": "Include root dir in path to default example setup",
+            "text": "Minor oversight on my side. Shouldn't have affected any build since examples are only built for the main project.",
+            "comments": []
+        },
+        {
             "number": 345,
             "user": "LKedward",
             "date": "2021-01-29 12:43:12+00:00",
             "title": "Update: fpm_backend with dynamic openmp scheduling",
             "text": "I noticed the parallel compilation time for my stdlib-fpm package was quite poor (on 4 threads) and realised the default static scheduling of threads was causing poor utilisation since compilation times can vary significantly between individual targets. (This is less of a problem for higher core counts)\nThis PR makes dynamic scheduling explicit when using OpenMP for parallel compilation which gives much better utilisation (2x improvement for stdlib-fpm) and avoids implementation-dependent choice of scheduling. We have no pressing need for static scheduling and the overhead for dynamic scheduling appears to be small compared to the time for compilation.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-05 16:55:15+00:00",
+                    "text": "I'm not familiar with OpenMP but this looks like an improvement and I trust @LKedward and @awvwgk , so I will merge."
+                }
+            ]
         },
         {
             "number": 344,
@@ -60,6 +993,16 @@
                     "user": "brocolis",
                     "date": "2021-01-28 19:14:22+00:00",
                     "text": "On Windows there's a problem when trying to upgrade a program that is currently running (already in use Error). On Linux, it should work.\nTentative implementation\nhttps://gist.github.com/brocolis/e2fc06743652f939d95d351b16721f5c"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-24 02:55:07+00:00",
+                    "text": "If the Fortran fpm becomes a Fortran fpm package as @LKedward suggests in #362 then you can do\ngit clone https:/fpm_home/fpm.git\ncd fpm\nfpm install\nand if you already have and fpm/ directory just enter it and do\ngit pull\nfpm install\nwhich would just leave the bootstrap issue.\nSo an upgrade does not seem all that cumbersome; even if you do it more cautiously and do a upgrade of the external packages and a build and run the tests before an install. But I would like a simple one-line command to pull a github site with fpm support; build and test and install it and remove the directory.\nAs long as fpm remains a pure Fortran program that is all free-format not using INCLUDE files it is pretty easy to make a single-file fpm.f90 bootstrap file too. Since there are other reasons to make f-fpm an fpm package that seems like that would make it reasonably easy if not quite \"yum install fpm\". The \"other fpm\" purports to be able to make many different package formats, although I have not looked into that too much; but there are already binary fpm distributions available for a number of platforms. The fortran-lang page talking about setting up Fortran should maybe have a link to the fpm setup page? So far fpm is more system-independent than a lot of package managers so using it to package itself does not seem too bad to me."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-24 20:06:38+00:00",
+                    "text": "I know of at least one other package manager that has the following behavior, Haskell's stack. If the current working directory is not within an fpm package, then the command fpm install package_name would effectively do what @urbanjost suggested; download the latest version of that package, build it, and install it. If we get around to doing local caching of packages correctly, then there may not be a reason to delete the package once it's installed."
                 }
             ]
         },
@@ -516,6 +1459,11 @@
                     "user": "awvwgk",
                     "date": "2020-12-20 17:38:17+00:00",
                     "text": "Thanks for the feedback, the cache was meant as prototype for the dependency lock file. Since we are automatically adding dependencies we should have the same feature for the deletion of dependencies as well."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 15:17:56+00:00",
+                    "text": "Somewhat related to #355, I'm flattening the dependency tree structure while constructing it, but it should retain the relations between the packages by some means. With a simple sweep one could find disconnected dependencies and delete them from the cache."
                 }
             ]
         },
@@ -620,6 +1568,16 @@
                     "user": "awvwgk",
                     "date": "2021-01-30 13:06:17+00:00",
                     "text": "@urbanjost could you bring this branch up-to-date with the default branch again. I'll try to have a look over the changes hopefully next week(end)."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-01 00:19:42+00:00",
+                    "text": "So essentially\n\nfpm new A  does what it did before\nfpm new A --full additionally creates example/ and a  heavily annotated fpm.toml file including examples of remote dependencies\nfpm new A --bare creates no directories or example Fortran code, just the fpm.toml and .gitignore files\nso you have a bare-bones, middle, and all-default-directories.\n\nThe default fpm.toml file is reduced and depends on auto-search so that a user can arbitrarily remove any of src/, app/, and test/ created by the default new command.\nIn the mean time project names allowing hyphens are allowed; the documention reflects the changes.\nSeveral routines that might become of general use were moved to the appropriate general-function modules.\nIn the end I think more of the design was thrashed out here than in the initial #306 discusssion but I think this takes into account all the comments without coming out looking like it was \"designed by committe\",  so last call -- anything else?\nPS: There was no feedback on using a ~/fpmconfig file to initialize the fpm.toml metatadata; not about having a set of templates or example to pull via an option. At some point I think the built-in documentation should mention how to pull down the examples from the fpm web pages.  I might open those as seperate issues later but they wil not be included here."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-18 13:57:08+00:00",
+                    "text": "Thanks @urbanjost and apologies for the delay in merging this. I think your solution addresses all the points raised and so with two reviews (thanks @awvwgk) I will now merge."
                 }
             ]
         },
@@ -1843,7 +2801,7 @@
             "user": "milancurcic",
             "date": "2020-11-26 17:48:33+00:00",
             "title": "Phase out fpm-bootstrap",
-            "text": "With #246 merged (great work @LKedward!) a user that arrives to fortran-lang/fpm can easily:\n\nDownload and run a binary for their platform\nDownload and run the same binary to bootstrap fpm from source\n\nfpm thus does not anymore need the Haskell fpm for bootstrapping. However, the README.md still asks the user to install Haskell for building from source. The correct instructions should now be to first download the appropriate fpm binary and then run fpm build in the fpm repo directory.\nI think we should at this point start to de-emphasize the Haskell implementation in this repo as much as possible. It served its purpose superbly (thank you @everythingfunctional!), but it now can confuse newcomers to the project, which is not helpful at best and harmful at worst (I've seen it more than a few times now). With the ever-shorter attention spans, first impressions matter more than ever.\nI propose the following steps to phase out fpm-bootstrap:\n\nUpdate README.md to not require Haskell for building from source.\nMove the fpm project (contents of https://github.com/fortran-lang/fpm/tree/master/fpm) to the top-level.\nMove contents of https://github.com/fortran-lang/fpm/tree/master/bootstrap to a separate repo. I suggest either fpm-haskell or fpm-hs instead of fpm-bootstrap, because using the word \"bootstrap\" here is now misleading. Ditto with the contents of the archive directory (early Rust prototype), though this one I think we should just remove to not confuse anybody. The code will exist in the git history anyway.\n\nOf course, the Haskell fpm should live on if people want to develop or use it.\nWhat do you think?",
+            "text": "With #246 merged (great work @LKedward!) a user that arrives to fortran-lang/fpm can easily:\n\nDownload and run a binary for their platform\nDownload and run the same binary to bootstrap fpm from source\n\nfpm thus does not anymore need the Haskell fpm for bootstrapping. However, the README.md still asks the user to install Haskell for building from source. The correct instructions should now be to first download the appropriate fpm binary and then run fpm build in the fpm repo directory.\nI think we should at this point start to de-emphasize the Haskell implementation in this repo as much as possible. It served its purpose superbly (thank you @everythingfunctional!), but it now can confuse newcomers to the project, which is not helpful at best and harmful at worst (I've seen it more than a few times now). With the ever-shorter attention spans, first impressions matter more than ever.\nI propose the following steps to phase out fpm-bootstrap:\n\n Update README.md to not require Haskell for building from source.\n Move the fpm project (contents of https://github.com/fortran-lang/fpm/tree/master/fpm) to the top-level.\n Move contents of https://github.com/fortran-lang/fpm/tree/master/bootstrap to a separate repo. I suggest either fpm-haskell or fpm-hs instead of fpm-bootstrap, because using the word \"bootstrap\" here is now misleading. Ditto with the contents of the archive directory (early Rust prototype), though this one I think we should just remove to not confuse anybody. The code will exist in the git history anyway.\n\nOf course, the Haskell fpm should live on if people want to develop or use it.\nWhat do you think?",
             "comments": [
                 {
                     "user": "LKedward",
@@ -1975,7 +2933,7 @@
             "user": "ivan-pi",
             "date": "2020-11-23 10:16:04+00:00",
             "title": "Support additional file extensions",
-            "text": "Once fpm will be out in the wild, we should try to support other Fortran file extensions.\nThis is not so important right now, but I thought I will create an issue since I gathered the information.\nHere is a table of file extensions with default support by different compilers:\n\n\n\nCompiler\nFixed-form\nFixed-form with preprocessor\nFree-form\nFree form with preprocessor\n\n\n\n\ngfortran\n.f, .for, .ftn\n.fpp, .F, .FOR, .FPP, .FTN\n.f90, .f95, .f03, .f08\n.F90, .F95, .F03, .F08\n\n\nifort\n.f, .for, .ftn, .i\n.fpp, .FPP, .F, .FOR, .FTN\n.f90, .i90\n.F90\n\n\nnvfortran\n.f .for .ftn\n.F .FOR .FTN .fpp .FPP\n.f90 .f95 .f03\n.F90 .F95 .F03\n\n\nnagfor\n.f, .for, .ftn\n.f90, .i90\n.f90, .f95\n.ff90, .ff95, .F90, .F95\n\n\nCray\n.f, .for\n.F, .FOR\n.f90, .f95, .f03, .f08, .f18, .ftn\n.F90, .F95, .F03, .F08, .F18, .FTN\n\n\nIBM\n.f, .f77\n.F, .F77\n.f90, .f95, .f03, .f08\n.F90, .F95, .F03, .F08\n\n\ng95\n.f, .for\n.F, .FOR\n.f90, .f95, .f03\n.F90, .F95, .F03\n\n\n\nThe only options that are compatible along the tool-chains listed above are: .f, .F, .f90, .F90.\nThe .ftn extension has a clash between gfortran, ifort, and nagfor which assume fixed-form, and Cray which assumes free-form.\nTo enhance portability between compilers, we should either allow fpm to (copy and) rename the files silently, or have fpm print a message to the user to consider renaming his files.\nBlog posts related to this issue:\n\n\u201cSource Form Just Wants to be Free\u201d by Doctor Fortran\nFortran File Extensions by degenerateconic\n\nEdit: Feel free to add more compilers.",
+            "text": "Once fpm will be out in the wild, we should try to support other Fortran file extensions.\nThis is not so important right now, but I thought I will create an issue since I gathered the information.\nHere is a table of file extensions with default support by different compilers:\n\n\n\nCompiler\nFixed-form\nFixed-form with preprocessor\nFree-form\nFree form with preprocessor\n\n\n\n\ngfortran\n.f, .for, .ftn\n.fpp, .F, .FOR, .FPP, .FTN\n.f90, .f95, .f03, .f08\n.F90, .F95, .F03, .F08\n\n\nifort\n.f, .for, .ftn, .i\n.fpp, .FPP, .F, .FOR, .FTN\n.f90, .i90\n.F90\n\n\nnvfortran\n.f .for .ftn\n.F .FOR .FTN .fpp .FPP\n.f90 .f95 .f03\n.F90 .F95 .F03\n\n\nnagfor\n.f, .for, .ftn\n.ff, .F\n.f90, .f95\n.ff90, .ff95, .F90, .F95\n\n\nCray\n.f, .for\n.F, .FOR\n.f90, .f95, .f03, .f08, .f18, .ftn\n.F90, .F95, .F03, .F08, .F18, .FTN\n\n\nIBM\n.f, .f77\n.F, .F77\n.f90, .f95, .f03, .f08\n.F90, .F95, .F03, .F08\n\n\ng95\n.f, .for\n.F, .FOR\n.f90, .f95, .f03\n.F90, .F95, .F03\n\n\n\nThe only options that are compatible along the tool-chains listed above are: .f, .F, .f90, .F90.\nThe .ftn extension has a clash between gfortran, ifort, and nagfor which assume fixed-form, and Cray which assumes free-form.\nTo enhance portability between compilers, we should either allow fpm to (copy and) rename the files silently, or have fpm print a message to the user to consider renaming his files.\nBlog posts related to this issue:\n\n\u201cSource Form Just Wants to be Free\u201d by Doctor Fortran\nFortran File Extensions by degenerateconic\n\nEdit: Feel free to add more compilers.",
             "comments": [
                 {
                     "user": "ivan-pi",
@@ -2186,6 +3144,26 @@
                     "user": "awvwgk",
                     "date": "2020-11-23 17:02:55+00:00",
                     "text": "The other way round it makes more sense to me. I would use a --list option to get all possible targets. I think at least for test that should show the integrity of the project I would prefer to run all tests rather than getting a list (and exit status zero).\nConsider a CI setup with fpm, both fpm test and fpm test --all would return a zero exit status, but the former would only work as expected for projects with a single test target. Together with the automatic discovery of test executables this might lead to surprising outcomes.\nBut it can certainly dependent on the design of the project. After I started using fpm more seriously in my projects, I reconsidered some of my project designs for fpm, leading to overall smaller projects with usually a single executable target per project."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-14 11:57:13+00:00",
+                    "text": "I agree that fpm test should run all tests by default, but I agree with @urbanjost with respect to fpm run; I really don't like having fpm run behave the same way as fpm test. Some libraries come with many example programs and it doesn't make sense to invoke them all sequentially. I also find myself purposely invoking fpm run invalid_name to get a nice list of programs so that I can run them one by one.\nWhat does everyone think to changing fpm run to require a program name argument if there is more than one program/example available and using flags to run all programs and/or examples sequentially?\n$ fpm run NAME | [--programs] [--examples] \nwhere NAME can be the executable name for any program or example.\nI think cargo run has a similar requirement when more than one executable target is available (but their selection syntax is too verbose IMO)."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-14 16:38:13+00:00",
+                    "text": "Yes Thumbs up.\nCONSIDER A MENU MODE\nI have another alternative I have experimented with -- menus.\nI have an alpha-alpha version of my own that:\n\nhas the Fortran intrinsics available via help\nlooks for a command in the search path called fpm-NAME when an unknown subcommand is called\nallows for \"response files\" as described in the M_CLI2 module\nallows for a -i switch on run and test\nstarts a shell-like interface if no options are specified on fpm (very basic)\nnone of the ideas I played with my private \"alpha-alpha\" version were show-stoppers that I thought had a priority above the bigger things that were going on like auto-dependencies (and I think are all still behind allowing compiler and load options and a command-line  way of adding packages to the search list and having something like avpkg built-in  (I renamed my copy of avpkg fpm-search and call it with 2) above, by the way) but when it looked like this proposal was not going anywhere I  become fond of \"4)\" -- the -i switch is for \"interactive\" mode (maybe it should be -m for \"menu\" mode) but it produces a menu list of the executables and you can pick them numerically. Just mentioning it as an alternative idea; my private version diverged enough it would probably be easier to reintroduce it in the main code than to pull it from it.\n\nSTILL OCCASIONALLY WANT TO RUN ALL\nI did not pick up on your idea of just making test and run behave differently, which seems such an obvious solution after the fact!  So all for it. I agree that I want to run all the tests the majority of the time; usually I just want to run one only when I am writting one.\nI do occasionally want to run everything  ( one example is a graphics library where I want to pick a file output format and run all the examples, which there are dozens of).\nSo like you said except add\nfpm run '*'\nfpm run '*' --example\nas special cases where  you want to run all the cases.\nFANCIER MATCHING?\nMaybe globbing or RE or even a --all switch would be better?\nSince '*' is really a glob expression note there is  a simple globbing routine in M_strings  called matchw(just does * and ? not [...] and such) that would be a nice compromise and that I think most users would already be familiar with the syntax of. There is also a routine of the same name by Clive Page available in a lot of places including the Fortran Wiki but I am not sure of the licensing.\nOr would it be nice for that (outlier?) case if the names could be Regular Expressions since you have to quote the * anyway?\nI started a Fortran-based BRE module called M_match based on the original Ratfor version for those times where depending on the C libraries was not desirable but it needs work (PS: pretty sure Regular Expressions were first written in that Fortran variant -- ironic it is so hard to find a Fortran version now-adays).  It would work well enough to be able to say things like 'fpm run '.*'` for now though, even as if as a place-holder for something better someday.\nIn lieu of that I would still like a --all switch for those admittedly rare cases where I want to run all the examples (sometimes just to make sure they all still run, more like a test than an example).\nI think the '*' is nice and avoids bloating the run command with rarely used options. But since it needs quoted maybe going the whole way to RE would add greater flexibility but might be overkill unless there are other options where it would be useful, like searching for packages or through the help.  The -all switch needs no quoting.\nThere is also the case of having some alphameric reserved name like ALL acting as a flag, but I rarely like that method, and I think has drawbacks here.\nSUMMARY\nSo good with just changing run as you described; throwing out the \"menu\" idea to see if there is any interest\", and would like a way to occasionally run them all without having to name them all (I have some packages with dozens of example names I would hate to have to name individually when using them for a \"confidence test\") . Probably just allowing '*' to mean all would be the simplest  -- and also keep run from getting bloated with rarely-used options; We could get fancier using globbing or RE but not sure if anyone needs that."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-02-18 14:10:10+00:00",
+                    "text": "Some great ideas @urbanjost. Yes an interactive menu code would definitely be useful when you want to select from many programs; I think it would be a good candidate for the proposed plugins mechanism once the fpm model is accessible.\nI hadn't thought of RE matching but it is something that would certainly be useful to run subsets of tests/programs. And '*' is nice and short compared to a flag."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-02-21 16:05:25+00:00",
+                    "text": "CARGO\nLooked up cargo(1) and it does something similar as mentioned, where if there is only one target it is used unspecified, otherwise it has to be listed. Not sure if it lists available targets or can take RE or globbing for names. Curious about that and if there if anyone is using anything else with similiar\nrequirements and how it is handled.\nIf neither `--bin` nor `--example` are given, then if the package only has one\nbin target it will be run. Otherwise `--bin` specifies the bin target to run,\nand `--example` specifies the example target to run. At most one of `--bin` or\n`--example` can be provided."
                 }
             ]
         },
@@ -7168,6 +8146,11 @@
                     "user": "certik",
                     "date": "2020-07-07 20:28:42+00:00",
                     "text": "@smeskos I am glad it works!\n@everythingfunctional I don't know. We should discuss it. I feel module names without prefixes should be reserved for the main (user) application. Libraries should hide their modules behind a prefix. That is the common convention in C, which has the same problem (all functions being global). So if we agree that is a good convention, then we should enforce it (users can opt-out)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-12 15:27:20+00:00",
+                    "text": "The naming restrictions have been relaxed in both Fortran fpm in the current release. Therefore, I'm closing this issue as resolved. Feel free to reopen if this is not the case."
                 }
             ]
         },
@@ -7387,7 +8370,18 @@
             "date": "2020-07-06 20:05:55+00:00",
             "title": "fpm new should do --with-executable by default",
             "text": "That is what Cargo does and what I also find intuitive. Very common when I want to just try something out in Fortran.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-03 23:11:14+00:00",
+                    "text": "This is currently the default for Fortran fpm. I think we can close this as resolved."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-04 16:44:21+00:00",
+                    "text": "Indeed, I just tested the latest version and it is fixed."
+                }
+            ]
         },
         {
             "number": 108,
@@ -8483,7 +9477,18 @@
             "date": "2020-05-14 19:48:36+00:00",
             "title": "Easily create a Spack package",
             "text": "This issue is similar to #70 but for Spack instead of Conda. Essentially for people that use Spack (myself included sometimes), it would be nice to just be able to spack install any fpm package.\nTo do that, fpm should be able to take any package and produce a working Spack package out of it, that can then be submitted to Spack.\nThe generated Spack package would probably call fpm underneath to do the build.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-03 23:09:06+00:00",
+                    "text": "I haven't used spack yet, but was always tempted to try it (the somewhat second-class support for my favorite build system, meson, hold me back so far). From what I got so far about spack it seems similar to homebrew, in the way that package files are not written in a configuration language or DSL, but in Python (like formulas in homebrew are written in Ruby) and the main packages are stored inside the package manager's monolithic repository.\nHow can we actually create a package for spack with fpm? First, this would require to have fpm as spack package first, wouldn't it? It might be easier to follow #69 and just use spack's support for CMake to build any fpm project instead."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-04 16:39:14+00:00",
+                    "text": "@awvwgk there are multiple ways this can be achieved, I don't know yet the best way forward. I think our requirements are:\n\nWork with upstream fpm packages (say stdlib, f-toml, etc.) with their upstream sources (whether git or tarball) without the need to host a separate spack specific tarball\nWe submit the package to Spack, so there will be a Python formula for it, just like other Spack packages\n\nIt looks like we have at least two paths forward:\nOption 1\nThe Spack formula calls fpm to build the package ---- Spack itself handles downloading of the tarball (or git) and unpacking it, as well as building all dependencies. But fpm could be used from the Spack formula, we would have to probably implement some command line options to tell it where spack put all the dependencies (presumably also built with fpm underneath), then fpm would build the current package and hand it over to Spack.\nOption 2\nThe Spack formula would call fpm to generate a CMake based build system, and then it would just call cmake. The issues how to find dependencies would be similar (if not identical) to Option 1.\n\nAs such, we just have to get started and get it figured out one way or another, and if some extra arguments for fpm have to be implemented, then we can do it."
+                }
+            ]
         },
         {
             "number": 78,
@@ -10045,6 +11050,31 @@
                     "user": "milancurcic",
                     "date": "2020-01-16 03:02:29+00:00",
                     "text": "I added nc4fortran and netcdf-fortran to the list."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-17 21:33:09+00:00",
+                    "text": "I recall reading a comment once (might have been from @jacobwilliams) that \"Netlib is where Fortran codes go to die\".\nWell I just resurrected the y12m package for sparse linear systems published all the way back in 1981!\nIn the documentation the library claims to use only standard Fortran features (at the time), and indeed - it builds with both gfortran (warnings about deprecated syntax) and Intel Fortran (no errors) straight out of the box! I thinks it's a great showcase of the strength of Fortran and also fpm.  \ud83d\udc4d\nOne of the authors - Zahari Zlatev - is an established scientist in environmental modelling and sparse linear algebra. I presume the code was used in the Unified Danish Eulerian Model - an atmospheric model used to study transport of air pollutants.\nSeveral more netlib packages are interesting candidates: http://www.netlib.org/liblist.html\nSomeone teaching a Fortran programming class (@awvwgk) chould give this as a homework assignment: each student who wants to pass should create the manifest and interface module for one Netlib package. The  Intel Fortran compiler already knows how to automatically generate interface blocks. Then it is just a matter of aggregating them in a single interface module.\nMaybe the maintainers of Netlib from University of Tennessee and Oak Ridge National Laboratory would also be willing to support such a modernization effort."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-02-19 07:43:15+00:00",
+                    "text": "LINPACK now also works with fpm, even if superceded by LAPACK for modern usage.\nSome of the available Netlib packages (still) depend on LINPACK, so an fpm package is the best way to fulfill these dependencies.\nI think I might create a table to track which Netlib codes are already fpm-compatible. What do you think?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 16:28:59+00:00",
+                    "text": "@ivan-pi yes!\nWe should setup some automatic tests to ensure things keep working when we upgrade fpm, such as after treating .f as free form, which would require to add a flag to fpm.toml.\nThis is exciting, I might actually start using some of these Fortran packages!"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-02-19 16:43:56+00:00",
+                    "text": "I think I might create a table to track which Netlib codes are already fpm-compatible. What do you think?\n\nWe already have a keywords and categories entry for the package manifest, netlib might qualify as category, if not then at least as keyword. The fpm registry could certainly help with indexing those projects."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-19 16:52:25+00:00",
+                    "text": "I just created an issue #365 where we should discuss where to host such packages."
                 }
             ]
         },

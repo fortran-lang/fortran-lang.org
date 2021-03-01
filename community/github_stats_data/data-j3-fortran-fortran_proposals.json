@@ -2,6 +2,94 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 199,
+            "user": "zjibben",
+            "date": "2021-02-23 00:38:26+00:00",
+            "title": " February/March 2021 J3 meeting",
+            "text": "@certik and I will use this issue to keep the community updated on the work of the J3 Committee at the February/March 2021 (virtual) meeting.\nThe agenda is here. The documents for this meeting are here.\nMonday 2/22/21\n\nIEEE report 21-114\n\nJoR:\n\n21-101: Similar to a paper removed in the last meeting, but with some parts removed. Straw vote: First set of edits: 10, remove feature: 11, undecided: 2.\n\nEdit:\n\n21-106 Passed unanimous consent.\n\nTuesday 2/23/21\nJoR:\n\n21-101: Passed, unanimous consent for alternative #2 edits to remove the feature.\n21-115r1: Straw 19/0/3/2 (a/b/c/undecided). Delayed for final version.\n21-117r1: Withdrawn to add intro material.\n\nData:\n\n21-110: Straw vote for section 2: 17/2/7 (for/against/undecided). Section 3: 11/1/14. Add select case: 21/1/3. Deferred until Monday.\n21-111: Withdrawn, no current action. We expect the feature to be discussed again in the future for 202y.\n\nHPC:\n\n21-103r2: Passed, unanimous consent\n\nInterp:\n\n21-113: Passed, unanimous consent\n\nEdit:\n\n21-108r1: Passed, unanimous consent\n\nMonday 3/1/21\n\n21-119: vote\n21-112r1: discuss\n20-151?\n\nTuesday 3/2/21",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-02-23 01:00:03+00:00",
+                    "text": "I also created a Discourse topic for a wider discussion about the meeting (if anyone wants to):\nhttps://fortran-lang.discourse.group/t/february-2021-fortran-standard-committee-meeting/750\nand announced on Twitter: https://twitter.com/OndrejCertik/status/1364014062032412673"
+                }
+            ]
+        },
+        {
+            "number": 198,
+            "user": "klausler",
+            "date": "2021-02-11 23:53:42+00:00",
+            "title": "An explicit type for a generic intrinsic function should not be allowed",
+            "text": "This program conforms to Fortran 2018:\ninteger :: cos\nprint *, cos(3.14159)\nend\n\nand prints -1.00000, or some other amount of zeroes, with every Fortran compiler to which I have access.  The call to cos() returns a REAL no matter what the explicit type declaration may be.  One compiler emits a warning.\nAn explicit type-declaration-stmt for a generic intrinsic function is defined to have \"no effect\" (subclause 8.2, paragraph 3).\nThis behavior is unintuitive at best, useful only for stumping Fortran programmers as a trivia question, and may even perhaps be dangerous -- implementations are free to extend their lists of intrinsic procedures, and a name clash could silently break existing code that uses an implicit interface.\nThis feature should be deleted.  Existing programs with currently ignored type declarations could be trivially brought up to date without ambiguity or loss of compatibility by simply deleting the declarations.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-02-12 01:17:00+00:00",
+                    "text": "The standards from FORTRAN '77 through Fortran 2008 all had language in them about how a type-declaration-stmt for a generic intrinsic function would not remove the generic nature of the name; the language about the type-declaration-stmt having \"no effect\" on a generic intrinsic is a recent update in Fortran 2018."
+                }
+            ]
+        },
+        {
+            "number": 197,
+            "user": "rweed",
+            "date": "2021-02-10 02:05:09+00:00",
+            "title": "Implement true arrays of fortran pointers",
+            "text": "I'm writing some C-interop code that interfaces with C code that returns arrays of pointers to structures. Trying to unwind the multiple indirection (pointers to pointer to pointers) and load them into arrays of derived types containing pointers is to mind mind very clunky and forces you to use derived type component access syntax just to get to the pointer. I would like to propose the following:\nBorrowing syntax from co-arrays, let a set of braces (AKA curly brackets) signal an array of Fortran pointers.\nExample\nReal, Pointer :: aptr(:) {10}\nor\nType(Cstruct), Pointer :: astruct {:}\netc.\nExtensions would also be required  to ALLOCATE and C_F_POINTER but I not certain what is the best syntax for those yet so any suggestions would be welcome. I think something like this would be useful in place of trying to use arrays of Type(C_PTR)s (which is legal) instead of actual Fortran pointers. Just thought I would throw this out to see if anyone else thinks this has merit. I'm sure there are a lot of gotcha's I'm not seeing.",
+            "comments": []
+        },
+        {
+            "number": 196,
+            "user": "everythingfunctional",
+            "date": "2021-02-10 01:39:36+00:00",
+            "title": "Enable Polymorphic Outputs",
+            "text": "Is there any change that could be made to the language to allow for polymorphic outputs (or outputs with polymorphic components) from pure procedures. As mentioned in #189, there are currently a couple of constraints that disallow this. This significantly conflicts with a functional programming style, as evidenced by a few of my open source libraries; namely erloff, parff, and jsonff. Nothing impure is done anywhere within those libraries, but large swaths of them cannot be marked as pure because of these constraints.\nAs has been explained to me, the primary reason those constraints exist is that at compile time it cannot be guaranteed that a polymorphic entity won't have a dynamic type with an impure final subroutine. It would seem to me that adding a purefinal attribute to a type, restricting a type and any extended types to having pure final subroutines would be a straightforward fix for this.\nDoes anyone else have any ideas? Would there be support for a paper? What are the chances we could get this into 202X, or would it have to wait til 202Y?",
+            "comments": []
+        },
+        {
+            "number": 195,
+            "user": "milancurcic",
+            "date": "2021-02-04 21:14:16+00:00",
+            "title": "Revise SPLIT",
+            "text": "I apologize for the delay on this. I lost track of how fast the J3 meeting was approaching.\nHopefully, it should be simple enough proposal to merge and upload.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-02-09 16:04:24+00:00",
+                    "text": "Which other languages or standard libraries have the third form of split?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-09 17:58:40+00:00",
+                    "text": "The closest I could find are:\n\nC strtok\nPython str.find\n\nAnd both are different from the 3rd form of split.\nstrtok modifies the string in-place and returns a pointer to the next token.\nstr.find is more akin to the 3rd form of split because it doesn't modify the string and it returns an integer index. Two key differences are that str.find accepts an input argument start that is not modified in-place like pos, and that you can search for a substring rather than a single character from a set of delimiters."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-09 18:39:39+00:00",
+                    "text": "The arguments I saw at the J3 mailinglists are good arguments for keeping the 3rd. But it worries me that Fortran would be the only language having it, which leaves a strong suspicion in me that it might not be that useful as people might think."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-02-09 18:53:36+00:00",
+                    "text": "Well at least C, C++, and Python have it, but the APIs are different.\nI think it would be useful, but it has a misleading name. I think Python got it right. str.find tells you exactly what it is.\nAnd Fortran intrinsics INDEX and SCAN are similar to the 3rd form of string."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-02-09 19:00:26+00:00",
+                    "text": "Can you articulate a compelling reason for why these new capabilities have to be intrinsic in the standard language rather than packaged in a standard library?  Something like \"the interface can't be specified in Fortran\" or \"this can't be implemented efficiently in Fortran\" or \"only a compiler can do this special processing\" would be nice."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-10 00:01:33+00:00",
+                    "text": "@klausler exactly. I can't articulate it and I would prefer if such functionality was first present in a standard library, such as stdlib, or simply as a separate package first, as Milan has implemented here:\nhttps://github.com/milancurcic/fortran202x_split\nand get some usage of it. That is how we discovered the issue with the 3rd form of split."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-02-10 00:14:59+00:00",
+                    "text": "Since many on the mailing list seem to want to keep the third form, an option for a different name might be NEXT_SEPARATOR. I could also be convinced that the first two forms should be named TOKENIZE. But I'm also partly just trying to reserve the name SPLIT so I can write one with the interface that makes sense to me.\ninterface\n  pure function split(string, separators) result(strings)\n    type(varying_string), intent(in) :: string\n    type(varying_string), intent(in) :: separators(:)\n    type(varying_string), allocatable :: strings(:)\n  end function\nend interface"
+                }
+            ]
+        },
+        {
             "number": 194,
             "user": "certik",
             "date": "2021-01-19 19:23:09+00:00",
@@ -723,7 +811,7 @@
                     "text": "I suggest to have unit tests in the production code and to be able to run unit tests with every standard conforming compiler and without any external tool.\n\nIs the idea then that the tests are run as part of the compilation process, but not included in the resulting executable? Or that the executable is able to \"test itself\" in some secondary mode of operation? I'm not familiar with D, so that example isn't particularly enlightening for me. Is D a compiled or interpreted language? What are the mechanics of running the unit tests?"
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2020-11-19 16:08:43+00:00",
                     "text": "@zmiimz I agree, that unit testing in the standard (like it exists for Python) would be perfect. Yet, for the time being, I can highly recommend pFUnit.\nPS: Many other modern languages do also not have a built-in unit test capability (e.g. C++)"
                 }
@@ -1551,7 +1639,7 @@
         },
         {
             "number": 173,
-            "user": "Libavius",
+            "user": "Leonard-Reuter",
             "date": "2020-06-04 13:37:07+00:00",
             "title": "[Syntactic Sugar] chained comparisons",
             "text": "Allow for writing\nif (1 < 2 < 3)\ninstead of\nif (1 < 2 .and. 2 < 3)\nSimilar to python https://docs.python.org/3/reference/expressions.html#comparisons.\nI think, this is very much in the spirit of \"formula translation\" =)\n(Yup, this is nothing but syntactic sugar, but sugar is sweet)",
@@ -1706,7 +1794,7 @@
         },
         {
             "number": 169,
-            "user": "ChinouneMehdi",
+            "user": "ghost",
             "date": "2020-04-03 08:18:10+00:00",
             "title": "\"select rank()\" should be more permissive.",
             "text": "One of the new features in F2018 is assumed-rank arrays and \"select rank()\" construct.\nthe \"select rank()\" construct should be allowed to accept one or more scalar integer, like \"select case()\"\nexample:\nsubroutine sub(a)\n  integer :: a(..)\n  select rank(a)\n    rank(0)\n      ...\n    rank(1:3)\n      ...\n    rank(4:)\n      ...\n  end select\nend subroutine sub\nthis will allow for more generic programming.",
@@ -1717,7 +1805,7 @@
                     "text": "What would you do in the rank(1:3) block that would be correct and useful, yet couldn't be done with if (rank(a)>=1.and.rank(a)<=3) then ... end if?"
                 },
                 {
-                    "user": "ChinouneMehdi",
+                    "user": "ghost",
                     "date": "2020-04-03 16:53:13+00:00",
                     "text": "An assumed-rank variable name must not appear in a designator or expression except as one of the following:\n\nAn actual argument corresponding to a dummy argument that is assumed-rank\nThe argument of the C_LOC function in the ISO_C_BINDING intrinsic module\nThe first argument in a reference to an intrinsic inquiry function\nThe selector of a SELECT RANK construct\n\nAs you can see there are few operations that you can do with an assumed-rank array unless it is  inside a \"select rank()\" construct.\nfor example:\nsubroutine sub(a,b)\n  integer :: a(..)\n  ....\n  a = 0.\n  ...\nend subroutine"
                 },
@@ -1727,7 +1815,7 @@
                     "text": "Your if (a/=b)  isn't going to do what you think it will, SELECT RANK or not."
                 },
                 {
-                    "user": "ChinouneMehdi",
+                    "user": "ghost",
                     "date": "2020-04-03 16:57:42+00:00",
                     "text": "Your if (a/=b) isn't going to do what you think it will, SELECT RANK or not.\n\nI corrected the example."
                 },
@@ -1737,7 +1825,7 @@
                     "text": "Ok.  But that kind of rank-independent programming would be just as useful outside a multiple-rank case of a SELECT RANK, if that feature were to exist."
                 },
                 {
-                    "user": "ChinouneMehdi",
+                    "user": "ghost",
                     "date": "2020-04-03 17:16:46+00:00",
                     "text": "It would be better if they remove those restrictions on assumed-rank arrays outside of select rank."
                 },
@@ -1761,7 +1849,7 @@
                     "text": "The Fortran community has historically been agnostic if you use mixed case or upper case or lower case, so from this perspective, you can use whatever you prefer.\nHowever, instead of each of us using incompatible naming conventions, I would like if we can come together as a community, and agree on a more unified style that we all follow. And then provide tooling (compilers) that can enforce it. Similar to Python's PEP8.\nI like the Python's approach: https://www.python.org/dev/peps/pep-0008/#function-and-variable-names:\n\nmixedCase is allowed only in contexts where that's already the prevailing style (e.g. threading.py), to retain backwards compatibility.\n\nand I suggest we follow the same.\nSee also the discussion at:\nfortran-lang/stdlib#3\nwhich lead to:\nhttps://github.com/fortran-lang/stdlib/blob/5d1e09131cad56467549ecd9d6b977cec19b2f35/STYLE_GUIDE.md\nAlso https://www.fortran90.org/src/best-practices.html#naming-convention. One can browse current open source Fortran codes here: https://github.com/fortran-lang/stdlib/wiki/List-of-popular-open-source-Fortran-projects. Some codes use mixedCase, but most codes seem to use lower_case_with_underscores."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2020-06-04 13:48:27+00:00",
                     "text": "This is a related to #118\nI also like Pythons approach, and my Fortran programming is atm close to pythons PEP8:\n\nvariables in lower_case_with_underscores\ntypes in CapWords convention\nparameters in SCREAMCASE\n\nAdditionally, I follow two advises from the book 'Modern Fortran: Style and Usage':\n\nroutines in Upper_case_with_underscores. This is helpful to distinguish arrays from functions (which is not needed in python, because array access is with [ ]). In Fortran, for a = electrons(3), electrons could be both, an array and a function (although one with a stupid name).\nIf the type has only one word (i.e. Circle), I add an _t (i.e. Circle_t) this way, I can still use circle for an instance of Circle_t. Again in python due to case sensitivity, this is not needed. This way, I can also distinguish a type constructor from one-word functions."
                 },
@@ -3387,7 +3475,7 @@
                     "text": "@FortranFan I can see both sides and I don't currently know if we should have it or not.\nAs I posted in #40, I use C++ often, and I do not like the auto keyword for simple types such as integer or float. I use auto for complicated iterators, as that simplifies the code a lot (e.g., in \"for auto\"). But otherwise whenever I can, I try to list the type explicitly, because it makes the code a lot more readable --- the reader can immediately see the types of everything. With auto everywhere, the code starts looking like Python. And Python, while I like it and have been using for 20 years, I find it much less readable than C++ or Fortran, precisely for the lack of visible types. But Python is the best for quickly prototyping an application. Much better than C++.\nMore generally, I think auto makes it easier to quickly prototype. For example it would be ideal for LFortran in the Jupyter notebook setting. In production code, on the other hand, I think it makes things harder to read and maintain. So I don't know what the best approach is."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2020-06-04 14:54:33+00:00",
                     "text": "But otherwise whenever I can, I try to list the type explicitly, because it makes the code a lot more readable --- the reader can immediately see the types of everything.\n\nI think I would disagree, that no explicit listing of the type makes the code necessarily much less readable for two reasons:\n\nWith good naming of variables, the type should be obvious from the variable name. i.e. variables ending with _count or _index are integers. Having the type written explicitly is then just redundant information\nMost of the C++ code is nowadays written with powerful IDEs, where you can just hover over a variable to see the type. So if you are not able to deduce the type from the name, there is a fast way to look it up (other than going to some functions definition)\n\nHowever, there are no powerful native Fortran IDEs out there. I for instance use Clion with the Fortran plugin, which works okayish, but not as good as for C++ (especially the refactoring)"
                 },
@@ -3397,7 +3485,7 @@
                     "text": "@Libavius I think you would agree that with no explicit typing, you need an IDE to help you. We should (and we will) have an IDE for Fortran, for example Flang or LFortran will in the future provide the language server for VSCode.\nBut there is a beauty of not needing an IDE to write and to read code. That's what I mean by simple."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2020-06-04 17:05:28+00:00",
                     "text": "@certik the prospect of a Fortran IDE sounds really promising =).\nI agree, that in many cases, explicit typing improves readability. In addition to the IDE stuff, I wanted to point out, that this is not necessarily always the case and that good naming can (sometimes) make explicit typing redundant.\nThe option of having an auto keyword would give programmers the freedom to avoid this redundancy, while still using explicit types where they improve the readability."
                 },
@@ -4205,7 +4293,7 @@
         },
         {
             "number": 118,
-            "user": "Libavius",
+            "user": "Leonard-Reuter",
             "date": "2019-12-17 15:49:25+00:00",
             "title": "[META] Writing a code style standard like PEP8 for Fortran",
             "text": "Should we have a unified recommended code style standard like PEP8 for Fortran?\nIf there is constent, that this'd be helpful, I can open a repo for it.\nI found the following repo browsing the internet:\nRules in 'Modern Fortran: Style and Usage' (Book)\nhttp://fortranwiki.org/fortran/show/Source+conventions\nhttps://www.fortran90.org/src/best-practices.html\nhttps://github.com/kramer314/fortran-style-guide\nhttps://github.com/compas/grasp/wiki/WIP:-Code-style-conventions",
@@ -4216,7 +4304,7 @@
                     "text": "This is interesting. Could you elaborate more on this? What is this, who\npublishes it etc? I wonder if that would let off some pressure for\n\"discouraging users from writing bad code\" from the standarization entity.\n\nwt., 17 gru 2019 o 16:49 Libavius <notifications@github.com> napisa\u0142(a):\n\u2026\n Should we have a unified recommended code style standard like PEP8 for\n Fortran?\n The best there is atm are the Rules in 'Modern Fortran: Style and Usage'.\n However, this is not open-source...\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#118?email_source=notifications&email_token=AC4NA3PT54ORTUO24WKA24DQZDYIPA5CNFSM4J35RUQKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4IBCZQLQ>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3K5F3W2DQ6HW46VI7DQZDYIPANCNFSM4J35RUQA>\n ."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-17 16:35:30+00:00",
                     "text": "This is interesting. Could you elaborate more on this? What is this, who publishes it etc? I wonder if that would let off some pressure for \"discouraging users from writing bad code\" from the standarization entity. wt., 17 gru 2019 o 16:49 Libavius notifications@github.com napisa\u0142(a):\n\nI just updated the original post with a link to pythons PEP8 and a few Fortran style guides I found in the internet.\nMost Fortran projects have their own style guide (which may be useful, since requirements can differ). However it would be good to have a unified way of writing code and then making exceptions and breaking the rules.\nThis is especially helpful for beginners who then don't have to find rules themselves.\nIn a repo, everybody could discuss/share his*her ideas and contribute to a summary of rules."
                 },
@@ -4239,7 +4327,7 @@
         },
         {
             "number": 117,
-            "user": "Libavius",
+            "user": "Leonard-Reuter",
             "date": "2019-12-16 14:12:14+00:00",
             "title": "switch off backwards compatibility with compiler arguments",
             "text": "It would be great to be able to switch off backwards compatibility 'features' with compiler arguments:\neg.:\n-implicit=none\n-case_sensitive=true\nto enforce good code for new projects.",
@@ -4258,7 +4346,7 @@
         },
         {
             "number": 116,
-            "user": "Libavius",
+            "user": "Leonard-Reuter",
             "date": "2019-12-16 12:58:27+00:00",
             "title": "foreach loop",
             "text": "Allow for foreach loops:\neg.\ndo element in array\n    write(*,*) element\nend do\ninstead of\ndo i=1, SIZE(array)\n    write(*,*) array(i)\nend do",
@@ -4269,7 +4357,7 @@
                     "text": "It is not even Fortran???\n\npon., 16 gru 2019, 13:58 u\u017cytkownik Libavius <notifications@github.com>\nnapisa\u0142:\n\u2026\n Allow for foreach loops:\n eg.\n\n for element in array:\n     write(*,*) element\n\n instead of\n\n for i in SIZE(array):\n     write(*,*) array(i)\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#116?email_source=notifications&email_token=AC4NA3LCABQCS7HGQ4E4B33QY53PLA5CNFSM4J3JQTG2YY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4IAXI7SA>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3OFU6MV7ACITOFIL3TQY53PLANCNFSM4J3JQTGQ>\n ."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 14:43:30+00:00",
                     "text": "It is not even Fortran???\n\nI was a bit distracted when I wrote it. However, I edited it after max. 5 mins, which is 2 hours before you commented =/."
                 },
@@ -4284,7 +4372,7 @@
                     "text": "That is an interesting idea (probably the final : is not needed in the syntax?). Because Fortran's syntax for iterating over arrays is so simple, I usually like to have an index i, rather than the element itself, because typically (but not always) I want to do more with the matrix than just access the element. Also it generalizes nicely to multidimensional arrays, which the above syntax does not (I think)."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 20:14:19+00:00",
                     "text": "That is an interesting idea (probably the final : is not needed in the syntax?). Because Fortran's syntax for iterating over arrays is so simple, I usually like to have an index i, rather than the element itself, because typically (but not always) I want to do more with the matrix than just access the element. Also it generalizes nicely to multidimensional arrays, which the above syntax does not (I think).\n\nJup, I deleted the :.\nI sometimes prefer the foreach loop, if I have some kind of nested object oriented code: ie:\ntype :: Molecule_t\n    type(Atom_t), allocatable :: atoms(:)\nend type Molecule_t\nAnd later:\nsubroutine Foo(molecules)\n    type(Molecule_t), intent(inout) :: molecules(:)\n    integer :: i, j\n\n    do i=1, SIZE(molecules)\n        do j=1, SIZE(molecules(i)%atoms)\n            call molecules(i)%atoms(j)%Do_something()\n        end do\n    end do\nend subroutine Foo\nWould reduce to (probably the variables molecule and atom are best off as pointers?):\nsubroutine Foo(molecules)\n    type(Molecule_t), intent(inout) :: molecules(:)\n    type(Molecule_t), pointer :: molecule\n    type(Atom_t), pointer :: atom\n\n    do molecule in molecules\n        do atom in molecule%atoms\n            call atom%Do_something()\n        end do\n    end do\nend subroutine Foo"
                 },
@@ -4294,12 +4382,12 @@
                     "text": "@Libavius thanks for the use case."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 20:31:44+00:00",
                     "text": "@Libavius thanks for the use case.\n\nIt could analogoulsy work for multidimensional arrays: (Note that the slicing of an array is determined by the way it is written in the memory.)\nsubroutine Foo(tensor)\n    real(real64), intent(inout) :: tensor(:,:,:)\n    real(real64), pointer :: matrix(:,:), vector(:), scalar\n\n    do matrix in tensor\n        do vector in matrix\n            do scalar in vector\n                call Do_something(scalar)\n            end do\n        end do\n    end do\nend subroutine Foo\nHowever, this is not really advantageous compared to the obvious way to do it."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-17 16:49:22+00:00",
                     "text": "This could also enable some pythonic 'list' (here: array) comprehension:\ntype(Atom_t) :: atoms(n)\ninteger :: charges(n)\n\ncharges = [(atom%Get_charge(), atom in atoms)]\ninstead of:\ninteger :: i\ntype(Atom_t) :: atoms(n)\ninteger :: charges(n)\n\ncharges = [(atoms(i)%Get_charge(), i=1, n)]\nEDIT: it is actually easier, if Get_charge ist elemental:\ntype(Atom_t) :: atoms(n)\ninteger :: charges(n)\n\ncharges = atoms%Get_charge()"
                 },
@@ -4317,13 +4405,13 @@
         },
         {
             "number": 115,
-            "user": "Libavius",
+            "user": "Leonard-Reuter",
             "date": "2019-12-16 12:53:07+00:00",
             "title": "string functions in standard",
             "text": "Add functions like Pythons split to the standard.",
             "comments": [
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 13:54:34+00:00",
                     "text": "sorry, this is a duplication of #96 (which i missed)"
                 }
@@ -4331,7 +4419,7 @@
         },
         {
             "number": 114,
-            "user": "Libavius",
+            "user": "Leonard-Reuter",
             "date": "2019-12-16 12:50:35+00:00",
             "title": "Alternative array access with [ ]",
             "text": "Allow for alternative array acess:\nmy_array[3]\n\ninstead of\nmy_array(3)\n\nin order to distinguish between array access and function call.",
@@ -4342,7 +4430,7 @@
                     "text": "This would conflict with coarray indexing. Also, frankly, the last thing Fortran needs is more ways to do the same thing. It is already full of those and it makes the source a devil to parse and analyse."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 13:29:05+00:00",
                     "text": "This would conflict with coarray indexing. Also, frankly, the last thing Fortran needs is more ways to do the same thing. It is already full of those and it makes the source a devil to parse and analyse.\n\nI never worked with coarrays, so I did not know this. Thanks for the clarification =)"
                 },
@@ -4355,7 +4443,7 @@
         },
         {
             "number": 113,
-            "user": "Libavius",
+            "user": "Leonard-Reuter",
             "date": "2019-12-16 12:49:09+00:00",
             "title": "Augmented assignment",
             "text": "allow writing\na += b\ninstead of\na = a + b\nand\na *= b\ninstead of\na = a * b\nI think this feature is quite important, since the lack of it misleads programmers towards the use of (too) short variable names:\nI would write like to write this:\nelectrons_number += charge\nBut maybe prefer this\nen = en + charge\nover this abomination of a line =)\nelectrons_number = electrons_number + charge\nThis should not end in a discussion whether to use long variable names or not, let's just agree, that they are better sometimes.\nThis is a second use case\nThis is a third (and fourth) use case",
@@ -4366,7 +4454,7 @@
                     "text": "This is a very common request, so we should have an issue for it and document why such ideas were not implemented yet.\nThe last time I have seen this discussed is with this proposal: https://j3-fortran.org/doc/year/19/19-111r1.txt. It actually has reason why it was rejected.\n(The += and *= would also imply to have /=, but that is already taken for .ne.. The 19-111r1 paper thus introduces a new operator that could do the same.)"
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 20:53:05+00:00",
                     "text": "This is a very common request, so we should have an issue for it and document why such ideas were not implemented yet.\nThe last time I have seen this discussed is with this proposal: https://j3-fortran.org/doc/year/19/19-111r1.txt. It actually has reason why it was rejected.\n(The += and *= would also imply to have /=, but that is already taken for .ne.. The 19-111r1 paper thus introduces a new operator that could do the same.)\n\nI think, just doing the two 'positive' operators would already help a lot. '-=' and '/=' are much less needed and can be circumvented like this:\nThe hypothetical code:\na = 1.0_real64\ndo i=1, 10\n    a -= vector(i)\nend do\nCan be written as:\na = 1.0_real64\na *= -1\ndo i=1, 10\n    a += vector(i)\nend do\na *= -1\nAnd analogous for division (maybe in line with the loop statements, to make the purpose clearer?):\na = 1.0_real64\na = 1/a; do i=1, 10\n    a *= vector(i)\nend do; a = 1/a\nWhile this seems messy, it prevents the 'space ship operator' from being valid:\na -=- 1  ! this gives the same as 'a += 1'\nThe main point however should be, that '-=' and '/=' are much less needed. I would really advise against another operator for '/='. That would be quite counter-intuitive.\nPS: since the referred paper was in parts rejected due to a missing use case, I will add one to the original post =)"
                 },
@@ -4381,7 +4469,7 @@
                     "text": "The important aspect of BCPL's assignment operator(s) is that the left-hand side of the assignment is evaluated only once; e.g., if Fortran were to acquire such a feature, in A(F()) += X, there would only be one call made to F."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 22:28:09+00:00",
                     "text": "The important aspect of BCPL's assignment operator(s) is that the left-hand side of the assignment is evaluated only once; e.g., if Fortran were to acquire such a feature, in A(F()) += X, there would only be one call made to F.\n\nI referenced your point in the original post."
                 },
@@ -4391,7 +4479,7 @@
                     "text": "Additionally, this feature should specifically state whether the augmented assignment is atomic or reducing or disallowed in some circumstances (shared variable in DO CONCURRENT, &/or coindexed references)."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-17 08:20:26+00:00",
                     "text": "I'd suggest also adding **= to have the 'positive' augmented assignment operators complete."
                 },
@@ -4411,7 +4499,7 @@
                     "text": "In fact you can write it as\na = 1 - sum(vector)\nBut I think @Libavius's point was to show how it can be used. A typical loop where I use i = i + 1 is:\ni = 1\nj = 1\ndo j = 1, size(nl)\n    n = nl(j)\n    zeta = zl(j)\n    l = ll(j)\n    do m = -l, l\n        nlist(i) = n\n        zetalist(i) = zeta\n        llist(i) = l\n        mlist(i) = m\n        i = i + 1\n    end do\nend do\nWhere it is kept as a running index.\nI am leaning towards @jacobwilliams's comment above (#113 (comment)) that i = i + 1 looks great and even though i += 1 is shorter, it is a new syntax, and so it might not be worth it in this case."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-18 12:31:53+00:00",
                     "text": "@FortranFan I know, thanks anyway for the hint.\n@certik that was my point indeed. I also agree, that i = i + 1 looks good, however this is not always the case.\nA more elaborate use case:\ntype Molecule_t\n    type(Atom_t), allocatable :: atoms(:)\ncontains\n    procedure, pass :: Get_electrons_number => Molecule_t_get_electrons_number\nend type Molecule_t\n\ncontains\n\nfunction Molecule_t_get_electrons_number(this) result(electrons_number)\n    class(Molecule_t), intent(in) :: this\n    integer :: electrons_number\n\n    integer :: i\n\n    electrons_number = 0\n\n    if (ALLOCATED(this%atoms) then\n        do i=1, SIZE(this%atoms)\n            electrons_number = electrons_number + this%atoms(i)%get_electrons_number()\n        end do\n    end if\nend subroutine Molecule_t_get_electrons_number\nThe loop would\u2013in my opinion\u2013be easier readable like this:\ndo i=1, SIZE(this%atoms)\n    electrons_number += this%atoms(i)%get_electrons_number()\nend do\n@FortranFan I could write this with the SUM intrinsic (but this would be slower, since an array would need to be allocated):\nelectrons_number = SUM([( this%atoms(i)%get_electrons_number(), i=1, SIZE(this%atoms) )])\nEDIT: (or easier, but still with allocation, if Get_electrons_number is elemental\nelectrons_number = SUM(this%atoms%get_electrons_number() )\nThis is in addition to the possible reduction of function calls that @klausler mentioned.\n@jacobwilliams jup, the confusion with /= ist quite painful and probably the strongest counter-argument..."
                 },
@@ -4421,7 +4509,7 @@
                     "text": "@Libavius for your latest use case, I would recommend to change get_electrons_number() to not be a function, but just a member variable. In fact I would recommend to change Molecule_t to:\ntype Molecule_t\n    real(dp), allocatable :: electrons_number(:)\n    ...\ncontains\n    procedure, pass :: Get_electrons_number => Molecule_t_get_electrons_number\nend type Molecule_t\nAnd then change the loop to just:\nelectrons_number = sum(this%electrons_number)"
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-18 15:52:51+00:00",
                     "text": "@certik\nBut then, if I change my atoms array I always have to be careful and update electrons_number as well.\nThe idea in this case would be, that a molecule has atoms but an atom can also exist without a molecule. To avoid code duplication I don't want the molecule to have a member 'electrons_number' or implement atom-related functions again but rather iterate over its atoms."
                 },
@@ -4471,7 +4559,7 @@
                     "text": "@aradi thanks for the clarification. (For the record the 19-111r1 proposal is not my proposal, I just linked to it.)"
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-27 10:56:20+00:00",
                     "text": "As for the syntax, what about Espen Myklebusts proposal in #80, using the @ operator representing the LHS of an assignment? So @septcolor s example could be writen as\nmy_data(idat) % its_sub_obj(iobj) % another_sub_obj(isubobj) = @ + 1\n\nIt would not cause any conflicts with current operators, so it could be also used for division (I would find it really strange, if *= were introduced but in place division won't work...). And it had the benefit, that the @ operator (representing the LHS) could appear even more than once on the RHS, as in\narray(i,j)%comp1(k,l)%value1 = abs(@ - sqrt(@))\n\n(example by Espen Myklebust).\n\nI think this'd be superb elegant =)\nEDIT: After some time, I'm not so sure anymore. It is also a bit of syntactic overload..."
                 },
@@ -4998,7 +5086,7 @@
                     "text": "@certik wrote:\n\n.. @FortranFan please tone the rhetoric down a little bit. Let's try to be critical without being personal. We are all on the same team.\n\nPoint accepted."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-17 08:39:03+00:00",
                     "text": "Just to add my experience even though it simply mirrors all the others:\nIn theoretical chemistry community (and also theoretical phyics afaik), no new program is written in Fortran. People use Python and/or C++ instead.\nI really agree with @certik : We have to improve and adapt the language at a pace faster than now. Otherwise, Fortrans disappearance might actually come faster than you'd think. (Trying not to sound apocalyptic).\nI think, LFortran and especially this repo are really giving us a chance."
                 },
@@ -5310,7 +5398,7 @@
                     "text": "See also #14."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 21:37:44+00:00",
                     "text": "I agree. But well, then there is this solution: =)\ninteger :: i\ninteger, parameter :: n = 4  ! dimension of the identity matrix\nreal(wp), parameter :: I(n,n) = RESHAPE([ (MERGE(1._wp, 0._wp, i/n==MOD(i,n)), i=0, n**2-1) ], [n,n])"
                 }
@@ -6209,7 +6297,7 @@
             "text": "@FortranFan wrote in #86 (comment):\nI have long debated in my own mind whether Fortran should formally introduce the concept of NAMESPACEs or whether MODULEs can themselves be elevated to first-class namespaces.  Looking at the proposal at #86 and with #1, I'm presently inclined toward the former.\nWhilst I don't quite have a list of the requirements and specifications necessary toward an initial proposal, a sketch of the idea is to include either a new NAMESPACE scope and/or NAMESPACE attribute to MODULEs in addition to PUBLIC/PRIVATE visibility of MODULEs in a NAMESPACE.  Then a given NAMESPACE can IMPORT other NAMESPACEs.  Fortran can formally define a GLOBAL namespace and state all EXTERNAL MODULEs (a la external procedures) in a program are part of this namespace.  The language can then have some rules for name qualification and aliasing.  Code then might look like the following with illustrative syntax:\nnamespace my_lib\n   public module constants\n      real, parameter :: PI = 3.14\n   end module\n   private module utils !<-- can be USE'd only by modules in the same namespace\n      interface\n         module subroutine draw()\n         end subroutine\n      end interface\n   end module\nend namespace\n\nnamespace my_lib !<-- A namespace can be extended with more modules\n   public module solver\n      use constants, only : PI !<-- It can USE modules from the same namespace\n   contains\n      function calcradius( a ) result( r )\n         real, intent(in) :: a\n         result :: r\n         r = sqrt(a/PI)\n      end function\n   end module\nend namespace\n\nnamespace global !<- optional, for 'global' namespace will exist by default\n   import my_lib, only : constants, solver ! import 'public' modules only from another namespace\n   program p !<-- A program unit can only be part of GLOBAL namespace\n      use constants, only : PI !<-- does not 'clash' with my_lib::constants\n      real :: area\n      print *, \"PI = \", PI !<-- PI from USE-associated 'constants' module \n      area = 100.0\n      associate ( PI => my_lib::constants%PI, calcrad => my_lib::solver%calcradius )\n         print *, \"circumference = \", 2.0*PI*calcrad(area)\n      end associate\n   end program\nend namespace\n\nNote the above is based on the use cases in #1 and #86; once more use cases are brought to light, it might help refine the idea of a NAMESPACE.",
             "comments": [
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 21:09:33+00:00",
                     "text": "I can't decide yet, whether I prefer this over the 'module elevation'.\nTil I can, one remark: if you add Fortran after the three ` that begin the code section, you get Fortran syntax highlighting =)"
                 },
@@ -8092,7 +8180,7 @@
                     "text": "@gronki , I never suggested a timeframe for generics. But there is a lot of resistance to adding features that paper over shorter-term problems. But there is an existing preprocessor solution that works, why complicate issues with trying to wedge preprocessing into the standard? I'd prefer the energy and cycles to be put into solving the language issues that make people reach for a preprocessor.\n\nIt's not either/or, and people have work to do today.  Fortran compilers have preprocessors, people use them, and code portability would benefit from standardizing them to the extent that they can be."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2019-12-16 13:44:00+00:00",
                     "text": "It's not either/or, and people have work to do today. Fortran compilers have preprocessors, people use them, and code portability would benefit from standardizing them to the extent that they can be.\n\nThe preprocessors of fortran compilers are in fact standardized by the cpp standard. I think this is more than sufficient. (eg. C18 (ISO/IEC 9899:2018) 6.10 preprocessor directives"
                 },
@@ -11528,6 +11616,11 @@
                     "user": "FortranFan",
                     "date": "2019-10-26 20:41:23+00:00",
                     "text": "Here're the documents referenced in that first paper above that is labeled 19-230 on \"Formal Requirements\" toward enumeration types.  19-230 was discussed at the recent J3 committee meeting and the document 19-230r2 is the last revision of it from that meeting.\n\n19-216r1 Enumeration types [US21]\n18-256r1 enums\n18-114r1 Enumeration types"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-02-23 23:05:04+00:00",
+                    "text": "New specs and syntax: https://j3-fortran.org/doc/year/21/21-110.txt"
                 }
             ]
         },
@@ -11660,7 +11753,7 @@
                     "text": "That's fine with me, you can remove the [META] label."
                 },
                 {
-                    "user": "Libavius",
+                    "user": "Leonard-Reuter",
                     "date": "2020-06-04 16:08:55+00:00",
                     "text": "What about adding labels for different types of proposals (i.e. 'syntactic sugar', 'C interoperability', 'coding convention', 'efficiency improvement', 'new feature', 'enhanced feature'...)? In a way, this has already been done with the 'meta' label."
                 }
