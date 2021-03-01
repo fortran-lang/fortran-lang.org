@@ -164,9 +164,7 @@ Please consider donating to LFortran to accelerate its development.
 * We had our 9th Fortran Monthly call on February 25.
 You can watch the recording below:
 
-TODO @milancurcic update Youtube URL when uploaded.
-
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/QfiBUAgI3kw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/-Hkm7_iO1wk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 * This year Fortran-lang applied as a mentor organization for [Google Summer of Code](https://summerofcode.withgoogle.com/).
 Accepted mentor organizations will be announced on March 9.
