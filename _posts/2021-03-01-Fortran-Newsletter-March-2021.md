@@ -107,8 +107,6 @@ Work in progress:
   Plugin alpha version
 * [#369](https://github.com/fortran-lang/fpm/pull/369) (WIP):
   Separate build targets from model structure
-* [#369](https://github.com/fortran-lang/fpm/pull/369) (WIP):
-  Separate build targets from model structure
 * [#370](https://github.com/fortran-lang/fpm/pull/370) (WIP):
   Update run subcommand
 
