@@ -175,8 +175,11 @@ Accepted mentor organizations will be announced on March 9.
 If you're a student, or know students who are [eligible to participate](https://developers.google.com/open-source/gsoc/faq#what_are_the_eligibility_requirements_for_participation), and you'd like to help build the Fortran ecosystem please reach out and let us know.
 
 * The 223rd meeting of the US Fortran Standards Committee is held virtually from February 22 to March 2 (Monday and Tuesday only).
-Main topics of dicussion are the planned changes for the Fortran 202X revision of the Standard.
-You can read all papers that are discussed at the meeting [here](https://j3-fortran.org/doc/meeting/223).
+Main topics of dicussion are the planned changes for the Fortran 202X revision of the Standard:
+    * [List](https://j3-fortran.org/doc/meeting/223) of all submitted papers
+    * [Summary](https://github.com/j3-fortran/fortran_proposals/issues/199) of which papers were discussed each day and voting results
+  If you have ideas for new improvements to the language, please propose them
+  [here](https://github.com/j3-fortran/fortran_proposals).
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
