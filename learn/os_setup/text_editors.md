@@ -35,7 +35,7 @@ The following extensions are suggested for Fortran developement:
 
 The following are not essential but more advanced users might find useful:
 - [Remote - WSL by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
-- [GitLens — Git supercharged by Eric Amodio](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+- [GitLens - Git supercharged by Eric Amodio](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 - [fprettify by Blamsoft](https://marketplace.visualstudio.com/items?itemName=Blamsoft.fprettify)
 - [Even Better TOML by tamasfe](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml). For Fortran developers that are using the new [fpm](https://github.com/fortran-lang/fpm) *Fortran Package Manager*, a TOML language support might come in handy.
 
