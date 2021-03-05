@@ -58,7 +58,7 @@ The workflow for doing so takes the following form:
 
 3. Perform your changes on the local branch
 
-4. Push your modified branch to your local fork
+4. Push your modified branch to your fork
    - _e.g._ `git push --set-upstream origin fix-spelling-homepage`
 
 5. Create a pull request in the fortran-lang/fortran-lang.org from your modified fork branch
