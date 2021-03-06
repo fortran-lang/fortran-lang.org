@@ -53,6 +53,9 @@ Python. Intel oneAPI HPC Toolkit provides
   that supports Fortran 95 and partially newer versions of the standard.
 
 Intel oneAPI is available for free.
+Currently the compiler supports Linux, MacOS and Windows platforms and x86\_64 architectures.
+Community support is available for the free version at the [Intel Developer forum](https://community.intel.com/t5/Intel-Fortran-Compiler/bd-p/fortran-compiler).
+
 
 ### NAG
 
@@ -69,6 +72,11 @@ generator, interface builder and a precision unifier.
 ### NVIDIA
 
 The [NVIDIA HPC SDK](https://developer.nvidia.com/hpc-sdk) C, C++, and Fortran compilers, former [PGI compilers](https://www.pgroup.com/products/index.htm), support GPU acceleration of HPC modeling and simulation applications with standard C++ and Fortran, OpenACC® directives, and CUDA®. GPU-accelerated math libraries maximize performance on common HPC algorithms, and optimized communications libraries enable standards-based multi-GPU and scalable systems programming.
+
+NVHPC compilers are available free of charge.
+Currently the compiler supports Linux platforms and x86\_64, ppc64le and aarch64 architectures.
+Community support is available at the [HPC compiler forum](https://forums.developer.nvidia.com/c/accelerated-computing/hpc-compilers/nvc-nvc-and-nvfortran/313).
+
 
 ### HPE / Cray
 
@@ -90,6 +98,10 @@ your hardware utilization. IBM XL Fortran for Linux optimizes your
 infrastructure on IBM Power Systems™ in support of extensive numerical,
 scientific and high-performance computing.
 
+A community edition of the IBM XL compilers are available free of charge.
+The compilers support Linux and AIX platforms and ppc64le architectures.
+
+
 ### AMD
 
 The [AMD Optimizing C/C++ Compiler (AOCC)](https://developer.amd.com/amd-aocc/)
@@ -103,6 +115,8 @@ and code generation. AMD also provides highly optimized libraries, which extract
 the optimal performance from each x86 processor core when utilized. The AOCC
 Compiler Suite simplifies and accelerates development and tuning for x86
 applications.
+
+The AOCC compilers are available free of charge and support Linux platforms with x86\_64 architectures.
 
 
 ### ARM
