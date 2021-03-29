@@ -160,7 +160,68 @@ environment in which new open source Fortran projects are created and published 
 
 ### Classic Flang
 
+A total of 10 pull requests were merged in February.
+
+* [PR#996 tests: one test case supporting PR #966](https://github.com/flang-compiler/flang/pull/996)
+* [PR#968 Fix a clash between CONTIGUOUS and SAVE attribute in flang (issue #673)](https://github.com/flang-compiler/flang/pull/968)
+* [PR#955 Do not issue an error when character kind 2 is used](https://github.com/flang-compiler/flang/pull/955)
+* [PR#975 Add the option to build release_11x branch of llvm with Github Actions](https://github.com/flang-compiler/flang/pull/975)
+* [PR#974 Fix hash collision handling routine that didn't work due to a fatal mistake (issue #960).](https://github.com/flang-compiler/flang/pull/974)
+* [PR#1000 Add ccache support to GitHub Actions](https://github.com/flang-compiler/flang/pull/1000)
+* [PR#952 Array debugging support with upgraded DISubrange](https://github.com/flang-compiler/flang/pull/952)
+* [PR#1002 Fix for regression introduced by PR #922 (issue #995)](https://github.com/flang-compiler/flang/pull/1002)
+* [PR#985 add asprintf](https://github.com/flang-compiler/flang/pull/985)
+* [PR#966 Fixes to address cp2k compilation and runtime issues](https://github.com/flang-compiler/flang/pull/966)
+
+A total of 8 pull requests were merged in March.
+
+* [PR#963 Fix errors on array initialisation with an implied do loop](https://github.com/flang-compiler/flang/pull/963)
+* [PR#1007 fix for issue #1006: stop passing unused uninitialized value](https://github.com/flang-compiler/flang/pull/1007)
+* [PR#1004 Nested implied do loop fix for real numbers](https://github.com/flang-compiler/flang/pull/1004)
+* [PR#710 Test case for capturing procedure pointers to OpenMP parallel regions](https://github.com/flang-compiler/flang/pull/710)
+* [PR#561 flang2: corrected fix for #424](https://github.com/flang-compiler/flang/pull/561)
+* [PR#778 Fixing NCAR test problems with error tolerance lower than E-12.](https://github.com/flang-compiler/flang/pull/778)
+* [PR#1010 LLVM 12 upgrade](https://github.com/flang-compiler/flang/pull/1010)
+* [PR#1012 Remove release_90 from Github Actions](https://github.com/flang-compiler/flang/pull/1012)
+
 ### LLVM Flang
+
+Recent development updates:
+
+* New Driver: 
+    * Add options for -fdefault\* and -flarge-sizes
+    * Refine tests for module search directories
+    * Add -fdebug-dump-parsing-log
+    * Add -fdebug-module-writer option
+    * Add debug dump, measure-parse-tree and pre-fir-tree options
+    * Add -Xflang and make -test-io a frontend-only flang
+    * Add -J and -module-dir to f18 driver
+    * Fix -fdefault\* family bug
+* FIR (Fortran IR - a dialect of MLIR): 
+    * Add diagnostic tests for FIR ops verifier
+    * Add FIR Types parser diagnostic tests
+    * Upstream the pre-FIR tree changes (The PFT has been updated to support Fortran 77)
+    * Update flang test tool support classes
+    * Add zero_bits, array value, and other operations
+    * Upstream utility function valueHasFirAttribute() to be used in subsequent merges
+* OpenMP - add semantic checks for:
+    * OpenMP 4.5 - 2.7.1 Do Loop restrictions for Threadprivate
+    * Occurrence of multiple list items in aligned clause for simd directive
+    * Flang OpenMP 4.5 - 2.15.3.6 Reduction clause
+    * 2.15.4.2 - Copyprivate clause
+    * 2.15.3.4 - Firstprivate clause
+    * 2.15.3.5 - Lastprivate clause
+* Update character tests to use gtest
+* Adaptations to MLIR API changes
+* Fix call to CHECK() on overriding an erroneous type-bound procedure
+* Handle type-bound procedures with alternate returns
+* Runtime: implement INDEX intrinsic function
+* Fix compilation on MinGW-w64
+* Extension: forward refs to dummy args under IMPLICIT NONE
+* Detect circularly defined interfaces of procedures
+* Implement the related character intrinsic functions SCAN and VERIFY
+
+Call notes will be sent to the _flang-dev_ email list and also recorded [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
 
 ### LFortran
 
