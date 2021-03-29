@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: April 2021"
 category: newsletter
-author: Sebastian Ehlert
+author: Sebastian Ehlert, Alexis Perry-Holby
 ---
 
 Welcome to the April 2021 edition of the monthly Fortran newsletter.
