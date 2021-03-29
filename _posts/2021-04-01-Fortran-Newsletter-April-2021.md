@@ -87,6 +87,8 @@ Work in progress:
   Summarize build toolchain workflow and implied rules
 * [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
   Add sort to stdlib\_string\_type module
+* [#367](https://github.com/fortran-lang/stdlib/pull/367) (WIP):
+  Add Intel compiler workflow for OSX
 
 
 Please help improve stdlib by testing and reviewing these pull requests!
@@ -127,6 +129,8 @@ Here's what's new in `fpm`:
   Add fpm description and reorganize the README intro
 * [#404](https://github.com/fortran-lang/fpm/pull/404):
   Correct join for null input
+* [#409](https://github.com/fortran-lang/fpm/pull/409):
+  Give Programs Access to Code in Subdirectories
 * [#414](https://github.com/fortran-lang/fpm/pull/414):
   Add few important links to README
 
@@ -136,8 +140,6 @@ Work in progress:
   First feature-complete release of the Fortran implementation.
 * [#364](https://github.com/fortran-lang/fpm/pull/364) (WIP):
   Plugin alpha version
-* [#409](https://github.com/fortran-lang/fpm/pull/409) (WIP):
-  Give Programs Access to Code in Subdirectories
 * [#412](https://github.com/fortran-lang/fpm/pull/412) (WIP):
   Duplicate module definitions
 * [#413](https://github.com/fortran-lang/fpm/pull/413) (WIP):
