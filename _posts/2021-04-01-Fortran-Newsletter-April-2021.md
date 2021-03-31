@@ -102,7 +102,7 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 Here's what's new in `fpm`:
 
-* [Alpha release version 0.1.4](https://github.com/fortran-lang/fpm/releases/tag/v0.1.4)
+* [Alpha release version 0.2.0](https://github.com/fortran-lang/fpm/releases/tag/v0.2.0)
 * [Fpm is now available on conda-forge](https://github.com/conda-forge/fpm-feedstock)
 * [#352](https://github.com/fortran-lang/fpm/pull/352):
   Hacky fix for the help test
@@ -133,6 +133,12 @@ Here's what's new in `fpm`:
   Give Programs Access to Code in Subdirectories
 * [#414](https://github.com/fortran-lang/fpm/pull/414):
   Add few important links to README
+* [#412](https://github.com/fortran-lang/fpm/pull/412):
+  Duplicate module definitions
+* [#413](https://github.com/fortran-lang/fpm/pull/413):
+  Add: omp\_lib to intrinsic modules list
+* [#419](https://github.com/fortran-lang/fpm/pull/419):
+  Split workflow for Haskell and Fortran fpm
 
 Work in progress:
 
@@ -140,10 +146,10 @@ Work in progress:
   First feature-complete release of the Fortran implementation.
 * [#364](https://github.com/fortran-lang/fpm/pull/364) (WIP):
   Plugin alpha version
-* [#412](https://github.com/fortran-lang/fpm/pull/412) (WIP):
-  Duplicate module definitions
-* [#413](https://github.com/fortran-lang/fpm/pull/413) (WIP):
-  Add: omp\_lib to intrinsic modules list
+* [#420](https://github.com/fortran-lang/fpm/pull/420) (WIP):
+  Phase out Haskell fpm
+* [fpm-haskell](https://github.com/fortran-lang/fpm-haskell) (WIP):
+  Separate repository for the Haskell fpm version
 
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
@@ -250,6 +256,7 @@ commenting in any of these repositories:
 * [fortran-lang/fpm](https://github.com/fortran-lang/fpm)
 * [fortran-lang/fpm-registry](https://github.com/fortran-lang/fpm-registry)
 * [fortran-lang/setup-fpm](https://github.com/fortran-lang/setup-fpm)
+* [fortran-lang/fpm-haskell](https://github.com/fortran-lang/fpm-haskell)
 * [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org)
 * [fortran-lang/benchmarks](https://github.com/fortran-lang/benchmarks)
 * [fortran-lang/fortran-forum-article-template](https://github.com/fortran-lang/fortran-forum-article-template)
