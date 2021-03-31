@@ -233,7 +233,7 @@ Call notes will be sent to the _flang-dev_ email list and also recorded [here](h
 
 ### LFortran
 
-* LFortran is participating in GSoC under NumFOCUS and Fortran-lang umbrealla, if you are interested, please apply: https://gitlab.com/lfortran/lfortran/-/wikis/GSoC-2021-Ideas
+* LFortran is participating in GSoC under the NumFOCUS and Fortran-lang umbrella, if you are interested, please apply: https://gitlab.com/lfortran/lfortran/-/wikis/GSoC-2021-Ideas
 * 7 people contributed code in the last month:
     [Gagandeep Singh](https://github.com/czgdp1807),
     [Dominic Poerio](https://dompoer.io/),
@@ -242,7 +242,7 @@ Call notes will be sent to the _flang-dev_ email list and also recorded [here](h
     [Scot Halverson](https://github.com/scothalverson),
     [Rohit Goswami](https://rgoswami.me/),
     [Ondřej Čertík](https://ondrejcertik.com/).
-* 114 Merge Requests were [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests) in the past month, highlights
+* 114 Merge Requests were [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&utf8=%E2%9C%93&state=merged) in the past month, highlights
     * macOS support (both Intel and ARM), compilation and development of
       LFortran itself (stacktraces work also)
     * Initial implentation of: modules (modfiles, dependencies, ...),
