@@ -2,11 +2,84 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 201,
+            "user": "zerothi",
+            "date": "2021-03-24 11:56:51+00:00",
+            "title": "Kind specification implicit from context",
+            "text": "Problem\nCurrently real are by definition floating point values. So when assigning constants to a double precision you'll get conversion losses\nprogram test\n  real(8), parameter :: const = 1.4435435345345\n  real(8), parameter :: const2 = 1./3.\n  real(8), parameter :: const3 = 1./4.\n\n  print *, const\n  print *, const2\n  print *, const3\n\nend program test\nthe output will be:\n   1.4435435533523560     \n  0.33333334326744080     \n  0.25000000000000000 \nto much surprise of some users.\nCurrent way\nUsers are forced to explicitly denote the important constants as proper kinds. I.e. simple integers or reals that are well defined may not be affected. The solution to the above would be:\n real(8), parameter :: const = 1.4435435345345_8\n  real(8), parameter :: const2 = 1./3._8\n  real(8), parameter :: const3 = 1./4.\nnote not all are needed.\nThis alters the output to:\n   1.4435435345345000     \n  0.33333333333333331     \n  0.25000000000000000     \nSuggestion\n\nWhen doing math that is stored in a certain floating or integer kind specification (LHS), it would be natural to bump up every constant written on the RHS to the equivalent kind specification.\nWhen doing any math that gets printed every constant written should be bumped up to the highest kind specification in the expression\n\nOne needs to distinguish the two situations.\nConsider this:\nprogram test\n real(8), parameter :: const = 1./3.\n print *, 1./3. * 4._8\nin both the above cases 1. and 3. should automatically be bumped to the kind=8 specification as noted in the parameter declaration and by use of one kind=8\nAnother benefit is that complicated inline math would be much easier to write without worrying about kind-specifications.\nNote that all of the same considerations of the above should apply to integer and complex data types.\nBreaking code\nI hardly think this would break codes in undesirable ways. In fact, what it would do is ensure correct handling in many codes since the kind specification is not necessary in many cases any more. So results may change, but I would argue that there are no cases where one wants to do less precision math (on purpose) and store in higher precision variables.",
+            "comments": [
+                {
+                    "user": "awehrfritz",
+                    "date": "2021-03-24 12:46:46+00:00",
+                    "text": "This is indeed one of the rather annoying and nasty surprises of Fortran's floating point handling. So, I for one would really appreciate a feature like this.\nI think the most irritating issue with the current behaviour is that\nreal(8), parameter :: const2 = 1./3.\nyields\n  0.33333334326744080\nAt first I would have thought that the value should just be truncated and zero-padded, but I do realise that this would be as wrong as the current value.\nA quite nice summary of these issues can be found here:\nhttps://www.fortran90.org/src/best-practices.html#floating-point-numbers\nhttps://www.fortran90.org/src/gotchas.html#floating-point-numbers-gotcha\nCurrently, the only reliable way I found to deal with this is via compiler flags, especially if one deals with codes that contain bits and pieces from various sources (as is the case with a lot of Fortran codes especially)."
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2021-03-24 13:02:01+00:00",
+                    "text": "Currently, the only reliable way I found to deal with this is via compiler flags, especially if one deals with codes that contain bits and pieces from various sources (as is the case with a lot of Fortran codes especially).\n\nYes. That could be one existing approach. However, this would only work if your code is using a consistent precision all around. I.e. mixed precision codes would be difficult to handle through compiler flags, or it could have some performance issues at least. Having this built-in the standard would clarify and make a lot of things easier."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-24 21:14:31+00:00",
+                    "text": "One question is to get this into the standard, where I can see objections about \"backwards incompatibility\". However, this issue I think can be completely fixed by a compiler that would warn or refuse to compile your first example. I just created an issue for this in LFortran:\nhttps://gitlab.com/lfortran/lfortran/-/issues/305\nIn general I would like LFortran to have a mode that is \"pedantic\" and does not allow such code. Similar with \"implicit none\" if you forget to specify it, it will refuse to compile your code. That way it will force you to write correct code (that will correctly work with other compilers today), without needing to change the standard.\nI believe that is the easiest way to get these issues fixed in practice."
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2021-03-25 07:42:01+00:00",
+                    "text": "One question is to get this into the standard, where I can see objections about \"backwards incompatibility\"....\n\nI sort of had this feeling that perhaps there could be some backwards incompatibility. However, I think that the backwards incompatibility is a \"random\" fluctuation of numbers (as shown in the prior example). You never know which numbers gets appended in double precision. Here the clarity is implicit.\n\nHowever, this issue I think can be completely fixed by a compiler that would warn or refuse to compile your first example. I just created an issue for this in LFortran:\n\nYeah, compiler flags for checking this would also be awesome -fpedantic-kind or something similar.  have just opened up a \"bug\" @ gfortran see here\n\n...\nI believe that is the easiest way to get these issues fixed in practice.\n\nYeah, you are probably right, but my feeling is that nobody does this by intent. And if so they can easily be explicit. I think this would save more code than it breaks, if it actually will break anything. :)"
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2021-03-25 10:44:50+00:00",
+                    "text": "For gfortran -Wconversion and -Wconversion-extra could be used."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-03-25 12:29:09+00:00",
+                    "text": "KIND inference implicitly from context can cause significant problems in terms of backward compatibility.\nThe issue is really is with the KIND of REAL (and INTEGER) literal constants and arguments and results of intrinsic subprograms.\nA proposal such as #78 will be a good approach for Fortran."
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2021-03-25 12:34:18+00:00",
+                    "text": "KIND inference implicitly from context can cause significant problems in terms of backward compatibility.\n\nCould you give an example where this would cause significant problems? I have tried to think of one that is really a problem, but I can't come up with anything but \"unintended\" assignment as mentioned above."
+                }
+            ]
+        },
+        {
+            "number": 200,
+            "user": "sigfig",
+            "date": "2021-03-20 10:45:17+00:00",
+            "title": "improve specification of non-constant array shape declarations and pdt initialization",
+            "text": "fortran as specified has some semantic gaps in the interpretation of the restricted scalar expressions used in procedure interfaces, the interpretation of automatic array declarations using the dimension attribute, and the interpretation of parameterized derived type initialization in type declarations. this seems to be a substantial conformance issue, gfortran ifort and cuda fortran all have noticeable differences in how these language features are interpreted. i've found a few cases in gfortran and ifort where fortran 2003 compliant code will cause crashes during compilation. this is especially noticeable when using type parameters, pdts with integer, len parameters are largely unusable in programs where they would otherwise provide a lot of benefit, due to incomplete implementations and lack of testing. recent specification changes are no help here, after reviewing the semantics in fortran 2018, i have no idea how to implement these features myself without ignoring most of the rules.\non the fortran language spec side i believe there's a straightforward remedy for making compliance feasible:\n\nsplit the roles of specification expressions, further constraining the expressions that can be used in \"shape expressions\"\nmerge all the existing rules for non-constant array shapes, coarray shapes, and integer, len type parameters into one section on resolving dynamic and assumed shapes\nintroduce an operational interpretation of dynamic shape expressions into the spec\n\npart 1 only entails removing the already unusable primaries, intrinisics, and inquiries from usage in shape expressions. part 2 is a spec simplification, no semantics are changed, they're just deduplicated and the intended interpretation is made more explicit, without adding any new concepts.\npart 3 is the substantial change, to be useful it requires a non-trivial amount of reinterpretation and the addition of many new rules.\nmy proposal to make this easy in both specification and implementation is to introduce just one new semantic construction that corresponds to an integer constraint interpretation of the scalar expressions used in procedure interfaces. this is opposed to the current imperative expression evaluation interpretation of the same syntax.\nthis addition would require adding a notion of a \"shape invariant\", a few different classes of shape invariants, and resolution rules distinct from expression evaluation.\nthat seems to be a much broader scope of changes than other proposals, but it does seem like a constraint interpretation fits a lot closer to the existing semantics of shape expressions in fortran. as a trivial example, a matmul interface:\nfunction f(x, y, z, l, r) result(o)\n  integer :: x, y, z\n  real, dimension(x, y) :: l\n  real, dimension(y, z) :: r\n  real, dimension(x, z) :: o\nend function f\nthe required shape validation checks could be evaluated from top to bottom, from bottom to top, or in parallel, with no meaningful differences. we don't really have expression reduction available here either, either the interface is satisfiable or it isn't, there are no intermediate states in which a subset of this interface could be meaningfully satisfiable. if we introduced data dependencies or inequalities, we would arrive at an ordering, but it won't necessarily be an ordering over a set of statements, or over expressions. any ordering induced by an interface is an arbitrary lattice over variable relations. these look a lot more like simultaneous constraints than sequential statements.\nthis reinterpretation has a substantial upside with respect to specification effort: pdt initialization constraints can always be transcluded into the constraint set of the interface that declares the type, no extra rules are needed. additionally, the admissable intrinsic functions and requirements on specification functions admit easy constraint propagation. on the implementation side, the consequences of this sort of change unquestionably adds complexity to a compiler. the material benefit for compiler projects is that pdts and statement expressions are no longer a murky area, and users can successfully write a parameterized matrix type without filing bug reports.\nthis presentation is eliding over many caveats you may be able to notice. i've drafted a proposal document that elaborates on the shape invariant representation, static semantics, and implementation strategies, but it's super long so i didn't want to bomb the proposals repo before getting initial feedback. fortran makes this approach mostly easy but it does throw in some quirks, let me know if any of you have better ideas.",
+            "comments": [
+                {
+                    "user": "sigfig",
+                    "date": "2021-03-21 02:09:30+00:00",
+                    "text": "after rereading this post seems a bit more ambiguous compared to my other notes, so to be explicit, this proposal would introduce constraints as a semantic concept only in the language specification, not a programming construct accessible to fortran programmers. constraints are only intended to highlight the complexity class of resolving dynamic array shapes in fortran, and to make it more obvious how to write a conforming compiler. adopting this proposal would only entail reorganizing and rewording the rules related to shape expressions in the spec."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-21 12:01:07+00:00",
+                    "text": "Thanks @sigfig for the proposal. Do you think a Fortran standard conformance testsuite (#57) would help here? It seems it would help at least identify the bugs in the compiler regarding some feature, such as array bounds checking in a subroutine interface, or the PDT. As well as to \"specify\" in detailed examples what it means to have a certain feature.\nThe other part of your proposal is to reorganize the Fortran standard document to make it easier to write a Fortran compiler."
+                },
+                {
+                    "user": "sigfig",
+                    "date": "2021-03-22 00:01:20+00:00",
+                    "text": "if i was implementing a new compiler i'd absolutely want a canonical test suite for this set of features. in fortran evaluating these shape expressions constitutes a pretty big chunk of the dynamic semantics regarding memory management, and implementing them requires adding a lot of state tracking inside of a compiler, so good test coverage is really important. i haven't tried to enumerate the cases i'd want supported as unit tests, but this seems a bit difficult. the generality of the expression class used, scoping, and interaction with other rules for derived types produces a pretty sprawling tree of cases to test and provide canonical interpretations for. gfortran has the most publicly available test cases for these features, there's about 50 of them, but their coverage is not even close to guaranteeing any of it works as specified.\nto make conformance really easy i'd go for property-based testing measured against a canonical interpreter. i've had success with this before for typed dsl projects, but i'm not sure if it's appropriate for fortran. to write the canonical interpreter for testing, the rules for shape expressions definitely need to be made more explicit than they are in fortran 2018. the constraint representation i'm proposing here achieves that (it's adapted from a previous dsl project of mine), but there are lots of other options if this proposal isn't ideal."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-22 02:18:31+00:00",
+                    "text": "Regarding the test suite, I think everybody agrees we need a lot more thorough compiler independent test suite for all Fortran features. That should be further discussed at #57.\nWe can keep discussing the other parts of your proposals here."
+                }
+            ]
+        },
+        {
             "number": 199,
             "user": "zjibben",
             "date": "2021-02-23 00:38:26+00:00",
             "title": " February/March 2021 J3 meeting",
-            "text": "@certik and I will use this issue to keep the community updated on the work of the J3 Committee at the February/March 2021 (virtual) meeting.\nThe agenda is here. The documents for this meeting are here.\nMonday 2/22/21\n\nIEEE report 21-114\n\nJoR:\n\n21-101: Similar to a paper removed in the last meeting, but with some parts removed. Straw vote: First set of edits: 10, remove feature: 11, undecided: 2.\n\nEdit:\n\n21-106 Passed unanimous consent.\n\nTuesday 2/23/21\nJoR:\n\n21-101: Passed, unanimous consent for alternative #2 edits to remove the feature.\n21-115r1: Straw 19/0/3/2 (a/b/c/undecided). Delayed for final version.\n21-117r1: Withdrawn to add intro material.\n\nData:\n\n21-110: Straw vote for section 2: 17/2/7 (for/against/undecided). Section 3: 11/1/14. Add select case: 21/1/3. Deferred until Monday.\n21-111: Withdrawn, no current action. We expect the feature to be discussed again in the future for 202y.\n\nHPC:\n\n21-103r2: Passed, unanimous consent\n\nInterp:\n\n21-113: Passed, unanimous consent\n\nEdit:\n\n21-108r1: Passed, unanimous consent\n\nMonday 3/1/21\n\n21-119: vote\n21-112r1: discuss\n20-151?\n\nTuesday 3/2/21",
+            "text": "@certik and I will use this issue to keep the community updated on the work of the J3 Committee at the February/March 2021 (virtual) meeting.\nThe agenda is here. The documents for this meeting are here.\nMonday 2/22/21\n\nIEEE report 21-114\n\nJoR:\n\n21-101: Similar to a paper removed in the last meeting, but with some parts removed. Straw vote: First set of edits: 10, remove feature: 11, undecided: 2.\n\nEdit:\n\n21-106 Passed unanimous consent.\n\nTuesday 2/23/21\nJoR:\n\n21-101: Passed, unanimous consent for alternative #2 edits to remove the feature.\n21-115r1: Straw 19/0/3/2 (a/b/c/undecided). Delayed for final version.\n21-117r1: Withdrawn to add intro material.\n\nData:\n\n21-110: Straw vote for section 2: 17/2/7 (for/against/undecided). Section 3: 11/1/14. Add select case: 21/1/3. Deferred until Monday.\n21-111: Withdrawn, no current action. We expect the feature to be discussed again in the future for 202y.\n\nHPC:\n\n21-103r2: Passed, unanimous consent\n\nInterp:\n\n21-113: Passed, unanimous consent\n\nEdit:\n\n21-108r1: Passed, unanimous consent\n\nMonday 3/1/21\nJoR:\n\n21-115r2: Passed as amended, unanimous consent.\n21-117r2: Passed as amended, 11 for / 1 against / 3 abstention.\n\nData:\n\n21-110r1: Passed, unanimous consent.\n21-120r1: Straw vote on stat argument (23 stat / 2 clamp / 0 undecided). Straw vote on behavior (12 crash / 8 clamp / 5 undecided). More discussion and vote Tuesday.\n\nTuesday 3/2/21\nJoR:\n\n21-122r2: Passed, unanimous consent.\n\nData:\n\n21-121: Passed, unanimous consent.\n21-120r2: Straw vote (10 stat arg / 5 clamp / 2 subroutine / 7 error / 0 undecided). Runoff (13 stat arg / 9 error). Passed as amended with stat argument option, 9 for / 4 against / 1 abstention.\n21-132: Passed as amended, unanimous consent.\n\nHPC:\n\n21-102r1: Passed as amended, unanimous consent.\n21-105r1: Passed, unanimous consent.\n21-119r1: Passed, unanimous consent.\n21-124: Passed, 11 for / 2 against / 1 abstention.\n\nInterp:\n\n21-123: Straw vote (21 recommended / 3 best / 2 alternative / 1 undecided). Passed with \"recommended\" amendment, unanimous consent.\n21-128r1: Straw vote (14 for attribute / 9 against attribute / 3 undecided). Passed, 6 for / 5 against / 3 abstentions.\n\nEdit:\n\n21-126r1: Passed, unanimous consent.\n21-127: Passed, unanimous consent.\n21-129: Passed, unanimous consent.\n\nEmeritus status:\n\n21-130: Passed as amended, unanimous consent.\n21-131: Passed as amended, unanimous consent.",
             "comments": [
                 {
                     "user": "certik",
@@ -43,7 +116,13 @@
             "date": "2021-02-10 01:39:36+00:00",
             "title": "Enable Polymorphic Outputs",
             "text": "Is there any change that could be made to the language to allow for polymorphic outputs (or outputs with polymorphic components) from pure procedures. As mentioned in #189, there are currently a couple of constraints that disallow this. This significantly conflicts with a functional programming style, as evidenced by a few of my open source libraries; namely erloff, parff, and jsonff. Nothing impure is done anywhere within those libraries, but large swaths of them cannot be marked as pure because of these constraints.\nAs has been explained to me, the primary reason those constraints exist is that at compile time it cannot be guaranteed that a polymorphic entity won't have a dynamic type with an impure final subroutine. It would seem to me that adding a purefinal attribute to a type, restricting a type and any extended types to having pure final subroutines would be a straightforward fix for this.\nDoes anyone else have any ideas? Would there be support for a paper? What are the chances we could get this into 202X, or would it have to wait til 202Y?",
-            "comments": []
+            "comments": [
+                {
+                    "user": "rouson",
+                    "date": "2021-03-30 20:54:06+00:00",
+                    "text": "Let's write a paper to demonstrate the use case and then submit the paper when the committee is considering new features for F202Y."
+                }
+            ]
         },
         {
             "number": 195,
@@ -86,6 +165,21 @@
                     "user": "everythingfunctional",
                     "date": "2021-02-10 00:14:59+00:00",
                     "text": "Since many on the mailing list seem to want to keep the third form, an option for a different name might be NEXT_SEPARATOR. I could also be convinced that the first two forms should be named TOKENIZE. But I'm also partly just trying to reserve the name SPLIT so I can write one with the interface that makes sense to me.\ninterface\n  pure function split(string, separators) result(strings)\n    type(varying_string), intent(in) :: string\n    type(varying_string), intent(in) :: separators(:)\n    type(varying_string), allocatable :: strings(:)\n  end function\nend interface"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-03-12 20:00:36+00:00",
+                    "text": "This paper was taken over by @richardbleikamp and discussed at the meeting 223.\nTL;DR:\n\nFirst two forms are tentatively named TOKENIZE.\nThird form will be its own intrinsic and called SPLIT.\nTOKENIZE won't accept coarrays and coindexed objects as arguments.\nTOKENIZE and SPLIT will be simple subroutines.\n\nHere's the paper that passed."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-12 21:00:40+00:00",
+                    "text": "@milancurcic awesome, thanks for pushing this. Do you want to update your \"reference\" implementation with the few changes?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-03-12 21:15:08+00:00",
+                    "text": "I will, very soon, and still have yet to add tests and work out a kink in the SPLIT (old 3rd form) implementation. Once there, we'll submit a PR to stdlib."
                 }
             ]
         },
@@ -7617,6 +7711,11 @@
                     "user": "vansnyder",
                     "date": "2020-05-09 19:43:05+00:00",
                     "text": "I proposed a general facility for parameterized modules in 2004. The J3 paper was 04-383r1. I think it does what Klausler asked for. It does what Magne Haveraaen asked for in Tokyo.\n04-383r1.pdf"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-03-09 22:04:30+00:00",
+                    "text": "A variation on this idea seems attractive to me, so I'll jot it down here rather than forget it.\nFortran can support genericity with its current modules by using them as paradigms.  For example, to define a generic linked list container, one would first write a model implementation with a fairly empty derived type for the payload in each node.  This module would be compilable and testable, and would fully describe all of the requirements on the payload type.\nThen, to build a linked list of some specific type, one would reinstantiate the paradigmatic module with a type substitution.  The replacement type must support all of the interfaces published for the payload type in the paradigm, and this would be checked.\nSubstitution of types and parameters (or just their values) in paradigmatic modules would solve the most pressing use cases for generic programming that have been put forward, and would avoid a need for \"requirements\" or \"concepts\"."
                 }
             ]
         },
@@ -8283,6 +8382,66 @@
                     "user": "certik",
                     "date": "2020-08-01 03:50:46+00:00",
                     "text": "@klausler I agree with you and I think the best we can do is to get a community / vendors consensus of what should be supported and document it. Most production Fortran codes that I have seen use macros in some form, and thus compilers must support them.\nThank you for taking the lead on that in the document you shared."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-05 05:07:57+00:00",
+                    "text": "Here is a permanent link to the preprocessor documentation:\nhttps://github.com/llvm/llvm-project/blob/8a07c4a10b23acf05c6aaca2800081df56f44f82/flang/docs/Preprocessing.md"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-05 05:27:51+00:00",
+                    "text": "We are currently figuring out how to add preprocessor support for LFortran. I can see that in Flang it is integrated into the compiler. I don't know if it is feasible to pre-process ahead of time (de-coupled from the compiler) and keep line numbers consistent, this is also relevant:\n\nLast, if the preprocessor is not integrated into the Fortran compiler, new Fortran continuation line markers should be introduced into the final text.\n\nThat would be my preferable approach, but I assume the down side are worse error messages and possibly it is slower?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-03-05 16:37:27+00:00",
+                    "text": "In f18 the first phase of compilation is called prescanning.  It reads the original source file, and expands any INCLUDE or #include files, normalizes the source in many ways (preprocessing directives, macro expansion, line continuation, comment removal, space insertion for fixed form Hollerith, space removal / collapsing, case lowering, &c.) to construct a big contiguous string in memory.  This string is what the parser parses, and it makes parsing so much easier.  Each byte in that string can be mapped to its original source byte or macro expansion or whatever by means of an index data structure.  In the parser and semantics we just use const char * pointers to represent source locations in messages and the name strings of symbols, and those get mapped back to source locations for contextual error message reporting later."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-03-11 08:42:55+00:00",
+                    "text": "I think, it would be much more important, that all compiler accept and process #line directives in the source code. Then people can use whatever pre-processor suits their purpose most. As long as the preprocessor emits those directives (as for example Fypp does if requested), the user would always get correct error messages."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-11 17:59:33+00:00",
+                    "text": "I think the #line directives only ensure the correct line is being reported, but if your pre-processor expands a macro, it changes the line itself, so the compiler will report an error on the expanded line that is not what the user sees before calling the pre-processor."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-03-11 19:24:05+00:00",
+                    "text": "No, if the source file is around, the compiler will show the right line. You can test it yourself.\ntest.F90:\n#:def ASSERT(cond)\n  #:if defined(\"DEBUG\")\n  $:cond\n  #:endif\n#:enddef\n\nprogram test\n  implicit none\n\n  #! expression is incorrect to trigger compiler error\n  @:ASSERT(1 ?= 2)\n\nend program test\n\nExecuting\nfypp -n -DDEBUG test.F90 > test.f90; gfortran test.f90\n\nyou obtain the error message:\ntest.F90:11:3:\n\n   11 |   @:ASSERT(1 ?= 2)\n      |   1\nError: Invalid character in name at (1)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-11 20:14:37+00:00",
+                    "text": "My bad, you are right. The only issue will happen if there is a syntax error in the expanded ASSERT macro, wouldn't it? Like this:\n:ASSERT(1 ?= 2)@\n\nI would expect it to show an incorrect column number."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-03-12 13:01:50+00:00",
+                    "text": "If the error occurs in the expanded text, the error message can be indeed confusing. E.g.\n#:def ASSERT(cond)\n  if (.invalid. ${cond}$) error stop \"Assert failed\"\n#:enddef\n\nprogram test\n  implicit none\n\n  @:ASSERT(1 == 2)\n\nend program test\n\nwith\nfypp -n  test.F90 > test.f90; gfortran test.f90\n\nresults in\ntest.F90:9:6:\n\n    9 |   @:ASSERT(1 == 2)\n      |      1\nError: Unknown operator \u2018invalid\u2019 at (1)\n\nIn this case, one would have to drop the line marker generation as with\nfypp test.F90 > test.f90; gfortran test.f90\n\nto obtain\ntest.f90:5:6:\n\n    5 |   if (.invalid. 1 == 2) error stop \"Assert failed\"\n      |      1\nError: Unknown operator \u2018invalid\u2019 at (1)\n\nBut, this is independent of, whether the pre-pocessor is external or built in into the compiler. Do you show the original line or the expanded line (or both), when the error occurs in an expanded code? Whichever strategy one goes for, it can be equally realized with built-in as well as with external pre-processors (provided they generate line marker directives and the compiler understands them)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-12 15:09:25+00:00",
+                    "text": "@aradi I am glad you posted here, I think you are right. Indeed the compiler could now about the pre-processor, as a black box, and it could show errors either in the expanded form, or unexpanded form, and in each way it would show the correct line.\nHow would it know the line comes from a macro expansion? Well, I guess once it found the line with the error in the expanded form, it can compare the unexpanded line (from the #line directive) and if it differs, it can show both, i.e. the error can look something like this:\ntest.f90:5:6:\n\n    5 |   if (.invalid. 1 == 2) error stop \"Assert failed\"\n      |      1\nError: Unknown operator \u2018invalid\u2019 at (1)\n\ntest.F90:9:6:\n\n    9 |   @:ASSERT(1 == 2)\n      |      2\nNote: the line at (1) where the error happens came from a macro expansion at (2)\n\nIf the line does not differ, then it can simply show the unexpanded form, as that will be the one which users see in their files.\nI think this might be a very acceptable approach, with the advantage that we can use different pre-processors, such as fypp.\nSummary of the black box approach:\n\nCorrect line and column numbers in the expanded form\nCorrect line, but potentially incorrect column number in the unexpanded form\n\nI can still see some potential advantages of integrating the pre-processor more deeply with the compiler:\n\nPotentially faster (no need to write a new source file out and to parse #line directives)\nIt knows which macro got expanded to what, so clang for example gives you error messages almost as if macros were part of the language itself\nPart of the previous point is that it will give you correct column numbers in the unexpanded form\n\nBut the black box approach is not bad, and one can implement both."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-03-12 15:25:00+00:00",
+                    "text": "@certik I fully agree. Yes, the column number will be incorrect in the unexpanded form. And yes, a tight integration can give even deeper insights. But that assumes the existence of a well defined (standardized) pre-processor language which all Fortran compilers implement and follow, and which covers all the pre-processing needs people may come up with. In the mean time, the line directives can serve as a \"bridging technology\", allowing the usage of custom pre-processors."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-12 15:43:17+00:00",
+                    "text": "I created an issue at https://gitlab.com/lfortran/lfortran/-/issues/281 to implement this in LFortran."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-03-12 16:46:23+00:00",
+                    "text": "f18 -fsyntax-only ppdemo.f90\n./ppdemo.f90:2:10: error: Actual argument for 'x=' has bad type 'CHARACTER(1)'\n  print *, CALL(sin, 'abc')\n           ^^^^^^^^^^^^^^^^\n./header.h:1:1: in a macro defined here\n  #define CALL(f,x) f(x)\n  ^^\n./ppdemo.f90:1:1: included here\n  include \"header.h\"\n  ^^^^^^^^^^^^^^^^^^\nthat expanded to:\n  sin( 'abc')\n  ^\nf18: Semantic errors in ppdemo.f90\n\nI think that it's necessary to have an integrated preprocessing facility in the same part of the compiler that's handling INCLUDE statements, line continuation, case normalization, &c.  It's not hard to implement and it should be standardized."
                 }
             ]
         },
@@ -8970,6 +9129,21 @@
                     "user": "FortranFan",
                     "date": "2021-01-09 00:42:37+00:00",
                     "text": "Here's a variant of the previous case, this one involves the expr on the right-hand side to include a component of the variable on the LHS:\n! Unit Test #: Test-2.F2018-7.5.6\n! Author     : FortranFan\n! Reference  : https://j3-fortran.org/doc/year/18/18-007r1.pdf\n!\n! Description:\n! Section 7.5.6.3 When finalization occurs in above pdf\n! c.f. page 80 paragraph starting line 17:\n! When finalization occurs\n!\n\nmodule m\n   type :: t\n      character(len=12) :: name = \"default\"\n   contains\n      private\n      procedure, pass(lhs) :: add_t\n      procedure, pass(this) :: clone_t\n      generic, public :: operator(+) => add_t\n      generic, public :: clone => clone_t\n      final :: final_t\n   end type\n   interface t\n      module procedure construct_t\n   end interface\ncontains\n   function construct_t( name ) result(r)\n      character(len=*), intent(in), optional :: name\n      type(t) :: r\n      if ( present(name) ) r%name = name\n   end function\n   subroutine final_t( this )\n      type(t), intent(inout) :: this\n      print *, \"final_t: this%name = \", this%name\n      return\n   end subroutine\n   function add_t( lhs, rhs ) result(r)\n      class(t), intent(in) :: lhs\n      type(t), intent(in)  :: rhs\n      type(t) :: r\n      r%name = trim(lhs%name) // \"+\" // trim(rhs%name)\n   end function\n   function clone_t( this ) result(r)\n      class(t), intent(in) :: this\n      type(t) :: r\n      r%name = trim(this%name) // \"*\"\n   end function\n   subroutine sub()\n      type(t), allocatable :: foo\n      foo = t( name=\"constructor\" )\n      print *, \"1\"\n      foo%name = \"foo\"\n      foo = foo%clone()\n      print *, \"2\"\n      foo = foo + foo\n      print *, \"3\"\n   end subroutine\nend module\n   use m, only : sub\n   call sub()\nend\ngfortran program output is\n\n1\n2\n3\nfinal_t: this%name = foo*+foo*\n\nThe expected program output is\n\nfinal_t: this%name = constructor\n1\nfinal_t: this%name = foo\nfinal_t: this%name = foo*\n2\nfinal_t: this%name = foo*\nfinal_t: this%name = foo*+foo*\n3\nfinal_t: this%name = foo*+foo*"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-10 20:24:17+00:00",
+                    "text": "There is now a project idea for Google Summer of Code (GSoC) 2021 for Fortran-lang to create such a testsuite:\nhttps://github.com/fortran-lang/fortran-lang.org/wiki/GSoC-2021-Project-ideas#standard-conformance-suite\nObviously it would initially be limited to what can be achieved over the summer and then the community can contribute more tests over time. If anyone knows about a student, please direct them to the page to apply."
+                },
+                {
+                    "user": "sigfig",
+                    "date": "2021-03-22 05:10:38+00:00",
+                    "text": "as @certik suggested in #200, scalar expressions used in array shape and pdt declarations should probably be included in any conformance test suite, as the related language features are not well supported in any compiler. providing tests for this sort of language feature is pretty tricky because implementations will necessarily include lots of branching depending on the contents of the expression and the surrounding context. sanity checking and codegen bugs can be hidden in eg support for \"specification functions\" that are very difficult to uncover with unit testing. property-based testing ala haskell's quickcheck is super helpful for this sort of thing, but that would make implementation of a test suite a lot more complicated. i really have no idea what the ideal approach for testing these features should be, but it seems important to include."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-22 16:26:02+00:00",
+                    "text": "I think for the array shapes and PDT we simply have to include lots of cases and try to get as many corner cases as we can included. Then as people report bugs in a specific compiler that is not caught by the test suite, we simply add the case in."
                 }
             ]
         },
