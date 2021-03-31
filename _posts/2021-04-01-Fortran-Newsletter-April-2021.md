@@ -258,7 +258,7 @@ The student application window opened on March 29 and will close on April 13 at 
 * Registration is open for the upcoming free webinar on
   [Fortran for High Performance Computing](https://register.gotowebinar.com/register/7343048137688004108).
   The webinar is organized by [Excellerat](https://www.excellerat.eu/)
-  and will be presented by Wadud Miah ([@wadudmiah](https://github.com/wadudmiah)) from University of Southampton.
+  and will be presented by Wadud Miah ([@wadudmiah](https://github.com/wadudmiah)) from the University of Southampton.
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
