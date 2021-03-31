@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: April 2021"
 category: newsletter
-author: Sebastian Ehlert, Alexis Perry-Holby, Laurence Kedward, Milan Curcic
+author: Sebastian Ehlert, Alexis Perry-Holby, Laurence Kedward, Milan Curcic, Ondřej Čertík
 ---
 
 Welcome to the April 2021 edition of the monthly Fortran newsletter.
@@ -232,6 +232,29 @@ Recent development updates:
 Call notes will be sent to the _flang-dev_ email list and also recorded [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
 
 ### LFortran
+
+* LFortran is participating in GSoC under NumFOCUS and Fortran-lang umbrealla, if you are interested, please apply: https://gitlab.com/lfortran/lfortran/-/wikis/GSoC-2021-Ideas
+* 7 people contributed code in the last month:
+    [Gagandeep Singh](https://github.com/czgdp1807),
+    [Dominic Poerio](https://dompoer.io/),
+    [Himanshu Pandey](https://github.com/hp77-creator),
+    [Thirumalai Shaktivel](https://github.com/Thirumalai-Shaktivel),
+    [Scot Halverson](https://github.com/scothalverson),
+    [Rohit Goswami](https://rgoswami.me/),
+    [Ondřej Čertík](https://ondrejcertik.com/).
+* 114 Merge Requests were [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests) in the past month, highlights
+    * macOS support (both Intel and ARM), compilation and development of
+      LFortran itself (stacktraces work also)
+    * Initial implentation of: modules (modfiles, dependencies, ...),
+      interfaces, integer/real kinds, public/private attribute, derived types,
+      strings, variable initializations, pointers, modules
+    * Many other fixes
+
+LFortran is still in pre-alpha stage, but we are making rapid progress towards
+getting it to compile more Fortran features. We are looking for contributors,
+if you are interested, please get in touch and we will help you get started.
+We can be contacted at Zulip Chat, mailinglist or GitLab issues (see
+https://lfortran.org for links to all three).
 
 ## Events
 
