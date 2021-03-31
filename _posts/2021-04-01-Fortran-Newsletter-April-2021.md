@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: April 2021"
 category: newsletter
-author: Sebastian Ehlert, Alexis Perry-Holby
+author: Sebastian Ehlert, Alexis Perry-Holby, Laurence Kedward
 ---
 
 Welcome to the April 2021 edition of the monthly Fortran newsletter.
@@ -262,4 +262,4 @@ commenting in any of these repositories:
 * [fortran-lang/fortran-forum-article-template](https://github.com/fortran-lang/fortran-forum-article-template)
 * [j3-fortran/fortran\_proposals](https://github.com/j3-fortran/fortran_proposals)
 
-<div id="gh-contributors" data-startdate="March 01 2021" data-enddate="April 30 2021" height="500px"></div>
+<div id="gh-contributors" data-startdate="March 01 2021" data-enddate="March 31 2021" height="500px"></div>
