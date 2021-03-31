@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: April 2021"
 category: newsletter
-author: Sebastian Ehlert, Alexis Perry-Holby, Laurence Kedward
+author: Sebastian Ehlert, Alexis Perry-Holby, Laurence Kedward, Milan Curcic
 ---
 
 Welcome to the April 2021 edition of the monthly Fortran newsletter.
@@ -242,6 +242,23 @@ You can watch the recording below:
 
 * This year Fortran-lang is a mentor organization for [Google Summer of Code](https://summerofcode.withgoogle.com/organizations/6633903353233408/).
 If you're a student, or know students who are [eligible to participate](https://developers.google.com/open-source/gsoc/faq#what_are_the_eligibility_requirements_for_participation), and you'd like to help build the Fortran ecosystem please reach out and let us know.
+The student application window opened on March 29 and will close on April 13 at 14:00 Eastern Time.
+
+* The 223rd meeting of the US Fortran Standards Committee concluded on March 2.
+  Main topics of dicussion were the planned changes for the Fortran 202X revision of the Standard.
+  Here's the [list of all submitted papers](https://j3-fortran.org/doc/meeting/223),
+  and the [summary](https://github.com/j3-fortran/fortran_proposals/issues/199)
+  of the papers discussed and voting results.
+  The committee also welcomed a new member, Milan Curcic ([@milancurcic](https://github.com/milancurcic)),
+  who is the voting alternate to Gary Klimowicz ([@gklimowicz](https://github.com/gklimowicz)).
+
+  If you have ideas for new improvements to the language, please propose them
+  [here](https://github.com/j3-fortran/fortran_proposals).
+
+* Registration is open for the upcoming free webinar on
+  [Fortran for High Performance Computing](https://register.gotowebinar.com/register/7343048137688004108).
+  The webinar is organized by [Excellerat](https://www.excellerat.eu/)
+  and will be presented by Wadud Miah ([@wadudmiah](https://github.com/wadudmiah)) from University of Southampton.
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
