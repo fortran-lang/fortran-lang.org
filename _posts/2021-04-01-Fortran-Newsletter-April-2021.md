@@ -233,7 +233,7 @@ Call notes will be sent to the _flang-dev_ email list and also recorded [here](h
 
 ### LFortran
 
-* LFortran is participating in GSoC under the NumFOCUS and Fortran-lang umbrella, if you are interested, please apply: https://gitlab.com/lfortran/lfortran/-/wikis/GSoC-2021-Ideas
+* LFortran is participating in GSoC under the NumFOCUS and Fortran-lang umbrella, if you are interested, please apply: [https://gitlab.com/lfortran/lfortran/-/wikis/GSoC-2021-Ideas](https://gitlab.com/lfortran/lfortran/-/wikis/GSoC-2021-Ideas)
 * 7 people contributed code in the last month:
     [Gagandeep Singh](https://github.com/czgdp1807),
     [Dominic Poerio](https://dompoer.io/),
