@@ -11,12 +11,12 @@ In April 2020 we created a website for the Fortran language at
 DuckDuckGo, Ecosia, Qwant, SearchEncrypt and the second result in Google (after
 the Wikipedia page for Fortran).
 
-The goal of the Fortran website is to maintain a neutral website where any
-Fortran user (expert or novice), compiler vendor (open source or commercial),
-Fortran Standards Committee member, enthusiast, supporter or anybody else
-interested is welcome to participate. The Fortran language has been invented in
-1956, and we are trying to be the stewards of the language and we welcome you
-to join us.
+The goal of the website is to maintain a neutral place where any
+￼Fortran user (expert or novice), compiler vendor (open source or commercial),
+￼Fortran Standards Committee member, enthusiast, supporter or anybody else
+￼interested is welcome to participate. Fortran was invented in
+￼1956, and we aim to be the stewards of the language and we welcome you
+￼to join us.
 
 Here are some of the ways that you can participate:
 
