@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "First year of the Fortran website"
-category: post
+category: newsletter
 author: Ondřej Čertík, Milan Curcic, Brad Richardson, Laurence Kedward
 ---
 
