@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Interface libraries - Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/244/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/244/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/packages/interfaces" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/244/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/244/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/244" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 244</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/244/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/244/" class="navbar-brand">
+		    <img src="/pr/244/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/244/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/244/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/244/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/244/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/244/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/244/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="masthead">
+    <h1>Featured Open Source Projects</h1>
+    <h3>A rich ecosystem of high-performance code</h3>
+  </section>
+  
+  <section class="front-section">
+    <div class="container">
+      <div class="col-wide">
+        
+          <h2> <a href='/pr/244/packages'> Packages</a> / 
+            
+            <i data-feather="external-link"></i>
+            
+            Interface libraries</h2>
+          <h3>
+              Libraries that interface with other systems, languages, or devices
+          </h3>
+  
+          <table class="projects-table">
+         
+          
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/cass-support/clfortran" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                clfortran</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/badge/license-GPL--3.0-green">
+                   </td>
+              <td> <img src="https://img.shields.io/github/stars/cass-support/clfortran"></td>
+              <td> <img src="https://img.shields.io/github/forks/cass-support/clfortran"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/cass-support/clfortran?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/cass-support/clfortran"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran interfaces to Khronos OpenCL 1.2 API
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>gpu compute accelerator
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              
+              <td> <h3><a href="https://gitlab.com/elsi_project/elsi_interface" target="_blank">
+                  <i class="devicon-gitlab-plain colored"></i>
+                ELSI</a></h3> </td>
+              <td> 
+                  <img src="https://badgen.net/gitlab/release/elsi_project/elsi_interface?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/badge/license-BSD--3--Clause-green">
+                   </td>
+              <td> <img src="https://badgen.net/gitlab/stars/elsi_project/elsi_interface"></td>
+              <td> <img src="https://badgen.net/gitlab/forks/elsi_project/elsi_interface"> </td>
+              <td> <img src="https://badgen.net/gitlab/last-commit/elsi_project/elsi_interface?color=blue"> </td>
+              <td> <img src="https://badgen.net/gitlab/open-issues/elsi_project/elsi_interface"> </td>
+              
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              A software interface designed for electronic structure codes to connect with ELPA, libOMM, PEXSI, EigenExa, SLEPc, NTPoly, BSEPACK, LAPACK, MAGMA, and other solver libraries.
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>electronic-structure mpi gpu
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              
+              <td> <h3><a href="http://www-stone.ch.cam.ac.uk/pub/f03gl/index.xhtml" target="_blank">
+                
+                
+                f03gl</a></h3> </td>
+              <td> 
+              </td>
+              <td> 
+                  <img src="https://img.shields.io/badge/license-GPL--3.0-green">
+                  
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran 2003 interface to OpenGL
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>graphics interface opengl
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/reinh-bader/fgsl" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                fgsl</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/reinh-bader/fgsl?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/reinh-bader/fgsl">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/reinh-bader/fgsl"></td>
+              <td> <img src="https://img.shields.io/github/forks/reinh-bader/fgsl"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/reinh-bader/fgsl?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/reinh-bader/fgsl"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran interface to the GNU Scientific Library
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/scientific-computing/FKB" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                FKB</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/scientific-computing/FKB">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/scientific-computing/FKB"></td>
+              <td> <img src="https://img.shields.io/github/forks/scientific-computing/FKB"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/scientific-computing/FKB?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/scientific-computing/FKB"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran Keras Bridge - A two-way deep learning bridge between Keras and Fortran
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>deep-learning data-science machine-learning neural-networks
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/swig-fortran/flibcpp" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                flibcpp</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/swig-fortran/flibcpp?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/swig-fortran/flibcpp">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/swig-fortran/flibcpp"></td>
+              <td> <img src="https://img.shields.io/github/forks/swig-fortran/flibcpp"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/swig-fortran/flibcpp?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/swig-fortran/flibcpp"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran bindings to the C++ Standard Library
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>c++
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/LKedward/focal" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                Focal</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/LKedward/focal?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/LKedward/focal">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/LKedward/focal"></td>
+              <td> <img src="https://img.shields.io/github/forks/LKedward/focal"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/LKedward/focal?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/LKedward/focal"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              A module library which wraps calls to the OpenCL runtime API with a higher abstraction level
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>gpu compute accelerator
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/ylikx/forpy" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                forpy</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/badge/license-GPL--3.0-green">
+                   </td>
+              <td> <img src="https://img.shields.io/github/stars/ylikx/forpy"></td>
+              <td> <img src="https://img.shields.io/github/forks/ylikx/forpy"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/ylikx/forpy?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/ylikx/forpy"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              allows you to use Python features in Fortran
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>dict list tuple numpy python matplotlib scipy
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/interkosmos/fortran-curl" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                fortran-curl</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/interkosmos/fortran-curl?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/interkosmos/fortran-curl">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/interkosmos/fortran-curl"></td>
+              <td> <img src="https://img.shields.io/github/forks/interkosmos/fortran-curl"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/interkosmos/fortran-curl?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/interkosmos/fortran-curl"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran 2008 interface bindings to libcurl
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>https curl imap libcurl smtp gopher
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/interkosmos/fortran-sdl2" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                fortran-sdl2</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/interkosmos/fortran-sdl2">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/interkosmos/fortran-sdl2"></td>
+              <td> <img src="https://img.shields.io/github/forks/interkosmos/fortran-sdl2"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/interkosmos/fortran-sdl2?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/interkosmos/fortran-sdl2"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              A collection of ISO C binding interfaces to Simple DirectMedia Layer 2.0 (SDL 2.0), for multimedia and game programming in Fortran
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/interkosmos/fortran-xlib" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                fortran-xlib</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/interkosmos/fortran-xlib">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/interkosmos/fortran-xlib"></td>
+              <td> <img src="https://img.shields.io/github/forks/interkosmos/fortran-xlib"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/interkosmos/fortran-xlib?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/interkosmos/fortran-xlib"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              A collection of ISO C binding interfaces to Xlib for Fortran 2003
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>x11 mandelbrot raycast wireframe
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/astrofrog/fortranlib" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                fortranlib</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/astrofrog/fortranlib">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/astrofrog/fortranlib"></td>
+              <td> <img src="https://img.shields.io/github/forks/astrofrog/fortranlib"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/astrofrog/fortranlib?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/astrofrog/fortranlib"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Collection of personal scientific routines in Fortran
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>solver integral integrate interpolation histogram constants hdf5 error random posix angles probability stokes vectors
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              
+              <td> <h3><a href="https://bitbucket.org/aradi/fortyxima/src/develop/" target="_blank">
+                
+                
+                <i class="devicon-bitbucket-plain colored"></i>
+                
+                foryxima</a></h3> </td>
+              <td> 
+              </td>
+              <td> 
+                  <img src="https://img.shields.io/badge/license-BSD--2--clause-green">
+                  
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              File system manipulation and unit testing framework
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>posix libc
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/CASL/Futility" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                Futility</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/badge/license-Apache%20v2.0-green">
+                   </td>
+              <td> <img src="https://img.shields.io/github/stars/CASL/Futility"></td>
+              <td> <img src="https://img.shields.io/github/forks/CASL/Futility"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/CASL/Futility?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/CASL/Futility"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran utilities including unit test harness, arbitrary length strings, parameter list objects, timers, geometry definitions, file wrappers, linear algebra tools, and parallel computing support
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/vmagnin/gtk-fortran" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                gtk-fortran</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/vmagnin/gtk-fortran?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/vmagnin/gtk-fortran">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/vmagnin/gtk-fortran"></td>
+              <td> <img src="https://img.shields.io/github/forks/vmagnin/gtk-fortran"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/vmagnin/gtk-fortran?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/vmagnin/gtk-fortran"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              A cross-platform library to build Graphical User Interfaces (GUI)
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>gui gtk graphical user interface
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/urbanjost/M_process" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                M_process</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/urbanjost/M_process">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/urbanjost/M_process"></td>
+              <td> <img src="https://img.shields.io/github/forks/urbanjost/M_process"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/urbanjost/M_process?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/urbanjost/M_process"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Read and write lines to or from a process from Fortran via a C wrapper
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/urbanjost/M_system" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                M_system</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/urbanjost/M_system">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/urbanjost/M_system"></td>
+              <td> <img src="https://img.shields.io/github/forks/urbanjost/M_system"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/urbanjost/M_system?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/urbanjost/M_system"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Call C system routines from Fortran
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>posix putenv getenv setenv environment file system mkdir rename rmdir chmod rand uname
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/dftbplus/mpifx" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                mpifx</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/dftbplus/mpifx?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/dftbplus/mpifx">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/dftbplus/mpifx"></td>
+              <td> <img src="https://img.shields.io/github/forks/dftbplus/mpifx"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/dftbplus/mpifx?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/dftbplus/mpifx"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Modern Fortran wrappers around MPI routines
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>mpi fypp
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/IonicaBizau/node-fortran" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                node-fortran</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/IonicaBizau/node-fortran?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/IonicaBizau/node-fortran">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/IonicaBizau/node-fortran"></td>
+              <td> <img src="https://img.shields.io/github/forks/IonicaBizau/node-fortran"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/IonicaBizau/node-fortran?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/IonicaBizau/node-fortran"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Fortran bridge for Node.js which allows you to run Fortran code from Node.js
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/IonicaBizau/node.fortran" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                node.fortran</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/IonicaBizau/node.fortran?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/IonicaBizau/node.fortran">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/IonicaBizau/node.fortran"></td>
+              <td> <img src="https://img.shields.io/github/forks/IonicaBizau/node.fortran"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/IonicaBizau/node.fortran?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/IonicaBizau/node.fortran"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Execute Node.js in your Fortran programs
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/kookma/ogpf" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                ogpf</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/kookma/ogpf?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/badge/license-MIT-green">
+                   </td>
+              <td> <img src="https://img.shields.io/github/stars/kookma/ogpf"></td>
+              <td> <img src="https://img.shields.io/github/forks/kookma/ogpf"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/kookma/ogpf?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/kookma/ogpf"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Object based interface to GnuPlot for Fortran
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>animation plot surface contour
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              
+              <td> <h3><a href="http://plplot.sourceforge.net/" target="_blank">
+                
+                
+                PLplot</a></h3> </td>
+              <td> 
+                  
+                  <img src="https://img.shields.io/badge/version-5.15.0-green.svg">
+                  
+                  
+              </td>
+              <td> 
+                  <img src="https://img.shields.io/badge/license-LGPL--3.0-green">
+                  
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Library for scientific plotting
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>plot surface contour interface
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/jacobwilliams/pyplot-fortran" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                pyplot-fortran</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/jacobwilliams/pyplot-fortran?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/badge/license-BSD--3--Clause-green">
+                   </td>
+              <td> <img src="https://img.shields.io/github/stars/jacobwilliams/pyplot-fortran"></td>
+              <td> <img src="https://img.shields.io/github/forks/jacobwilliams/pyplot-fortran"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/jacobwilliams/pyplot-fortran?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/jacobwilliams/pyplot-fortran"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              For generating plots from Fortran using Python's matplotlib.pyplot
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>pyplot matplotlib contour histogram
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/dftbplus/scalapackfx" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                scalapackfx</a></h3> </td>
+              <td> 
+                  <img src="https://img.shields.io/github/v/release/dftbplus/scalapackfx?color=green">
+              </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/dftbplus/scalapackfx">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/dftbplus/scalapackfx"></td>
+              <td> <img src="https://img.shields.io/github/forks/dftbplus/scalapackfx"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/dftbplus/scalapackfx?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/dftbplus/scalapackfx"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              Modern Fortran wrappers around ScaLAPACK routines
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>mpi fypp pblas blacs
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              
+              <td> <h3><a href="https://gitlab.com/everythingfunctional/sqliteff" target="_blank">
+                  <i class="devicon-gitlab-plain colored"></i>
+                sqliteff</a></h3> </td>
+              <td> 
+                  <img src="https://badgen.net/gitlab/release/everythingfunctional/sqliteff?color=green">
+              </td>
+              <td> 
+                   <img src="https://badgen.net/gitlab/license/everythingfunctional/sqliteff">
+               </td>
+              <td> <img src="https://badgen.net/gitlab/stars/everythingfunctional/sqliteff"></td>
+              <td> <img src="https://badgen.net/gitlab/forks/everythingfunctional/sqliteff"> </td>
+              <td> <img src="https://badgen.net/gitlab/last-commit/everythingfunctional/sqliteff?color=blue"> </td>
+              <td> <img src="https://badgen.net/gitlab/open-issues/everythingfunctional/sqliteff"> </td>
+              
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              A thin wrapper around the SQLite library
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>sql database
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+          
+          <tr>
+              
+              <td> <h3><a href="https://github.com/modern-fortran/tcp-client-server" target="_blank">
+                <i class="devicon-github-plain colored"></i>
+                tcp-client-server</a></h3> </td>
+              <td> 
+                  
+                  </td>
+              <td> 
+                   <img src="https://img.shields.io/github/license/modern-fortran/tcp-client-server">
+               </td>
+              <td> <img src="https://img.shields.io/github/stars/modern-fortran/tcp-client-server"></td>
+              <td> <img src="https://img.shields.io/github/forks/modern-fortran/tcp-client-server"> </td>
+              <td> <img src="https://img.shields.io/github/last-commit/modern-fortran/tcp-client-server?color=blue"> </td>
+              <td> <img src="https://img.shields.io/github/issues/modern-fortran/tcp-client-server"> </td>
+              
+          </tr>
+          <tr><td colspan="7" class="light">
+              A minimal Fortran TCP client and server demonstrating c interoperability
+          </td></tr>
+          <tr><td colspan="7" class="light small">
+            <b>Tags: </b>
+        </td></tr>
+          <tr><td colspan="7"></td></tr>
+           
+          
+          </table>        
+         
+      </div>
+  
+    </div>
+  </section>
+  
+  <section class="front-section shaded">
+    <div class="container">
+      <div class="col-wide">
+        <!-- <h2 id="faqs">FAQ</h2> -->
+        
+        See
+	  <a href="https://github.com/fortran-lang/fortran-lang.org/blob/master/PACKAGES.md" target="_blank">
+      <i class="devicon-github-plain colored"></i> here</a> for how to get your project listed.
+  
+    </div>
+  </section>
+  
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/244/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/244/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/244/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/244/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/244/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.org/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/244/assets/js/fortranlang.js"></script>
+    <script src="/pr/244/assets/js/page_nav.js"></script>
+    <script src="/pr/244/assets/js/gh-contributors.js"></script>
+    <script src="/pr/244/assets/js/package_search.js"></script>
+    <script src="/pr/244/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
