@@ -14,7 +14,7 @@ integer :: n, i
 n = size(r)
 do i = 1, n
     r(i) = 1.0_dp / i**2
-enddo
+end do
 end subroutine
 ```
 
@@ -59,7 +59,7 @@ real(dp), intent(out) :: r(n)
 integer :: i
 do i = 1, n
     r(i) = 1.0_dp / i**2
-enddo
+end do
 end subroutine
 ```
 
@@ -89,7 +89,7 @@ real(dp) :: r(n)
 integer :: i
 do i = 1, n
     r(i) = 1.0_dp / i**2
-enddo
+end do
 end function
 ```
 
