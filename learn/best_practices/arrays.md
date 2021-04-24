@@ -5,8 +5,7 @@ permalink: /learn/best_practices/arrays
 ---
 
 When passing arrays in and out of a subroutine/function, use the
-following pattern for 1D arrays (it is called <span
-class="title-ref">assumed-shape</span>):
+following pattern for 1D arrays (it is called *assumed-shape*):
 
 ``` fortran
 subroutine f(r)
@@ -43,8 +42,7 @@ No array copying is done above. It has the following advantages:
     actually copying any data.
 
 This should always be your default way of passing arrays in and out of
-subroutines. However in the following cases one can (or has to) use
-<span class="title-ref">explicit-shape</span> arrays:
+subroutines. However in the following cases one can (or has to) use *explicit-shape* arrays:
 
 -   returning an array from a function
 -   interfacing with C code or legacy Fortran (like Lapack)
@@ -52,7 +50,7 @@ subroutines. However in the following cases one can (or has to) use
     there are also other ways to do that, see `elemental` for more
     information)
 
-To use <span class="title-ref">explicit-shape</span> arrays, do:
+To use *explicit-shape* arrays, do:
 
 ``` fortran
 subroutine f(n, r)

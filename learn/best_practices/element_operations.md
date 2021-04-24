@@ -7,7 +7,7 @@ permalink: /learn/best_practices/element_operations
 There are three approaches:
 
 -   `elemental` subroutines
--   <span class="title-ref">explicit-shape</span> arrays
+-   *explicit-shape* arrays
 -   implementing the operation for vectors and write simple wrapper
     subroutines (that use `reshape` internally) for each array shape
 
@@ -99,7 +99,7 @@ This will print:
 1.0000000000000000        2.0000000000000000        3.0000000000000000        3.1622776601683795
 ```
 
-Or one can use <span class="title-ref">explicit-shape</span> arrays as
+Or one can use *explicit-shape* arrays as
 follows:
 
 ``` fortran
