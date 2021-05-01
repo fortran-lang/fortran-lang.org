@@ -2,6 +2,317 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 251,
+            "user": "awvwgk",
+            "date": "2021-05-01 08:54:52+00:00",
+            "title": "Monthly newsletter for May",
+            "text": "It is again time for a monthly newsletter. I put together a draft with the repository activities for the May.\n\n add stdlib updates\n add fpm updates\n add fortran-lang.org updates\n add monthly call link\n add LLVM / classic flang updates (@AlexisPerry)\n add LFortran updates (@certik)\n update contributor data (@LKedward)\n\nAs usual, please add your name to the authors list if you add, edit, or review content.",
+            "comments": []
+        },
+        {
+            "number": 250,
+            "user": "certik",
+            "date": "2021-04-29 16:15:17+00:00",
+            "title": "Add gemini3d",
+            "text": "We should add\nhttps://github.com/gemini3d/gemini3d\ninto our packages list.",
+            "comments": []
+        },
+        {
+            "number": 249,
+            "user": "Beliavsky",
+            "date": "2021-04-29 01:29:20+00:00",
+            "title": "Video on the uses of Fortran",
+            "text": "SIAM (Society for Industrial and Applied Mathematics) has a 1.5-minute video Math in Our Lives mentioning mathematical models of climate change, motors (automotives and aeronautics), and cancer treatment. The code shown at the end is not Fortran (is it C++?). SIAM has a YouTube channel.\nVideos of Fortran programmers discussing their work could be of interest.",
+            "comments": []
+        },
+        {
+            "number": 248,
+            "user": "ivan-pi",
+            "date": "2021-04-27 15:07:18+00:00",
+            "title": "Typo in fortyxima",
+            "text": "fortran-lang.org/_data/package_index.yml\n    \n    \n         Line 153\n      in\n      cd7baa0\n    \n    \n    \n    \n\n        \n          \n           - name: foryxima \n        \n    \n  \n\n\nShould read \"fortyxima\"",
+            "comments": []
+        },
+        {
+            "number": 247,
+            "user": "awvwgk",
+            "date": "2021-04-27 14:41:32+00:00",
+            "title": "Minibook: Interfacing Fortran with Python",
+            "text": "Tracking issue for creating a minibook on language intercompatibility of Fortran with Python.\nThis is a non-comprehensive list of method to interface Fortran and Python, feel free to edit this list:\n\nctypes: dynamic loader for C libraries\ncffi: Python wrapper generator for C\nSWIG: Python wrapper generator for C\nnumpy.f2py: wrapper generator for Fortran\ncython: compiler for Python C-extensions\nfwrap: wrapper generator for Fortran\nforpy: bindings to CPython\nf90wrap: wrapper generator for Fortran\nfmodpy: wrapper generator for Fortran\nF2x: template-based wrapper\nForthon: wrapper generator for Fortran\ngfort2py\n\nAspects to cover:\n\nease of use, constraints (bind(C) requirement, derived type support, finalization, ...)\nmemory management, function callbacks\nbuild system integration (compiling of extension modules, distribution, ...)\nstability (frequent tool chain changes), portability (platforms, Python implementations), runtime overhead\nintegration with OpenMP, MPI, CAF (mpi4py, ...)",
+            "comments": [
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-04-29 01:02:34+00:00",
+                    "text": "The Fortran Wiki has a Python page listing many of the packages above and few others.\nFortran should subsume other languages, not merely interoperate with them :).\nBut seriously, one way to speed up Python with Fortran is to translate it to Fortran with Pyccel, an active project."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-04-29 11:58:00+00:00",
+                    "text": "I've added a few from the Python wiki. It would be interesting to learn what the standards committee thinks of this. There seems to be huge interest in using Fortran from Python (I suppose either for reasons of calling legacy code, or speeding up critical parts).\nPersonally, I've only ever used the Cython route. On Linux it worked very well, but on Windows I struggled with binary compatibility issues. It's not fully clear to me how the people who support numpy and SciPy manage to pull it off. I know I've read some interesting blog posts about it, but couldn't find them anymore."
+                }
+            ]
+        },
+        {
+            "number": 246,
+            "user": "vmagnin",
+            "date": "2021-04-23 19:42:51+00:00",
+            "title": "Transferring fortran90.org \"Fortran Best Practices\" into a mini-book",
+            "text": "Transferring the https://www.fortran90.org/src/best-practices.html page, into a mini-book named Fortran Best Practices.\nSee discussion in issue #79",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-23 19:48:32+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-04-23 19:49:36+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/246/"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-04-23 20:07:12+00:00",
+                    "text": "Great and valuable content. Thanky you. Is it ready for review?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-23 20:12:44+00:00",
+                    "text": "The overall structuring looks quite good, but some chapters like integer division and the parallel programming seem very short. For other chapters I'm not sure if they are really suited in a best practice minibook, like interfacing with Python probably deserves its own minibook at some point.\nI haven't looked over the content in detail yet but already spotted a few issues like broken links, typos, inconsistencies. If I find some time I can give it an editing pass. If this is what we want to do next here."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-23 20:20:56+00:00",
+                    "text": "This looks great, thank you @vmagnin! Let us know what your plan is. If it is ready for review, we can go over and clean it up. Also let's think about the wording, I already have some ideas for making it more polished and less opinionated, but still pretty clear recommendation how to program in modern Fortran."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-24 12:49:56+00:00",
+                    "text": "My personal objective was to work on the transfer of the code from fortran90.org to Fortran-lang.org (RST => Markdown mini-book).\nThe community can now review and edit the content in order to integrate it better with the rest of the site.\nFor example, concerning parallel programming, probably it should have its own mini-book, developing OpenMP and MPI, and adding Coarrays.\nBut I guess we should now define what must be done now before accepting the PR and putting the content online, and what could be done later."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-25 19:15:28+00:00",
+                    "text": "some chapters like integer division and the parallel programming seem very short.\n\nThe \"Integer division\" chapter could be easily enriched into a more general \"Integer numbers\" and talk about:\n\nthe different kinds of integers (and kinds defined in iso_fortran_env),\nand their ranges and the problems when you go out of range: beginners knowing only Python may not be aware of those problems, as in Python the number of bytes is automatically adapted as needed... No limit!\ninquiry functions like huge(),\nthe fact that there is no unsigned integers (perhaps in Fortran 202x?) in Fortran, a big difference for people knowing C,\n..."
+                }
+            ]
+        },
+        {
+            "number": 245,
+            "user": "milancurcic",
+            "date": "2021-04-20 14:54:53+00:00",
+            "title": "Writing articles / blog posts on fortran-lang.org",
+            "text": "So far we've only posted newsletters. However, it'd be of great value to establish a process for members of the community to publish Fortran-related blog posts. This would be good case for people who don't have their own blog, or people who want a wider audience than their own blog, or for any article that is especially relevant for readers of fortran-lang.org.\nOndrej and I discussed this via email some time ago, and came up with a first stab of criteria and process. Here they are:\nCriteria:\n\nRelevant: The article should be about Fortran, or at least interesting to Fortran programmers.\nOriginal: The article should not have been published elsewhere, but adaptation from GitHub, Discourse, or Twitter threads is fine.\nHigh quality: The article provides meaningful and useful information, does not advertise a product or service, and is generally aligned with the Fortran-lang community.\n\nPoint 3 is especially subjective and difficult to quantify, so review will be important.\nProcess:\n\nThe Author opens an issue to propose an article, with a tentative title and short description.\nIf there are thumbs ups / go aheads at step 1, open a PR with the article, and request 3 reviewers.\nReviewers review and approve the article. Once published, it's distributed on usual channels (Discourse, mailing list, Twitter)\n\nWe'll discuss this on the call this week.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-04-20 15:13:50+00:00",
+                    "text": "I think this would be great. The other thing we discussed is conflict of interest (say somebody submits an article about compiler comparison and I would like them to mention LFortran which I am also the main developer of), which we can resolve by the person (e.g. me) being able to participate / provide feedback, but would not count as a reviewer."
+                },
+                {
+                    "user": "HaoZeke",
+                    "date": "2021-04-22 18:03:36+00:00",
+                    "text": "As discussed in the monthly meeting, it might be a good idea to have a sort of \"time bound\" which will trigger a re-review / update of each of the tutorials / articles.\nFleshing this out a little, I'd propose having a sort of archive and current set:\n\nArticle is written and reviewed --> current\nNot updated / re-reviewed --> moved to the archive"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-04-22 18:07:03+00:00",
+                    "text": "Having the blogs on Fortran-lang instead of only providing links will give\nus more control:\n\n   - Like @rohit Goswami ***@***.***> says, an opportunity to re-review\n   them or update them\n   - They will not disappear without notice, as so often happens to links\n\n\n\n\nOp do 22 apr. 2021 om 20:03 schreef Rohit Goswami ***@***.***\n\u2026\n:\n As discussed in the monthly meeting, it might be a good idea to have a\n sort of \"time bound\" which will trigger a re-review / update of each of the\n tutorials / articles.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#245 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR3TTR6IMULMMMO3QHLTKBQIZANCNFSM43IKYZQQ>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-22 19:19:12+00:00",
+                    "text": "Also for long standing up-to-date material, we should simply write it as a tutorial elsewhere at the website."
+                }
+            ]
+        },
+        {
+            "number": 244,
+            "user": "certik",
+            "date": "2021-04-19 02:10:46+00:00",
+            "title": "Add a first year announcement",
+            "text": "Should we do an anniversary post?",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-04-19 15:09:16+00:00",
+                    "text": "I was thinking a smaller post, thanking everybody and encouraging people to join, and giving pointers how to join, and include a short but up-to-date summary of our goals."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-19 19:25:21+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-04-19 19:26:41+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/244/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-19 19:30:39+00:00",
+                    "text": "Everything seems to work, I updated things based on the comments, thank you everybody!\nI will merge it tomorrow morning and announce on Twitter. What should be the Twitter text?\nFirst year of the Fortran website\nhttps://fortran-lang.org/newsletter/2021/04/20/First-Year/"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-04-19 21:41:24+00:00",
+                    "text": "Everything seems to work, I updated things based on the comments, thank you everybody!\nI will merge it tomorrow morning and announce on Twitter. What should be the Twitter text?\nFirst year of the Fortran website\nhttps://fortran-lang.org/newsletter/2021/04/20/First-Year/\n\n\nThe new Fortran website celebrates one year: https://fortran-lang.org/newsletter/2021/04/20/First-Year/\nor\nfortran-lang.org celebrates it's first year: https://fortran-lang.org/newsletter/2021/04/20/First-Year/\nJust my 2 cents."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-04-19 21:48:45+00:00",
+                    "text": "I like Brad's second one, but written like this (no apostrophe)\n\nfortran-lang.org celebrates its first year: https://fortran-lang.org/newsletter/2021/04/20/First-Year/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-19 23:39:32+00:00",
+                    "text": "Thanks Brad and Milan, yes, I'll post your version."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-20 15:14:59+00:00",
+                    "text": "I am going ahead and merging."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-20 15:23:03+00:00",
+                    "text": "Here is the Tweet, I copied & pasted from Milan's post: https://twitter.com/fortranlang/status/1384527637737971718"
+                }
+            ]
+        },
+        {
+            "number": 243,
+            "user": "Beliavsky",
+            "date": "2021-04-19 01:46:59+00:00",
+            "title": "grammar in \"Easy to learn and use\" section",
+            "text": "The sentence\n\nExpressing most mathematical and arithmetic operations over large arrays is as simple as you'd write them as equations on a whiteboard.\n\nshould be\n\nExpressing most mathematical and arithmetic operations over large arrays is as simple as writing them as equations on a whiteboard.\n\nsince \"expressing\" and \"writing\" match but \"expressing\" and \"you'd write\" do not.",
+            "comments": [
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-04-19 01:51:18+00:00",
+                    "text": "duplicate"
+                }
+            ]
+        },
+        {
+            "number": 242,
+            "user": "Beliavsky",
+            "date": "2021-04-19 01:45:20+00:00",
+            "title": "grammar in \"Easy to learn and use\" section",
+            "text": "The sentence\n\nExpressing most mathematical and arithmetic operations over large arrays is as simple as you'd write them as equations on a whiteboard.\n\nshould be\n\nExpressing most mathematical and arithmetic operations over large arrays is as simple as writing them as equations on a whiteboard.\n\nsince \"expressing\" and \"writing\" match but \"expressing\" and \"you'd write\" do not.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-04-19 02:06:58+00:00",
+                    "text": "Good catch, will be an easy fix, thanks."
+                }
+            ]
+        },
+        {
+            "number": 241,
+            "user": "Beliavsky",
+            "date": "2021-04-15 20:28:49+00:00",
+            "title": "In tutorial, using x = foo or x(:,:) = foo?",
+            "text": "In the tutorial there are lines of code such as\n  print *,A(i,1:m)\n  mat(:,:) = 0.0\n\nthat could be written\n  print *,A(i,:)\n  mat = 0.0\n\nI would either show the shorter syntax or show both versions and explain that they are equivalent. I would not want new Fortran programmers to get in the habit of using array sections when they can use refer to the whole array. I have read in the past about compilers that do not optimize x(:,:) as well as x. Maybe that has been fixed.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-04-15 20:33:53+00:00",
+                    "text": "Even simpler:\n  print *, A(i,:)\n  mat = 0"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-04-16 07:11:15+00:00",
+                    "text": "There is a difference:\n\nmat(:,:) = another_matrix\n\nwould only work correctly if the other matrix has the same dimensions,\nwhereas:\n\nmat = another_matrix\n\ncould cause an automatic reallocation if mat is an allocatable and\nanother_matrix has a different shape or mat is not allocated.\n\n Such subtleties would complicate the tutorial, of course, so perhaps this\nshould be discussed in a separate section in the tutorial.\n\nOp do 15 apr. 2021 om 22:34 schreef Ond\u0159ej \u010cert\u00edk ***@***.***\n\u2026\n:\n Even simpler:\n\n   print *, A(i,:)\n   mat = 0\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#241 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR766MG4DR43FZLU7G3TI5ET7ANCNFSM43AGKLTQ>\n ."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-04-16 08:24:38+00:00",
+                    "text": "Yes, as Arjen points out, there is an important difference and I recall a discussion where it was mentioned that the slice notation is preferred for two main reasons:\n\nIt is more explicit/expressive in showing the array operation and ensuring that array dimensions match\nIt avoids a possible automatic reallocation (which can really catch you out!)\n\nIt is probably a good idea to describe both notations and describe the differences. I would be interested to hear more about the possible optimisation problems with slice notation if you're able to recall a particular example."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-16 08:30:54+00:00",
+                    "text": "There is a somewhat relevant post of @sblionel on this topic here from 2008: https://stevelionel.com/drfortran/2008/03/31/doctor-it-hurts-when-i-do-this/"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-04-16 10:49:00+00:00",
+                    "text": "Thanks @awvwgk, it was the vague recollection of such posts that prompted my issue. Below is an excerpt. The fortran-lang tutorial should not have code that would make a compiler writer \"cringe\". People have mentioned the benefit of x(:)= foo to prevent unintended allocation upon assignment, but in the tutorial examples, the arrays were not ALLOCATABLE.\n'A(:) = func(B(:), C(:))\nwith the (:) alerting the reader that the variable is an array (sort of like the Dave Barry joke that an apostrophe serves to warn you that the letter \u201cs\u201d is coming up in grocery store signs.) In Fortran syntax, (:) indicates an array section that starts at the first element and ends at the last element \u2013 the whole array, in other words.\nWhenever I see this usage, I cringe, because I know that the compiler has to work extra hard to recognize that the programmer really meant \u201cthe whole array\u201d and not a piece of it. In the past, unnecessary use of (:) would often prevent optimizations. Nowadays this is less often the case, thanks to hard work by the compiler developers, but sometimes it still happens.'"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-16 13:53:04+00:00",
+                    "text": "I personally think the extra syntax (:) should not be used, because it's extra noise to read and worry about, exactly as @sblionel wrote. Unfortunately, I also personally think the automatic re-allocation of the LHS was not a good decision in Fortran, because as @arjenmarkus correctly said, it will re-allocate the LHS unless you prevent it by using (:). For performance code, I don't want any kinds of shape checking code introduced by the compiler, citing Steve:\n\nThe downside, though, is that the checking required to support this is a lot of extra code, and applications where it is known that the array is already allocated to the correct shape don\u2019t need this check which would just slow them down.\n\nI agree.\nPerhaps equally bad, it will re-allocate the array if I made a mistake -- rather I want a nice compiler error message telling me (in Debug mode) that the shape does not match, or that my LHS was not allocated, but in Release mode I want things to run very fast an no checks.\nEven worse, imagine code that has no allocatable arrays, as in this tutorial. I strongly believe the syntax v(:) = 9 should not be used, just use v = 9. It looks much better and natural.\nExcept when then someone changes the array to be allocatable (I do that very often when developing), then the statement A = func(B) becomes problematic, because it might slow things down (due to the compiler now having to check shapes at runtime), and it will hide a bug, instead of giving an error right away that shapes do not match, it will silently re-allocate LHS and continue...\nSo for my codes, I never depend on automatic reallocation of LHS, and as such I could simply use the -fno-realloc-lhs option and check it at the CI, that way if somebody sends a PR that relies on automatic reallocation, the CI will not pass; So as long as the CI passes, the code itself will run correctly no matter if you use -fno-realloc-lhs or not, so that is nice. And so A(:) = func(B) is exactly the same as A = func(B), which is also nice and so the shorter version without (:) should be used.\nHowever, unfortunately because there is code now written by many people out there that does depend on automatic reallocation of LHS, that code will not work in my project, and would need fixing.\nI don't have a good solution..."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-04-16 14:06:45+00:00",
+                    "text": "We (Intel compiler team) were seeing customers increasingly dependent on the reallocation feature. It definitely has its uses, especially in cases where you want to append to the end of an array using syntax such as A = [A,newval]. I don't think the feature was a mistake, and like all new features, compilers can learn how to optimize the check. (I coded the routine that the Intel compiler is currently using for this check, and it is reasonably quick, exiting early if appropriate.)\nAs noted, you can disable this feature by using A(:) - if you do, please add comments explaining this!"
+                }
+            ]
+        },
+        {
+            "number": 240,
+            "user": "Beliavsky",
+            "date": "2021-04-08 12:50:58+00:00",
+            "title": "List compilers by platform",
+            "text": "It would be nice to have a chart with a list of platforms (operating system and hardware) and which compilers run in them. Some common platforms are\n(1) Windows x86\n(2) Windows Subsystem for Linux\n(3) Linux x86\n(4) Apple on Intel\n(5) Apple Silicon\nand others could list more.\nFor (1) I know from personal experience that gfortran, Intel, and g95, Lahey/Fujitsu Fortran 95, and Salford work, and there are other compilers. For (2) I have used gfortran and flang/clang 7.0.1. (This flang is not mature. I've read that there is a distinct \"classic flang\".)\nIn another issue the question of providing objective information about compilers was discussed. At least the existence of compilers for platforms can be summarized objectively.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-08 13:05:23+00:00",
+                    "text": "Better distinguish by platform (Windows, MacOS, Linux, FreeBSD, AIX, ...) and architecture (x86_64, i868, aarch64, ppc64le, ...). For the commercial compilers with free community versions this information is already present."
+                }
+            ]
+        },
+        {
+            "number": 239,
+            "user": "vmagnin",
+            "date": "2021-04-06 17:31:50+00:00",
+            "title": "Duplicates of M_CLI and M_CLI2 in the fpm registry page",
+            "text": "In the fpm registry page (https://fortran-lang.org/packages/fpm), I have found that there is duplicates of :\n\nM_CLI\nM_CLI2\n\nIt seems to be due to the fact that in the links there is one M_CLI and one M_cli (lowercase). Same for M_CLI2 and  M_cli2.\nSuggestion: with an alphabetical sort those problems could be more visible.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-06 18:19:00+00:00",
+                    "text": "Duplicate of fortran-lang/fpm-registry#31"
+                }
+            ]
+        },
+        {
+            "number": 238,
+            "user": "Beliavsky",
+            "date": "2021-04-06 12:55:10+00:00",
+            "title": "Make the compiler descriptions more objective and less promotional",
+            "text": "Some of the compiler descriptions read like advertising copy, because they were taken from advertising. For example,\n\"Absoft\nOur compilers build faster code more efficiently than ever before.\"\nThe \"our\" should be reworded since the fortran-lang site is not owned by a vendor.\nThe Lahey description has two exclamation points that don't below in a vendor-neutral site.\n\"The Cray Compiling Environment (CCE) is the cornerstone innovation of Cray\u2019s adaptive computing paradigm.\" This is MBA-speak that conveys nothing to me.\nIn general, vendors will try to summarize the special features of their compilers in a few sentences, and such descriptions can be informative, but I think fortran-lang should tone them down a little.",
+            "comments": [
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-06 17:33:58+00:00",
+                    "text": "I agree with @Beliavsky and the commercial style was one of the reason it was difficult to translate that page in French."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-06 18:00:17+00:00",
+                    "text": "In order to make this section fair, I still like this idea the most: give each vendor a space of 100 words or less to put anything they want for their compilers. That way they can advertise as they wish. We can perhaps put a paragraph at the very top explaining this.\nThe alternative is to start editing the paragraph for each compiler, but I don't have access to all of them, and I don't want to be in a position either to be the \"editor\" for how compilers are described and advertised.\nBy offloading this responsibility to the compiler vendors themselves, and just providing a venue and \"rules\" (100 words or less), and making those rules clear (currently it is not clear) seems better and ultimately fair I think.\nUpdate: to explain why I don't want to be the \"editor\": first, I am in a conflict of interest, as I am the primary developer of the LFortran compiler. Second, even if I wasn't, I don't feel we should be \"judging\" or \"comparing\" commercial compilers (or even open source compilers). Rather, let the users decide. The only judging we made was to roughly order the compilers based on our perceived usage in the community of them. If there was some more objective measure, we could use that instead. But other than that, my vision was to provide the platform, so that at least all the compilers are now sitting at the same table. But other than that, let each compiler speak for themselves. To more objectively compare compilers, we created this benchmark repository: https://github.com/fortran-lang/benchmarks/, we haven't had time to actually populate it, but we will. Benchmarking objectively is very hard, see the discussion here: fortran-lang/benchmarks#2 and at the other issues there. I think there is a way to do it, to simply show the numbers and let users decide. Another idea is an automated results of \"Fortran features support\", where we run each compiler with a test suite and report how well it is supported. But even if we had all that infrastructure for more objective comparisons (we currently don't), I still don't want to be writing the final \"summary\", but rather I just want users to try the compilers out (or not) and decide themselves.\nCC @milancurcic."
+                }
+            ]
+        },
+        {
+            "number": 237,
+            "user": "certik",
+            "date": "2021-04-01 11:42:17+00:00",
+            "title": "Make the link clickable",
+            "text": "It looks differently online than in the GitHub markdown, so the link worked when previewing on github, but does not work online... This fixes it.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-04-01 14:34:46+00:00",
+                    "text": "Thanks!"
+                }
+            ]
+        },
+        {
             "number": 236,
             "user": "alinelena",
             "date": "2021-03-30 10:16:51+00:00",
@@ -26,6 +337,11 @@
                     "user": "awvwgk",
                     "date": "2021-03-29 21:23:26+00:00",
                     "text": "Thanks a lot, @AlexisPerry."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-03-31 14:41:47+00:00",
+                    "text": "I'll write LFortran updates today."
                 }
             ]
         },
@@ -82,7 +398,7 @@
             "user": "ivan-pi",
             "date": "2021-03-18 15:19:58+00:00",
             "title": "More Fortran packages",
-            "text": "I've found a few more Fortran packages I will try to add one by one:\n\n Fortran processing library: http://www.biosfera.dea.ufv.br/fpl/index.html\n 2DECOMP & FFT: http://www.2decomp.org/decomp_api.html\n SLICOT: http://slicot.org/\n FORTRAN Routines for Spectral methods: https://cdm.unimore.it/home/matematica/funaro.daniele/rout.htm\n NUFFT: https://cims.nyu.edu/cmcl/nufft/nufft.html.bak\n FFTLog: https://jila.colorado.edu/~ajsh/FFTLog/\n P3DFFT: https://www.p3dfft.net/\n Parallel FFT Package: https://cs.sandia.gov/~sjplimp/docs/fft/README.html\n fftMPI: https://fftmpi.sandia.gov/\n CSLib: https://github.com/lammps/cslib\n Quadratures for elastostatic Green's functions on flat triangles: https://cims.nyu.edu/cmcl/quadratures/quadratures.html\n Quadratures for smooth functions in two and three dimensions: https://cims.nyu.edu/cmcl/quadratures/quadratures.html\n FMMLIB2D: https://cims.nyu.edu/cmcl/fmm2dlib/fmm2dlib.html\n OpenFFT: http://www.openmx-square.org/openfft/\n libcerf: https://jugit.fz-juelich.de/mlz/libcerf\n PROPACK: http://sun.stanford.edu/~rmunk/PROPACK/\n FATODE: https://github.com/ComputationalScienceLaboratory/FATODE",
+            "text": "I've found a few more Fortran packages I will try to add one by one:\n\n Fortran processing library: http://www.biosfera.dea.ufv.br/fpl/index.html\n 2DECOMP & FFT: http://www.2decomp.org/decomp_api.html\n SLICOT: http://slicot.org/\n FORTRAN Routines for Spectral methods: https://cdm.unimore.it/home/matematica/funaro.daniele/rout.htm\n NUFFT: https://cims.nyu.edu/cmcl/nufft/nufft.html.bak\n FFTLog: https://jila.colorado.edu/~ajsh/FFTLog/\n P3DFFT: https://www.p3dfft.net/\n Parallel FFT Package: https://cs.sandia.gov/~sjplimp/docs/fft/README.html\n fftMPI: https://fftmpi.sandia.gov/\n CSLib: https://github.com/lammps/cslib\n Quadratures for elastostatic Green's functions on flat triangles: https://cims.nyu.edu/cmcl/quadratures/quadratures.html\n Quadratures for smooth functions in two and three dimensions: https://cims.nyu.edu/cmcl/quadratures/quadratures.html\n FMMLIB2D: https://cims.nyu.edu/cmcl/fmm2dlib/fmm2dlib.html\n OpenFFT: http://www.openmx-square.org/openfft/\n libcerf: https://jugit.fz-juelich.de/mlz/libcerf\n PROPACK: http://sun.stanford.edu/~rmunk/PROPACK/\n FATODE: https://github.com/ComputationalScienceLaboratory/FATODE\n HEALPix: https://healpix.jpl.nasa.gov/\n auto-07p: https://github.com/auto-07p/auto-07p\n AxiSEM: http://seis.earth.ox.ac.uk/axisem/\n SeisSol: https://github.com/SeisSol/SeisSol\n APES: https://apes.osdn.io/ (has 5 independent? sub-components)\n codelib: http://elib.zib.de/pub/elib/codelib/en/\n NewtonLib: http://elib.zib.de/pub/elib/codelib/NewtonLib/index.html\n Expokit: https://www.maths.uq.edu.au/expokit/",
             "comments": [
                 {
                     "user": "certik",
@@ -98,6 +414,21 @@
                     "user": "ivan-pi",
                     "date": "2021-03-18 16:57:31+00:00",
                     "text": "My current plan was only to put them in the package index. \ud83d\udc4d"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-22 12:33:25+00:00",
+                    "text": "Maybe some yet unlisted packages could be found in the Curlie directory (the historical DMOZ reborn), especially here:\n\nhttps://www.curlie.org/en/Computers/Programming/Languages/Fortran/Libraries\nhttps://www.curlie.org/en/Computers/Programming/Languages/Fortran/Source_Code"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-04-22 20:09:34+00:00",
+                    "text": "Indeed, there are a few interesting ones.\nOn my PC I found the manual for AxiSEM - a parallel spectal-element solver for 3D wave propagation (http://seis.earth.ox.ac.uk/axisem/)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-04-25 20:19:44+00:00",
+                    "text": "This other seismological code (https://github.com/SeisSol/SeisSol) also contains a fair share of Fortran code."
                 }
             ]
         },
@@ -248,7 +579,13 @@
             "date": "2021-03-09 20:37:08+00:00",
             "title": "Build preview committer",
             "text": "I wonder how the #build_preview action is picking up the commit author for the preview build? It seems to just take the identity from the latest committer to the default branch for creating the commit instead of the actor triggering the  #build_preview in the pull request or the pull request author.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-04-16 10:42:31+00:00",
+                    "text": "It looks like this is the default behaviour for the EndBug/add-and-commit action that we're currently using. We could probably follow these instructions to change the committer to the github actions bot or just not use this action for pushing the preview."
+                }
+            ]
         },
         {
             "number": 223,
@@ -316,6 +653,21 @@
                     "user": "github-actions[bot]",
                     "date": "2021-03-06 10:10:04+00:00",
                     "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/220/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-04-07 16:37:16+00:00",
+                    "text": "Thank you, this has been open for a while without complaints, so I will merge."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-07 16:49:13+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-04-07 16:49:35+00:00",
+                    "text": "The preview build for this PR has now been deleted."
                 }
             ]
         },
@@ -389,6 +741,16 @@
                     "user": "vmagnin",
                     "date": "2021-03-28 19:04:51+00:00",
                     "text": "My feeling is that a Fortran history page in Fortran-lang.org should be designed with clear and assumed goals. There is already a lot of pages with a Fortran history (for example https://en.wikipedia.org/wiki/Fortran).\nOur history should not be another old dusty museum but concentrate on events and information that could be useful for Fortran beginners to understand the present state of Fortran:\n\nwhy Fortran was created, why it was successful (easy to learn, a compiler designed to achieve good optimizations since the first version, oriented for array computing, etc.),\nwhy it was standardized, how standardization is functioning since Fortran 90 (major/minor versions, many years between the standard and the implementation in compilers...) It's very different from younger languages where you would have Fortran 3.0, Fortran 3.1, Fortran 3.1.5...\nWhy most modern Fortran files have a .f90 extension,\ninsist on the perenniality of Fortran codes,\nEtc.\n\nAnd we have already many posts in the Discourse that could bring materials to build such a story."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-04-07 16:39:10+00:00",
+                    "text": "I agree, this would be a good addition to the website. I think a mini-book would be a good format."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-22 12:40:10+00:00",
+                    "text": "This Curlie directory (the historical DMOZ reborn) list a few pages with stuff related to Fortran history:\nhttps://www.curlie.org/en/Computers/Programming/Languages/Fortran/History\nAnd especially this page:\nhttp://www.softwarepreservation.org/projects/FORTRAN/"
                 }
             ]
         },
@@ -616,7 +978,7 @@
             "number": 201,
             "user": "awvwgk",
             "date": "2021-02-09 23:29:02+00:00",
-            "title": "Internationalization for fortran-lang",
+            "title": "Draft: Internationalization for fortran-lang",
             "text": "This patch introduces the infrastructure for localization support of the webpage using the jekyll-multiple-languages-plugin. You can checkout my i18n branch locally and add a new language as described in #197 (comment) to play around with the feature. Feedback is more than welcome on this patch.\n\n allow to replace page body with localized version\n have markup only in main tree while translations provide content for page bodies\n localize webpage title\n localize all keywords in the main tree\n localize all keywords in _include\n localize all keywords in _layouts\nlocalize permalinks\n localize page names\n avoid copying assets in every language subtree\n include language navigation in footer\n add documentation for translators\n\nThis PR does not add localization to any language yet, a build preview will only show if nothing is broken.\nThis pull request includes the Spanish translation provided by @aslozada and the French translation provided by @vmagnin, the side can be previewed at https://fortran-lang.org/pr/201/.",
             "comments": [
                 {
@@ -932,6 +1294,11 @@
                     "user": "vmagnin",
                     "date": "2021-02-15 08:30:37+00:00",
                     "text": "I propose that we include a few non-english courses, like the german one proposed by @ivan-pi .\nConcerning the French language, I therefore propose that link:\nhttp://www.idris.fr/formations/fortran/\nThose very complete courses include Fortran 2003 and 2008 stuff. Not yet Fortran 2018, although there is some slides on obsolete features in the 2018 standard. But they seem to be regularly updated (two from 2020, one from 2019). Note that IDRIS is the computing science department of the CNRS, the big french national scientific research center.\nThe three basic, advanced and expert courses add up to 872 slides. The program sources are available. And there is exercises with solutions."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-03-31 13:24:20+00:00",
+                    "text": "Following that discussion https://fortran-lang.discourse.group/t/ref-card-for-fortran90/935/ , I propose to add on the Learn page a Fortran refcard, like that one:\nhttps://michaelgoerz.net/refcards/fortran_refcard_a4.pdf\nI could contact the author on https://github.com/goerz/Refcards to ask if it is the latest PDF version, the LaTeX source available on GitHub having a last commit in Dec. 2018 (CC-BY-NC-SA license)."
                 }
             ]
         },
@@ -5107,6 +5474,121 @@
                     "user": "certik",
                     "date": "2020-05-15 17:27:18+00:00",
                     "text": "Yes, we should transfer it and then put a banner at fortran90.org to come here."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-19 17:21:43+00:00",
+                    "text": "Following that discussion https://fortran-lang.discourse.group/t/fortran-lang-is-now-second-in-google/931/14 , I can help working on translating the ReStructuredText format to Markdown, using Pandoc."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-19 17:33:45+00:00",
+                    "text": "@vmagnin thank you! That would be super helpful."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-04-19 17:41:17+00:00",
+                    "text": "I would be happy to help too! I guess that the file conversion is the easiest step ;) A nice integration in fortran-lang (by considering the current content of fortran-lang to avoid overlap) would require more work."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-19 18:45:46+00:00",
+                    "text": "Go ahead, take one page and submit a PR against this repository. Then let's figure out how to best integrate."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-19 19:01:34+00:00",
+                    "text": "@jvdp1\n\nI would be happy to help too! I guess that the file conversion is the easiest step ;) A nice integration in fortran-lang (by considering the current content of fortran-lang to avoid overlap) would require more work.\n\nYes, a quick try today showed me that Pandoc was doing a very good job, except some characters like quotes, and some links. So the translation with Pandoc will be very fast, the longest work will be to verify that every thing is OK. Perhaps a simple copy/paste of the texts of both versions, and a diff on the two resulting files could accelerate that validation.\nThen will begin the integration to the website.\nI propose beginning working myself on the Pandoc and validation step. In the meantime, @jvdp1 you can have a look at the text of fortran90.org and the content of Fortran-lang.org to identify potential problems."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-19 19:11:54+00:00",
+                    "text": "@certik\n\nGo ahead, take one page and submit a PR against this repository. Then let's figure out how to best integrate.\n\nI guess I should put the Markdown files into a directory in https://fortran-lang.org/learn/\nPerhaps https://fortran-lang.org/learn/tutorials/ ? Or any other name you think more adequate.\nThen probably we will need Sebastian @awvwgk to integrate those .md files into the code of the site."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-19 19:16:22+00:00",
+                    "text": "The documentation regarding the learn subsection is located here."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-19 19:19:35+00:00",
+                    "text": "@awvwgk\n\nThe documentation regarding the learn subsection is located here.\n\nWow! I will look at it.\nI will work in my fork from awvwgk/fortran-lang.org\nShould I create a new branch?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-04-19 19:22:58+00:00",
+                    "text": "Right, you forked from my fork, just branch from my default branch, it is kept in sync with the @fortran-lang default branch automatically. You can direct your PR against the @fortran-lang version of the homepage, but if you make a PR against my fork by accident, I'll watch out and advice how to get to the real upstream."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-20 10:07:35+00:00",
+                    "text": "I report my progress translating fortran90.org files. The following command gives good results:\n$ pandoc --standalone --toc --resource-path=../images --to markdown_strict --shift-heading-level-by=1 best-practices.rst -o best-practices.md\nI have added the --to markdown_strict to fix some problems: some characters were escaped like \\\" or \\', and there was problems with rst labels. At first glance, it looks now fine, except for the escaped \\$ in the OpenMP directives (only three occurrences).\nIn the rosetta.rst page, there is a mandelbrot.png image. Curiously, despite the --resource-path=../images option, I had to modify the path ![image](/images/mandelbrot.png) to  ![image](../images/mandelbrot.png).\nThe --shift-heading-level-by=1 is for starting headings at <h2>, like specified in the style guide.\nNow my objective is to first work on a PR for best-practices.md.  There is two possibilities:\n\na single-page mini-book: although that page is quite long, we could put it quickly online and later, as the text is revised, slice it into a multi-page mini-book.\nworking directly on a multi-page mini-book.\n\nRemarks concerning code indentation:\nit is generally 4 spaces. As far as I understand, the discussions #101 and https://fortran-lang.discourse.group/t/should-tutorials-on-fortran-lang-org-follow-a-consistent-style-for-code-listings/134/18 seem OK with that although other tutorials seem to be rather 2 spaces. But we can also notice that there is generally no indentation for the code inside functions and subroutines, which could be discussed if the content is later revised.\nUseful links:\n\nhttps://fortran-lang.org/learn/\nhttps://www.fortran90.org/\nhttps://github.com/certik/fortran90.org/\nhttps://pandoc.org/MANUAL.html\nhttps://www.markdownguide.org/tools/jekyll/"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-04-20 10:13:26+00:00",
+                    "text": "Thank you @vmagnin for this wok. I would be in favor of working directly on a multi-page mini-book. IMO it will be easier to review and identify possible overlaps with existing contents."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-20 15:55:26+00:00",
+                    "text": "Thank you @vmagnin for this work!\nYes, we can do multi page mini book and review page by page. Yes, let's start with the best practices. (The rosetta has an issue that it has side by side code comparisons which we have to figure out how to do in Markdown. We don't need to include the Mandelbrot image, I only included it to show that both Python and Fortran generate exactly the same image.)\nI think there is in general no agreement on the number of spaces. I suggest to keep the formatting as is, and see how it looks when rendered and if there are objections."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-20 16:19:38+00:00",
+                    "text": "Yes, we can do multi page mini book and review page by page. Yes, let's start with the best practices. (The rosetta has an issue that it has side by side code comparisons\n\nSo let's go with multi-page! I will slice best-practices.md in as many files as needed, following the MINIBOOKS guide. And when ready, I will post here the directory tree to be sure we agree with the directory and filenames before I commit them in my fork and create a PR.\nConcerning rosetta.md, Pandoc has converted the tables containing the Fortran and Python codes in HTML tables. It looks quite good in a Markdown visualizer, although when the two codes have very different lengths, the shorter one is vertically aligned centered, contrarily to the original in fortran90.org. I imagine it can be fixed by modifying the HTML parameters.\nNote that for the moment, I have not yet included those files in my Fortran-lang.org fork, so I don't know yet how they will look in a browser."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-20 16:38:56+00:00",
+                    "text": "For rosetta.md there is also an extension grid_tables to avoid HTML:\n$ pandoc --standalone --toc --resource-path=../images/ --to markdown_strict+grid_tables --shift-heading-level-by=1 rosetta.rst -o rosetta.md\nThe tables look good in a text editor, but my Markdown viewers don't manage them. But I will test it in the website fork."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-20 20:02:37+00:00",
+                    "text": "Beginning visualizing the result with Jekyll, I have updated my Pandoc command:\n$ pandoc --standalone --toc --resource-path=../images --to markdown_strict+pipe_tables+backtick_code_blocks best-practices.rst -o best-practices.md\n\nThe pipe_tables extension yields tables in markdown format instead of HTML.\nThe backtick_code_blocks extension is for having code in blocks ```fortran... ``` which allows syntactic coloration. By default the code was in blocks indented with 4 spaces.\nI have removed --shift-heading-level-by=1 because the <h1> title of each file will be transferred into the header of the md file. And so others will already begin at level 2."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-20 20:28:56+00:00",
+                    "text": "I will continue tomorrow, but it looks quite good:"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-20 20:34:06+00:00",
+                    "text": "Nice, thank you @vmagnin! I can help proof read once you are ready."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-21 09:27:08+00:00",
+                    "text": "I have committed the new mini-book to my fork in a new fortran90org branch:\nhttps://github.com/vmagnin/fortran-lang.org/tree/fortran90org\n$ tree best_practices\nbest_practices\n\u251c\u2500\u2500 allocatable_arrays.md\n\u251c\u2500\u2500 arrays.md\n\u251c\u2500\u2500 callbacks.md\n\u251c\u2500\u2500 c_interfacing.md\n\u251c\u2500\u2500 element_operations.md\n\u251c\u2500\u2500 file_io.md\n\u251c\u2500\u2500 floating_point.md\n\u251c\u2500\u2500 index.md\n\u251c\u2500\u2500 integer_division.md\n\u251c\u2500\u2500 modules_programs.md\n\u251c\u2500\u2500 multidim_arrays.md\n\u251c\u2500\u2500 parallel_programming.md\n\u251c\u2500\u2500 python_interfacing.md\n\u251c\u2500\u2500 style_guide.md\n\u2514\u2500\u2500 type_casting.md\n\n0 directories, 15 files\nLet me know if you agree with those directory and filenames. I am waiting for your signal to make a PR.\nSome remarks:\n\nI have not changed anything in the content except a word in the introduction (\"This page\" => \"This mini-book\"), and I have added the authors (https://www.fortran90.org/src/contributors.html) in the header of the index.md file.\nThe markdown looks good, but perhaps the markdown tables look could be improved.\nIn the learn/ directory, there is still a file best_practices.md (Draft structure for fortran tutorials) created by @LKedward one year ago."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-04-21 09:34:37+00:00",
+                    "text": "Great stuff! (Feel free to delete the vestigial best_practices.md in your pull request.)"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-21 12:48:20+00:00",
+                    "text": "Thanks @LKedward, I have committed a git rm best_practices.md in my fork.\nConcerning the Python Fortran Rosetta Stone page, it's more difficult with the Python / Fortran code comparisons in two columns. I have found no Pandoc extension to obtain a correct Markdown table. Pandoc can generate HTML tables, but we lose the syntax highlighting. No idea for the moment...\nThe vertical alignment problem can be fixed by adding an attribute: <td style=\"vertical-align:top\">:"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-04-21 13:32:47+00:00",
+                    "text": "I'll review later today, thank you so much @vmagnin!\nRegarding the rosetta, one option is to use Myst: https://myst-nb.readthedocs.io/en/latest/use/markdown.html, it is markdown and it can do anything that ReST could do. I believe it can do side by side tables."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-04-21 14:04:26+00:00",
+                    "text": "Let me know if you agree with those directory and filenames. I am waiting for your signal to make a PR.\n\nSounds good to me. I guess a PR could be opened for review. Should we already introduce cross-references with the current content of fortran-lang.org  (especially from the Quickstart tutorial in whcih tips are mentioned to this mi-book) (during the review)?"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-04-22 08:49:14+00:00",
+                    "text": "Concerning the FAQ and Gotchas pages of fortran90.org, the Pandoc command used for Fortran Best Practices also makes a perfect job."
                 }
             ]
         },
