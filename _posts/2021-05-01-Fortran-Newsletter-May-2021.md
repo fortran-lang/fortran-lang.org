@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: May 2021"
 category: newsletter
-author: Sebastian Ehlert
+author: Sebastian Ehlert, Alexis Perry-Holby
 ---
 
 Welcome to the May 2021 edition of the monthly Fortran newsletter.
@@ -149,9 +149,56 @@ environment in which new open source Fortran projects are created and published 
 
 ### Classic Flang
 
+A total of 5 pull requests were merged in April.
+
+* [PR#1021 Switch to new LLVM License](https://github.com/flang-compiler/flang/pull/1021)
+* [PR#1025 runtime: register atfork handler to re-initialize internal flangrti locks at fork](https://github.com/flang-compiler/flang/pull/1025)
+* [PR#1026 Test case update for #895](https://github.com/flang-compiler/flang/pull/1026)
+* [PR#1030 Update README.md](https://github.com/flang-compiler/flang/pull/1030)
+* [PR#1034 Github Action use the prebuilt clang to build flang](https://github.com/flang-compiler/flang/pull/1034)
+
 
 ### LLVM Flang
 
+Recent development updates:
+
+* OpenMP
+    * [OPENMP5.1]Initial support for novariants clause.
+    * [OPENMP5.1]Initial support for nocontext clause.
+    * Add functionality to check "close nesting" of regions, which can be used for Semantic checks
+    * [OpenMP5.1] Initial support for masked directive and filter clause
+    * Modify semantic check for nesting of `ordered` regions to include `close` nesting check.
+    * Remove `OmpEndLoopDirective` handles from code.
+    * Add General Semantic Checks for Allocate Directive
+* New Driver
+    * Add options for -Werror
+    * Modify the existing test cases that use -Mstandard in f18, to use -pedantic and %flang_fc1 to share with the new driver
+    * Add support for `-cpp/-nocpp`
+    * Fix `-fdebug-dump-provenance`
+    * Add debug options not requiring semantic checks
+    * Remove `%flang-new` from the LIT configuration
+    * Update the regression tests to use the new driver when enabled
+    * Add support for `-fget-definition`
+* Move .f77 to the list of fixed-form file extensions
+* Runtime
+    * Implement reductions
+    * Implement numeric intrinsic functions
+    * TRANSFER() intrinsic function
+    * RANDOM_NUMBER, RANDOM_SEED, RANDOM_INIT
+    * Implement IPARITY, PARITY, and FINDLOC reductions
+* Fix unit test failure on POWER
+* Improve constant folding for type parameter inquiries
+* Check for conflicting BIND(C) names
+* Enforce a limit on recursive PDT instantiations
+* Accept & fold IEEE_SELECTED_REAL_KIND
+* Define missing & needed IEEE_ARITHMETIC symbols
+* Handle instantiation of procedure pointer components
+* Fix checking of argument passing for parameterized derived types
+* Fix spurious errors from runtime derived type table construction
+* Check for attributes specific to dummy arguments
+* Handle structure constructors with forward references to PDTs
+
+Call notes will be sent to the _flang-dev_ email list and also recorded [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
 
 ### LFortran
 
