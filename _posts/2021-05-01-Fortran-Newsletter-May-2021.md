@@ -210,10 +210,7 @@ You can watch the recording below:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/D107yFcuZoE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-* Registration is open for the upcoming free webinar on
-  [Fortran for High Performance Computing](https://register.gotowebinar.com/register/7343048137688004108).
-  The webinar is organized by [Excellerat](https://www.excellerat.eu/)
-  and will be presented by Wadud Miah ([@wadudmiah](https://github.com/wadudmiah)) from the University of Southampton.
+Wadud Miah ([@wadudmiah](https://github.com/wadudmiah)) from the University of Southampton presented a webinar on Fortran for High Performance Computing, organized by [Excellerat](https://www.excellerat.eu/). You can find the slides and the recording [here](https://services.excellerat.eu/viewevent/39).
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
