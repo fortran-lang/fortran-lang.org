@@ -201,6 +201,7 @@ Recent development updates:
 Call notes will be sent to the _flang-dev_ email list and also recorded [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
 
 ### LFortran
+
 * 98 Merge Requests merged in April
 * Working towards compiling the [SNAP](https://github.com/lanl/SNAP) proxy app ([#313](https://gitlab.com/lfortran/lfortran/-/issues/313)):
   * Code can be parsed to AST and transformed back to source code which compiles with other compilers and works
