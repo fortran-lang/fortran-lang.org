@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: May 2021"
 category: newsletter
-author: Sebastian Ehlert, Alexis Perry-Holby, Milan Curcic, Ondřej Čertík
+author: Sebastian Ehlert, Alexis Perry-Holby, Milan Curcic, Ondřej Čertík, Laurence Kedward
 ---
 
 Welcome to the May 2021 edition of the monthly Fortran newsletter.
