@@ -26,7 +26,7 @@ Ongoing work:
 
 * [#201](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP):
   Internationalization for fortran-lang
-* [#246](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP):
+* [#246](https://github.com/fortran-lang/fortran-lang.org/pull/246) (WIP):
   Transferring fortran90.org “Fortran Best Practise” into a mini-book
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
@@ -77,9 +77,9 @@ Work in progress:
   Add general contributing guidelines to stdlib
 * [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
   Add sort to stdlib\_string\_type module
-* [#372](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
+* [#372](https://github.com/fortran-lang/stdlib/pull/372) (WIP):
   Correct implementation of to\_title
-* [#386](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
+* [#386](https://github.com/fortran-lang/stdlib/pull/386) (WIP):
   Start the addition of the module stdlib\_sorting
 
 
