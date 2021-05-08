@@ -5,7 +5,7 @@ permalink: /learn/quickstart/operators_control_flow
 ---
 
 One of the powerful advantages of computer algorithms, compared to simple mathematical formulae,
-comes in the form program _branching_ whereby the program can decide which instructions to 
+comes in the form of program _branching_ whereby the program can decide which instructions to 
 execute next based on a logical condition.
 
 There two main forms of controlling program flow:
@@ -20,7 +20,7 @@ There two main forms of controlling program flow:
 Before we use a conditional branching operator, we need to be able to form
 a logical expression.
 
-To form a logical expression the following set of relational operators are available:
+To form a logical expression, the following set of relational operators are available:
 
 | Operator &nbsp;  | Alternative &nbsp;    | Description                                                     |
 |:----------------:|:---------------------:|-----------------------------------------------------------------|
@@ -65,9 +65,9 @@ test expression (`angle < 90.0`) is true.
 {% include tip.html content="It is good practice to indent code within constructs such as `if` and `do`
 to make code more readable." %}
 
-We can add alternative branch to the construct using the `else` keyword:
+We can add an alternative branch to the construct using the `else` keyword:
 
-__Example:__ two-branch `if-else`
+__Example:__ two-branch `if`-`else`
 
 ```fortran
   if (angle < 90.0) then
@@ -82,7 +82,7 @@ on the logical expression following the `if` keyword.
 
 We can actually add any number of branches using `else if` to specify more conditions:
 
-__Example:__ multi-branch  `if-elseif-else`
+__Example:__ multi-branch  `if`-`elseif`-`else`
 ```fortran
   if (age < 90.0) then
     print *, 'Angle is acute'
@@ -98,12 +98,12 @@ expressions have evaluated to true.
 
 ## Loop constructs (`do`)
 
-In the following example a `do` loop construct is used to print out the numbers in
+In the following example, a `do` loop construct is used to print out the numbers in
 a sequence.
 The `do` loop has an integer _counter_ variable which is used to track which iteration of the loop
-is currently executing, in this example we use a common name for this counter variable: `i`.
+is currently executing; in this example we use a common name for this counter variable: `i`.
 
-When we define the start of the `do` loop we use our counter variable name followed by an equals (`=`) sign
+When we define the start of the `do` loop, we use our counter variable name followed by an equals (`=`) sign
 to specify the start value and final value of our counting variable.
 
 __Example:__ `do` loop
@@ -174,13 +174,13 @@ __Example__ loop with `cycle`
     print *, i
   end do
 ```
-{% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the inner-most loop." %}
+{% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the innermost loop." %}
 
 ### Nested loop control: tags
 
 A recurring case in any programming language is the use of nested loops. Nested loops refer to loops that exist within another loop. Fortran allows the programmer to _tag_ or _name_ each loop. If loops are tagged, there are two potential benefits:
 1. The readability of the code may be improved (when the naming is meaningful).
-2. `exit` and `cycle` may be used with tags, which allows for a very fine-grained control of the loops.
+2. `exit` and `cycle` may be used with tags, which allows for very fine-grained control of the loops.
 
 __Example__ tagged nested loops
 
@@ -198,8 +198,8 @@ __Example__ tagged nested loops
 
 ### Parallelizable loop (`do concurrent`)
 
-The `do concurrent` loop is used to explicitly specify that the _inside of the loop has no interdependencies_; this informs the compiler that it may use parallelization/_SIMD_ to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
-that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop.
+The `do concurrent` loop is used to explicitly specify that the _inside of the loop has no interdependencies_; this informs the compiler that it may use parallelization/_SIMD_ to speed up execution of the loop and conveys programmer intention more clearly. More specifically, this means
+that any given loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each `do concurrent` loop.
 These requirements place restrictions on what can be placed within the loop body.
 
 
