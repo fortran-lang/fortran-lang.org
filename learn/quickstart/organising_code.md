@@ -32,7 +32,7 @@ subroutine print_matrix(n,m,A)
 
   integer :: i
   do i=1,n
-    print *,A(i,1:m)
+    print *, A(i,1:m)
   end do
 
 end subroutine print_matrix
@@ -133,7 +133,7 @@ module my_mod
 
       integer :: i
       do i=1,size(A,1)
-        print *,A(i,:)
+        print *, A(i,:)
       end do
 
     end subroutine print_matrix
