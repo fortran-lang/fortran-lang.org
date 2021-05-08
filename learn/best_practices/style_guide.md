@@ -40,8 +40,9 @@ you haven't seen in while.
 Indentation
 -----------
 
-Use 4 spaces indentation (this is again a matter of preference as some
-people prefer 2 or 3 spaces).
+Use a consistent indentation to make your code readable.
+The amount of indentation is a matter of preference, the most common choices
+are two, three or four spaces.
 
 Comparison to Other Languages
 -----------------------------

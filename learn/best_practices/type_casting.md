@@ -11,8 +11,8 @@ The methods I, II and V can be used both in C and Fortran. The methods
 III and IV are only available in Fortran. The method VI is obsolete and
 should not be used.
 
-I: Work Arrays
---------------
+Work Arrays
+-----------
 
 Pass a "work array" or two which are packed with everything needed by
 the caller and unpacked by the called routine. This is the old way --
@@ -80,8 +80,8 @@ end subroutine
 end module
 ```
 
-II: General Structure
----------------------
+General Structure
+-----------------
 
 Define general structure or two which encompass the variations you
 actually need (or are even remotely likely to need going forward). This
@@ -168,8 +168,8 @@ the needed pieces with all the right labels.
 Point is: it needn't be "one abstract type to encompass all" or bust.
 There are natural and viable options between "all" and "none".
 
-III: Private Module Variables
------------------------------
+Private Module Variables
+------------------------
 
 Hide the variable arguments completely by passing in module variables.
 
@@ -235,8 +235,8 @@ just semi-global -- if possible. But sometimes it may be the simplest
 cleanest way. However, with a bit of thought, usually there is a better,
 safer, more explicit way along the lines of II or IV.
 
-IV: Nested functions
---------------------
+Nested functions
+----------------
 
 Integrator:
 
@@ -284,8 +284,8 @@ end function f
 end subroutine foo
 ```
 
-V: Using type(c\_ptr) Pointer
------------------------------
+Using type(c\_ptr) Pointer
+--------------------------
 
 In C, one would use the `void *` pointer. In Fortran, one can use
 `type(c_ptr)` for exactly the same purpose.
@@ -370,8 +370,8 @@ to create a GUI with some untold number of buttons, drop-downs, and
 other interface elements), simplest, least bug-prone, and fastest is to
 use one of the previous approaches.
 
-VI: transfer() Intrinsic Function
----------------------------------
+transfer() Intrinsic Function
+-----------------------------
 
 Before Fortran 2003, the only way to do type casting was using the
 `transfer` intrinsic function. It is functionally equivalent to the
@@ -386,8 +386,8 @@ Examples:
 
 <http://www.macresearch.org/advanced_fortran_90_callbacks_with_the_transfer_function>
 
-VII: Object Oriented Approach
------------------------------
+Object Oriented Approach
+------------------------
 
 The module:
 

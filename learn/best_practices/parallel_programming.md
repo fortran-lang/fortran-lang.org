@@ -14,7 +14,7 @@ ignore them. For OpenMP compilers, these lines will be considered as
 regular Fortran code. The following code :
 
 ``` fortran
-program test_openmpi
+program test_openmp
   !$ use omp_lib
   implicit none
 

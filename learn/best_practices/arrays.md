@@ -76,8 +76,9 @@ end subroutine
 and call it like this:
 
 ``` fortran
-real(dp) :: r(5)
+real(dp) :: r(5), s(3, 4)
 call f(size(r), r)
+call f(size(s), s)
 ```
 
 In order to return an array from a function, do:
@@ -97,7 +98,7 @@ If you want to enforce/check the size of the arrays, put at the
 beginning of the function:
 
 ``` fortran
-if (size(r) /= 4) stop "Incorrect size of 'r'"
+if (size(r) /= 4) error stop "Incorrect size of 'r'"
 ```
 
 To initialize an array, do:
