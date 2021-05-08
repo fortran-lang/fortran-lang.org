@@ -170,9 +170,9 @@ end program arithmetic
 ## Floating-point precision
 
 The desired floating-point precision can be explicitly declared using a `kind` parameter.
-The `iso_fortran_env` intrinsic module provides kind parameters for the common 32bit and 64bit floating point types.
+The `iso_fortran_env` intrinsic module provides `kind` parameters for the common 32-bit and 64-bit floating-point types.
 
-__Example:__ explicit real kind
+__Example:__ explicit real `kind`
 ```fortran
 program float
   use, intrinsic :: iso_fortran_env, only: sp=>real32, dp=>real64
@@ -181,15 +181,15 @@ program float
   real(sp) :: float32
   real(dp) :: float64
 
-  float32 = 1.0_sp       ! Explicit suffix for literal constants
+  float32 = 1.0_sp  ! Explicit suffix for literal constants
   float64 = 1.0_dp
 
 end program float
 ```
 
-{% include important.html content="Always use a `kind` suffix for floating point literal constants." %}
+{% include important.html content="Always use a `kind` suffix for floating-point literal constants." %}
 
-__Example:__ c-interoperable kinds
+__Example:__ C-interoperable `kind`s
 ```fortran
 program float
   use, intrinsic :: iso_c_binding, only: sp=>c_float, dp=>c_double
