@@ -22,8 +22,8 @@ The syntax to create a variable of type _t_pair_ and access its members is:
 ! declare
 type(t_pair) :: pair
 ! initialize
-pair%i   = 1
-pair%x   = 0.5
+pair%i = 1
+pair%x = 0.5
 ```
 
 {% include note.html content="The percentage symbol `%` is used to access the members of a derived type." %}
@@ -34,9 +34,9 @@ You can also initialize derived type members by invoking the derived type constr
 
 Example using the derived type constructor:
 ```fortran
-pair = t_pair(1, 0.5)       ! initialize with positional arguments
-pair = t_pair(i=1, x=0.5)   ! initialize with keyword arguments
-pair = t_pair(x=0.5, i=1)   ! keyword arguments can go in any order
+pair = t_pair(1, 0.5)      ! initialize with positional arguments
+pair = t_pair(i=1, x=0.5)  ! initialize with keyword arguments
+pair = t_pair(x=0.5, i=1)  ! keyword arguments can go in any order
 ```
 
 Example with default initialization:
@@ -47,16 +47,16 @@ type :: t_pair
 end type
 
 type(t_pair) :: pair
-pair = t_pair()         ! pair%i is 1, pair%x is 0.5
-pair = t_pair(i=2)      ! pair%i is 2, pair%x is 0.5
-pair = t_pair(x=2.7)    ! pair%i is 1, pair%x is 2.7
+pair = t_pair()       ! pair%i is 1, pair%x is 0.5
+pair = t_pair(i=2)    ! pair%i is 2, pair%x is 0.5
+pair = t_pair(x=2.7)  ! pair%i is 1, pair%x is 2.7
 ```
 
 ## Derived types in detail
 
 The full syntax of a derived type with all optional properties is presented below:
 
-```fortran
+```
 type [,attribute-list] :: name [(parameterized-declaration-list)]
     [parameterized-definition-statements]
     [private statement or sequence statement]
@@ -75,16 +75,16 @@ end type
 - `extends(`_parent_`)`, where _parent_ is the name of a previously declared derived type from which the current derived type will inherit all its members and functionality
 - `abstract` -- an object oriented feature that is covered in the advanced programming tutorial
 
-{% include note.html content="If the `attribute: bind(c)` or the `statement: sequence` is used, then a derived type cannot have the `attribute: extends` and vice versa." %}
+{% include note.html content="If the attribute `bind(c)` or the statement `sequence` is used, then a derived type cannot have the attribute `extends` and vice versa." %}
 
 The `sequence` attribute may be used only to declare that the following  members should be accessed in the same order as they are defined within the derived type. 
 
 Example with `sequence`:
 ```fortran
 type :: t_pair
-sequence
-integer :: i
-real    :: x
+    sequence
+    integer :: i
+    real    :: x
 end type
 ! init
 type(t_pair) :: pair
@@ -99,18 +99,18 @@ The attribute `bind(c)` is used to achieve compatibility between Fortran's deriv
 Example with `bind(c)`:
 ```fortran
 module f_to_c
-use iso_c_bindings, only: c_int
-implicit none
-type, bind(c) :: f_type
-    integer(c_int) :: i
-end type
+    use iso_c_bindings, only: c_int
+    implicit none
+    type, bind(c) :: f_type
+        integer(c_int) :: i
+    end type
 end module f_to_c
 ```
-matches the following C struct:
+matches the following C struct type:
 ```c
-struct{
-    int i
-}c_struct;
+struct c_struct {
+    int i;
+};
 ```
 {% include note.html content="A fortran derived type with the attribute `bind(c)` cannot have the `sequence` and `extends` attributes. Furthermore it cannot contain any Fortran `pointer` or `allocatable` types." %}
 
@@ -119,20 +119,20 @@ struct{
 Example of a derived type with `parameterized-declaration-list` and with the attribute `public`:
  ```fortran
 module m_matrix
-implicit none
-private
+    implicit none
+    private
 
-type, public :: t_matrix(rows, cols, k)
-  integer, len :: rows, cols
-  integer, kind :: k = kind(0.0)
-  real(kind = k), dimension(rows, cols) :: values
-end type 
+    type, public :: t_matrix(rows, cols, k)
+    integer, len :: rows, cols
+    integer, kind :: k = kind(0.0)
+    real(kind = k), dimension(rows, cols) :: values
+    end type 
 end module m_matrix
 
 program test_matrix
-use m_matrix
-implicit none
-type(t_matrix(rows=5, cols=5)) :: m
+    use m_matrix
+    implicit none
+    type(t_matrix(rows=5, cols=5)) :: m
 end program test_matrix
  ```
 {% include note.html content="In this example the parameter **k** has already been assigned a default value of `kind(0.0)` (floating point single precision). Therefore, it can be omitted, as is the case here in the declaration inside the main program." %}
@@ -144,46 +144,46 @@ The attribute `extends` was added in the F2003 standard and introduces an import
 Example with the attribute `extends`: 
 ```fortran
 module m_employee
-implicit none
-private
-public t_date, t_address, t_person, t_employee ! note another way of using the public attribute by gathering all public data types in one place
+    implicit none
+    private
+    public t_date, t_address, t_person, t_employee  ! note another way of using the public attribute by gathering all public data types in one place
 
-type :: t_date
-    integer                         :: year, month, day
-end type
+    type :: t_date
+        integer                       :: year, month, day
+    end type
 
-type :: t_address
-    character(len=:), allocatable   :: city, road_name
-    integer                         :: house_number
-end type
+    type :: t_address
+        character(len=:), allocatable :: city, road_name
+        integer                       :: house_number
+    end type
 
-type, extends(t_address) :: t_person
-    character(len=:), allocatable   :: first_name, last_name, e_mail  
-end type
+    type, extends(t_address) :: t_person
+        character(len=:), allocatable :: first_name, last_name, e_mail  
+    end type
 
-type, extends(t_person)  :: t_employee
-    type(t_date)                    :: hired_date
-    character(len=:), allocatable   :: position
-    real                            :: monthly_salary
-end type
+    type, extends(t_person)  :: t_employee
+        type(t_date)                  :: hired_date
+        character(len=:), allocatable :: position
+        real                          :: monthly_salary
+    end type
 end module m_employee
 
 program test_employee
-use m_employee
-implicit none
-type(t_employee) :: employee
+    use m_employee
+    implicit none
+    type(t_employee) :: employee
 
-! initialization
-employee%hired_date%year  = 2020 ! t_employee has access to type(t_date) members not because of extends but because a type(t_date) was declared within t_employee
-employee%hired_date%month = 1
-employee%hired_date%day   = 20
-employee%first_name       = 'John' !t_employee has access to t_person, and inherits its members due to extends 
-employee%last_name        = 'Doe'
-employee%city             = 'London' ! t_employee has access to t_address, because it inherits from t_person, that in return inherits from t_address
-employee%road_name        = 'BigBen'
-employee%house_number     = 1
-employee%position         = 'Intern'
-employee%monthly_salary   = 0.0
+    ! initialization
+    employee%hired_date%year  = 2020  ! t_employee has access to type(t_date) members not because of extends but because a type(t_date) was declared within t_employee
+    employee%hired_date%month = 1
+    employee%hired_date%day   = 20
+    employee%first_name       = 'John'  ! t_employee has access to t_person, and inherits its members due to extends 
+    employee%last_name        = 'Doe'
+    employee%city             = 'London'  ! t_employee has access to t_address, because it inherits from t_person, that in return inherits from t_address
+    employee%road_name        = 'BigBen'
+    employee%house_number     = 1
+    employee%position         = 'Intern'
+    employee%monthly_salary   = 0.0
 end program test_employee
 ``` 
 
@@ -205,16 +205,16 @@ Examples of common cases:
 
 ```fortran
 type :: t_example
-    !1st case: simple built-in type with access attribute and [init]
-    integer, private :: i = 0 ! private hides it from use outside of the t_example's scope. The default initialization [=0] is the [init] part. 
+    ! 1st case: simple built-in type with access attribute and [init]
+    integer, private :: i = 0  ! private hides it from use outside of the t_example's scope. The default initialization [=0] is the [init] part. 
 
-    !2nd case: protected
-    integer, protected :: i ! In contrary to private, protected allows access to i assigned value outside of t_example but is not definable, i.e. a value may be assigned to i only within t_example.
+    ! 2nd case: protected
+    integer, protected :: i  ! In contrary to private, protected allows access to i assigned value outside of t_example but is not definable, i.e. a value may be assigned to i only within t_example.
 
-    !3rd case: dynamic 1d_array
+    ! 3rd case: dynamic 1-D array
     real, allocatable, dimension(:) :: x
     ! the same as
-    real, allocatable :: x(:) ! parenthesis implies dimension(:) and is one of the possible [attr-dependent-spec]. 
+    real, allocatable :: x(:)  ! This parentheses' usage implies dimension(:) and is one of the possible [attr-dependent-spec]. 
 end type
 ```
 
@@ -230,15 +230,15 @@ Here's an example of a derived type with a basic type-bound procedure:
 
 ```fortran
 module m_shapes
-implicit none
-private
-public t_square
+    implicit none
+    private
+    public t_square
 
-type :: t_square
-    real :: side
-    contains
-        procedure :: area !procedure declaration
-end type
+    type :: t_square
+        real :: side
+        contains
+            procedure :: area  ! procedure declaration
+    end type
 
 contains
     ! procedure definition
@@ -249,32 +249,32 @@ contains
 end module m_shapes
 
 program main
-use m_shapes
-implicit none
-! variables declaration
-type(t_square) :: sq
-real :: x, side
+    use m_shapes
+    implicit none
+    ! variables declaration
+    type(t_square) :: sq
+    real :: x, side
 
-! variables initialization
-side    = 0.5
-sq%side = side
+    ! variables initialization
+    side    = 0.5
+    sq%side = side
 
-x       = sq%area() ! self does not appear here, it has been passed implicitly
-! do stuff with x...
+    x       = sq%area()  ! self does not appear here, it has been passed implicitly
+    ! do stuff with x...
 end program main
 ```
 What is new:
 
- - **self** is an arbitrary name that we chose to represent the instance of the derived type t_square inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.
+ - **self** is an arbitrary name that we chose to represent the instance of the derived type `t_square` inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.
  - We now use `class(t_square)` instead of `type(t_square)` in the interface of the `area` function. This allows us to invoke the `area` function with any derived type that extends `t_square`. The keyword `class` introduces the OOP feature polymorphism.
 
 In the above example, the type-bound procedure **area** is defined as a function and can be invoked only in an expression, for example `x = sq%area()` or `print *, sq%area()`. If you define it instead as a subroutine, you can invoke it from its own `call` statement:
 
- ```fortran
- ! change within module
- contains
+```fortran
+! change within module
+contains
     subroutine area(self, x)
-        class(t_square), intent(in)     :: self
+        class(t_square), intent(in)  :: self
         real,            intent(out) :: x
         x = self%side**2
     end subroutine
@@ -282,7 +282,7 @@ In the above example, the type-bound procedure **area** is defined as a function
 ! change within main program
 call sq%area(x)
 ! do stuff with x...
- ```
+```
 In contrast to the example with the type-bound function, we now have two arguments: 
 
 * `class(t_square), intent(in) :: self` -- the instance of the derived type itself
