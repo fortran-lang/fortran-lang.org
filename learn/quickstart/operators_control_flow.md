@@ -120,7 +120,7 @@ __Example:__ `do` loop with skip
 ```fortran
   integer :: i
   do i=1,10,2
-    print *, i   ! Print odd numbers
+    print *, i  ! Print odd numbers
   end do
 ```
 
@@ -152,9 +152,9 @@ __Example__ loop with `exit`
 
 ```fortran
   integer :: i
-  do i=1, 100
+  do i=1,100
     if (i > 10) then
-      exit ! Stop printing numbers
+      exit  ! Stop printing numbers
     end if
     print *, i
   end do
@@ -214,7 +214,7 @@ __Example__ `do concurrent()` loop
   integer, parameter :: n = 10
   real :: result_sin(n)
   integer :: i
-  do concurrent (i=1:n) ! Careful, the syntax is slightly different
+  do concurrent (i=1:n)  ! Careful, the syntax is slightly different
     result_sin(i) = sin(i*pi/4.)
   end do
   print *, result_sin
