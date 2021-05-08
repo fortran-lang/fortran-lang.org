@@ -240,12 +240,12 @@ module m_shapes
             procedure :: area  ! procedure declaration
     end type
 
-contains
-    ! procedure definition
-    real function area(self) result(res)
-        class(t_square), intent(in) :: self 
-        res = self%side**2
-    end function
+    contains
+        ! procedure definition
+        real function area(self) result(res)
+            class(t_square), intent(in) :: self
+            res = self%side**2
+        end function
 end module m_shapes
 
 program main
@@ -265,10 +265,10 @@ end program main
 ```
 What is new:
 
- - **self** is an arbitrary name that we chose to represent the instance of the derived type `t_square` inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.
+ - `self` is an arbitrary name that we chose to represent the instance of the derived type `t_square` inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.
  - We now use `class(t_square)` instead of `type(t_square)` in the interface of the `area` function. This allows us to invoke the `area` function with any derived type that extends `t_square`. The keyword `class` introduces the OOP feature polymorphism.
 
-In the above example, the type-bound procedure **area** is defined as a function and can be invoked only in an expression, for example `x = sq%area()` or `print *, sq%area()`. If you define it instead as a subroutine, you can invoke it from its own `call` statement:
+In the above example, the type-bound procedure `area` is defined as a function and can be invoked only in an expression, for example `x = sq%area()` or `print *, sq%area()`. If you define it instead as a subroutine, you can invoke it from its own `call` statement:
 
 ```fortran
 ! change within module
