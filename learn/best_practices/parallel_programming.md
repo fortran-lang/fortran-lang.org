@@ -15,16 +15,16 @@ regular Fortran code. The following code :
 
 ``` fortran
 program test_openmpi
-   !$ use omp_lib
-   implicit none
+  !$ use omp_lib
+  implicit none
 
-   integer :: nthreads
+  integer :: nthreads
 
-   nthreads = -1
-   !$ nthreads = omp_get_num_threads()
+  nthreads = -1
+  !$ nthreads = omp_get_num_threads()
 
-   ! will print the number of running threads when compiled with OpenMP, else will print -1
-   print*, "nthreads=", nthreads
+  ! will print the number of running threads when compiled with OpenMP, else will print -1
+  print*, "nthreads=", nthreads
 end program
 ```
 

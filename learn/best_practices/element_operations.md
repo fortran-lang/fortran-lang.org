@@ -16,9 +16,9 @@ function like this:
 
 ``` fortran
 real(dp) elemental function nroot(n, x) result(y)
-integer, intent(in) :: n
-real(dp), intent(in) :: x
-y = x**(1._dp / n)
+  integer, intent(in) :: n
+  real(dp), intent(in) :: x
+  y = x**(1._dp / n)
 end function
 ```
 
@@ -60,26 +60,26 @@ other array shapes:
 
 ``` fortran
 function nroot(n, x) result(y)
-integer, intent(in) :: n
-real(dp), intent(in) :: x(:)
-real(dp) :: y(size(x))
-y = x**(1._dp / n)
+  integer, intent(in) :: n
+  real(dp), intent(in) :: x(:)
+  real(dp) :: y(size(x))
+  y = x**(1._dp / n)
 end function
 
 function nroot_0d(n, x) result(y)
-integer, intent(in) :: n
-real(dp), intent(in) :: x
-real(dp) :: y
-real(dp) :: tmp(1)
-tmp = nroot(n, [x])
-y = tmp(1)
+  integer, intent(in) :: n
+  real(dp), intent(in) :: x
+  real(dp) :: y
+  real(dp) :: tmp(1)
+  tmp = nroot(n, [x])
+  y = tmp(1)
 end function
 
 function nroot_2d(n, x) result(y)
-integer, intent(in) :: n
-real(dp), intent(in) :: x(:, :)
-real(dp) :: y(size(x, 1), size(x, 2))
-y = reshape(nroot(n, reshape(x, [size(x)])), [size(x, 1), size(x, 2)])
+  integer, intent(in) :: n
+  real(dp), intent(in) :: x(:, :)
+  real(dp) :: y(size(x, 1), size(x, 2))
+  y = reshape(nroot(n, reshape(x, [size(x)])), [size(x, 1), size(x, 2)])
 end function
 ```
 
@@ -104,10 +104,10 @@ follows:
 
 ``` fortran
 function nroot(n, k, x) result(y)
-integer, intent(in) :: n, k
-real(dp), intent(in) :: x(k)
-real(dp) :: y(k)
-y = x**(1._dp / n)
+  integer, intent(in) :: n, k
+  real(dp), intent(in) :: x(k)
+  real(dp) :: y(k)
+  y = x**(1._dp / n)
 end function
 ```
 

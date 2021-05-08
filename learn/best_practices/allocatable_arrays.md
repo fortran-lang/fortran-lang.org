@@ -11,8 +11,8 @@ For example you can allocate it inside a subroutine:
 
 ``` fortran
 subroutine foo(lam)
-real(dp), allocatable, intent(out) :: lam(:)
-allocate(lam(5))
+  real(dp), allocatable, intent(out) :: lam(:)
+  allocate(lam(5))
 end subroutine
 ```
 

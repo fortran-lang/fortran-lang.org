@@ -9,12 +9,12 @@ following pattern for 1D arrays (it is called *assumed-shape*):
 
 ``` fortran
 subroutine f(r)
-real(dp), intent(out) :: r(:)
-integer :: n, i
-n = size(r)
-do i = 1, n
+  real(dp), intent(out) :: r(:)
+  integer :: n, i
+  n = size(r)
+  do i = 1, n
     r(i) = 1.0_dp / i**2
-end do
+  end do
 end subroutine
 ```
 
@@ -22,8 +22,8 @@ end subroutine
 
 ``` fortran
 subroutine g(A)
-real(dp), intent(in) :: A(:, :)
-...
+  real(dp), intent(in) :: A(:, :)
+  ...
 end subroutine
 ```
 
@@ -54,12 +54,12 @@ To use *explicit-shape* arrays, do:
 
 ``` fortran
 subroutine f(n, r)
-integer, intent(in) :: n
-real(dp), intent(out) :: r(n)
-integer :: i
-do i = 1, n
+  integer, intent(in) :: n
+  real(dp), intent(out) :: r(n)
+  integer :: i
+  do i = 1, n
     r(i) = 1.0_dp / i**2
-end do
+  end do
 end subroutine
 ```
 
@@ -67,9 +67,9 @@ end subroutine
 
 ``` fortran
 subroutine g(m, n, A)
-integer, intent(in) :: m, n
-real(dp), intent(in) :: A(m, n)
-...
+  integer, intent(in) :: m, n
+  real(dp), intent(in) :: A(m, n)
+  ...
 end subroutine
 ```
 
@@ -84,12 +84,12 @@ In order to return an array from a function, do:
 
 ``` fortran
 function f(n) result(r)
-integer, intent(in) :: n
-real(dp) :: r(n)
-integer :: i
-do i = 1, n
+  integer, intent(in) :: n
+  real(dp) :: r(n)
+  integer :: i
+  do i = 1, n
     r(i) = 1.0_dp / i**2
-end do
+  end do
 end function
 ```
 
@@ -115,12 +115,12 @@ In order for the array to start with different index than 1, do:
 
 ``` fortran
 subroutine print_eigenvalues(kappa_min, lam)
-integer, intent(in) :: kappa_min
-real(dp), intent(in) :: lam(kappa_min:)
+  integer, intent(in) :: kappa_min
+  real(dp), intent(in) :: lam(kappa_min:)
 
-integer :: kappa
-do kappa = kappa_min, ubound(lam, 1)
+  integer :: kappa
+  do kappa = kappa_min, ubound(lam, 1)
     print *, kappa, lam(kappa)
-end do
+  end do
 end subroutine
 ```

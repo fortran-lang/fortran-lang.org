@@ -8,16 +8,16 @@ There are two ways to implement callbacks to be used like this:
 
 ``` fortran
 subroutine foo(a, k)
-use integrals, only: simpson
-real(dp) :: a, k
-print *, simpson(f, 0._dp, pi)
-print *, simpson(f, 0._dp, 2*pi)
+  use integrals, only: simpson
+  real(dp) :: a, k
+  print *, simpson(f, 0._dp, pi)
+  print *, simpson(f, 0._dp, 2*pi)
 
 contains
 
 real(dp) function f(x) result(y)
-real(dp), intent(in) :: x
-y = a*sin(k*x)
+  real(dp), intent(in) :: x
+  y = a*sin(k*x)
 end function f
 
 end subroutine foo
@@ -28,23 +28,23 @@ a subroutine/function using:
 
 ``` fortran
 module integrals
-use types, only: dp
-implicit none
-private
-public simpson
+  use types, only: dp
+  implicit none
+  private
+  public simpson
 
 contains
 
 real(dp) function simpson(f, a, b) result(s)
-real(dp), intent(in) :: a, b
-interface
+  real(dp), intent(in) :: a, b
+  interface
     real(dp) function f(x)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     end function
-end interface
-s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
+  end interface
+  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
 end function
 
 end module
@@ -56,24 +56,24 @@ argument:
 
 ``` fortran
 module integrals
-use types, only: dp
-implicit none
-private
-public simpson
+  use types, only: dp
+  implicit none
+  private
+  public simpson
 
 contains
 
 real(dp) function simpson(f, a, b) result(s)
-real(dp), intent(in) :: a, b
-interface
+  real(dp), intent(in) :: a, b
+  interface
     real(dp) function func(x)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     end function
-end interface
-procedure(func) :: f
-s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
+  end interface
+  procedure(func) :: f
+  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
 end function
 
 end module
@@ -84,33 +84,33 @@ like:
 
 ``` fortran
 module integrals
-use types, only: dp
-implicit none
-private
-public simpson
+  use types, only: dp
+  implicit none
+  private
+  public simpson
 
-interface
+  interface
     real(dp) function func(x)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     end function
-end interface
+  end interface
 
 contains
 
 real(dp) function simpson(f, a, b) result(s)
-real(dp), intent(in) :: a, b
-procedure(func) :: f
-s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
+  real(dp), intent(in) :: a, b
+  procedure(func) :: f
+  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
 end function
 
 real(dp) function simpson2(f, a, b) result(s)
-real(dp), intent(in) :: a, b
-procedure(func) :: f
-real(dp) :: mid
-mid = (a + b)/2
-s = simpson(f, a, mid) + simpson(f, mid, b)
+  real(dp), intent(in) :: a, b
+  procedure(func) :: f
+  real(dp) :: mid
+  mid = (a + b)/2
+  s = simpson(f, a, mid) + simpson(f, mid, b)
 end function
 
 end module

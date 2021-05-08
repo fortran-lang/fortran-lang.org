@@ -24,11 +24,11 @@ index last ("Inner-most are left-most."). So the elements of a 3D array
 
 ``` fortran
 do i3 = 1, N3
-    do i2 = 1, N2
-        do i1 = 1, N1
-            A(i1, i2, i3)
-        end do
+  do i2 = 1, N2
+    do i1 = 1, N1
+      A(i1, i2, i3)
     end do
+  end do
 end do
 ```
 
@@ -36,9 +36,9 @@ Associated array of vectors would then be most efficiently accessed as:
 
 ``` fortran
 do i3 = 1, N3
-    do i2 = 1, N2
-        A(:, i2, i3)
-    end do
+  do i2 = 1, N2
+    A(:, i2, i3)
+  end do
 end do
 ```
 
@@ -46,7 +46,7 @@ And associated set of matrices would be most efficiently accessed as:
 
 ``` fortran
 do i3 = 1, N3
-    A(:, :, i3)
+  A(:, :, i3)
 end do
 ```
 
@@ -58,13 +58,13 @@ strides, for example the first loop would become:
 
 ``` fortran
 do i3 = 1, N3
-    Ai3 = A(:, :, i3)
-    do i2 = 1, N2
-        Ai2i3 = Ai3(:, i2)
-        do i1 = 1, N1
-            Ai2i3(i1)
-        end do
+  Ai3 = A(:, :, i3)
+  do i2 = 1, N2
+    Ai2i3 = Ai3(:, i2)
+    do i1 = 1, N1
+      Ai2i3(i1)
     end do
+  end do
 end do
 ```
 
@@ -72,10 +72,10 @@ the second loop would become:
 
 ``` fortran
 do i3 = 1, N3
-    Ai3 = A(:, :, i3)
-    do i2 = 1, N2
-        Ai3(:, i2)
-    end do
+  Ai3 = A(:, :, i3)
+  do i2 = 1, N2
+    Ai3(:, i2)
+  end do
 end do
 ```
 

@@ -22,26 +22,26 @@ Integrator:
 
 ``` fortran
 module integrals
-use types, only: dp
-implicit none
-private
-public simpson
+  use types, only: dp
+  implicit none
+  private
+  public simpson
 
 contains
 
 real(dp) function simpson(f, a, b, data) result(s)
-real(dp), intent(in) :: a, b
-interface
+  real(dp), intent(in) :: a, b
+  interface
     real(dp) function func(x, data)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     real(dp), intent(inout) :: data(:)
     end function
-end interface
-procedure(func) :: f
-real(dp), intent(inout) :: data(:)
-s = (b-a) / 6 * (f(a, data) + 4*f((a+b)/2, data) + f(b, data))
+  end interface
+  procedure(func) :: f
+  real(dp), intent(inout) :: data(:)
+  s = (b-a) / 6 * (f(a, data) + 4*f((a+b)/2, data) + f(b, data))
 end function
 
 end module
@@ -51,30 +51,30 @@ Usage:
 
 ``` fortran
 module test
-use types, only: dp
-use integrals, only: simpson
-implicit none
-private
-public foo
+  use types, only: dp
+  use integrals, only: simpson
+  implicit none
+  private
+  public foo
 
 contains
 
 real(dp) function f(x, data) result(y)
-real(dp), intent(in) :: x
-real(dp), intent(inout) :: data(:)
-real(dp) :: a, k
-a = data(1)
-k = data(2)
-y = a*sin(k*x)
+  real(dp), intent(in) :: x
+  real(dp), intent(inout) :: data(:)
+  real(dp) :: a, k
+  a = data(1)
+  k = data(2)
+  y = a*sin(k*x)
 end function
 
 subroutine foo(a, k)
-real(dp) :: a, k
-real(dp) :: data(2)
-data(1) = a
-data(2) = k
-print *, simpson(f, 0._dp, pi, data)
-print *, simpson(f, 0._dp, 2*pi, data)
+  real(dp) :: a, k
+  real(dp) :: data(2)
+  data(1) = a
+  data(2) = k
+  print *, simpson(f, 0._dp, pi, data)
+  print *, simpson(f, 0._dp, 2*pi, data)
 end subroutine
 
 end module
@@ -93,35 +93,35 @@ Integrator:
 
 ``` fortran
 module integrals
-use types, only: dp
-implicit none
-private
-public simpson, context
+  use types, only: dp
+  implicit none
+  private
+  public simpson, context
 
-type context
+  type context
     ! This would be adjusted according to the problem to be solved.
     ! For example:
     real(dp) :: a, b, c, d
     integer :: i, j, k, l
     real(dp), pointer :: x(:), y(:)
     integer, pointer :: z(:)
-end type
+  end type
 
 contains
 
 real(dp) function simpson(f, a, b, data) result(s)
-real(dp), intent(in) :: a, b
-interface
+  real(dp), intent(in) :: a, b
+  interface
     real(dp) function func(x, data)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     type(context), intent(inout) :: data
     end function
-end interface
-procedure(func) :: f
-type(context), intent(inout) :: data
-s = (b-a) / 6 * (f(a, data) + 4*f((a+b)/2, data) + f(b, data))
+  end interface
+  procedure(func) :: f
+  type(context), intent(inout) :: data
+  s = (b-a) / 6 * (f(a, data) + 4*f((a+b)/2, data) + f(b, data))
 end function
 
 end module
@@ -131,30 +131,30 @@ Usage:
 
 ``` fortran
 module test
-use types, only: dp
-use integrals, only: simpson, context
-implicit none
-private
-public foo
+  use types, only: dp
+  use integrals, only: simpson, context
+  implicit none
+  private
+  public foo
 
 contains
 
 real(dp) function f(x, data) result(y)
-real(dp), intent(in) :: x
-type(context), intent(inout) :: data
-real(dp) :: a, k
-a = data%a
-k = data%b
-y = a*sin(k*x)
+  real(dp), intent(in) :: x
+  type(context), intent(inout) :: data
+  real(dp) :: a, k
+  a = data%a
+  k = data%b
+  y = a*sin(k*x)
 end function
 
 subroutine foo(a, k)
-real(dp) :: a, k
-type(context) :: data
-data%a = a
-data%b = k
-print *, simpson(f, 0._dp, pi, data)
-print *, simpson(f, 0._dp, 2*pi, data)
+  real(dp) :: a, k
+  type(context) :: data
+  data%a = a
+  data%b = k
+  print *, simpson(f, 0._dp, pi, data)
+  print *, simpson(f, 0._dp, 2*pi, data)
 end subroutine
 
 end module
@@ -177,24 +177,24 @@ Integrator:
 
 ``` fortran
 module integrals
-use types, only: dp
-implicit none
-private
-public simpson
+  use types, only: dp
+  implicit none
+  private
+  public simpson
 
 contains
 
 real(dp) function simpson(f, a, b) result(s)
-real(dp), intent(in) :: a, b
-interface
+  real(dp), intent(in) :: a, b
+  interface
     real(dp) function func(x)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     end function
-end interface
-procedure(func) :: f
-s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
+  end interface
+  procedure(func) :: f
+  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
 end function
 
 end module
@@ -204,27 +204,27 @@ Usage:
 
 ``` fortran
 module test
-use types, only: dp
-use integrals, only: simpson
-implicit none
-private
-public foo
+  use types, only: dp
+  use integrals, only: simpson
+  implicit none
+  private
+  public foo
 
-real(dp) :: global_a, global_k
+  real(dp) :: global_a, global_k
 
 contains
 
 real(dp) function f(x) result(y)
-real(dp), intent(in) :: x
-y = global_a*sin(global_k*x)
+  real(dp), intent(in) :: x
+  y = global_a*sin(global_k*x)
 end function
 
 subroutine foo(a, k)
-real(dp) :: a, k
-global_a = a
-global_k = k
-print *, simpson(f, 0._dp, pi)
-print *, simpson(f, 0._dp, 2*pi)
+  real(dp) :: a, k
+  global_a = a
+  global_k = k
+  print *, simpson(f, 0._dp, pi)
+  print *, simpson(f, 0._dp, 2*pi)
 end subroutine
 
 end module
@@ -242,24 +242,24 @@ Integrator:
 
 ``` fortran
 module integrals
-use types, only: dp
-implicit none
-private
-public simpson
+  use types, only: dp
+  implicit none
+  private
+  public simpson
 
 contains
 
 real(dp) function simpson(f, a, b) result(s)
-real(dp), intent(in) :: a, b
-interface
+  real(dp), intent(in) :: a, b
+  interface
     real(dp) function func(x)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     end function
-end interface
-procedure(func) :: f
-s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
+  end interface
+  procedure(func) :: f
+  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
 end function
 
 end module
@@ -294,27 +294,27 @@ Integrator:
 
 ``` fortran
 module integrals
-use types, only: dp
-use iso_c_binding, only: c_ptr
-implicit none
-private
-public simpson
+  use types, only: dp
+  use iso_c_binding, only: c_ptr
+  implicit none
+  private
+  public simpson
 
 contains
 
 real(dp) function simpson(f, a, b, data) result(s)
-real(dp), intent(in) :: a, b
-interface
+  real(dp), intent(in) :: a, b
+  interface
     real(dp) function func(x, data)
     use types, only: dp
     implicit none
     real(dp), intent(in) :: x
     type(c_ptr), intent(in) :: data
     end function
-end interface
-procedure(func) :: f
-type(c_ptr), intent(in) :: data
-s = (b-a) / 6 * (f(a, data) + 4*f((a+b)/2, data) + f(b, data))
+  end interface
+  procedure(func) :: f
+  type(c_ptr), intent(in) :: data
+  s = (b-a) / 6 * (f(a, data) + 4*f((a+b)/2, data) + f(b, data))
 end function
 
 end module
@@ -324,35 +324,35 @@ Usage:
 
 ``` fortran
 module test
-use types, only: dp
-use integrals, only: simpson
-use iso_c_binding, only: c_ptr, c_loc, c_f_pointer
-implicit none
-private
-public foo
+  use types, only: dp
+  use integrals, only: simpson
+  use iso_c_binding, only: c_ptr, c_loc, c_f_pointer
+  implicit none
+  private
+  public foo
 
-type f_data
+  type f_data
     ! Only contains data that we need for our particular callback.
     real(dp) :: a, k
-end type
+  end type
 
 contains
 
 real(dp) function f(x, data) result(y)
-real(dp), intent(in) :: x
-type(c_ptr), intent(in) :: data
-type(f_data), pointer :: d
-call c_f_pointer(data, d)
-y = d%a * sin(d%k * x)
+  real(dp), intent(in) :: x
+  type(c_ptr), intent(in) :: data
+  type(f_data), pointer :: d
+  call c_f_pointer(data, d)
+  y = d%a * sin(d%k * x)
 end function
 
 subroutine foo(a, k)
-real(dp) :: a, k
-type(f_data), target :: data
-data%a = a
-data%k = k
-print *, simpson(f, 0._dp, pi, c_loc(data))
-print *, simpson(f, 0._dp, 2*pi, c_loc(data))
+  real(dp) :: a, k
+  type(f_data), target :: data
+  data%a = a
+  data%k = k
+  print *, simpson(f, 0._dp, pi, c_loc(data))
+  print *, simpson(f, 0._dp, 2*pi, c_loc(data))
 end subroutine
 
 end module
@@ -394,33 +394,33 @@ The module:
 ``` fortran
 module integrals
 
-use types, only: dp
-implicit none
-private
+  use types, only: dp
+  implicit none
+  private
 
-public :: integrand, simpson
+  public :: integrand, simpson
 
-! User extends this type
-type, abstract :: integrand
-contains
+  ! User extends this type
+  type, abstract :: integrand
+  contains
     procedure(func), deferred :: eval
-end type
+  end type
 
-abstract interface
+  abstract interface
     function func(this, x) result(fx)
-    import :: integrand, dp
-    class(integrand) :: this
-    real(dp), intent(in) :: x
-    real(dp) :: fx
+      import :: integrand, dp
+      class(integrand) :: this
+      real(dp), intent(in) :: x
+      real(dp) :: fx
     end function
-end interface
+  end interface
 
 contains
 
 real(dp) function simpson(f, a, b) result(s)
-class(integrand) :: f
-real(dp), intent(in) :: a, b
-s = ((b-a)/6) * (f%eval(a) + 4*f%eval((a+b)/2) + f%eval(b))
+  class(integrand) :: f
+  real(dp), intent(in) :: a, b
+  s = ((b-a)/6) * (f%eval(a) + 4*f%eval((a+b)/2) + f%eval(b))
 end function
 
 end module
@@ -437,35 +437,35 @@ Usage:
 ``` fortran
 module example_usage
 
-use types, only: dp
-use integrals, only: integrand, simpson
-implicit none
-private
+  use types, only: dp
+  use integrals, only: integrand, simpson
+  implicit none
+  private
 
-public :: foo
+  public :: foo
 
-type, extends(integrand) :: my_integrand
+  type, extends(integrand) :: my_integrand
     real(dp) :: a, k
-contains
+  contains
     procedure :: eval => f
-end type
+  end type
 
 contains
 
 function f(this, x) result(fx)
-class(my_integrand) :: this
-real(dp), intent(in) :: x
-real(dp) :: fx
-fx = this%a*sin(this%k*x)
+  class(my_integrand) :: this
+  real(dp), intent(in) :: x
+  real(dp) :: fx
+  fx = this%a*sin(this%k*x)
 end function
 
 subroutine foo(a, k)
-real(dp) :: a, k
-type(my_integrand) :: my_f
-my_f%a = a
-my_f%k = k
-print *, simpson(my_f, 0.0_dp, 1.0_dp)
-print *, simpson(my_f, 0.0_dp, 2.0_dp)
+  real(dp) :: a, k
+  type(my_integrand) :: my_f
+  my_f%a = a
+  my_f%k = k
+  print *, simpson(my_f, 0.0_dp, 1.0_dp)
+  print *, simpson(my_f, 0.0_dp, 2.0_dp)
 end subroutine
 
 end module
