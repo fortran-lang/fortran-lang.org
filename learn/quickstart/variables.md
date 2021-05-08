@@ -69,7 +69,7 @@ __Example:__ variable assignment
 
 ```fortran
   amount = 10
-  pi = 3.141592
+  pi = 3.1415927
   frequency = (1.0,-0.5)
   initial = 'A'
   isOkay = .false.
