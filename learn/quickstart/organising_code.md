@@ -9,15 +9,15 @@ _procedures_ that can be reused by _calling_ them from other sections of code.
 
 Fortran has two forms of procedure:
 
-- __Subroutine:__ invoked by a `call` statement
-- __Function:__ invoked within an expression or assignment to which it returns a value
+- __Subroutine__: invoked by a `call` statement
+- __Function__: invoked within an expression or assignment to which it returns a value
 
 Both subroutines and functions have access to variables in the parent scope by _argument association_;
-unless the `VALUE` attribute is specified, this is similar to call by reference.
+unless the `value` attribute is specified, this is similar to call by reference.
 
 ## Subroutines
 
-The subroutine input arguments, known as _dummy arguments_ are specified in parentheses after the subroutine name;
+The subroutine input arguments, known as _dummy arguments_, are specified in parentheses after the subroutine name;
 the dummy argument types and attributes are declared within the body of the subroutine just like local variables.
 
 __Example:__
@@ -40,7 +40,7 @@ end subroutine print_matrix
 
 
 Note the additional `intent` attribute when declaring the dummy arguments; this optional attribute signifies to the compiler whether the argument
-is 'read-only' (`intent(in)`) 'write-only' (`intent(out)`) or 'read-write' (`intent(inout)`) within the procedure.
+is ''read-only'' (`intent(in)`) ''write-only'' (`intent(out)`) or ''read-write'' (`intent(inout)`) within the procedure.
 In this example, the subroutine does not modify its arguments, hence all arguments are `intent(in)`.
 
 {% include tip.html content="It is good practice to always specify the `intent` attribute for
@@ -97,14 +97,15 @@ program run_fcn
 end program run_fcn
 ```
 
-{% include tip.html content="It is good programming practice for functions not to modify their arguments - _i.e._ all function arguments should be `intent(in)` - such
-functions are known as `pure` functions. Use subroutines if your procedure needs to modify its arguments." %}
+{% include tip.html content="It is good programming practice for functions not to modify their arguments---that is, all function arguments should be `intent(in)`.
+Such functions are known as `pure` functions.
+Use subroutines if your procedure needs to modify its arguments." %}
 
 
 ## Modules
 
-Fortran modules contain definitions that are made accessible to programs, procedures and other modules through the `use` statement.
-They can contain data objects, type definitions, procedures and interfaces.
+Fortran modules contain definitions that are made accessible to programs, procedures, and other modules through the `use` statement.
+They can contain data objects, type definitions, procedures, and interfaces.
 
 - Modules allow controlled scoping extension whereby entity access is made explicit
 - Modules automatically generate explicit interfaces required for modern procedures
