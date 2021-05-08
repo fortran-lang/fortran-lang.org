@@ -55,7 +55,7 @@ Having saved your program to `hello.f90`, compile at the command line with:
 $> gfortran hello.f90 -o hello
 ```
 
-{% include note.html content=".f90 is the standard file extension for modern fortran source files.
+{% include note.html content="`.f90` is the standard file extension for modern fortran source files.
 The 90 refers to the first modern fortran standard in 1990." %}
 
 To run your compiled program:

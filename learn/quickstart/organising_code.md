@@ -173,7 +173,7 @@ __Example:__ aliased import
   use my_mod, only: printMat=>print_matrix
 ```
 
-{% include note.html content="Each module should be written in a separate .f90 source file. Modules need to be compiled prior to any program units that `use` them." %}
+{% include note.html content="Each module should be written in a separate `.f90` source file. Modules need to be compiled prior to any program units that `use` them." %}
 
 
 
