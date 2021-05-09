@@ -51,9 +51,9 @@ We can call this subroutine from a program using a `call` statement:
 ```fortran
 program call_sub
   implicit none
-  
+
   real :: mat(10,20)
-  
+
   mat(:,:) = 0.0
 
   call print_matrix(10,20,mat)
@@ -89,7 +89,7 @@ program run_fcn
 
   real :: v(9)
   real :: vector_norm
-  
+
   v(:) = 9
 
   print *, 'Vector norm = ',vector_norm(9,v)
@@ -116,7 +116,7 @@ within modules." %}
 __Example:__ 
 
 ```fortran
-module my_mod 
+module my_mod
   implicit none
 
   private                          ! All entities are module-private by default
