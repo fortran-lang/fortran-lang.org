@@ -1,6 +1,6 @@
 ---
 layout: book
-title: Operators and Control Flow
+title: Operators and flow control
 permalink: /learn/quickstart/operators_control_flow
 ---
 

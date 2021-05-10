@@ -5,7 +5,7 @@ permalink: /learn/quickstart/variables
 ---
 
 Variables store information that can be manipulated by the program.
-Fortran is a '_strongly typed_' language, which means that each variable
+Fortran is a _strongly typed_ language, which means that each variable
 must have a type.
 
 There are 5 built-in data types in Fortran:
@@ -19,8 +19,8 @@ There are 5 built-in data types in Fortran:
 Before we can use a variable, we must _declare_ it; this tells the compiler
 the variable type and any other variable attributes.
 
-{% include note.html content="Fortran is a <b>statically typed</b> language which means the type of each
-variable is fixed when the program is compiled - variable types cannot change while the program is running." %}
+{% include note.html content="Fortran is a _statically typed_ language, which means the type of each
+variable is fixed when the program is compiled---variable types cannot change while the program is running." %}
 
 ## Declaring variables
 
