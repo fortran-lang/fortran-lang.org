@@ -216,8 +216,8 @@ contains
 
   subroutine func(self)
     class(a_t), intent(in) :: self
-    if (val > 0) then
-      print *, val
+    if (self%val > 0) then
+      print *, self%val
     end if
   end function func
 
