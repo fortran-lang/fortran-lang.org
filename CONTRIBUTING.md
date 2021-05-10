@@ -92,8 +92,8 @@ This will force the GitHub content delivery network to serve you an updated vers
 
 ### Markdown
 
-- Use [code blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code-and-syntax-highlighting),
-  denoted by back ticks (```), to surround code excerpts, programming language keywords, variables names and file names.
+- Place code excerpts in [code blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code-and-syntax-highlighting),
+  denoted by back ticks (```` ``` ````). Use inline code style (`` `code` ``) for inline code excerpts, programming language keywords, variables names and file names.
 
 - Have no more than one sentence per source-code line, and break-up long sentences across multiples lines -
    this is important to avoid large git diffs and code review blocks on github.
@@ -185,3 +185,86 @@ populated by the `<h2>` headings on the current page.
 __Implementation:__
 the functionality described above is implemented in the javascript file
 [assets/js/page_nav.js](./assets/js/page_nav.js).
+
+
+## Tutorials
+
+Guidelines for mini-book content.
+
+### General
+
+Use the `book` layout.
+
+Follow the [Markdown guidelines](#markdown).
+
+### Code style
+
+Use two spaces for indentation, indenting bodies of units but keeping the `contains` statement at the same level as its `module` or `type`. Try to limit line length to 90 characters. These considerations should make the code more readable and easier to view on devices with smaller viewport widths.
+```fortran
+module m
+  implicit none
+  private
+  public :: a_t
+
+  type :: a_t
+    integer :: val
+  contains
+    procedure :: func
+  end type a_t
+
+contains
+
+  subroutine func(self)
+    class(a_t), intent(in) :: self
+    if (val > 0) then
+      print *, val
+    end if
+  end function func
+
+end module m
+```
+
+Each code block should have a base indentation level of 0, even if it would be indented if put into a larger context.
+```fortran
+integer :: i1  ! yes
+  integer :: i2  ! no
+```
+
+Avoid vertically aligning `::` and inline comments since this adds maintenance burden and pushes the line length in most cases.
+
+If a code block contains lines that are not valid Fortran, leave it as a language-less code block to avoid the syntax highlighter's red boxes.
+```
+module <module name>
+...
+end module <module name>
+```
+
+Add spacing in expressions where it helps with readability, but otherwise limit.
+```fortran
+y1 = a*b
+y2 = a*b + c*d
+y3 = a**2 + 1
+y4 = (a*b + c*d) / 2
+s3 = s1//s2
+```
+
+**Spacing after commas?? add except in indexing?**
+
+Capitalize the first letter for inline comments except for trailing inline comments that only consist of one word or a short phrase.
+```fortran
+! Compute new values
+y = m*x + b  ! meters
+```
+
+### Text
+
+Use sentence case (as opposed to title case) for page and section titles.
+
+Use *emphasis* (`*emphasis*`/`_emphasis_`, rendered as italic) for key words/phrases, for emphasis, ...
+
+Avoid use of **strong** (`**strong**`, rendered as bold) within paragraphs, since bold style is used for headings, drawing attention to examples (**Example:**), admonition/aside titles, etc.
+
+Make use of the admonition/aside [includes](_includes) (*note*, *tip*, *important*) where appropriate.
+* *note*: extra information
+* *tip*: information about best practices, practical tips
+* *important*: warnings, etc.
