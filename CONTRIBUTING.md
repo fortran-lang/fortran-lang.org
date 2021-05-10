@@ -239,13 +239,13 @@ module <module name>
 end module <module name>
 ```
 
-Add spacing in expressions where it helps with readability, but otherwise limit.
+Feel free to omit spacing in expressions where it helps with readability, but generally include whitespace around operators.
 ```fortran
-y1 = a*b
-y2 = a*b + c*d
+y1 = a * b
+y2 = a*b + c*d  ! instead of a * b + c * d
 y3 = a**2 + 1
 y4 = (a*b + c*d) / 2
-s3 = s1//s2
+s3 = s1 // s2
 ```
 
 **Spacing after commas?? add except in indexing?**
@@ -260,11 +260,11 @@ y = m*x + b  ! meters
 
 Use sentence case (as opposed to title case) for page and section titles.
 
-Use *emphasis* (`*emphasis*`/`_emphasis_`, rendered as italic) for key words/phrases, for emphasis, ...
+Use *emphasis* (`*emphasis*`/`_emphasis_`, rendered as italic) for key words/phrases when they are first introduced, for emphasis, ...
 
 Avoid use of **strong** (`**strong**`, rendered as bold) within paragraphs, since bold style is used for headings, drawing attention to examples (**Example:**), admonition/aside titles, etc.
 
 Make use of the admonition/aside [includes](_includes) (*note*, *tip*, *important*) where appropriate.
-* *note*: extra information
+* *note*: extra information, something that might appear in a footnote
 * *tip*: information about best practices, practical tips
-* *important*: warnings, etc.
+* *important*: warnings, things to avoid, etc.
