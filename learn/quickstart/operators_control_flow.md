@@ -54,9 +54,9 @@ message to describe the nature of the `angle` variable:
 __Example:__ single branch `if`
 
 ```fortran
-  if (angle < 90.0) then
-    print *, 'Angle is acute'
-  end if
+if (angle < 90.0) then
+  print *, 'Angle is acute'
+end if
 ```
 
 In this first example, the code within the `if` construct is __only executed if__ the
@@ -70,11 +70,11 @@ We can add an alternative branch to the construct using the `else` keyword:
 __Example:__ two-branch `if`-`else`
 
 ```fortran
-  if (angle < 90.0) then
-    print *, 'Angle is acute'
-  else
-    print *, 'Angle is obtuse'
-  end if
+if (angle < 90.0) then
+  print *, 'Angle is acute'
+else
+  print *, 'Angle is obtuse'
+end if
 ```
 
 Now there are two _branches_ in the `if` construct, but __only one branch is executed__ depending
@@ -84,13 +84,13 @@ We can actually add any number of branches using `else if` to specify more condi
 
 __Example:__ multi-branch  `if`-`elseif`-`else`
 ```fortran
-  if (age < 90.0) then
-    print *, 'Angle is acute'
-  else if (angle < 180.0) then
-    print *, 'Angle is obtuse'
-  else
-    print *, 'Angle is reflex'
-  end if
+if (age < 90.0) then
+  print *, 'Angle is acute'
+else if (angle < 180.0) then
+  print *, 'Angle is obtuse'
+else
+  print *, 'Angle is reflex'
+end if
 ```
 
 When multiple conditional expressions are used, each conditional expression is tested only if none of the previous
@@ -109,19 +109,21 @@ to specify the start value and final value of our counting variable.
 __Example:__ `do` loop
 
 ```fortran
-  integer :: i
-  do i=1,10
-    print *, i
-  end do
+integer :: i
+
+do i=1,10
+  print *, i
+end do
 ```
 
 __Example:__ `do` loop with skip
 
 ```fortran
-  integer :: i
-  do i=1,10,2
-    print *, i  ! Print odd numbers
-  end do
+integer :: i
+
+do i=1,10,2
+  print *, i  ! Print odd numbers
+end do
 ```
 
 ### Conditional loop (`do while`)
@@ -132,13 +134,14 @@ in `while()` evaluates to `.true.`.
 __Example:__ `do while()` loop
 
 ```fortran
-  integer :: i
-  i = 1
-  do while (i < 11)
-    print *, i
-    i = i + 1
-  end do
-  ! Here i = 11
+integer :: i
+
+i = 1
+do while (i < 11)
+  print *, i
+  i = i + 1
+end do
+! Here i = 11
 ```
 
 ### Loop control statements (`exit` and `cycle`)
@@ -151,14 +154,15 @@ with such cases.
 __Example__ loop with `exit`
 
 ```fortran
-  integer :: i
-  do i=1,100
-    if (i > 10) then
-      exit  ! Stop printing numbers
-    end if
-    print *, i
-  end do
-  ! Here i = 11
+integer :: i
+
+do i=1,100
+  if (i > 10) then
+    exit  ! Stop printing numbers
+  end if
+  print *, i
+end do
+! Here i = 11
 ```
 
 On the other hand, `cycle` skips whatever is left of the loop and goes into the next cycle.
@@ -166,13 +170,14 @@ On the other hand, `cycle` skips whatever is left of the loop and goes into the 
 __Example__ loop with `cycle`
 
 ```fortran
-  integer :: i
-  do i=1,10
-    if (mod(i,2) == 0) then
-       cycle  ! Don't print even numbers
-    end if
-    print *, i
-  end do
+integer :: i
+
+do i=1,10
+  if (mod(i,2) == 0) then
+      cycle  ! Don't print even numbers
+  end if
+  print *, i
+end do
 ```
 {% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the innermost loop." %}
 
@@ -185,15 +190,16 @@ A recurring case in any programming language is the use of nested loops. Nested 
 __Example__ tagged nested loops
 
 ```fortran
-  integer :: i,j
-  outer_loop: do i=1,10
-    inner_loop: do j=1,10
-      if ((j+i) > 10) then  ! Print only pairs of i and j that add up to 10
-         cycle outer_loop  ! Go to the next iteration of the outer loop
-      end if
-      print *, 'I=', i, ' J=', j, ' Sum=', j+i
-    end do inner_loop
-  end do outer_loop
+integer :: i,j
+
+outer_loop: do i=1,10
+  inner_loop: do j=1,10
+    if ((j+i) > 10) then  ! Print only pairs of i and j that add up to 10
+      cycle outer_loop  ! Go to the next iteration of the outer loop
+    end if
+    print *, 'I=', i, ' J=', j, ' Sum=', j+i
+  end do inner_loop
+end do outer_loop
 ```
 
 ### Parallelizable loop (`do concurrent`)
@@ -210,12 +216,14 @@ which means they may not optimize the loop." %}
 __Example__ `do concurrent()` loop
 
 ```fortran
-  real, parameter :: pi = 3.14159265
-  integer, parameter :: n = 10
-  real :: result_sin(n)
-  integer :: i
-  do concurrent (i=1:n)  ! Careful, the syntax is slightly different
-    result_sin(i) = sin(i*pi/4.)
-  end do
-  print *, result_sin
+real, parameter :: pi = 3.14159265
+integer, parameter :: n = 10
+real :: result_sin(n)
+integer :: i
+
+do concurrent (i=1:n)  ! Careful, the syntax is slightly different
+  result_sin(i) = sin(i*pi/4.)
+end do
+
+print *, result_sin
 ```

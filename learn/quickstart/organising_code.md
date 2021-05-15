@@ -31,6 +31,7 @@ subroutine print_matrix(n,m,A)
   real, intent(in) :: A(n,m)
 
   integer :: i
+
   do i=1,n
     print *, A(i,1:m)
   end do
@@ -119,24 +120,25 @@ __Example:__
 module my_mod
   implicit none
 
-  private                          ! All entities are module-private by default
+  private  ! All entities are now module-private by default
   public public_var, print_matrix  ! Explicitly export public entities
 
   real, parameter :: public_var = 2
   integer :: private_var
 
-  contains
+contains
     
-    ! Print matrix A to screen
-    subroutine print_matrix(A)
-      real, intent(in) :: A(:,:)  ! An assumed-shape dummy argument
+  ! Print matrix A to screen
+  subroutine print_matrix(A)
+    real, intent(in) :: A(:,:)  ! An assumed-shape dummy argument
 
-      integer :: i
-      do i=1,size(A,1)
-        print *, A(i,:)
-      end do
+    integer :: i
 
-    end subroutine print_matrix
+    do i=1,size(A,1)
+      print *, A(i,:)
+    end do
+
+  end subroutine print_matrix
 
 end module my_mod
 ```
@@ -164,13 +166,13 @@ end program use_mod
 __Example:__ explicit import list
 
 ```fortran
-  use my_mod, only: public_var
+use my_mod, only: public_var
 ```
 
 __Example:__ aliased import
 
 ```fortran
-  use my_mod, only: printMat=>print_matrix
+use my_mod, only: printMat=>print_matrix
 ```
 
 {% include note.html content="Each module should be written in a separate `.f90` source file. Modules need to be compiled prior to any program units that `use` them." %}

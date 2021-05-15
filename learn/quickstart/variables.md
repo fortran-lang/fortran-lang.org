@@ -68,11 +68,11 @@ Once we have declared a variable, we can assign and reassign values to it using 
 __Example:__ variable assignment
 
 ```fortran
-  amount = 10
-  pi = 3.1415927
-  frequency = (1.0,-0.5)
-  initial = 'A'
-  isOkay = .false.
+amount = 10
+pi = 3.1415927
+frequency = (1.0,-0.5)
+initial = 'A'
+isOkay = .false.
 ```
 
 Characters are surrounded by either single (`'`) or double quotes (`"`).
@@ -92,11 +92,11 @@ This is commonly referred to as writing to `standard output` or `stdout`.
 We can use the `print` statement introduced earlier to print variable values to `stdout`:
 
 ```fortran
-  print *, 'The value of amount (integer) is: ',amount
-  print *, 'The value of pi (real) is: ',pi
-  print *, 'The value of frequency (complex) is: ',frequency
-  print *, 'The value of initial (character) is: ',initial
-  print *, 'The value of isOkay (logical) is: ',isOkay
+print *, 'The value of amount (integer) is: ',amount
+print *, 'The value of pi (real) is: ',pi
+print *, 'The value of frequency (complex) is: ',frequency
+print *, 'The value of initial (character) is: ',initial
+print *, 'The value of isOkay (logical) is: ',isOkay
 ```
 
 In a similar way, we can read values from the command window
@@ -143,7 +143,7 @@ program arithmetic
   real :: area
   real :: volume
 
-  pi = 3.141592
+  pi = 3.1415927
 
   print *, 'Enter cylinder base radius:'
   read(*,*) radius
