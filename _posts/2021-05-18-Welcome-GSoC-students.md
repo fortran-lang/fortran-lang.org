@@ -27,12 +27,13 @@ the Google Summer of Code 2021 program:
   mentors will be [Arjen Markus](https://github.com/arjenmarkus) and
   [Milan Curcic](https://github.com/milancurcic).
 * [Thirumalai Shaktivel](https://github.com/aman-godara) who will work on the
-  Abstract Syntax Tree generation in the LFortran compiler. Thirumalai's mentor
-  will be [Ondřej Čertík](https://github.com/certik).
+  Abstract Syntax Tree generation in the [LFortran](https://lfortran.org)
+  compiler. Thirumalai's mentor will be
+  [Ondřej Čertík](https://github.com/certik).
 * [Gagandeep Singh](https://github.com/czgdp1807) who will work on the support
-  of arrays and allocatables in the LFortran compilers. Gagandeep's mentor will
-  be [Ondřej Čertík](https://github.com/certik). Gagandeep was accepted under
-  the NumFOCUS application to GSoC.
+  of arrays and allocatables in the [LFortran](https://lfortran.org) compiler.
+  Gagandeep's mentor will be [Ondřej Čertík](https://github.com/certik).
+  Gagandeep was accepted under the NumFOCUS application to GSoC.
 
 This is the first year that Fortran-lang applied for Google Summer of Code, and
 we're beyond excited that our project was allocated this many student slots.
