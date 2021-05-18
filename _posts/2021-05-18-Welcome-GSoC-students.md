@@ -37,4 +37,6 @@ the Google Summer of Code 2021 program:
 
 This is the first year that Fortran-lang applied for Google Summer of Code, and
 we're beyond excited that our project was allocated this many student slots.
+You can follow students' progress in their weekly reports in the [Fortran Discourse](https://fortran-lang.discourse.group/) forum.
+
 Thank you, Google, for your support of Fortran and open source software!
