@@ -16,7 +16,7 @@ the Google Summer of Code 2021 program:
   [LFortran](https://lfortran.org) compiler, specifically toward the capability
   to compile a complex physics package. Rohit's mentor will be
   [Ondřej Čertík](https://github.com/certik).
-* [Jakub Jelinek](https://github.com/kubajj) will work on handling compiler
+* [Jakub Jelínek](https://github.com/kubajj) will work on handling compiler
   arguments in the
   [Fortran Package Manager](https://github.com/fortran-lang/fpm). Jakub's
   mentors will be [Laurence Kedward](https://github.com/lkedward) and
