@@ -26,11 +26,11 @@ the Google Summer of Code 2021 program:
   [Fortran Standard Library](https://github.com/fortran-lang/stdlib). Chetan's
   mentors will be [Arjen Markus](https://github.com/arjenmarkus) and
   [Milan Curcic](https://github.com/milancurcic).
-* [Thirumalai Shaktivel](https://gitlab.com/Thirumalai-Shaktivel) who will work
+* [Thirumalai Shaktivel](https://gitlab.com/Thirumalai-Shaktivel) will work
   on the Abstract Syntax Tree generation in the [LFortran](https://lfortran.org)
   compiler. Thirumalai's mentor will be
   [Ondřej Čertík](https://github.com/certik).
-* [Gagandeep Singh](https://github.com/czgdp1807) who will work on the support
+* [Gagandeep Singh](https://github.com/czgdp1807) will work on the support
   of arrays and allocatables in the [LFortran](https://lfortran.org) compiler.
   Gagandeep's mentor will be [Ondřej Čertík](https://github.com/certik).
   Gagandeep was accepted under the NumFOCUS application to GSoC.
