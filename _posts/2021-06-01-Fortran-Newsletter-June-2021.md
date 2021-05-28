@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: June 2021"
 category: newsletter
-author: Sebastian Ehlert
+author: Sebastian Ehlert, Milan Curcic
 ---
 
 Welcome to the June 2021 edition of the monthly Fortran newsletter.
@@ -126,6 +126,17 @@ You can watch the recording below:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/06hVFA8ApG4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+* Google Summer of Code program has announced the allocation of students to each project.
+  Fortran-lang received six studens (one through [NumFOCUS](https://numfocus.org/)) who will work across three subprojects: stdlib, fpm, and LFortran.
+  Congratulations and welcome to students
+  [Aman Godara](https://github.com/aman-godara),
+  [Rohit Goswami](https://github.com/haozeke),
+  [Jakub Jelínek](https://github.com/kubajj),
+  [Chetan Karwa](https://github.com/chetankarwa),
+  [Thirumalai Shaktivel](https://gitlab.com/Thirumalai-Shaktivel), and
+  [Gagandeep Singh](https://github.com/czgdp1807).
+  Read the full post [here](https://fortran-lang.org/newsletter/2021/05/18/Welcome-GSoC-students/).
+  
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
 
