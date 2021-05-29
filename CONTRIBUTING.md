@@ -248,13 +248,27 @@ y4 = (a*b + c*d) / 2
 s3 = s1 // s2
 ```
 
-**Spacing after commas?? add except in indexing?**
+Generally add a space after commas, except when indexing with short index values or variables names.
+```fortran
+a(:,1)
+a2(1:10, 2:5)
+b(i,j)
+b2(long_i_name, long_j_name)
+b3(i + 2, j)
+call some_subroutine(a, b, an_option=.false.)
+c = [1, 2, 3, 10]
+d = [i, i = 1, 10]
+do i = 1, 10
+! ...
+```
 
 Capitalize the first letter for inline comments except for trailing inline comments that only consist of one word or a short phrase.
 ```fortran
 ! Compute new values
 y = m*x + b  ! meters
 ```
+
+These code style recommendations are similar to those in [the DFTB+ style guide](https://dftbplus-develguide.readthedocs.io/en/latest/fortranstyle.html).
 
 ### Text
 
