@@ -5,10 +5,10 @@ permalink: /learn/quickstart/operators_control_flow
 ---
 
 One of the powerful advantages of computer algorithms, compared to simple mathematical formulae,
-comes in the form of program _branching_ whereby the program can decide which instructions to 
+comes in the form of program _branching_ whereby the program can decide which instructions to
 execute next based on a logical condition.
 
-There two main forms of controlling program flow:
+There are two main forms of controlling program flow:
 
 - _Conditional_ (if): choose program path based on a boolean (true or false) value
 
@@ -101,7 +101,7 @@ expressions have evaluated to true.
 In the following example, a `do` loop construct is used to print out the numbers in
 a sequence.
 The `do` loop has an integer _counter_ variable which is used to track which iteration of the loop
-is currently executing; in this example we use a common name for this counter variable: `i`.
+is currently executing. In this example we use a common name for this counter variable: `i`.
 
 When we define the start of the `do` loop, we use our counter variable name followed by an equals (`=`) sign
 to specify the start value and final value of our counting variable.
