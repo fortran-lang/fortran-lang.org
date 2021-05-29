@@ -262,6 +262,27 @@ do i = 1, 10
 ! ...
 ```
 
+Other situations besides simple indexings where white space can be omitted:
+* Aliasing in imports 
+  ```fortran
+  use, intrinsic :: iso_c_binding, only: sp=>c_float, dp=>c_double
+  ```
+* String concatentation
+  ```fortran
+  print *, 'hello '//'world'
+  ```
+* Accessing components (attributes) of derived types
+  ```fortran
+  p%x
+  p%calc_something(a, b)
+  ```
+* Around `=` when passing keyword arguments
+  ```fortran
+  call sr(a, b, c=3)
+  point = t_point(x=1., y=2.)
+  character(len=:), allocatable :: s
+  ```
+
 Capitalize the first letter for inline comments except for trailing inline comments that only consist of one word or a short phrase.
 ```fortran
 ! Compute new values

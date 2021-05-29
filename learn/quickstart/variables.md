@@ -26,7 +26,7 @@ variable is fixed when the program is compiled---variable types cannot change wh
 
 The syntax for declaring variables is:
 
-```fortran
+```
 <variable_type> :: <variable_name>
 ```
 
@@ -70,7 +70,7 @@ __Example:__ variable assignment
 ```fortran
 amount = 10
 pi = 3.1415927
-frequency = (1.0,-0.5)
+frequency = (1.0, -0.5)
 initial = 'A'
 isOkay = .false.
 ```
@@ -92,11 +92,11 @@ This is commonly referred to as writing to `standard output` or `stdout`.
 We can use the `print` statement introduced earlier to print variable values to `stdout`:
 
 ```fortran
-print *, 'The value of amount (integer) is: ',amount
-print *, 'The value of pi (real) is: ',pi
-print *, 'The value of frequency (complex) is: ',frequency
-print *, 'The value of initial (character) is: ',initial
-print *, 'The value of isOkay (logical) is: ',isOkay
+print *, 'The value of amount (integer) is: ', amount
+print *, 'The value of pi (real) is: ', pi
+print *, 'The value of frequency (complex) is: ', frequency
+print *, 'The value of initial (character) is: ', initial
+print *, 'The value of isOkay (logical) is: ', isOkay
 ```
 
 In a similar way, we can read values from the command window
@@ -110,7 +110,7 @@ program read_value
   print *, 'Please enter your age: '
   read(*,*) age
 
-  print *, 'Your age is: ',age
+  print *, 'Your age is: ', age
 
 end program read_value
 ```
@@ -151,13 +151,13 @@ program arithmetic
   print *, 'Enter cylinder height:'
   read(*,*) height
 
-  area = pi*radius**2.0
-  volume = area*height
+  area = pi * radius**2.0
+  volume = area * height
 
-  print *, 'Cylinder radius is: ',radius
-  print *, 'Cylinder height is: ',height
-  print *, 'Cylinder base area is: ',area
-  print *, 'Cylinder volume is: ',volume
+  print *, 'Cylinder radius is: ', radius
+  print *, 'Cylinder height is: ', height
+  print *, 'Cylinder base area is: ', area
+  print *, 'Cylinder volume is: ', volume
 
 end program arithmetic
 ```

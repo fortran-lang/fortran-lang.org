@@ -28,12 +28,12 @@ subroutine print_matrix(n,m,A)
   implicit none
   integer, intent(in) :: n
   integer, intent(in) :: m
-  real, intent(in) :: A(n,m)
+  real, intent(in) :: A(n, m)
 
   integer :: i
 
-  do i=1,n
-    print *, A(i,1:m)
+  do i = 1, n
+    print *, A(i, 1:m)
   end do
 
 end subroutine print_matrix
@@ -53,11 +53,11 @@ We can call this subroutine from a program using a `call` statement:
 program call_sub
   implicit none
 
-  real :: mat(10,20)
+  real :: mat(10, 20)
 
   mat(:,:) = 0.0
 
-  call print_matrix(10,20,mat)
+  call print_matrix(10, 20, mat)
 
 end program call_sub
 ```
@@ -93,7 +93,7 @@ program run_fcn
 
   v(:) = 9
 
-  print *, 'Vector norm = ',vector_norm(9,v)
+  print *, 'Vector norm = ', vector_norm(9,v)
 
 end program run_fcn
 ```
@@ -134,7 +134,7 @@ contains
 
     integer :: i
 
-    do i=1,size(A,1)
+    do i = 1, size(A,1)
       print *, A(i,:)
     end do
 
@@ -154,7 +154,7 @@ program use_mod
   use my_mod
   implicit none
 
-  real :: mat(10,10)
+  real :: mat(10, 10)
 
   mat(:,:) = public_var
 

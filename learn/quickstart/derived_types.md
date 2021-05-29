@@ -17,7 +17,7 @@ type :: t_pair
 end type
 ```
 
-The syntax to create a variable of type _t_pair_ and access its members is:
+The syntax to create a variable of type `t_pair` and access its members is:
 ```fortran
 ! Declare
 type(t_pair) :: pair
@@ -34,9 +34,9 @@ You can also initialize derived type members by invoking the derived type constr
 
 Example using the derived type constructor:
 ```fortran
-pair = t_pair(1, 0.5)      ! initialize with positional arguments
-pair = t_pair(i=1, x=0.5)  ! initialize with keyword arguments
-pair = t_pair(x=0.5, i=1)  ! keyword arguments can go in any order
+pair = t_pair(1, 0.5)      ! Initialize with positional arguments
+pair = t_pair(i=1, x=0.5)  ! Initialize with keyword arguments
+pair = t_pair(x=0.5, i=1)  ! Keyword arguments can go in any order
 ```
 
 Example with default initialization:
@@ -184,22 +184,22 @@ program test_employee
   ! Initialization
 
   ! t_employee has access to type(t_date) members not because of extends
-  ! but because a type(t_date) was declared within t_employee
+  ! but because a type(t_date) was declared within t_employee.
   employee%hired_date%year  = 2020  
   employee%hired_date%month = 1
   employee%hired_date%day   = 20
 
-  ! t_employee has access to t_person, and inherits its members due to extends 
+  ! t_employee has access to t_person, and inherits its members due to extends.
   employee%first_name = 'John'  
   employee%last_name  = 'Doe'
   
   ! t_employee has access to t_address, because it inherits from t_person,
-  ! which in return inherits from t_address
+  ! which in return inherits from t_address.
   employee%city         = 'London'
   employee%road_name    = 'BigBen'
   employee%house_number = 1
 
-  ! t_employee has access to its defined members
+  ! t_employee has access to its defined members.
   employee%position       = 'Intern'
   employee%monthly_salary = 0.0
 
@@ -282,7 +282,7 @@ program main
   type(t_square) :: sq
   real :: x, side
 
-  ! variables' initialization
+  ! Variables' initialization
   side = 0.5
   sq%side = side
 
@@ -304,7 +304,7 @@ In the above example, the type-bound procedure `area` is defined as a function a
 ! Change within module
 contains
   subroutine area(self, x)
-    class(t_square), intent(in)  :: self
+    class(t_square), intent(in) :: self
     real, intent(out) :: x
     x = self%side**2
   end subroutine
