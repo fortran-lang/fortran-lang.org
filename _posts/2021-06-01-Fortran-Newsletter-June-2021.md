@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: June 2021"
 category: newsletter
-author: Sebastian Ehlert, Milan Curcic
+author: Sebastian Ehlert, Milan Curcic, Laurence Kedward
 ---
 
 Welcome to the June 2021 edition of the monthly Fortran newsletter.
