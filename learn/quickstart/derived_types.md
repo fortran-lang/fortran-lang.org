@@ -140,9 +140,9 @@ program test_matrix
 
 end program test_matrix
  ```
-{% include note.html content="In this example the parameter **k** has already been assigned a default value of `kind(0.0)` (single-precision floating-point). Therefore, it can be omitted, as is the case here in the declaration inside the main program." %}
+{% include note.html content="In this example the parameter `k` has already been assigned a default value of `kind(0.0)` (single-precision floating-point). Therefore, it can be omitted, as is the case here in the declaration inside the main program." %}
 
-{% include important.html content="By default, derived types and their members are public. However, in this example, the attribute `private` is used at the beginning of the module. Therefore, everything within the module will be by default `private` unless explicitly declared as `public`. If the type **matrix** was not given the attribute `public` in the above example, then the compiler would throw an error inside **program test**." %}
+{% include important.html content="By default, derived types and their members are public. However, in this example, the attribute `private` is used at the beginning of the module. Therefore, everything within the module will be by default `private` unless explicitly declared as `public`. If the type `t_matrix` was not given the attribute `public` in the above example, then the compiler would throw an error inside `program test`." %}
 
 The attribute `extends` was added in the F2003 standard and introduces an important feature of the object oriented paradigm (OOP), namely inheritance. It allows code reusability by letting child types derive from extensible parent types: `type, extends(parent) :: child`. Here, `child` inherits all the members and functionality from `type :: parent`.
 
@@ -246,7 +246,7 @@ end type
 
 ## Type-bound procedures
 
-A derived type can contain functions or subroutines that are **bound** to it. We'll refer to them as _type-bound procedures_. Type-bound procedures follow the `contains` statement that, in turn, follows all member variable declarations.
+A derived type can contain functions or subroutines that are *bound* to it. We'll refer to them as _type-bound procedures_. Type-bound procedures follow the `contains` statement that, in turn, follows all member variable declarations.
 
 {% include note.html content="It is impossible to describe type-bound procedures in full without delving into OOP features of modern Fortran. For now we'll focus on a simple example to show their basic use." %}
 

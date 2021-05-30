@@ -12,7 +12,7 @@ that we have been using so far; in computer programming such lists are called  _
 Arrays are _multidimensional_ variables that contain more than one value
 where each value is accessed using one or more indices.
 
-{% include important.html content="Arrays in Fortran are __one-based__ by default; this means
+{% include important.html content="Arrays in Fortran are _one-based_ by default; this means
 that the first element along any dimension is at index 1." %}
 
 
@@ -69,7 +69,7 @@ program array_slice
 end program array_slice
 ```
 
-{% include note.html content="Fortran arrays are stored in __column-major__ order; the first
+{% include note.html content="Fortran arrays are stored in _column-major_ order; the first
 index varies fastest." %}
 
 ## Allocatable (dynamic) arrays

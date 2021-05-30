@@ -52,7 +52,7 @@ end program variables
 ```
 
 {% include note.html content="Fortran code is __case-insensitive__; you don't have to worry about the
-capitalisation of your variable names but it's good practice to keep it consistent." %}
+capitalisation of your variable names, but it's good practice to keep it consistent." %}
 
 Note the additional statement at the beginning of the program: `implicit none`.
 This statement tells the compiler that all variables will be explicitly declared; without 

@@ -59,7 +59,7 @@ if (angle < 90.0) then
 end if
 ```
 
-In this first example, the code within the `if` construct is __only executed if__ the
+In this first example, the code within the `if` construct is _only executed if_ the
 test expression (`angle < 90.0`) is true.
 
 {% include tip.html content="It is good practice to indent code within constructs such as `if` and `do`
@@ -77,12 +77,12 @@ else
 end if
 ```
 
-Now there are two _branches_ in the `if` construct, but __only one branch is executed__ depending
+Now there are two _branches_ in the `if` construct, but _only one branch is executed_ depending
 on the logical expression following the `if` keyword.
 
 We can actually add any number of branches using `else if` to specify more conditions:
 
-__Example:__ multi-branch  `if`-`elseif`-`else`
+__Example:__ multi-branch  `if`-`else if`-`else`
 ```fortran
 if (age < 90.0) then
   print *, 'Angle is acute'
