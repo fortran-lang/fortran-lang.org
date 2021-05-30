@@ -15,6 +15,10 @@ Fortran news from the previous month.
 
 This month we've had several updates to the website:
 
+* [#269](https://github.com/fortran-lang/fortran-lang.org/pull/269):
+  Grammar and typo fixes in main page and quickstart minibook
+* [#261](https://github.com/fortran-lang/fortran-lang.org/pull/261):
+  Script for summarizing PRs
 * [#259](https://github.com/fortran-lang/fortran-lang.org/pull/259):
   MapTran3D, RPNcalc, Gemini3D and Blocktran were added to the package index
 * [#253](https://github.com/fortran-lang/fortran-lang.org/pull/253):
@@ -22,14 +26,12 @@ This month we've had several updates to the website:
 
 Ongoing work:
 
-* [#201](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP):
-  Internationalization for fortran-lang
-* [#246](https://github.com/fortran-lang/fortran-lang.org/pull/246) (WIP):
-  Transferring fortran90.org “Fortran Best Practise” into a mini-book
 * [#255](https://github.com/fortran-lang/fortran-lang.org/pull/255) (WIP):
   Quickstart edits
-* [#261](https://github.com/fortran-lang/fortran-lang.org/pull/261) (WIP):
-  Script for summarizing PRs
+* [#246](https://github.com/fortran-lang/fortran-lang.org/pull/246) (WIP):
+  Transferring fortran90.org “Fortran Best Practise” into a mini-book
+* [#201](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP):
+  Internationalization for fortran-lang
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
 We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
@@ -38,35 +40,43 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 Here's what's new in `stdlib`:
 
-* [#355](https://github.com/fortran-lang/stdlib/pull/355):
-  Implement clip function
-* [#359](https://github.com/fortran-lang/stdlib/pull/359):
-  Add general contributing guidelines to stdlib
 * [#407](https://github.com/fortran-lang/stdlib/pull/407):
   Changed to\_title to to\_sentence and implemented correct to\_title
+* [#359](https://github.com/fortran-lang/stdlib/pull/359):
+  Add general contributing guidelines to stdlib
+* [#355](https://github.com/fortran-lang/stdlib/pull/355):
+  Implement clip function
 
 Work in progress:
 
-* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP):
-  Initial implementation of sparse matrices.
+* [#418](https://github.com/fortran-lang/stdlib/pull/418) (WIP):
+  Improved support for NAG
+* [#417](https://github.com/fortran-lang/stdlib/pull/417) (WIP):
+  Add GCC-11 to workflow
+* [#415](https://github.com/fortran-lang/stdlib/pull/415) (WIP):
+  Corrected Ubuntu version
+* [#414](https://github.com/fortran-lang/stdlib/pull/414) (WIP):
+  Implemented intelligent slice functionality
+* [#408](https://github.com/fortran-lang/stdlib/pull/408) (WIP):
+  Addition of the stdlib\_sorting module
+* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
+  Add sort to stdlib\_string\_type module
+* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP):
+  Initial checkin for a module for tolerant comparison of reals
+* [#333](https://github.com/fortran-lang/stdlib/pull/333) (WIP):
+  Provide abstract base class for a string object
+* [#313](https://github.com/fortran-lang/stdlib/pull/313) (WIP):
+  Legendre polynomials and Gaussian quadrature
+* [#311](https://github.com/fortran-lang/stdlib/pull/311) (WIP):
+  Implementation of a module for handling lists of strings
 * [#272](https://github.com/fortran-lang/stdlib/pull/272) (WIP),
   [#273](https://github.com/fortran-lang/stdlib/pull/273) (WIP),
   [#276](https://github.com/fortran-lang/stdlib/pull/276) (WIP),
   [#278](https://github.com/fortran-lang/stdlib/pull/278) (WIP):
   Implementation of the `stdlib_stats_distribution` modules.
   It provides probability distribution and statistical functions.
-* [#311](https://github.com/fortran-lang/stdlib/pull/311) (WIP):
-  Implementation of a module for handling lists of strings
-* [#313](https://github.com/fortran-lang/stdlib/pull/313) (WIP):
-  Legendre polynomials and Gaussian quadrature
-* [#333](https://github.com/fortran-lang/stdlib/pull/333) (WIP):
-  Provide abstract base class for a string object
-* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP):
-  Initial checkin for a module for tolerant comparison of reals
-* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
-  Add sort to stdlib\_string\_type module
-* [#408](https://github.com/fortran-lang/stdlib/pull/408) (WIP):
-  Addition of the stdlib\_sorting module
+* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP):
+  Initial implementation of sparse matrices.
 
 
 Please help improve stdlib by testing and [reviewing pull requests](https://github.com/fortran-lang/stdlib/issues?q=is%3Apr+is%3Aopen+label%3A%22reviewers+needed%22)!
@@ -78,22 +88,27 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 ## Fortran Package Manager
 
+Here is what is new in *fpm*:
+
+* [#450](https://github.com/fortran-lang/fpm/pull/450):
+  Remove coarray flag from intel debug settings
+* [#423](https://github.com/fortran-lang/fpm/pull/423):
+  Use default instead of master to reference the repository HEAD
+
 Work in progress:
 
 * [First beta release](https://github.com/fortran-lang/fpm/milestone/1) (WIP):
   First feature-complete release of the Fortran implementation.
-* [#364](https://github.com/fortran-lang/fpm/pull/364) (WIP):
-  Plugin alpha version
-* [#423](https://github.com/fortran-lang/fpm/pull/423) (WIP):
-  Use default instead of master to reference the repository HEAD
-* [#444](https://github.com/fortran-lang/fpm/pull/444) (WIP):
-  Allow to find include files / modules in CPATH environment variable
-* [#449](https://github.com/fortran-lang/fpm/pull/449) (WIP):
-  Response files with ar on Windows
-* [#450](https://github.com/fortran-lang/fpm/pull/450) (WIP):
-  Remove coarray flag from intel debug settings
+* [#483](https://github.com/fortran-lang/fpm/pull/483) (WIP):
+  Allow fpm to change the working directory
 * [#451](https://github.com/fortran-lang/fpm/pull/451) (WIP):
   Refactor: use objects to represent compilers and archiver
+* [#449](https://github.com/fortran-lang/fpm/pull/449) (WIP):
+  Response files with ar on Windows
+* [#444](https://github.com/fortran-lang/fpm/pull/444) (WIP):
+  Allow to find include files / modules in CPATH environment variable
+* [#364](https://github.com/fortran-lang/fpm/pull/364) (WIP):
+  Plugin alpha version
 
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
