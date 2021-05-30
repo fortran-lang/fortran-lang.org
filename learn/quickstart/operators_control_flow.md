@@ -84,7 +84,7 @@ We can actually add any number of branches using `else if` to specify more condi
 
 __Example:__ multi-branch  `if`-`else if`-`else`
 ```fortran
-if (age < 90.0) then
+if (angle < 90.0) then
   print *, 'Angle is acute'
 else if (angle < 180.0) then
   print *, 'Angle is obtuse'
