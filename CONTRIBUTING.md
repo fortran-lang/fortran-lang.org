@@ -257,7 +257,7 @@ b2(long_i_name, long_j_name)
 b3(i + 2, j)
 call some_subroutine(a, b, an_option=.false.)
 c = [1, 2, 3, 10]
-d = [i, i = 1, 10]
+d = [(i, i = 1, 10)]
 do i = 1, 10
 ! ...
 ```
