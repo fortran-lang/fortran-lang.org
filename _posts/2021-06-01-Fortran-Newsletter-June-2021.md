@@ -40,6 +40,10 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 Here's what's new in `stdlib`:
 
+* [#417](https://github.com/fortran-lang/stdlib/pull/417):
+  Add GCC-11 to workflow
+* [#415](https://github.com/fortran-lang/stdlib/pull/415):
+  Corrected Ubuntu version
 * [#407](https://github.com/fortran-lang/stdlib/pull/407):
   Changed to\_title to to\_sentence and implemented correct to\_title
 * [#359](https://github.com/fortran-lang/stdlib/pull/359):
@@ -49,12 +53,12 @@ Here's what's new in `stdlib`:
 
 Work in progress:
 
+* [#420](https://github.com/fortran-lang/stdlib/pull/420) (WIP):
+  First implementation of real-valued linspace.
+* [#419](https://github.com/fortran-lang/stdlib/pull/419) (WIP):
+  Allow modification of install directory for module files
 * [#418](https://github.com/fortran-lang/stdlib/pull/418) (WIP):
   Improved support for NAG
-* [#417](https://github.com/fortran-lang/stdlib/pull/417) (WIP):
-  Add GCC-11 to workflow
-* [#415](https://github.com/fortran-lang/stdlib/pull/415) (WIP):
-  Corrected Ubuntu version
 * [#414](https://github.com/fortran-lang/stdlib/pull/414) (WIP):
   Implemented intelligent slice functionality
 * [#408](https://github.com/fortran-lang/stdlib/pull/408) (WIP):
