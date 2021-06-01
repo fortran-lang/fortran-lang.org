@@ -2,6 +2,151 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 483,
+            "user": "awvwgk",
+            "date": "2021-05-27 18:12:11+00:00",
+            "title": "Allow fpm to change the working directory",
+            "text": "This allow to use fpm -C <PATH> to change the working directory and enables the automatic discovery of a package manifest in the parent directories.\nExplicitly changing of directories\n-C, --directory PATH: Change working directory to PATH before running any command.\nAfter checking out this pull request locally, you should be able to build the example package by:\nfpm run -- build -C example_packages/hello_fpm\n\nAutomatic discovery of manifest files\nWith a directory changing mechanism we can also easily implement a mechanism to \u201dfind\u201d the package manifest in a parent directory. For this purpose fpm will retrieve the current working directory and check if a package manifest exists in any of the parent directories. By changing to this directory, all other commands can be used directly without modification.\nYou should be able to check this behavior with\nfpm run -- build -C example_packages/hello_fpm/app\n\nIf you copy / install the fpm executable you can also check the automatic discovery without the -C / --directory option. It should work just the same.\nPlease try to break this feature.\n\nCaveats\nThis introduces preprocessor usage into fpm, not sure if we are actually able to avoid it without using compiler extensions at this point.\nRelated #481, #172",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-05-27 18:29:57+00:00",
+                    "text": "I don't think this PR closes #481 (or its duplicate #172). To close it, it should work by running fpm without any -C option.\nI think this PR closes #411 and #410. My only question would be whether it the flag should be called -C or rather --directory as suggested in those issues."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-27 18:42:55+00:00",
+                    "text": "Yes, this would only close #411. The idea for #410 is subtly different and would actually require a different command line option so that it can be used in combination with #411.\nEdit: Milan gives a good example and explanation in #411 for how they could be used in combination"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-27 19:43:13+00:00",
+                    "text": "Okay, than let's try this:\n\nfpm can change with -C or --directory the working directory.\nfpm will search within the file system boundaries for an fpm.toml file, if it finds a package manifest, it will change to this directory\n\nGive it a try:\n\u276f fpm run -- build -C example_packages/hello_fpm/app\nfpm: Entering directory '/home/awvwgk/projects/src/git/fortran-package-manager/example_packages/hello_fpm/app'\nfpm: Entering directory '/home/awvwgk/projects/src/git/fortran-package-manager/example_packages/hello_fpm'\nfpm: Leaving directory '/home/awvwgk/projects/src/git/fortran-package-manager/example_packages/hello_fpm'\nfpm: Leaving directory '/home/awvwgk/projects/src/git/fortran-package-manager/example_packages/hello_fpm/app'"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-28 12:46:00+00:00",
+                    "text": "Autodiscovery seems to works nicely but would it not be better to change back to the original directory after the model has been built? This would allow me to do fpm run or fpm test in a different directory to the directory containing the manifest (like #410). By example, if I run git status in a subdirectory, then it finds the git repo in the parent directory but still executes the subcommand as if it's in the current directory.\nIt seems that we still need two separate options:\n\n--manifest-path (as in #411) which only affects the project root and defaults to the autodiscovery process here\n--directory as implemented here, change directory before doing anything\n\nWhat do you think?"
+                }
+            ]
+        },
+        {
+            "number": 482,
+            "user": "isuruf",
+            "date": "2021-05-27 16:52:35+00:00",
+            "title": "Support appending flags",
+            "text": "In other build systems, a user can give a set of flags that are appended to the default set of flags.\nfpm build --flag <flags> overrides the defaults which is not what I want.\nAlso, it'd be great if this was supported as an environment flag FFLAGS which would make fpm\nbehave like every other build system. (CMake, autoconf, setuptools, meson, etc)",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-27 16:56:59+00:00",
+                    "text": "To retain the defaults you can specify the profile you want to append your flags to\nfpm build --profile release --flag <flag>\n\nReading from FFLAGS automatically would be nice, but we are also ignoring FC right now and use our own FPM_COMPILER variable instead."
+                },
+                {
+                    "user": "isuruf",
+                    "date": "2021-05-27 16:58:52+00:00",
+                    "text": "Thanks @awvwgk. If I have a set of flags in FFLAGS, I can't pass them like fpm build --profile release --flag $FFLAGS  right? Is there a way to send in multiple without specifying --flag multiple times?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-27 16:59:52+00:00",
+                    "text": "I don't see why\nfpm build --profile release --flag \"$FFLAGS\"\n\nwouldn't work for this purpose."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-27 17:00:41+00:00",
+                    "text": "We are actually using this already for bootstrapping:\n\n  \n    \n      fpm/install.sh\n    \n    \n         Line 69\n      in\n      6d9004d\n    \n    \n    \n    \n\n        \n          \n           $BOOTSTRAP_DIR/fpm install --compiler \"$FC\" --flag \"$FFLAGS\" --prefix \"$PREFIX\""
+                },
+                {
+                    "user": "isuruf",
+                    "date": "2021-05-27 17:01:20+00:00",
+                    "text": "That's great. Thanks."
+                }
+            ]
+        },
+        {
+            "number": 481,
+            "user": "certik",
+            "date": "2021-05-27 16:18:13+00:00",
+            "title": "Add an option to run fpm in a subdirectory",
+            "text": "Currently fpm must be run from the root directory where fpm.toml is. We should extend the usage to also work in any subdirectory of the project. Just like git works. That way you can go into into a subdirectory, use vim to edit a file and do fpm build or fpm test to run tests right away. Currently you have to have two terminals open, one where you run fpm build and another way where you can go into subdirectories to edit files.\nRelated issues: #411, #410.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-27 16:45:48+00:00",
+                    "text": "As a vim user I have to strongly disagree on the above issue, so far it never occurred to me to leave the project root directory to edit a file.\nJoke aside, a -C like option would be a welcome addition. I would prefer we find a way to implement it without explicitly carrying around the current working directory in the fpm source and pass it along to shell processes spawned by execute_command_line, maybe there is a simple solution to change the working directory for the process using stdlib_os."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-27 17:49:32+00:00",
+                    "text": "Duplicate of #172. See there for some brief discussion of using chdir for this."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-27 18:23:24+00:00",
+                    "text": "Closing in favor of #172."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-27 18:25:14+00:00",
+                    "text": "As a vim user I have to strongly disagree on the above issue, so far it never occurred to me to leave the project root directory to edit a file.\n\nCan you be more specific what you strongly disagree with? What I described is a very common workflow situation, as for example described in #172."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-27 18:48:29+00:00",
+                    "text": "Just a curiosity I noticed, many people use cd src; vim fpm.f90 rather than just using vim src/fpm.f90. The latter will retain the working directory as the project toplevel and allow to easily run commands with :!fpm run from inside vim, together with the netrw built-in file navigator (:E) I usually tend to open a single vim session while working on a project without ever changing directories. It's quite liberating to know you can always run any command straight from vim in the project root."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-27 20:45:33+00:00",
+                    "text": "I see. Yes, I used to use :!... a lot. I even have this in my .vimrc:\nmap <F10> :!/usr/bin/env python %<CR>\nTo run the currently opened file. But being in the current directory and :!fpm run should now work also due to #483. I also frequently escape vim and do git diff . to see the changes just in this directory, ls, etc."
+                }
+            ]
+        },
+        {
+            "number": 475,
+            "user": "awvwgk",
+            "date": "2021-05-21 14:25:42+00:00",
+            "title": "Universal Fortran compiler",
+            "text": "Suggested on discourse: https://fortran-lang.discourse.group/t/gsoc-project-meeting-fpm-compiler-flags/1265/3\nI really like the idea of having an universal Fortran compiler in fpm. We could have fpm provide a compiler wrapper which abstracts existing compilers and tries to normalize command line options. The possibly best way to realize this might be a separate fpm project which provides an fpm-compiler command as standalone and fpm plugin as well as a library which fpm can depend on to actually make use of the compiler abstraction for the target compilation.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-24 07:42:13+00:00",
+                    "text": "I'm also a fan of this idea and it is not something I'd ever considered before. This would also open up the opportunity to standardise a directory structure for distributing Fortran module-based libraries as discussed here."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-27 16:25:57+00:00",
+                    "text": "Indeed. I think there is a large common denominator of all Fortran compilers, that we should provide a unified interface to. This is another avenue to tackle #443, as we slowly build this \"unified interface\", we can then use it in fpm itself to provide good support for things like fast-math or debugging options such as array bounds checking."
+                }
+            ]
+        },
+        {
+            "number": 473,
+            "user": "HaoZeke",
+            "date": "2021-05-12 11:13:06+00:00",
+            "title": "Caching `fpm` version",
+            "text": "Currently the cache.toml file does not include the version of fpm used to generate it; unless fpm is specified as a dependency in the fpm.toml file. This seems a little counter-intuitive; and it might make sense for the cache.toml file to include the fpm version used by default.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-12 11:44:20+00:00",
+                    "text": "I like the idea, but I don't see how fpm could make use of this information right now. If fpm 0.3.0 changes the cache.toml format and receives a cache.toml generated from fpm 0.2.0 it would probably invalidate the cache automatically and regenerate it rather than migrating it internally to the new format right now. Migrating from a version to another requires to keep a track of the schema changes in fpm in some way (it's possible with toml-f, but maybe not worth the effort as long as cache.toml is a build artifact rather than an actual lock file).\nInstead we should think about versioning the dependency lock file format once we implement it."
+                },
+                {
+                    "user": "HaoZeke",
+                    "date": "2021-05-12 11:51:30+00:00",
+                    "text": "Ah that makes sense. I was under the impression that the cache.toml was meant to be the dependency lock file; will close this and keep an eye out for the discussion about the lock file format!"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-12 11:55:07+00:00",
+                    "text": "See #320"
+                }
+            ]
+        },
+        {
             "number": 469,
             "user": "p-costa",
             "date": "2021-04-30 11:08:34+00:00",
@@ -139,6 +284,16 @@
                     "user": "LKedward",
                     "date": "2021-04-24 13:38:12+00:00",
                     "text": "Thanks for reporting; that's a little annoying. Looks like this execute command line needs to be piped to /dev/null and the Windows equivalent.\n\n  \n    \n      fpm/src/fpm_environment.f90\n    \n    \n         Line 196\n      in\n      a9adf2b\n    \n    \n    \n    \n\n        \n          \n           call execute_command_line(\"ar --version\", exitstat=estat)"
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-05-09 02:26:01+00:00",
+                    "text": "I think the archiver resolution should be part of a more general toolchain profile. For example, if the compiler is gfortran, then fpm can assume the archiver is ar, the assembler is as, the C++ compiler is g++, etc."
+                },
+                {
+                    "user": "isuruf",
+                    "date": "2021-05-27 16:55:06+00:00",
+                    "text": "For example, if the compiler is gfortran, then fpm can assume the archiver is ar, the assembler is as, the C++ compiler is g++, etc.\n\nfpm should first look at AR env variable and if not set ask gfortran what the archiver name is gfortran -print-prog-name=ar should give the archiver name.\ncc @certik"
                 }
             ]
         },
@@ -302,6 +457,11 @@
                     "user": "ivan-pi",
                     "date": "2021-04-17 16:19:17+00:00",
                     "text": "That works, but the file needs to given the .F90 suffix in order to invoke the preprocessor automatically (for all compilers). In the long term, I would ultimately prefer the system fftw packages change their default install location (and suffix) of the interface files (unless we reach agreement that /usr/include/ is the right location for these).\nAnother option would be to offer an fftw3 module fpm package in a fortran-lang repository."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-05-24 11:30:01+00:00",
+                    "text": "Should this be of use, sometime ago I wrote a module to read pkg-config files, including substitution of macros.\nSee the attached file: pkgconfig.f90.txt"
                 }
             ]
         },
@@ -446,6 +606,11 @@
                     "user": "milancurcic",
                     "date": "2021-04-20 17:56:10+00:00",
                     "text": "I'm sorry if my comment sounded dismissive.\n\n@ivan-pi I apologize for assuming too much about your comment and not taking it in the best light. I know that you didn't mean to be dismissive."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-05-04 12:47:52+00:00",
+                    "text": "FYI, I wrote a small program (already some time ago in response to this ticket, but I seem to have forgotten to post it) that reads these pkgconfig files, including the substitution of macros. Maybe it is useful for fpm.\npkgconfig.f90.txt"
                 }
             ]
         },
@@ -616,6 +781,26 @@
                     "user": "ivan-pi",
                     "date": "2021-04-20 16:44:18+00:00",
                     "text": "Back to the original question, there is another approach not mentioned: fpm could search the common system paths itself, such as /usr/include for modules, /usr/lib*/* for libraries etc (Edit: on second thought this may not be needed for linking). I don't think this is a good idea, but putting it out there.\n\nI think this is a good idea. We can combine all the ideas in here into a subcommand, fpm-find module(s) [compiler] [arch]. It will do whatever is necessary to find the correct modules and report back to fpm. fpm can save the results to cache.toml.\n\nIn a way this is similar to the suggestion from Brad in #444 (comment):\n\nAlso, given the (relatively) small number of external packages that may need to be supported this way, should they be supported as \"features\" that are on for a package that needs them, and users have a config file (maybe $HOME/.config/fpm.toml) that specifies where the installation resides for a given compiler? That seems like the easiest system for users to maintain."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-05-17 06:04:03+00:00",
+                    "text": "Any updates on this a plan for resolving this issue?  I like the idea of a subcommand fpm-find module(s) [compiler] [arch].\nI'm converting an application from cmake to fpm.   The application contains a use netcdf statement so I used homebrew to install netcdf  on macOS, which installed /usr/local/Cellar/netcdf/4.8.0_1/include/netcdf.mod.  How can I tell fpm where to search for netcdf.mod?"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-05-17 06:20:16+00:00",
+                    "text": "I tried\n \u00b1 fpm build --flag -J/usr/local/Cellar/netcdf/4.8.0_1/include/  \n + mkdir -p build/gfortran_2B85EFB7FAF749F9/icar\n + gfortran -c ./src/constants/icar_constants.f90 -J/usr/local/Cellar/netcdf/4.8.0_1/include/ -J build/gfortran_2B85EFB7FAF749F9/icar -I build/gfortran_2B85EFB7FAF749F9/icar  -o build/gfortran_2B85EFB7FAF749F9/icar/src_constants_icar_constants.f90.o\nf951: Fatal Error: gfortran: Only one '-J' option allowed\ncompilation terminated.\n Command failed\nERROR STOP"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-17 06:48:49+00:00",
+                    "text": "I tried\n \u00b1 fpm build --flag -J/usr/local/Cellar/netcdf/4.8.0_1/include/  \n + mkdir -p build/gfortran_2B85EFB7FAF749F9/icar\n + gfortran -c ./src/constants/icar_constants.f90 -J/usr/local/Cellar/netcdf/4.8.0_1/include/ -J build/gfortran_2B85EFB7FAF749F9/icar -I build/gfortran_2B85EFB7FAF749F9/icar  -o build/gfortran_2B85EFB7FAF749F9/icar/src_constants_icar_constants.f90.o\nf951: Fatal Error: gfortran: Only one '-J' option allowed\ncompilation terminated.\n Command failed\nERROR STOP \n\n\ntry -I instead of -J."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-17 07:31:31+00:00",
+                    "text": "@rouson, for netcdf you may want to try my netcfd-interfaces fpm package for a compiler-independent solution. I have not tested it on MacOS, but as long as you can link against the NetCDF library, then the package should work as an alternative to needing to find the corresponding .mod file."
                 }
             ]
         },
@@ -624,7 +809,7 @@
             "user": "LKedward",
             "date": "2021-04-12 15:56:00+00:00",
             "title": "Add: external-modules key to build table for non-fpm modules",
-            "text": "Resolves #405 by allowing external modules to be specified in the manifest.\ne.g.\n[build]\nexternal-modules = \"netcdff\"\nSee also: #377 (comment), fortran-lang/fpm-registry#39 (comment)",
+            "text": "Resolves #405 by allowing external modules to be specified in the manifest.\ne.g.\n[build]\nexternal-modules = \"netcdff\"\n  \n    \n    \n\n    \n    \n\n  \n\n\nSee also: #377 (comment), fortran-lang/fpm-registry#39 (comment)",
             "comments": [
                 {
                     "user": "milancurcic",
@@ -1870,7 +2055,7 @@
             "user": "urbanjost",
             "date": "2021-02-24 00:34:37+00:00",
             "title": "close #371",
-            "text": "This should close #371.\nAfter running\n$fpm new TESTIT --app\n$fpm build --compiler ifort --verbose\n$fpm build --compiler ifort --verbose --release\nyou now get\n$fpm build --compiler ifort --verbose --release\n <INFO>BUILD_NAME:release\n <INFO>COMPILER:  ifort\n <INFO>COMPILER OPTIONS:   -fp-model precise -pc 64 -align all\n                           -error-limit 1 -reentrancy threaded -nogen-interfaces -assume byterecl\n                           -module build/ifort_release/TESTIT -I build/ifort_release/TESTIT\n$fpm build --compiler ifort --verbose --release\n <INFO>BUILD_NAME:debug\n <INFO>COMPILER:  ifort\n <INFO>COMPILER OPTIONS:   -warn all -check:all:noarg_temp_created\n                           -error-limit 1 -O0 -g -assume byterecl -traceback  -module\n                           build/ifort_debug/TESTIT -I build/ifort_debug/TESTIT",
+            "text": "This should close #371.\nAfter running\n$fpm new TESTIT --app\n$fpm build --compiler ifort --verbose\n$fpm build --compiler ifort --verbose --release\n  \n    \n    \n\n    \n    \n\n  \n\n\nyou now get\n$fpm build --compiler ifort --verbose --release\n <INFO>BUILD_NAME:release\n <INFO>COMPILER:  ifort\n <INFO>COMPILER OPTIONS:   -fp-model precise -pc 64 -align all\n                           -error-limit 1 -reentrancy threaded -nogen-interfaces -assume byterecl\n                           -module build/ifort_release/TESTIT -I build/ifort_release/TESTIT\n$fpm build --compiler ifort --verbose --release\n <INFO>BUILD_NAME:debug\n <INFO>COMPILER:  ifort\n <INFO>COMPILER OPTIONS:   -warn all -check:all:noarg_temp_created\n                           -error-limit 1 -O0 -g -assume byterecl -traceback  -module\n                           build/ifort_debug/TESTIT -I build/ifort_debug/TESTIT",
             "comments": []
         },
         {
@@ -2277,6 +2462,11 @@
                     "user": "urbanjost",
                     "date": "2021-04-02 02:09:31+00:00",
                     "text": "I have a which(3f) function that uses ISO_C_BINDING interfaces to POSIX routines that checks execute permission, but did not have an equivalent for other systems so I simplified which(3f) so it just tests for file existence, which can be done with pure Fortran. I am assuming that stdlib will provide such a function in the future. I started a separate module in my private files called M_OS where I was experimenting with the reliability of separator, the reliability of testing for certain theoretically OS-specific files, environmental variables and other ways to emulate the uname(3f) POSIX function but have not had the time recently to pursue that, put in my own projects I have found that separator is useful of itself, particularly in MSWIndows where old tricks like testing for the directory ./ no longer work as POSIX and DOS filepaths are sometimes both supported. If fpm is assumed to require gfortran there are gfortran extensions that can be used to solve all those issues. Essentially, the M_OS module is just a module whose purpose is to determine OS-specific information (what file separator should I use, what OS am I using (letting me assume certain commands will be available, for example). Considering in the POSIX world I just call uname(1) it is surprisingly complex to just say \"where am I\" in a really robust way.\nSo I am aware of the limitations but felt this was sufficient for an initial prototype. A plugin becomes potentially much more powerful if it can use fpm(1) as a package.  This prototype is essentially laying some groundwork for exploring the possibilities\nof a modular project environment. If a well-defined API is defined for even a few parts of the core pure-Fortran core of fpm then\nyou could do things like have separate programs for different OSes for other functions but still let the user interface with fpm as an integrated package, for example.  As-is, it is really just providing an alias for a command but I think it has intriguing potential for allowing functions such as search, GUI interfaces, and system-dependent functions to develop in parallel with the core functionality. And at this point it  is essentially transparent and can be ignored by users of the core functionalities."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-24 16:00:31+00:00",
+                    "text": "@urbanjost, I think there is a strong consensus to move this PR forward. Do you need help resolving the conflicts?"
                 }
             ]
         },
@@ -3856,7 +4046,7 @@
             "user": "certik",
             "date": "2020-12-09 20:40:24+00:00",
             "title": "Initial implementation of `fpm build --show-model`",
-            "text": "It prints a human readable representation of the Model. An example:\n$ fpm build --show-model\n(fpm [(app/main.f90 fpm 3 .false. ...) (test/cli_test/cli_test.f90 cli-test 4 .false. ...) (test/fpm_test/main.f90 fpm-test 4 .false. ...) (test/fpm_test/test_backend.f90 \"\" 4 .false. ...) (test/fpm_test/test_manifest.f90 \"\" 4 .false. ...) (test/fpm_test/test_module_dependencies.f90 \"\" 4 .false. ...) (test/fpm_test/test_source_parsing.f90 \"\" 4 .false. ...) (test/fpm_test/testsuite.f90 \"\" 4 .false. ...) (test/fpm_test/test_toml.f90 \"\" 4 .false. ...) (test/fpm_test/test_versioning.f90 \"\" 4 .false. ...) (test/help_test/help_test.f90 help-test 4 .false. ...) (test/new_test/new_test.f90 new-test 4 .false. ...) (./src/fpm_backend.f90 \"\" 1 .false. ...) (./src/fpm_command_line.f90 \"\" 1 .false. ...) (./src/fpm_compiler.f90 \"\" 1 .false. ...) (./src/fpm_environment.f90 \"\" 1 .false. ...) (./src/fpm.f90 \"\" 1 .false. ...) (./src/fpm_filesystem.f90 \"\" 1 .false. ...) (./src/fpm_model.f90 \"\" 1 .false. ...) (./src/fpm_sources.f90 \"\" 1 .false. ...) (./src/fpm_strings.f90 \"\" 1 .false. ...) (./src/fpm_targets.f90 \"\" 1 .false. ...) (./src/fpm/error.f90 \"\" 1 .false. ...) (./src/fpm/git.f90 \"\" 1 .false. ...) (./src/fpm/manifest.f90 \"\" 1 .false. ...) (./src/fpm/toml.f90 \"\" 1 .false. ...) (./src/fpm/versioning.f90 \"\" 1 .false. ...) (./src/fpm/cmd/new.f90 \"\" 1 .false. ...) (./src/fpm/manifest/build.f90 \"\" 1 .false. ...) (./src/fpm/manifest/dependency.f90 \"\" 1 .false. ...) (./src/fpm/manifest/executable.f90 \"\" 1 .false. ...) (./src/fpm/manifest/library.f90 \"\" 1 .false. ...) (./src/fpm/manifest/package.f90 \"\" 1 .false. ...) (./src/fpm/manifest/test.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/all.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/constants.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/datetime.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/de.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/error.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/ser.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/structure.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/utils.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/version.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/array.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/keyval.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/merge.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/table.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/de/character.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/de/tokenizer.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/structure/base.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/structure/vector.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/array.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/keyval.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/table.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/value.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/utils/convert.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/utils/verify.f90 \"\" 1 .false. ...) (build/dependencies/M_CLI2/src/M_CLI2.f90 \"\" 1 .false. ...)] ...)\n\nIt doesn't yet convert all of the model (it prints ... for things it skips), but it gives an idea how it would look like. Let me know if this approach looks good and I should finish printing all of the model in the same way.\nThe motivation for this feature is to be able to more easily learn and debug fpm's internals, and learn how to write a new backend.",
+            "text": "It prints a human readable representation of the Model. An example:\n$ fpm build --show-model\n(fpm [(app/main.f90 fpm 3 .false. ...) (test/cli_test/cli_test.f90 cli-test 4 .false. ...) (test/fpm_test/main.f90 fpm-test 4 .false. ...) (test/fpm_test/test_backend.f90 \"\" 4 .false. ...) (test/fpm_test/test_manifest.f90 \"\" 4 .false. ...) (test/fpm_test/test_module_dependencies.f90 \"\" 4 .false. ...) (test/fpm_test/test_source_parsing.f90 \"\" 4 .false. ...) (test/fpm_test/testsuite.f90 \"\" 4 .false. ...) (test/fpm_test/test_toml.f90 \"\" 4 .false. ...) (test/fpm_test/test_versioning.f90 \"\" 4 .false. ...) (test/help_test/help_test.f90 help-test 4 .false. ...) (test/new_test/new_test.f90 new-test 4 .false. ...) (./src/fpm_backend.f90 \"\" 1 .false. ...) (./src/fpm_command_line.f90 \"\" 1 .false. ...) (./src/fpm_compiler.f90 \"\" 1 .false. ...) (./src/fpm_environment.f90 \"\" 1 .false. ...) (./src/fpm.f90 \"\" 1 .false. ...) (./src/fpm_filesystem.f90 \"\" 1 .false. ...) (./src/fpm_model.f90 \"\" 1 .false. ...) (./src/fpm_sources.f90 \"\" 1 .false. ...) (./src/fpm_strings.f90 \"\" 1 .false. ...) (./src/fpm_targets.f90 \"\" 1 .false. ...) (./src/fpm/error.f90 \"\" 1 .false. ...) (./src/fpm/git.f90 \"\" 1 .false. ...) (./src/fpm/manifest.f90 \"\" 1 .false. ...) (./src/fpm/toml.f90 \"\" 1 .false. ...) (./src/fpm/versioning.f90 \"\" 1 .false. ...) (./src/fpm/cmd/new.f90 \"\" 1 .false. ...) (./src/fpm/manifest/build.f90 \"\" 1 .false. ...) (./src/fpm/manifest/dependency.f90 \"\" 1 .false. ...) (./src/fpm/manifest/executable.f90 \"\" 1 .false. ...) (./src/fpm/manifest/library.f90 \"\" 1 .false. ...) (./src/fpm/manifest/package.f90 \"\" 1 .false. ...) (./src/fpm/manifest/test.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/all.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/constants.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/datetime.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/de.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/error.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/ser.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/structure.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/utils.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/version.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/array.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/keyval.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/merge.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/build/table.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/de/character.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/de/tokenizer.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/structure/base.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/structure/vector.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/array.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/keyval.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/table.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/type/value.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/utils/convert.f90 \"\" 1 .false. ...) (build/dependencies/toml-f/src/tomlf/utils/verify.f90 \"\" 1 .false. ...) (build/dependencies/M_CLI2/src/M_CLI2.f90 \"\" 1 .false. ...)] ...)\n\n  \n    \n    \n\n    \n    \n\n  \n\n\nIt doesn't yet convert all of the model (it prints ... for things it skips), but it gives an idea how it would look like. Let me know if this approach looks good and I should finish printing all of the model in the same way.\nThe motivation for this feature is to be able to more easily learn and debug fpm's internals, and learn how to write a new backend.",
             "comments": [
                 {
                     "user": "milancurcic",
@@ -8159,6 +8349,11 @@
                     "user": "arjenmarkus",
                     "date": "2020-11-20 07:12:39+00:00",
                     "text": "Well, that is the solution we have chosen now: different source code,\nselected per platform, where CMake does the actual selection. So, we are\nworking along the same lines here - the details may differ, but that is all.\n\nOp vr 20 nov. 2020 om 03:17 schreef urbanjost <notifications@github.com>:\n\u2026\n I have a list of methods for handling platform-specific options. One of\n the easiest that does not require a preprocessor is to use a generic name\n like my_routine and then have a directory for each platform that has a\n source for my_routine. Instead of a preprocessor you just select the\n correct directory to build. If each solution contains very similar code or\n if there is a strong reason for keeping all the code in a single file a\n preprocessor can be more appropriate. I generally use POSIX platforms and\n have found the ISO_C_BINDING interface to work very well on\n Mac/CygWin/Unix/GNU-Linux; and in a few cases on windows I was able to make\n C routines that looked like the POSIX routines that called the MSWindows\n equivalents. I do not know of a public version of a POSIX look-alike for\n MSWindows like CygWin provides but that would be very useful if it exists.\n\n Some Fortran extensions are so common they are as standard as the standard\n implementation is itself; CHDIR seems to fall in or close to that. It would\n seem like a low maintenance issue to make a wrapper library that had\n something like STDLIB_CHDIR in it that called the vendor routine if it\n existed. If it did not call a ISO_C_BINDING to the POSIX routine if the\n platform is POSIX, and then a custom solution. In general it would seem\n reasonable to use vendor extensions if they exist behind such a wrapper and\n leave the maintenance to the compiler supplier.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#172 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5XWTGI7F3CKG45UODSQXGUPANCNFSM4RKRSC3A>\n ."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-26 13:33:32+00:00",
+                    "text": "Can we define some rules for how fpm is to stop the search?\nWhen I run git status in a folder inside WSL which is not a repository I get the following fatal error:\n$ git status\nfatal: not a git repository (or any parent up to mount point /mnt)\nStopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).\n\nThe environment variables which affect git can be found here."
                 }
             ]
         },

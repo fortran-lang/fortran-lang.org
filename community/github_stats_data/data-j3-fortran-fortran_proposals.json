@@ -2,6 +2,100 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 209,
+            "user": "Beliavsky",
+            "date": "2021-05-25 11:56:35+00:00",
+            "title": "Subscripting array-valued expressions as if they were arrays",
+            "text": "In Julia and some another languages, you can subscript array expressions as if they were arrays. So in Julia\n    (1:3).^4  = [1, 16, 81]\n    ((1:3).^4)[2]  = 16\n\nWould that be hard to implement in Fortran? It would make some code shorter by removing the need to instead\n(1) declare an array\n(2) set the array to an expression\n(3) subscript the array",
+            "comments": [
+                {
+                    "user": "FortranFan",
+                    "date": "2021-05-25 17:29:22+00:00",
+                    "text": "Given the standard allows\n   associate ( x => [ 1, 2, 3 ]**4 )\n      print *, x(2) \n   end associate\nend\nthat takes care of about half the \"needs\", you may not get much response."
+                }
+            ]
+        },
+        {
+            "number": 208,
+            "user": "RobertVanAmerongen",
+            "date": "2021-05-24 13:49:04+00:00",
+            "title": "length of a name",
+            "text": "The Fortran standard has a limit on the length of a name, i.e .the number of characters: 63. Working with Vulkan give some problems as some of the named constants are (much) longer than this limit. The current core version (verson 1.2) have more than 20 of these cases. Some of the extensions also have some of that. Not only too long named constants are seen, also with a few function names. Can the limit be increased ? Maybe 127 ? ( to start with)\nRobert",
+            "comments": []
+        },
+        {
+            "number": 207,
+            "user": "Beliavsky",
+            "date": "2021-05-24 11:49:29+00:00",
+            "title": "Allow RESULT to appear in declaration",
+            "text": "The declaration of the RESULT variable in a Fortran function looks the declaration of a local variable. I suggest that you be allowed to specify that it is the result in the declaration, so that you could write\npure function variance_vec(xx,xxmean)\n! compute the variance of xx(:)\nreal(kind=dp), intent(in)           :: xx(:)   ! data for which variance computed\nreal(kind=dp), intent(in), optional :: xxmean  ! mean to use in oomputing variance\nreal(kind=dp), result               :: xvar    ! result\n<snip>\nend function variance_vec\n\ninstead of\npure function variance_vec(xx,xxmean) result(xvar)\n! compute the variance of xx(:)\nreal(kind=dp), intent(in)           :: xx(:)   ! data for which variance computed\nreal(kind=dp), intent(in), optional :: xxmean  ! mean to use in oomputing variance\nreal(kind=dp)                       :: xvar    ! result\n<snip>\nend function variance_vec\n\nMaybe you could allow RESULT to appear twice (but consistently) so that the following is allowed:\npure function variance_vec(xx,xxmean) result(xvar)\n! compute the variance of xx(:)\nreal(kind=dp), intent(in)           :: xx(:)   ! data for which variance computed\nreal(kind=dp), intent(in), optional :: xxmean  ! mean to use in oomputing variance\nreal(kind=dp), result               :: xvar    ! result\n<snip>\nend function variance_vec\n\nThe downside of this proposal is that Fortran would have three ways of declaring a function. An alternative is to allow function results to be declared INTENT(OUT), so you could write\npure function variance_vec(xx,xxmean) result(xvar)\n! compute the variance of xx(:)\nreal(kind=dp), intent(in)           :: xx(:)   ! data for which variance computed\nreal(kind=dp), intent(in), optional :: xxmean  ! mean to use in oomputing variance\nreal(kind=dp), intent(out)          :: xvar    ! result\n<snip>\nend function variance_vec\n\nIf people think any of these ideas have merit, I can narrow this proposal to one of them.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-05-24 17:06:02+00:00",
+                    "text": "How is this an improvement to the language?"
+                }
+            ]
+        },
+        {
+            "number": 206,
+            "user": "fabrice-ducos",
+            "date": "2021-05-20 10:16:51+00:00",
+            "title": "Allow short-circuit evaluation of operators on explicit user's demand",
+            "text": "The Fortran standard has never mandated short-circuit evaluation of logical operators from the early versions of the language.\nThis sometimes forces application developers to use nested if statements (e.g. when the second test depends on the outcome of the first one) where it can be done more succintly (and in a more readable form) with languages designed with short-circuit evaluation.\nIt is of course not possible to change the default behaviour of the language, and sometimes it is desirable NOT to perform short-circuit evaluation. In some cases, the compiler may perform some clever optimizations by changing the order of evaluation, and there is no doubt that some well established Fortran libraries leverage this feature.\nBut most of the time, for new developments and not backwards compatibility, short circuit evaluation leads to more straightforward and readable statements in my opinion (and eases migration of algorithms from other languages). Of course, one can rely in some cases on compiler's flags to force this behaviour, but that is non portable and bug-prone.\nBesides, many newcomers (and even old-timers!) in Fortran are not aware of this feature and assume erroneously that short-circuit applies in Fortran like in other languages they have learned first. This can lead to very difficult bugs to fix.\nI have been practising Fortran programming professionnally for 20 years now (along with other langages including C++, Java, Python, etc) and I see no reason for not providing a standard construct to force a snippet of code to perform short circuit evaluation at the user's explicit demand (in the spirit of \"implicit none\").\nBest regards",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-05-20 14:24:19+00:00",
+                    "text": "Related: #19."
+                },
+                {
+                    "user": "fabrice-ducos",
+                    "date": "2021-05-20 14:47:46+00:00",
+                    "text": "Thank you for your reply. Indeed, this topic has already been addressed.\nI will therefore close this issue."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-20 15:09:00+00:00",
+                    "text": "@fabrice-ducos thanks for bringing this up. Go ahead and submit any comments or feedback to #19 then. If you have any other comments or proposals, please do not hesitate to open new issues."
+                },
+                {
+                    "user": "fabrice-ducos",
+                    "date": "2021-05-20 15:30:18+00:00",
+                    "text": "Thank you dear @certik . Don't hesitate to add a link to my remarks #206 at #19 if you wish to revive the topic.\nFrom the discussion, I understand that a proposal is already on the worklist of the committee.\nEDIT: you already did ;)"
+                }
+            ]
+        },
+        {
+            "number": 205,
+            "user": "Beliavsky",
+            "date": "2021-05-13 20:40:31+00:00",
+            "title": "Treat unused variable as error?",
+            "text": "Should the declaration of a variable or parameter that is never referenced be treated as an error? Compilers would still be able to compile code with unused variables, but codes compiled with a standard conformance option would not be allowed to have unused variables or parameters. Variables and parameter that are public in a module but not used in it would be allowed, but never-referenced private variables and parameters would be flagged.\nThis suggestion is in the spirit of making IMPLICIT NONE the default -- break bad code to encourage modernization. Some compilers already have options to warn about unused variables, and to turn such warnings into errors. The question is whether compilers should be required to have this capability.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-05-13 20:47:16+00:00",
+                    "text": "Define \"unused\", please.  Is x unused in 0 * purefunc(x)?  Or MERGE(0,x,.true.)?  Or DO j=1,0; y = x; END DO?"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-05-13 20:54:09+00:00",
+                    "text": "Maybe I should use the term \"never referenced\". If the code would still compile if the variable were never declared and IMPLICIT NONE was in place, the variable can be considered never referenced (unless it is a public module variable)."
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2021-05-13 21:27:31+00:00",
+                    "text": "Conceivably for a local variable, but absolutely not in general. Consider a type bound procedure with a dummy argument that is not referenced, but whose interface is fixed because it is defined by a parent class.  Such a rule would require the procedure to do something artificial with the argument just to avoid an error.  A warning is perfectly adequate."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-05-16 20:49:16+00:00",
+                    "text": "I was not sure this idea was good when I proposed it, and no one else seems strongly in favor of it, so I am closing this issue."
+                }
+            ]
+        },
+        {
             "number": 204,
             "user": "acikek",
             "date": "2021-04-29 02:59:18+00:00",
@@ -579,6 +673,11 @@
                     "user": "sblionel",
                     "date": "2020-11-27 22:17:47+00:00",
                     "text": "Given that EQUIVALENCE has been booted from the language, I'm doubtful that replacing it with a full-throated, distinct union type would get a warm reception. Nothing in my proposal precludes doing that later, but I'm focused on solving a particular problem in a way that I think would be acceptable to the committee - especially as many compilers already support it.\nType-casting is already possible in Fortran, albeit a bit clumsily, with C_LOC and C_F_POINTER. It seems to me that the use cases you mention can be handled by the proposal at hand."
+                },
+                {
+                    "user": "RobertVanAmerongen",
+                    "date": "2021-05-24 13:58:06+00:00",
+                    "text": "With pleasure I read this proposal. I am working with Vulkan and at several places in the specs the union feature is used. Of course, we can circumvent any trouble by using TRANSFER, but I feel this bungly.\nI do not understand what is meant with \"Fortran 202y Unsubmitted\" but I will say: the sooner we have it, the better!\nRobert"
                 }
             ]
         },
@@ -3394,7 +3493,7 @@
             "user": "marshallward",
             "date": "2020-01-10 15:55:57+00:00",
             "title": "Namelist object designators may have blanks following commas",
-            "text": "Currently, the following namelist is invalid:\nidx_nml\n   v(1, 1) = 5\n   v(2, 1) = 5\n/\n\nThe reason is because the object designator (e.g. v(1, 1)) of a namelist may not contain any blanks (13.11.2p2, last sentence):\n\nEach designator may be preceded and followed by one or more optional blanks but shall not contain embedded blanks.\n\nThere is no such restriction AFAIK in Fortran itself.\nDespite this restriction, such spaces are permitted in every compiler that I have tested (gfortran, ifort, Cray, PGI).  The exception is NAG Fortran, which is correctly adhering to the standard.\nSome discussion here, for the interested.\nI would suggest that the final sentence be removed from this paragraph of the standard, if only because it is inconsistent with Fortran source code, and because hardly anyone appears to be following this rule anyway without any apparent side-effects.",
+            "text": "Currently, the following namelist is invalid:\nidx_nml\n   v(1, 1) = 5\n   v(2, 1) = 5\n/\n\n  \n    \n    \n  \n\n\nThe reason is because the object designator (e.g. v(1, 1)) of a namelist may not contain any blanks (13.11.2p2, last sentence):\n\nEach designator may be preceded and followed by one or more optional blanks but shall not contain embedded blanks.\n\nThere is no such restriction AFAIK in Fortran itself.\nDespite this restriction, such spaces are permitted in every compiler that I have tested (gfortran, ifort, Cray, PGI).  The exception is NAG Fortran, which is correctly adhering to the standard.\nSome discussion here, for the interested.\nI would suggest that the final sentence be removed from this paragraph of the standard, if only because it is inconsistent with Fortran source code, and because hardly anyone appears to be following this rule anyway without any apparent side-effects.",
             "comments": [
                 {
                     "user": "certik",
@@ -8231,6 +8330,11 @@
                     "user": "klausler",
                     "date": "2021-04-07 18:52:42+00:00",
                     "text": "Suggestion: add a new OPEN/INQUIRE argument with a distinct name, say NAMELIST_DELIM=, that would be independent of DELIM= and allow you get what you want for a whole run with just one statement."
+                },
+                {
+                    "user": "marshallward",
+                    "date": "2021-05-26 16:10:59+00:00",
+                    "text": "@klausler Sorry for not replying to this at the time, I think the idea of a separate namelist delimiter argument is a very good compromise.\n\nlist-directed IO is left unchanged\nIn most cases, the argument would be unneeded\nthe default could be left unspecified, to the discretion of the compiler.\n\nWhen I find some time, I'll revise the proposal to recommend this."
                 }
             ]
         },
@@ -9246,6 +9350,11 @@
                     "user": "certik",
                     "date": "2021-03-22 16:26:02+00:00",
                     "text": "I think for the array shapes and PDT we simply have to include lots of cases and try to get as many corner cases as we can included. Then as people report bugs in a specific compiler that is not caught by the test suite, we simply add the case in."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-05-03 17:08:46+00:00",
+                    "text": "The following \"silly\" case shows a memory leak on Windows OS using gfortran but not Intel Fortran per an inhouse proprietary memory checker utility.  This silly case is used by me as a quick test followed by a host of other validation steps when a team I work with needs to consider a newer version of Intel Fortran compiler for production use.\nCan someone please run Valgrind or some such app on a different platform (Linux/macOS) and please report here if the leak is reproducible?  If yes, the community can potentially consider evaluating this case toward inclusion in a test suite for the standard.\n! Unit Test #: Test-0.F2018-general\n! Author     : FortranFan\n! Reference  : https://j3-fortran.org/doc/year/18/18-007r1.pdf\n!\n! Description:\n! A highly contrived but general test using various features of the\n! Fortran standard including the use of ALLOCATABLE local objects,\n! a derived type with a finalizer toward a component with the POINTER\n! attribute, and enhanced interoperability with C to check for\n! memory leaks\n!\n\nmodule cstring_m\n   use, intrinsic :: iso_c_binding, only : c_size_t, c_ptr\n   interface\n      function strlen( ps ) result(slen) bind(C, name=\"strlen\")\n         import :: c_size_t, c_ptr\n         type(c_ptr), intent(in), value :: ps\n         integer(c_size_t) :: slen\n      end function\n   end interface\nend module\n\nmodule foo_m\n   use, intrinsic :: iso_c_binding, only : c_char, c_size_t, c_ptr, c_f_pointer\n   use cstring_m, only : strlen\n   type :: foo_t\n      private\n      class(*), pointer :: d => null()\n   contains\n      final :: clean_foo\n      procedure :: set, get\n   end type\ncontains\n   impure elemental subroutine clean_foo( this )\n      type(foo_t), intent(inout) :: this\n      if ( associated(this%d) ) then\n         deallocate(this%d)\n      end if\n      this%d => null()\n   end subroutine\n   subroutine set( this, ps )\n      class(foo_t), intent(inout) :: this\n      type(c_ptr), intent(in), value :: ps\n      integer(c_size_t) :: slen\n      slen = strlen(ps)\n      if ( slen <= 0 ) error stop\n      block\n         character(kind=c_char,len=slen), pointer :: cs\n         character(kind=c_char,len=:), allocatable :: s\n         call c_f_pointer( cptr=ps, fptr=cs )\n         s = cs\n         cs => null()\n         call clean_foo( this )\n         allocate( this%d, source=s )\n      end block\n   end subroutine\n   function get( this ) result(r)\n      class(foo_t), intent(in) :: this\n      class(*), allocatable :: r\n      if (.not. associated(this%d)) error stop\n      allocate( r, source=this%d )\n   end function\nend module\n\nmodule bar_m\n   use, intrinsic :: iso_c_binding, only : c_char, c_loc\n   use foo_m, only : foo_t\n   type :: bar_t\n      class(foo_t), allocatable :: foo\n   end type\n   interface bar_t\n      module procedure :: construct_bar\n   end interface\ncontains\n   function construct_bar( msg ) result(r)\n      character(kind=c_char, len=*), intent(in), target :: msg\n      type(bar_t) :: r\n      allocate( foo_t :: r%foo )\n      call r%foo%set( c_loc(msg) )\n   end function\nend module\n\nmodule foobar_m\n   use, intrinsic :: iso_c_binding, only : c_char, c_size_t\n   interface\n#ifndef __GFORTRAN__\n      ! gfortran doesn't yet adequately support enhanced interoperabilty with C\n      subroutine getmsg_a( str ) bind(C, name=\"getmsg_a\")\n         import :: c_char\n         character(kind=c_char, len=:), allocatable, intent(out) :: str\n      end subroutine\n#endif\n      subroutine getmsg_p( s, lens ) bind(C, name=\"getmsg_p\")\n         import :: c_char, c_size_t\n         character(kind=c_char, len=1), intent(inout) :: s(*)\n         integer(c_size_t), intent(in), value :: lens\n      end subroutine\n   end interface\ncontains\n   function msg() result(s)\n      character(kind=c_char, len=:), allocatable :: s\n#ifdef __GFORTRAN__\n      ! Workaround due to gfortran issue with CHARACTER scalar and C interop\n      allocate( character(kind=c_char, len=14) :: s )\n      block\n         integer(c_size_t) :: lens\n         lens = int( len(s), kind=kind(lens) )\n         call getmsg_p( s, lens )\n      end block\n#else\n      call getmsg_a( s )\n#endif\n   end function\nend module\n\n   block\n      use, intrinsic :: iso_c_binding, only : c_char\n      use bar_m, only : bar_t\n      use foobar_m, only : msg\n      class(bar_t), allocatable :: bar\n      class(*), allocatable :: c\n      bar = bar_t( msg() )\n      c = bar%foo%get()\n      select type ( s => c )\n         type is ( character(len=*) )\n            print *, s\n      end select\n   end block\nend\n#include <stdlib.h>\n#include <string.h>\n#include <stdio.h>\n#include \"ISO_Fortran_binding.h\"\n\nconst char msg[] = \"Hello World!\";\n\n// Silly function for a Fortran test\nvoid getmsg_a( CFI_cdesc_t *str ) {\n   size_t lens = strlen(msg);\n   int irc = CFI_allocate(str, (CFI_index_t *)0, (CFI_index_t *)0, lens);\n   if (irc == 0) {\n      memcpy(str->base_addr, msg, lens);\n   }\n}\n\n// Silly function for a Fortran test\nvoid getmsg_p( char *s, size_t lens  ) {\n   memcpy(s, msg, lens);\n}\nExpected program behavior:\n\nC:\\temp>cl /c /W3 /EHsc c.c\nMicrosoft (R) C/C++ Optimizing Compiler Version 19.28.29337 for x64\nCopyright (C) Microsoft Corporation.  All rights reserved.\nc.c\nC:\\temp>ifort /c /standard-semantics /fpp /warn:all /stand:f18 p.f90\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.2.0 Build 20210228_000000\nCopyright (C) 1985-2021 Intel Corporation.  All rights reserved.\nC:\\temp>link p.obj c.obj /subsystem:console /out:p.exe\nMicrosoft (R) Incremental Linker Version 14.28.29337.0\nCopyright (C) Microsoft Corporation.  All rights reserved.\nC:\\temp>p.exe\nHello World!\nC:\\temp>gfortran -c -Wall c.c\nC:\\dev\\Fortran\\temp\\sor>gfortran -c -Wall c.c\nC:\\dev\\Fortran\\temp\\sor>gfortran -c -cpp -std=f2018 -Wall -Wno-maybe-uninitialized p.f90\nC:\\dev\\Fortran\\temp\\sor>gfortran -o gcc-p.exe p.o c.o\nC:\\temp>gcc-p.exe\nHello World!"
                 }
             ]
         },

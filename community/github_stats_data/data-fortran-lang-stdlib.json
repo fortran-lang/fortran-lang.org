@@ -2,6 +2,401 @@
     "name": "fortran-lang/stdlib",
     "issues": [
         {
+            "number": 417,
+            "user": "awvwgk",
+            "date": "2021-05-24 19:56:59+00:00",
+            "title": "Add GCC-11 to workflow",
+            "text": "Related #416",
+            "comments": []
+        },
+        {
+            "number": 416,
+            "user": "awvwgk",
+            "date": "2021-05-24 19:06:02+00:00",
+            "title": "Building with GCC 11 fails",
+            "text": "GCC 11 is now available and we already have packages for Ubuntu 21.04 and homebrew, would be nice if we could start testing this here as well. Since our Linux runner is using Ubuntu 20.04 it might be a bit more involved to install GCC 11 there.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-24 19:34:17+00:00",
+                    "text": "AFAIK Ubuntu 21.04 is not available among the supported Github runners.\nHere and here are some discussions on GCC 11 on Ubuntu 20.04"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-24 20:21:45+00:00",
+                    "text": "We are triggering an ICE with GCC 11 in stdlib_optval:\ncd /home/runner/work/stdlib/stdlib/build/src/tests/optval && /usr/bin/gfortran-11  -I/home/runner/work/stdlib/stdlib/build/src/mod_files  -O3 -DNDEBUG -O3   -fimplicit-none -ffree-line-length-132 -Wall -Wextra -Wimplicit-procedure -Wconversion-extra -pedantic-errors -std=f2018 -Wno-error=pedantic -c /home/runner/work/stdlib/stdlib/src/tests/optval/test_optval.f90 -o CMakeFiles/test_optval.dir/test_optval.f90.o\nf951: internal compiler error: Segmentation fault\n0xd40aeb internal_error(char const*, ...)\n\t???:0\n0x15913ef gfc_resolve_code(gfc_code*, gfc_namespace*)\n\t???:0\n0x1572ad1 gfc_parse_file()\n\t???:0\nPlease submit a full bug report,\nwith preprocessed source if appropriate.\nPlease include the complete backtrace with any bug report.\nSee <file:///usr/share/doc/gcc-11/README.Bugs> for instructions."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-25 17:48:41+00:00",
+                    "text": "I opened a possible fix in awvwgk#80. Works locally, but not tested in Github actions CI yet."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-25 18:04:59+00:00",
+                    "text": "This seems to do the trick, thanks."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-05-26 12:20:07+00:00",
+                    "text": "For information, current git~master builds unmodified with GCC-11-x86-64 on Windows 10 x64, using make -f Makefile.manual FYPPFLAGS=-DMAXRANK=4 clean test."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-26 17:52:23+00:00",
+                    "text": "The manual makefile does not set the -pedantic-errors option which is triggering the ICE in the CMake based build."
+                }
+            ]
+        },
+        {
+            "number": 415,
+            "user": "jvdp1",
+            "date": "2021-05-24 18:51:07+00:00",
+            "title": "Corrected Ubuntu version",
+            "text": "The Ubuntu version used in CI is 20.04, instead of 18.04 as mentioned in the README.md",
+            "comments": []
+        },
+        {
+            "number": 414,
+            "user": "Aman-Godara",
+            "date": "2021-05-23 18:23:06+00:00",
+            "title": "implemented intelligent slice functionality",
+            "text": "Status: code is open for review\nresolves #413\nTasks:\n\n Implement slice interface for stdlib_strings: add two procedures under slice interface\n add module dependencies\n Write test cases for slice in stdlib_string_functions\n Discuss about include_last feature\n Document newly added functions and corrected documentation of to_title and to_sentence",
+            "comments": [
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-23 19:05:24+00:00",
+                    "text": "I would prefer to avoid keywords as (dummy) variable names, how about end -> last?\n\nUsing start with last might be non-intuitive for some. How about first and last or from and to?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-23 19:35:00+00:00",
+                    "text": "I like first and last."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-24 10:42:14+00:00",
+                    "text": "Is their any reason to keep this in stdlib_ascii module? See #399."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-24 11:00:25+00:00",
+                    "text": "Is their any reason to keep this in stdlib_ascii module? See #399.\n\nSo we will have a slice interface which will have 2 procedures in it like this:\ninterface slice\n    module procedure :: slice_character_sequence\n    module procedure :: slice_string\nend interface slice\nand implementation of slice_string will call slice_character_sequence?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-24 11:34:24+00:00",
+                    "text": "I'm guessing you have the right idea in mind. You can drop the _sequence postfix, IMO.\nuse stdlib_string, only: slice\nuse stdlib_string_type, only: string => string_type\ncharacter(len=16) :: cstr\ntype(string) :: sstr\ncstr = \"Hello, World\"\nsstr = string(slice(cstr,last=6)) ! sstr contains \"Hello\", call to slice_character\nprint *, slice(sstr,first=3)      ! prints \"llo\", call to slice_string"
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-24 12:38:17+00:00",
+                    "text": "Yeah, I got your point.\nYour above comments start a new discussion here:\n\nsstr = string(slice(cstr,last=6)) ! sstr contains \"Hello\", call to slice_character\nprint *, slice(sstr,first=3)      ! prints \"llo\", call to slice_string\n\nCurrently the function slice is first index and last index inclusive but some other languages like Java as well as Python keep first index inclusive and last index exclusive. So output of slice(cstr, last=6) will be 'Hello,' for Fortran (output included index 6 as well)\nwhereas for Python index 6 will not be included:\nstr = 'Hello, World'\nprint(str[:6])\n# prints 'Hello,' (index 0 inclusive but index 6 exclusive)\nThis might be linked with the fact that Java & Python uses 0-based indexing."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-24 13:12:57+00:00",
+                    "text": "I reckon the first and last should behave inclusively in agreement with the\nintrinsic slice syntax.\n\u2026\nOn Mon, 24 May 2021, 14:38 Aman Godara, ***@***.***> wrote:\n Yeah, I got your point.\n\n Your above comments start a new discussion here:\n\n sstr = string(slice(cstr,last=6)) ! sstr contains \"Hello\", call to\n slice_character\n print *, slice(sstr,first=3) ! prints \"llo\", call to slice_string\n\n Currently the function slice is first index and last index inclusive but\n some other languages like Java as well as Python keep first index\n inclusive and last index exclusive. So output of slice(cstr, last=6) will\n be 'Hello,' for Fortran (output included index 6 as well)\n whereas for Python index 6 will not be included:\n\n str = 'Hello, World'print(str[:6])# prints 'Hello,' (index 0 inclusive but index 6 exclusive)\n\n This might be linked with the fact that Java & Python uses 0-based\n indexing whereas Fortran doesn't.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#414 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AFA33S7A5JSW2UM562WL5ELTPJCENANCNFSM45L6LOPQ>\n ."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-26 10:32:50+00:00",
+                    "text": "slice function has some overlap with char_string_range."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-26 11:43:30+00:00",
+                    "text": "slice function has some overlap with char_string_range.\n\nIndeed, they perform roughly the same operation. But char_string_range is only accessed through it's public interface char, which has an entirely different purpose, that is transform a string_type into the intrinsic character type.\nOn the other hand slice is more of an alternative to the slice syntax (1:n:s) in form of a function (since the language is missing the the capability to overload the access operator)."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-27 04:56:32+00:00",
+                    "text": "result = slice(str,8,2,stride=-2)\n\nAre the characters now taken in reverse reverse?\n\nBehaviour of the function is similar to this fortran loop:\nj = 1\ndo i = start, end, stride\n<< insert the character present at index i of input_string to index j of output_string >>\nj = j + 1\nend do\nlet's say input_string = \"abcdefgh\"\nstart = 8\nend = 2\nstride = -2\nI am showing few iterations as the function progresses here:\n\nfunction is at index = 8\noutput_string = \"h\"\nfunction is at index = 6\noutput_string = \"hf\"\nfunction is at index = 4\noutput_string = \"hfd\"\nfunction is at index = 2\noutput_string = \"hfdb\"\n\nso we get a reversed output \"hfdb\"\nHad the stride been positive 2 (stride = 2, start = 8, end = 2): the above mentioned loop would have executed for 0 number of times i.e. function will never reach any index."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-27 08:08:40+00:00",
+                    "text": "If\ninput_string = 'abcdefgh'\noutput_string = slice(input_string, 12, 16)\noutput_string : 'h'\nThis output is non-intuitive to me. Should the function better return '' in this case?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-27 10:41:22+00:00",
+                    "text": "I've written a new comment in #413 (comment)\nThe implementation of extract by  @everythingfunctional can be found here.\nIn the case above where the last is larger than the length of the string, the call slice(input_string,12,16) should be transliterated to input_string(12:min(len(input_string),finish)), or more specifically input_string(12:8) which should automatically return a zero-length string."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-27 12:39:19+00:00",
+                    "text": "Things are different here in slice function.\neven if I give 8 as the last argument, output will not empty:\ninput_string = 'abcdefgh'\noutput_string = slice(input_string, 12, 8)\noutput will be 'h'.\nIn extract function stride is fixed as +1 whereas this is not the case with slice function.\nNow I have changed the code, so as to get \"\" for the code written in this comment. This was not the case before my last commit (fa88905).\nPS: I also to wish to provide an explanation for this code, because it has gone quite complex now. It will also help me find bugs left (if any)."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-27 14:36:06+00:00",
+                    "text": "The output of\n```\nprint *,(27 - 26)/(-2)\nend\n```\nis zero.\n\nAnd the output of\n```\nprint *,(27 - 24)/(-2)\nend\n```\nis -1.\n\nIt seems like in the negative half, integer division truncates towards the\n\"higher\" value.\n\u2026\nOn Thu, 27 May 2021 at 16:31, Sebastian Ehlert ***@***.***> wrote:\n ***@***.**** commented on this pull request.\n ------------------------------\n\n In src/stdlib_strings.f90\n <#414 (comment)>:\n\n > +            else\n +                if (present(first) .and. present(last)) then\n +                    if (last < first) then\n +                        stride_vector = -1\n +                    end if\n +                end if\n +            end if\n +\n +            if (present(first)) then\n +                first_index =  first\n +            end if\n +            if (present(last)) then\n +                last_index = last\n +            end if\n +\n +            strides_taken = floor( real(last_index - first_index) / real(stride_vector) )\n\n Should give -1 with integer division right away, I don't think there is\n need for floating point arithmetic here.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#414 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AFA33S2TLJ4FUCPD2MTRW2DTPZJUVANCNFSM45L6LOPQ>\n ."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-27 14:46:05+00:00",
+                    "text": "In the zen of python it is stated that,\n\nThere should be one-- and preferably only one --obvious way to do it.\n\nWhat is the value in allowing a negative stride, if we could also achieve this using the nested calls, e.g.\nresult = reverse(slice(str,first,last,stride))\n\nI'm happy to hear what are some possible counter-arguments. One is of course shorter call syntax. But it comes at the price of the complicated logic inside slice."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-27 14:55:22+00:00",
+                    "text": "What is the value in allowing a negative stride, if we could also achieve this using the nested calls, e.g.\n\nI can try implementing slice which takes positive strides only but I think it will still look more or less equally complicated."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-27 15:03:32+00:00",
+                    "text": "I'd stay with the current behavior for now. If we can get the corner cases right, I have nothing against the current behavior. It is just a matter of preference in the end."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-27 15:10:46+00:00",
+                    "text": "pure function clip(x, xmin, xmax) result(res)\n        integer, intent(in) :: x\n        integer, intent(in) :: xmin\n        integer, intent(in) :: xmax\n        integer :: res\n\n        res = max(min(x, xmax), xmin)\n    end function clip\n\n    function slice(string, first, last, stride) result(sliced_string)\n        character(len=*), intent(in) :: string\n        integer, intent(in), optional :: first, last, stride\n        integer :: first_index, last_index, stride_vector, strides_taken, length_string, i, j\n        character(len=:), allocatable :: sliced_string\n\n        length_string = len(string)\n        if (length_string > 0) then\n            first_index = 1\n            last_index = length_string\n            stride_vector = 1\n\n            if (present(stride)) then\n                stride_vector = max(1, abs(stride))\n            end if\n\n            if (present(first)) then\n                first_index =  first\n            end if\n            if (present(last)) then\n                last_index = last\n            end if\n\n            if((last_index < first_index) .or. &\n                (first_index < 1 .and. last_index < 1) .or. &\n                (first_index > length_string .and. last_index > length_string)) then\n                \n                    sliced_string = \"\"\n            else\n                first_index = clip(first_index, 1, length_string)\n                last_index = clip(last_index, 1, length_string)\n\n                strides_taken = (last_index - first_index) / stride_vector\n                allocate(character(len=strides_taken + 1) :: sliced_string)\n\n                j = 1\n                do i = first_index, last_index, stride_vector\n                    sliced_string(j:j) = string(i:i)\n                    j = j + 1\n                end do\n            end if\n        else\n            sliced_string = \"\"\n        end if\n    end function slice\nActually most of the complexity came when I started handling invalid cases. With invalid cases here I was referring to the case when user has given wrong indexes as inputs in first and last arguments or user has given a stride which is incoherent with other given arguments."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-27 16:03:50+00:00",
+                    "text": "I tried to break the implementation and haven't found any deviating behavior from the array slice so far (see 81f028a for a hacky slice implementation using the transfer intrinsic)."
+                }
+            ]
+        },
+        {
+            "number": 413,
+            "user": "Aman-Godara",
+            "date": "2021-05-22 18:55:33+00:00",
+            "title": "intelligent slice functionality for strings",
+            "text": "Description\n\n\nName of functionality: Slice\nSignature: slice(string, start(optional)= 1 or len(string), end(optional)=len(string) or 1, stride(optional)= 1, include_start(optional)= .true.)\nOutput: a new string_type object\nTraverses the input string from start index to end index taking a stride of stride indexes to return a new string. start can be greater than end as well giving function an added functionality of reversing input string. start index will always be included in the output substring unless include_start is set to .false. where the end index will be included. So either start index or end index will be included in the output string (or both).\nThis function is an intelligent one, if the user doesn\u2019t provide any one or more of the 3 optional arguments (start, end or stride) it figures them out automatically using optional arguments which are given (see examples).\nBut if the user provides arguments he/she is expected to be responsible for that (see example 3).\nExamples:\n\nslice(\u201812345\u2019, stride=-1) should give '54321'; start = 5, end = 1\nslice(\u2018abcd\u2019, stride=-2, include_start=.false.) should give 'ca'; start = 4, end = 1\nslice(\u2018abcde\u2019, 5, 2, 1) will give '' (empty string); user gave 1 as the stride argument\nslice(\u2018abcde\u2019, 5, 2) will give 'edcb'; stride = -1\nslice(\u2018abcde\u2019, end = 1, stride = -2) will give 'eca'; start = 5\n\nPrior Art\n\nPython has it, but not exactly in the manner proposed above. In python one can do\nstr = 'spiderman'\nprint(str[1:9:2])\nwhich will return 'pdra'.\nPlease review the functionality and let me know your thoughts on this.",
+            "comments": [
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-22 19:07:56+00:00",
+                    "text": "Other possibility could be to have flexible stride argument. Where instead of asking user to give exact value of stride, user will be asked to give the absolute value of stride.\ntaking Example 3 from above:\nslice(\u2018abcde\u2019, 5, 2, 1) will give 'edcb'; stride was converted from 1 to -1."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-23 09:21:07+00:00",
+                    "text": "There is subroutine extract proposed in #406 with similar functionality to slice. I'm not sure if the original proposal included an optional stride argument.\nIn any case I would support this. It might be a good idea to overload this for the intrinsic character type, even if the intrinsic slice syntax exists."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-24 06:10:55+00:00",
+                    "text": "I prefer first possibility over second possibility because if a user wants to avail second possibility he/she can do that by using an if else condition before passing arguments to code written in #414. But if we implement slice functionality the second possibility way, an user who is interested in first possibility won't be able to use the slice function."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-05-24 09:55:00+00:00",
+                    "text": "Can the slice function be ELEMENTAL? It appears to me that it can, since its arguments are scalars and it returns a scalar."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-24 10:03:48+00:00",
+                    "text": "@Beliavsky Consider this example:\nprint *, slice(\"abcdef\", 1, [1, 2, 3, 4, 5, 6], 1)\nThe resulting scalar character values cannot be in an array due to the different length."
+                },
+                {
+                    "user": "Carltoffel",
+                    "date": "2021-05-24 12:26:00+00:00",
+                    "text": "Since this approach doesn't use Fortran indices but function arguments instead, we could also allow negative start/end values which will count from the end. There are two ways I can think of:\n\ndo it exactly like in python, -i would then be a shortcut for len(string)-i\nslice('abcd', end = -1) returns abc\nor keep the Fortran standard of indices starting at 1, but counted from the end: -2 is the index of the letter 'c' in 'abcd'\nslice('abcd', end = -2) returns abc"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-27 08:30:23+00:00",
+                    "text": "Here is the description of the extract function proposed in section 3.7.1 of the iso_varying_strings document:\n3.7.1 EXTRACT(string[, start,finish])\nDescription. Extracts a specified substring from a string.\nClass. Elemental function.\nArguments.\nstring shall be either of type VARYING_STRING or type default CHARACTER\nstart (optional) shall be of type default INTEGER.\nfinish (optional) shall be of type default INTEGER.\nResult Characteristics. Of type VARYING_STRING.\nResult Value. The result value is a copy of the characters of the argument string between positions start and finish, inclusive. If start is absent or less than one, the value one is used for start. If finish is absent or greater than LEN(string), the value LEN(string) is used for finish. If finish is less than start, the result is a zero-length string."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-27 08:36:47+00:00",
+                    "text": "Since this approach doesn't use Fortran indices but function arguments instead, we could also allow negative start/end values which will count from the end. There are two ways I can think of:\n1. do it exactly like in python, `-i` would then be a shortcut for `len(string)-i`\n   `slice('abcd', end = -1)` returns `abc`\n\n2. or keep the Fortran standard of indices starting at 1, but counted from the end: `-2` is the index of the letter 'c' in 'abcd'\n   `slice('abcd', end = -2)` returns `abc`\n\n\n@Carltoffel , there some discussion of the different indexing systems in #311 (comment). Not sure if they are applicable here."
+                }
+            ]
+        },
+        {
+            "number": 412,
+            "user": "Beliavsky",
+            "date": "2021-05-19 11:12:19+00:00",
+            "title": "Specific assertions",
+            "text": "In my codes I often want to check whether\n(1) variable1 == variable2 (they could be array sizes)\n(2) a variable >= value (for example an array index being positive)\n(3) a variable <= value (within an array bound)\n(4) low <= variable <= high\n(5) variable1 <= variable2\nCould stdlib have specific assertion subroutines for these common cases? Probably someone has already coded them for their own use. For example for (5) I have\nsubroutine assert_le(n1,n2,name1,name2,procedure)\n! print an error message and stop if n1 > n2\ninteger          , intent(in) :: n1,n2\ncharacter (len=*), intent(in) :: procedure   ! name of program unit where assertion is made\ncharacter (len=*), intent(in) :: name1,name2 ! variable names \nif (n1 > n2) then\n   write (*,\"(a,2(1x,a),' =',2(1x,i0),a)\") \"in \" // trim(procedure) // \",\", &\n          trim(name1),trim(name2),n1,n2,\" need \" // trim(name1) // \" <= \" // trim(name2) // \", STOPPING\"\n   error stop\nend if\nend subroutine assert_le\n\ninvoked with code such as\ncall assert_le(ntrain,n,\"ntrain\",\"n\",\"main\")\nThere is #72 \"Implement standard assert subroutine and associated macros\", but a general assert subroutine testing a condition will give a less informative message.",
+            "comments": []
+        },
+        {
+            "number": 411,
+            "user": "ivan-pi",
+            "date": "2021-05-16 01:45:21+00:00",
+            "title": "Perl interface",
+            "text": "Description\n\n\nIt would be nice to have an interface to call Perl scripts for various reasons (inspired from the MATLAB perl function documentation):\n\nusing an existing Perl script\nyou need to quickly preprocess some data\nPerl has features not supported by Fortran (string processing!)\n\nOne interface could be a simple call to a system-installed Perl interpreter:\nresult = perl(perlfile,arg1,arg2,arg3,arg4,arg5,...)\n\nwhere arguments to perl are objects of type character(len=*) and result is either character(len=:), allocatable or type(string_type). For more than 10 arguments we could have a version which accepts an array:\ntype(string_type) :: args(15), result\nargs(1) = ...\n...\nargs(15) = ...\nresult = perl(perlfile,args)\nstatus = perl_status()\n\nThe exit status of the last Perl interpreter call would be recoverable with the function perl_status(). Other functions could be provided to check the Perl interpreter version and other properties.\nA second interface would be to build upon perlembed and access parts of the underlying Perl C API directly. This might be better suited for a separate package.\nPrior Art\n\nMATLAB: perl\nJulia: base.run\nA few tools to use Fortran from Perl are given at the Fortran Wiki, but none for the other direction.",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-05-17 09:41:20+00:00",
+                    "text": "I have done similar work on my favourite dynamic language, Tcl, and more\nrecently on a spin-off of that, meant for compact applications, JimTcl.\nHaving such facilities for both directions would be very nice indeed, as\neach side has its own strengths and weaknesses.\n\nOp zo 16 mei 2021 om 03:45 schreef Ivan Pribec ***@***.***>:\n\u2026\n *Description*\n\n It would be nice to have an interface to call Perl\n <https://en.wikipedia.org/wiki/Perl> scripts for various reasons\n (inspired from the MATLAB perl\n <https://de.mathworks.com/help/matlab/ref/perl.html> function\n documentation):\n\n    - using an existing Perl script\n    - you need to quickly preprocess some data\n    - Perl has features not supported by Fortran (string processing!)\n\n One interface could be a simple call to a system-installed Perl\n interpreter:\n\n result = perl(perlfile,arg1,arg2,arg3,arg4,arg5,...)\n\n where arguments to perl are objects of type character(len=*) and result\n is either character(len=:), allocatable or type(string_type). For more\n than 10 arguments we could have a version which accepts an array:\n\n type(string_type) :: args(15), result\n args(1) = ...\n ...\n args(15) = ...\n result = perl(perlfile,args)\n status = perl_status()\n\n The exit status of the last Perl interpreter call would be recoverable\n with the function perl_status(). Other functions could be provided to\n check the Perl interpreter version and other properties.\n\n A second interface would be to build upon perlembed\n <https://perldoc.perl.org/perlembed> and access parts of the underlying\n Perl C API directly. This might be better suited for a separate package.\n\n *Prior Art*\n\n MATLAB: perl <https://de.mathworks.com/help/matlab/ref/perl.html>\n Julia: base.run <https://docs.julialang.org/en/v1/base/base/#Base.run>\n\n A few tools to use Fortran from Perl are given at the Fortran Wiki\n <http://fortranwiki.org/fortran/show/Perl>, but none for the other\n direction.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#411>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6ZHHDWQ6U5GGG26WDTN4PT3ANCNFSM446OLN2A>\n ."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-17 10:09:18+00:00",
+                    "text": "I have encountered some of your work previously:\n\nCombining Fortran and scripting languages\nFtcl: Using Tcl in Fortran programs and vice versa\nCombining Fortran and Tcl in one program\n\nThere is also the great tutorial on Tcl/Tk by @interkosmos.\nI have done something similar with calling R from Fortran here: https://github.com/ivan-pi/Fortran-RInside/"
+                }
+            ]
+        },
+        {
+            "number": 410,
+            "user": "Beliavsky",
+            "date": "2021-05-13 15:00:21+00:00",
+            "title": "Function to construct array of character variables",
+            "text": "A defect of Fortran is that you cannot write x = [\"one\",\"three\",\"four\"] but must instead either pad with x = [\"one  \",\"three\",\"four \"] or write x = [character(len=5) :: \"one\",\"three\",\"four\"], which is wordy. A convenience function that I use in many of my programs lets you write x = c(\"one\",\"three\",\"four\"). It works for up to 10 arguments. I suggest something like it for stdlib. Here is the code:\nfunction c(x1,x2,x3,x4,x5,x6,x7,x8,x9,x10) result(vec)\n! return character array containing present arguments\ncharacter (len=*)  , intent(in), optional    :: x1,x2,x3,x4,x5,x6,x7,x8,x9,x10\ncharacter (len=100)            , allocatable :: vec(:)\ncharacter (len=100)            , allocatable :: vec_(:)\ninteger                                      :: n\nallocate (vec_(10))\nif (present(x1))  vec_(1)  = x1\nif (present(x2))  vec_(2)  = x2\nif (present(x3))  vec_(3)  = x3\nif (present(x4))  vec_(4)  = x4\nif (present(x5))  vec_(5)  = x5\nif (present(x6))  vec_(6)  = x6\nif (present(x7))  vec_(7)  = x7\nif (present(x8))  vec_(8)  = x8\nif (present(x9))  vec_(9)  = x9\nif (present(x10)) vec_(10) = x10\nn = count([present(x1),present(x2),present(x3),present(x4),present(x5), &\n           present(x6),present(x7),present(x8),present(x9),present(x10)])\nallocate (vec(n))\nif (n > 0) vec = vec_(:n)\nend function c\n\n  \n    \n    \n\n    \n    \n\n  \n\n\nThe user is not supposed to write things like x = c(x1=\"a\",x3=\"b\")",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-05-14 01:16:44+00:00",
+                    "text": "Allowing the desired syntax is already a common extension. If it has not already been proposed to support that you should.\nThe interesting use of COUNT() got me thinking about whether PRESENT() was elemental (pretty sure now it is not) and whether you could make an elemental function with an optional argument (which seemed unlikely but I could not find anything in the standard so far that prohibits it but still looking) so I just tried it with gfortran and such a function compiles and runs but did not give me the answer I expected.  Still playing with that, but did make a version that allows for the string length to be equal to the longest string input, and to allow non-sequential arguments to be specified by name.  It got really convoluted though because I was really playing with whether you could pass an array of optional arguments or not.  I don't think the second one (x=c(x1=\"a\",x3=\"b\") ) is very important but I really would like the function to allow input strings of any length and to return an array with the LEN of the longest input string.  You could do that with yours by just adding a preceding if(present(xNN)) maxlen=max(maxlen,len(xNN) and then your COUNT to get the length and size for VEC and then put the arguments straight into VEC.\nDoes anyone see anything definitive in the standard that says whether calling GETL should work or if GETL as written is not allowed?  The following does work otherwise like the above C but with any length input and with output length equal to the longest input string but I was playing so I would not use the way I did it; but it does show you can sure right Fortran that does not look like FORTRAN :>\nmodule m_c\nprivate\npublic :: c\ncontains\nfunction c(x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15) result(vec)\n! return character array containing present arguments\ncharacter (len=*),intent(in),optional :: &\n   & x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15\ncharacter (len=:),allocatable         :: vec(:)\ninteger                               :: maxlen, valcount, place\n\n   !! what the heck should this do if anything?\n   write(*,'(*(i0,1x))')getl([x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15])\n   write(*,*)maxval(getl([x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12,x13,x14,x15]))\n\n   if(allocated(vec))deallocate(vec)\n   maxlen=0\n   valcount= count([sz( x1),sz( x2),sz( x3),sz( x4),sz( x5) &\n                 & ,sz( x6),sz( x7),sz( x8),sz( x9),sz(x10) &\n                 & ,sz(x11),sz(x12),sz(x13),sz(x14),sz(x15) ])\n   allocate (character(len=maxlen) :: vec(valcount))\n   place=0\n   call put( x1); call put( x2); call put( x3); call put( x4); call put( x5)\n   call put( x6); call put( x7); call put( x8); call put( x9); call put(x10)\n   call put(x11); call put(x12); call put(x13); call put(x14); call put(x15)\ncontains\n\nelemental integer function getl(arg)\ncharacter(len=*),intent(in),optional :: arg\n   if(present(arg))then;getl=len(arg);else;getl=0;endif\nend function getl\n\nlogical function sz(arg)\ncharacter(len=*),intent(in),optional :: arg\n   sz=present(arg)\n   maxlen=merge(max(maxlen,len(arg)),maxlen,present(arg))\nend function sz\n\nsubroutine put(arg)\ncharacter(len=*),intent(in),optional :: arg\n   if(present(arg))then\n      place=place+1\n      vec(place)=arg\n   endif\nend subroutine put\n\nend function c\nend module m_c\n\nprogram testit\nuse M_c, only : c\nimplicit none\ncharacter(len=:),allocatable :: output(:)\n   output=c(\"one\",\"two\",\"three\",\"four\",\"five\",\"six\",\"seven\")\n\n   write(*,'(*(g0))')'SIZE=',size(output),' LEN=',len(output)\n   write(*,'(*(\"[\",a,\"]\":,\",\"))')output\n\n   output=c(x1=\"one\",x5=\"two\")\n\n   write(*,'(*(g0))')'SIZE=',size(output),' LEN=',len(output)\n   write(*,'(*(\"[\",a,\"]\":,\",\"))')output\nend program testit\nSo even though GETL compiled it gave an answer of all 3s  but the rest did work, showing it is relatively easy to output an array of the width of the longest input value a little more generically. Anyone have any thoughts on GETL()?\n3 3 3 3 3 3 3 3 3 3 3 3 3 3 3\n           3\nSIZE=7 LEN=5\n[one  ],[two  ],[three],[four ],[five ],[six  ],[seven]\n3 3 3 3 3 3 3 3 3 3 3 3 3 3 3\n           3\nSIZE=2 LEN=3\n[one],[two]"
+                },
+                {
+                    "user": "tsbg",
+                    "date": "2021-05-15 12:35:07+00:00",
+                    "text": "The problem is the array construtor [x1, x2, x3, ..., x10]. What is the result if one of the arguments is missing?\nMy own solution to this problem looks like this:\nmodule m\n  !\n  implicit none\n  private\n  !\n  public :: c\n  !\ncontains\n  !\n  ! Return character array containing present arguments.\n  !\n  function c(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9) result(vec)\n    character(len=*), optional, intent(in) :: x0, x1, x2, x3, x4\n    character(len=*), optional, intent(in) :: x5, x6, x7, x8, x9\n    character(len=:), allocatable          :: vec(:)\n    !\n    integer :: alen(0:9), mlen, narg, i, j\n    !\n    alen = -1\n    if (present(x0)) alen(0) = len(x0); if (present(x1)) alen(1) = len(x1)\n    if (present(x2)) alen(2) = len(x2); if (present(x3)) alen(3) = len(x3)\n    if (present(x4)) alen(4) = len(x4); if (present(x5)) alen(5) = len(x5)\n    if (present(x6)) alen(6) = len(x6); if (present(x7)) alen(7) = len(x7)\n    if (present(x8)) alen(8) = len(x8); if (present(x9)) alen(9) = len(x9)\n    !\n    narg = count(alen >= 0)\n    mlen = max(0, maxval(alen))\n    allocate (character(len=mlen) :: vec(narg))\n    !\n    j = 0\n    do i = 0, size(alen) - 1\n      if (alen(i) < 0) cycle\n      j = j + 1\n      select case (i)\n      case (0); vec(j) = x0; case (1); vec(j) = x1\n      case (2); vec(j) = x2; case (3); vec(j) = x3\n      case (4); vec(j) = x4; case (5); vec(j) = x5\n      case (6); vec(j) = x6; case (7); vec(j) = x7\n      case (8); vec(j) = x8; case (9); vec(j) = x9\n      end select\n    end do\n    !\n    return\n  end function c\n  !\nend module m\n\nprogram test\n  !\n  use :: m\n  !\n  implicit none\n  !\n  character(len=:), allocatable :: arr(:)\n  !\n  arr = c('one', 'two', 'three', '', x7='s e v e n')\n  write (*, '(\"size: \",i0,\", length: \",i0)') size(arr), len(arr)\n  write(*,'(*(\"[\",a,\"]\":,\",\"))') arr\n  !\n  arr = c()\n  write (*, '(\"size: \",i0,\", length: \",i0)') size(arr), len(arr)\n  !\nend program test\nOutput:\nsize: 5, length: 9\n[one      ],[two      ],[three    ],[         ],[s e v e n]\nsize: 0, length: 0\n\nIt would be cool, if the the dummy arguments could be accessed like an array."
+                }
+            ]
+        },
+        {
+            "number": 409,
+            "user": "Beliavsky",
+            "date": "2021-05-12 19:19:45+00:00",
+            "title": "Cross correlation using Fast Fourier Transform",
+            "text": "To compute the cross correlation at lag p of two 1D arrays of length n you compute sum(x(1+p:n)*y(1:n-p)). If you want the cross correlation at all lags, the Fast Fourier Transform can be used to speed the calculation. Intel describes Implementing the Fourier Correlation Algorithm Using oneAPI. I suggest adding a function ccf(x,y,p) which computes cross correlations from lags 0 to p and uses an FFT when that is the fastest method (which will be for large p).\nIn general, linear time series analysis and signal processing could be part of stdlib.",
+            "comments": []
+        },
+        {
+            "number": 408,
+            "user": "wclodius2",
+            "date": "2021-05-12 04:23:34+00:00",
+            "title": "Sorting2",
+            "text": "Merged inconsistent changes in doc/specs/stdlib_sorting.mb and src/stdlib_sorting.fypp.",
+            "comments": [
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-17 00:44:39+00:00",
+                    "text": "A few API suggestions:\n1.) In subroutine sort_index - the index, work, and iwork arrays should probably be intent(out), not intent(inout).  Same with the work array in ord_sort.\n2.) All three subroutines should have an optional return status that indicates success or failure.  Right now there are some hard stops in the code - specifically when allocate is called.  It would be good to have the ability to avoid these.\n3.) Shouldn't all three have a 'reverse' argument so the caller can specify either ascending or decending sort order?\nFWIW, in some code I've worked on, we use private types with public parameters for such things.  E.g.,:\nmodule sorting_mod\nimplicit none\nprivate\n...\ntype :: sortFlag_t  ! private type\nlogical :: descending\nend type\ntype(sortFlag_t), parameter, public ::  &\nSORTFLAG_ASCENDING  = sortFlag_t (.false.),  &\nSORTFLAG_DESCENDING = sortFlag_t (.true.)\nWhile in the case of sort_index there are only two options, so not strictly needed, the technique is general to other areas of a library where many more options for an argument might be offered.  It ensures that the compiler can enforce correct option selections at compile time.  And it provides clear indication of what is being specified - rather than some \"magic number\".  It also removes some need for run-time validation checks."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-18 17:23:03+00:00",
+                    "text": "I am on travel and it is awkward for me to find the time to do the changes, but I will see what I can do."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-20 03:03:38+00:00",
+                    "text": "I have committed and pushed changes suggested by Jeremie."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-20 20:21:05+00:00",
+                    "text": "I am skeptical that they can be combined. The use of FYPP to generate but the names of procedures and the types of arguments to the procedures seemed to me to make that impractical If you have a concrete proposition show it and I will see what I can do.\n\n@wclodius2\nI modified your modules and submodules related to sorting algorithms, such that only one peace of code is used to generate the procedures for integer, real, and string_type. The source code is quite similar to what you proposed and much shorter.\nThe generated code is the same as as the original generated code.\nI opened a PR with my modifications against your own branch. See here for more details. If you agree with these changes, you can merge the PR, such that the changes appear to this PR too.\nNote:\n\nOnly one int64 was modified to int_size (but I believe it should have been like that).\nThe name of the procedures realted to string_type was change from string_xxxto string_type_xxx.\n\nWith this approach, it will also allow to easily extend the sorting procedures to any new derived types that are associated with operations \">\", and so on.\nPlease let me know if this approach sounds good for you."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-21 14:50:13+00:00",
+                    "text": "I have pulled the PR into the current branch."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-21 16:48:04+00:00",
+                    "text": "I have pulled the PR into the current branch.\n\nGood. I will continue the review of the code!"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-23 02:37:24+00:00",
+                    "text": "@w6ws sorry for my late response, but I have been busy on my trip.\n\nI am going to defer to @jvdp1 as to the intents of the arguments.\nThe errors can only be \"caught\" for a memory allocation problem. With lazy allocation on Linux. and virtual memory on all systems, it is not clear what can cause an allocation error, or that such an error is recoverable. I am right now inclined  to remove the stat argument to the allocate statements and simply let a memory error halt processing and let the processor report the problem if it occurs. This will allow my procedures to be pure.\nThe reverse argument is only needed for the sort_index procedure, because it is intended to be a stable sort. A stable reverse sort requires that the array to be sorted be reversed on entry and then the sorted index array be reversed on return. The other two procedures can be handled by simply reversing the sorted arrays. I mam willing to consider including a reverse procedure in the stdlib_sorting module for that purpose.\n\nI assume that the rest of the message is informative only, and doesn't require a response."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-23 16:41:32+00:00",
+                    "text": "@w6ws sorry for my late response, but I have been busy on my trip.\n\nI am going to defer to @jvdp1 as to the intents of the arguments.\n\n\nIn the case of sort_index, the index array should be intent(out).  Intent(out) is also appropriate for 'throw away' scratch arrays.    If the Standards committee had followed through with intent(scratch), it would have been even better.\n\n\nThe errors can only be \"caught\" for a memory allocation problem. With lazy allocation on Linux. and virtual memory on all systems, it is not clear what can cause an allocation error, or that such an error is recoverable. I am right now inclined  to remove the stat argument to the allocate statements and simply let a memory error halt processing and let the processor report the problem if it occurs. This will allow my procedures to be pure.\n\n\nIn general I like library routines to return control to their caller when they detect errors - then let the caller decide what to do.  For example in the case of sort_ord and sort_index, besides allocation errors, checks could also be made to ensure the scratch and output arrays are large enough.  Just makes things more user friendly.  But good point on enabling the procedures to be pure.\n\n\nThe reverse argument is only needed for the sort_index procedure, because it is intended to be a stable sort. A stable reverse sort requires that the array to be sorted be reversed on entry and then the sorted index array be reversed on return. The other two procedures can be handled by simply reversing the sorted arrays. I mam willing to consider including a reverse procedure in the stdlib_sorting module for that purpose.\n\nI assume that the rest of the message is informative only, and doesn't require a response.\n\nSeems like a pain to require the manual steps of reversing inputs and outputs to get a descending order.  Especially since, perhaps stability aside, it is only a matter of which comparison operator to use within the sorting algorithms.  Again, user-friendliness.\nMy comments on the 'reverse' argument is with an eye to future expansion.  For example, if it were desired to enhance the sort routines to accept sort order choices like ASCENDING, ASCENDING_STABLE, DESCENDING, DESCENDING_STABLE.  Maybe even specify alternative algorithms like ASCENDING_RADIX and DESCENDING_RADIX, etc.  A simple argument of type logical doesn't handle more than two choices.  And an integer argument would need to be checked at run-time.  Doing it as I described allows compile time enforcement of the only supported choices."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-23 18:59:48+00:00",
+                    "text": "@wclodius2 @w6ws\n\n\n@w6ws sorry for my late response, but I have been busy on my trip.\n\nI am going to defer to @jvdp1 as to the intents of the arguments.\n\n\nIn the case of sort_index, the index array should be intent(out). Intent(out) is also appropriate for 'throw away' scratch arrays. If the Standards committee had followed through with intent(scratch), it would have been even better.\n\nI agree with @w6ws . It would make sense that index and all work arrays are intent(out).\n\n\n\nThe errors can only be \"caught\" for a memory allocation problem. With lazy allocation on Linux. and virtual memory on all systems, it is not clear what can cause an allocation error, or that such an error is recoverable. I am right now inclined  to remove the stat argument to the allocate statements and simply let a memory error halt processing and let the processor report the problem if it occurs. This will allow my procedures to be pure.\n\n\nIn general I like library routines to return control to their caller when they detect errors - then let the caller decide what to do. For example in the case of sort_ord and sort_index, besides allocation errors, checks could also be made to ensure the scratch and output arrays are large enough. Just makes things more user friendly. But good point on enabling the procedures to be pure.\n\nThe topic of handling errors come often in stdlib. Would it be an idea to add an intent(out) integer (e.g., called info, as in BLAS/LAPACK), that would return a value different than 0, with allocation erros, and on checks on scratch and output arrays? With such an approach, the stat argument in the allocate statement could be kept, while error stop could be removed, and the procedure be pure."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-24 02:49:44+00:00",
+                    "text": "I have pulled the changes of @jvdp1 and edited the results to incorporate the changes in intent suggested by @w6ws, committed the changes and pushed them with the command\ngit push william\n\nThe push seemed to go well, but it did not result in an update check on this page. I assume that means the the update did not occur in sorting2. What can I do to update sorting2?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-24 07:51:59+00:00",
+                    "text": "@wclodius2 I can see your changes regarding intent (in addition to 3 other commits based on my suggestions). It can be found here."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-25 21:04:17+00:00",
+                    "text": "@jvdp1 can you approve the changes I submitted here?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-25 21:16:07+00:00",
+                    "text": "@jvdp1 can you approve the changes I submitted here?\n\n@wclodius2 the changes suggested by @w6ws regarding intent(out) are available in this PR. LGTM. Thank you."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-27 00:36:19+00:00",
+                    "text": "@wclodius2 @w6ws\n\n\n@w6ws sorry for my late response, but I have been busy on my trip.\n\nI am going to defer to @jvdp1 as to the intents of the arguments.\n\n\nIn the case of sort_index, the index array should be intent(out). Intent(out) is also appropriate for 'throw away' scratch arrays. If the Standards committee had followed through with intent(scratch), it would have been even better.\n\nI agree with @w6ws . It would make sense that index and all work arrays are intent(out).\n\nDone.\n\n\n\n\nThe errors can only be \"caught\" for a memory allocation problem. With lazy allocation on Linux. and virtual memory on all systems, it is not clear what can cause an allocation error, or that such an error is recoverable. I am right now inclined  to remove the stat argument to the allocate statements and simply let a memory error halt processing and let the processor report the problem if it occurs. This will allow my procedures to be pure.\n\n\nIn general I like library routines to return control to their caller when they detect errors - then let the caller decide what to do. For example in the case of sort_ord and sort_index, besides allocation errors, checks could also be made to ensure the scratch and output arrays are large enough. Just makes things more user friendly. But good point on enabling the procedures to be pure.\n\nThe topic of handling errors come often in stdlib. Would it be an idea to add an intent(out) integer (e.g., called info, as in BLAS/LAPACK), that would return a value different than 0, with allocation erros, and on checks on scratch and output arrays? With such an approach, the stat argument in the allocate statement could be kept, while error stop could be removed, and the procedure be pure.\n\nI had the impression that @w6ws wanted the argument to be optional, in which case I would want the ERROR STOP to be present and we would not gain purity.\nDid you have any opinion on the @w6ws proposal for a reverse optional argument? I am concerned at the impact on the complexity of the  API, and also on its impaction my time. I want to get this PR done, though the   error  handling is the  bigger  potential  project."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-27 00:42:01+00:00",
+                    "text": "@w6ws sorry for my late response, but I have been busy on my trip.\n\n\nSeems like a pain to require the manual steps of reversing inputs and outputs to get a descending order. Especially since, perhaps stability aside, it is only a matter of which comparison operator to use within the sorting algorithms. Again, user-friendliness.\n\n\nWhile logically the only difference is in the comparison operators in practice it wouldn't be implemented that way as it  would result in a large duplication of code. It would instead be implemented using a reverse procedure."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-27 05:34:48+00:00",
+                    "text": "The errors can only be \"caught\" for a memory allocation problem. With lazy allocation on Linux. and virtual memory on all systems, it is not clear what can cause an allocation error, or that such an error is recoverable. I am right now inclined  to remove the stat argument to the allocate statements and simply let a memory error halt processing and let the processor report the problem if it occurs. This will allow my procedures to be pure.\n\n\nIn general I like library routines to return control to their caller when they detect errors - then let the caller decide what to do. For example in the case of sort_ord and sort_index, besides allocation errors, checks could also be made to ensure the scratch and output arrays are large enough. Just makes things more user friendly. But good point on enabling the procedures to be pure.\n\nThe topic of handling errors come often in stdlib. Would it be an idea to add an intent(out) integer (e.g., called info, as in BLAS/LAPACK), that would return a value different than 0, with allocation erros, and on checks on scratch and output arrays? With such an approach, the stat argument in the allocate statement could be kept, while error stop could be removed, and the procedure be pure.\n\nI had the impression that @w6ws wanted the argument to be optional, in which case I would want the ERROR STOP to be present and we would not gain purity.\n\nI agree with you: if the argument is optional, then an error stop is likely to be needed. However, I would not make such an argument optional (similarly to the info argument in many procedures of LAPACK, or other error arguments in other libraries): up to the user to use/check it or not.\n\nDid you have any opinion on the @w6ws proposal for a reverse optional argument? I am concerned at the impact on the complexity of the API, and also on its impaction my time. I want to get this PR done, though the error handling is the bigger potential project.\n\nI would suggest to keep this implementation of reverse for another issue/PR. I also like the approach proposed by @w6ws in this comment. This would allow different options in the future, like sorting in increasing or decreasing order, and in a stable or unstable approach,... However, this requires more discussions on the API and the approach before implementation, because it could influence future procedures.\n@awvwgk @milancurcic any opinions on this PR?"
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-27 16:58:25+00:00",
+                    "text": "First, thank you for accepting my suggestion on intent(out) stuff!\nSecond, on the reverse capability - I'd think that if some of the sorts only support sorting in one direction, you'll have a lot of users scratching their heads wondering why.  (Like me.)\nYears ago I added a sorting routine to the ESMF library - https://github.com/esmf-org/esmf/blob/develop/src/Infrastructure/Util/src/ESMF_UtilSort.cppF90.  This factored out a bunch of little sorting routines that had been sprinkled throughout the library.  It is based on the LAPACK SLASRT sort.  I templatized it for various data types using the C preprocessor (same technique is also used in many other parts of the ESMF library.)  Taking a look at it, the IF ELSE ENDIF blocks for direction are done at an outermost level.  The loops and interiors of the blocks are identical - except for comparison direction.  A characteristic of the SLASRT-based code is that it doesn't use much temporary storage space.  So passing in, or creating local, work arrays are not needed.\nI've also, for personal use, implemented simplified versions of the HPF SORT_UP, SORT_DOWN, GRADE_UP, and GRADE_DOWN functions.  In these cases, the direction of the sort is embedded in the entry point name.  So no conditional code is needed for sort order.  FWIW, I implemented SORT_UP and SORT_DOWN again using SLASRT-based code.  Basically copied the input array to the functions result area - then did the sort on the result area.  I based GRADE_UP and GRADE_DOWN on the Numerical Recipies INDEXX routine.  INDEXX also uses minimal scratch space.  So again, large scratch arrays weren't needed.\nThird, on error processing - yes I would suggest making an error return argument optional.  Referring back to the ESMF library again, the coding style we used was to make an optional Return Code (rc=) argument as the last argument of every library routine.  We also strongly encouraged users to check the RC.  If you look at ESMF_UtilSort, it checks for a couple of things and if it finds an error it will (optionally) set the RC to something other than ESMF_SUCCESS, and then return.  So it returns bad results and (optionally) an error RC, rather than a hard stop.  The ESMF philosophy, for better or worse, has been to encourage programmers to always check the RC for success.  I should note that ESMF normally operates in a MPI environment.  Some users routinely run climate and weather models with hundreds or thousands of MPI processes.  So if one thread abends, it can cause a calamity.  We really wanted the users to handle their own errors."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-27 21:23:23+00:00",
+                    "text": "While logically the only difference is in the comparison operators in practice it wouldn't be implemented that way as it would result in a large duplication of code. It would instead be implemented using a reverse procedure.\n\nI though a bit about this issue. If the main implementation is to replace all comparison operators (e.g., >) by its opposite (e.g., <), then I think it could be easily done by adding an additional fypp loop. In this case, no code should be duplicated. @wclodius2  I can give a try if it is a possible solution for you."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-28 04:08:31+00:00",
+                    "text": "While logically the only difference is in the comparison operators in practice it wouldn't be implemented that way as it would result in a large duplication of code. It would instead be implemented using a reverse procedure.\n\nI though a bit about this issue. If the main implementation is to replace all comparison operators (e.g., >) by its opposite (e.g., <), then I think it could be easily done by adding an additional fypp loop. In this case, no code should be duplicated. @wclodius2 I can give a try if it is a possible solution for you.\n\nAt least for stdlib_sorting_ord_sort more than one form of comparison operator is used, i.e., > and >=. Other than that you are the expert on FYPPand if you think it is straightforward go for it."
+                }
+            ]
+        },
+        {
+            "number": 407,
+            "user": "Aman-Godara",
+            "date": "2021-05-07 16:15:46+00:00",
+            "title": "changed to_title to to_sentence and implemented correct to_title",
+            "text": "Status: Code is open for review\nConcerning PR: #372\nTasks:\n\n implemented correct to_title & changed to_title to to_sentence\n written/updated tests for both to_title & to_sentence\n Documentation\n Added module dependency of stdlib_math on stdlib_kinds in src/Makefile.manual\n\nCloses #372",
+            "comments": [
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-15 14:57:55+00:00",
+                    "text": "Please rerun the workflow once. I don't think there is any error in the code."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-16 07:49:25+00:00",
+                    "text": "Please rerun the workflow once. I don't think there is any error in the code.\n\nYes, this is unrelated to your changes in this PR. It looks like the Makefile is missing a dependency for stdlib_math. Adding the following to Makefile.manual under # Fortran module dependencies (line 57) should fix it:\nstdlib_math.o: stdlib_kinds.o"
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-16 08:34:26+00:00",
+                    "text": "stdlib_math.o: stdlib_kinds.o\n\nOk!, I will make the necessary changes."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-22 09:07:45+00:00",
+                    "text": "Thanks for this patch. I'll go ahead and merge."
+                }
+            ]
+        },
+        {
             "number": 406,
             "user": "ivan-pi",
             "date": "2021-04-30 09:02:22+00:00",
@@ -120,6 +515,11 @@
                     "user": "arjenmarkus",
                     "date": "2021-04-29 19:57:28+00:00",
                     "text": "I wrote a small program to compare the results of four algorithms both in\nterms of accuracy and timings (algorithms: intrinsic sum, na\u00efve do-loop,\nKahan compensated summation and pairwise summation). I ran it with two\ncompilers, gfortran 10.2 and Intel Fortran oneAPI, without and with\noptimisation. Instead of random numbers I used identical, alternating and\nincreasing numbers, so that I could easily calculate the exact sum.\n\nThe results are comparable and not comparable. For the timers I need to do\na bit more work, because especially with the optimised versions the elapsed\ntimes are essentially zero.\n\nOne (preliminary) conclusion though: with optimisation (-O2) the Kahan\nalgorithm seems no more expensive than any of the others and is quite\naccurate. For Intel Fortran oneAPI, however, I did have to use an option to\nprotect the parentheses, other the Kahan algorithm produced nonsense.\n\nI have attached said program. (I only hope I did not make a mistake \ud83d\ude0a)\n\nOp wo 28 apr. 2021 om 02:26 schreef Beliavsky ***@***.***>:\n Relevant 2016 thread from comp.lang.fortran: Shouldn't intrinsic SUM\n avoid overflow?\n <https://groups.google.com/g/comp.lang.fortran/c/zmqXee93SN8>. Below is a\n code from that thread:\n\n ! from comp.lang.fortran https://groups.google.com/g/comp.lang.fortran/c/zmqXee93SN8 Shouldn't intrinsic SUM avoid overflow?\n ! program to test KahanSum\n !\n real*4 function KahanSum (values, n)\n ! https://en.wikipedia.org/wiki/Kahan_summation_algorithm\n integer*4 <https://en.wikipedia.org/wiki/Kahan_summation_algorithminteger*4> n\n real*4 values(n)\n !\n integer*4 i\n real*4 sum, c, y, t\n !\n c = 0\n sum = 0\n do i = 1,n\n y = values(i) - c ! So far, so good : c is zero\n t = sum + y ! Alas, sum is big, Y small, so low-order digits of y are lost\n c = (t - sum) - y ! (t-sum) cancels the high-order part of y; subtracting y recovers negative (low part of y)\n sum = t ! Algebraically, c should always be zero. Beware overly-aggressive optimizing compilers !\n end do ! Next time around, the low part will be added to y in a fresh attempt.\n !\n KahanSum = sum\n end function KahanSum\n\n real*4 function Sum8 (values, n)\n integer*4 n\n real*4 values(n)\n !\n integer*4 i\n real*8 sum, y\n !\n sum = 0\n do i = 1,n\n y = values(i)\n sum = sum + y\n end do\n !\n Sum8 = sum\n end function Sum8\n\n real*4 function Sum4 (values, n)\n integer*4 n\n real*4 values(n)\n !\n integer*4 i\n real*4 sum, y\n !\n sum = 0\n do i = 1,n\n y = values(i)\n sum = sum + y\n end do\n !\n Sum4 = sum\n end function Sum4\n\n Program Kahan_test\n !\n integer*4 n, k\n real*4, allocatable :: values(:)\n real*4 sum4, sum8, KahanSum, s8, k4, s4, si\n !\n call report_options\n !\n do k = 2,30\n n = 2**k\n allocate ( values(n) )\n call random_number ( values )\n s8 = sum8 ( values, n )\n k4 = KahanSum ( values, n )\n s4 = sum4 ( values, n )\n si = sum ( values )\n write (*,fmt='(i10,7es11.3)') n, si, s4, k4, s8, abs(si-s8) , abs(s4-s8), abs(k4-s8)\n deallocate (values)\n end do\n !\n end\n\n subroutine report_options\n use ISO_FORTRAN_ENV\n write (*,*) 'Compiler: ',compiler_version ()\n write (*,*) 'Options : ',compiler_options ()\n end subroutine report_options\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#402 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZQ4SOME2YQMD3EE4LTK5I3TANCNFSM43TGYCEA>\n .\n\n! sum_accuracy.f90 --\n!     Examine the accuracy of various algorithms to calculate the sum\n!     of an array of real values\n!\n!     Rather than using random numbers, this program uses identical,\n!     linearly increasing and alternating numbers, so that the\n!     exact sum is known.\n!\n!     TODO:\n!     - Examine the influence of the \"cut-off\" parameter in sum_pair\n!     - Implement the FABsum algorithm\n!\n!     Note:\n!     Intel Fortran oneAPI requires -Qprotect-parens to get useful results\n!     with \"Kahan\"\n!\nprogram sum_accuracy\n    implicit none\n\n    integer, parameter                :: wp = kind(1.0)\n    integer, parameter                :: dp = kind(1.0d0)\n    integer, parameter                :: long = selected_int_kind(12)\n\n    integer, parameter                :: nvalues = 10000000\n    real(kind=wp), dimension(nvalues) :: x\n    real(kind=wp), dimension(12)      :: dx = [  0.1_wp,  0.2_wp,  0.3_wp,  -0.1_wp,  -0.2_wp,  -0.3_wp, &\n                                                0.01_wp, 0.02_wp, 0.03_wp, -0.01_wp, -0.02_wp, -0.03_wp]\n    integer, dimension(5)             :: array_size = [1000, 10000, 100000, 1000000, nvalues]\n    integer                           :: i, j, sz\n    real(kind=wp)                     :: exact, result, sgn\n    integer(kind=long)                :: count_start, count_end, rate\n    real(kind=kind(1.0d0))            :: elapsed_time\n\n    !\n    ! Sum identical values\n    !\n    write(*,'(a)') 'Identical values:'\n    do i = 1,size(dx)\n        x = dx(i)\n\n        write(*,'(a,g15.6)') '    Value:', dx(i)\n        !\n        ! Exact sum: nvalues * value\n        !\n        exact = nvalues * dx(i)\n\n        call sum_intrinsic( x, result ); call report_result( result, exact, 'Sum intrinsic function' )\n        call sum_naive    ( x, result ); call report_result( result, exact, 'Sum via do-loop' )\n        call sum_kahan    ( x, result ); call report_result( result, exact, 'Sum via Kahan compensated algorithm' )\n        call sum_pairwise ( x, result ); call report_result( result, exact, 'Sum via pairwise summation' )\n    enddo\n\n    !\n    ! Sum alternating values\n    !\n    write(*,'(a)') 'Alternating values:'\n    do i = 1,size(dx)\n        sgn = 1.0\n        do j = 1,size(x)\n            x(j) =  sgn * dx(i)\n            sgn  = -sgn\n        enddo\n\n        write(*,'(a,g15.6)') '    Value:', dx(i)\n        !\n        ! Exact sum: nvalues * value\n        !\n        exact = 0.0_wp\n\n        call sum_intrinsic( x, result ); call report_result( result, exact, 'Sum intrinsic function' )\n        call sum_naive    ( x, result ); call report_result( result, exact, 'Sum via do-loop' )\n        call sum_kahan    ( x, result ); call report_result( result, exact, 'Sum via Kahan compensated algorithm' )\n        call sum_pairwise ( x, result ); call report_result( result, exact, 'Sum via pairwise summation' )\n    enddo\n\n    !\n    ! Sum increasing values\n    !\n    write(*,'(a)') 'Increasing values:'\n    do i = 1,size(dx)\n        do j = 1,size(x)\n            x(j) =  j * dx(i) / 1000.0\n        enddo\n\n        write(*,'(a,g15.6)') '    Value:', dx(i) / 1000.0\n        !\n        ! Exact sum: nvalues * value\n        !\n        exact = 0.5 * size(x) * real(size(x)+1,wp) * dx(i) / 1000.0\n\n        call sum_intrinsic( x, result ); call report_result( result, exact, 'Sum intrinsic function' )\n        call sum_naive    ( x, result ); call report_result( result, exact, 'Sum via do-loop' )\n        call sum_kahan    ( x, result ); call report_result( result, exact, 'Sum via Kahan compensated algorithm' )\n        call sum_pairwise ( x, result ); call report_result( result, exact, 'Sum via pairwise summation' )\n    enddo\n\n    !\n    ! Timings\n    !\n    write(*,'(a)') 'Timings:'\n    x = dx(1)\n\n    call system_clock( count_rate = rate )\n    do i = 1,size(array_size)\n        sz = array_size(i)\n\n        write(*,'(a,i12)') '    Number of data:', array_size(i)\n        !\n        ! Exact sum: nvalues * value\n        !\n        exact = sz * dx(1)\n\n        call system_clock( count_start )\n        call sum_intrinsic( x(1:sz), result )\n        call system_clock( count_end )\n        elapsed_time = (count_end - count_start) / real(rate,dp)\n        call report_time( elapsed_time, 'Sum intrinsic function' )\n\n        call system_clock( count_start )\n        call sum_naive    ( x(1:sz), result )\n        call system_clock( count_end )\n        elapsed_time = (count_end - count_start) / real(rate,dp)\n        call report_time( elapsed_time, 'Sum via do-loop' )\n\n        call system_clock( count_start )\n        call sum_kahan    ( x(1:sz), result )\n        call system_clock( count_end )\n        elapsed_time = (count_end - count_start) / real(rate,dp)\n        call report_time( elapsed_time, 'Sum via Kahan compensated algorithm' )\n\n        call system_clock( count_start )\n        call sum_pairwise ( x(1:sz), result )\n        call system_clock( count_end )\n        elapsed_time = (count_end - count_start) / real(rate,dp)\n        call report_time( elapsed_time, 'Sum via pairwise summation' )\n    enddo\ncontains\n\n! report_result --\n!     Report the result and compare to the exact value\n!\n! Arguments:\n!     result          Computed sum\n!     exact           Exact value\n!     text            Text to accompany the result\n!\nsubroutine report_result( result, exact, text )\n    real(kind=wp), intent(in)    :: result\n    real(kind=wp), intent(in)    :: exact\n    character(len=*), intent(in) :: text\n\n    write(*,'(4x,3g15.6,5x,a)') result, exact, result-exact, text\nend subroutine report_result\n\n! report_time --\n!     Report the time it took to arrive at the result\n!\n! Arguments:\n!     time            Time in seconds\n!     text            Text to accompany the result\n!\nsubroutine report_time( time, text )\n    real(kind=dp), intent(in)    :: time\n    character(len=*), intent(in) :: text\n\n    write(*,'(4x,g15.6,5x,a)') time, text\nend subroutine report_time\n\n! sum_intrinsic --\n!     Use the sum intrinsic function to sum the data\n!\n! Arguments:\n!     x               Array of values\n!     result          Calculated sum\n!\nsubroutine sum_intrinsic( x, result )\n    real(kind=wp), dimension(:), intent(in) :: x\n    real(kind=wp), intent(out)              :: result\n\n    result = sum(x)\n\nend subroutine sum_intrinsic\n\n! sum_naive --\n!     Use an explicit do-loop to sum the data\n!\n! Arguments:\n!     x               Array of values\n!     result          Calculated sum\n!\nsubroutine sum_naive( x, result )\n    real(kind=wp), dimension(:), intent(in) :: x\n    real(kind=wp), intent(out)              :: result\n\n    integer                                 :: i\n\n    result = 0.0_wp\n    do i = 1,size(x)\n        result = result + x(i)\n    enddo\n\nend subroutine sum_naive\n\n! sum_kahan --\n!     Use an explicit do-loop with compensation according to Kahan to sum the data\n!\n! Arguments:\n!     x               Array of values\n!     result          Calculated sum\n!\nsubroutine sum_kahan( x, result )\n    real(kind=wp), dimension(:), intent(in) :: x\n    real(kind=wp), intent(out)              :: result\n\n    real(kind=wp)                           :: c, t, y\n    integer                                 :: i\n\n    result = x(1)\n    c      = 0.0_wp\n    do i = 2,size(x)\n        y      = x(i)   - c\n        t      = result + y\n        c      = (t - result) - y\n        result = t\n    enddo\n\nend subroutine sum_kahan\n\n! sum_pairwise --\n!     Use pairwise summation to sum the data\n!\n! Arguments:\n!     x               Array of values\n!     result          Calculated sum\n!\nsubroutine sum_pairwise( x, result )\n    real(kind=wp), dimension(:), intent(in) :: x\n    real(kind=wp), intent(out)              :: result\n\n    real(kind=wp)                           :: c, t, y\n    integer                                 :: i\n\n    result = sum_pair( x )\n\nend subroutine sum_pairwise\n\n! sum_pair --\n!     Function to sum the data via the pairwise algorithm\n!\n! Arguments:\n!     x               Array of values\n!\nrecursive function sum_pair( x ) result(sump)\n    real(kind=wp), dimension(:), intent(in) :: x\n    real(kind=wp)                           :: sump\n\n    integer                                 :: n\n\n    if ( size(x) <= 16 ) then\n        sump = sum(x)\n    else\n        n    = size(x) / 2\n        sump = sum_pair(x(1:n)) + sum_pair(x(n+1:))\n    endif\nend function sum_pair\n\nend program sum_accuracy"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-03 18:11:10+00:00",
+                    "text": "Well, last time I played with that, -ffast-math makes the Kahan summation not to work. I am not sure what is going on above, but the Kahan summation should be \"optimized\" out, so I would expect this to be a bug in the compiler if it can't optimize it out. In this particular case, you actually do not want it to optimize it out, so we would have to enforce it somehow.\nFinally, I've never needed to use Kahan in practice, as it has always been possible to rearrange a large sum so that one can sum in any order, which is especially important if you want to use do concurrent or co-arrays / MPI. Even the BLAS sum (dot_product) does not guarantee order of operations.\nThere are other summation algorithm, such as pairwise summation.\nJulia has several of these implemented, so we should too in stdlib.  It can be helpful for testing. But as I said, for production code I recommend to rework the algorithm to be order independent, then you can use -ffast-math and parallelize without worry. If anyone has any questions how to do that in some particular case, I am happy to help."
                 }
             ]
         },
@@ -550,6 +950,81 @@
                     "user": "wclodius2",
                     "date": "2021-04-24 04:59:52+00:00",
                     "text": "I have fixed two errors in the code caught by the testing and committed and pushed the changes;\nAn off by one array assignment error of the form but(0:len-mid) = array(mid:len-1) should have been but(0:len-mid-1) = array(mid:len-1)\nThe other was an assumed short circuiting in a do while statement of the form\ndo while( I>=0 .and. array(i) > something )\nwhich was changed to the equivalent\ndo while(i >= 0)\nif (array(i) <= something) exit"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-05-02 05:36:46+00:00",
+                    "text": "In the stdlib_sorting.md documentation file, the top description of SORT_INDEX is:\n\n\nSORT_INDEX is intended to provide indices for sorting arrays of\nderived type data, based on the ordering of an intrinsic component\nof the derived type; and\n\n\nTo me this somewhat too specific, because a derived type need not be involved. Also I suggest noting that the input array is still sorted. Consider something like this:\n\nSORT_INDEX is like ORD_SORT, but in addition to sorting the input array, it returns indices that map the original array to its sorted version. This enables related arrays to be re-ordered in the same way."
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-05-02 05:39:39+00:00",
+                    "text": "Related to my comment above, in stdlib_sorting.md, there is the following description of SORT_INDEX:\n\nThe SORT_INDEX subroutine\nThe SORT and ORD_SORT subroutines can sort rank 1 isolated\narrays of intrinsic types, but do nothing for the coordinated sorting\nof related data, e.g., multiple related rank 1 arrays, higher rank\narrays, or arrays of derived types. For such related data, what is\nuseful is an array of indices that maps a rank 1 array to its sorted\nform. For such a sort, a stable sort is useful, therefore the module\nprovides a subroutine, SORT_INDEX, that generates such an array of\nindices based on the ORD_SORT algorithm.\n\nI suggest editing the end of the last sentence of the above paragraph to be \"....that generates such an array of\nindices based on the ORD_SORT algorithm, in addition to sorting the input array\"."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-02 14:11:29+00:00",
+                    "text": "I have committed and pushed the related changes:\n\nSORT_INDEX is based on ORD_SORT, but in addition to sorting the\ninput array, it returns indices that map the original array to its\nsorted version. This enables related arrays to be re-ordered in the\nsame way; and\n\n\"....that generates such an array of indices based on the ORD_SORT\nalgorithm, in addition to sorting the input array\"."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-06 19:53:54+00:00",
+                    "text": "Great idea to add sorting to the library!  Some basic sorting intrinsics should have been added to Fortran decades ago.  The old High Performance Fortran (i.e., http://hpff.rice.edu/versions/hpf2/hpf-v20.pdf) had specs for HPF intrinsic functions SORT_UP, SORT_DOWN, GRADE_UP, and GRADE_DOWN.  Note that these were defined as functions, not subroutines, so that they can be used in expressions.  As an old APL programmer, it seems natural to have functional forms of the sorts.\nFWIW, I generally just use a version of the LAPACK SLASRT subroutine for the actual sort algorithm.  I've 'templated' it using the macro capabilities of the C preprocessor to support various data types - including character(*), reals, and integers.  Not sure how it compares with the timsort and other rust-inspired algorithms you've used yet.  I need to learn about fypp, and recoding my SLASRT-based code will be a good start.\nI noticed some comments above about using some glue to call C qsort.  The C qsort suffers from invoking the user-defined comparison routine through a procedure pointer.  The C++ STL 'sort' is much better than qsort because it inlines the user-defined comparison code.  But the SLASRT code was even faster yet - last time I checked."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-07 03:49:28+00:00",
+                    "text": "Making them functions would increase memory requirements. SLASRT is a quicksort routine using insertion sort only for small arrays. It will have performance problems for significantly presorted data."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 15:44:46+00:00",
+                    "text": "Making them functions would increase memory requirements. SLASRT is a quicksort routine using insertion sort only for small arrays. It will have performance problems for significantly presorted data.\n\nI appreciate your thoughts.  When I've tested performance, I typically used pseudo-random numbers.  E.g., what the built-in RANDOM_NUMBER intrinsic provides.  So other cases, like the significantly presorted data you mention, could certainly differ.\nAnother suggestion for eventual inclusion in stdlib are grade up/down versions - which output an integer permutation array rather than the sorted values.  Could also be done via an optional output argument.  The permutation array would allow easy use with derived types, assuming a single key, without needing user-supplied comparison function (like the C qsort and C++ STL sort do).  In fact Iversons original APL spec only had grade up/down operators.  Sort up/down were added later.  Same with HPF 1.0 vs HPF 2.0."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-07 17:20:56+00:00",
+                    "text": "How do grade_up and grade_down differ from sort_index?"
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 19:15:59+00:00",
+                    "text": "How do grade_up and grade_down differ from sort_index?\n\nPlease correct me if I'm wrong, but it appears that sort_index() routine returns both the sorted values and the index array.  For an array of derived types, one often wants just the index array.  E.g., one could write something like:\ntype mydata_t\ncharacter(8) :: key\ncharacter(:), allocatable :: text_data\nend type\n....\ntype(mydata_t), allocatable :: mydata(:)\ninteger, allocatable :: indicies(:)\n....\nindicies = grade_up (mydata(:)%key)\n(then access or rearrange mydata as needed using the indicies array)\nWith the sort_index(), the array argument has intent(inout) - which means that in the above case, the keys would be rearranged, but the associated data would not.  The caller would need to explicitly make a temporary key array before calling sort_index()."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 19:53:05+00:00",
+                    "text": "....\nindicies = grade_up (mydata(:)%key)\n(then access or rearrange mydata as needed using the indicies array)\n\nA simple case of sorting a derived type would be clearly written:\nmydata = mydata(grade_up (mydata%key))\nIt is totally safe because the indicies returned by grade_up are unique from one another."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-07 20:23:03+00:00",
+                    "text": "I had problems with stack overflow with my codes, so I have emphasized minimizing memory use. I use a Mac for my testing, and on a Mac the maximum stack size is 64 Mbytes. I did my testing on arrays with N=2**20 elements, so the input arrays were 4 Mbytes. My initial testing was of a pure Quicksort, which on partly sorted data would have of order N stack frames. About 2**20 stack frames with M bytes per frame easily exceeded the stack limit. Getting away from a pure Quicksort fixed that problem, but\n\nHaving an \"internal\" allocatable array to return as a function result increases the stack size limiting input arrays on a Mac to less than 2**24 elements for the Quicksort based SORT, while without the internal array SORT's stack size is of order Ln(N) so it can handle almost unlimited size arrays;\nSimilar conditions apply to the Heapsort based ORD_SORT and SORT_INDEX. Both of these codes need \"scratch\" arrays that require about half as many elements as the input arrays. These were initially allocated internally limiting maximum input array sizes to about 2**25 for ORD_SORT and 2**23 for SORT_INDEX. By allowing  the user to optionally provide the \"scratch\" arrays their input array sizes also became almost unlimited.  However the input scratch arrays are intent(inout) which means the standard conforming ORD_SORT and SORT_INDEX cannot be functions. Having an \"internal\" array so that SORT_INDEX would not modify its input array, would still limit the size of the input array due to stack limits."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 20:52:38+00:00",
+                    "text": "LOL!  Yeah - linux defaults to 8 mb stack size limit per process.  I set my stack limit to default to unlimited a very long time ago...\nBoth gfortran and Intel Fortran have compiler options to set a threshold whether to place temporaries on the stack or the heap - including all on the heap.  PGI might.  I don't think NAG did.  Obviously if one sets the default to place everything on the heap, the resulting increase in malloc/free calls could hurt performance."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-09 03:54:15+00:00",
+                    "text": "I made a mistake. I updated my local copy while also accepting some of Jeremy's suggestions, so my local copy is inconsistent with that in this repository. I am not an expert on GIT. How do I merge the repository with my local copy?"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-05-09 09:27:38+00:00",
+                    "text": "I'm also not a git expert, but would try doing:\ngit fetch origin pull/386/head:SortingStdlibPullRequest\nto make a new local branch SortingStdlibPullRequest that contains the most recent version of this pull request (i.e. number 386).\nThen I would use git diff SortingStdlibPullRequest to view the differences with the local branch, and git merge SortingStdlibPullRequest to try to merge it (actually before doing the latter, I'd probably checkout a new branch with my local changes and try to merge there first, in case something breaks). If done successfully then the local branch should be consistent with the most recent version of the pull request. At that point I expect you can proceed as usual?"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-12 04:36:54+00:00",
+                    "text": "After the merge, I have wound up with a new branch at #408."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-16 13:00:55+00:00",
+                    "text": "@wclodius2 for clarity, I will close this PR in favour of #408\nIt can be reopened if needed."
                 }
             ]
         },
@@ -864,6 +1339,11 @@
                     "user": "ChetanKarwa",
                     "date": "2021-04-08 18:27:14+00:00",
                     "text": "For now, the PR holds the to_title() function and so I would go forward and implement the to_sentence() separately so that in case we all come down to the conclusion of implementing to_title() this can be used."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-05-01 14:55:54+00:00",
+                    "text": "I am assigning this task to myself as well."
                 }
             ]
         },
@@ -1100,7 +1580,7 @@
             "number": 363,
             "user": "ChetanKarwa",
             "date": "2021-03-26 05:37:03+00:00",
-            "title": "Added sort to stdlib_string_type.f90 file",
+            "title": "Sorting string's characters according to their ASCII values",
             "text": "I have implemented a sort function for a string. This function sorts the string's characters according to their ASCII values.\nEg:\nstring - \"This is to be sorted\"\nsorted string - \"\u00a0\u00a0\u00a0\u00a0Tbdeehiioorssstt\"",
             "comments": [
                 {
@@ -1122,6 +1602,21 @@
                     "user": "wclodius2",
                     "date": "2021-04-21 21:42:02+00:00",
                     "text": "No, it isn't. My sort is of an array of elements of the string_type and not of the characters of a string_type scalar, or of a list of elements of the string_type. FWIW I also view sorting of the characters as of very limited use, and sorting a list rather than an array would require aa drastic rewrite of my code."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-05-24 07:54:50+00:00",
+                    "text": "I renamed this PR to avoid confusion with #408"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-24 11:07:39+00:00",
+                    "text": "What could be done is to provide the O(n) sorting algorithm of @ChetanKarwa as a specialization in #408 when the input is an array of character(len=1), but I don't expect this to be used very often.\nThe only usage I can think of currently is to find the median letter (and maybe the mode) in a character sequence."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-24 11:12:51+00:00",
+                    "text": "Also, consider that this implementation is likely to fail for non-ASCII input:\nprint *, sort(\"\u00c5ngstr\u00f6m\")\n! Fortran runtime error: Index '195' of dimension 1 of array 'count' above upper bound of 128"
                 }
             ]
         },
@@ -1243,6 +1738,16 @@
                     "user": "Aman-Godara",
                     "date": "2021-04-22 16:25:07+00:00",
                     "text": "Ok! I will make the updates in the next commit."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-01 15:03:37+00:00",
+                    "text": "We still need one more approval to merge this."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-01 16:08:35+00:00",
+                    "text": "Thank you @Aman-Godara and reviewers!"
                 }
             ]
         },
@@ -2127,6 +2632,11 @@
                     "user": "brocolis",
                     "date": "2021-03-24 23:57:39+00:00",
                     "text": "It's called isClose in the D language.\nInterface\nisClose(lhs, rhs, maxRelDiff, maxAbsDiff)\nDocumentation\nhttps://dlang.org/phobos/std_math.html#.isClose\nImplementation\nhttps://github.com/dlang/phobos/blob/stable/std/math.d#L8847"
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-05-13 13:19:10+00:00",
+                    "text": "GNU GSL also has this functionality in the function gsl_fcmp.\nInterface\nint gsl_fcmp (const double x1, const double x2, const double epsilon);\nDocumentation\nhttps://www.gnu.org/software/gsl/doc/html/math.html#approximate-comparison-of-floating-point-numbers\nImplementation (License: GPL)\nhttps://git.savannah.gnu.org/cgit/gsl.git/tree/sys/fcmp.c"
                 }
             ]
         },
@@ -2836,6 +3346,11 @@
                     "user": "wclodius2",
                     "date": "2021-05-01 00:24:41+00:00",
                     "text": "@ivan-pi thanks! I am a bit busy to have more than one git iron in the fire at a time, but once the sorting PR is approved this will be my next project."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-01 11:31:13+00:00",
+                    "text": "There is no rush, I've been working on some small bitset example programs and I will probably open an issue with other suggestions soon.\nWith the UDDTIO usage is really simplified and it makes it feel much more natural! No need to use the string conversion routines and look-up the details of which procedure to call. A simple print or write will suffice."
                 }
             ]
         },
@@ -6954,6 +7469,31 @@
                     "user": "wclodius2",
                     "date": "2020-09-02 03:02:57+00:00",
                     "text": "Hi Milan. I have done a PR from my fork. The main files to concentrate on are the doc/specs/stdlib_logger.md, src/stdlib_logger.f90, and src/tests/logger/test_stdlib_logger.f90. I have also provided mods of the pertinent CMakeLists.txt and Makefile.manual files to be compatible with my fork, but I didn't know if you wanted those to be compatible with my fork,  or with the current main branch, or with whatever branch you work with. Fortunately, they are easy to modify to be compatible with what you want. I am fairly happy with the stdlib_logger.md and stdlib_logger.f90 files. I am less happy with the test_stdlib_logger.f90 file, but it does what needs to be done."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 16:52:56+00:00",
+                    "text": "Besides the log_io_error method, may I suggest adding log_alloc_error and log_dealloc_error methods?  ALLOCATE and DEALLOCATE also have optional stat= error returns.\nWe included specific methods for alloc, and dealloc, and also a NETCDF variant, in the ESMF logger class:\nhttp://earthsystemmodeling.org/docs/release/ESMF_8_1_1/ESMF_refdoc/node6.html#SECTION060100000000000000000\nProbably should have done a MPI variant as well.  But in ESMF, the vast majority of MPI calls are in the C++ code.\nI should note that we wrote several of the methods as 'found' functions with logical results - e.g., ESMF_LogFoundAllocError, as they could then be combined with the inevitable IF statement which follows an error checked statement.  Made the error checking code a little cleaner and more compact."
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-07 17:29:24+00:00",
+                    "text": "How is having log_alloc_error and log_dealloc_error an improvement over the optional stat and errmsg arguments to log_error?"
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 17:31:48+00:00",
+                    "text": "How is having log_alloc_error and log_dealloc_error an improvement over the optional stat and errmsg arguments to log_error?\n\nIn the case of ESMF, we issued specific memory allocation/deallocation messages, and also specific error 'return codes' to pass up the call chain."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 17:33:14+00:00",
+                    "text": "With the NETCDF variant, we called the NETCDF error message routines (e.g., NF90_STRERROR) and included their messages in our log as well."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-07 18:08:49+00:00",
+                    "text": "Should also note that in ESMF, we wanted to distinguish between our library 'return codes' (rc=) and Fortran-specific iostat/stat status returns.  So the different entry points into the Log class reflected that as well."
                 }
             ]
         },
@@ -9492,7 +10032,7 @@
             "user": "jvdp1",
             "date": "2020-05-17 13:32:37+00:00",
             "title": "Pearson correlation among elements of an array",
-            "text": "Related to the functions cov and var\nAs usual, everything can/must be discussed.\nOther implementations\n\nOctave corr\nMatlab corr\nR cor\nJulia cor\nNumpy corrcoef\n\nSpecs:\ncorr - Pearson correlation of array elements\nDescription\nReturns the Pearson correlation of the elements of array along dimension dim if the corresponding element in mask is true.\nThe Pearson correlation between two rows (or columns), say x and y, of array is defined as:\n corr(x, y) = cov(x, y) / sqrt( var(x) * var(y))\n\nSyntax\nresult = corr(array, dim [, mask])\nArguments\narray: Shall be a rank-1 or a rank-2 array of type integer, real, or complex.\ndim: Shall be a scalar of type integer with a value in the range from 1 to n, where n is the rank of array.\nmask (optional): Shall be of type logical and either a scalar or an array of the same shape as array.\nReturn value\nIf array is of rank 1 and of type real or complex, the result is of type real corresponding to the type of array.\nIf array is of rank 2 and of type real or complex, the result is of the same type as array.\nIf array is of type integer, the result is of type real(dp).\nIf array is of rank 1 and of size larger than 1, a scalar equal to 1 is returned. Otherwise, IEEE NaN is returned.\nIf array is of rank 2, a rank-2 array  with the corresponding correlations is returned.\nIf mask is specified, the result is the Pearson correlation of all elements of array corresponding to true elements of mask. If every element of mask is false, the result is IEEE\nNaN.\nExample\nprogram demo_corr\n    use stdlib_experimental_stats, only: corr\n    implicit none\n    real :: x(1:6) = [ 1., 2., 3., 4., 5., 6. ]\n    real :: y(1:2, 1:3) = reshape([ -1., 40., -3., 4., 10., 6. ], [ 2, 3])\n    print *, corr(x, 1)           !returns 1.\n    print *, corr(y, 2)           !returns reshape([ 1., -.32480, -.32480, 1. ], [ 2, 3])\nend program demo_corr",
+            "text": "Related to the functions cov and var\nAs usual, everything can/must be discussed.\nOther implementations\n\nOctave corr\nMatlab corr\nR cor\nJulia cor\nNumpy corrcoef\n\nSpecs:\ncorr - Pearson correlation of array elements\nDescription\nReturns the Pearson correlation of the elements of array along dimension dim if the corresponding element in mask is true.\nThe Pearson correlation between two rows (or columns), say x and y, of array is defined as:\n corr(x, y) = cov(x, y) / sqrt( var(x) * var(y))\n\n  \n    \n    \n\n    \n    \n\n  \n\n\nSyntax\nresult = corr(array, dim [, mask])\nArguments\narray: Shall be a rank-1 or a rank-2 array of type integer, real, or complex.\ndim: Shall be a scalar of type integer with a value in the range from 1 to n, where n is the rank of array.\nmask (optional): Shall be of type logical and either a scalar or an array of the same shape as array.\nReturn value\nIf array is of rank 1 and of type real or complex, the result is of type real corresponding to the type of array.\nIf array is of rank 2 and of type real or complex, the result is of the same type as array.\nIf array is of type integer, the result is of type real(dp).\nIf array is of rank 1 and of size larger than 1, a scalar equal to 1 is returned. Otherwise, IEEE NaN is returned.\nIf array is of rank 2, a rank-2 array  with the corresponding correlations is returned.\nIf mask is specified, the result is the Pearson correlation of all elements of array corresponding to true elements of mask. If every element of mask is false, the result is IEEE\nNaN.\nExample\nprogram demo_corr\n    use stdlib_experimental_stats, only: corr\n    implicit none\n    real :: x(1:6) = [ 1., 2., 3., 4., 5., 6. ]\n    real :: y(1:2, 1:3) = reshape([ -1., 40., -3., 4., 10., 6. ], [ 2, 3])\n    print *, corr(x, 1)           !returns 1.\n    print *, corr(y, 2)           !returns reshape([ 1., -.32480, -.32480, 1. ], [ 2, 3])\nend program demo_corr",
             "comments": [
                 {
                     "user": "jvdp1",
@@ -14051,6 +14591,11 @@
                     "user": "milancurcic",
                     "date": "2021-04-29 16:00:05+00:00",
                     "text": "@gareth-nx Do you mind emailing me at milancurcic@hey.com? I can't find your contact info. I apologize for the off-topic message in this PR, but I can't find a better way on GitHub. :)"
+                },
+                {
+                    "user": "wclodius2",
+                    "date": "2021-05-12 04:41:29+00:00",
+                    "text": "I have started up a new branch at #408 to deal with some merge issues."
                 }
             ]
         },
@@ -19004,6 +19549,11 @@
                     "user": "ivan-pi",
                     "date": "2020-11-24 14:48:33+00:00",
                     "text": "I discovered today that the major compiler vendors all provide(d) POSIX interfaces:\n\nIntel Fortran - POSIX* Library Procedures\nNAG - UNIX Process Primitives Module\nIBM - XL Fortran Posix bindings\nOracle - POSIX Library for Sun Fortran Compilers\nCOMPAQ Fortran for Unix and Linux Systems\nAbsoft Support Library\n\nAdditionally, there are several disjoint community efforts:\n\nM_system by @urbanjost\nfortran-posix by @dram\nThe Fortran 90 Posix interface project by Klaus Ramst\u00f6ck\nfortranposix\nAlgorithm 821: A Fortran interface to POSIX threads\nforthreads from @ohm314 (also described in an ACM journal article)\nPSX (from Starlink)\nfsocket\nfortran-server\n\nThe amount of reinvention in the Fortran community is distressing.\nEdit: a F77 interface was proposed by IEEE (see IEEE Standard for Information Technology - POSIX(R) FORTRAN 77 Language Interfaces), but from what I can gather it never gained widespread adoption and was later withdrawn."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2021-05-08 17:56:57+00:00",
+                    "text": "I discovered today that the major compiler vendors all provide(d) POSIX interfaces:...\nThe amount of reinvention in the Fortran community is distressing.\nEdit: a F77 interface was proposed by IEEE (see IEEE Standard for Information Technology - POSIX(R) FORTRAN 77 Language Interfaces), but from what I can gather it never gained widespread adoption and was later withdrawn.\n\nNew here.  The idea of Fortran - POSIX API was an interest of mine for a long time in the 1990s-early 2000s.  I knew one of the people who was on the POSIX committee that was developing it.  She had high hopes for it.  The POSIX Fortran 77 \"PXF\" spec was finally approved and published around 1990 or 1991.  I have a copy of it.\nSome of the ugliness in PXF was that it was designed right at the transition between Fortran 77 and Fortran 90.  So there were almost no Fortran 90 compilers, and therefore a desire that it would work with existing Fortran 77 compilers.  This meant no derived types.  Instead, one created structures and associated them with integer handles via calls to PXFSTRUCTCREATE.  There was a corresponding PXFSTRUCTFREE.  There were also procedures for accessing system constants and filling the structures with desired values.  Nothing about a F90 module or interface specs/checking either.\nCray Research had an implementation which was fairly complete.  When Cray merged with SGI in 1996, and the Cray cft90 compiler was ported to the MIPS-based machines, the PXF portion of the library came along for the ride.  Then when SGI started using Intel-based microprocessors, and we then needed to use the Intel compilers, Intel got serious about supporting it as well.  The Intel implementation is actually pretty good.\nSun (now Oracle) supported PXF in their Fortran 77 compiler.  But when they moved to Fortran 90, their pxf library got deprecated.  The strange thing is that Sun based their initial Fortran 90 compiler on the Cray f90 front end - but they didn't bring PXF along.  Same story with Absoft.\nThe Fortran Committee never really warmed up to PXF.  Some members felt that C Interop, which eventually came out in F2003, was a better answer.  It really wasn't.  C Interop only works for relatively simple calls.  For anything involving structs, it fails miserably - and one still has to use a PXF-like approach.  Nonetheless, when it came time to update or reapprove the POSIX Standard, no one did.  So it fell off the POSIX radar.  And now we have nothing.\nAbout 20 years ago, I wrote my own PXF library and test base for personal use.  It covered almost all the PXF routines.  Though a couple of procedures weren't implemented as they require some specific integration with the specific Fortran run-time library in use.  As an end user, I didn't have this access.  (Though it would be possible these days with gfortran.)  My test base found a number of issues with the Intel implementation.  I submitted the problems to Intel and they fixed them fairly quickly.  So I am pretty confident that the Intel implementation is as close to a reference implementation as exists."
                 }
             ]
         },
@@ -19028,6 +19578,11 @@
                     "user": "certik",
                     "date": "2020-01-09 23:31:51+00:00",
                     "text": "@leonfoks yes, the dft is slow O(n^2), and the fft_pass is the fast O(n*log(n)) FFTPACK algorithm. I think I have an improved API in my internal code that is not open source.\nIn the stdlib, there should just be a function fft that works in 1D, 2D, 3D and that uses the FFTPACK version."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-05-05 13:56:00+00:00",
+                    "text": "The FFTpack library on netlib seems to have only double precision and only one-dimensional FFT.\nnetlib/fftpack\nThere is a more complete and updated fftpack, including 1-dimensional, 2-dimensional, and multi-dimensional real and complex FFTs\ud83c\udf88.\nFFTPACK 5.1 - A Fortran77 library of fast Fourier transforms\nThere is a nice library based on fftpack on github, which contains some customized functions, such as fftshift, ifftshift, which is very cool\ud83e\udd70, contains a \"forlab\" module.\nkeurfonluu/FFTPack\nForlab is a Fortran module that provides a lot of functions for scientific computing mostly inspired by Matlab and Python's package NumPy.\nkeurfonluu/Forlab\nBecause of the changes in gfortran10 compilation options, compiling fftpack may require fflag --fallow-argument-mismatch (see keurfonluu/FFTPack#1).\nThank you! Hope that the Fortran ecology will get better and better~\ud83c\udf89\ud83c\udf89"
                 }
             ]
         },
