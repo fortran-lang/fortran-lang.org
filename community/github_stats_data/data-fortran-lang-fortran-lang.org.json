@@ -2,12 +2,425 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 271,
+            "user": "Beliavsky",
+            "date": "2021-05-25 12:19:18+00:00",
+            "title": "Describe infinite loop in Operators and Control Flow section",
+            "text": "The Operators and Control Flow section presents the do while loop with the example\n  integer :: i\n  i = 1\n  do while (i < 11)\n    print *, i\n    i = i + 1\n  end do\n  ! Here i = 11\n\nbut the infinite do loop can emulate this behavior and is more general, since you can test the condition anywhere in the loop. In my codes I use do loops with indices and infinite do loops with exits, but not do while (although there is nothing wrong with it). So I suggest that the infinite do loop be presented in addition to or instead of do while. The equivalent to the code above would be\n  integer :: i\n  i = 1\n  do\n    if (i > 10) exit\n    print *, i\n    i = i + 1\n  end do\n  ! Here i = 11\n  print*,i\n  end\n\nThe code uses the one-line-if, which I suggested mentioning in another issue.\nThe sentence \"The do loop has an integer counter variable which is used to track which iteration of the loop is currently executing.\" should be qualified by putting \"usually\" or \"typically\" before \"has\", since infinite do loops do not have integer counters.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-25 12:38:40+00:00",
+                    "text": "Yes we should present the option of an 'infinite' do loop with a conditional exit in addition to the existing loop examples. Rather than replacing the existing do while example, I suggest we simply adapt the first excerpt in the Loop control statements section to be an 'infinite' loop and add text to explain the lack of counter variable as a valid construct.\nAs you allude to, the choice of an 'infinite' do loop versus a do while loop is merely a personal choice and so we should objectively present both options. (I personally prefer do while loops when there is only one terminating condition since it makes the exit condition clear upfront without needing to inspect the body of the loop.)"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-05-25 13:09:35+00:00",
+                    "text": "Would it be an idea to gather typical constructions (the \"Fortran idiom\")?\nMind you, I have not looked in detail at the tutorial, just something I\nrealised might be useful.\n\nOp di 25 mei 2021 om 14:39 schreef Laurence Kedward <\n***@***.***>:\n\u2026\n Yes we should present the option of an 'infinite' do loop with a\n conditional exit *in addition* to the existing loop examples. Rather than\n replacing the existing do while example, I suggest we simply adapt the\n first excerpt in the Loop control statements\n <https://github.com/fortran-lang/fortran-lang.org/blob/master/learn/quickstart/operators_control_flow.md#loop-control-statements-exit-and-cycle>\n section to be an 'infinite' loop and add text to explain the lack of\n counter variable as a valid construct.\n\n As you allude to, the choice of an 'infinite' do loop versus a do while\n loop is merely a personal choice and so we should objectively present both\n options. (I personally prefer do while loops when there is only one\n terminating condition since it makes the exit condition clear upfront\n without needing to inspect the body of the loop.)\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#271 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4WWEMLO2ZBTTMRYJLTPOK6JANCNFSM45PHTEFA>\n ."
+                }
+            ]
+        },
+        {
+            "number": 270,
+            "user": "Beliavsky",
+            "date": "2021-05-25 00:54:24+00:00",
+            "title": "Derived types section -- have more discussion of F95-level concepts",
+            "text": "I understand that the Fortran-lang tutorial is short and selective in what it covers. However, reading the Derived types section, I think there is a jump in level starting with \"Derived types in detail\", which covers features from Fortran 2003+ (bind, extends, abstract) that I consider advanced. I would first discuss basic usage of derived types that existed in Fortran 95, such as\n(1) printing a derived type\n(2) using derived types as procedure arguments and function results\n(3) using arrays of derived types. In particular, the simple way that you can refer to the components of an array of derived types is a strength of Fortran. For example, given\ntype, public :: date_mdy \n   integer :: month, day, year\nend type date_mdy\ntype(date_mdy) :: dates(100)\n\nyou can refer to all the months, days, and years with dates%month, dates%day, dates%year.\nAfter this basic usage of derived types one could discuss operator overloading. Given a date derived type it is natural to define operators such as == and >. Examples could be given of how to do this.\nIf desired, I could write a section with a module defining a date derived type and a program using it.",
+            "comments": []
+        },
+        {
+            "number": 269,
+            "user": "awvwgk",
+            "date": "2021-05-24 15:15:55+00:00",
+            "title": "Grammar and typo fixes in main page and quickstart minibook",
+            "text": "Thanks to @Beliavsky for pointing those out.\nCloses #268\nCloses #267\nCloses #266\nCloses #264",
+            "comments": []
+        },
+        {
+            "number": 268,
+            "user": "Beliavsky",
+            "date": "2021-05-24 14:44:56+00:00",
+            "title": "Grammar for main page",
+            "text": "At https://fortran-lang.org/ there should not be a hyphen in \"Fortran has been designed from the ground-up for computationally intensive applications\". You can google the phrase \"from the ground up\".\nFor the sentence \"Fortran allows you to write code in a style that best fits your problem: Imperative, procedural, array-oriented, object-oriented, or functional.\" \"imperative\" should not be capitalized.\nThe sentence \"Fortran is the dominant language of High Performance Computing, and is used to benchmark the fastest supercomputers in the world.\" is a run-on, which can be fixed by removing the comma after \"Computing\".",
+            "comments": []
+        },
+        {
+            "number": 267,
+            "user": "Beliavsky",
+            "date": "2021-05-24 13:00:11+00:00",
+            "title": "Grammar for Arrays and strings",
+            "text": "At https://fortran-lang.org/learn/quickstart/arrays_strings in\n\"Quite often, we do not know how big our array needs to be until we run our program. For example, if we are reading data from a file of unknown size.\"\nthe second sentence is a fragment. The text above can be replaced with\n\"Quite often, we do not know how big our array needs to be until we run our program, for example if we are reading data from a file of unknown size.\"\nThe sentence\n\"For this problem, we need allocatable arrays, these are allocated while the program is runnning once we know how big the array needs to be.\"\nis a run-on. The comma after \"arrays\" can be replaced by a semicolon, or two sentences can be created. Also, \"runnning\" should be \"running\".",
+            "comments": []
+        },
+        {
+            "number": 266,
+            "user": "Beliavsky",
+            "date": "2021-05-24 12:24:47+00:00",
+            "title": "Typos in Operators and Control Flow",
+            "text": "https://fortran-lang.org/learn/quickstart/operators_control_flow#logical-operators\n\"There two main forms of controlling program flow:\" should be \"There are two main forms of controlling program flow:\"\n\"The do loop has an integer counter variable which is used to track which iteration of the loop is currently executing, in this example we use a common name for this counter variable: i.\" is a run-on sentence. The comma after \"executing\" should be a semicolon, or the text should be broken up into two sentences.",
+            "comments": []
+        },
+        {
+            "number": 265,
+            "user": "Beliavsky",
+            "date": "2021-05-24 10:46:26+00:00",
+            "title": "Use one-line-if when possible in \"Operators and Control Flow\"",
+            "text": "Fortran's one-line-if is convenient and concise, and I think it should be used when possible in the tutorial.\nAt https://fortran-lang.org/learn/quickstart/operators_control_flow , after showing\n  if (angle < 90.0) then\n    print *, 'Angle is acute'\n  end if\n\nI think it should be added that the following is equivalent:\n  if (angle < 90.0) print *, 'Angle is acute'\nThen the one-line-if should be used in later examples:\n  integer :: i\n  do i=1, 100\n    if (i > 10) then\n      exit ! Stop printing numbers\n    end if\n    print *, i\n  end do\n\n  integer :: i\n  do i=1,10\n    if (mod(i,2) == 0) then\n       cycle  ! Don't print even numbers\n    end if\n    print *, i\n  end do\n\n  integer :: i,j\n  outer_loop: do i=1,10\n    inner_loop: do j=1,10\n      if ((j+i) > 10) then  ! Print only pairs of i and j that add up to 10\n         cycle outer_loop  ! Go to the next iteration of the outer loop\n      end if\n      print *, 'I=', i, ' J=', j, ' Sum=', j+i\n    end do inner_loop\n  end do outer_loop",
+            "comments": []
+        },
+        {
+            "number": 264,
+            "user": "Beliavsky",
+            "date": "2021-05-24 10:13:42+00:00",
+            "title": "Typo in \"Operators and Control Flow\" -- \"angle\" not \"age\"",
+            "text": "At https://fortran-lang.org/learn/quickstart/operators_control_flow\n  if (age < 90.0) then\n    print *, 'Angle is acute'\n  else if (angle < 180.0) then\n    print *, 'Angle is obtuse'\n  else\n    print *, 'Angle is reflex'\n  end if\n\n\"age\" should be \"angle\"?",
+            "comments": []
+        },
+        {
+            "number": 263,
+            "user": "awvwgk",
+            "date": "2021-05-22 09:31:18+00:00",
+            "title": "Monthly newsletter: June",
+            "text": "It's again time to prepare our monthly newsletter. Going forward we want to start earlier to give everybody enough time to contribute and also be able to publish on time.\n\n add stdlib updates\n add fpm updates\n add fortran-lang.org updates\n add monthly call link\n add LLVM / classic flang updates (@AlexisPerry)\n add LFortran updates (@certik)\n update contributor data (@LKedward)\n\nAs usual, please add your name to the authors list if you add, edit, or review content.\n\n@zmoon I used your script from #261 to prepare this post. Worked great to collect the relevant links, I'll add some feedback soon.",
+            "comments": []
+        },
+        {
+            "number": 262,
+            "user": "milancurcic",
+            "date": "2021-05-18 15:47:51+00:00",
+            "title": "GSoC welcome post",
+            "text": "First draft. Please review.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-18 15:48:45+00:00",
+                    "text": "Authors ordered by Milan first, others sorted alphabetically by last name."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-18 15:49:17+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-05-18 15:50:24+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/262/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-18 18:22:57+00:00",
+                    "text": "With 4 approvals and trust that @arjenmarkus would approve it as well, I'll merge in interest of time. Thank you all!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-18 18:25:58+00:00",
+                    "text": "Thanks! Can you please tweet from fortran-lang about it?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-18 18:48:11+00:00",
+                    "text": "Yes, here's the tweet:\nhttps://twitter.com/fortranlang/status/1394722375976067072\n\nand here's the Discourse post:\nhttps://fortran-lang.discourse.group/t/fortran-lang-welcomes-new-students-to-google-summer-of-code-2021/1255\n\n\u2026\nOn Tue, May 18, 2021 at 2:26 PM Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n Thanks! Can you please tweet from fortran-lang about it?\n\n \u2014\n You are receiving this because you modified the open/close state.\n Reply to this email directly, view it on GitHub\n <#262 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AA7RDPXXETKZMNIQZCJ5KZ3TOKWMXANCNFSM45CZQHCQ>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-18 19:56:50+00:00",
+                    "text": "Awesome, thanks! It got very good response so far."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-18 21:16:59+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-05-18 21:17:21+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-05-19 11:40:26+00:00",
+                    "text": "Sure, just read the announcement and it looks good to me :).\n\nOp di 18 mei 2021 om 20:23 schreef Milan Curcic ***@***.***>:\n\u2026\n With 4 approvals and trust that @arjenmarkus\n <https://github.com/arjenmarkus> would approve it as well, I'll merge in\n interest of time. Thank you all!\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#262 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZU4JBGLNMNUBDVLFLTOKWBLANCNFSM45CZQHCQ>\n ."
+                }
+            ]
+        },
+        {
+            "number": 261,
+            "user": "zmoon",
+            "date": "2021-05-15 19:57:21+00:00",
+            "title": "Script for summarizing PRs",
+            "text": "Regarding #258.\nCurrently a script with a few command-line options; it prints markdown to stdout.\n\nIs this a good place to put it? (_scripts/)\nIt would be easy to add more data about the PRs, such as author or date",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-05-16 03:15:23+00:00",
+                    "text": "I think that's a good start. Thanks!"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-18 01:45:48+00:00",
+                    "text": "@certik anything else you want to see it do at this time?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-23 01:25:22+00:00",
+                    "text": "Can you show an example how the output looks like from this script?"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-23 01:30:13+00:00",
+                    "text": "Yeah, here for 2021-03:\n# fortran-lang.org\n\n## merged\n\n* [#236](https://github.com/fortran-lang/fortran-lang.org/pull/236): add dl_poly_4 to packages\n* [#229](https://github.com/fortran-lang/fortran-lang.org/pull/229): Correct value of pi in quickstart mini-book\n* [#226](https://github.com/fortran-lang/fortran-lang.org/pull/226): Added DelaunaySparse to package list\n* [#225](https://github.com/fortran-lang/fortran-lang.org/pull/225): Update Authors in GSoC post\n* [#223](https://github.com/fortran-lang/fortran-lang.org/pull/223): GSoC announcement draft\n* [#222](https://github.com/fortran-lang/fortran-lang.org/pull/222): Avoid unclear formulation in contributing guide\n* [#221](https://github.com/fortran-lang/fortran-lang.org/pull/221): Add information about free compiler versions\n* [#207](https://github.com/fortran-lang/fortran-lang.org/pull/207): Correct subtitle of setting up your os\n* [#216](https://github.com/fortran-lang/fortran-lang.org/pull/216): Improve tags\n* [#215](https://github.com/fortran-lang/fortran-lang.org/pull/215): Newsletter for March 2021\n\n## WIP\n\n* [#201](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP): Draft: Internationalization for fortran-lang\n\n# stdlib\n\n## merged\n\n* [#346](https://github.com/fortran-lang/stdlib/pull/346): Added to_lower, to_upper, reverse and to_title function to stdlib_string_type.f90 file\n* [#362](https://github.com/fortran-lang/stdlib/pull/362): Fix wording in style guide for dimension attribute\n* [#356](https://github.com/fortran-lang/stdlib/pull/356): Add test_string_functions to CMakeLists and fix to_title test\n* [#352](https://github.com/fortran-lang/stdlib/pull/352): Added TOC to README\n* [#350](https://github.com/fortran-lang/stdlib/pull/350): Style: Remove tabs from code base\n* [#320](https://github.com/fortran-lang/stdlib/pull/320): Implement non-fancy functional string type\n\n## WIP\n\n* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP): Added sort to stdlib_string_type.f90 file\n* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP): Initial checkin for a module for tolerant comparison of reals\n* [#333](https://github.com/fortran-lang/stdlib/pull/333) (WIP): Provide abstract base class for a string object\n* [#313](https://github.com/fortran-lang/stdlib/pull/313) (WIP): legendre polynomials and gaussian quadrature\n* [#311](https://github.com/fortran-lang/stdlib/pull/311) (WIP): String list new\n* [#286](https://github.com/fortran-lang/stdlib/pull/286) (WIP): Probability Distribution and Statistical Functions -- Beta Distribution Module\n* [#278](https://github.com/fortran-lang/stdlib/pull/278) (WIP): Probability Distribution and Statistical Functions -- Gamma Distribution Module\n* [#276](https://github.com/fortran-lang/stdlib/pull/276) (WIP): Probability Distribution and Statistical Functions -- Exponential Distribution Module\n* [#273](https://github.com/fortran-lang/stdlib/pull/273) (WIP): Probability Distribution and Statistical Functions -- Normal Distribution Module\n* [#272](https://github.com/fortran-lang/stdlib/pull/272) (WIP): Probability Distribution and Statistical Functions -- Uniform Distribution Module\n* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP): Initial implementation of COO / CSR sparse format\n* [#157](https://github.com/fortran-lang/stdlib/pull/157) (WIP): Update CMAKE files\n\n# fpm\n\n## merged\n\n* [#420](https://github.com/fortran-lang/fpm/pull/420): Phase out Haskell fpm\n* [#412](https://github.com/fortran-lang/fpm/pull/412): Fix for Issue #396 - Duplicate module definitions\n* [#419](https://github.com/fortran-lang/fpm/pull/419): Split workflow for Haskell and Fortran fpm\n* [#417](https://github.com/fortran-lang/fpm/pull/417): Bump version for new release\n* [#413](https://github.com/fortran-lang/fpm/pull/413): Add: omp_lib to intrinsic modules list\n* [#409](https://github.com/fortran-lang/fpm/pull/409): Give Programs Access to Code in Subdirectories\n* [#404](https://github.com/fortran-lang/fpm/pull/404): correct join for null input\n* [#414](https://github.com/fortran-lang/fpm/pull/414): Add few important links\n* [#377](https://github.com/fortran-lang/fpm/pull/377): Add explicit include-dir key to manifest\n* [#407](https://github.com/fortran-lang/fpm/pull/407): Fix typo in fpm-build synopsis\n* [#390](https://github.com/fortran-lang/fpm/pull/390): Implement --flag option for Fortran fpm\n* [#402](https://github.com/fortran-lang/fpm/pull/402): Add fpm description and reorganize the README intro\n* [#397](https://github.com/fortran-lang/fpm/pull/397): Add Conda install instructions to the README\n* [#386](https://github.com/fortran-lang/fpm/pull/386): Replace deprecated flags in debug_fortran option\n* [#398](https://github.com/fortran-lang/fpm/pull/398): Minor fix: for setting executable link libraries.\n* [#5](https://github.com/fortran-lang/setup-fpm/pull/5) (`setup-fpm`): Correctly document option to use Haskell fpm version\n* [#1](https://github.com/fortran-lang/fpm-haskell/pull/1) (`fpm-haskell`): Prune repository for Haskell only\n\n## WIP\n\n* [#364](https://github.com/fortran-lang/fpm/pull/364) (WIP): plugin alpha version"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-23 01:52:11+00:00",
+                    "text": "Thanks! I think this looks very good. Thank you for creating a script for this. I need to create a similar script for GitLab for LFortran. Last month we had 98 merge requests and I it was too much work to do it by hand. :)"
+                }
+            ]
+        },
+        {
+            "number": 260,
+            "user": "certik",
+            "date": "2021-05-13 18:47:45+00:00",
+            "title": "Community packages: have two sections, open source (OSI approved) and other",
+            "text": "Currently all the packages in https://fortran-lang.org/packages/ have OSI approved open source licenses. See also https://github.com/fortran-lang/fortran-lang.org/blob/master/PACKAGES.md#package-criteria which has the same criterion (OSI approved license).\nWe should add a new section \"other\", or \"commercial\" or \"not open source\" that would list packages that have non OSI approved license. Some examples:\n\nMUMPS (#259)\nVASP\nthe NAG Fortran Library\nNumerical Recipes (in Fortran)\nperhaps packages like ANSYS, NASTRAN, ...\nOriginal Matlab: https://fortran-lang.discourse.group/t/compiling-the-original-matlab/1074\n...\n\nI believe there are quite a few codes out there where you have to request permission to access, but are written in Fortran. We can list all those.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-13 19:45:19+00:00",
+                    "text": "How do we evaluate proprietary or closed-source software?\nSay somebody wants to add Turbomole, Crystal or AMS to the list. Do we reach out to the development team and inquire if their software is indeed Fortran and if they want to be listed here? I don't think we can rely on community members that by chance have seen the source code or happen to be associated with those projects to help us review such request, due to potential conflicts of interest."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-13 21:21:28+00:00",
+                    "text": "@awvwgk I don't know. Say for Crystal, you can see at https://www.crystal.unito.it/platforms.php that they require Compilers | Intel Fortran Compiler XE 14.0.1.106 / Intel C/C++ Compiler XE 14.0.1.106, so that suggests that at least part of the code is in Fortran. For Vasp you can use https://www.vasp.at/wiki/index.php/Installing_VASP.6.X.X which says Fortran (at least F2008 compliant), and for Turbomole you can use the manual https://www.turbomole.org/downloads/doc/Turbomole_Manual_7-5.pdf which mentions Fortran several times.\nSo we can use the public \"knowledge\" of such codes to determine candidates and then we can reach out to the company with a draft entry and see if they can confirm if it is indeed in Fortran and if they want it listed here and to approve or improve the entry (decription, tags, category, ...).\nWhat should be the criteria? \"Substantial parts of the core functionality written in Fortran\"? Given the commercial nature, obviously we cannot independently verify that, but we can simply trust the claims, and if it turns out later that something does not really satisfy the criteria, we can always remove it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-13 21:26:16+00:00",
+                    "text": "The longer term idea is that just like we list commercial compiler vendors at https://fortran-lang.org/compilers/ and several of them participate on our Discourse, we should foster similar collaboration with commercial software built using Fortran."
+                }
+            ]
+        },
+        {
+            "number": 259,
+            "user": "scivision",
+            "date": "2021-05-13 13:12:45+00:00",
+            "title": "Adding packages",
+            "text": "Ondrej requested I add Gemini3D. I added / updated a few more packages.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-05-13 17:18:06+00:00",
+                    "text": "This precedent:\n\ncea-hpc/clustershell@d895458\ncea-hpc/clustershell#321\n\nseems to suggest that the CeCILL-C license might not be OSI approved... Here is another similar issue: pypa/pypi-legacy#679"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-13 17:26:19+00:00",
+                    "text": "Ok, so according to this:\n\nhttps://spdx.org/licenses/\n\nThe CECILL-C license is not OSI approved.\nHere is what I suggest we do:\n\nRemove MUMPS from this PR, then there is no problem with this PR, let's get it merged\nCreate a new PR for MUMPS to discuss what to do next\n\nI suggest to only allow OSI (https://opensource.org/licenses/alphabetical) approved licenses to be allowed in the main section.\nShould we have another section that allows non OSI approved software written in Fortran? In this section we could list all kinds of commercial codes also, such as VASP. We could put MUMPS there."
+                },
+                {
+                    "user": "scivision",
+                    "date": "2021-05-13 18:18:23+00:00",
+                    "text": "Yes I think it will be necessary to have a second list for non-OSI software. Given a few factors such as the long lifetime of Fortran, and the nature of the aerospace and other such government and research organizations that make Fortran code. To protect (perhaps misguidedly) their IP and commercial relicensing ability they have what are open source but not necessarily free licenses. Some recently released software has some of the most restrictive licenses I've seen on open source packages. But the software is essential for a range of geospace research."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-13 18:48:18+00:00",
+                    "text": "Thanks!\nYes, there will be quite a few packages that we could list there. I created #260 to discuss that."
+                }
+            ]
+        },
+        {
+            "number": 258,
+            "user": "zmoon",
+            "date": "2021-05-13 00:11:36+00:00",
+            "title": "PR lists for newsletter using GitHub API",
+            "text": "Maybe you guys already do something like this, but I wanted to figure out how it could be done, so I wrote a little Python script. Thought I would share, in case it would be helpful for the newsletter.\n\nCode and output\nCode:\n\"\"\"\nSummarize PRs for fortran-lang within a certain month.\n\"\"\"\nimport datetime\nfrom calendar import monthrange\n\nfrom github import Github\n\n# Set month\nmonth = 4  # April\n\n# Token (set so that the GitHub API doesn't complain)\ntoken = \"???\"\n\n# Determine time bounds to check\nnow = datetime.datetime.now()\n_, d_b = monthrange(now.year, month)\nt_a = datetime.datetime(now.year, month, 1, 0, 0)\nt_b = datetime.datetime(now.year, month, d_b, 23, 59)\n\ng = Github(token, per_page=100)\n\norg = g.get_organization(\"fortran-lang\")\n\n\ndef get_prs(repo=\"stdlib\"):\n    repo = org.get_repo(repo)\n    \n    merged = []  # PRs merged during the month\n    for pr in repo.get_pulls(\"closed\", sort=\"updated\", direction=\"desc\"):  # most recently merged first\n        if pr.merged:\n            if t_a <= pr.merged_at <= t_b:\n                merged.append(pr)\n            if pr.merged_at < t_a:\n                break\n            \n    wip = []  # WIP PRs (not merged, still open at this time)\n    for pr in repo.get_pulls(\"open\"):\n        if pr.created_at <= t_b:\n            wip.append(pr)\n    \n    return merged, wip\n\n\n# %% Print markdown\n\nmerged, wip = get_prs()  # takes a while...\n\nprint(\"## Fortran Standard Library\\n\")\nprint(\"Here's what's new in `stdlib`:\\n\")\nfor pr in merged:\n    print(f\"* [#{pr.number}]({pr.html_url}): {pr.title}\")\n\nprint(\"\\nWork in progress:\\n\")\nfor pr in wip:\n    print(f\"* [#{pr.number}]({pr.html_url}) (WIP): {pr.title}\")\n  \n    \n    \n\n    \n    \n\n  \n\n\nOutput:\n## Fortran Standard Library\n\nHere's what's new in `stdlib`:\n\n* [#391](https://github.com/fortran-lang/stdlib/pull/391): Add issue templates\n* [#367](https://github.com/fortran-lang/stdlib/pull/367): Add Intel compiler workflow for OSX\n* [#360](https://github.com/fortran-lang/stdlib/pull/360): Summarize build toolchain workflow and implied rules\n* [#388](https://github.com/fortran-lang/stdlib/pull/388): Changed filenames\n* [#384](https://github.com/fortran-lang/stdlib/pull/384): Implement starts_with and ends_with functions\n* [#336](https://github.com/fortran-lang/stdlib/pull/336): Add functions to convert integer/logical values to character values\n* [#343](https://github.com/fortran-lang/stdlib/pull/343): Implement strip and chomp as supplement to trim\n* [#349](https://github.com/fortran-lang/stdlib/pull/349): Simplify test makefile\n\nWork in progress:\n\n* [#386](https://github.com/fortran-lang/stdlib/pull/386) (WIP): Start the addition of the module stdlib_sorting\n* [#372](https://github.com/fortran-lang/stdlib/pull/372) (WIP): To_Title is corrected\n* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP): Added sort to stdlib_string_type.f90 file\n* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP): Initial checkin for a module for tolerant comparison of reals\n* [#333](https://github.com/fortran-lang/stdlib/pull/333) (WIP): Provide abstract base class for a string object\n* [#313](https://github.com/fortran-lang/stdlib/pull/313) (WIP): legendre polynomials and gaussian quadrature\n* [#311](https://github.com/fortran-lang/stdlib/pull/311) (WIP): String list new\n* [#286](https://github.com/fortran-lang/stdlib/pull/286) (WIP): Probability Distribution and Statistical Functions -- Beta Distribution Module\n* [#278](https://github.com/fortran-lang/stdlib/pull/278) (WIP): Probability Distribution and Statistical Functions -- Gamma Distribution Module\n* [#276](https://github.com/fortran-lang/stdlib/pull/276) (WIP): Probability Distribution and Statistical Functions -- Exponential Distribution Module\n* [#273](https://github.com/fortran-lang/stdlib/pull/273) (WIP): Probability Distribution and Statistical Functions -- Normal Distribution Module \n* [#272](https://github.com/fortran-lang/stdlib/pull/272) (WIP): Probability Distribution and Statistical Functions -- Uniform Distribution Module\n* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP): Initial implementation of COO / CSR sparse format\n* [#157](https://github.com/fortran-lang/stdlib/pull/157) (WIP): Update CMAKE files",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-13 00:37:38+00:00",
+                    "text": "Thanks @zmoon, I've been writing these by hand, but perhaps others (@jvdp1 @awvwgk) had it scripted. Either way, it be very useful to have a script that works and have it part of the repo. Perhaps it could be even be put into CI as a GH Action that runs on a set day of the month and opens a new PR with a draft newsletter?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-13 02:06:07+00:00",
+                    "text": "Nice! That's the way to do it."
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-13 14:02:00+00:00",
+                    "text": "Either way, it be very useful to have a script that works and have it part of the repo. Perhaps it could be even be put into CI as a GH Action that runs on a set day of the month and opens a new PR with a draft newsletter?\n\nThe latter would certainly be cool. I would be happy to start with the former if there is interest. Where in the repo should such a script go? Also would probably want to have the template as a separate file OR the script could create YAML data files would could be used in the newsletter with Liquid."
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-24 18:23:43+00:00",
+                    "text": "Closed by #261"
+                }
+            ]
+        },
+        {
+            "number": 257,
+            "user": "Mr-codehunter",
+            "date": "2021-05-11 04:15:46+00:00",
+            "title": "update",
+            "text": "",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-11 06:20:38+00:00",
+                    "text": "Duplicate of #228?"
+                }
+            ]
+        },
+        {
+            "number": 256,
+            "user": "zmoon",
+            "date": "2021-05-09 17:05:27+00:00",
+            "title": "Content using `book` layout sometimes not visible",
+            "text": "Between the mobile breakpoint and ~ 900 px, the content is not all visible on the screen without scrolling horizontally.\n900: https://screenfly.org/#u=https%3A//fortran-lang.org/learn/quickstart/arrays_strings&w=900&h=900\n600: https://screenfly.org/#u=https%3A//fortran-lang.org/learn/quickstart/arrays_strings&w=600&h=900",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-05-10 00:54:35+00:00",
+                    "text": "We should move the left navigation panel to the top, then the horizontal area can be used more effectively."
+                }
+            ]
+        },
+        {
+            "number": 255,
+            "user": "zmoon",
+            "date": "2021-05-08 22:25:53+00:00",
+            "title": "Quickstart edits",
+            "text": "I'm doing a bit of an audit of the Quickstart Fortran Tutorial. So far I mostly corrected some English stuff and tried to make the code style consistent within each page (but not across all pages).\nI would like to make style consistent across the whole tutorial though, but that requires deciding on some things that are currently not consistent among all pages:\n\ncode style\n\nindentation (2 or 4 spaces? or 3 or other?)\nwhether to indent module contains rt. module, similarly for type contains\nwhen to put a space after , (do loop, arguments, indexing, etc.)\nvertical aligning of :: and inline comments. Important?\nshould the base indentation level in a given markdown code block always be 0 (perhaps making it easier to copy), or should it be > 0 if the code would be normally indented if put into context (as done in some of the examples)?\nalways capitalize first word in comments?\n\n\ntext style\n\nwhen to use strong vs emphasis vs code\ntitle case vs sentence case for the titles of the pages\n\n\n\nI also have some content questions:\n\nwhat is meant by \"do concurrent is not a basic feature of Fortran\" in Operators and Control Flow?\nwould a page on formatted printing and such fit here?",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-08 22:44:39+00:00",
+                    "text": "I'm personally in the 3 space indentation fraction, but we usually consider using 2 or 4 spaces here. Most important is readability w.r.t. horizontal space IMO, the code block shouldn't get clamped on the right side due to over-indented code. The code blocks on the homepage can have a width of 80 to 90 characters before horizontal scrolling is necessary in our current page layout. This shouldn't be an issue in the quickstart guide but could be an issue for other minibooks which require more complex examples.\nI think either two spaces and indentation of every unit (something, end something), like used now in the quickstart guide:\nmodule m\n  implicit none\n  private\n  public :: a_t\n\n  type :: a_t\n    integer :: val\n  contains\n    procedure :: func\n  end type a_t\n\ncontains\n\n  subroutine func(self)\n    class(a_t), intent(in) :: self\n    if (val > 0) then\n      print *, val\n    end if\n  end function func\n\nend module m\nOr four space indentation only for non-procedure / module units (I think this is @certik's preferred style, I usually find this hard to read):\nmodule m\nimplicit none\nprivate\npublic :: a_t\n\ntype :: a_t\n    integer :: val\ncontains\n    procedure :: func\nend type a_t\n\ncontains\n\nsubroutine func(self)\nclass(a_t), intent(in) :: self\nif (val > 0) then\n    print *, val\nend if\nend function func\n\nend module m"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-08 23:11:05+00:00",
+                    "text": "Most important is readability w.r.t. horizontal space IMO, the code block shouldn't get clamped on the right side due to over-indented code. The code blocks on the homepage can have a width of 80 to 90 characters before horizontal scrolling is necessary in our current page layout. This shouldn't be an issue in the quickstart guide but could be an issue for other minibooks which require more complex examples.\n\nOn mobile in portrait mode, the number of viewable columns can be even less. I am seeing that longer lines get soft-wrapped, which can be a bit confusing since the rendered blocks don't currently have line numbers. Perhaps optional code block line numbers or horizontal scroll bars could be added. I think 90 is a reasonable max and inline comments shouldn't go too far over it."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-09 09:44:21+00:00",
+                    "text": "Many thanks for looking into this Zachary @zmoon . For most of your points, as long as the style is consistent across the tutorials then the particular choice doesn't matter too much. Re indentation, I think we should go with 2 spaces with zero base indentation for reasons already discussed, and my preference would be to indent module procedures for readability as suggested by Sebastian. I would also like to avoid vertical aligning of :: and comments since this adds maintenance burden and pushes the line length in most cases. Once you settle on a set of rules for style, would you mind documenting them as a new section in the Style Guide? This will help others keep future edits consistent.\n\n\nwhat is meant by \"do concurrent is not a basic feature of Fortran\" in Operators and Control Flow?\n\n\nI'm not sure what is meant by this, please remove or reword as you see fit.\n\n\nwould a page on formatted printing and such fit here?\n\n\nYes absolutely, this would make a good addition to the quickstart tutorial."
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-09 17:37:17+00:00",
+                    "text": "Thanks @awvwgk, @LKedward, @milancurcic for the comments so far. I will draw up tutorial style guidelines for the Style Guide and then wait for feedback on that before enforcing it across the Quickstart pages.\nI will do a separate PR for page on formatted print."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-09 19:40:35+00:00",
+                    "text": "Yes for tutorials let's use zero based indentation and 2 spaces, essentially spare as much as we can, so that it's reasonable on mobile also. (For my codes I prefer 4 spaces, but I think the tutorial use case is different.)"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-10 15:57:07+00:00",
+                    "text": "Ok, I started the style guidelines (here). Feel free to comment.\nWhat about spaces after ,? I don't think anyone commented on that yet. Currently there are many cases in the tutorial where no spaces are used after ,, e.g. for do loops, array init, printing, etc. My personal preference is to add a space after , except in indexing (a(:,:), a(1,2), do i = 1, n, b = [1, 2, 3]). I feel that this usually improves readability."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-10 16:02:15+00:00",
+                    "text": "My personal preference is to add a space after , except in indexing (a(:,:), a(1,2), do i = 1, n, b = [1, 2, 3]). I feel that this usually improves readability.\n\nQuite similar to the @dftbplus style guide here, which we could use as inspiration for examples on white space usage."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-11 17:40:38+00:00",
+                    "text": "My preference is to omit whitespace in procedure calls, e.g. call proc(a,b,c) instead of call proc(a, b, c), but I see now this is against both PEP 8 and Google C++ style guides."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-16 08:42:54+00:00",
+                    "text": "Style guide additions look good to me, thanks! I think your suggestion for spacing around commas seems reasonable to me.\nThis PR is still in draft status - do let us know when you're ready for review. Great work!"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-17 14:21:31+00:00",
+                    "text": "@LKedward I still have a few things I want to do first but I will be sure to mark ready after that, thanks."
+                }
+            ]
+        },
+        {
+            "number": 254,
+            "user": "zmoon",
+            "date": "2021-05-08 15:33:44+00:00",
+            "title": "Fix some links in May 2021 newsletter",
+            "text": "I noticed the first of these when reading the newsletter. I did a brief pass looking for others though and found the other two.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-05-08 15:35:59+00:00",
+                    "text": "I think these were obvious mistakes. Thanks for spotting it and fixing it!"
+                }
+            ]
+        },
+        {
+            "number": 253,
+            "user": "brocolis",
+            "date": "2021-05-04 11:22:25+00:00",
+            "title": "Closes #242; Author: @Beliavsky",
+            "text": "Closes #242; Author: @Beliavsky.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-06 02:19:47+00:00",
+                    "text": "Thank you!"
+                }
+            ]
+        },
+        {
+            "number": 252,
+            "user": "ivan-pi",
+            "date": "2021-05-02 11:24:28+00:00",
+            "title": "Fortran projects on SourceForge",
+            "text": "@vmagnin brought my attention to the fact there are numerous Fortran projects still hosted on SourceForge: https://sourceforge.net/directory/language:fortran/?q=fortran\nSome might still be useful and could be added to the package index, or we could try and notify their owners.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-03 17:57:48+00:00",
+                    "text": "I wonder if we can extract meta data from sourceforge in a similar way like we do with github and gitlab projects right now."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-05-05 08:02:34+00:00",
+                    "text": "@vmagnin brought my attention to the fact there are numerous Fortran projects still hosted on SourceForge\n\nIt reminds me of that once popular (early 2000's) repository:\nhttps://savannah.gnu.org/search/?words=fortran&type_of_search=soft\nBut there is only 4 Fortran projects, and two of them seem to have disappeared (no website anymore)."
+                }
+            ]
+        },
+        {
             "number": 251,
             "user": "awvwgk",
             "date": "2021-05-01 08:54:52+00:00",
             "title": "Monthly newsletter for May",
-            "text": "It is again time for a monthly newsletter. I put together a draft with the repository activities for the May.\n\n add stdlib updates\n add fpm updates\n add fortran-lang.org updates\n add monthly call link\n add LLVM / classic flang updates (@AlexisPerry)\n add LFortran updates (@certik)\n update contributor data (@LKedward)\n\nAs usual, please add your name to the authors list if you add, edit, or review content.",
-            "comments": []
+            "text": "It is again time for a monthly newsletter. I put together a draft with the repository activities for May.\n\n add stdlib updates\n add fpm updates\n add fortran-lang.org updates\n add monthly call link\n add LLVM / classic flang updates (@AlexisPerry)\n add LFortran updates (@certik)\n update contributor data (@LKedward)\n\nAs usual, please add your name to the authors list if you add, edit, or review content.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-01 15:02:21+00:00",
+                    "text": "Thank you, @awvwgk!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-05-05 02:05:01+00:00",
+                    "text": "@certik Can we have LFortran updates in tomorrow or can this newsletter go without? Thank you!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-05 16:46:43+00:00",
+                    "text": "I'll submit the LFortran updates this afternoon."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-06 05:50:04+00:00",
+                    "text": "Thanks a lot everybody. I'm going ahead and merge this."
+                }
+            ]
         },
         {
             "number": 250,
@@ -15,7 +428,18 @@
             "date": "2021-04-29 16:15:17+00:00",
             "title": "Add gemini3d",
             "text": "We should add\nhttps://github.com/gemini3d/gemini3d\ninto our packages list.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-03 17:49:20+00:00",
+                    "text": "Sounds good to me, do you want to go ahead and send a patch?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-03 18:00:26+00:00",
+                    "text": "@scivision would you have time to send a patch? I am busy right now."
+                }
+            ]
         },
         {
             "number": 249,
@@ -31,7 +455,13 @@
             "date": "2021-04-27 15:07:18+00:00",
             "title": "Typo in fortyxima",
             "text": "fortran-lang.org/_data/package_index.yml\n    \n    \n         Line 153\n      in\n      cd7baa0\n    \n    \n    \n    \n\n        \n          \n           - name: foryxima \n        \n    \n  \n\n\nShould read \"fortyxima\"",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-03 17:48:35+00:00",
+                    "text": "Thanks, do you mind submitting a patch?"
+                }
+            ]
         },
         {
             "number": 247,
@@ -49,6 +479,46 @@
                     "user": "ivan-pi",
                     "date": "2021-04-29 11:58:00+00:00",
                     "text": "I've added a few from the Python wiki. It would be interesting to learn what the standards committee thinks of this. There seems to be huge interest in using Fortran from Python (I suppose either for reasons of calling legacy code, or speeding up critical parts).\nPersonally, I've only ever used the Cython route. On Linux it worked very well, but on Windows I struggled with binary compatibility issues. It's not fully clear to me how the people who support numpy and SciPy manage to pull it off. I know I've read some interesting blog posts about it, but couldn't find them anymore."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-02 09:55:19+00:00",
+                    "text": "Another route is to use pybind11 and follow the path Fortran --> C --> C++ --> Python. It was demonstrated by @hsnyder on Discourse: https://fortran-lang.discourse.group/t/iso-c-binding-pass-an-array-from-c-to-fortran-edit-python-interop-content/514/8"
+                },
+                {
+                    "user": "kjelljorner",
+                    "date": "2021-05-24 22:04:42+00:00",
+                    "text": "Following from the discussion here, I would be interested in contributing to this. As I noted in the last post there, I think it would be useful to work on this in a real-time collaborative markdown environment (e.g. GitBook) at first and then transfer to fork/pull request route once its more finalised.\nI see different levels of complexity and different use cases which could be covered here. For something on Fortran-lang.org I argue that focusing on established and well-maintained tools is the way to go. There are many packages out there that are either abandoned or have rapidly changing APIs. As I see it, there are two practical approaches to accessing Fortran code from Python:\n\nExplicitly write explicit C interface, build shared library and access via ctypes, cffi, Cython etc.\nUse interface generators which take care of everything under the hood and directly produces importable Python objects. Here the most mature would be f2py which is used in production-grade code like numpy and scipy.\n\nCode generators like Pyccel, Numba, Cython are in my view a bit of a different topic as their main goal is to enable users to write Python-like code that runs faster and not to actually generate Fortran code that could be used for something else. The user would be fairly agnostic whether it is Fortran, C or something else that is generated under the hood."
+                },
+                {
+                    "user": "hsnyder",
+                    "date": "2021-05-24 22:23:08+00:00",
+                    "text": "I\u2019m actively working on mixed Python-Fortran projects with work right now.. I\u2019ll keep this thread in mind and share anything I produce that I think might be useful. At the moment what I\u2019m doing involves fortran calling python, rather than the opposite way around. It will be a few days before it\u2019s useable outside my immediate application though."
+                },
+                {
+                    "user": "kjelljorner",
+                    "date": "2021-05-24 22:25:51+00:00",
+                    "text": "I made some prototype page on HackMD. If this way of working looks attractive to people I could create a \"team\" and we could create the minibook there."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-25 08:00:13+00:00",
+                    "text": "Sure, I would be happy to contribute an example with intermediate complexity involving (polymorphic) derived types."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-25 08:26:59+00:00",
+                    "text": "Thanks @kjelljorner! That looks like a nice way of working on the minibook"
+                },
+                {
+                    "user": "kjelljorner",
+                    "date": "2021-05-25 11:03:26+00:00",
+                    "text": "I created a space on HackMD to work on this. It can be accessed only if you login, while the individual notes themselves can be shared to anyone. @awvwgk and others, If you create an account and let me know the username I can add you to the team as admins. There's a quite nice comments function that we can use to discuss different parts of the text."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-25 11:44:07+00:00",
+                    "text": "If you create an account and let me know the username I can add you to the team as admins.\n\nThanks, I'm going under @awvwgk there as well."
                 }
             ]
         },
@@ -429,6 +899,21 @@
                     "user": "ivan-pi",
                     "date": "2021-04-25 20:19:44+00:00",
                     "text": "This other seismological code (https://github.com/SeisSol/SeisSol) also contains a fair share of Fortran code."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-05-02 11:20:09+00:00",
+                    "text": "On top of the already long list, I've found pencil-code: https://github.com/pencil-code/pencil-code"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-03 15:49:25+00:00",
+                    "text": "There is also Elk (I communicated with the author long time ago):\n\n https://elk.sourceforge.io/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-03 17:56:20+00:00",
+                    "text": "I recommend to send a patch rather than posting the links here, because this makes it easier to discuss the proposed project and allows to actually add them to the package index. Also, it helps to avoid piling up collections of links like the \u201cList of popular Fortran projects,\u201d which are difficult to work on because the relevant context gets lost over time."
                 }
             ]
         },
@@ -5185,6 +5670,11 @@
                     "user": "awvwgk",
                     "date": "2021-03-09 20:53:39+00:00",
                     "text": "Exactly, with sphinx we would get first class translation support via gettext."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-16 18:33:15+00:00",
+                    "text": "I started working on sphinx based version of the webpage at my fork https://github.com/awvwgk/fortran-lang.org in the sphinx branch. It is still quite experimental at the moment, but so far sphinx looks really promising."
                 }
             ]
         },
@@ -7589,6 +8079,11 @@
                     "user": "certik",
                     "date": "2020-04-30 15:54:06+00:00",
                     "text": "The first newsletter is on the way at #4. Before we close this issue, let's create a document with information how the newsletter works. @milancurcic do you want to take a stab at that?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-22 09:59:03+00:00",
+                    "text": "I created a wiki page on the monthly newsletter here. Summarizing parts of the workflow, contributions are welcome.\nDiscourse thread: https://fortran-lang.discourse.group/t/monthly-newsletter-organisation/1278"
                 }
             ]
         },
