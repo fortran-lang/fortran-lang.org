@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: June 2021"
 category: newsletter
-author: Sebastian Ehlert, Milan Curcic, Laurence Kedward
+author: Sebastian Ehlert, Milan Curcic, Laurence Kedward, Ondřej Čertík
 ---
 
 Welcome to the June 2021 edition of the monthly Fortran newsletter.
@@ -136,6 +136,34 @@ environment in which new open source Fortran projects are created and published 
 
 
 ### LFortran
+
+* 39 Merge Requests [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged)
+* Features that now be compiled (in the LLVM backend):
+  * More nested functions and callbacks (the context is properly propagated)
+  * Runtime: size, lbound, ubound
+  * Return statement
+  * More array operations and declarations
+  * Array initializer expressions
+* Features in ASR only (semantics):
+  * Runtime intrinsics: min, max, allocated
+* Features in AST only (syntax:
+  * Co-arrays
+  * Methods
+  * Enumerations
+  * Attributes in `use`
+  * BOZ constants
+  * Forall
+  * More interfaces
+  * Import
+  * Implicit statements
+  * Select type
+
+The following people contributed code in May 2021:
+
+* Gagandeep Singh
+* Thirumalai Shaktivel
+* Ondřej Čertík
+* Dominic Poerio
 
 
 ## Events
