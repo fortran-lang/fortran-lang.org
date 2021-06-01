@@ -9,7 +9,7 @@ There are two ways to implement callbacks to be used like this:
 ``` fortran
 subroutine foo(a, k)
   use integrals, only: simpson
-  real(dp) :: a, k
+  real(dp), intent(in) :: a, k
   print *, simpson(f, 0._dp, pi)
   print *, simpson(f, 0._dp, 2*pi)
 
