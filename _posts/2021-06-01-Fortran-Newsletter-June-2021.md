@@ -129,11 +129,6 @@ environment in which new open source Fortran projects are created and published 
 
 ## Compilers
 
-### Classic Flang
-
-
-### LLVM Flang
-
 
 ### LFortran
 
