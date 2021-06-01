@@ -3,7 +3,7 @@ layout: book
 title: Callbacks
 permalink: /learn/best_practices/callbacks
 ---
-
+A callback is a function that is passed as an argument to another fucntion.
 There are two ways to implement callbacks to be used like this:
 
 ``` fortran
