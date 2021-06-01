@@ -160,10 +160,10 @@ environment in which new open source Fortran projects are created and published 
 
 The following people contributed code in May 2021:
 
-* Gagandeep Singh
-* Thirumalai Shaktivel
-* Ondřej Čertík
-* Dominic Poerio
+* Gagandeep Singh ([@czgdp1807](https://github.com/czgdp1807))
+* Thirumalai Shaktivel ([@Thirumalai-Shaktivel](https://github.com/Thirumalai-Shaktivel))
+* Ondřej Čertík ([@certik](https://github.com/certik))
+* Dominic Poerio ([@dpoe](https://gitlab.com/dpoe))
 
 
 ## Events
