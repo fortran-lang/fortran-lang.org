@@ -138,7 +138,7 @@ environment in which new open source Fortran projects are created and published 
 ### LFortran
 
 * 39 Merge Requests [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged)
-* Features that now be compiled (in the LLVM backend):
+* Features that can now be compiled (in the LLVM backend):
   * More nested functions and callbacks (the context is properly propagated)
   * Runtime: size, lbound, ubound
   * Return statement
@@ -146,7 +146,7 @@ environment in which new open source Fortran projects are created and published 
   * Array initializer expressions
 * Features in ASR only (semantics):
   * Runtime intrinsics: min, max, allocated
-* Features in AST only (syntax:
+* Features in AST only (syntax):
   * Co-arrays
   * Methods
   * Enumerations
