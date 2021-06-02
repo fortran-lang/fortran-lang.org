@@ -4,9 +4,9 @@ title: Allocatable Arrays
 permalink: /learn/best_practices/allocatable_arrays
 ---
 
-The ``allocatable`` attribute provides safe way to for memory handling.
+The ``allocatable`` attribute provides safe way for memory handling.
 In comparison to variables with ``pointer`` attribute the memory is managed
-automatically and will go deallocated automatically once the variable goes
+automatically and will be deallocated automatically once the variable goes
 out-of-scope. Using ``allocatable`` variables removes the possibility to
 create memory leaks in an application.
 
@@ -33,7 +33,7 @@ end subroutine show_arr
 
 To allocate variables inside a procedure the dummy argument has to carry
 the ``allocatable`` attribute. Using it in combination with ``intent(out)``
-will deallocate previous allocations before entring the procedure:
+will deallocate previous allocations before entering the procedure:
 
 ```fortran
 subroutine foo(lam)
@@ -87,7 +87,8 @@ the argument will not be present. The ``allocatable`` attribute is not limited t
 arrays and can also be associated with scalars, which can be useful in combination
 with ``optional`` dummy arguments.
 
-Allocations can be moved between different arrays with ``allocatable`` attribute.
+Allocations can be moved between different arrays with ``allocatable`` attribute
+using the ``move_alloc`` intrinsic subroutine.
 
 ```fortran
 subroutine resize(var, n)
