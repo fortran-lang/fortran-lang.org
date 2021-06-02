@@ -29,8 +29,8 @@ end module
 ```
 
 The `implicit none` statement works for the whole module (so you don't
-need to worry about it). By keeping the `private` empty, all your
-subroutines/data types will be private to the module by default. Then
+need to repeat it within each procedure). By keeping the `private` empty, all your
+procedures/data types will be private to the module by default. Then
 you export things by putting it into the `public` clause.
 
 Setup programs in the following way:

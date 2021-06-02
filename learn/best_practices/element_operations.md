@@ -4,9 +4,9 @@ title: Element-wise Operations on Arrays Using Subroutines/Functions
 permalink: /learn/best_practices/element_operations
 ---
 
-There are three approaches:
+There are three approaches to perform element-wise operations on arrays when using subroutines and functions:
 
--   `elemental` subroutines
+-   `elemental` procedures
 -   *explicit-shape* arrays
 -   implementing the operation for vectors and write simple wrapper
     subroutines (that use `reshape` internally) for each array shape
@@ -49,14 +49,14 @@ the final operation makes sense (if one argument is an array, then the
 other arguments must be either arrays of the same shape or scalars). If
 it does not, you will get a compiler error.
 
-The `elemental` keyword implies the `pure` keyword, so the subroutine
-must be pure (can only use `pure` subroutines and have no side effects).
+The `elemental` keyword implies the `pure` keyword, so the procedure
+must be pure. It results that `elemental procedures` can only use `pure` procedures and have no side effects.
 
-If the elemental function's algorithm can be made faster using array
-operations inside, or if for some reason the arguments must be arrays of
+If the elemental procedure algorithm can be made faster using array
+operations inside, or if for some reasons the arguments must be arrays of
 incompatible shapes, then one should use the other two approaches. One
-can make `nroot` operate on a vector and write a simple wrappers for
-other array shapes:
+can make `nroot` operate on a vector and write a simple wrapper for
+other array shapes, e.g.:
 
 ``` fortran
 function nroot(n, x) result(y)

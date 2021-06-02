@@ -50,7 +50,7 @@ end function
 end module
 ```
 
-The other approach since f2003 is to first define a new type for our
+Since the Fortran 2003 Standard, the other approach is to first define a new type for our
 callback, and then use `procedure(func)` as the type of the dummy
 argument:
 

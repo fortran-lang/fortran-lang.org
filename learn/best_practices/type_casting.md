@@ -4,7 +4,7 @@ title: Type Casting in Callbacks
 permalink: /learn/best_practices/type_casting
 ---
 
-There are essentially five different ways to do that, each with its own
+There are essentially five different ways to do type casting, each with its own
 advantages and disadvantages.
 
 The methods I, II and V can be used both in C and Fortran. The methods
@@ -14,7 +14,7 @@ should not be used.
 Work Arrays
 -----------
 
-Pass a "work array" or two which are packed with everything needed by
+Pass a "work array" which is packed with everything needed by
 the caller and unpacked by the called routine. This is the old way --
 e.g., how LAPACK does it.
 
@@ -83,9 +83,9 @@ end module
 General Structure
 -----------------
 
-Define general structure or two which encompass the variations you
+Define a general structure which encompass the variations you
 actually need (or are even remotely likely to need going forward). This
-single structure type or two can then change if needed as future
+single structure type can then change if needed as future
 needs/ideas permit but won't likely need to change from passing, say,
 real numbers to, say, and instantiation of a text editor.
 
