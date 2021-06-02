@@ -4,80 +4,67 @@ title: Multidimensional Arrays
 permalink: /learn/best_practices/multidim_arrays
 ---
 
-Always access slices as `V(:, 1)`, `V(:, 2)`, or `V(:, :, 1)`, e.g. the
-colons should be on the left. That way the stride is contiguous and it
-will be fast. So when you need some slice in your algorithm, always
-setup the array in a way, so that you call it as above. If you put the
-colon on the right, it will be slow.
+Multidimensional arrays are stored in column-major order. This means the
+left-most (inner-most) index addresses elements contiguously.
+From a practical point this means that the array slice ``V(:, 1)`` is
+contiguous, while the stride between elements in the slice ``V(1, :)``
+is the dimension of the columns. This is important when passing array
+slices to procedures which expect to work on contiguous data.
 
-Example:
+The locality of the memory is important to consider depending on
+your application, usually when performing operations on a multidimensional
+the sequential access should always advance in unity strides.
 
-``` fortran
-dydx = matmul(C(:, :, i), y) ! fast
-dydx = matmul(C(i, :, :), y) ! slow
+In the following example the inverse distance between two sets of points
+is evaluated, note that the points are stored contiguously in the arrays
+``xyz1``/``xyz2``, while the inner-most loop is advancing the left-most
+index of the matrix ``a``.
+
+```
+subroutine coulomb_matrix(xyz1, xyz2, a)
+  real(dp), intent(in) :: xyz1(:, :)
+  real(dp), intent(in) :: xyz2(:, :)
+  real(dp), intent(out) :: a(:, :)
+  integer :: i, j
+  do i = 1, size(a, 2)
+    do j = 1, size(a, 1)
+      a(j, i) = 1.0_dp/norm2(xyz1(:, j) - xyz2(:, i))
+    end do
+  end do
+end subroutine coulomb_matrix
 ```
 
-In other words, the "fortran storage order" is: smallest/fastest
-changing/innermost-loop index first, largest/slowest/outermost-loop
-index last ("Inner-most are left-most."). So the elements of a 3D array
-`A(N1,N2,N3)` are stored, and thus most efficiently accessed, as:
+Another example would be the contraction of the third dimension of a rank
+three array:
 
-``` fortran
-do i3 = 1, N3
-  do i2 = 1, N2
-    do i1 = 1, N1
-      A(i1, i2, i3)
+```
+do i = 1, size(amat, 3)
+  do j = 1, size(amat, 2)
+    do k = 1, size(amat, 1)
+      cmat(k, j) = cmat(k, j) + amat(k, j, i) * bvec(i)
     end do
   end do
 end do
 ```
 
-Associated array of vectors would then be most efficiently accessed as:
+Contiguous array slices can be used in array-bound remapping to allow usage
+of higher rank arrays as lower rank arrays without requiring to reshape
+and potentially create a temporary copy of the array.
 
-``` fortran
-do i3 = 1, N3
-  do i2 = 1, N2
-    A(:, i2, i3)
-  end do
-end do
+For example this can be used to contract the third dimension of a rank
+three array using a matrix-vector operation:
+
 ```
+subroutine matmul312(amat, bvec, cmat)
+  real(dp), contiguous, intent(in) :: amat(:, :, :)
+  real(dp), intent(in) :: bvec(:)
+  real(dp), contiguous, intent(out) :: cmat(:, :)
+  real(dp), pointer :: aptr(:, :)
+  real(dp), pointer :: cptr(:)
 
-And associated set of matrices would be most efficiently accessed as:
+  aptr(1:size(amat, 1)*size(amat, 2), 1:size(amat, 3)) => amat
+  cptr(1:size(cmat)) => cmat
 
-``` fortran
-do i3 = 1, N3
-  A(:, :, i3)
-end do
+  cptr = matmul(aptr, bvec)
+end subroutine matmul312
 ```
-
-Storing/accessing as above then accesses always contiguous blocks of
-memory, directly adjacent to one another; no skips/strides.
-
-When not sure, always rewrite (in your head) the algorithm to use
-strides, for example the first loop would become:
-
-``` fortran
-do i3 = 1, N3
-  Ai3 = A(:, :, i3)
-  do i2 = 1, N2
-    Ai2i3 = Ai3(:, i2)
-    do i1 = 1, N1
-      Ai2i3(i1)
-    end do
-  end do
-end do
-```
-
-the second loop would become:
-
-``` fortran
-do i3 = 1, N3
-  Ai3 = A(:, :, i3)
-  do i2 = 1, N2
-    Ai3(:, i2)
-  end do
-end do
-```
-
-And then make sure that all the strides are always on the left. Then it
-will be fast.
