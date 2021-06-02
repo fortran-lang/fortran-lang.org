@@ -340,12 +340,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
@@ -357,8 +351,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -468,8 +460,6 @@
         
       
         
-      
-        
           
           
 
@@ -481,8 +471,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -673,8 +661,6 @@
         
       
         
-      
-        
           
           
 
@@ -686,8 +672,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -774,8 +758,6 @@
         
       
         
-      
-        
           
           
 
@@ -787,146 +769,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/c_interfacing">
-          Interfacing with C</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/python_interfacing">
-          Interfacing with Python</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -1064,125 +906,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
       
         <li><a href="/pr/246/learn/best_practices/type_casting">
           Type Casting in Callbacks</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/parallel_programming">
-          Parallel programming</a></li>
       
 
     
@@ -1204,9 +933,9 @@
         
       </div>
 
-      <p>The <code class="highlighter-rouge">allocatable</code> attribute provides safe way to for memory handling.
+      <p>The <code class="highlighter-rouge">allocatable</code> attribute provides safe way for memory handling.
 In comparison to variables with <code class="highlighter-rouge">pointer</code> attribute the memory is managed
-automatically and will go deallocated automatically once the variable goes
+automatically and will be deallocated automatically once the variable goes
 out-of-scope. Using <code class="highlighter-rouge">allocatable</code> variables removes the possibility to
 create memory leaks in an application.</p>
 
@@ -1231,7 +960,7 @@ to avoid uninitialized access</p>
 
 <p>To allocate variables inside a procedure the dummy argument has to carry
 the <code class="highlighter-rouge">allocatable</code> attribute. Using it in combination with <code class="highlighter-rouge">intent(out)</code>
-will deallocate previous allocations before entring the procedure:</p>
+will deallocate previous allocations before entering the procedure:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span><span class="w">
   </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">lam</span><span class="p">(:)</span><span class="w">
@@ -1281,7 +1010,8 @@ the argument will not be present. The <code class="highlighter-rouge">allocatabl
 arrays and can also be associated with scalars, which can be useful in combination
 with <code class="highlighter-rouge">optional</code> dummy arguments.</p>
 
-<p>Allocations can be moved between different arrays with <code class="highlighter-rouge">allocatable</code> attribute.</p>
+<p>Allocations can be moved between different arrays with <code class="highlighter-rouge">allocatable</code> attribute
+using the <code class="highlighter-rouge">move_alloc</code> intrinsic subroutine.</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">resize</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w">
   </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">inout</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">var</span><span class="p">(:)</span><span class="w">

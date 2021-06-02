@@ -328,12 +328,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
@@ -345,8 +339,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -462,8 +454,6 @@
         
       
         
-      
-        
           
           
 
@@ -475,8 +465,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -667,8 +655,6 @@
         
       
         
-      
-        
           
           
 
@@ -680,8 +666,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -762,8 +746,6 @@
         
       
         
-      
-        
           
           
 
@@ -775,146 +757,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/c_interfacing">
-          Interfacing with C</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/python_interfacing">
-          Interfacing with Python</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -1052,125 +894,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
       
         <li><a href="/pr/246/learn/best_practices/type_casting">
           Type Casting in Callbacks</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/parallel_programming">
-          Parallel programming</a></li>
       
 
     
@@ -1192,31 +921,64 @@
         
       </div>
 
-      <p>Somewhere create and export a parameter <code class="highlighter-rouge">dp</code>:</p>
+      <p>The default representation of floating point numbers is using single precision
+(usually 32 bits / 4 bytes). For most application a higher precision is required.
+For this purpose a custom kind parameter can be defined.
+The recommended way of defining kind parameters is to use</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.d0</span><span class="p">)</span><span class="w">                   </span><span class="c1">! double precision</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_real_kind</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>and declare floats as:</p>
+<p>For many purposes it also suffices to directly infer the kind parameter from
+a literal like here</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>or to rename the imported kind parameter from the <code class="highlighter-rouge">iso_fortran_env</code> module</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">real64</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For some insightful thoughts on kind parameters see
+<a href="https://web.archive.org/web/20200930090137/https://stevelionel.com/drfortran/2017/03/27/doctor-fortran-in-it-takes-all-kinds/">Doctor Fortran in it takes all KINDs</a>.</p>
+
+<p>It is recommended to have a central module to define kind parameters and include
+them with use as necessary. An example for such a module is given with</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!&gt; Numerical storage size parameters for real and integer values
+module kind_parameter
+   implicit none
+   public
+
+   !&gt; Single precision real numbers, 6 digits, range 10⁻³⁷ to 10³⁷-1; 32 bits
+   integer, parameter :: sp = selected_real_kind(6, 37)
+   !&gt; Double precision real numbers, 15 digits, range 10⁻³⁰⁷ to 10³⁰⁷-1; 64 bits
+   integer, parameter :: dp = selected_real_kind(15, 307)
+   !&gt; Quadruple precision real numbers, 33 digits, range 10⁻⁴⁹³¹ to 10⁴⁹³¹-1; 128 bits
+   integer, parameter :: qp = selected_real_kind(33, 4931)
+
+   !&gt; Char length for integers, range -2⁷ to 2⁷-1; 8 bits
+   integer, parameter :: i1 = selected_int_kind(2)
+   !&gt; Short length for integers, range -2¹⁵ to 2¹⁵-1; 16 bits
+   integer, parameter :: i2 = selected_int_kind(4)
+   !&gt; Length of default integers, range -2³¹ to 2³¹-1; 32 bits
+   integer, parameter :: i4 = selected_int_kind(9)
+   !&gt; Long length for integers, range -2⁶³ to 2⁶³-1; 64 bits
+   integer, parameter :: i8 = selected_int_kind(18)
+
+end module kind_parameter
+</code></pre></div></div>
+
+<p>Floating point constants should always be declared including a kind parameter suffix:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w">
+</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">
+</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.5_dp</span><span class="w">
+</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.34e8_dp</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Always write all floating point constants with the <code class="highlighter-rouge">_dp</code> suffix:</p>
-
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">1</span><span class="mf">.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">3.5_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.34e8_dp</span><span class="w">
-</span></code></pre></div></div>
-
-<p>and never any other way (see also the gotcha
-<code class="highlighter-rouge">floating_point_numbers_gotcha</code>). Omitting the dot in the literal
-constant is also incorrect.</p>
-
-<p>To print floating point double precision numbers without losing
-precision, use the <code class="highlighter-rouge">(es23.16)</code> format (see
-<a href="http://stackoverflow.com/questions/6118231/why-do-i-need-17-significant-digits-and-not-16-to-represent-a-double/">http://stackoverflow.com/questions/6118231/why-do-i-need-17-significant-digits-and-not-16-to-represent-a-double/</a>).</p>
-
-<p>It is safe to assign integers to floating point numbers without losing
-accuracy:</p>
+<p>It is safe to assign integers to floating point numbers without losing accuracy:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
 </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
@@ -1227,8 +989,12 @@ division <code class="highlighter-rouge">1/2</code> equal to <code class="highli
 point number by:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
-</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">       </span><span class="c1">! 'a' is equal to 0.5_dp</span><span class="w">
+</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! 'a' is equal to 0.5_dp</span><span class="w">
 </span></code></pre></div></div>
+
+<p>To print floating point numbers without losing precision use the unlimited
+format specificer <code class="highlighter-rouge">(g0)</code> or the exponential representation <code class="highlighter-rouge">(es24.16e3)</code>,
+which will give you 17 significant digits of printout.</p>
 
 
       <div class="container-flex">

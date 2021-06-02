@@ -342,12 +342,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
@@ -359,8 +353,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -470,8 +462,6 @@
         
       
         
-      
-        
           
           
 
@@ -483,8 +473,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -675,8 +663,6 @@
         
       
         
-      
-        
           
           
 
@@ -688,8 +674,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -770,8 +754,6 @@
         
       
         
-      
-        
           
           
 
@@ -789,146 +771,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/c_interfacing">
-          Interfacing with C</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/python_interfacing">
-          Interfacing with Python</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -1066,125 +908,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
       
         <li><a href="/pr/246/learn/best_practices/type_casting">
           Type Casting in Callbacks</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/parallel_programming">
-          Parallel programming</a></li>
       
 
     
@@ -1206,54 +935,94 @@
         
       </div>
 
-      <p>To read from a file:</p>
+      <p>In Fortran files are managed by unit identifiers. Interaction with the filesystem
+mainly happens through the <code class="highlighter-rouge">open</code> and <code class="highlighter-rouge">inquire</code> built-in procedures.
+Generally, the workflow is to open a file to a unit identifier, read and/or write
+to it and close it again.</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">u</span><span class="w">
-</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"old"</span><span class="p">)</span><span class="w">
-</span><span class="k">read</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
-</span><span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">io</span><span class="w">
+</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">)</span><span class="w">
+</span><span class="c1">! ...</span><span class="w">
+</span><span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Write to a file:</p>
+<p>By default the file will be created if it is not existing already and opened for
+both reading and writing. Writing to an existing file will start in the first
+record (line) and therefore overwrite the file by default.</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">u</span><span class="w">
-</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span><span class="w">
-</span><span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
-</span><span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="w">
+<p>To create a read-only access to a file the <code class="highlighter-rouge">status</code> and <code class="highlighter-rouge">action</code> have to be
+specified with</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">io</span><span class="w">
+</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"old"</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s2">"read"</span><span class="p">)</span><span class="w">
+</span><span class="k">read</span><span class="p">(</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+</span><span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>To append to an existing file:</p>
+<p>In case the file is not present a runtime error will occur. To check for the existence
+of a file prior to opening it the <code class="highlighter-rouge">inquire</code> function can be used</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">u</span><span class="w">
-</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"old"</span><span class="p">)</span><span class="w">
-</span><span class="k">write</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w">
-</span><span class="k">close</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">logical</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">exists</span><span class="w">
+</span><span class="k">inquire</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">exist</span><span class="o">=</span><span class="n">exists</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">exists</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+  </span><span class="c1">! ...</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">newunit</code> keyword argument to <code class="highlighter-rouge">open</code> is a Fortran 2008 standard, in
-older compilers, just replace <code class="highlighter-rouge">open(newunit=u, ...)</code> by:</p>
+<p>Alternatively, the <code class="highlighter-rouge">open</code> procedure can return an optional <em>iostat</em> and <em>iomsg</em>:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="p">(</span><span class="n">u</span><span class="p">),</span><span class="w"> </span><span class="err">...</span><span class="p">)</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">msg</span><span class="w">
+</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"old"</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s2">"read"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+  </span><span class="n">iostat</span><span class="o">=</span><span class="n">stat</span><span class="p">,</span><span class="w"> </span><span class="n">iomsg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="p">/</span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
 </span></code></pre></div></div>
 
-<p>where the <code class="highlighter-rouge">newunit</code> function is defined by:</p>
+<p>Note that <em>iomsg</em> requires a fixed-length character variable with sufficent storage
+size to hold the error message.</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">newunit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">
-  </span><span class="c1">! returns lowest i/o unit number not in use</span><span class="w">
-  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">),</span><span class="w"> </span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">unit</span><span class="w">
-  </span><span class="kt">logical</span><span class="w"> </span><span class="n">inuse</span><span class="w">
-  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">nmin</span><span class="o">=</span><span class="mi">10</span><span class="w">   </span><span class="c1">! avoid lower numbers which are sometimes reserved</span><span class="w">
-  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">nmax</span><span class="o">=</span><span class="mi">999</span><span class="w">  </span><span class="c1">! may be system-dependent</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nmin</span><span class="p">,</span><span class="w"> </span><span class="n">nmax</span><span class="w">
-    </span><span class="k">inquire</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">opened</span><span class="o">=</span><span class="n">inuse</span><span class="p">)</span><span class="w">
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="ow">.not.</span><span class="w"> </span><span class="n">inuse</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
-      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span><span class="w"> </span><span class="n">unit</span><span class="o">=</span><span class="n">n</span><span class="w">
-      </span><span class="k">return</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-  </span><span class="k">call</span><span class="w"> </span><span class="n">stop_error</span><span class="p">(</span><span class="s2">"newunit ERROR: available unit not found."</span><span class="p">)</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+<p>Similarly, writing to a file happens by using the <em>status</em> and <em>action</em> keyword.
+To create a new file use</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">io</span><span class="w">
+</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"new"</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s2">"write"</span><span class="p">)</span><span class="w">
+</span><span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+</span><span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
+
+<p>Alternatively, <code class="highlighter-rouge">status="replace"</code> can be used to overwrite an existing file,
+it is highly recommended to first check for the existence of a file before deciding
+on the <em>status</em> to use.
+To append to an output file the <em>position</em> keyword can be specified explicitly with</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">io</span><span class="w">
+</span><span class="k">open</span><span class="p">(</span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="o">=</span><span class="s2">"append"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+  </span><span class="p">&amp;</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"old"</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="o">=</span><span class="s2">"write"</span><span class="p">)</span><span class="w">
+</span><span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w">
+</span><span class="k">write</span><span class="p">(</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">v</span><span class="p">(:)</span><span class="w">
+</span><span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>To reset the position in a file the built-in procedures <code class="highlighter-rouge">rewind</code> and <code class="highlighter-rouge">backspace</code>
+can be used. <code class="highlighter-rouge">rewind</code> will reset to the first record (line), while <code class="highlighter-rouge">backspace</code> will
+return to the previous record (line).</p>
+
+<p>Finally, to delete a file the file has to be opened and can be deleted after closing
+with</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">logical</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">exists</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="w">
+</span><span class="k">inquire</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">exist</span><span class="o">=</span><span class="n">exists</span><span class="p">)</span><span class="w">
+</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">exists</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+  </span><span class="k">open</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s2">"log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">newunit</span><span class="o">=</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">stat</span><span class="p">)</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">close</span><span class="p">(</span><span class="n">io</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s2">"delete"</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">stat</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A useful IO feature are scratch files, which can be opened with <code class="highlighter-rouge">status="scratch"</code>.
+They are automatically deleted after closing the unit identifier.</p>
 
 
       <div class="container-flex">
@@ -1270,7 +1039,7 @@ older compilers, just replace <code class="highlighter-rouge">open(newunit=u, ..
 
         
           
-          <a href="/pr/246/learn/best_practices/c_interfacing"
+          <a href="/pr/246/learn/best_practices/callbacks"
           style="margin-left: auto;">
             <h3>
               Next

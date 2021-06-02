@@ -334,12 +334,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
@@ -351,8 +345,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -462,8 +454,6 @@
         
       
         
-      
-        
           
           
 
@@ -475,8 +465,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -673,8 +661,6 @@
         
       
         
-      
-        
           
           
 
@@ -686,8 +672,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -768,8 +752,6 @@
         
       
         
-      
-        
           
           
 
@@ -781,146 +763,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/c_interfacing">
-          Interfacing with C</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/python_interfacing">
-          Interfacing with Python</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -1058,125 +900,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
       
         <li><a href="/pr/246/learn/best_practices/type_casting">
           Type Casting in Callbacks</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/parallel_programming">
-          Parallel programming</a></li>
       
 
     
@@ -1309,10 +1038,10 @@ argument like in the example below</p>
 <p>Note that the shape is not checked, therefore the following would be valid code
 with will potentially yield incorrect results:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>real(dp) :: s(3, 4)
-call g(size(s), 1, s)  ! s(12, 1) in g
-call g(size(s, 2), size(s, 1), s)  ! s(4, 3) in g
-</code></pre></div></div>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="c1">! s(12, 1) in g</span><span class="w">
+</span><span class="k">call</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="c1">! s(4, 3) in g</span><span class="w">
+</span></code></pre></div></div>
 
 <p>In this case the memory layout is preserved but the shape is changed.
 Also, <em>explicit-shape</em> arrays require contiguous memory and will create temporary

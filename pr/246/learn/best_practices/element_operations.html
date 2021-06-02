@@ -338,12 +338,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
@@ -355,8 +349,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -466,8 +458,6 @@
         
       
         
-      
-        
           
           
 
@@ -479,8 +469,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -671,8 +659,6 @@
         
       
         
-      
-        
           
           
 
@@ -684,8 +670,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -772,8 +756,6 @@
         
       
         
-      
-        
           
           
 
@@ -785,146 +767,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/c_interfacing">
-          Interfacing with C</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/python_interfacing">
-          Interfacing with Python</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -1062,125 +904,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
       
         <li><a href="/pr/246/learn/best_practices/type_casting">
           Type Casting in Callbacks</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/parallel_programming">
-          Parallel programming</a></li>
       
 
     
@@ -1202,10 +931,10 @@
         
       </div>
 
-      <p>There are three approaches:</p>
+      <p>There are three approaches to perform element-wise operations on arrays when using subroutines and functions:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">elemental</code> subroutines</li>
+  <li><code class="highlighter-rouge">elemental</code> procedures</li>
   <li><em>explicit-shape</em> arrays</li>
   <li>implementing the operation for vectors and write simple wrapper
 subroutines (that use <code class="highlighter-rouge">reshape</code> internally) for each array shape</li>
@@ -1246,14 +975,14 @@ the final operation makes sense (if one argument is an array, then the
 other arguments must be either arrays of the same shape or scalars). If
 it does not, you will get a compiler error.</p>
 
-<p>The <code class="highlighter-rouge">elemental</code> keyword implies the <code class="highlighter-rouge">pure</code> keyword, so the subroutine
-must be pure (can only use <code class="highlighter-rouge">pure</code> subroutines and have no side effects).</p>
+<p>The <code class="highlighter-rouge">elemental</code> keyword implies the <code class="highlighter-rouge">pure</code> keyword, so the procedure
+must be pure. It results that <code class="highlighter-rouge">elemental procedures</code> can only use <code class="highlighter-rouge">pure</code> procedures and have no side effects.</p>
 
-<p>If the elemental function’s algorithm can be made faster using array
-operations inside, or if for some reason the arguments must be arrays of
+<p>If the elemental procedure algorithm can be made faster using array
+operations inside, or if for some reasons the arguments must be arrays of
 incompatible shapes, then one should use the other two approaches. One
-can make <code class="highlighter-rouge">nroot</code> operate on a vector and write a simple wrappers for
-other array shapes:</p>
+can make <code class="highlighter-rouge">nroot</code> operate on a vector and write a simple wrapper for
+other array shapes, e.g.:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">

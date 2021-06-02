@@ -336,12 +336,6 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
@@ -353,8 +347,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -464,8 +456,6 @@
         
       
         
-      
-        
           
           
 
@@ -477,8 +467,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -669,8 +657,6 @@
         
       
         
-      
-        
           
           
 
@@ -688,8 +674,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -770,8 +754,6 @@
         
       
         
-      
-        
           
           
 
@@ -783,146 +765,6 @@
     
     
       <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/c_interfacing">
-          Interfacing with C</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/python_interfacing">
-          Interfacing with Python</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
       
         
       
@@ -1060,125 +902,12 @@
         
       
         
-      
-        
-      
-        
-      
-        
           
           
 
       
         <li><a href="/pr/246/learn/best_practices/type_casting">
           Type Casting in Callbacks</a></li>
-      
-
-    
-    
-      <!-- Get page title from page metadata -->
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-          
-          
-
-      
-        <li><a href="/pr/246/learn/best_practices/parallel_programming">
-          Parallel programming</a></li>
       
 
     
@@ -1216,30 +945,30 @@ is evaluated, note that the points are stored contiguously in the arrays
 <code class="highlighter-rouge">xyz1</code>/<code class="highlighter-rouge">xyz2</code>, while the inner-most loop is advancing the left-most
 index of the matrix <code class="highlighter-rouge">a</code>.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>subroutine coulomb_matrix(xyz1, xyz2, a)
-  real(dp), intent(in) :: xyz1(:, :)
-  real(dp), intent(in) :: xyz2(:, :)
-  real(dp), intent(out) :: a(:, :)
-  integer :: i, j
-  do i = 1, size(a, 2)
-    do j = 1, size(a, 1)
-      a(j, i) = 1.0_dp/norm2(xyz1(:, j) - xyz2(:, i))
-    end do
-  end do
-end subroutine coulomb_matrix
-</code></pre></div></div>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">coulomb_matrix</span><span class="p">(</span><span class="n">xyz1</span><span class="p">,</span><span class="w"> </span><span class="n">xyz2</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">xyz1</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">xyz2</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w">
+  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+    </span><span class="k">do</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">a</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">/</span><span class="nb">norm2</span><span class="p">(</span><span class="n">xyz1</span><span class="p">(:,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">xyz2</span><span class="p">(:,</span><span class="w"> </span><span class="n">i</span><span class="p">))</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">coulomb_matrix</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Another example would be the contraction of the third dimension of a rank
 three array:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>do i = 1, size(amat, 3)
-  do j = 1, size(amat, 2)
-    do k = 1, size(amat, 1)
-      cmat(k, j) = cmat(k, j) + amat(k, j, i) * bvec(i)
-    end do
-  end do
-end do
-</code></pre></div></div>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">amat</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">
+  </span><span class="k">do</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">amat</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">
+    </span><span class="k">do</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">amat</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">cmat</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cmat</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">amat</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">bvec</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Contiguous array slices can be used in array-bound remapping to allow usage
 of higher rank arrays as lower rank arrays without requiring to reshape
@@ -1248,19 +977,19 @@ and potentially create a temporary copy of the array.</p>
 <p>For example this can be used to contract the third dimension of a rank
 three array using a matrix-vector operation:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>subroutine matmul312(amat, bvec, cmat)
-  real(dp), contiguous, intent(in) :: amat(:, :, :)
-  real(dp), intent(in) :: bvec(:)
-  real(dp), contiguous, intent(out) :: cmat(:, :)
-  real(dp), pointer :: aptr(:, :)
-  real(dp), pointer :: cptr(:)
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">matmul312</span><span class="p">(</span><span class="n">amat</span><span class="p">,</span><span class="w"> </span><span class="n">bvec</span><span class="p">,</span><span class="w"> </span><span class="n">cmat</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">amat</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">bvec</span><span class="p">(:)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">contiguous</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">cmat</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">aptr</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">cptr</span><span class="p">(:)</span><span class="w">
 
-  aptr(1:size(amat, 1)*size(amat, 2), 1:size(amat, 3)) =&gt; amat
-  cptr(1:size(cmat)) =&gt; cmat
+  </span><span class="n">aptr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">amat</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">size</span><span class="p">(</span><span class="n">amat</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">amat</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">amat</span><span class="w">
+  </span><span class="n">cptr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">size</span><span class="p">(</span><span class="n">cmat</span><span class="p">))</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">cmat</span><span class="w">
 
-  cptr = matmul(aptr, bvec)
-end subroutine matmul312
-</code></pre></div></div>
+  </span><span class="n">cptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">aptr</span><span class="p">,</span><span class="w"> </span><span class="n">bvec</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">matmul312</span><span class="w">
+</span></code></pre></div></div>
 
 
       <div class="container-flex">
