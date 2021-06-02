@@ -20,7 +20,7 @@ is evaluated, note that the points are stored contiguously in the arrays
 ``xyz1``/``xyz2``, while the inner-most loop is advancing the left-most
 index of the matrix ``a``.
 
-```
+```fortran
 subroutine coulomb_matrix(xyz1, xyz2, a)
   real(dp), intent(in) :: xyz1(:, :)
   real(dp), intent(in) :: xyz2(:, :)
@@ -37,7 +37,7 @@ end subroutine coulomb_matrix
 Another example would be the contraction of the third dimension of a rank
 three array:
 
-```
+```fortran
 do i = 1, size(amat, 3)
   do j = 1, size(amat, 2)
     do k = 1, size(amat, 1)
@@ -54,7 +54,7 @@ and potentially create a temporary copy of the array.
 For example this can be used to contract the third dimension of a rank
 three array using a matrix-vector operation:
 
-```
+```fortran
 subroutine matmul312(amat, bvec, cmat)
   real(dp), contiguous, intent(in) :: amat(:, :, :)
   real(dp), intent(in) :: bvec(:)

@@ -122,7 +122,7 @@ call g(size(s, 1), size(s, 2), s)
 Note that the shape is not checked, therefore the following would be valid code
 with will potentially yield incorrect results:
 
-```
+```fortran
 real(dp) :: s(3, 4)
 call g(size(s), 1, s)  ! s(12, 1) in g
 call g(size(s, 2), size(s, 1), s)  ! s(4, 3) in g
