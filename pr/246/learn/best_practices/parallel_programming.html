@@ -1224,17 +1224,17 @@ by <code class="highlighter-rouge">!$</code>. Regular compilers will consider th
 ignore them. For OpenMP compilers, these lines will be considered as
 regular Fortran code. The following code :</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">test_openmpi</span><span class="w">
-   </span><span class="c1">!$ use omp_lib</span><span class="w">
-   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">test_openmp</span><span class="w">
+  </span><span class="c1">!$ use omp_lib</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 
-   </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">nthreads</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">nthreads</span><span class="w">
 
-   </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="w">
-   </span><span class="c1">!$ nthreads = omp_get_num_threads()</span><span class="w">
+  </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="w">
+  </span><span class="c1">!$ nthreads = omp_get_num_threads()</span><span class="w">
 
-   </span><span class="c1">! will print the number of running threads when compiled with OpenMP, else will print -1</span><span class="w">
-   </span><span class="k">print</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"nthreads="</span><span class="p">,</span><span class="w"> </span><span class="n">nthreads</span><span class="w">
+  </span><span class="c1">! will print the number of running threads when compiled with OpenMP, else will print -1</span><span class="w">
+  </span><span class="k">print</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"nthreads="</span><span class="p">,</span><span class="w"> </span><span class="n">nthreads</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w">
 </span></code></pre></div></div>
 

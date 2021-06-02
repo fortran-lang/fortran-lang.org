@@ -1200,19 +1200,19 @@
 way:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">ode1d</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">utils</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stop_error</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="k">private</span><span class="w">
-</span><span class="k">public</span><span class="w"> </span><span class="n">integrate</span><span class="p">,</span><span class="w"> </span><span class="n">normalize</span><span class="p">,</span><span class="w"> </span><span class="n">parsefunction</span><span class="p">,</span><span class="w"> </span><span class="n">get_val</span><span class="p">,</span><span class="w"> </span><span class="n">rk4step</span><span class="p">,</span><span class="w"> </span><span class="n">eulerstep</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-        </span><span class="n">rk4step2</span><span class="p">,</span><span class="w"> </span><span class="n">get_midpoints</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate_inward</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-        </span><span class="n">rk4_integrate_inward2</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate3</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate4</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-        </span><span class="n">rk4_integrate_inward4</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">utils</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stop_error</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">integrate</span><span class="p">,</span><span class="w"> </span><span class="n">normalize</span><span class="p">,</span><span class="w"> </span><span class="n">parsefunction</span><span class="p">,</span><span class="w"> </span><span class="n">get_val</span><span class="p">,</span><span class="w"> </span><span class="n">rk4step</span><span class="p">,</span><span class="w"> </span><span class="n">eulerstep</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+      </span><span class="n">rk4step2</span><span class="p">,</span><span class="w"> </span><span class="n">get_midpoints</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate_inward</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+      </span><span class="n">rk4_integrate_inward2</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate3</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate4</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+      </span><span class="n">rk4_integrate_inward4</span><span class="w">
 
 </span><span class="k">contains</span><span class="w">
 
 </span><span class="k">subroutine</span><span class="w"> </span><span class="n">get_val</span><span class="p">(</span><span class="err">...</span><span class="p">)</span><span class="w">
-</span><span class="err">...</span><span class="w">
+  </span><span class="err">...</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
 </span><span class="err">...</span><span class="w">
 
@@ -1227,15 +1227,15 @@ you export things by putting it into the <code class="highlighter-rouge">public<
 <p>Setup programs in the following way:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">uranium</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">fmesh</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mesh_exp</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">utils</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stop_error</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">dft</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">atom</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">fmesh</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mesh_exp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">utils</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stop_error</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">dft</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">atom</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 
-</span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">92</span><span class="w">
-</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">r_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8e-9_dp</span><span class="p">,</span><span class="w"> </span><span class="n">r_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">50.0_dp</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e7_dp</span><span class="w">
-</span><span class="err">...</span><span class="w">
-</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"I am running"</span><span class="w">
+  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">92</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">r_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8e-9_dp</span><span class="p">,</span><span class="w"> </span><span class="n">r_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">50.0_dp</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e7_dp</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"I am running"</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w">
 </span></code></pre></div></div>
 

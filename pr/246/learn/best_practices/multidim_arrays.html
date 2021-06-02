@@ -1200,77 +1200,67 @@
         
       </div>
 
-      <p>Always access slices as <code class="highlighter-rouge">V(:, 1)</code>, <code class="highlighter-rouge">V(:, 2)</code>, or <code class="highlighter-rouge">V(:, :, 1)</code>, e.g. the
-colons should be on the left. That way the stride is contiguous and it
-will be fast. So when you need some slice in your algorithm, always
-setup the array in a way, so that you call it as above. If you put the
-colon on the right, it will be slow.</p>
+      <p>Multidimensional arrays are stored in column-major order. This means the
+left-most (inner-most) index addresses elements contiguously.
+From a practical point this means that the array slice <code class="highlighter-rouge">V(:, 1)</code> is
+contiguous, while the stride between elements in the slice <code class="highlighter-rouge">V(1, :)</code>
+is the dimension of the columns. This is important when passing array
+slices to procedures which expect to work on contiguous data.</p>
 
-<p>Example:</p>
+<p>The locality of the memory is important to consider depending on
+your application, usually when performing operations on a multidimensional
+the sequential access should always advance in unity strides.</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dydx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">C</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c1">! fast</span><span class="w">
-</span><span class="n">dydx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">C</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c1">! slow</span><span class="w">
-</span></code></pre></div></div>
+<p>In the following example the inverse distance between two sets of points
+is evaluated, note that the points are stored contiguously in the arrays
+<code class="highlighter-rouge">xyz1</code>/<code class="highlighter-rouge">xyz2</code>, while the inner-most loop is advancing the left-most
+index of the matrix <code class="highlighter-rouge">a</code>.</p>
 
-<p>In other words, the “fortran storage order” is: smallest/fastest
-changing/innermost-loop index first, largest/slowest/outermost-loop
-index last (“Inner-most are left-most.”). So the elements of a 3D array
-<code class="highlighter-rouge">A(N1,N2,N3)</code> are stored, and thus most efficiently accessed, as:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>subroutine coulomb_matrix(xyz1, xyz2, a)
+  real(dp), intent(in) :: xyz1(:, :)
+  real(dp), intent(in) :: xyz2(:, :)
+  real(dp), intent(out) :: a(:, :)
+  integer :: i, j
+  do i = 1, size(a, 2)
+    do j = 1, size(a, 1)
+      a(j, i) = 1.0_dp/norm2(xyz1(:, j) - xyz2(:, i))
+    end do
+  end do
+end subroutine coulomb_matrix
+</code></pre></div></div>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="w"> </span><span class="n">i3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N3</span><span class="w">
-    </span><span class="k">do</span><span class="w"> </span><span class="n">i2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N2</span><span class="w">
-        </span><span class="k">do</span><span class="w"> </span><span class="n">i1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="w">
-            </span><span class="n">A</span><span class="p">(</span><span class="n">i1</span><span class="p">,</span><span class="w"> </span><span class="n">i2</span><span class="p">,</span><span class="w"> </span><span class="n">i3</span><span class="p">)</span><span class="w">
-        </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span></code></pre></div></div>
+<p>Another example would be the contraction of the third dimension of a rank
+three array:</p>
 
-<p>Associated array of vectors would then be most efficiently accessed as:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>do i = 1, size(amat, 3)
+  do j = 1, size(amat, 2)
+    do k = 1, size(amat, 1)
+      cmat(k, j) = cmat(k, j) + amat(k, j, i) * bvec(i)
+    end do
+  end do
+end do
+</code></pre></div></div>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="w"> </span><span class="n">i3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N3</span><span class="w">
-    </span><span class="k">do</span><span class="w"> </span><span class="n">i2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N2</span><span class="w">
-        </span><span class="n">A</span><span class="p">(:,</span><span class="w"> </span><span class="n">i2</span><span class="p">,</span><span class="w"> </span><span class="n">i3</span><span class="p">)</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span></code></pre></div></div>
+<p>Contiguous array slices can be used in array-bound remapping to allow usage
+of higher rank arrays as lower rank arrays without requiring to reshape
+and potentially create a temporary copy of the array.</p>
 
-<p>And associated set of matrices would be most efficiently accessed as:</p>
+<p>For example this can be used to contract the third dimension of a rank
+three array using a matrix-vector operation:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="w"> </span><span class="n">i3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N3</span><span class="w">
-    </span><span class="n">A</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i3</span><span class="p">)</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>subroutine matmul312(amat, bvec, cmat)
+  real(dp), contiguous, intent(in) :: amat(:, :, :)
+  real(dp), intent(in) :: bvec(:)
+  real(dp), contiguous, intent(out) :: cmat(:, :)
+  real(dp), pointer :: aptr(:, :)
+  real(dp), pointer :: cptr(:)
 
-<p>Storing/accessing as above then accesses always contiguous blocks of
-memory, directly adjacent to one another; no skips/strides.</p>
+  aptr(1:size(amat, 1)*size(amat, 2), 1:size(amat, 3)) =&gt; amat
+  cptr(1:size(cmat)) =&gt; cmat
 
-<p>When not sure, always rewrite (in your head) the algorithm to use
-strides, for example the first loop would become:</p>
-
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="w"> </span><span class="n">i3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N3</span><span class="w">
-    </span><span class="n">Ai3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i3</span><span class="p">)</span><span class="w">
-    </span><span class="k">do</span><span class="w"> </span><span class="n">i2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N2</span><span class="w">
-        </span><span class="n">Ai2i3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ai3</span><span class="p">(:,</span><span class="w"> </span><span class="n">i2</span><span class="p">)</span><span class="w">
-        </span><span class="k">do</span><span class="w"> </span><span class="n">i1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="w">
-            </span><span class="n">Ai2i3</span><span class="p">(</span><span class="n">i1</span><span class="p">)</span><span class="w">
-        </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span></code></pre></div></div>
-
-<p>the second loop would become:</p>
-
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">do</span><span class="w"> </span><span class="n">i3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N3</span><span class="w">
-    </span><span class="n">Ai3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="n">i3</span><span class="p">)</span><span class="w">
-    </span><span class="k">do</span><span class="w"> </span><span class="n">i2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">N2</span><span class="w">
-        </span><span class="n">Ai3</span><span class="p">(:,</span><span class="w"> </span><span class="n">i2</span><span class="p">)</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-</span></code></pre></div></div>
-
-<p>And then make sure that all the strides are always on the left. Then it
-will be fast.</p>
+  cptr = matmul(aptr, bvec)
+end subroutine matmul312
+</code></pre></div></div>
 
 
       <div class="container-flex">

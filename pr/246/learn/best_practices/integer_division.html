@@ -1194,15 +1194,30 @@
         
       </div>
 
-      <p>Just like in Python 2.x or C, when doing things like <code class="highlighter-rouge">(N-1)/N</code> where <code class="highlighter-rouge">N</code>
-is an integer and you want a floating point division, force the compiler
-to use floats at the right hand side, for example by:</p>
+      <p>Fortran distinguishs between floating point and integer arithmetic.
+It is important to note that division for integers is always using
+integer arithmetic.
+Consider the following example for integer division of an odd number:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">N</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">)/</span><span class="n">N</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">
+</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints 1</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)/</span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints 6</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="c1">! prints 4</span><span class="w">
+</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-3</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints -1</span><span class="w">
 </span></code></pre></div></div>
 
-<p>As long as one of the <code class="highlighter-rouge">/</code> operands is a float, a floating point division
-will be used.</p>
+<p>Be careful about whether you want to actually use integer arithmetic
+in this context. If you want to use floating point arithmetic instead
+make sure to cast to reals before using the division operator:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">
+</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints 1.5</span><span class="w">
+</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-3</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints -1.5</span><span class="w">
+</span></code></pre></div></div>
 
 
       <div class="container-flex">
