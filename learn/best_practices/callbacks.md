@@ -3,115 +3,91 @@ layout: book
 title: Callbacks
 permalink: /learn/best_practices/callbacks
 ---
-A callback is a function that is passed as an argument to another fucntion.
-There are two ways to implement callbacks to be used like this:
 
-``` fortran
-subroutine foo(a, k)
-  use integrals, only: simpson
-  real(dp), intent(in) :: a, k
-  print *, simpson(f, 0._dp, pi)
-  print *, simpson(f, 0._dp, 2*pi)
+A callback is a function that is passed as an argument to another function.
 
-contains
+The preferred way of creating such a callback is to provide an *abstract interface*
+declaring the signature of the callback. This allows to use compile time checks
+for the passed callback.
 
-real(dp) function f(x) result(y)
-  real(dp), intent(in) :: x
-  y = a*sin(k*x)
-end function f
-
-end subroutine foo
-```
-
-The traditional approach is to simply declare the `f` dummy variable as
-a subroutine/function using:
-
-``` fortran
+```fortran
 module integrals
   use types, only: dp
   implicit none
   private
-  public simpson
+  public :: simpson, integratable_function
 
-contains
-
-real(dp) function simpson(f, a, b) result(s)
-  real(dp), intent(in) :: a, b
-  interface
-    real(dp) function f(x)
-    use types, only: dp
-    implicit none
-    real(dp), intent(in) :: x
-    end function
-  end interface
-  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
-end function
-
-end module
-```
-
-Since the Fortran 2003 Standard, the other approach is to first define a new type for our
-callback, and then use `procedure(func)` as the type of the dummy
-argument:
-
-``` fortran
-module integrals
-  use types, only: dp
-  implicit none
-  private
-  public simpson
-
-contains
-
-real(dp) function simpson(f, a, b) result(s)
-  real(dp), intent(in) :: a, b
-  interface
-    real(dp) function func(x)
-    use types, only: dp
-    implicit none
-    real(dp), intent(in) :: x
-    end function
-  end interface
-  procedure(func) :: f
-  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
-end function
-
-end module
-```
-
-The new type can also be defined outside of the function (and reused),
-like:
-
-``` fortran
-module integrals
-  use types, only: dp
-  implicit none
-  private
-  public simpson
-
-  interface
-    real(dp) function func(x)
-    use types, only: dp
-    implicit none
-    real(dp), intent(in) :: x
+  abstract interface
+    function integratable_function(x) result(func)
+      import :: dp
+      real(dp), intent(in) :: x
+      real(dp) :: func
     end function
   end interface
 
 contains
 
-real(dp) function simpson(f, a, b) result(s)
-  real(dp), intent(in) :: a, b
-  procedure(func) :: f
-  s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
-end function
+  function simpson(f, a, b) result(s)
+    real(dp), intent(in) :: a, b
+    procedure(integratable_function) :: f
+    real(dp) :: s
 
-real(dp) function simpson2(f, a, b) result(s)
-  real(dp), intent(in) :: a, b
-  procedure(func) :: f
-  real(dp) :: mid
-  mid = (a + b)/2
-  s = simpson(f, a, mid) + simpson(f, mid, b)
-end function
+    s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
+  end function simpson
 
-end module
+end module integrals
+```
+
+The function can than be used with a callback by importing the module
+as shown in the following example
+
+```fortran
+module demo_functions
+  use types, only: dp
+  implicit none
+  private
+  public :: test_integral
+
+contains
+
+  subroutine test_integral(a, k)
+    real(dp), intent(in) :: a, k
+
+    print *, simpson(f, 0._dp, pi)
+    print *, simpson(f, 0._dp, 2*pi)
+  contains
+
+    function f(x) result(y)
+      real(dp), intent(in) :: x
+      real(dp) :: y
+      y = a*sin(k*x)
+    end function f
+  end subroutine test_integral
+
+end module demo_functions
+```
+
+Exporting the abstract interface allows to create procedure pointers with the
+correct signature and also to extend the callback further like shown here
+
+```fortran
+module demo_integrals
+  use types, only: dp
+  use integrals, only: simpson, integratable_function
+  implicit none
+  private
+  public :: simpson2, integratable_function
+
+contains
+
+  function simpson2(f, a, b) result(s)
+    real(dp), intent(in) :: a, b
+    procedure(integratable_function) :: f
+    real(dp) :: s
+    real(dp) :: mid
+    mid = (a + b)/2
+    s = simpson(f, a, mid) + simpson(f, mid, b)
+  end function simpson2
+
+end module demo_integrals
 ```
