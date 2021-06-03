@@ -1,6 +1,6 @@
 ---
 layout: book
-title: Element-wise Operations on Arrays Using Subroutines/Functions
+title: Element-wise Operations on Arrays
 permalink: /learn/best_practices/element_operations
 ---
 
