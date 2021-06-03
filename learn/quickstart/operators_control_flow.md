@@ -209,9 +209,11 @@ that any given loop iteration does not depend on the prior execution of other lo
 These requirements place restrictions on what can be placed within the loop body.
 
 
-{% include important.html content="`do concurrent` is not a basic feature of Fortran. The explanation given does not detail
-all the requirements that need to be met in order to write a correct `do concurrent` loop. Compilers are also free to do as they see fit,
-which means they may not optimize the loop." %}
+{% include important.html content="Simply replacing a `do` loop with a `do concurrent` does not guarantee parallel execution.
+The explanation given does not detail all the requirements that need to be met in order to write a correct `do concurrent` loop.
+Compilers are also free to do as they see fit, meaning they may not optimize the loop (e.g., a small number of iterations doing a simple calculation).
+In general, compiler flags are required to activate possible parallelization for `do concurrent` loops.
+For `gfortran`, `-ftree-parallelize-loops=n` + an `-O` flag ≥ 1 activates auto-parallelization where `n` is the number of threads; for example, use `-ftree-parallelize-loops=0 -O3` to use all available threads." %}
 
 __Example__ `do concurrent()` loop
 
