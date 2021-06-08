@@ -701,7 +701,7 @@
 
       
         <li><a href="/pr/246/learn/best_practices/element_operations">
-          Element-wise Operations on Arrays Using Subroutines/Functions</a></li>
+          Element-wise Operations on Arrays</a></li>
       
 
     
@@ -925,57 +925,145 @@
         
       </div>
 
-      <p>Only use modules and programs. Always setup a module in the following
-way:</p>
+      <p>Modules are the preferred way create modern Fortran libraries and applications.
+As a convention, one source file should always contain only one module, while
+the module name should match the filepath to allow easy navigation in larger
+projects. It is also recommended to prefix module names with the library name
+to avoid nameclashes when used as dependency in other projects.</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">ode1d</span><span class="w">
-  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="w">
-  </span><span class="k">use</span><span class="w"> </span><span class="n">utils</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stop_error</span><span class="w">
+<p>An example for such a module file is given here</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!&gt; Interface to TOML processing library.
+!&gt;
+!&gt; ...
+module fpm_toml
+  use fpm_error, only : error_t, fatal_error, file_not_found_error
+  use fpm_strings, only : string_t
+  use tomlf, only : toml_table, toml_array, toml_key, toml_stat, get_value, &amp;
+    &amp; set_value, toml_parse, toml_error, new_table, add_table, add_array, &amp;
+    &amp; toml_serializer, len
+  implicit none
+  private
+
+  public :: read_package_file
+  public :: toml_table, toml_array, toml_key, toml_stat, get_value, set_value
+  public :: new_table, add_table, add_array, len
+  public :: toml_error, toml_serializer, toml_parse
+
+contains
+
+  !&gt; Process the configuration file to a TOML data structure
+  subroutine read_package_file(table, manifest, error)
+    !&gt; TOML data structure
+    type(toml_table), allocatable, intent(out) :: table
+    !&gt; Name of the package configuration file
+    character(len=*), intent(in) :: manifest
+    !&gt; Error status of the operation
+    type(error_t), allocatable, intent(out) :: error
+    ! ...
+  end subroutine read_package_file
+
+end module fpm_toml
+</code></pre></div></div>
+
+<p>There are a few things in this example module to highlight. First, every module
+starts with comments documenting the purpose and content of the module,
+similarly, every procedure starts with a comment briefly describing its
+purse and the intent of the dummy arguments. Documentation is one of the most
+important parts of creating long-living software, regardless of language.</p>
+
+<p>Second, imports (<em>use</em>) and exports (<em>public</em>) are explicitly given, this
+allows on a glance at the module source to check the used and available
+procedures, constants and derived types. The imports are usually limited
+to the module scope rather than reimported in every procedure or interface
+scope. Similarly, exports are made explicitly by adding a <em>private</em> statement
+one a single line and explicitly listing all exported symbols in <em>public</em>
+statements.</p>
+
+<p>Finally, the <code class="highlighter-rouge">implicit none</code> statement works for the whole module and there
+is no need to repeat it within each procedure.</p>
+
+<p>Variables inside a module are static (<em>implicitly saved</em>), it is highly
+recommended to limit the usage of module variables to constant expressions,
+like parameters or enumerators only or export them as <em>protected</em> rather
+than <em>public</em>.</p>
+
+<p>Submodules can be used to break long dependency chains and shorten recompilation
+cascades in Fortran programs. They also offer the possibility to provide specialized
+and optimized implementations without requiring the use of preprocessor.</p>
+
+<p>An example from the Fortran standard library is the quadrature module, which
+only defines interfaces to module procedures, but no implementations</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">!&gt; Numerical integration</span><span class="w">
+</span><span class="c1">!&gt;</span><span class="w">
+</span><span class="c1">!&gt; ...</span><span class="w">
+</span><span class="k">module</span><span class="w"> </span><span class="n">stdlib_quadrature</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">qp</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
   </span><span class="k">private</span><span class="w">
-  </span><span class="k">public</span><span class="w"> </span><span class="n">integrate</span><span class="p">,</span><span class="w"> </span><span class="n">normalize</span><span class="p">,</span><span class="w"> </span><span class="n">parsefunction</span><span class="p">,</span><span class="w"> </span><span class="n">get_val</span><span class="p">,</span><span class="w"> </span><span class="n">rk4step</span><span class="p">,</span><span class="w"> </span><span class="n">eulerstep</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-      </span><span class="n">rk4step2</span><span class="p">,</span><span class="w"> </span><span class="n">get_midpoints</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate_inward</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-      </span><span class="n">rk4_integrate_inward2</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate3</span><span class="p">,</span><span class="w"> </span><span class="n">rk4_integrate4</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-      </span><span class="n">rk4_integrate_inward4</span><span class="w">
+
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">trapz</span><span class="w">
+  </span><span class="c1">! ...</span><span class="w">
+
+  </span><span class="c1">!&gt; Integrates sampled values using trapezoidal rule</span><span class="w">
+  </span><span class="k">interface</span><span class="w"> </span><span class="n">trapz</span><span class="w">
+    </span><span class="k">pure</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dx</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integral</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="w">
+    </span><span class="k">module</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_x_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integral</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_x_dp</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w"> </span><span class="n">trapz</span><span class="w">
+
+  </span><span class="c1">! ...</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">stdlib_quadrature</span><span class="w">
+</span></code></pre></div></div>
+
+<p>While the implementation is provided in separate submodules like the one for the
+trapezoidal integration rule given here.</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">!&gt; Actual implementation of the trapezoidal integration rule</span><span class="w">
+</span><span class="c1">!&gt;</span><span class="w">
+</span><span class="c1">!&gt; ...</span><span class="w">
+</span><span class="k">submodule</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_quadrature</span><span class="p">)</span><span class="w"> </span><span class="n">stdlib_quadrature_trapz</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">stdlib_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">check</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 
 </span><span class="k">contains</span><span class="w">
 
-</span><span class="k">subroutine</span><span class="w"> </span><span class="n">get_val</span><span class="p">(</span><span class="err">...</span><span class="p">)</span><span class="w">
-  </span><span class="err">...</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
-</span><span class="err">...</span><span class="w">
+  </span><span class="k">pure</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dx</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integral</span><span class="w">
+    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">
 
-</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+    </span><span class="k">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">
+      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_dp</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="n">default</span><span class="w">
+      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">n</span><span class="mi">-1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5_dp</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">select</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="w">
+
+  </span><span class="c1">! ...</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">submodule</span><span class="w"> </span><span class="n">stdlib_quadrature_trapz</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">implicit none</code> statement works for the whole module (so you don’t
-need to repeat it within each procedure). By keeping the <code class="highlighter-rouge">private</code> empty, all your
-procedures/data types will be private to the module by default. Then
-you export things by putting it into the <code class="highlighter-rouge">public</code> clause.</p>
+<p>Note that the module procedures do not have to be implemented in the same submodule.
+Several submodules can be used to reduce the compilation load for huge modules.</p>
 
-<p>Setup programs in the following way:</p>
-
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">uranium</span><span class="w">
-  </span><span class="k">use</span><span class="w"> </span><span class="n">fmesh</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mesh_exp</span><span class="w">
-  </span><span class="k">use</span><span class="w"> </span><span class="n">utils</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">stop_error</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="w">
-  </span><span class="k">use</span><span class="w"> </span><span class="n">dft</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">atom</span><span class="w">
-  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-
-  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">92</span><span class="w">
-  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">r_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">8e-9_dp</span><span class="p">,</span><span class="w"> </span><span class="n">r_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">50.0_dp</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e7_dp</span><span class="w">
-  </span><span class="err">...</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"I am running"</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Notice the “explicit imports” (using Python terminology) in the <code class="highlighter-rouge">use</code>
-statements. You can also use “implicit imports” like:</p>
-
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span><span class="w"> </span><span class="n">fmesh</span><span class="w">
-</span></code></pre></div></div>
-
-<p>But just like in Python, this should be avoided (“explicit is better
-than implicit”) in most cases.</p>
+<p>Finally, when setting up a program, it is recommended to keep the actual implementations
+in the program body at minimum. Reusing implementations from modules allows to write
+reusable code and focus in the program unit only on translating user input to the
+respective library functions and objects.</p>
 
 
       <div class="container-flex">
