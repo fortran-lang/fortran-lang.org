@@ -151,7 +151,7 @@ with such cases.
 
 `exit` is used to quit the loop prematurely. It is usually enclosed inside an `if`.
 
-__Example__ loop with `exit`
+__Example:__ loop with `exit`
 
 ```fortran
 integer :: i
@@ -167,7 +167,7 @@ end do
 
 On the other hand, `cycle` skips whatever is left of the loop and goes into the next cycle.
 
-__Example__ loop with `cycle`
+__Example:__ loop with `cycle`
 
 ```fortran
 integer :: i
@@ -187,7 +187,7 @@ A recurring case in any programming language is the use of nested loops. Nested 
 1. The readability of the code may be improved (when the naming is meaningful).
 2. `exit` and `cycle` may be used with tags, which allows for very fine-grained control of the loops.
 
-__Example__ tagged nested loops
+__Example:__ tagged nested loops
 
 ```fortran
 integer :: i, j
@@ -217,7 +217,7 @@ In general, compiler flags are required to activate possible parallelization for
 {% endcapture %}
 {% include important.html content=note %}
 
-__Example__ `do concurrent()` loop
+__Example:__ `do concurrent()` loop
 
 ```fortran
 real, parameter :: pi = 3.14159265
