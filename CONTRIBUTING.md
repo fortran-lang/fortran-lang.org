@@ -303,3 +303,6 @@ Make use of the admonition/aside [includes](_includes) (*note*, *tip*, *importan
 * *note*: extra information, something that might appear in a footnote
 * *tip*: information about best practices, practical tips
 * *important*: warnings, things to avoid, etc.
+
+Prefer including the [Oxford comma](https://en.wikipedia.org/wiki/Serial_comma). It usually makes things more clear.
+> Fortran is fast, fun, and famed.
