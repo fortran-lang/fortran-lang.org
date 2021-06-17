@@ -5,7 +5,7 @@ permalink: /learn/quickstart/variables
 ---
 
 Variables store information that can be manipulated by the program.
-Fortran is a '_strongly typed_' language, which means that each variable
+Fortran is a _strongly typed_ language, which means that each variable
 must have a type.
 
 There are 5 built-in data types in Fortran:
@@ -19,14 +19,14 @@ There are 5 built-in data types in Fortran:
 Before we can use a variable, we must _declare_ it; this tells the compiler
 the variable type and any other variable attributes.
 
-{% include note.html content="Fortran is a <b>statically typed</b> language which means the type of each
-variable is fixed when the program is compiled - variable types cannot change while the program is running." %}
+{% include note.html content="Fortran is a _statically typed_ language, which means the type of each
+variable is fixed when the program is compiled---variable types cannot change while the program is running." %}
 
 ## Declaring variables
 
 The syntax for declaring variables is:
 
-```fortran
+```
 <variable_type> :: <variable_name>
 ```
 
@@ -52,7 +52,7 @@ end program variables
 ```
 
 {% include note.html content="Fortran code is __case-insensitive__; you don't have to worry about the
-capitalisation of your variable names but it's good practice to keep it consistent." %}
+capitalisation of your variable names, but it's good practice to keep it consistent." %}
 
 Note the additional statement at the beginning of the program: `implicit none`.
 This statement tells the compiler that all variables will be explicitly declared; without 
@@ -68,11 +68,11 @@ Once we have declared a variable, we can assign and reassign values to it using 
 __Example:__ variable assignment
 
 ```fortran
-  amount = 10
-  pi = 3.141592
-  frequency = (1.0,-0.5)
-  initial = 'A'
-  isOkay = .false.
+amount = 10
+pi = 3.1415927
+frequency = (1.0, -0.5)
+initial = 'A'
+isOkay = .false.
 ```
 
 Characters are surrounded by either single (`'`) or double quotes (`"`).
@@ -92,11 +92,11 @@ This is commonly referred to as writing to `standard output` or `stdout`.
 We can use the `print` statement introduced earlier to print variable values to `stdout`:
 
 ```fortran
-  print *, 'The value of amount (integer) is: ',amount
-  print *, 'The value of pi (real) is: ',pi
-  print *, 'The value of frequency (complex) is: ',frequency
-  print *, 'The value of initial (character) is: ',initial
-  print *, 'The value of isOkay (logical) is: ',isOkay
+print *, 'The value of amount (integer) is: ', amount
+print *, 'The value of pi (real) is: ', pi
+print *, 'The value of frequency (complex) is: ', frequency
+print *, 'The value of initial (character) is: ', initial
+print *, 'The value of isOkay (logical) is: ', isOkay
 ```
 
 In a similar way, we can read values from the command window
@@ -110,7 +110,7 @@ program read_value
   print *, 'Please enter your age: '
   read(*,*) age
 
-  print *, 'Your age is: ',age
+  print *, 'Your age is: ', age
 
 end program read_value
 ```
@@ -143,7 +143,7 @@ program arithmetic
   real :: area
   real :: volume
 
-  pi = 3.141592
+  pi = 3.1415927
 
   print *, 'Enter cylinder base radius:'
   read(*,*) radius
@@ -151,13 +151,13 @@ program arithmetic
   print *, 'Enter cylinder height:'
   read(*,*) height
 
-  area = pi*radius**2.0
-  volume = area*height
+  area = pi * radius**2.0
+  volume = area * height
 
-  print *, 'Cylinder radius is: ',radius
-  print *, 'Cylinder height is: ',height
-  print *, 'Cylinder base area is: ',area
-  print *, 'Cylinder volume is: ',volume
+  print *, 'Cylinder radius is: ', radius
+  print *, 'Cylinder height is: ', height
+  print *, 'Cylinder base area is: ', area
+  print *, 'Cylinder volume is: ', volume
 
 end program arithmetic
 ```
@@ -170,9 +170,9 @@ end program arithmetic
 ## Floating-point precision
 
 The desired floating-point precision can be explicitly declared using a `kind` parameter.
-The `iso_fortran_env` intrinsic module provides kind parameters for the common 32bit and 64bit floating point types.
+The `iso_fortran_env` intrinsic module provides `kind` parameters for the common 32-bit and 64-bit floating-point types.
 
-__Example:__ explicit real kind
+__Example:__ explicit real `kind`
 ```fortran
 program float
   use, intrinsic :: iso_fortran_env, only: sp=>real32, dp=>real64
@@ -181,15 +181,15 @@ program float
   real(sp) :: float32
   real(dp) :: float64
 
-  float32 = 1.0_sp       ! Explicit suffix for literal constants
+  float32 = 1.0_sp  ! Explicit suffix for literal constants
   float64 = 1.0_dp
 
 end program float
 ```
 
-{% include important.html content="Always use a `kind` suffix for floating point literal constants." %}
+{% include important.html content="Always use a `kind` suffix for floating-point literal constants." %}
 
-__Example:__ c-interoperable kinds
+__Example:__ C-interoperable `kind`s
 ```fortran
 program float
   use, intrinsic :: iso_c_binding, only: sp=>c_float, dp=>c_double
