@@ -92,8 +92,8 @@ This will force the GitHub content delivery network to serve you an updated vers
 
 ### Markdown
 
-- Use [code blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code-and-syntax-highlighting),
-  denoted by back ticks (```), to surround code excerpts, programming language keywords, variables names and file names.
+- Place code excerpts in [code blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code-and-syntax-highlighting),
+  denoted by back ticks (```` ``` ````). Use inline code style (`` `code` ``) for inline code excerpts, programming language keywords, variables names and file names.
 
 - Have no more than one sentence per source-code line, and break-up long sentences across multiples lines -
    this is important to avoid large git diffs and code review blocks on github.
@@ -185,3 +185,124 @@ populated by the `<h2>` headings on the current page.
 __Implementation:__
 the functionality described above is implemented in the javascript file
 [assets/js/page_nav.js](./assets/js/page_nav.js).
+
+
+## Tutorials
+
+Guidelines for mini-book content.
+
+### General
+
+Use the `book` layout.
+
+Follow the [Markdown guidelines](#markdown).
+
+### Code style
+
+Use two spaces for indentation, indenting bodies of units but keeping the `contains` statement at the same level as its `module` or `type`. Try to limit line length to 90 characters. These considerations should make the code more readable and easier to view on devices with smaller viewport widths.
+```fortran
+module m
+  implicit none
+  private
+  public :: a_t
+
+  type :: a_t
+    integer :: val
+  contains
+    procedure :: func
+  end type a_t
+
+contains
+
+  subroutine func(self)
+    class(a_t), intent(in) :: self
+    if (self%val > 0) then
+      print *, self%val
+    end if
+  end function func
+
+end module m
+```
+
+Each code block should have a base indentation level of 0, even if it would be indented if put into a larger context.
+```fortran
+integer :: i1  ! yes
+  integer :: i2  ! no
+```
+
+Avoid vertically aligning `::` and inline comments since this adds maintenance burden and pushes the line length in most cases.
+
+If a code block contains lines that are not valid Fortran, leave it as a language-less code block to avoid the syntax highlighter's red boxes.
+```
+module <module name>
+...
+end module <module name>
+```
+
+Feel free to omit spacing in expressions where it helps with readability, but generally include whitespace around operators.
+```fortran
+y1 = a * b
+y2 = a*b + c*d  ! instead of a * b + c * d
+y3 = a**2 + 1
+y4 = (a*b + c*d) / 2
+s3 = s1 // s2
+```
+
+Generally add a space after commas, except when indexing with short index values or variables names.
+```fortran
+a(:,1)
+a2(1:10, 2:5)
+b(i,j)
+b2(long_i_name, long_j_name)
+b3(i + 2, j)
+call some_subroutine(a, b, an_option=.false.)
+c = [1, 2, 3, 10]
+d = [(i, i = 1, 10)]
+do i = 1, 10
+! ...
+```
+
+Other situations besides simple indexings where white space can be omitted:
+* Aliasing in imports 
+  ```fortran
+  use, intrinsic :: iso_c_binding, only: sp=>c_float, dp=>c_double
+  ```
+* String concatentation
+  ```fortran
+  print *, 'hello '//'world'
+  ```
+* Accessing components (attributes) of derived types
+  ```fortran
+  p%x
+  p%calc_something(a, b)
+  ```
+* Around `=` when passing keyword arguments
+  ```fortran
+  call sr(a, b, c=3)
+  point = t_point(x=1., y=2.)
+  character(len=:), allocatable :: s
+  ```
+
+Capitalize the first letter for inline comments except for trailing inline comments that only consist of one word or a short phrase.
+```fortran
+! Compute new values
+y = m*x + b  ! meters
+```
+
+These code style recommendations are similar to those in [the DFTB+ style guide](https://dftbplus-develguide.readthedocs.io/en/latest/fortranstyle.html).
+
+### Text
+
+Use sentence case (as opposed to title case) for page and section titles.
+
+Use *emphasis* (`*emphasis*`/`_emphasis_`, rendered as italic) for key words/phrases when they are first introduced, for emphasis, ...
+
+Avoid use of **strong** (`**strong**`, rendered as bold) within paragraphs, since bold style is used for headings, drawing attention to examples (**Example:**), admonition/aside titles, etc.
+
+Make use of the admonition/aside [includes](_includes) (*note*, *tip*, *important*) where appropriate.
+* *note*: extra information, something that might appear in a footnote
+* *tip*: information about best practices, practical tips
+* *important*: warnings, things to avoid, etc.
+
+Prefer including the [Oxford comma](https://en.wikipedia.org/wiki/Serial_comma). It usually makes things more clear.
+> Fortran is fast, fun, and famed.

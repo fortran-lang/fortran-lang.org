@@ -234,7 +234,7 @@
 
       
         <li><a href="/learn/quickstart/hello_world">
-          Hello World</a></li>
+          Hello world</a></li>
       
 
     
@@ -435,7 +435,7 @@
 
       
         <li><a href="/learn/quickstart/operators_control_flow">
-          Operators and Control Flow</a></li>
+          Operators and flow control</a></li>
       
 
     
@@ -575,24 +575,24 @@
         
       </div>
 
-      <p>As discussed previously in <a href="/learn/quickstart/variables">Variables</a> there are five built-in data types in Fortran. <em>Derived types</em> is a special form of a data type that can encapsulate other built-in types as well as other derived types. It could be considered as the equivalent of <em>struct</em> in the C and C++ programming languages.</p>
+      <p>As discussed previously in <a href="/learn/quickstart/variables">Variables</a>, there are five built-in data types in Fortran. A <em>derived type</em> is a special form of data type that can encapsulate other built-in types as well as other derived types. It could be considered equivalent to <em>struct</em> in the C and C++ programming languages.</p>
 
 <h2 id="a-quick-take-on-derived-types">A quick take on derived types</h2>
 
 <p>Here’s an example of a basic derived type:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_pair</span><span class="w">
-    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-    </span><span class="kt">real</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The syntax to create a variable of type <em>t_pair</em> and access its members is:</p>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">! declare</span><span class="w">
+<p>The syntax to create a variable of type <code class="highlighter-rouge">t_pair</code> and access its members is:</p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">! Declare</span><span class="w">
 </span><span class="k">type</span><span class="p">(</span><span class="n">t_pair</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pair</span><span class="w">
-</span><span class="c1">! initialize</span><span class="w">
-</span><span class="n">pair</span><span class="o">%</span><span class="n">i</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
-</span><span class="n">pair</span><span class="o">%</span><span class="n">x</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+</span><span class="c1">! Initialize</span><span class="w">
+</span><span class="n">pair</span><span class="o">%</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="n">pair</span><span class="o">%</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
 </span></code></pre></div></div>
 
 <div class="aside-note">
@@ -605,35 +605,35 @@
 You can also initialize derived type members by invoking the derived type constructor.</p>
 
 <p>Example using the derived type constructor:</p>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w">       </span><span class="c1">! initialize with positional arguments</span><span class="w">
-</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="w">   </span><span class="c1">! initialize with keyword arguments</span><span class="w">
-</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">   </span><span class="c1">! keyword arguments can go in any order</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w">      </span><span class="c1">! Initialize with positional arguments</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="w">  </span><span class="c1">! Initialize with keyword arguments</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="c1">! Keyword arguments can go in any order</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Example with default initialization:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_pair</span><span class="w">
-    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
-    </span><span class="kt">real</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 
 </span><span class="k">type</span><span class="p">(</span><span class="n">t_pair</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pair</span><span class="w">
-</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">()</span><span class="w">         </span><span class="c1">! pair%i is 1, pair%x is 0.5</span><span class="w">
-</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w">      </span><span class="c1">! pair%i is 2, pair%x is 0.5</span><span class="w">
-</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">2.7</span><span class="p">)</span><span class="w">    </span><span class="c1">! pair%i is 1, pair%x is 2.7</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">()</span><span class="w">       </span><span class="c1">! pair%i is 1, pair%x is 0.5</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w">    </span><span class="c1">! pair%i is 2, pair%x is 0.5</span><span class="w">
+</span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">2.7</span><span class="p">)</span><span class="w">  </span><span class="c1">! pair%i is 1, pair%x is 2.7</span><span class="w">
 </span></code></pre></div></div>
 
 <h2 id="derived-types-in-detail">Derived types in detail</h2>
 
 <p>The full syntax of a derived type with all optional properties is presented below:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">[,</span><span class="n">attribute</span><span class="o">-</span><span class="n">list</span><span class="p">]</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">[(</span><span class="n">parameterized</span><span class="o">-</span><span class="n">declaration</span><span class="o">-</span><span class="n">list</span><span class="p">)]</span><span class="w">
-    </span><span class="p">[</span><span class="n">parameterized</span><span class="o">-</span><span class="n">definition</span><span class="o">-</span><span class="n">statements</span><span class="p">]</span><span class="w">
-    </span><span class="p">[</span><span class="k">private</span><span class="w"> </span><span class="n">statement</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="k">sequence</span><span class="w"> </span><span class="n">statement</span><span class="p">]</span><span class="w">
-    </span><span class="p">[</span><span class="n">member</span><span class="o">-</span><span class="n">variables</span><span class="p">]</span><span class="w">
-    </span><span class="k">contains</span><span class="w">
-        </span><span class="p">[</span><span class="k">type</span><span class="o">-</span><span class="n">bound</span><span class="o">-</span><span class="n">procedures</span><span class="p">]</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
-</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type [,attribute-list] :: name [(parameterized-declaration-list)]
+  [parameterized-definition-statements]
+  [private statement or sequence statement]
+  [member-variables]
+contains
+  [type-bound-procedures]
+end type
+</code></pre></div></div>
 
 <h2 id="options-to-declare-a-derived-type">Options to declare a derived type</h2>
 
@@ -642,13 +642,13 @@ You can also initialize derived type members by invoking the derived type constr
 <ul>
   <li><em>access-type</em> that is either <code class="highlighter-rouge">public</code> or <code class="highlighter-rouge">private</code></li>
   <li><code class="highlighter-rouge">bind(c)</code> offers interoperability with C programming language</li>
-  <li><code class="highlighter-rouge">extends(</code><em>parent</em><code class="highlighter-rouge">)</code> where <em>parent</em> is the name of a previously declared derived type, from which, the current derived type will inherit all its members and functionality.</li>
-  <li><code class="highlighter-rouge">abstract</code> an object oriented feature that is covered in the advanced programming tutorial.</li>
+  <li><code class="highlighter-rouge">extends(</code><em>parent</em><code class="highlighter-rouge">)</code>, where <em>parent</em> is the name of a previously declared derived type from which the current derived type will inherit all its members and functionality</li>
+  <li><code class="highlighter-rouge">abstract</code> – an object oriented feature that is covered in the advanced programming tutorial</li>
 </ul>
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> If the <code class="highlighter-rouge">attribute: bind(c)</code> or the <code class="highlighter-rouge">statement: sequence</code> is used then a derived type cannot have the <code class="highlighter-rouge">attribute: extends</code> and visa-versa.</p>
+    <p><strong>Note:</strong> If the attribute <code class="highlighter-rouge">bind(c)</code> or the statement <code class="highlighter-rouge">sequence</code> is used, then a derived type cannot have the attribute <code class="highlighter-rouge">extends</code> and vice versa.</p>
 
 </div>
 
@@ -656,37 +656,39 @@ You can also initialize derived type members by invoking the derived type constr
 
 <p>Example with <code class="highlighter-rouge">sequence</code>:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_pair</span><span class="w">
-</span><span class="k">sequence</span><span class="w">
-</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-</span><span class="kt">real</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="k">sequence</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
-</span><span class="c1">! init</span><span class="w">
+</span><span class="c1">! Initialize</span><span class="w">
 </span><span class="k">type</span><span class="p">(</span><span class="n">t_pair</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pair</span><span class="w">
 </span><span class="n">pair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_pair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 <div class="aside-note">
     
-    <p><strong>Note:</strong> The use of statement <code class="highlighter-rouge">sequence</code> presupposes that the data types defined below are neither of <code class="highlighter-rouge">allocatable</code> nor of <code class="highlighter-rouge">pointer</code> type. Furthermore, it does not imply that these data types  will be stored in memory in any particular form, there is no relation to <code class="highlighter-rouge">contiguous</code> attribute.</p>
+    <p><strong>Note:</strong> The use of the statement <code class="highlighter-rouge">sequence</code> presupposes that the data types defined below are neither of <code class="highlighter-rouge">allocatable</code> nor of <code class="highlighter-rouge">pointer</code> type. Furthermore, it does not imply that these data types will be stored in memory in any particular form, i.e., there is no relation to the <code class="highlighter-rouge">contiguous</code> attribute.</p>
 
 </div>
 
-<p>The <em>access-type</em> attributes <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">private</code> if used, declare that all [member-variables] declared below will be automatically assigned the attribute accordingly.</p>
+<p>The <em>access-type</em> attributes <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">private</code>, if used, declare that all member-variables declared below will be automatically assigned the attribute accordingly.</p>
 
 <p>The attribute <code class="highlighter-rouge">bind(c)</code> is used to achieve compatibility between Fortran’s derived type and C’s struct.</p>
 
 <p>Example with <code class="highlighter-rouge">bind(c)</code>:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">f_to_c</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">iso_c_bindings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">c_int</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f_type</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">iso_c_bindings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">c_int</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+
+  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f_type</span><span class="w">
     </span><span class="kt">integer</span><span class="p">(</span><span class="n">c_int</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">f_to_c</span><span class="w">
 </span></code></pre></div></div>
-<p>matches the following C struct:</p>
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span><span class="p">{</span>
-    <span class="kt">int</span> <span class="n">i</span>
-<span class="p">}</span><span class="n">c_struct</span><span class="p">;</span>
+<p>matches the following C struct type:</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">c_struct</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">};</span>
 </code></pre></div></div>
 <div class="aside-note">
     
@@ -694,88 +696,105 @@ You can also initialize derived type members by invoking the derived type constr
 
 </div>
 
-<p><code class="highlighter-rouge">parameterized-declaration-list</code>: is an optional feature. If used, then the parameters must be listed in place of [parameterized-definition-statements] and must be either <code class="highlighter-rouge">len</code> or <code class="highlighter-rouge">kind</code> parameters or both.</p>
+<p><code class="highlighter-rouge">parameterized-declaration-list</code> is an optional feature. If used, then the parameters must be listed in place of <code class="highlighter-rouge">[parameterized-definition-statements]</code> and must be either <code class="highlighter-rouge">len</code> or <code class="highlighter-rouge">kind</code> parameters or both.</p>
 
-<p>Example of a derived type with <code class="highlighter-rouge">parameterized-declaration-list</code> and with the <code class="highlighter-rouge">attribute: public</code>:</p>
+<p>Example of a derived type with <code class="highlighter-rouge">parameterized-declaration-list</code> and with the attribute <code class="highlighter-rouge">public</code>:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">m_matrix</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="k">private</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
 
-</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_matrix</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
-  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="w">
-  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="w">
-  </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">values</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w"> 
+  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_matrix</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">k</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">values</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">m_matrix</span><span class="w">
 
 </span><span class="k">program</span><span class="w"> </span><span class="n">test_matrix</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">m_matrix</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="k">type</span><span class="p">(</span><span class="n">t_matrix</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">m</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">m_matrix</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+
+  </span><span class="k">type</span><span class="p">(</span><span class="n">t_matrix</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">cols</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">m</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">test_matrix</span><span class="w">
 </span></code></pre></div></div>
 <div class="aside-note">
     
-    <p><strong>Note:</strong> In this example the parameter <strong>k</strong> has already been assigned a default value of <code class="highlighter-rouge">kind(0.0)</code>, that is of floating point single precision. Therefore, it can be omitted, as it is the case here in the declaration inside the main program.</p>
+    <p><strong>Note:</strong> In this example the parameter <code class="highlighter-rouge">k</code> has already been assigned a default value of <code class="highlighter-rouge">kind(0.0)</code> (single-precision floating-point). Therefore, it can be omitted, as is the case here in the declaration inside the main program.</p>
 
 </div>
 
 <div class="aside-important">
     
-    <p><strong>Important:</strong> By default derived types and their members are public. However, in this example the attribute <code class="highlighter-rouge">private</code> is used at the beginning of the module, therefore, everything within the module will be by default <code class="highlighter-rouge">private</code> unless, explicitly, declared as <code class="highlighter-rouge">public</code>. If the type <strong>matrix</strong> was not given the attribute <code class="highlighter-rouge">public</code> in the above example, then the compiler would throw an error inside <strong>program test</strong>.</p>
+    <p><strong>Important:</strong> By default, derived types and their members are public. However, in this example, the attribute <code class="highlighter-rouge">private</code> is used at the beginning of the module. Therefore, everything within the module will be by default <code class="highlighter-rouge">private</code> unless explicitly declared as <code class="highlighter-rouge">public</code>. If the type <code class="highlighter-rouge">t_matrix</code> was not given the attribute <code class="highlighter-rouge">public</code> in the above example, then the compiler would throw an error inside <code class="highlighter-rouge">program test</code>.</p>
 
 </div>
 
-<p>The attribute <code class="highlighter-rouge">extends</code> was added in F2003 standard and introduces an important feature of the object oriented paradigm (OOP), namely the inheritance. It allows code reusability by letting children-derived-types like this: <code class="highlighter-rouge">type, extends(parent) :: child</code> to inherit all the members and functionality from a parent-derived-type: <code class="highlighter-rouge">type :: parent</code>.</p>
+<p>The attribute <code class="highlighter-rouge">extends</code> was added in the F2003 standard and introduces an important feature of the object oriented paradigm (OOP), namely inheritance. It allows code reusability by letting child types derive from extensible parent types: <code class="highlighter-rouge">type, extends(parent) :: child</code>. Here, <code class="highlighter-rouge">child</code> inherits all the members and functionality from <code class="highlighter-rouge">type :: parent</code>.</p>
 
 <p>Example with the attribute <code class="highlighter-rouge">extends</code>:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">m_employee</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="k">private</span><span class="w">
-</span><span class="k">public</span><span class="w"> </span><span class="n">t_date</span><span class="p">,</span><span class="w"> </span><span class="n">t_address</span><span class="p">,</span><span class="w"> </span><span class="n">t_person</span><span class="p">,</span><span class="w"> </span><span class="n">t_employee</span><span class="w"> </span><span class="c1">! note another way of using the public attribute by gathering all public data types in one place</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">t_date</span><span class="p">,</span><span class="w"> </span><span class="n">t_address</span><span class="p">,</span><span class="w"> </span><span class="n">t_person</span><span class="p">,</span><span class="w"> </span><span class="n">t_employee</span><span class="w">
+  </span><span class="c1">! Note another way of using the public attribute:</span><span class="w">
+  </span><span class="c1">! gathering all public data types in one place.</span><span class="w">
 
-</span><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_date</span><span class="w">
-    </span><span class="kt">integer</span><span class="w">                         </span><span class="p">::</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+  </span><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_date</span><span class="w">
+    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">year</span><span class="p">,</span><span class="w"> </span><span class="n">month</span><span class="p">,</span><span class="w"> </span><span class="n">day</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 
-</span><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_address</span><span class="w">
-    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">road_name</span><span class="w">
-    </span><span class="kt">integer</span><span class="w">                         </span><span class="p">::</span><span class="w"> </span><span class="n">house_number</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+  </span><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_address</span><span class="w">
+    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">road_name</span><span class="w">
+    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">house_number</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 
-</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">extends</span><span class="p">(</span><span class="n">t_address</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_person</span><span class="w">
-    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">e_mail</span><span class="w">  
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">extends</span><span class="p">(</span><span class="n">t_address</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_person</span><span class="w">
+    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">first_name</span><span class="p">,</span><span class="w"> </span><span class="n">last_name</span><span class="p">,</span><span class="w"> </span><span class="n">e_mail</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 
-</span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">extends</span><span class="p">(</span><span class="n">t_person</span><span class="p">)</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">t_employee</span><span class="w">
-    </span><span class="k">type</span><span class="p">(</span><span class="n">t_date</span><span class="p">)</span><span class="w">                    </span><span class="p">::</span><span class="w"> </span><span class="n">hired_date</span><span class="w">
-    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">position</span><span class="w">
-    </span><span class="kt">real</span><span class="w">                            </span><span class="p">::</span><span class="w"> </span><span class="n">monthly_salary</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">extends</span><span class="p">(</span><span class="n">t_person</span><span class="p">)</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">t_employee</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="n">t_date</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">hired_date</span><span class="w">
+    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">position</span><span class="w">
+    </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">monthly_salary</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">m_employee</span><span class="w">
 
 </span><span class="k">program</span><span class="w"> </span><span class="n">test_employee</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">m_employee</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="k">type</span><span class="p">(</span><span class="n">t_employee</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">employee</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">m_employee</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">t_employee</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">employee</span><span class="w">
 
-</span><span class="c1">! initialization</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">year</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">2020</span><span class="w"> </span><span class="c1">! t_employee has access to type(t_date) members not because of extends but because a type(t_date) was declared within t_employee</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">day</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">first_name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s1">'John'</span><span class="w"> </span><span class="c1">!t_employee has access to t_person, and inherits its members due to extends </span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">last_name</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="s1">'Doe'</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">city</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="s1">'London'</span><span class="w"> </span><span class="c1">! t_employee has access to t_address, because it inherits from t_person, that in return inherits from t_address</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">road_name</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="s1">'BigBen'</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">house_number</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">position</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s1">'Intern'</span><span class="w">
-</span><span class="n">employee</span><span class="o">%</span><span class="n">monthly_salary</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="w">
+  </span><span class="c1">! Initialization</span><span class="w">
+
+  </span><span class="c1">! t_employee has access to type(t_date) members not because of extends</span><span class="w">
+  </span><span class="c1">! but because a type(t_date) was declared within t_employee.</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">year</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">2020</span><span class="w">  
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">month</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">hired_date</span><span class="o">%</span><span class="n">day</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w">
+
+  </span><span class="c1">! t_employee has access to t_person, and inherits its members due to extends.</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">first_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'John'</span><span class="w">  
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">last_name</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">'Doe'</span><span class="w">
+  
+  </span><span class="c1">! t_employee has access to t_address, because it inherits from t_person,</span><span class="w">
+  </span><span class="c1">! which in return inherits from t_address.</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">city</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s1">'London'</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">road_name</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s1">'BigBen'</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">house_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
+
+  </span><span class="c1">! t_employee has access to its defined members.</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">position</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s1">'Intern'</span><span class="w">
+  </span><span class="n">employee</span><span class="o">%</span><span class="n">monthly_salary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">test_employee</span><span class="w">
 </span></code></pre></div></div>
 
 <h2 id="options-to-declare-members-of-a-derived-type">Options to declare members of a derived type</h2>
 
-<p><code class="highlighter-rouge">[member-variables]</code> refers to the declaration of all the member data types. These data types can be of any built-in data type, and/or of other derived types, as already show-cased in the above examples. However, member-variables can have their own extensive syntax, in form of:
+<p><code class="highlighter-rouge">[member-variables]</code> refers to the declaration of all the member data types. These data types can be of any built-in data type, and/or of other derived types, as already showcased in the above examples. However, member-variables can have their own extensive syntax, in form of:
 <code class="highlighter-rouge">type [,member-attributes] :: name[attr-dependent-spec][init]</code></p>
 
 <p><code class="highlighter-rouge">type</code>: any built-in type or other derived type</p>
@@ -792,16 +811,21 @@ You can also initialize derived type members by invoking the derived type constr
 <p>Examples of common cases:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_example</span><span class="w">
-    </span><span class="c1">!1st case: simple built-in type with access attribute and [init]</span><span class="w">
-    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">! private hides it from use outside of the t_example's scope. The default initialization [=0] is the [init] part. </span><span class="w">
+  </span><span class="c1">! 1st case: simple built-in type with access attribute and [init]</span><span class="w">
+  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="c1">! private hides it from use outside of the t_example's scope.</span><span class="w">
+  </span><span class="c1">! The default initialization [=0] is the [init] part.</span><span class="w">
 
-    </span><span class="c1">!2nd case: protected</span><span class="w">
-    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">protected</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="c1">! In contrary to private, protected allows access to i assigned value outside of t_example but is not definable, i.e. a value may be assigned to i only within t_example.</span><span class="w">
+  </span><span class="c1">! 2nd case: protected</span><span class="w">
+  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">protected</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="c1">! In contrary to private, protected allows access to i assigned value outside of t_example</span><span class="w">
+  </span><span class="c1">! but is not definable, i.e. a value may be assigned to i only within t_example.</span><span class="w">
 
-    </span><span class="c1">!3rd case: dynamic 1d_array</span><span class="w">
-    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(:)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
-    </span><span class="c1">! the same as</span><span class="w">
-    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w"> </span><span class="c1">! parenthesis implies dimension(:) and is one of the possible [attr-dependent-spec]. </span><span class="w">
+  </span><span class="c1">! 3rd case: dynamic 1-D array</span><span class="w">
+  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(:)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="c1">! the same as</span><span class="w">
+  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w">
+  </span><span class="c1">! This parentheses' usage implies dimension(:) and is one of the possible [attr-dependent-spec].</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 </span></code></pre></div></div>
 
@@ -813,7 +837,7 @@ You can also initialize derived type members by invoking the derived type constr
 
 <h2 id="type-bound-procedures">Type-bound procedures</h2>
 
-<p>A derived type can contain functions or subroutines that are <strong>bound</strong> to it. We’ll refer to them as <em>type-bound procedures</em>. Type-bound procedures follow the <code class="highlighter-rouge">contains</code> statement that, in turn, follows all member variable declarations.</p>
+<p>A derived type can contain functions or subroutines that are <em>bound</em> to it. We’ll refer to them as <em>type-bound procedures</em>. Type-bound procedures follow the <code class="highlighter-rouge">contains</code> statement that, in turn, follows all member variable declarations.</p>
 
 <div class="aside-note">
     
@@ -824,65 +848,74 @@ You can also initialize derived type members by invoking the derived type constr
 <p>Here’s an example of a derived type with a basic type-bound procedure:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">m_shapes</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="k">private</span><span class="w">
-</span><span class="k">public</span><span class="w"> </span><span class="n">t_square</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">t_square</span><span class="w">
 
-</span><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_square</span><span class="w">
-    </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">side</span><span class="w">
-    </span><span class="k">contains</span><span class="w">
-        </span><span class="k">procedure</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="c1">!procedure declaration</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+  </span><span class="k">type</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t_square</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">side</span><span class="w">
+  </span><span class="k">contains</span><span class="w">
+    </span><span class="k">procedure</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">area</span><span class="w">  </span><span class="c1">! procedure declaration</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
 
 </span><span class="k">contains</span><span class="w">
-    </span><span class="c1">! procedure definition</span><span class="w">
-    </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w">
-        </span><span class="k">class</span><span class="p">(</span><span class="n">t_square</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">self</span><span class="w"> 
-        </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">%</span><span class="n">side</span><span class="o">**</span><span class="mi">2</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+  </span><span class="c1">! Procedure definition</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w">
+    </span><span class="k">class</span><span class="p">(</span><span class="n">t_square</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">self</span><span class="w">
+    </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">%</span><span class="n">side</span><span class="o">**</span><span class="mi">2</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">m_shapes</span><span class="w">
 
 </span><span class="k">program</span><span class="w"> </span><span class="n">main</span><span class="w">
-</span><span class="k">use</span><span class="w"> </span><span class="n">m_shapes</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="c1">! variables declaration</span><span class="w">
-</span><span class="k">type</span><span class="p">(</span><span class="n">t_square</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">sq</span><span class="w">
-</span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">m_shapes</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 
-</span><span class="c1">! variables initialization</span><span class="w">
-</span><span class="n">side</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
-</span><span class="n">sq</span><span class="o">%</span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">side</span><span class="w">
+  </span><span class="c1">! Variables' declaration</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">t_square</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">sq</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">side</span><span class="w">
 
-</span><span class="n">x</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">sq</span><span class="o">%</span><span class="n">area</span><span class="p">()</span><span class="w"> </span><span class="c1">! self does not appear here, it has been passed implicitly</span><span class="w">
-</span><span class="c1">! do stuff with x...</span><span class="w">
+  </span><span class="c1">! Variables' initialization</span><span class="w">
+  </span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w">
+  </span><span class="n">sq</span><span class="o">%</span><span class="n">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">side</span><span class="w">
+
+  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sq</span><span class="o">%</span><span class="n">area</span><span class="p">()</span><span class="w">
+  </span><span class="c1">! self does not appear here, it has been passed implicitly</span><span class="w">
+
+  </span><span class="c1">! Do stuff with x...</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">main</span><span class="w">
 </span></code></pre></div></div>
 <p>What is new:</p>
 
 <ul>
-  <li><strong>self</strong> is an arbitrary name that we chose to represent the instance of the derived type t_square inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.</li>
-  <li>We now use <code class="highlighter-rouge">class(t_square)</code> instead of <code class="highlighter-rouge">type(t_square)</code> in the interface of the <code class="highlighter-rouge">area</code> function. This allows us to invoke the <code class="highlighter-rouge">area</code> function with any derived type that extends <code class="highlighter-rouge">t_square</code>. The keyword <code class="highlighter-rouge">class</code> introduces the OOP feature, polymorphism.</li>
+  <li><code class="highlighter-rouge">self</code> is an arbitrary name that we chose to represent the instance of the derived type <code class="highlighter-rouge">t_square</code> inside the type-bound function. This allows us to access its members and to automatically pass it as an argument when we invoke a type-bound procedure.</li>
+  <li>We now use <code class="highlighter-rouge">class(t_square)</code> instead of <code class="highlighter-rouge">type(t_square)</code> in the interface of the <code class="highlighter-rouge">area</code> function. This allows us to invoke the <code class="highlighter-rouge">area</code> function with any derived type that extends <code class="highlighter-rouge">t_square</code>. The keyword <code class="highlighter-rouge">class</code> introduces the OOP feature polymorphism.</li>
 </ul>
 
-<p>In the above example, the type-bound procedure <strong>area</strong> is defined as a function and can be invoked only in an expression, for example <code class="highlighter-rouge">x = sq%area()</code> or <code class="highlighter-rouge">print *, sq%area()</code>. If you define it instead as a subroutine, you can invoke it from its own <code class="highlighter-rouge">call</code> statement:</p>
+<p>In the above example, the type-bound procedure <code class="highlighter-rouge">area</code> is defined as a function and can be invoked only in an expression, for example <code class="highlighter-rouge">x = sq%area()</code> or <code class="highlighter-rouge">print *, sq%area()</code>. If you define it instead as a subroutine, you can invoke it from its own <code class="highlighter-rouge">call</code> statement:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="c1">! change within module</span><span class="w">
- </span><span class="k">contains</span><span class="w">
-    </span><span class="k">subroutine</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
-        </span><span class="k">class</span><span class="p">(</span><span class="n">t_square</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">     </span><span class="p">::</span><span class="w"> </span><span class="n">self</span><span class="w">
-        </span><span class="kt">real</span><span class="p">,</span><span class="w">            </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
-        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">%</span><span class="n">side</span><span class="o">**</span><span class="mi">2</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">! Change within module</span><span class="w">
+</span><span class="k">contains</span><span class="w">
+  </span><span class="k">subroutine</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">class</span><span class="p">(</span><span class="n">t_square</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">self</span><span class="w">
+    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">self</span><span class="o">%</span><span class="n">side</span><span class="o">**</span><span class="mi">2</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
 
-</span><span class="c1">! change within main program</span><span class="w">
+</span><span class="c1">! ...</span><span class="w">
+
+</span><span class="c1">! Change within main program</span><span class="w">
 </span><span class="k">call</span><span class="w"> </span><span class="n">sq</span><span class="o">%</span><span class="n">area</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
-</span><span class="c1">! do stuff with x...</span><span class="w">
+
+</span><span class="c1">! Do stuff with x...</span><span class="w">
 </span></code></pre></div></div>
 <p>In contrast to the example with the type-bound function, we now have two arguments:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">class(t_square), intent(in) :: self</code>, which is the instance of the derived type itself</li>
-  <li><code class="highlighter-rouge">real, intent(out) :: x</code>, which is used to store the calculated area and return to the caller.</li>
+  <li><code class="highlighter-rouge">class(t_square), intent(in) :: self</code> – the instance of the derived type itself</li>
+  <li><code class="highlighter-rouge">real, intent(out) :: x</code> – used to store the calculated area and return to the caller</li>
 </ul>
 
 

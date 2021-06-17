@@ -228,7 +228,7 @@
 
       
         <li><a href="/learn/quickstart/hello_world">
-          Hello World</a></li>
+          Hello world</a></li>
       
 
     
@@ -435,7 +435,7 @@
 
       
         <li><a href="/learn/quickstart/operators_control_flow">
-          Operators and Control Flow</a></li>
+          Operators and flow control</a></li>
       
 
     
@@ -572,19 +572,19 @@
       <p>More often than not, we need to store and operate on long lists of numbers as opposed to just the single scalar variables
 that we have been using so far; in computer programming such lists are called  <em>arrays</em>.</p>
 
-<p>Arrays are <em>multidimensional</em> variables which contain more than value
-where each value is accessed using one or indices.</p>
+<p>Arrays are <em>multidimensional</em> variables that contain more than one value
+where each value is accessed using one or more indices.</p>
 
 <div class="aside-important">
     
-    <p><strong>Important:</strong> Arrays in Fortran are <strong>one-based</strong> by default; this means
+    <p><strong>Important:</strong> Arrays in Fortran are <em>one-based</em> by default; this means
 that the first element along any dimension is at index 1.</p>
 
 </div>
 
 <h2 id="array-declaration">Array declaration</h2>
 
-<p>We can declare arrays of any type. There are two common notations for declaring array variables;
+<p>We can declare arrays of any type. There are two common notations for declaring array variables:
 using the <code class="highlighter-rouge">dimension</code> attribute or by appending the array dimensions in parentheses to the variable name.</p>
 
 <p><strong>Example:</strong> static array declaration</p>
@@ -598,7 +598,7 @@ using the <code class="highlighter-rouge">dimension</code> attribute or by appen
   </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array2</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w">
 
   </span><span class="c1">! 2D real array</span><span class="w">
-  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array3</span><span class="w">
+  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array3</span><span class="w">
 
   </span><span class="c1">! Custom lower and upper index bounds</span><span class="w">
   </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array4</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">)</span><span class="w">
@@ -617,36 +617,36 @@ we can perform operations on all or part of an array using array <em>slicing</em
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 
   </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w">           </span><span class="c1">! 1D integer array of 10 elements</span><span class="w">
-  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="w">        </span><span class="c1">! 2D integer array of 100 elements</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w">  </span><span class="c1">! 1D integer array of 10 elements</span><span class="w">
+  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">  </span><span class="c1">! 2D integer array of 100 elements</span><span class="w">
 
-  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span><span class="w"> </span><span class="c1">! Array constructor</span><span class="w">
-  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span><span class="w">           </span><span class="c1">! Implied do loop constructor</span><span class="w">
-  </span><span class="n">array1</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">                   </span><span class="c1">! set all elements to zero</span><span class="w">
-  </span><span class="n">array1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">                 </span><span class="c1">! set first five elements to one</span><span class="w">
-  </span><span class="n">array1</span><span class="p">(</span><span class="mi">6</span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">                  </span><span class="c1">! set all elements after five to one</span><span class="w">
+  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">]</span><span class="w">  </span><span class="c1">! Array constructor</span><span class="w">
+  </span><span class="n">array1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)]</span><span class="w">  </span><span class="c1">! Implied do loop constructor</span><span class="w">
+  </span><span class="n">array1</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="c1">! Set all elements to zero</span><span class="w">
+  </span><span class="n">array1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">! Set first five elements to one</span><span class="w">
+  </span><span class="n">array1</span><span class="p">(</span><span class="mi">6</span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">! Set all elements after five to one</span><span class="w">
 
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="n">array1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="w">          </span><span class="c1">! print out elements at odd indices</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="n">array2</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="w">             </span><span class="c1">! print out the first column in a 2D array</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="n">array1</span><span class="p">(</span><span class="mi">10</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">-1</span><span class="p">)</span><span class="w">         </span><span class="c1">! print an array in reverse</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="c1">! Print out elements at odd indices</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">array2</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="c1">! Print out the first column in a 2D array</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">array1</span><span class="p">(</span><span class="mi">10</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">-1</span><span class="p">)</span><span class="w">  </span><span class="c1">! Print an array in reverse</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">array_slice</span><span class="w">
 </span></code></pre></div></div>
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> Fortran arrays are stored in <strong>column major</strong> order; the first
+    <p><strong>Note:</strong> Fortran arrays are stored in <em>column-major</em> order; the first
 index varies fastest.</p>
 
 </div>
 
 <h2 id="allocatable-dynamic-arrays">Allocatable (dynamic) arrays</h2>
 
-<p>So far we have specified the size of our array in our program code -
-this type of array is known as a <em>static</em> array since its size is fixed when
+<p>So far we have specified the size of our array in our program code—this
+type of array is known as a <em>static</em> array since its size is fixed when
 we compile our program.</p>
 
-<p>Quite often, we do not know how big our array needs to be until we run our program, for example if we are reading data from a file of unknown size.</p>
+<p>Quite often, we do not know how big our array needs to be until we run our program, for example, if we are reading data from a file of unknown size.</p>
 
 <p>For this problem, we need <code class="highlighter-rouge">allocatable</code> arrays.
 These are <em>allocated</em> while the program is runnning once we know how big the array needs to be.</p>
@@ -661,7 +661,7 @@ These are <em>allocated</em> while the program is runnning once we know how big 
   </span><span class="k">allocate</span><span class="p">(</span><span class="n">array1</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span><span class="w">
   </span><span class="k">allocate</span><span class="p">(</span><span class="n">array2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="w">
 
-  </span><span class="err">...</span><span class="w">
+  </span><span class="c1">! ...</span><span class="w">
 
   </span><span class="k">deallocate</span><span class="p">(</span><span class="n">array1</span><span class="p">)</span><span class="w">
   </span><span class="k">deallocate</span><span class="p">(</span><span class="n">array2</span><span class="p">)</span><span class="w">

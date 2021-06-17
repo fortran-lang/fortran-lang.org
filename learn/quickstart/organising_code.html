@@ -232,7 +232,7 @@
 
       
         <li><a href="/learn/quickstart/hello_world">
-          Hello World</a></li>
+          Hello world</a></li>
       
 
     
@@ -433,7 +433,7 @@
 
       
         <li><a href="/learn/quickstart/operators_control_flow">
-          Operators and Control Flow</a></li>
+          Operators and flow control</a></li>
       
 
     
@@ -579,16 +579,16 @@
 <p>Fortran has two forms of procedure:</p>
 
 <ul>
-  <li><strong>Subroutine:</strong> invoked by a <code class="highlighter-rouge">call</code> statement</li>
-  <li><strong>Function:</strong> invoked within an expression or assignment to which it returns a value</li>
+  <li><strong>Subroutine</strong>: invoked by a <code class="highlighter-rouge">call</code> statement</li>
+  <li><strong>Function</strong>: invoked within an expression or assignment to which it returns a value</li>
 </ul>
 
 <p>Both subroutines and functions have access to variables in the parent scope by <em>argument association</em>;
-unless the <code class="highlighter-rouge">VALUE</code> attribute is specified, this is similar to call by reference.</p>
+unless the <code class="highlighter-rouge">value</code> attribute is specified, this is similar to call by reference.</p>
 
 <h2 id="subroutines">Subroutines</h2>
 
-<p>The subroutine input arguments, known as <em>dummy arguments</em> are specified in parentheses after the subroutine name;
+<p>The subroutine input arguments, known as <em>dummy arguments</em>, are specified in parentheses after the subroutine name;
 the dummy argument types and attributes are declared within the body of the subroutine just like local variables.</p>
 
 <p><strong>Example:</strong></p>
@@ -598,18 +598,19 @@ the dummy argument types and attributes are declared within the body of the subr
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">
   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">m</span><span class="w">
-  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w">
 
   </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="n">A</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w">
+
+  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w">
   </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">print_matrix</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Note the additional <code class="highlighter-rouge">intent</code> attribute when declaring the dummy arguments; this optional attribute signifies to the compiler whether the argument
-is ‘read-only’ (<code class="highlighter-rouge">intent(in)</code>) ‘write-only’ (<code class="highlighter-rouge">intent(out)</code>) or ‘read-write’ (<code class="highlighter-rouge">intent(inout)</code>) within the procedure.
+is ‘‘read-only’’ (<code class="highlighter-rouge">intent(in)</code>) ‘‘write-only’’ (<code class="highlighter-rouge">intent(out)</code>) or ‘‘read-write’’ (<code class="highlighter-rouge">intent(inout)</code>) within the procedure.
 In this example, the subroutine does not modify its arguments, hence all arguments are <code class="highlighter-rouge">intent(in)</code>.</p>
 
 <div class="aside-tip">
@@ -622,12 +623,12 @@ dummy arguments; this allows the compiler to check for unintentional errors and 
 <p>We can call this subroutine from a program using a <code class="highlighter-rouge">call</code> statement:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">call_sub</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-  
-  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">mat</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span><span class="w">
-  
+
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">mat</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w">
+
   </span><span class="n">mat</span><span class="p">(:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="w">
 
-  </span><span class="k">call</span><span class="w"> </span><span class="n">print_matrix</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="n">mat</span><span class="p">)</span><span class="w">
+  </span><span class="k">call</span><span class="w"> </span><span class="n">print_matrix</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="n">mat</span><span class="p">)</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">call_sub</span><span class="w">
 </span></code></pre></div></div>
@@ -665,25 +666,26 @@ the dimensions of the array <code class="highlighter-rouge">A</code>; this will 
 
   </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="w">
   </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">vector_norm</span><span class="w">
-  
+
   </span><span class="n">v</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="w">
 
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Vector norm = '</span><span class="p">,</span><span class="n">vector_norm</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="n">v</span><span class="p">)</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Vector norm = '</span><span class="p">,</span><span class="w"> </span><span class="n">vector_norm</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="n">v</span><span class="p">)</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">run_fcn</span><span class="w">
 </span></code></pre></div></div>
 
 <div class="aside-tip">
     
-    <p><strong>Tip:</strong> It is good programming practice for functions not to modify their arguments - <em>i.e.</em> all function arguments should be <code class="highlighter-rouge">intent(in)</code> - such
-functions are known as <code class="highlighter-rouge">pure</code> functions. Use subroutines if your procedure needs to modify its arguments.</p>
+    <p><strong>Tip:</strong> It is good programming practice for functions not to modify their arguments—that is, all function arguments should be <code class="highlighter-rouge">intent(in)</code>.
+Such functions are known as <code class="highlighter-rouge">pure</code> functions.
+Use subroutines if your procedure needs to modify its arguments.</p>
 
 </div>
 
 <h2 id="modules">Modules</h2>
 
-<p>Fortran modules contain definitions that are made accessible to programs, procedures and other modules through the <code class="highlighter-rouge">use</code> statement.
-They can contain data objects, type definitions, procedures and interfaces.</p>
+<p>Fortran modules contain definitions that are made accessible to programs, procedures, and other modules through the <code class="highlighter-rouge">use</code> statement.
+They can contain data objects, type definitions, procedures, and interfaces.</p>
 
 <ul>
   <li>Modules allow controlled scoping extension whereby entity access is made explicit</li>
@@ -699,27 +701,28 @@ within modules.</p>
 
 <p><strong>Example:</strong></p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">my_mod</span><span class="w"> 
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">my_mod</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 
-  </span><span class="k">private</span><span class="w">                          </span><span class="c1">! All entities are module-private by default</span><span class="w">
+  </span><span class="k">private</span><span class="w">  </span><span class="c1">! All entities are now module-private by default</span><span class="w">
   </span><span class="k">public</span><span class="w"> </span><span class="n">public_var</span><span class="p">,</span><span class="w"> </span><span class="n">print_matrix</span><span class="w">  </span><span class="c1">! Explicitly export public entities</span><span class="w">
 
   </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">public_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">
   </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">private_var</span><span class="w">
 
-  </span><span class="k">contains</span><span class="w">
+</span><span class="k">contains</span><span class="w">
     
-    </span><span class="c1">! Print matrix A to screen</span><span class="w">
-    </span><span class="k">subroutine</span><span class="w"> </span><span class="n">print_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w">
-      </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:)</span><span class="w">  </span><span class="c1">! An assumed-shape dummy argument</span><span class="w">
+  </span><span class="c1">! Print matrix A to screen</span><span class="w">
+  </span><span class="k">subroutine</span><span class="w"> </span><span class="n">print_matrix</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,:)</span><span class="w">  </span><span class="c1">! An assumed-shape dummy argument</span><span class="w">
 
-      </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-      </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">
-        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="n">A</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span><span class="w">
-      </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
 
-    </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">print_matrix</span><span class="w">
+    </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+
+  </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">print_matrix</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">my_mod</span><span class="w">
 </span></code></pre></div></div>
@@ -738,7 +741,7 @@ explicit interface for us. This results in a much simpler subroutine interface.<
   </span><span class="k">use</span><span class="w"> </span><span class="n">my_mod</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 
-  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">mat</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">mat</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">
 
   </span><span class="n">mat</span><span class="p">(:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">public_var</span><span class="w">
 
@@ -749,17 +752,17 @@ explicit interface for us. This results in a much simpler subroutine interface.<
 
 <p><strong>Example:</strong> explicit import list</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">use</span><span class="w"> </span><span class="n">my_mod</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">public_var</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span><span class="w"> </span><span class="n">my_mod</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">public_var</span><span class="w">
 </span></code></pre></div></div>
 
 <p><strong>Example:</strong> aliased import</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">use</span><span class="w"> </span><span class="n">my_mod</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">printMat</span><span class="o">=&gt;</span><span class="n">print_matrix</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span><span class="w"> </span><span class="n">my_mod</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">printMat</span><span class="o">=&gt;</span><span class="n">print_matrix</span><span class="w">
 </span></code></pre></div></div>
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> Each module should be written in a separate .f90 source file. Modules need to be compiled prior to any program units that <code class="highlighter-rouge">use</code> them.</p>
+    <p><strong>Note:</strong> Each module should be written in a separate <code class="highlighter-rouge">.f90</code> source file. Modules need to be compiled prior to any program units that <code class="highlighter-rouge">use</code> them.</p>
 
 </div>
 

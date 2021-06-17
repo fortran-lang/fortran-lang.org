@@ -226,7 +226,7 @@
 
       
         <li><a href="/learn/quickstart/hello_world">
-          Hello World</a></li>
+          Hello world</a></li>
       
 
     
@@ -433,7 +433,7 @@
 
       
         <li><a href="/learn/quickstart/operators_control_flow">
-          Operators and Control Flow</a></li>
+          Operators and flow control</a></li>
       
 
     
@@ -568,7 +568,7 @@
       </div>
 
       <p>Variables store information that can be manipulated by the program.
-Fortran is a ‘<em>strongly typed</em>’ language, which means that each variable
+Fortran is a <em>strongly typed</em> language, which means that each variable
 must have a type.</p>
 
 <p>There are 5 built-in data types in Fortran:</p>
@@ -586,8 +586,8 @@ the variable type and any other variable attributes.</p>
 
 <div class="aside-note">
     
-    <p><strong>Note:</strong> Fortran is a <b>statically typed</b> language which means the type of each
-variable is fixed when the program is compiled - variable types cannot change while the program is running.</p>
+    <p><strong>Note:</strong> Fortran is a <em>statically typed</em> language, which means the type of each
+variable is fixed when the program is compiled—variable types cannot change while the program is running.</p>
 
 </div>
 
@@ -595,8 +595,8 @@ variable is fixed when the program is compiled - variable types cannot change wh
 
 <p>The syntax for declaring variables is:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">variable_type</span><span class="o">&gt;</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="o">&lt;</span><span class="n">variable_name</span><span class="o">&gt;</span><span class="w">
-</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;variable_type&gt; :: &lt;variable_name&gt;
+</code></pre></div></div>
 
 <p>where <code class="highlighter-rouge">&lt;variable_type&gt;</code> is one of the built-in variable types listed above and
 <code class="highlighter-rouge">&lt;variable_name&gt;</code> is the name that you would like to call your variable.</p>
@@ -621,7 +621,7 @@ In the following example we declare a variable for each of the built-in types.</
 <div class="aside-note">
     
     <p><strong>Note:</strong> Fortran code is <strong>case-insensitive</strong>; you don’t have to worry about the
-capitalisation of your variable names but it’s good practice to keep it consistent.</p>
+capitalisation of your variable names, but it’s good practice to keep it consistent.</p>
 
 </div>
 
@@ -641,11 +641,11 @@ modern programming since it hides information leading to more program errors.</p
 
 <p><strong>Example:</strong> variable assignment</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="n">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.141592</span><span class="w">
-  </span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">-0.5</span><span class="p">)</span><span class="w">
-  </span><span class="n">initial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'A'</span><span class="w">
-  </span><span class="n">isOkay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.false.</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">
+</span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.1415927</span><span class="w">
+</span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5</span><span class="p">)</span><span class="w">
+</span><span class="n">initial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'A'</span><span class="w">
+</span><span class="n">isOkay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.false.</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Characters are surrounded by either single (<code class="highlighter-rouge">'</code>) or double quotes (<code class="highlighter-rouge">"</code>).</p>
@@ -667,11 +667,11 @@ This is commonly referred to as writing to <code class="highlighter-rouge">stand
 
 <p>We can use the <code class="highlighter-rouge">print</code> statement introduced earlier to print variable values to <code class="highlighter-rouge">stdout</code>:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of amount (integer) is: '</span><span class="p">,</span><span class="n">amount</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of pi (real) is: '</span><span class="p">,</span><span class="n">pi</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of frequency (complex) is: '</span><span class="p">,</span><span class="n">frequency</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of initial (character) is: '</span><span class="p">,</span><span class="n">initial</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of isOkay (logical) is: '</span><span class="p">,</span><span class="n">isOkay</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of amount (integer) is: '</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of pi (real) is: '</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of frequency (complex) is: '</span><span class="p">,</span><span class="w"> </span><span class="n">frequency</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of initial (character) is: '</span><span class="p">,</span><span class="w"> </span><span class="n">initial</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'The value of isOkay (logical) is: '</span><span class="p">,</span><span class="w"> </span><span class="n">isOkay</span><span class="w">
 </span></code></pre></div></div>
 
 <p>In a similar way, we can read values from the command window
@@ -684,7 +684,7 @@ using the <code class="highlighter-rouge">read</code> statement:</p>
   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Please enter your age: '</span><span class="w">
   </span><span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">age</span><span class="w">
 
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Your age is: '</span><span class="p">,</span><span class="n">age</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Your age is: '</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">read_value</span><span class="w">
 </span></code></pre></div></div>
@@ -738,7 +738,7 @@ using the <code class="highlighter-rouge">read</code> statement:</p>
   </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">area</span><span class="w">
   </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">volume</span><span class="w">
 
-  </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.141592</span><span class="w">
+  </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.1415927</span><span class="w">
 
   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Enter cylinder base radius:'</span><span class="w">
   </span><span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">radius</span><span class="w">
@@ -746,13 +746,13 @@ using the <code class="highlighter-rouge">read</code> statement:</p>
   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Enter cylinder height:'</span><span class="w">
   </span><span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">height</span><span class="w">
 
-  </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pi</span><span class="o">*</span><span class="n">radius</span><span class="o">**</span><span class="mf">2.0</span><span class="w">
-  </span><span class="n">volume</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area</span><span class="o">*</span><span class="n">height</span><span class="w">
+  </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="o">**</span><span class="mf">2.0</span><span class="w">
+  </span><span class="n">volume</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w">
 
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder radius is: '</span><span class="p">,</span><span class="n">radius</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder height is: '</span><span class="p">,</span><span class="n">height</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder base area is: '</span><span class="p">,</span><span class="n">area</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder volume is: '</span><span class="p">,</span><span class="n">volume</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder radius is: '</span><span class="p">,</span><span class="w"> </span><span class="n">radius</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder height is: '</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder base area is: '</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Cylinder volume is: '</span><span class="p">,</span><span class="w"> </span><span class="n">volume</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">arithmetic</span><span class="w">
 </span></code></pre></div></div>
@@ -760,9 +760,9 @@ using the <code class="highlighter-rouge">read</code> statement:</p>
 <h2 id="floating-point-precision">Floating-point precision</h2>
 
 <p>The desired floating-point precision can be explicitly declared using a <code class="highlighter-rouge">kind</code> parameter.
-The <code class="highlighter-rouge">iso_fortran_env</code> intrinsic module provides kind parameters for the common 32bit and 64bit floating point types.</p>
+The <code class="highlighter-rouge">iso_fortran_env</code> intrinsic module provides <code class="highlighter-rouge">kind</code> parameters for the common 32-bit and 64-bit floating-point types.</p>
 
-<p><strong>Example:</strong> explicit real kind</p>
+<p><strong>Example:</strong> explicit real <code class="highlighter-rouge">kind</code></p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">float</span><span class="w">
   </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span><span class="o">=&gt;</span><span class="n">real32</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="o">=&gt;</span><span class="n">real64</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
@@ -770,7 +770,7 @@ The <code class="highlighter-rouge">iso_fortran_env</code> intrinsic module prov
   </span><span class="kt">real</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">float32</span><span class="w">
   </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">float64</span><span class="w">
 
-  </span><span class="n">float32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_sp</span><span class="w">       </span><span class="c1">! Explicit suffix for literal constants</span><span class="w">
+  </span><span class="n">float32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_sp</span><span class="w">  </span><span class="c1">! Explicit suffix for literal constants</span><span class="w">
   </span><span class="n">float64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">
 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">float</span><span class="w">
@@ -778,11 +778,11 @@ The <code class="highlighter-rouge">iso_fortran_env</code> intrinsic module prov
 
 <div class="aside-important">
     
-    <p><strong>Important:</strong> Always use a <code class="highlighter-rouge">kind</code> suffix for floating point literal constants.</p>
+    <p><strong>Important:</strong> Always use a <code class="highlighter-rouge">kind</code> suffix for floating-point literal constants.</p>
 
 </div>
 
-<p><strong>Example:</strong> c-interoperable kinds</p>
+<p><strong>Example:</strong> C-interoperable <code class="highlighter-rouge">kind</code>s</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">float</span><span class="w">
   </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_c_binding</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span><span class="o">=&gt;</span><span class="n">c_float</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="o">=&gt;</span><span class="n">c_double</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
