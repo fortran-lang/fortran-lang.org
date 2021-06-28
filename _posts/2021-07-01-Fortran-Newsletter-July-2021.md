@@ -42,6 +42,10 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 Here's what's new in `stdlib`:
 
+* [#439](https://github.com/fortran-lang/stdlib/pull/439) (WIP):
+  Reduce time spent on sorting tests
+* [#440](https://github.com/fortran-lang/stdlib/pull/440) (WIP):
+  Make maximum rank an option
 * [#433](https://github.com/fortran-lang/stdlib/pull/433):
   Implemented low level find function for string matching                                                                                  
 * [#414](https://github.com/fortran-lang/stdlib/pull/414):
@@ -57,12 +61,10 @@ Here's what's new in `stdlib`:
 
 Work in progress:
 
+* [#445](https://github.com/fortran-lang/stdlib/pull/445) (WIP):
+  Add `disp`(display your data) & `format_string`(format other type to string)
 * [#441](https://github.com/fortran-lang/stdlib/pull/441) (WIP):
   Implement pad function
-* [#440](https://github.com/fortran-lang/stdlib/pull/440) (WIP):
-  Make maximum rank an option
-* [#439](https://github.com/fortran-lang/stdlib/pull/439) (WIP):
-  Reduce time spent on sorting tests
 * [#437](https://github.com/fortran-lang/stdlib/pull/437) (WIP):
 [FPM] add fpm support
 * [#436](https://github.com/fortran-lang/stdlib/pull/436) (WIP):
