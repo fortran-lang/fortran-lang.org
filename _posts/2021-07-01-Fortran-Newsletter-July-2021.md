@@ -114,6 +114,8 @@ __Alpha release update:__ Last month saw the release of __v0.3.0__ for *fpm* whi
 
 Here is what is new in *fpm*:
 
+* [#504](https://github.com/fortran-lang/fpm/pull/504):
+  install.sh, README.md: Update version number, single source file extension
 * [#501](https://github.com/fortran-lang/fpm/pull/501):
   Bump version for new release
 * [#491](https://github.com/fortran-lang/fpm/pull/491):
@@ -137,12 +139,10 @@ Work in progress:
 
 * [First beta release](https://github.com/fortran-lang/fpm/milestone/1) (WIP):
   First feature-complete release of the Fortran implementation.
+* [#505](https://github.com/fortran-lang/fpm/pull/505) (WIP):
+  quiet mode for #502
 * [#498](https://github.com/fortran-lang/fpm/pull/498) (WIP):
   Draft - Compiler flags profiles
-* [#451](https://github.com/fortran-lang/fpm/pull/451) (WIP):
-  Refactor: use objects to represent compilers and archiver
-* [#444](https://github.com/fortran-lang/fpm/pull/444) (WIP):
-  Allow to find include files / modules in CPATH environment variable
 
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
