@@ -17,7 +17,12 @@ This month we've had several updates to the website:
 
 * [#276](https://github.com/fortran-lang/fortran-lang.org/pull/276):
   Add LATTE tight-binding molecular dynamics code to package index                                                               
-         
+* [#275](https://github.com/fortran-lang/fortran-lang.org/pull/275):
+  Add crest program to package index
+* [#273](https://github.com/fortran-lang/fortran-lang.org/pull/273):
+  Add the SNaC package to package index
+* [#272](https://github.com/fortran-lang/fortran-lang.org/pull/272):
+  Add QUICK to package index
 
 Ongoing work:
 
