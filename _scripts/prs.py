@@ -18,6 +18,16 @@ CHILD_REPONAMES = {
 }
 
 
+def _maybe_prog(pl: github.PaginatedList.PaginatedList, desc: str):
+    try:
+        from tqdm import tqdm
+    except ImportError:
+        def tqdm(pl, *args, **kwargs):
+            return pl
+
+    return tqdm(pl, desc=desc, total=pl.totalCount, leave=False)
+
+
 _Prs = namedtuple("Prs", "merged wip")
 
 
@@ -27,12 +37,14 @@ def get_prs(
     t_b: datetime.datetime,
 ):    
     merged = []  # PRs merged during the month
-    for pr in repo.get_pulls("closed", sort="updated", direction="desc"):  # most recently merged first
+    pl = repo.get_pulls("closed", sort="updated", direction="desc")  # most recently *updated* first
+    for pr in _maybe_prog(pl, desc=repo.name):
         if pr.merged:
-            if t_a <= pr.merged_at < t_b:  # could check `.month` instead...
+            if t_a <= pr.merged_at < t_b:
                 merged.append(pr)
             # if pr.merged_at < t_a:
             #     break
+            # ^ This causes some to be missed since recently updated not equiv. to recently merged.
             
     wip = []  # WIP PRs (not merged, still open at this time)
     for pr in repo.get_pulls("open"):
