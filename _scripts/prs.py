@@ -31,8 +31,8 @@ def get_prs(
         if pr.merged:
             if t_a <= pr.merged_at < t_b:  # could check `.month` instead...
                 merged.append(pr)
-            if pr.merged_at < t_a:
-                break
+            # if pr.merged_at < t_a:
+            #     break
             
     wip = []  # WIP PRs (not merged, still open at this time)
     for pr in repo.get_pulls("open"):
