@@ -85,17 +85,17 @@ def main(smonth: Optional[str], token: Optional[str], skip_children: bool):
 
         print("## merged\n")
         for pr in prs.merged:
-            print(f"* [#{pr.number}]({pr.html_url}): {pr.title}")
+            print(f"* [#{pr.number}]({pr.html_url}):\n  {pr.title}")
         for child_reponame, child_prs in related_prs.items():
             for pr in child_prs.merged:
-                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`): {pr.title}")
+                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`):\n  {pr.title}")
 
         print("\n## WIP\n")
         for pr in prs.wip:
-            print(f"* [#{pr.number}]({pr.html_url}) (WIP): {pr.title}")
+            print(f"* [#{pr.number}]({pr.html_url}) (WIP):\n  {pr.title}")
         for child_reponame, child_prs in related_prs.items():
             for pr in child_prs.wip:
-                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`; WIP): {pr.title}")
+                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`; WIP):\n  {pr.title}")
 
 
 if __name__ == "__main__":
