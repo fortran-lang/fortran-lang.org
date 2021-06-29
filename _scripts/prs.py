@@ -45,7 +45,8 @@ def get_prs(
             # if pr.merged_at < t_a:
             #     break
             # ^ This causes some to be missed since recently updated not equiv. to recently merged.
-            
+    merged.sort(key=lambda pr: pr.merged_at)  # earliest merged first
+
     wip = []  # WIP PRs (not merged, still open at this time)
     for pr in repo.get_pulls("open"):
         if pr.created_at < t_b: # and pr.updated_at >= t_a:
