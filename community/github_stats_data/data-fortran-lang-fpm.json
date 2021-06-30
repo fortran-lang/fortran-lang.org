@@ -2,6 +2,452 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 507,
+            "user": "brocolis",
+            "date": "2021-06-30 02:19:05+00:00",
+            "title": "optimize file listing",
+            "text": "This PR is an attempt to optimize the file listing subroutine as reported at Discourse [1].\nThis implementation is pure Fortran using the iso_c_binding module, but it depends on the preprocessor to compile. The trouble is that the C types struct dirent and struct stat have different sizes/contents in different platforms. [2-5]\nThis PR was tested on Windows with MinGW 32 bit and MinGW 64 bit. On linux, it was tested with Debian 32 bit and Debian 64 bit. In all other platforms, this PR has no effect.\nTo enable this feature, build fpm with\nfpm build --flag \"-DMINGW64\"\nfpm build --flag \"-DMINGW32\"\nfpm build --flag \"-DLINUX64\"\nfpm build --flag \"-DLINUX32\"\nCC @zoziha, @LKedward\n[1] https://fortran-lang.discourse.group/t/fpm-may-be-io-blocking-problem-feedback-in-fpm-test\n[2] https://github.com/mirror/mingw-w64/blob/master/mingw-w64-headers/crt/dirent.h\n[3] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/dirent.h.html\n[4] https://github.com/mirror/mingw-w64/blob/master/mingw-w64-headers/crt/sys/stat.h\n[5] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys_stat.h.html",
+            "comments": []
+        },
+        {
+            "number": 506,
+            "user": "certik",
+            "date": "2021-06-29 17:04:31+00:00",
+            "title": "Draft: initial implementation of implicit_none",
+            "text": "@epagone and I worked on this and implemented the following.\nThis adds implicit_none flag to fpm.toml, if it is not specified, it will be .false. by default.\nThen it is propagated to the model, at the top level (for now). Then in the backend we read this flag from the model and insert -fimplicit-none into the command line flag (so it only works for gfortran for now).\nTODO:\n\n It should be integrated with the rest of the compiler options / profiles (currently we add it in fpm_backend.f90 which is probably too late, it should be already part of target%compile_flags)\n Generate the correct flag for each compiler\n Add a test for this\n This should be set on per package basis and even allow to override per file basis\n Design question: should this flag by part of the model as is done in this PR (perhaps on per package/per file basis) or should it be collected directly from fpm.toml and put into compiler flags / profiles and never expose it explicitly in the model?\n Turn this on by default",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-06-29 18:08:21+00:00",
+                    "text": "Yes, implicit-typing=false should be the default then in the long run.\nYes, we couldn't quickly figure out how to do it on the per-package basis instead of global. We have to look into the build subtable."
+                }
+            ]
+        },
+        {
+            "number": 505,
+            "user": "urbanjost",
+            "date": "2021-06-28 05:07:41+00:00",
+            "title": "quiet mode for #502",
+            "text": "Tries to address some of the issues in #502, parts of which have come up previously before.\nadd a conditional routine fpm_stop that calls ERROR STOP if in\nverbose mode but STOP otherwise.\nadd some color to the output. Set environment variable FPM_COLOR\nto \"plain\" to turn it off. Note that the gfortran extension ISATTY()\nis used to signal to turn off color when redirecting output.\nMake build output quieter in normal mode and only echo commands being\nexecuted when in verbose mode.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-29 08:11:15+00:00",
+                    "text": "Thanks @urbanjost for putting this together so quickly - I'll try to review it in the coming days."
+                }
+            ]
+        },
+        {
+            "number": 504,
+            "user": "brocolis",
+            "date": "2021-06-26 05:22:44+00:00",
+            "title": "install.sh, README.md: Update version number, single source file extension",
+            "text": "Thank you for the new release.\nThis PR updates the version number and the single source file extension in install.sh and README.md.",
+            "comments": []
+        },
+        {
+            "number": 503,
+            "user": "han190",
+            "date": "2021-06-23 22:38:25+00:00",
+            "title": "Space in the name section",
+            "text": "Hi, thanks for this great tool. I tried fpm on my toy project yesterday and it all went well! But it took me a while to figure out that spaces are not allowed in the name section. I've never used .toml before so bear with me! The issue is, for example,\nname = \"Hello-World\"\nis fine but\nname = \"Hello World\"\nwill create one folder named Hello in the build directory and another folder named World in the repository root directory. So would you please add a sentence to mention that space is not allowed in the name section in PACKAGING.md?\nThanks again for this great tool!",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-24 06:49:54+00:00",
+                    "text": "Thanks for the report. I think this is a bug in the way directories are created, a space in the package name should be allowed."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-25 16:29:24+00:00",
+                    "text": "There was a conscious decision to limit the name to what is allowed for a Fortran variable name early on; which has since been extended to allow an ANSI dash character as well.  If you entered \"fpm new 'one two'\" it would cause an error; but there is no revalidation check of the fpm.toml file.  Spaces and many other characters in names are very problematic in command line environments and the name used in the fpm.toml file may be or is involved in the generation of file names. In this case when the\ncommand  \"mkdir build/NNNN_a b c\"  is run to make the scratch directory with requoting it goes through the execute command which calls a shell and does shell expansion, ending with three directories being generated. There are a lot of issues like that, not just with the  name in the fpm.toml file if special characters are in names.  The \"new\" subcommand already checks the name and the original request was just to  this.  I think an additional simple check when reading the fpm.toml file and adding some more documentation would be better."
+                }
+            ]
+        },
+        {
+            "number": 502,
+            "user": "milancurcic",
+            "date": "2021-06-23 16:52:13+00:00",
+            "title": "Show verbose output with -v and --verbose",
+            "text": "I think initially proposed here.\nCurrently fpm prints compiler commands that it executes to the standard output, which is quite verbose. I don't think there's a way to disable it.\nSuch output should be enabled with -v or --verbose flags, and by default only print a concise and pretty status like a progress bar. A progress bar is for a separate issue, but in the meantime fpm could just print something like:\nCompiling src/some_module.f90...\nCompiling src/another_module.f90...\n...\n\nor similar.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-28 23:38:09+00:00",
+                    "text": "Before reformatting to much, take a look at #PR504 or there is a single-file version (temporarily) at\nbootstrap. Feedback on if that looks better appreciated."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-29 23:17:26+00:00",
+                    "text": "@milancurcic, @certik  -- is that in the direction of what you had in mind?  Does anyone know if there are any Programming Environments that use terminal emulators that do not obey ANSI in-line escape sequences? I made color the default when output it to a TTY."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-29 23:33:27+00:00",
+                    "text": "I tested it and it looks like this for me:\n\nSo you can see the different colors and it hides the compilation line. Yes, that is exactly what I had in mind. I tested it on the fpm sources themselves, which produce a lot of warnings for me (we should fix those --- separate issue).\nThank you!"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-30 03:17:46+00:00",
+                    "text": "I make the default help for a plain \"fpm\" or \"fpm --list\" command more colorful for a nice first impression; and trivially colorized the general help text. A context colorizer routine would be nice.  If you do \"fpm build --profile release\" it is a lot less verbose to see how it \"should\" look. There are a lot of bugzilla entries about the excessive amount of messages; and some are pretty old, so it might be a while before that goes away. So many messages it is easy to miss the important ones, but like you said \"separate issue\".  It gets messy pretty quickly with a context colorizer so do not plan on coloring anything else that much but it came out OK."
+                }
+            ]
+        },
+        {
+            "number": 501,
+            "user": "LKedward",
+            "date": "2021-06-23 10:11:57+00:00",
+            "title": "Bump version for new release",
+            "text": "Based on #399, I've bumped the version to 0.3.0. See below for draft release notes.\n\nChanges:\n\n\nAdd check for duplicate module names (not allowed) (#412)\n\n\nAdd support for detecting FreeBSD (#468)\n\n\nExit more gracefully with useful error messages for build,run,test (#491)\n\n\nNew features:\n\n\nAdd external-modules manifest field to allow using installed library modules (#438)\n\n\nAdd -C/--directory flag to change working directory (#483)\n\n\nAdd automatic discovery of manifest files in parent directories (#483)\n\n\nAdd simple support for invoking plugins from fpm (#484)\n\n\nAdd support for specifying command line inputs via response files\n\n\nAdd support for reading package version from file (#500)\n\n\nFixes:\n\n\nFix default flags for Intel fortran on Windows (#431)\n\n\nRemove -coarray=single flag from default Intel flags (#437)\n\n\nAllow using the lib archiver in Windows (#442)\n\n\nInvoke matching c compiler when compiling c code (#433)\n\n\nFix spurious output when checking for archiver (#489)\n\n\nFix to module statement parsing (#490)\n\n\nFix for specifying compiler flags containing an equals(=) sign (#497)",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-23 11:02:44+00:00",
+                    "text": "Cheers \ud83d\udc4d"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-23 11:36:55+00:00",
+                    "text": "I added the single file version and updated the conda-forge release (rollout in the CDN will be done in two hours). Will check my homebrew tap and the MSYS2 packaging later this week."
+                }
+            ]
+        },
+        {
+            "number": 500,
+            "user": "awvwgk",
+            "date": "2021-06-20 10:19:23+00:00",
+            "title": "Allow reading version number from file",
+            "text": "Some projects don't store the version number in the build files but in a separate file. This allows to have central place for all tools to retrieve the version number from rather than multiple redundant version number entries.\n\nmeson supports using file objects as version since 0.57.0 (see https://mesonbuild.com/Reference-manual.html#project).\n.VERSION file is used in json-fortran and is parsed in CMake here.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-23 10:02:09+00:00",
+                    "text": "With two approvals I'll now merge. Thanks @awvwgk"
+                }
+            ]
+        },
+        {
+            "number": 498,
+            "user": "kubajj",
+            "date": "2021-06-18 15:08:42+00:00",
+            "title": "Draft - Compiler flags profiles",
+            "text": "This is part of my GSoC 2021 project. I have implemented the following features:\n\nparsing of profiles table in toml syntax\nprofiles representation in package\nscope of flags (project-wide profiles, package-wide profiles, files scope flags)\norganise compiled code into multiple build directories based on the flags of each source file\n\nChanges:\n\nMove the default compiler flags to profiles.f90 to the function get_default_profiles, which returns an array of profile_config_ts\nChange 'gfortran' in fpm.90/build_model to DEFAULT_COMPILER introduced in profiles.f90, for consistency\nAdd proj_dir argument to get_package_data and new_package for file scope profiles\nExtend package_t and package_config_t definitions with profile_config_t\nCreate all include_dirs at the beginning of build_package subroutine\nRemove build_name from fpm_command_line and simplify check_build_vals subroutine\nModify fpm_compiler/get_module_flags not to include any directories, but just handle module flags\nAdd a conditional checking for allocation of fields in fpm_model - Should fix issues with show_model\nReplace model%output_directory with function get_output_directory\n\nNew features:\n\nprofile_config_t and profiles toml table parser in src/fpm/manifest/profiles.f90\nfind_profile subroutine which finds a profile with given parameters in an array of profile_config_t\ninfo_profile function which returns representation of a profile as a string\nAdd flags to targets in fpm_targets/build_target_list\nTests for profiles in test_manifest.f90\n\nNote:\n\nfpm.f90 - line 185 - the include directories are currently added in fpm_targets/get_output_directory, therefore the model%include_dirs in build_model are not complete",
+            "comments": []
+        },
+        {
+            "number": 497,
+            "user": "urbanjost",
+            "date": "2021-06-18 05:55:21+00:00",
+            "title": "correct for equal sign in flag options to fix #495",
+            "text": "Correction to allow for = in --flag option and also allow --keyword=value syntax on options\n   fpm run --flag -fsanitize=address",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-21 11:09:50+00:00",
+                    "text": "With two approvals, I'll now merge this. Thanks @urbanjost"
+                }
+            ]
+        },
+        {
+            "number": 496,
+            "user": "RecruitMain707",
+            "date": "2021-06-17 08:51:44+00:00",
+            "title": "Fpm fails to create a new project in Windows",
+            "text": "I downloaded the latest precompiled binary, running fpm --help works, but i cannot create a new project.\nrunning this: fpm new fpm-test\noutputs this:\nThe system could not find the specified route.\nThe system could not find the specified route.\nThe system could not find the specified route.\nThe system could not find the specified route.\nThe system could not find the specified route.\n + mkdir test-fpm\n execute_command_line() failed\nERROR STOP\n\nError termination. Backtrace:\n\nCould not print backtrace: libbacktrace could not find executable to open\n#0  0xffffffff\n#1  0xffffffff\n#2  0xffffffff\n#3  0xffffffff\n#4  0xffffffff\n#5  0xffffffff\n#6  0xffffffff\n#7  0xffffffff\n#8  0xffffffff\n#9  0xffffffff\n#10  0xffffffff\n\nBuilding a manually created project doesnt work either, so i guess its a problem related to running commands.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-19 09:10:26+00:00",
+                    "text": "Thanks for reporting @RecruitMain707. May I ask whether the same message appears when you run other commands in Windows command prompt such as dir or cd?"
+                },
+                {
+                    "user": "RecruitMain707",
+                    "date": "2021-06-19 19:47:48+00:00",
+                    "text": "No, it only appears when i try to use fpm commands\n(ie, fpm new test, fpm build, etc)"
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-06-20 23:14:37+00:00",
+                    "text": "Hi @RecruitMain707, which fpm binary are you using? This one https://github.com/fortran-lang/fpm/releases/download/v0.2.0/fpm-0.2.0-windows-x86_64.exe works for me in Windows 10 x64."
+                },
+                {
+                    "user": "RecruitMain707",
+                    "date": "2021-06-21 16:14:59+00:00",
+                    "text": "Hello, i am using the latest release, yes, am i missing some requisite perhaps?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-21 18:08:57+00:00",
+                    "text": "am i missing some requisite perhaps?\n\nThe release binaries are self-contained and hence you shouldn't need to download/install any other prerequisites.\nCan you tell us what the output is when you run the following commands from command prompt:\nREG QUERY \"HKLM\\Software\\Microsoft\\Command Processor\"\nREG QUERY \"HKCU\\Software\\Microsoft\\Command Processor\""
+                },
+                {
+                    "user": "RecruitMain707",
+                    "date": "2021-06-21 19:08:14+00:00",
+                    "text": "sure:\n> REG QUERY \"HKLM\\Software\\Microsoft\\Command Processor\"\n\nHKEY_LOCAL_MACHINE\\Software\\Microsoft\\Command Processor\n    DefaultColor    REG_DWORD    0x0\n    EnableExtensions    REG_DWORD    0x1\n    CompletionChar    REG_DWORD    0x40\n    PathCompletionChar    REG_DWORD    0x40\n> REG QUERY \"HKCU\\Software\\Microsoft\\Command Processor\"\n\nHKEY_CURRENT_USER\\Software\\Microsoft\\Command Processor\n    Autorun    REG_EXPAND_SZ    \"C:\\ProgramData\\Anaconda3\\condabin\\conda_hook.bat\"\n    CompletionChar    REG_DWORD    0x9\n    DefaultColor    REG_DWORD    0x0\n    EnableExtensions    REG_DWORD    0x1\n    PathCompletionChar    REG_DWORD    0x9"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-21 19:28:11+00:00",
+                    "text": "Thanks - I think you have an old or outdated autorun script (C:\\ProgramData\\Anaconda3\\condabin\\conda_hook.bat) running every time command prompt starts. I'm not sure what the recommended procedure is for fixing a Conda installation - perhaps conda init --reverse and/or conda init?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-22 08:53:08+00:00",
+                    "text": "Hi @RecruitMain707, can you try running the following commands:\nREG DELETE \"HKCU\\Software\\Microsoft\\Command Processor\" /v Autorun\nconda init\nand then try fpm again?"
+                },
+                {
+                    "user": "RecruitMain707",
+                    "date": "2021-06-28 09:40:19+00:00",
+                    "text": "Sorry for the long wait, i uninstalled conda a while back, so i only had to remove it, it now works perfectly, thank you so much."
+                }
+            ]
+        },
+        {
+            "number": 495,
+            "user": "LKedward",
+            "date": "2021-06-15 17:49:52+00:00",
+            "title": "Can't pass flags containing an equals sign(=) with multiple executables",
+            "text": "I was trying to pass the -fsanitize=address flag to gfortran, but fpm/M_CLI2 is treating address as an unnamed parameter.\nTo reproduce:\n$ fpm new test && cd test\n$ cp app/main.f90 app/main2.f90\n$ fpm run --flag \"-fsanitize=address\"\nOutput:\n + mkdir -p build/dependencies\nfpm::run<ERROR> specified names \"address\" not found.\n\n Available names:\nmain2  test\nSTOP 1",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-17 10:28:50+00:00",
+                    "text": "Doing some further testing but will put in a pull request to use a more recent version of M_CLI2. Trying to decide what all needs added to test suite too.\n[dependencies.M_CLI2]\ngit = \"https://github.com/urbanjost/M_CLI2.git\"\nrev = \"143ab3a4b4f82810f2dda2333cb5a0f116b955e5\""
+                }
+            ]
+        },
+        {
+            "number": 491,
+            "user": "LKedward",
+            "date": "2021-06-05 13:57:39+00:00",
+            "title": "Catch execute_command_line errors and print useful messages",
+            "text": "Adds an exitstat argument to the execute_command_line wrapper run so that failures can be caught and useful messages printed instead of the error stop backtrace.\nThis makes it much easier to determine which source files failed to compile, or which apps/tests failed to run.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-20 08:56:55+00:00",
+                    "text": "Thanks for the review - I think once this and #497 are merged, it would be a good time for a new release (0.3.0)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-20 09:17:19+00:00",
+                    "text": "I don't see any breaking changes in the CLI or manifest, but just added features and bugfixes, therefore I think it should be 0.2.1"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-20 12:14:16+00:00",
+                    "text": "Ah yes, am I misinterpreting the discussion in #399 - I'd thought we'd bump minor for any changes during 0.x.x?\nAlso #412 does break fpm support for packages that have duplicate modules, but I guess that was never officially supported."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-20 12:56:10+00:00",
+                    "text": "I think the strategy used in Julia's Pkg is not a bad one for versioning in the pre-1.0 stage: https://pkgdocs.julialang.org/v1/compatibility/#compat-pre-1.0-1. Which means in pre-1.0 same minor versions are mostly compatible."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-23 10:03:11+00:00",
+                    "text": "Thanks for reviewing, I'll now merge. Will put together a separate PR for bumping the version now."
+                }
+            ]
+        },
+        {
+            "number": 490,
+            "user": "LKedward",
+            "date": "2021-06-05 13:24:25+00:00",
+            "title": "Fix module parsing",
+            "text": "Fixes #488",
+            "comments": []
+        },
+        {
+            "number": 489,
+            "user": "awvwgk",
+            "date": "2021-06-05 13:04:44+00:00",
+            "title": "Redirect output when searching for archiver",
+            "text": "Requires some shuffling of routines to avoid dependency cycles.\nFixes #456",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-06-06 01:26:48+00:00",
+                    "text": "Thanks @awvwgk, it works great in my default environment. However, when I switch to the Intel oneAPI environment, remove GCC toolchain from the PATH and run fpm build --compiler ifort, it displays the message \"ar is not recognized as an internal or external command, operable program or batch file.\" After that, the build continues and ends successfully.\nC:\\Temp\\test5>fpm build --compiler ifort\n + mkdir build\\dependencies\n'ar' is not recognized as an internal or external command, operable program or batch file.\n + mkdir build\\ifort_782887A201FCE169\\test5\n + ifort -c test\\check.f90 /warn:all /check:all \u2026"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-06 07:36:08+00:00",
+                    "text": "@brocolis should be fixed now."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-06-07 01:08:17+00:00",
+                    "text": "I've tested the patch in 3 environments, they all work well, thanks @awvwgk \ud83d\udc4d\n\n\n\nToolchain available on PATH\nfpm test --compiler gfortran\nfpm test --compiler ifort\nfpm test --compiler ifx\n\n\n\n\nMinGW\n\u2705\n-\n-\n\n\noneAPI\n-\n\u2705\n\u2705\n\n\noneAPI + MinGW\n\u2705\n\u2705\n\u2705\n\n\n\nIn environments (1) and (3), fpm executes ar, while in environment (2), fpm executes lib. I think the use of ar in (3) is a bit inconsistent but it does not cause harm so far and can be resolved later."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-06-07 01:33:46+00:00",
+                    "text": "In scenario (4), MinGW is found on PATH before Intel oneAPI. It's unusual but it works also.\n\n\n\nToolchain available on PATH\nfpm test --compiler gfortran\nfpm test --compiler ifort\nfpm test --compiler ifx\n\n\n\n\nMinGW\n\u2705\n-\n-\n\n\noneAPI\n-\n\u2705\n\u2705\n\n\noneAPI + MinGW\n\u2705\n\u2705\n\u2705\n\n\nMinGW + oneAPI\n\u2705\n\u2705\n\u2705"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-07 08:34:30+00:00",
+                    "text": "Thanks for the thorough testing @brocolis! With that I'll now merge"
+                }
+            ]
+        },
+        {
+            "number": 488,
+            "user": "everythingfunctional",
+            "date": "2021-06-04 15:42:23+00:00",
+            "title": "Erroneous error message",
+            "text": "I am trying to convert an existing project to using fpm. Unfortunately (or maybe not), fpm complains about an invalid module name for something that is not defining a module. Granted this is not the kind of code I'd ever expect to actually encounter, but it is something to consider. The specific error message is:\nParse error: empty or invalid name for module\n././src/pfm/distributions_m.f90:52:12\n   |     module real*8 function get_log_logistic_p(x,a,b,c)\n   |            ^\n\nThis is at an intermediate step in converting some legacy code, so that real*8 will get removed, but this is a general situation that could arise that the parser needs to handle. The idea is that for module <other_stuff> function | subroutine, this isn't defining a module, so just skip it.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-04 15:49:54+00:00",
+                    "text": "Thanks for reporting - I'll look at putting together a fix for this case. I'm hoping to push some improvements to the source parsing module in the future to improve robustness and maintainability."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-06-04 17:33:49+00:00",
+                    "text": "Just as additional info, I also got a duplicate module error on the same project due to declarations like module double precision function after fixing that issue. It would be nice if that error message included the name of the module it thinks is a duplicate, as that one took me a bit to work out."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-05 14:09:31+00:00",
+                    "text": "@everythingfunctional, are you sure it didn't print the names of the duplicate modules?.\nThe code linked below should print the duplicates:\n\n  \n    \n      fpm/src/fpm.f90\n    \n    \n        Lines 233 to 234\n      in\n      87a2cbf\n    \n    \n    \n    \n\n        \n          \n           write(error_unit, *) \"Warning: Module \",model%packages(k)%sources(l)%modules_provided(m)%s, & \n        \n\n        \n          \n             \" in \",model%packages(k)%sources(l)%file_name,\" is a duplicate\""
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-06-08 14:14:38+00:00",
+                    "text": "@LKedward I think maybe I just missed it. I just tried to reproduce it and got this:\nWarning: Module double in ././src/pfm/radiation_shift_m.f90 is a duplicate\n\nSo maybe I just didn't realize that double was the name of the module it thought it found. Maybe we should put quotes around the module name to make it clearer?"
+                }
+            ]
+        },
+        {
+            "number": 487,
+            "user": "vmagnin",
+            "date": "2021-06-03 13:46:31+00:00",
+            "title": "Failed to build a simple gtk-fortran example: how to link with gtk-4-fortran?",
+            "text": "I have created a small repository with the example I am trying to build as an fpm project:\nhttps://github.com/vmagnin/gtkzero_fpm\nIt is the gtkzero_gapp.f90 available in the gtk-fortran gtk4 branch: it just opens an empty GTK 4 window. As the original file contains the main program and a handlers module, I have put that module in src/handlers.f90. The main program has been renamed: app/main.f90.\nMy fpm version is 0.2.0 alpha. I have tried adding link = \"gtk-4-fortran\" in the [build] section of the fpm.toml file, but it does not change anything.\n$ fpm build --flag '$(pkg-config --cflags --libs gtk-4-fortran)'\nUnable to find source for module dependency: \"gtk\" used by \"app/main.f90\"\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x7f559b678820 in ???\n#1  0x7f559b679379 in ???\n#2  0x7f559b67ab02 in ???\n#3  0x55e89918f6a5 in __fpm_MOD_cmd_build\n        at ././src/fpm.f90:260\n#4  0x55e89917944f in MAIN__\n        at app/main.f90:26\n#5  0x55e89917944f in main\n        at app/main.f90:9\nSame error if I replace the apostrophes by double quotes.\nThis is the output of the pkg-config command on my machine:\n$ pkg-config --cflags --libs gtk-4-fortran\n-rdynamic -mfpmath=sse -msse -msse2 -pthread -I/usr/local/include/gtk-4-fortran -I/usr/include/gtk-4.0 -I/usr/include/gio-unix-2.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/harfbuzz -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/uuid -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/graphene-1.0 -I/usr/lib/x86_64-linux-gnu/graphene-1.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -Xlinker -R/usr/local/lib -lgtk-4-fortran -lgtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lvulkan -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0\nThe gtk-fortran modules are here:\n$ ls /usr/local/include/gtk-4-fortran\ncairo.mod          g.mod                 gtk_hl_button.mod     gtk_hl_entry.mod     gtk_hl_spin_slider.mod  handlers_gtk_fortran.mod\ngdk_events.mod     graphene.mod          gtk_hl_chooser.mod    gtk_hl_infobar.mod   gtk_hl_tree.mod         pango.mod\ngdk.mod            gsk.mod               gtk_hl_combobox.mod   gtk_hl_misc.mod      gtk.mod                 plplot_extra.mod\ngdk_pixbuf_hl.mod  gtk_draw_hl.mod       gtk_hl_container.mod  gtk_hl.mod           gtk_os_dependent.mod    unix_print.mod\ngdk_pixbuf.mod     gtk_hl_assistant.mod  gtk_hl_dialog.mod     gtk_hl_progress.mod  gtk_sup.mod",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-03 14:04:51+00:00",
+                    "text": "External module files have to declared explicitly, see here. In this case it would require an additional entry in the build section:\n[build]\nlink = \"gtk-4-fortran\"\nexternal-modules = [\"gtk\", \"g\"]"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-03 14:23:25+00:00",
+                    "text": "In this case it would require an additional entry in the build section:\n\nMy fpm does not like that new line :-(\n$ fpm build --flag \"$(pkg-config --cflags --libs gtk-4-fortran)\"\nKey external-modules is not allowed in [build]\nERROR STOP 1\n\nError termination. Backtrace:\n#0  0x7f641f428820 in ???\nPerhaps not yet in fpm 0.2.0 ?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-03 14:26:30+00:00",
+                    "text": "You're right, it was added with #438 but hasn't been released yet."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-23 12:02:37+00:00",
+                    "text": "This might be resolved with the freshly released fpm version 0.3.0"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-23 14:07:57+00:00",
+                    "text": "Thanks @awvwgk for the information,\nI will try when I have some time and report here the result."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-23 15:17:46+00:00",
+                    "text": "@awvwgk\nI have just installed fpm 0.3.0 alpha (Ubuntu 21.04).\nIt's better but the linking fails with the same little test project (https://github.com/vmagnin/gtkzero_fpm):\n$ fpm build --flag '$(pkg-config --cflags --libs gtk-4-fortran)'\n + mkdir -p build/dependencies\n + mkdir -p build/gfortran_4E42016360FFAE8D/gtkzero_fpm\n + gfortran -c test/check.f90 $(pkg-config --cflags --libs gtk-4-fortran) -J build/gfortran_4E42016360FFAE8D/gtkzero_fpm -I build/gfortran_4E42016360FFAE8D/gtkzero_fpm  -o build/gfortran_4E42016360FFAE8D/gtkzero_fpm/test_check.f90.o\n + gfortran -c ././src/handlers.f90 $(pkg-config --cflags --libs gtk-4-fortran) -J build/gfortran_4E42016360FFAE8D/gtkzero_fpm -I build/gfortran_4E42016360FFAE8D/gtkzero_fpm  -o build/gfortran_4E42016360FFAE8D/gtkzero_fpm/src_handlers.f90.o\n + ar -rs build/gfortran_4E42016360FFAE8D/gtkzero_fpm/libgtkzero_fpm.a build/gfortran_4E42016360FFAE8D/gtkzero_fpm/src_handlers.f90.o\nar: cr\u00e9ation de build/gfortran_4E42016360FFAE8D/gtkzero_fpm/libgtkzero_fpm.a\n + gfortran -c app/main.f90 $(pkg-config --cflags --libs gtk-4-fortran) -J build/gfortran_4E42016360FFAE8D/gtkzero_fpm -I build/gfortran_4E42016360FFAE8D/gtkzero_fpm  -o build/gfortran_4E42016360FFAE8D/gtkzero_fpm/app_main.f90.o\n + mkdir -p build/gfortran_4E42016360FFAE8D/app/\n + gfortran  $(pkg-config --cflags --libs gtk-4-fortran) -J build/gfortran_4E42016360FFAE8D/gtkzero_fpm -I build/gfortran_4E42016360FFAE8D/gtkzero_fpm  build/gfortran_4E42016360FFAE8D/gtkzero_fpm/app_main.f90.o build/gfortran_4E42016360FFAE8D/gtkzero_fpm/libgtkzero_fpm.a -lgtk-4-fortran -o build/gfortran_4E42016360FFAE8D/app/gtkzero_fpm\n/usr/bin/ld: build/gfortran_4E42016360FFAE8D/gtkzero_fpm/app_main.f90.o: undefined reference to symbol 'gtk_application_new'\n/usr/bin/ld\u00a0: /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/libgtk-4.so\u00a0: erreur lors de l'ajout de symboles\u00a0: DSO missing from command line\ncollect2: error: ld returned 1 exit status\n <ERROR> Compilation failed for object \"gtkzero_fpm\"\nSTOP 1\nNote that if I type the following command, it compiles and runs:\n$ gfortran src/handlers.f90 app/main.f90 $(pkg-config --cflags --libs gtk-4-fortran)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-23 15:27:06+00:00",
+                    "text": "The problem is that you are adding the libs with the --flag command, and they will end up in-front of the objects in the link line.\nYou probably have to add the output of pkg-config --libs gtk-4-fortran to the build.link entry in the package manifest, rather than using it with the --flag switch."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-23 16:13:33+00:00",
+                    "text": "Thanks Sebastian @awvwgk\nI have separated the --cflags and --libs parts of the pkg-config command. I am now using the following command:\n$  fpm build --flag '$(pkg-config --cflags gtk-4-fortran) -Xlinker -R/usr/local/lib'\n\nIn the fpm.toml, I first tried:\nlink = \"gtk-4 pangocairo-1.0 pango-1.0 harfbuzz gdk_pixbuf-2.0 cairo-gobject cairo vulkan graphene-1.0 gio-2.0 gobject-2.0 glib-2.0 gtk-4-fortran\"\n\nThe problem is that on the compilation command lines, only the first library is prefixed with -l (-lgtk-4 pangocairo-1.0 pango-1.0 harfbuzz gdk_pixbuf-2.0 cairo-gobject cairo vulkan graphene-1.0 gio-2.0 gobject-2.0 glib-2.0 gtk-4-fortran)\nI was therefore obliged to add -l in front of all the other libraries:\nlink = \"gtk-4 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -lgdk_pixbuf-2.0 -lcairo-gobject -lcairo -lvulkan -lgraphene-1.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgtk-4-fortran\"\n\nIn that case, the build is OK with:\n$  fpm build --flag '$(pkg-config --cflags gtk-4-fortran) -Xlinker -R/usr/local/lib'\n\nBut if I run:\n$ fpm run\n + mkdir -p build/gfortran_2A42023B310FA28D/gtkzero_fpm\n + gfortran -c test/check.f90 -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fcheck=bounds -fcheck=array-temps -fbacktrace -fcoarray=single -J build/gfortran_2A42023B310FA28D/gtkzero_fpm -I build/gfortran_2A42023B310FA28D/gtkzero_fpm  -o build/gfortran_2A42023B310FA28D/gtkzero_fpm/test_check.f90.o\n + gfortran -c ./src/handlers.f90 -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fcheck=bounds -fcheck=array-temps -fbacktrace -fcoarray=single -J build/gfortran_2A42023B310FA28D/gtkzero_fpm -I build/gfortran_2A42023B310FA28D/gtkzero_fpm  -o build/gfortran_2A42023B310FA28D/gtkzero_fpm/src_handlers.f90.o\n./src/handlers.f90:7:7:\n\n\t7 |   use gtk, only: gtk_window_set_default_size, gtk_window_set_title, &\n\t  |       1\nFatal Error: Cannot open module file \u2018gtk.mod\u2019 for reading at (1): Aucun fichier ou dossier de ce type\ncompilation terminated.\n <ERROR> Compilation failed for object \"src_handlers.f90.o\"\nSTOP 1\nFinally it runs successfully if I use the --flag options with fpm run:\n$ fpm run --flag '$(pkg-config --cflags gtk-4-fortran) -Xlinker -R/usr/local/lib'"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-23 16:25:14+00:00",
+                    "text": "The problem is that on the compilation command lines, only the first library is prefixed with -l (-lgtk-4 pangocairo-1.0 pango-1.0 harfbuzz gdk_pixbuf-2.0 cairo-gobject cairo vulkan graphene-1.0 gio-2.0 gobject-2.0 glib-2.0 gtk-4-fortran)\n\nbuild.link takes a list of strings or a single string as shortcut for a list with one entry:\nbuild.link = [\n  \"gtk-4\",\n  \"pangocairo-1.0\",\n  \"pango-1.0\",\n  \"harfbuzz\",\n  \"gdk_pixbuf-2.0\",\n  \"cairo-gobject\",\n  \"cairo\",\n  \"vulkan\",\n  \"graphene-1.0\",\n  \"gio-2.0\",\n  \"gobject-2.0\",\n  \"glib-2.0\",\n  \"gtk-4-fortran\",\n]\nIt's quite a lot of libraries to specify explicitly, unfortunately."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-23 17:02:59+00:00",
+                    "text": "OK @awvwgk , I should have thought that it must be a list like in my external-modules = [\"gtk\", \"g\"] line.\nSo, now everything is OK with those commands:\n$ fpm build --flag '$(pkg-config --cflags gtk-4-fortran) -Xlinker -R/usr/local/lib'\nand\n$  fpm run --flag '$(pkg-config --cflags gtk-4-fortran) -Xlinker -R/usr/local/lib'\nBut I don't understand why I am obliged to use --flag with fpm run... (see my previous message for the error message if I don't add the flags). If I go into the build directory and I click on the executable it runs fine. So what does fpm run does?"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-23 17:08:15+00:00",
+                    "text": "Note also that all the libraries are not needed for all programs, that's just for the general case.\nFor that small example, we just need:\nlink = [\n  \"gtk-4\",\n  \"gio-2.0\",\n  \"gobject-2.0\",\n  \"glib-2.0\",\n  \"gtk-4-fortran\",\n]"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-23 17:08:35+00:00",
+                    "text": "fpm is stateless, if you use fpm run it will first invoke fpm build to make sure the binary is up-to-date, to select the binary the command line arguments are hashed, therefore every fpm command has to know the full list of flags to select the right build.\nBetter pkg-config support would resolve this issue of having to use --flag mostly, maybe something like\n[dependencies]\ngtk-4-fortran.pkg-config = \"gtk-4-fortran\"\ncould be an option."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-24 17:15:27+00:00",
+                    "text": "Thanks for all!\nI have added a How to use fpm to build a gtk-fortran project in the gtk-fortran wiki."
+                }
+            ]
+        },
+        {
+            "number": 486,
+            "user": "brocolis",
+            "date": "2021-06-03 00:18:29+00:00",
+            "title": "fpm project with C source; Intel compilers on Windows",
+            "text": "I was trying to build an fpm project with Intel compilers on Windows and was running into issue.\nC:\\Temp\\test>fpm run --compiler ifort\n + mkdir build\\dependencies\nGNU ar (GNU Binutils) 2.36.1\nCopyright (C) 2021 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\n + mkdir build\\ifort_FA91F1929995A164\\test\n + ifort -c test\\check.f90 /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /traceback /Qcoarray:single /module:build\\ifort_FA91F1929995A164\\test /Ibuild\\ifort_FA91F1929995A164\\test  -o build\\ifort_FA91F1929995A164\\test\\test_check.f90.o\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.2.0 Build 20210228_000000\nCopyright (C) 1985-2021 Intel Corporation.  All rights reserved.\n\n + icc -c .\\.\\src\\csource.c -o build\\ifort_FA91F1929995A164\\test\\src_csource.c.o\n'icc' is not recognized as an internal or external command, operable program or batch file.\n Command failed\nERROR STOP\n\nC source is src/csource.c\nint func(void) { return 0;}\nI would add an special case\ncase(id_intel_classic_windows)\n    c_compiler = 'icl'\nto https://github.com/fortran-lang/fpm/blob/master/src/fpm_compiler.f90#L341 and create a PR. But it wouldn't solve it, because icl syntax for 'compile-only, do not link', is icl /c file.c /Fofile.obj and that requires a change in https://github.com/fortran-lang/fpm/blob/master/src/fpm_backend.f90#L243. My understanding is that I should not add compiler specific flags to fpm_backend.f90.\n[1] icl syntax: https://software.intel.com/content/www/us/en/develop/documentation/cpp-compiler-developer-guide-and-reference/top/compiler-setup/using-the-command-line/using-compiler-options.html",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-06-03 00:51:03+00:00",
+                    "text": "The project builds with fpm run --compiler ifx.\nHere is the output:\nC:\\Temp\\test>fpm run --compiler ifx\n + mkdir build\\dependencies\nGNU ar (GNU Binutils) 2.36.1\nCopyright (C) 2021 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\n + mkdir build\\ifx_38882BE0A4E5729B\\test\n + ifx -c test\\check.f90 /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /Qcoarray:single /module:build\\ifx_38882BE0A4E5729B\\test /Ibuild\\ifx_38882BE0A4E5729B\\test  -o build\\ifx_38882BE0A4E5729B\\test\\test_check.f90.o\nIntel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2021.2.0 Beta Build 20210317\nCopyright (C) 1985-2021 Intel Corporation. All rights reserved.\n\ntest/check.f90: remark #5415: Feature not yet implemented: Some 'check' options temporarily disabled.\n + icx -c .\\.\\src\\csource.c -o build\\ifx_38882BE0A4E5729B\\test\\src_csource.c.o\nIntel(R) oneAPI DPC++/C++ Compiler for applications running on Intel(R) 64, Version 2021.2.0 Build 20210317\nCopyright (C) 1985-2021 Intel Corporation. All rights reserved.\n\n + ifx -c .\\.\\src\\test.f90 /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /Qcoarray:single /module:build\\ifx_38882BE0A4E5729B\\test /Ibuild\\ifx_38882BE0A4E5729B\\test  -o build\\ifx_38882BE0A4E5729B\\test\\src_test.f90.o\nIntel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2021.2.0 Beta Build 20210317\nCopyright (C) 1985-2021 Intel Corporation. All rights reserved.\n\n././src/test.f90: remark #5415: Feature not yet implemented: Some 'check' options temporarily disabled.\n + ar -rs build\\ifx_38882BE0A4E5729B\\test\\libtest.a build\\ifx_38882BE0A4E5729B\\test\\src_csource.c.o build\\ifx_38882BE0A4E5729B\\test\\src_test.f90.o\nar: creating build\\ifx_38882BE0A4E5729B\\test\\libtest.a\n + ifx -c app\\main.f90 /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /Qcoarray:single /module:build\\ifx_38882BE0A4E5729B\\test /Ibuild\\ifx_38882BE0A4E5729B\\test  -o build\\ifx_38882BE0A4E5729B\\test\\app_main.f90.o\nIntel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2021.2.0 Beta Build 20210317\nCopyright (C) 1985-2021 Intel Corporation. All rights reserved.\n\napp/main.f90: remark #5415: Feature not yet implemented: Some 'check' options temporarily disabled.\n + mkdir build\\ifx_38882BE0A4E5729B\\app\\\n + ifx  /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /Qcoarray:single /module:build\\ifx_38882BE0A4E5729B\\test /Ibuild\\ifx_38882BE0A4E5729B\\test  build\\ifx_38882BE0A4E5729B\\test\\app_main.f90.o build\\ifx_38882BE0A4E5729B\\test\\libtest.a -o build\\ifx_38882BE0A4E5729B\\app\\test.exe\nIntel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2021.2.0 Beta Build 20210317\nCopyright (C) 1985-2021 Intel Corporation. All rights reserved.\n\nMicrosoft (R) Incremental Linker Version 14.29.30037.0\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\n-out:build/ifx_38882BE0A4E5729B/app/test.exe\n-debug\n-pdb:build/ifx_38882BE0A4E5729B/app/test.pdb\n-subsystem:console\nbuild/ifx_38882BE0A4E5729B/test/app_main.f90.o\nbuild/ifx_38882BE0A4E5729B/test/libtest.a\n + ifx  /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /Qcoarray:single /module:build\\ifx_38882BE0A4E5729B\\test /Ibuild\\ifx_38882BE0A4E5729B\\test  build\\ifx_38882BE0A4E5729B\\test\\test_check.f90.o build\\ifx_38882BE0A4E5729B\\test\\libtest.a -o build\\ifx_38882BE0A4E5729B\\test\\check.exe\nIntel(R) Fortran Compiler for applications running on Intel(R) 64, Version 2021.2.0 Beta Build 20210317\nCopyright (C) 1985-2021 Intel Corporation. All rights reserved.\n\nMicrosoft (R) Incremental Linker Version 14.29.30037.0\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\n-out:build/ifx_38882BE0A4E5729B/test/check.exe\n-debug\n-pdb:build/ifx_38882BE0A4E5729B/test/check.pdb\n-subsystem:console\nbuild/ifx_38882BE0A4E5729B/test/test_check.f90.o\nbuild/ifx_38882BE0A4E5729B/test/libtest.a\n Hello, test!\n\nI think it should use the llvm-ar binary from the Intel toolchain though."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-03 15:24:37+00:00",
+                    "text": "Thanks for reporting @brocolis - I believe #451 will make it much easier to directly address these kinds of Windows specific problems."
+                }
+            ]
+        },
+        {
+            "number": 485,
+            "user": "Carltoffel",
+            "date": "2021-06-02 08:16:56+00:00",
+            "title": "Don't Print Backtrace When Unit Tests Failed",
+            "text": "If one test in the testing framework called by fpm test fails, the framework will likely return an exit code >0. This leads to fpm calling error stop which causes printing the backtrace in the console (at least if fpm was compiled with gfortran). This can cause some confusion, because the program did exactly what it was meant to do, but the backtrace implies something went unexpectedly wrong.\n@everythingfunctional and I discussed the same behaviour in his vegetables project where he ended up with replacing error stop with stop 1. Brad tested some combinations of compiler and OS and it sounds promising as long as there aren't multiply images.\nWhat do you think? Does the same approach applies for fpm or is there even a better way?",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-02 08:57:38+00:00",
+                    "text": "Yes I agree, we don't need to be using error stop in fpm. I started work (LKedward@086ae55) on improving the error handling messages during compilation which would extend naturally to the case described here."
+                }
+            ]
+        },
+        {
+            "number": 484,
+            "user": "urbanjost",
+            "date": "2021-06-01 05:41:19+00:00",
+            "title": "alpha plugins, take III",
+            "text": "When trying to update #364 all I got was \"Sorry, an error occurred\" so this is a reconstituted pull request.  See #364 and #362 for previous comments.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-01 23:10:32+00:00",
+                    "text": "The response file concept was part of an earlier PR  proposing a --flag option which was reduced to just the --compiler option and a suggestion from @awvwgk.  It allowed me to experiment with several concepts concerning an ealier --profile proposal and is useful but I decided at the time that it was probably better to put the profiles into the manifest itself with a compiler and os and flag list comprising a profile, and then (since the manifest file has no conditional capabilities) that fpm could then just choose based on current compiler and OS and profile name so the logic incorporated into fpm would not be too complex. As-is it does not quite do what I want with a subcommand, is not recursive, only uses the last specification of an option specified multiple times, which I originally planned on changing (and a few other things)  and can select between options based on OS but not on compiler  it has limitations but is useful so I put a basic description in of the simplest use case with a reference to the M_CLI2 github repository. I originally proposed it as a prototype for discussion but with the other solutions for a package-able custom build proceeding and being part of the GSOC and this being a \"free\" feature from M_CLI2 I think it can proceed as a supplemental feature as-is(?)"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-05 12:49:07+00:00",
+                    "text": "Including the original PR (#364), we have four approvals so I'll now merge. Thanks @urbanjost"
+                }
+            ]
+        },
+        {
             "number": 483,
             "user": "awvwgk",
             "date": "2021-05-27 18:12:11+00:00",
@@ -27,6 +473,16 @@
                     "user": "LKedward",
                     "date": "2021-05-28 12:46:00+00:00",
                     "text": "Autodiscovery seems to works nicely but would it not be better to change back to the original directory after the model has been built? This would allow me to do fpm run or fpm test in a different directory to the directory containing the manifest (like #410). By example, if I run git status in a subdirectory, then it finds the git repo in the parent directory but still executes the subcommand as if it's in the current directory.\nIt seems that we still need two separate options:\n\n--manifest-path (as in #411) which only affects the project root and defaults to the autodiscovery process here\n--directory as implemented here, change directory before doing anything\n\nWhat do you think?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-30 09:42:36+00:00",
+                    "text": "I think we will need both, knowledge about the working directory and the project root at every point in fpm.\nWith this patch right now a command like\nfpm -C example_packages/hello_fpm run --runner cp -- .\n\nwill copy the executable into example_packages/hello_fpm rather than the actual current working directory. Changing this in fpm requires some deeper modification how we handle file paths and how we spawn subprocesses, but this is definitely a desirable change."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-05 12:35:08+00:00",
+                    "text": "This looks good to go so with two approvals I'll now merge. Thanks @awvwgk"
                 }
             ]
         },
@@ -119,6 +575,11 @@
                     "user": "certik",
                     "date": "2021-05-27 16:25:57+00:00",
                     "text": "Indeed. I think there is a large common denominator of all Fortran compilers, that we should provide a unified interface to. This is another avenue to tackle #443, as we slowly build this \"unified interface\", we can then use it in fpm itself to provide good support for things like fast-math or debugging options such as array bounds checking."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-02 01:05:16+00:00",
+                    "text": "In my own environment I use a command (ccall) for programs (not for libraries, there is something else for that)\n$ ccall --help\nuntitled()                                                          untitled()\n\nNAME\n       ccall(1) - identifies system and then compiles and loads and installs\n       C, Fortran, and manpages\n\nSYNOPSIS\n       ccall file.[f|F|c|f90|F90|.ff|.FF|html|HTML|[1-8]|.man] other_options\n       ccall -r ccall [-h]\n\nDESCRIPTION\n       Given program source code or other files needing processing, determine\n       what system you are on, preprocess the files based on their suffix, and\n       then build and install them in a standard location.\n\n       The installation area top directory set is by $CCALL_HOME (that\n       defaults to $HOME). It ia assumed to have subdirectories bin/, lib/,\n       and doc/man in it. A subdirectory is expected under bin called\n       $TARGET_REV this is for a unique programming environment.  If\n       $TARGET_REV is not set the output of the command \"systemtype -r\" is\n       used to create a directory.\n\n       A number of libraries and options are defined for each programming\n       environment so that all that is typically required to build and load a\n       program is\n\n             ccall $FILENAME\n\n       You need to add any new programming environment to the script.\n\n       \"ccall -r\" return a name that includes which Fortran compiler is\n       available.\n\n       \"ccall -h\" shows help.\n\n       NAME.[f|F|c|f90|F90]\n              Load a main program using the libraries and other common options\n              used on various platforms (UNICOS, Tru64 Unix, HP-UX, AIX,\n              SunOS, Solaris, ...)\n\n       NAME.[ff|FF]\n              Run .ff thru \"uffp TESTPRG90 ...\" and .FF thru \"ufpp TESTPRG90\n              -system\" and then treat files as .F90 files.\n\n       NAME.[html|HTML]\n              If an HTML file is given; run through f2html to extract Fortran\n              and then treat it as a .ff or .FF file.\n\n              Then run it thru c2html and then treat any output file as a .c\n              file.\n\n       NAME.[1-8]|, NAME.[1-8],txt\n              installs man(1) pages.  The files are compressed with gzip(1)\n              and placed in the directory pointed to by $PUTMAN.\n\n       NAME.[1-8]*.man\n              Run file thru txt2man(1) to creat a *roff file and install the\n              file as a man(1) page.\n\nENVIRONMENT\n       PREFIX options before filename when loaded\n\n       SUFFIX options after filename when loaded\n\n       NOTTHEREONLY\n              if TRUE, do not build if output file already exists\n\n       CCALL_OS\n              generic programming environment name. Defaults to output of\n              \"systemtype\". Used to select compiler and loader options for a\n              system.\n\n       CCALL_COMPILER\n              compiler-specific programming environment name. Defaults to\n              output of \"systemtype -r\". Used to create subdirectory to place\n              executables in in $CCALL_HOME/bin/. Selects additional compiler\n              options specific to a particular compiler. $CCALL_OS identified\n              the type of system you are on, $CCALL_COMPILER specified a very\n              specific programming environment.\n\n       CCALL_HOME\n              top directory where output directors bin/, lib/, and doc/man\n              exist defaults to $HOME.\n\n       CCALL_LOG\n              name of log file to create. By default no log is created\n\n       PUT    directory to place binaries in (defaults to\n              $CCALL_HOME/bin/$TARGET_REV)\n\n       PUTMAN directory to place man pages in (defaults to\n              $CCALL_HOME/doc/man)\n\n       TMPDIR top directory where scratch files are generated. Defaults to\n              /tmp\n\nEXAMPLES\n       Sample calls:\n\nThat defaults to specifying about twentyfive libraries  so I just enter \"ccall FILENAME\" and it builds an executable and places in in the correct bin/ subdirectory (one for each programming environment) that I have used for a very long time and miss in any environment I do not have it in. Everything in netlib and the \"real\" GPF collection is predefined in the load path; and it preselects a compiler depending on which ones it finds in the path if no environmental variables are set.  So I totally like the idea of a universal compiler command.  We did a similar thing for years in a production environment where you just entered \"f90\" or \"cc\" so that batch jobs did not have to typically change when new environments were created.  I have been thinking about that for a while and wondering about making it more \"fpm-ish\" where, especially assuming that profiles can be in the manifest files soon that you could have a universal compiler command that could use an fpm environment \"remotely\" from any directory that could specify a list of dependencies and compiler options.  So something where an fpm directory could be used somewhat like modules but have waffled on whether I would want it to build the file where it is just using the information, or automatically create a cloned fpm package and if so whether it should all be in a scratch area that gets cleaned up after the build or if it creates and leaves the program as a package.  It seems like a lot of the pieces are there. Maybe it sounds lazy, as I could new an \"fpm new\" and copy in my favorite fpm.toml file and the program file relatively easily, but trying to move more files to fpm I miss ccall the most, and was thinking the environment that you can create with fpm could be leveraged to set up a pre-defined load environment like ccall, and already has an install capability too. So basically, I think a \"universal compiler\" is great, and would be particularly useful in solving some of the issues fpm faces; but I also think there is something fpm can provide back to the universal compiler.  So If I could set up an fpm package area with no packages in it and specify compiler options, load options, and a default install area and then use the universal compiler command pointed to that \"empty\" fpm package I would feel right at home and I think it would be better than ccall.  I need to take some time to put the idea down more coherently, but this (#475) would go a long way towards that.\nPS:  ccall has been around maybe a bit too long -- I was just looking at it for the first time in a while and it still has branches for some OS environments that have not existed for a long time (anyone ever heard of COS and Aegis and SunOS?) but it shows how portable and long-lived a Fortran app can be)."
                 }
             ]
         },
@@ -177,6 +638,11 @@
                     "user": "awvwgk",
                     "date": "2021-04-30 15:21:49+00:00",
                     "text": "I am not aware of any fundamental reason why this cannot be done, it will just require some significant restructuring of fpm to insert a new pre-process phase to the workflow\n\nI fully agree with this statement."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-05 19:21:00+00:00",
+                    "text": "In a system I use you can specify a pre-processor command based on file suffix (including plain .f and .f90) and all files are preprocessed and/or copied to a second scratch directory and then the dependencies and build is based only on the expanded files.\nThat was more straight-forward. In addition, those expanded files are put into an ar(1) library as well and several other steps, but the reasons for that do not apply here.  You have to make sure the preprocessor is available on the platforms you want to build on which raises other issues, but I would find fpm much easier to use if I could put a line in my manifest that specified the pre-processor rule for different suffixes.  As it is, I maintain virtually every file as a *.FF file and have to use custom tools to pre-process those and place the output files in the fpm directories post-processed. Since fpm uses a cached checksum instead of the date I realized recently I actually do not have to only do that with changed files which is simpler than what I have been doing. Since fpm` also does not require a manually edited \"make-file\" that might be easier?  I find it cleaner than having a .FF file creating a .f90 file in the same directory. There are also a set of \"standard\" environmental variables set so you know OSTYPE and COMPILER and BUILDTIME are always set, as the built-in pre-processor variables vary a lot between different programming environments."
                 }
             ]
         },
@@ -270,6 +736,11 @@
                     "user": "arjenmarkus",
                     "date": "2021-04-26 10:51:48+00:00",
                     "text": "Please do provide that. I have a paper copy somewhere, but a PDF version\nprovides easier access :).\n\nOp ma 26 apr. 2021 om 12:42 schreef Ivan Pribec ***@***.***>:\n\u2026\n Just found another use case for submodules (I can provide a pdf copy if\n needed):\n\n Bader, R. (2006, August). Dynamic polymorphism in Fortran 95: how\n submodules can help. In ACM SIGPLAN Fortran Forum (Vol. 25, No. 2, pp.\n 3-7). https://doi.org/10.1145/1148105.1148106\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#457 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4H7HYDJ6ZN37KRF33TKU7RDANCNFSM43QDXBFA>\n ."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-05 19:50:52+00:00",
+                    "text": "Another option I miss, but only in a few projects, is conditional source directory selection. That is, when you have abstracted very system-specific routines with your own procedures so the file and function names are the same but there is very little if any duplicated code it is nice to say to build src/Microsoft instead of src/Solaris or src/BSD or src/Linux, where each directory contains the system-specific source for a particular platform.  Just something else to add to the wish-list :>"
                 }
             ]
         },
@@ -354,6 +825,11 @@
                     "user": "LKedward",
                     "date": "2021-04-24 13:45:21+00:00",
                     "text": "Thanks, this is a useful refactoring. Feel free to incorporate #449 directly into this PR instead if easier."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-27 15:09:35+00:00",
+                    "text": "This branch has diverged from the current main line, I'm going to close it, since it is easier to reimplement the changes again than updating the branch.\nThis branch can be resurrected from 8325a09 if needed."
                 }
             ]
         },
@@ -386,6 +862,36 @@
                     "user": "awvwgk",
                     "date": "2021-04-17 14:17:35+00:00",
                     "text": "Maybe creating an archiver_t that knows how to create a static library would work. The logic to determine which path to choose than goes in the instantiation of the object rather than the target evaluation."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-06-04 17:02:50+00:00",
+                    "text": "I hit this issue on two of my projects in the last two days, so I'm keen to get this merged in. I think this looks good enough to me, but I'll give @LKedward and @awvwgk a chance to hold it back if they think it needs to be."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-04 19:06:04+00:00",
+                    "text": "Brad @everythingfunctional, would you mind testing this with lib instead of ar if you have access to a Windows machine (I don't have one). I might have time this weekend to get #451 up to speed, which gives a more robust way to handle response files (they don't work on OSX if I recall correctly)."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-06-04 19:31:39+00:00",
+                    "text": "@awvwgk , I've got a couple of Windows environments, unfortunately both have things installed and setup with ar available in the PATH, so I can't be sure that it will work with lib, but I can say that it does work with ar. My understanding is that the response file is a feature of the Windows \"command shell\", not of the executables, so I don't see why they would behave any different."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-05 09:29:55+00:00",
+                    "text": "Thanks for updating and reviewing @everythingfunctional - I'm happy for this to move forward \ud83d\udc4d\nI'm not able to test with lib unfortunately since I don't have visual studio installed."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-05 12:33:33+00:00",
+                    "text": "Thanks both - I'll now merge then."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-06-10 19:02:38+00:00",
+                    "text": "Brad @everythingfunctional, would you mind testing this with lib instead of ar if you have access to a Windows machine (I don't have one). I might have time this weekend to get #451 up to speed, which gives a more robust way to handle response files (they don't work on OSX if I recall correctly).\n\nI did get a chance to set up a Windows environment and test with lib. It works, so we're all good."
                 }
             ]
         },
@@ -611,6 +1117,11 @@
                     "user": "arjenmarkus",
                     "date": "2021-05-04 12:47:52+00:00",
                     "text": "FYI, I wrote a small program (already some time ago in response to this ticket, but I seem to have forgotten to post it) that reads these pkgconfig files, including the substitution of macros. Maybe it is useful for fpm.\npkgconfig.f90.txt"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-27 15:06:28+00:00",
+                    "text": "Since I don't intend to continue working on this pull request, I'm going to close it.\nThis branch can be resurrected from e0767b4 if needed."
                 }
             ]
         },
@@ -1537,6 +2048,26 @@
                     "user": "ivan-pi",
                     "date": "2021-03-18 22:51:33+00:00",
                     "text": "I once tried using Linuxbrew but quickly reverted back to old habits. But I'm pretty sure that Homebrew is the best way to reach folks interested in scientific computing including Fortran on MacOS.\nI know @zbeekman has made some contributions to Homebrew before."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-24 09:59:10+00:00",
+                    "text": "I'm currently maintaining a homebrew tap for fpm at https://github.com/awvwgk/homebrew-fpm, if there is interest this could be migrated to the @fortran-lang namespace (maybe as homebrew-fortran repo?).\ncc @certik @milancurcic @LKedward"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-24 14:26:02+00:00",
+                    "text": "Last time I tried Homebrew, it installs things into /usr/local, which (I think) requires root, doesn't it? Either way, I don't think anything should write into /usr, neither on Linux, nor on macOS. The other problem with Homebrew is that it is macOS specific. For both of these reasons, I don't use it, and just use Conda on Linux, macOS and Windows. And I use fpm from there.\nThat being said, I think it's a good idea to submit to Homebrew and if @zbeekman would be willing to help, it should help expand our user base."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-24 15:09:51+00:00",
+                    "text": "@certik It is quite a general question where we want to package fpm. I think generally we want to be in as many repositories as feasible. Meaning we have contributors that use the respective distribution and know how to package for it.\nAnother question is whether this is an effort we want to centralize or keep distributed in the community."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-24 17:09:36+00:00",
+                    "text": "I agree, we should get fpm into as many package managers as possible.\nI would say we should try to get as involved as we can and our interests allow. Typically each package manager has its own way of accepting contributions, many are on GitHub, so we can just contribute as we see fit."
                 }
             ]
         },
@@ -2467,6 +2998,11 @@
                     "user": "milancurcic",
                     "date": "2021-05-24 16:00:31+00:00",
                     "text": "@urbanjost, I think there is a strong consensus to move this PR forward. Do you need help resolving the conflicts?"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-05-31 23:18:10+00:00",
+                    "text": "Been gone for a bit.\nI cannot use github to resolve the conflicts or to look at them. Everything having to do with the conflicts appears to be grayed out.\nIs there a button I am missing somewhere?  I want to evolve this into something that can see the fpm model via an API but starting with this is a reasonable first step and should be upward-compatible with any such feature."
                 }
             ]
         },
@@ -2844,6 +3380,31 @@
                     "user": "epagone",
                     "date": "2021-02-18 12:22:12+00:00",
                     "text": "@ivan-pi another example of such ancient remnants of the olden days of FORTRAN that are still very good pieces of code: ORDERPACK uses implicit typing."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-06-23 13:39:43+00:00",
+                    "text": "On Discourse, @urbanjost adds an interesting suggestion for an additional feature: no line length limit. I agree."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-23 14:25:28+00:00",
+                    "text": "I agree too. Limiting to 80 columns should be done via formatting tools, but fpm should simply compile everything, no matter how long lines."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-06-23 15:51:01+00:00",
+                    "text": "c.f.: https://wg5-fortran.org/N2151-N2200/N2184.pdf\nThe next version of the standard referred to as Fortran 202X will allow for the following:\n\n\nFree form source line length: \"A line shall contain at most ten thousand characters.\"  Note this is a change from current standard 2018 that states a line \"shall contain at most 132 characters.\"\n\n\nFree form statements: \"statement shall not have more than one million characters.\"  Note this is a change from current standard 2018 that states, \"A statement shall not have more than 255 continuation lines.\"\n\n\nEffectively thus \"The limit on the number of continuation lines has been removed\" in Fortran 202X."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-06-23 16:58:48+00:00",
+                    "text": "Discourse user implicitall suggests to add the pre-processor flags\ngfortran: -cpp\nifort: -fpp\nnvfortran: -cpp\nto further simplify extensions and avoid the uppercase/lowercase confusion that I have seen affecting many newcomers. I think that it's an excellent suggestion.\nAs long as there are no side-effects, e.g. problems when there is no actual use of the preprocessor in the project (I do not have enough knowledge and experience to safely comment on this), I am in favour.\nYour comments please."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-23 19:05:06+00:00",
+                    "text": "Yes, we should not need a new file extension just to enable a pre-processor.\nHowever, we should decide whether to encourage using the C pre-processor or rather enable some other pre-processor by default. I can see pros and cons of this."
                 }
             ]
         },
@@ -3456,7 +4017,7 @@
                     "text": "An issue with realpath(3) is that it does not work for non-existent paths which is something we need I think.\nWorking on a possible fix here using getcwd to generate an absolute canonical path. Not yet sure if this is a good solution to pursue or not."
                 },
                 {
-                    "user": "godslayer201",
+                    "user": "rachittshah",
                     "date": "2021-03-16 13:08:56+00:00",
                     "text": "Hello @LKedward , @awvwgk and @urbanjost\nI'm a new contributor at Fortran. Since I'm hoping to work on FPM via GSoC,I felt this would be a good starting point.\nAs per my understanding of the issue,we need to give fortran's compiler the right path,while allowing the hierachy in such a way the the n-th iteration of the code wouldn't get confused about the location of the executables,if I'm not wrong.\nI've installed fortran,I'm not well-versed with FPM,but I would love to pick it up via this issue.\nWill discuss here/on discourse if I have issues."
                 },
@@ -6476,6 +7037,11 @@
                     "user": "everythingfunctional",
                     "date": "2021-04-06 16:44:48+00:00",
                     "text": "For a one way build script, fpm wouldn't know that other libraries are produced. I'm guessing we're already including different build directories as include locations in the link commands, so manually adding those additional libraries to the link works, but I'm not sure it was intended to.\nI would argue that a package that produces more than one library should be split into separate packages. I'd say we shouldn't focus any effort trying to explicitly support packages that want to produce multiple library files. You're solution is a perfectly valid workaround (if not explicitly supported), and so we shouldn't try to prevent it, just say it's not guaranteed to be reliable."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-05-31 11:16:29+00:00",
+                    "text": "The one-way build script is expected to receive inputs via environment variables, and place the compiled libraries in the correct location.\n\nI have a good idea, it should be able to use different make tools, such as make, cmake.\n\nI think the make tool generally only displays simple commands, such as make build and cmake build. Obviously, these are commands and we need to deal with them. They are more like coherent tasks\u2728 besides static commands.\nUse the binary files generated by the make tool, such as link libraries and intermediate .obj files. Only the make tool and developers know where they are generated.\n\nBased on the above analysis, we can add items like [make] to fpm.toml:\n[package]\nname = \"fpm-make-test\"\n\n[make]\n[make.tasks.src]\ndescription = \"Generate src_dir objs.\"\ncommand = \"make\"\nargs = [\"-f\", \"makefile\", \"--directory=src\"]\nkind = \"objs\"     # shared/static/objs/binary\nobjs_dir = [\"./build/objs/src1/\", \n            \"./build/objs/src2/\",\n            ...\n]\n\n[make.tasks.others]\n...\nWe use fpm's absolute control over fpm.toml to control the commands of the make tool and the path of the generated binary file. fpm selects the behavior of fpm by extracting the path of the generated binary file.\nWe leave this [make] to the developer to consider. fpm just sends make commands and accepts task results.\nMy inspiration comes from:\n\nhttps://medium.com/@sagiegurari/automating-your-rust-workflows-with-cargo-make-part-1-of-5-introduction-and-basics-b19ced7e7057\nhttps://github.com/sagiegurari/cargo-make\n\n(also see #118 (comment))"
                 }
             ]
         },
@@ -8354,6 +8920,11 @@
                     "user": "ivan-pi",
                     "date": "2021-05-26 13:33:32+00:00",
                     "text": "Can we define some rules for how fpm is to stop the search?\nWhen I run git status in a folder inside WSL which is not a repository I get the following fatal error:\n$ git status\nfatal: not a git repository (or any parent up to mount point /mnt)\nStopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).\n\nThe environment variables which affect git can be found here."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-07 09:53:33+00:00",
+                    "text": "Implemented in #483."
                 }
             ]
         },
@@ -10317,6 +10888,11 @@
                     "user": "jvdp1",
                     "date": "2020-07-29 20:17:34+00:00",
                     "text": "Could the Makefile of stdlib be already used to compile stdlib with fpm?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-05-31 11:11:00+00:00",
+                    "text": "We certainly want to try and make migrating existing projects to fpm as easy as possible. The questions that need to be answered to solve this problem are:\n\nHow does fpm figure out how to call the makefile? You're example shows something that might be workable\nHow does fpm figure out where the makefile put the stuff it needs to copy? This one's a bit harder\n\nOn the other hand, you could write a script that manually runs the makefile and does the appropriate copy commands. It's a tad less portable, but a pretty straightforward workaround.\n\nI have a good idea, it should be able to use different make tools, such as make, cmake.\n\nI think the make tool generally only displays simple commands, such as make build and cmake build. Obviously, these are commands and we need to deal with them. They are more like coherent tasks besides static commands.\nUse the binary files generated by the make tool, such as link libraries and intermediate .obj files. Only the make tool and developers know where they are generated.\n\nBased on the above analysis, we can add items like [make] to fpm.toml:\n[package]\nname = \"fpm-make-test\"\n\n[make]\n[make.tasks.src]\ndescription = \"Generate src_dir objs.\"\ncommand = \"make\"\nargs = [\"-f\", \"makefile\", \"--directory=src\"]\nkind = \"objs\"     # shared/static/objs/binary\nobjs_dir = [\"./build/objs/src1/\", \n            \"./build/objs/src2/\",\n            ...\n]\n\n[make.tasks.others]\n...\nWe use fpm's absolute control over fpm.toml to control the commands of the make tool and the path of the generated binary file. fpm selects the behavior of fpm by extracting the path of the generated binary file.\nWe leave this [make] to the developer to consider. fpm just sends make commands and accepts task results.\nMy inspiration comes from:\n\nhttps://medium.com/@sagiegurari/automating-your-rust-workflows-with-cargo-make-part-1-of-5-introduction-and-basics-b19ced7e7057\nhttps://github.com/sagiegurari/cargo-make"
                 }
             ]
         },
