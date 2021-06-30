@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: July 2021"
 category: newsletter
-author: Laurence Kedward
+author: Laurence Kedward, Sebastian Ehlert
 ---
 
 Welcome to the July 2021 edition of the monthly Fortran newsletter.
@@ -31,7 +31,7 @@ Ongoing work:
 * [#277](https://github.com/fortran-lang/fortran-lang.org/pull/277) (WIP):
   Add projects for Fortran-lua interfacing to package index                                                                
 * [#274](https://github.com/fortran-lang/fortran-lang.org/pull/274) (WIP):
-  Update package_index.yml                                                                                                 
+  Add convert_FORTRAN_case formatter to package index
 * [#246](https://github.com/fortran-lang/fortran-lang.org/pull/246) (WIP):
   Transferring fortran90.org "Fortran Best Practices" into a mini-book                                                     
 * [#201](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP):
@@ -44,9 +44,9 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 Here's what's new in `stdlib`:
 
-* [#439](https://github.com/fortran-lang/stdlib/pull/439) (WIP):
+* [#439](https://github.com/fortran-lang/stdlib/pull/439):
   Reduce time spent on sorting tests
-* [#440](https://github.com/fortran-lang/stdlib/pull/440) (WIP):
+* [#440](https://github.com/fortran-lang/stdlib/pull/440):
   Make maximum rank an option
 * [#433](https://github.com/fortran-lang/stdlib/pull/433):
   Implemented low level find function for string matching                                                                                  
@@ -64,7 +64,9 @@ Here's what's new in `stdlib`:
 Work in progress:
 
 * [#445](https://github.com/fortran-lang/stdlib/pull/445) (WIP):
-  Add `disp`(display your data) & `format_string`(format other type to string)
+  Add `disp` function to display your data
+* [#444](https://github.com/fortran-lang/stdlib/pull/444) (WIP):
+  Add `format_string` to format other type to string
 * [#441](https://github.com/fortran-lang/stdlib/pull/441) (WIP):
   Implement pad function
 * [#437](https://github.com/fortran-lang/stdlib/pull/437) (WIP):
