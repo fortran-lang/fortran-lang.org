@@ -2,6 +2,131 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 213,
+            "user": "certik",
+            "date": "2021-06-26 21:08:26+00:00",
+            "title": "Initial draft of conditional expression intrinsic paper",
+            "text": "The paper explains the motivation.\nThe other two referenced papers are:\n\nhttps://j3-fortran.org/doc/year/21/21-157.txt\nhttps://j3-fortran.org/doc/year/21/21-159.txt\n\n@klausler, @milancurcic, would you have time to please review this and help me polish it? I would like to submit this for Monday's vote also.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-06-26 21:24:05+00:00",
+                    "text": "I believe this idea (not a specific proposal though) was discussed by the committee and the following feedback is summarized in:\n\n#183 (comment)\n#183 (comment)\n\nHalf the arguments are with issues that come up with extending merge, so we already avoid them by introducing a new intrinsic. The other half of the arguments we should address.\nThe first counter argument is harder chaining, but I think you just put the extra parenthesis at the end. Not too bad, it still seams more readable overall than alternatives.\nThe stronger counter argument is that this does not behave like a function, the ifthen is effectively a new syntax. At that point we might as well introduce new syntax. How to address this? The best argument I can come up is optional arguments, which can get passed through to another function with an optional argument and they are not evaluated ahead of time, as it would not work if the argument is not present. In a similar sense, the arguments of ifthen can be such \"optional style\" arguments that are not evaluated at the call site, but only (optionally) inside the function (similar to how present(x) works). So the concept is not completely new to Fortran. Is there a better way to address this argument?"
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2021-06-27 01:07:59+00:00",
+                    "text": "One other not-a-function aspect is that a conditional expression can return an actual variable, not just the value. So it can be used in intent(out) contexts like allocate(x, stat=ifthen(logical, stat1, stat2)). I don't imagine there's a precedent for that kind of behavior for a function. Still, the point stands that there's a precedent for function-looking things not really behaving like functions.\nBut your paper looks good and should invite discussion."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-27 04:11:46+00:00",
+                    "text": "* In this approach, `consequent` and `alternative` must be type compatible. This is a restriction relative to the keyword (and other) forms, where you could do:\n  ```\n  res = if cond then 1 else 1.234\n  ```\n\n\nFirst of all, the keyword version would be:\nres = if (cond) then (1) else (1.234) endif\n\nand my understanding is that it would be exactly equivalent to:\nres = ifthen(cond, 1, 1.234)\n\nThe restriction on consequent and alternative would be exactly the same. So either both integers or both reals (depending on the type of res, or perhaps somehow figured out from consequent and alternative, or perhaps it would not be allowed unless the types are exactly the same), and the default Fortran implicit casting rules apply."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-27 04:20:10+00:00",
+                    "text": "So it can be used in intent(out) contexts like allocate(x, stat=ifthen(logical, stat1, stat2))\n\nIsn't this semantically exactly the same as:\nallocate(x, stat=if (logical) then (stat1) else (stat2) endif)\n\nI would think both could return a variable. But I haven't thought of it like this. I would expect both if ... endif and ifthen to always return a value."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-06-27 04:31:13+00:00",
+                    "text": "Yes, actually my second comment and examples are completely irrelevant, the keyword form has the same restriction for types. It wasn't obvious to me that it would have to have it, but it does simplify things."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-27 04:53:05+00:00",
+                    "text": "I pushed in answers to some common objections. @milancurcic, @zjibben let me know if you have any other feedback, or if I should upload as is."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-27 05:03:27+00:00",
+                    "text": "Thanks @milancurcic for the quick review. I think @zjibben implicitly approved it, so I am going to go ahead and upload it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-27 05:16:37+00:00",
+                    "text": "Ok there it is: https://j3-fortran.org/doc/year/21/21-165.txt"
+                },
+                {
+                    "user": "ashe2",
+                    "date": "2021-06-28 23:02:56+00:00",
+                    "text": "What if you have this conforming program unit:\nfunction f(cond, a, b)\n  logical :: cond\n  real :: f, a, b\n  f = ifthen(cond, a, b)\nend\n\nWould this feature change the meaning of it? I.e. ifthen would change from an external to an intrinsic?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-29 15:01:15+00:00",
+                    "text": "What if you have this conforming program unit:\nfunction f(cond, a, b)\n  logical :: cond\n  real :: f, a, b\n  f = ifthen(cond, a, b)\nend\n\nWould this feature change the meaning of it? I.e. ifthen would change from an external to an intrinsic?\n\nNot if the program had a declaration of ifthen; a use, interface, external, &c would do.  (But not just a declaration of its result type; if ifthen became an intrinsic, something like complex ifthen would then be completely ignored.  Kind of a bug in the language, IMO.)"
+                },
+                {
+                    "user": "ashe2",
+                    "date": "2021-06-29 18:12:02+00:00",
+                    "text": "Would this feature change the meaning of it? I.e. ifthen would change from an external to an intrinsic?\n\nNot if the program had a declaration of ifthen; a use, interface, external, &c would do.\n\nAs the example didn't have a declaration of ifthen, the meaning would change, right?\nIs this a backward compatibility problem for any new intrinsic procedure?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-29 19:26:01+00:00",
+                    "text": "Would this feature change the meaning of it? I.e. ifthen would change from an external to an intrinsic?\n\nNot if the program had a declaration of ifthen; a use, interface, external, &c would do.\n\nAs the example didn't have a declaration of ifthen, the meaning would change, right?\nIs this a backward compatibility problem for any new intrinsic procedure?\n\nYes, and yes.  This is always a consideration when standard or extension intrinsic functions are added.  If you use IMPLICIT NONE(EXTERNAL) , you're safe."
+                }
+            ]
+        },
+        {
+            "number": 212,
+            "user": "Euler-37",
+            "date": "2021-06-25 07:39:16+00:00",
+            "title": "Add complex number Descriptor",
+            "text": "add descriptor to dispay format complex data\n(1) format(CF10.4) <-format(\"(\",F10.4,\",\",F10.4,\")\")\n(2) format(CES12.5) <-format(\"(\",ES12.5,\",\",ES12.5,\")\")\n(3) Experimental , add python like format\nformat(ZF10.4) <- format(F10.4,\"+\",F10.4,\"j\")\nformat(ZES12.5) <-format(ES12.5,\"+\",ES12.5,\"j\")",
+            "comments": []
+        },
+        {
+            "number": 211,
+            "user": "zjibben",
+            "date": "2021-06-22 00:20:39+00:00",
+            "title": "June J3/WG5 Meeting",
+            "text": "@certik and I will use this issue to keep the community updated on the work of the June 2021 J3/WG5 joint virtual meeting.\nThe agenda is here. The documents for this meeting are here.\nMonday 6/21/21\n\nPublic access to J3 documents\nReviewing liaison roles\nIEEE liaison report\nMPI liaison report\nOpenMP liaison report\nFlang liaison report\nFortran-Lang liaison report (will update with correct link)\n\nData:\n\n21-141: Passed, unanimous consent.\n\nEdit:\n\n21-145: Passed, unanimous consent.\n21-143: Passed, unanimous consent.\n\nWednesday 6/23/21\nData:\n\n21-135r1: No action.\n21-136r1: No action.\n\nHPC:\n\n21-142r2: Passed, unanimous consent.\n\nEdit:\n\n21-158: Passed, unanimous consent.\n\nInterp:\n\n21-137: Passed, 9 yes / 6 no / 1 abstain.\n21-138r1: No action.\n\nGenerics:\n\n21-144r2:\n\nstraw votes: y/n/undecided\nALG-1: 21 / 3 / 2\nALG-2: 19 / 1 / 6\nALG-3: 17 / 3 / 6\nALG-4: withdrawn\nALG-5: 21 / 0 / 5",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-06-22 17:05:21+00:00",
+                    "text": "21-143 mentions cshift but neglected to also fix eoshift."
+                }
+            ]
+        },
+        {
+            "number": 210,
+            "user": "Beliavsky",
+            "date": "2021-06-01 13:18:59+00:00",
+            "title": "Which non-uniform random number generators should be in the standard?",
+            "text": "Random normal deviates are commonly needed and are available in many other scientific computing languages, such as Matlab, R, Python/Numpy, Julia, and C++, so I think Fortran should also have a random_normal() subroutine, analogous to random_number().",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-06-01 15:36:20+00:00",
+                    "text": "I think this would be a good fit for stdlib, would you mind proposing it there?"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-06-01 16:09:52+00:00",
+                    "text": "@certik\nI think people are already working on non-uniform RNG, including normal deviates, in stdlib, for example fortran-lang/stdlib#240 . There are many known statistical distributions to sample from, and I'm not sure that everything that will be implemented in stdlib should be in the standard, but I think normal variates should be."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-06-01 16:45:28+00:00",
+                    "text": "According to a post by John D. Cook, the C++ standard includes\nGenerating from non-uniform distributions\nDistributions directly supported\nBernoulli\nBinomial\nExponential\nGamma\nGeometric\nNormal (Gaussian)\nPoisson\nbut not\nCauchy\nChi squared\nStudent t\nSnedecor F\nWeibull\nRayleigh\nDistributions that can be sampled easily, if not very efficiently, given a normal RNG, may not be needed in the standard -- examples are the Student's t and chi-squared distributions."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-06-01 20:56:56+00:00",
+                    "text": "Here are links to lists of non-uniform RNG in R, NumPy, SciPy, Matlab statistics toolbox"
+                },
+                {
+                    "user": "peteroupc",
+                    "date": "2021-06-05 20:09:03+00:00",
+                    "text": "According to a post by John D. Cook, the C++ standard includes\nGenerating from non-uniform distributions\nDistributions directly supported\nBernoulli\nBinomial\nExponential\nGamma\nGeometric\nNormal (Gaussian)\nPoisson\nbut not\nCauchy\nChi squared\nStudent t\nSnedecor F\nWeibull\nRayleigh\n\nThat post refers to the Technical Report 1 extensions of C++, which predated C++11 which introduced <random> and its distributions for the first time in the main standard.  In C++11, of the distributions listed here, only the Rayleigh distribution is not offered there."
+                }
+            ]
+        },
+        {
             "number": 209,
             "user": "Beliavsky",
             "date": "2021-05-25 11:56:35+00:00",
@@ -21,7 +146,13 @@
             "date": "2021-05-24 13:49:04+00:00",
             "title": "length of a name",
             "text": "The Fortran standard has a limit on the length of a name, i.e .the number of characters: 63. Working with Vulkan give some problems as some of the named constants are (much) longer than this limit. The current core version (verson 1.2) have more than 20 of these cases. Some of the extensions also have some of that. Not only too long named constants are seen, also with a few function names. Can the limit be increased ? Maybe 127 ? ( to start with)\nRobert",
-            "comments": []
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-06-06 06:01:04+00:00",
+                    "text": "With a concrete use case like this, I think it'd be viable to propose this for F202Y."
+                }
+            ]
         },
         {
             "number": 207,
@@ -34,6 +165,11 @@
                     "user": "klausler",
                     "date": "2021-05-24 17:06:02+00:00",
                     "text": "How is this an improvement to the language?"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-05-30 21:53:35+00:00",
+                    "text": "No one has expressed support for any of the suggestions, and I am not sure about them, so I am closing this issue."
                 }
             ]
         },
@@ -1094,6 +1230,16 @@
                     "user": "Leonard-Reuter",
                     "date": "2020-11-19 16:08:43+00:00",
                     "text": "@zmiimz I agree, that unit testing in the standard (like it exists for Python) would be perfect. Yet, for the time being, I can highly recommend pFUnit.\nPS: Many other modern languages do also not have a built-in unit test capability (e.g. C++)"
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-16 14:02:25+00:00",
+                    "text": "Rust and Julia, two rather recent languages, have direct support for unit testing.\nSince Fortran does not have (yet) a standard library it would be natural to have support for unit tests in the core language instead of relying on third-party libraries."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-16 17:12:43+00:00",
+                    "text": "(We are working on the standard library: stdlib.)"
                 }
             ]
         },
@@ -1328,6 +1474,121 @@
                     "user": "ivan-pi",
                     "date": "2020-11-05 15:58:21+00:00",
                     "text": "In Python you can do:\n[x+1 for x in range(1,N+1) if x >= 45 else x+5]\n\nThis triggers a SyntaxError in Python. The correct way would be:\n[x + 1 if x > 45 else x+5 for x in range(1,N+1)]\nSo the syntax is\nexpression_if_true if condition else expression_if_false\n\nEdit: following Python if expression syntax, the example from above would be:\nCALL SUB(A, B, C, D IF PRESENT(D) ELSE (EPSILON(X) IF X < 1 ELSE SPACING(X)))\nIt seems fairly nice, you just need to remember the condition is in the middle.\nEdit2: Oops, I just noticed the posts from @14NGiestas above."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-23 21:19:05+00:00",
+                    "text": "New syntax paper being proposed at the June 2021 J3 Committee meeting:\n\nhttps://j3-fortran.org/doc/year/21/21-157.txt"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-23 21:24:38+00:00",
+                    "text": "New syntax paper being proposed at the June 2021 J3 Committee meeting:\n\nhttps://j3-fortran.org/doc/year/21/21-157.txt\n\n\nWhat a mess!  Tell me again how this is supposed to be better than a MERGE() intrinsic with stronger non-evaluation guarantees, please."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-23 22:15:43+00:00",
+                    "text": "@klausler thanks for the feedback. I personally think we should not do this feature at all (i.e. NO on the 21-157 proposal), as the two syntaxes (keyword and ?) seem worse than not doing this (based on the feedback both online above, as well as in private that I got). We can pursue the merge() idea and see if we can come up with a proposal."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-23 22:22:06+00:00",
+                    "text": "@klausler thanks for the feedback. I personally think we should not do this feature at all (i.e. NO on the 21-157 proposal), as the two syntaxes (keyword and ?) seem worse than not doing this (based on the feedback both online above, as well as in private that I got). We can pursue the merge() idea and see if we can come up with a proposal.\n\nI'm sure we've talked about this.  In short, strengthen MERGE() so that when its mask (3rd) argument is scalar, and the TSOURCE&FSOURCE arguments have the same type and rank, it guarantees that exactly one of its TSOURCE/FSOURCE arguments are evaluated, and returns the appropriate value.  Or define a new intrinsic function with these guarantees."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-06-23 22:25:18+00:00",
+                    "text": "The idea of modifying MERGE was discussed several meetings ago (I can't find which one). I liked the idea, but there were complaints that it would slow down MERGE for everyone and it failed."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-23 22:32:07+00:00",
+                    "text": "The idea of modifying MERGE was discussed several meetings ago (I can't find which one). I liked the idea, but there were complaints that it would slow down MERGE for everyone and it failed.\n\nThat's astonishing and credible at the same time."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-23 22:32:33+00:00",
+                    "text": "I use MERGE but hate the name, so how about \"CHOOSE\", and it would short-circuit and allow character variables of different lengths as arguments.  I think the short-circuit would be enough, but I would definitely want it to be able to work with optional parameters so it could be used with\nsubroutine a(opt)\ncharacter(len=*),intent(in),optional :: opt\ncharacter(len=:),allocatable :: opt_local\nopt_local=choose(lower(opt_local),'default',present(opt))\n   ...\nso \"lower\" would not be called on an undefined value."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-23 22:43:33+00:00",
+                    "text": "I really do mean it to be different than MERGE; it would return the first or second argument, which could be of different size, not elementally using a mask, but just based on whether the third argument is T or F."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-23 22:46:49+00:00",
+                    "text": "And I wish MERGE had been called PICK, given that SELECT is taken."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-23 22:47:06+00:00",
+                    "text": "Whoops, I accidentally closed this issue by hitting the wrong button.  Fixing now."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-24 00:13:37+00:00",
+                    "text": "Here is the discussion of a new intrinsic, say, ifthen by the committee: #183 (comment)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-24 00:14:42+00:00",
+                    "text": "Finally, here is another paper that we will vote on next Monday:\n\nhttps://j3-fortran.org/doc/year/21/21-159.txt\n\nThis is essentially the \"arrow form\": #183 (comment)\nWhat is your opinion on that one?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-24 00:41:56+00:00",
+                    "text": "Finally, here is another paper that we will vote on next Monday:\n\nhttps://j3-fortran.org/doc/year/21/21-159.txt\n\nThis is essentially the \"arrow form\": #183 (comment)\nWhat is your opinion on that one?\n\nIt still changes the syntax of expressions, so it would affect parsing, AST definitions, &c.; this would be needless work in every implementation over and above the straightforward semantic analysis that a new intrinsic function would cost.  Tokenizing the new \"->' symbol correctly would impose a look-ahead requirement on tokenization of the current \"-\".  And it implies but does not specify the operator precedence of a \"cond-expr\" -- does it replace a current parenthesized expression in the syntax?  Can it be used as a variable?\nI hate it less than the first two (\"IF\" and the \"?\") but not by much.  I don't understand the aversion to using an intrinsic function; they're easy to parse, they nest in obvious ways, and they're more likely to be understood than new operator syntax."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-24 02:50:34+00:00",
+                    "text": "I don't understand the aversion to using an intrinsic function; they're easy to parse, they nest in obvious ways, and they're more likely to be understood than new operator syntax.\n\nThe only arguments I've heard against an intrinsic function are summarized here: #183 (comment) (harder to do chaining, possibly more confusing due to some arguments not being evaluated)."
+                },
+                {
+                    "user": "veryreverie",
+                    "date": "2021-06-24 10:59:55+00:00",
+                    "text": "Would this proposal be limited to use in function calls? And to one-line if statements?\nI'd like to suggest a slight frame-change, and propose allowing if statements which return values, e.g.\ny = if (x>0) then\n  x\nelse\n  0\nendif\n\nIf this syntax was included, then it gives you the power of \"conditional arguments\", and more besides. Like a lot of these proposals, this doesn't give you something you couldn't already do, but I feel like this is both clearer and more powerful than the existing alternatives, and as previously mentioned can be chained with other things like array initialisation.\nI don't believe this would conflict with existing syntax, in that I don't believe you can currently have statements with return values on their own (e.g. the line x on its own is not allowed).\nI guess you'd need to decide what to do if when there was no return value because there was no else clause. e.g. in y = if (x<0) then x endif if x>0. Personally I'd favour leaving y however it was before, probably with a compiler warning to suggest adding an else if y is not allocatable or an optional argument.\nI suppose also if if statements with return values were allowed, then for consistency the various select case, select type etc. statements should also be allowed to have return values.\nFor language consistency reasons, I'm against the other syntax options (as much as I personally like the pythonic syntax in python). I can see the arguments for dropping the then and endif parts of the one-line if statement,  but I think that if they're required in regular one-line if statements then they should also be required in one-line if statements with return values. I also think the proposed ifthen(x,y,z) function is not ideal, but better than nothing.\nFor clarity, my ranking of the proposed syntaxes is:\n\nif statements with return values.\nThe f(a, b, if (x) then y else z endif) syntax.\nSome kind of ifthen function.\nThe original syntax.\n[ Big gap ]\neverything else."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-24 15:03:25+00:00",
+                    "text": "So you want Fortran parsers to be able to handle statements as parts of expressions, and add a new kind of expression-only statement.  What happens if one of your \"then\" or \"else\" parts is \"returning\" the value of a variable named ELSE?  or END?"
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2021-06-24 18:48:00+00:00",
+                    "text": "I think all the proposed syntaxes are OK (just OK) for simple conditional expressions, but that they become very hard to read for compound conditional expressions. I can only speak for myself, but every example I read with compound conditional expressions I have to mentally step through branch-by-branch to make sure I understand what it's doing. Basically, in reading\ncall sub(a, b, c, ? (present(d) d :? (x < 1) epsilon(x) : spacing(x) ?)\n\nI mentally reconstruct\nblock \n  real :: d_\n  if (present(d)) then\n    d_ = d\n  else if (x<1) then\n    d_ = epsilon(x)\n  else\n    d_ = spacing(x)\n  end if\n  call sub(a,b,c,d_)\nend block\n\nIf I'm reading someone else's code, I'd much rather see the second form than the first (or any of it's proposed variations). Yes, it's verbose, but it's also obvious.\nI'm more partial to a function-like syntax, i.e., ifthen mentioned upthread (or whatever name). The fact that it's clumsy to chain was cited as a con, but to me it is a pro. It should be awkward to write hard-to-read code."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-06-24 18:57:12+00:00",
+                    "text": "We started a poll to collect feedback on this feature. We\u2019ll present the results of the poll to the Committee on Monday when the proposals for this feature are due for discussion and a vote."
+                },
+                {
+                    "user": "veryreverie",
+                    "date": "2021-06-24 19:13:55+00:00",
+                    "text": "So you want Fortran parsers to be able to handle statements as parts of expressions, and add a new kind of expression-only statement.\n\nIdeally, yes. I think it would add benefits to the language.\n\nWhat happens if one of your \"then\" or \"else\" parts is \"returning\" the value of a variable named ELSE? or END?\n\nI'm surprised these are not already reserved words. I guess a possible solution would be to require brackets or similar, so that the syntax would be\ny = if (x>0) then\n  (x)\nelse\n  (0)\nendif\n\nand with an interesting choice of variable names,\nif = if (end>else) then\n  (end)\nelse\n  (else)\nendif\n\nI guess this would also help with syntax parsing."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-06-24 19:42:44+00:00",
+                    "text": "I support the function syntax. My suggested name for ifthen is lazy_merge, which would emphasize that this function behaves differently from other Fortran functions, where all arguments are evaluated. Lazy_pick or lazy_choose are also possible names."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-24 19:53:49+00:00",
+                    "text": "This is not the same thing as lazy evaluation as the term is commonly understood in programming language theory."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-26 21:09:47+00:00",
+                    "text": "@klausler here is a draft of a paper for the intrinsic approach: #213, can you please help me finish it, so that I can submit it to the committee as an alternative?"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-26 22:54:39+00:00",
+                    "text": "It is a lot easier to do in an interpreted language, and some might not like the reuse of IF but in a little scripting language I have where everything is a function IF acts like a function if given more than one parameter and only evaluates one of the following expressions depending on the results of the conditional, in the form  if(expression,eval_if_true, eval_if_false).  I have used it so long it seems natural to me. Trying to put that into a Fortran context it might look like\n program testit\ncontains\n   call passto(20)\n   call passto()\n\nsubroutine passto(a)\ninteger,optional :: a\ninteger          :: b\n   b=if(present(a),a,10)\n   write(*,*)b\nend subroutine passto\n\nend program testit\nI can think of some reasons that might be disliked, but I have seen a lot of comments about the complexity of some of the solutions and I have used that for a long time and it is pretty easy to type even interactively. The language also lets logicals return an integer and a lot of other un-Fortranish things so things like like doing a sum() of a bunch of expressions and being able to do something if 2 out of 3 are true is easy, or doing a max() or min() on a list of logical expressions makes sense; but now that there is ANY() and ALL() Fortran can do something similiar now. Of course only evaluating one of the expressions is easy in a scripting language and very much against standard Fortran behavior."
                 }
             ]
         },
@@ -1352,6 +1613,36 @@
                     "user": "zjibben",
                     "date": "2020-09-24 18:43:18+00:00",
                     "text": "@certik thanks for the suggestion. I added a section on use-cases, which naturally was very detailed on what we want to see in protected components, but lighter for protected types. I tried to faithfully relay the motivation described to me by Van, and I think it ended up being similar to described by Malcolm in 19-135r1."
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2021-06-15 22:19:48+00:00",
+                    "text": "Tagging a few others who might be interested: @FortranFan @milancurcic @gklimowicz @tclune @vansnyder\nI think we got this into pretty good shape during our discussion in September, but I've added a bit more clarifying discussion. I'm planning to show this to the committee for our meeting next week. I think this approach offers enough flexibility to satisfy everyone, but we'll see how it goes."
+                },
+                {
+                    "user": "vansnyder",
+                    "date": "2021-06-15 23:55:24+00:00",
+                    "text": "On Tue, 2021-06-15 at 15:20 -0700, Zach Jibben wrote:\n Tagging a few others who might be interested: @FortranFan\n @milancurcic @gklimowicz @tclune @vansnyder\n\n I think we got this into pretty good shape during our discussion in\n September, but I've added a bit more clarifying discussion. I'm\n planning to show this to the committee for our meeting next week. I\n think this approach offers enough flexibility to satisfy everyone,\n but we'll see how it goes.\n\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub, or unsubscribe.\nZach mentions that \"persistent\" types disable intrinsic assignment,\nallocation, deallocation, and automatic finalization.\n\nI assume this disabling does not apply in the scoping unit where the\ntype is defined.\n\nIn Ada '83, the \"limited\" attribute for a type did this. I don't\nremember in which level of requirements this was first introduced. It\nwas definitely in \"Steelman.\" I first proposed it in 97-114."
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2021-06-16 00:37:37+00:00",
+                    "text": "Hi Van, thanks for looking at this!\n\nI assume this disabling does not apply in the scoping unit where the type is defined.\n\nThis is correct, specification L3 allows for intrinsic assignment inside the module which defines the protected type."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-06-16 01:50:50+00:00",
+                    "text": "@zjibben wrote 15 June 2021, 6:19 PM EDT:\n\nI've added a bit more clarifying discussion. I'm planning to show this to the committee for our meeting next week. I think this approach offers enough flexibility to satisfy everyone, but we'll see how it goes.\n\nGreat paper, Zach.  I read your revised version closely just now and you've covered everything that I can think of, especially with formal specifications toward the protected components feature that is of particular importance in many codes in my experience.\nMy only change will be on line 113: 'inadvertently'.\nI feel strongly this will be an excellent addition to Fortran 202X.  The discussion at the plenary on this paper will be of great interest, hope no technical surprises arise then."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-06-16 07:38:56+00:00",
+                    "text": "Good luck! Let's hope, this time the proposal gets further as last time."
+                },
+                {
+                    "user": "zjibben",
+                    "date": "2021-06-18 23:45:37+00:00",
+                    "text": "Thank you everyone! The paper has been submitted: https://j3-fortran.org/doc/year/21/21-148.txt"
                 }
             ]
         },
@@ -1472,7 +1763,7 @@
                     "text": "I would not be in favor of extending this to a run-time stack trace. Generally, procedure names are not kept around after compilation, and some implementations may not have a way of retrieving names of callers.\nI can't think of any technical objection as this information is always available in the compilation phase where these would be processed. It would not require implementors to keep anything additional.\n@certik , this could be handled similarly to INCLUDE - there would be something like \"a processor-dependent string that represents the origin of the source text\". The wording for INCLUDE has \"An example of a possible valid interpretation is that char-literal-constant is the name of a file that contains the source text to be included.\" You're right that this needs to be carefully worded as to not imply a particular implementation. Indeed, some sources come from stdin or pipes. Maybe SOURCE_NAME would be a better choice. Certainly, a topic for discussion."
                 },
                 {
-                    "user": "valtterib",
+                    "user": "ashe2",
                     "date": "2020-09-11 16:17:00+00:00",
                     "text": "I think this will be very useful for Fortran practitioners.\nAs I inquired in the comp.lang.fortran thread where too this was mentioned, what technical concerns and possible objections can compiler writers and commercial vendors have with this?\nIn other words, in what way can this not be a no-brainer i.e., a just do it item?\n\nThe best way to show this is a no-brainer would be for someone to implement it in one of the open source compilers. Assuming that shows it is well-defined, straight-forward to implement, and useful, that would encourage the committee to standardize it and other implementors to implement it."
                 },
@@ -2137,6 +2428,11 @@
                     "user": "certik",
                     "date": "2020-06-05 05:03:31+00:00",
                     "text": "I think what we need here is an automatic formatter that can enforce these things. For things where there are multiple opinions, we can allow it to be configurable, so that each project can set it up the way they like, similar to clang-format.\nI like all your suggestions, except the subroutines where I personally prefer all lowercase (but I understand your argument about arrays). But this can be configurable in the formatter."
+                },
+                {
+                    "user": "HaoZeke",
+                    "date": "2021-06-24 20:37:37+00:00",
+                    "text": "For what its worth, I prefer camelCase myself. The snake_case variables to me seem longer somehow. Enforcing project level specifications feel out of scope for the J3 committee. Anything like PEP8 would be something for the standards committee but I would definitely strongly be against (completely ruins backward compatibility for one thing)."
                 }
             ]
         },
@@ -2450,6 +2746,11 @@
                     "user": "tclune",
                     "date": "2020-10-16 00:12:12+00:00",
                     "text": "I would hope that any serious proposal to replace the F202x \"@\" syntax would work well in the previous examples.   I'm not particularly opposed to the function-based approach that was suggested earlier in this thread, but I think doing anything like that on the LHS of the assignment will meet some resistance.   When various use cases were discussed in planning F202x there was significantly less backing for accessors than there were for most of the other use cases."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-10 19:43:28+00:00",
+                    "text": "Regarding the first example, we can rewrite it like this:\nsubroutine max_at(x, q1, q2, q3, vec)\nreal, intent(in) :: x(..)\nreal, intent(in) :: q1(..)\nreal, intent(in) :: q2(..)\nreal, intent(in) :: q3(..)\nreal, intent(out) :: vec(3)\ninteger, allocatable :: idx(:)\nselect rank(x) \nrank(2)\n    idx = maxloc(x)\n    vec = [q1(idx(1),idx(2)), q2(idx(1),idx(2)), q3(idx(1),idx(2))]\nrank(3)\n    idx = maxloc(x)\n    vec = [q1(idx(1),idx(2),idx(3)), q2(idx(1),idx(2),idx(3)), q3(idx(1),idx(2),idx(3))]\nrank(4)\n    idx = maxloc(x)\n    vec = [q1(idx(1),idx(2),idx(3),idx(4)), q2(idx(1),idx(2),idx(3),idx(4)), q3(idx(1),idx(2),idx(3),idx(4))]\nend select\nend subroutine\nto be more consistent with the simpler version using the @ notation:\nsubroutine max_at(x, q1, q2, q3, vec)\nreal, intent(in) :: x(..)\nreal, intent(in) :: q1(..)\nreal, intent(in) :: q2(..)\nreal, intent(in) :: q3(..)\nreal, intent(out) :: vec(3)\ninteger, allocatable :: idx(:)\nselect rank(x)\nrank(2)\n    idx = maxloc(x)\n    vec = [q1(@idx), q2(@idx), q3(@idx)]                             \nrank(3)\n    idx = maxloc(x)\n    vec = [q1(@idx), q2(@idx), q3(@idx)]\nrank(4)\n    idx = maxloc(x)\n    vec = [q1(@idx), q2(@idx), q3(@idx)]\nend select\nend subroutine\nCan Fortran be extended in this direction for this particular case:\nsubroutine max_at(x, q1, q2, q3, vec)\nreal, intent(in) :: x(..)\nreal, intent(in) :: q1(..)\nreal, intent(in) :: q2(..)\nreal, intent(in) :: q3(..)\nreal, intent(out) :: vec(3)\ninteger :: idx(rank(x))\nidx = maxloc(x)\nvec = [q1(@idx), q2(@idx), q3(@idx)]                             \nend subroutine\nWhich eliminates the need for allocating idx (slow) using the rank(x) construct, and it extends maxloc and @idx to not require to be inside the select rank construct.\nI also asked here to get more feedback: https://fortran-lang.discourse.group/t/examples-for-the-new-rank-agnostic-array-notation/1376"
                 }
             ]
         },
@@ -3656,6 +3957,11 @@
                     "user": "FortranFan",
                     "date": "2020-01-10 02:13:36+00:00",
                     "text": "Per my comments at comp.lang.fortran thread  where this was posed as a question earlier, I support this.\nMy view is the semantics of the BLOCK construct is not all that much different from a CONTAINed subprogram and if the following is permitted, then NAMELISTs can be allowed in BLOCK also and that will be a useful facility for many a practitioner of Fortran."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-21 23:44:58+00:00",
+                    "text": "A paper has been submitted to the June 2021 J3 meeting:\n\nhttps://j3-fortran.org/doc/year/21/21-136.txt\n\nUnless I am mistaken, it is the same feature. The committee did not allow discussion on the paper at the meeting itself, because it is for 202Y, not 202X; but it invited committee members to provide feedback here on GitHub."
                 }
             ]
         },
@@ -3699,11 +4005,6 @@
                     "user": "urbanjost",
                     "date": "2020-03-08 01:35:43+00:00",
                     "text": "I would add to the list of implied continuation line indicators (in addition to array constructors and unmatched parenthesis) a line ending in a comma. Looking at a sample of 140 000, lines of free-format Fortran\ncode 88% of the continuation lines were eliminated (there were 6 868 continuation lines).  As an alternative, lines beginning with an open parenthesis would be continued till a matching close parenthesis.\nThe code looks cleaner and is easier to reformat with an editor. That is, instead of\nwrite(,) left, &\nright, &\ntop, &\ndown\narray=[ 10, 20, 30, &\n40, 50, 60, &\n70, 80, 90 ]\ncall sub(one+two+ &\nthree)\nwrite(,)'VALUES ARE NOW ', &\n&'x        ',x,&\n&'y        ',y,&\n&'z        ',z,&\n&'point    ',point,&\n&'title    ',title,&\n&'help     ',help,'h ',h,&\n&'version  ',version,'v ',v,&\n&'l        ',l,&\n&'l_       ',l_\nDATA (C(I),I=1,19)/              -0.73804295108687506715D-01,            &\n& 0.11366785079620443739D+02, -0.65838973034256501712D+02,            &\n& 0.14119145750221817396D+03, -0.15929975325701922684D+03,            &\n& 0.11122328958866232246D+03, -0.52866443153661476803D+02,            &\n& 0.18223597971689250243D+02, -0.47661469297599122637D+01,            &\n& 0.97840283604837466112D+00, -0.16191400580768858112D+00,            &\n& 0.2212712874183229440D-01,  -0.2606907391286968320D-02,             &\n& 0.316831265267384320D-03,   -0.6102072906743808D-04,                &\n& 0.1658373309202432D-04,     -0.3439710458347520D-05,                &\n& 0.338099825541120D-06,      -0.343597383680D-09/\nOne could write\nwrite(,) left,\nright,\ntop,\ndown\narray=[ 10, 20, 30,\n40, 50, 60,\n70, 80, 90 ]\ncall sub(one+two+\nthree)\n   write(*,*)'VALUES ARE NOW ', \n    'x        ',x,              \n    'y        ',y,              \n    'z        ',z,              \n    'point    ',point,          \n    'title    ',title,          \n    'help     ',help,'h ',h,    \n    'version  ',version,'v ',v, \n    'l        ',l,              \n    'l_       ',l_\n\n\nDATA (C(I),I=1,19)/              -0.73804295108687506715D-01,         \n     0.11366785079620443739D+02, -0.65838973034256501712D+02,    \n     0.14119145750221817396D+03, -0.15929975325701922684D+03,   \n     0.11122328958866232246D+03, -0.52866443153661476803D+02,  \n     0.18223597971689250243D+02, -0.47661469297599122637D+01, \n     0.97840283604837466112D+00, -0.16191400580768858112D+00,\n     0.2212712874183229440D-01,  -0.2606907391286968320D-02,       \n     0.316831265267384320D-03,   -0.6102072906743808D-04,         \n     0.1658373309202432D-04,     -0.3439710458347520D-05,        \n     0.338099825541120D-06,      -0.343597383680D-09/"
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-03-08 03:50:07+00:00",
-                    "text": "Because the following code works with a current compiler (I tested with gfortran-9),\nimplicit none\nreal begin, end\nbegin = 0.0\nend = 1.0\n\nbegin = &\nend\n\nprint *, begin, end    !! 1.00000000 1.00000000\n\nend\n\nisn't it not strange that, if line continuation is implied with '=' or ',' etc,\nthis code also works by regarding END as a variable name?\n\nBEGIN =\n  END"
                 },
                 {
                     "user": "marshallward",
@@ -4274,11 +4575,6 @@
                     "text": "Bug, essential, nonessential."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-12-24 00:18:30+00:00",
-                    "text": "While I agree that #1 is probably among convenience features, I am also wondering if there is very clear distinction between \"essential\" and \"convenience\"? For example, are coarrays \"essential\" as compared to MPI? How about generics as compared to writing many similar routines explicitly or via local preprocessors? I think many features are motivated to increase convenience and reduce coding time. If convenience does not matter, I think we could keep on using C forever (or Fortran77 + some minimal C external routines).\nOn the other hand, I really agree that the problem of cost is important (because resource/time/energy is finite...) and so priority is important to focus energy."
-                },
-                {
                     "user": "klausler",
                     "date": "2019-12-24 00:34:33+00:00",
                     "text": "Example: I consider some kind of parametric polymorphism to be essential, not a convenience -- the alternatives are too painful, and it is a scandal that one cannot quickly instantiate a linked list for a new derived type.  But I admit that's a subjective judgement.\nFrom the perspective of this implementer, the distinction seems to be how I would react if a feature showed up on an RFP (tier (1) is \"obviously we have to do that\",tier  (2) is \"I can see why you need that\", and tier (3) is \"let's ask whether this is a deal-killer\").\nI guess that I'm just asking for some kind of prioritization that isn't obviously too far out of whack with reality."
@@ -4568,6 +4864,11 @@
                     "user": "septcolor",
                     "date": "2019-12-24 01:03:12+00:00",
                     "text": "@nncarlson It's interesting that I use the same pattern for creating potential energy functions, i.e. a function object (derived from an abstract one) that is given system-specific data + potential routines. An appealing point of this approach (to me) is that each function object has its own data internally.\nOne use case might be to pass such a function object (with an overloaded ()) to generics that can accept both procedures and functors. For example, \"callablle(func) :: f\" instead of \"procedure(func) :: f\"...?\n(But I also feel that this kind of thing could make the learning cost of Fortran higher, so care may be necessary to keep the syntax relatively straightforward...)"
+                },
+                {
+                    "user": "veryreverie",
+                    "date": "2021-05-31 08:53:16+00:00",
+                    "text": "I think that there are two independent proposals here, which I would separate as:\n\nFunction objects, i.e. types which overload the () operator, probably using operator(()) syntax. Ideally these objects would also be useable in procedure(func) contexts.\nOverloadable array slice syntax. i.e. allowing user-defined procedures to take a:b:c slices as arguments. This could possibly be done by definining an intrinsic type slice with components %first, %last and %stride\n\nI think both proposals would make the language more intuitive, but I think the two should be evaluated separately, on their own merits. If both were implemented, I see no reason to limit the slice syntax to only be useable with the function object syntax."
                 }
             ]
         },
@@ -4799,19 +5100,9 @@
                     "text": "The way I do this in my electronic structure codes is that I do not have an Atom type at all. So if your molecule has only one atom, then the length of all the arrays will be just 1. There is no code duplication and in fact things run much faster."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-12-18 18:18:09+00:00",
-                    "text": "@Libavius wrote:\n\nBut then, if I change my atoms array I always have to be careful and update electrons_number as well.\n\nApart from the efficiency issue, I think the above case is one motivation for some other languages (like C#, Swift, and also Python (?)) to provide \"computed properties\" (~ a variant of setter/getter). I also do a similar thing when a type component depends dynamically on other data and so varies \"in time\". Otherwise, I think we may need to keep track of the update status of such components, e.g. by some flags (in my case, I use both approaches). We can also make a local variable by calling computed properties first (e.g., before entering a heavy loop) and use the local variable in a heavy loop (to avoid the efficiency issue). On-the-fly computation is also sometimes useful (IMO) to make the \"responsibility\" of underlying data clear (so that only one basic component is responsible for other dependent properties).\nhttps://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/properties\nhttps://docs.swift.org/swift-book/LanguageGuide/Properties.html"
-                },
-                {
                     "user": "cmacmackin",
                     "date": "2019-12-18 18:39:05+00:00",
                     "text": "@septcolor\nI've also suggested something like these be included in Fortran (#30 ). I feel they are useful because they allow you to expose derived type components, safe in the knowledge that if you need to refactor the data storage layout you can always add a getter in future. They are thus extermely useful for encapsulation, which @certik's approach breaks."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-12-18 18:47:58+00:00",
-                    "text": "(To go back to the original topic...) My understanding when \"+=\" etc become useful is the situation where the name of an entity on the left-hand side is very long, particularly when it is a component of nested derived types. (I remember there were several related discussions on comp.lang.fortran, but cannot find the threads right now...) For example, something like\nmy_data(idat) % its_sub_obj(iobj) % another_sub_obj(isubobj) = my_data(idat) % its_sub_obj(iobj) % another_sub_obj(isubobj) + 1\n\n(In the above, I have used \"idat\" etc to distinguish indices for different data types.)  I experience this situation rather often when I use OO-style coding. Because it is too tedious to write, I use a preprocessor to convert a nonstandard short-hand notation (in my Fortran-like sources) into the original form above. If the standard provides \"+=\" and \"*=\", I would of course use it (rather than relying on a local converter/preprocessor approach).\nIn addition to writing a code, it is also painful (to me) to need to read such a code written by others, because I must read long entity names twice until I notice that it is simply an increment of it. When indices are rather complicated or multi-dimensional, repeating multiple indices on both sides can also be more error-prone than using +=.\nAlso, I feel \"-=\" and \"/=\" are not particularly necessary, because they can be expressed by \"+=\" and \"*=\". In my codes, the former appear much less frequently (maybe close to none?) than the latter.\n(By the way, on comp.lang.fortran, there was a discussion that ASSOCIATE could be used to avoid typing a long entity name twice, e.g.,\nassociate( x => my_data(idat) % its_sub_obj(iobj) % another_sub_obj(isubobj) ) \nx = x + 1\nend associate\n\nbut I feel it is not very readable than the usual approach in other languages\nmy_data(idat) % its_sub_obj(iobj) % another_sub_obj(isubobj) += 1\n\n(I used the word \"usual\" because \"+=\" etc have been introduced even in a basic tool like bash and I often use them.)"
                 },
                 {
                     "user": "certik",
@@ -4859,19 +5150,9 @@
                     "text": "I think the reasons outlined why augmented assignment probably won't work out are true. But I would be in favor of the \"pronoun\" proposal that @certik mentioned. There are a variety of languages starting to support this kind of feature (most commonly in languages that have a pattern matching feature). One might think of this as basically syntactic sugar for an associate block with only a single line in it.\n\nASSOCIATE() could be extended slightly to accommodate a single statement as well as a block."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-12-30 22:26:36+00:00",
-                    "text": "@klausler wrote:\n\n(...snip...) So that leaves us % and ?, I think.\n\nIf Fortran could introduce new symbols (?), I wonder if the tilde (~) may be another possibility (e.g. \"long_lhs_expr = ~ + 1\"). I also imagined that a single underscore (_) may be another choice, but it might look like \"discard\" for people familiar with Python etc (like discarding some part in a tuple or unused loop indices).\nIf a new way of representing augmented assignments is acceptable, I guess something like \"long_lhs_expr (+)= 1\" might also be another possibility."
-                },
-                {
                     "user": "opeil",
                     "date": "2020-04-14 19:00:13+00:00",
                     "text": "Perhaps, it is too late to discuss this but somehow I have not seen anyone mentioning another important aspect of the compound/augmented assignment: It allows to perform more efficient in-place operations, such as big_array(:, :, :) += big_array2(:, :, :), without the risk of creating temporaries. This makes it more than just a syntactic sugar.\nAnother similar example is that if we have a type like this\ntype :: BigObject\n   real(dp) :: values(10000, 10000)\nend type\n\ntype(BigObject) :: a, b\n\nand there is a frequent need to do operations like this -- a % values = a % values + b % values, then a naive overloading of operator (+) would result in an extremely inefficient code. It would be great if one has a possibility to overload something like (+=) [with obvious call semantics] to implement heavy in-place operations."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-11-11 17:50:32+00:00",
-                    "text": "This is another similar request that I have come across on the StackOverflow site recently:\nIncrement value in Fortran?\nhttps://stackoverflow.com/questions/64791017/increment-value-in-fortran?noredirect=1&lq=1"
                 }
             ]
         },
@@ -5096,16 +5377,6 @@
                     "user": "aradi",
                     "date": "2019-12-12 10:53:38+00:00",
                     "text": "I'd like to note that a language version keyword as discussed in #83 could also allow for giving up compatibility with fixed-form source. Whenever the programmer specifies a language version newer than a given date (e.g. 202Y), the processor could refuse to compile the module, if it is in fixed-form. Nevertheless, people could still compile and develop their legacy codes, they just would not be allowed to use any new constructs (and default behaviors) introduced in Fortran 202Y or later without converting to free-form."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-12-12 13:00:20+00:00",
-                    "text": "@sblionel wrote:\n\n(...snip...) Keep in mind that every compiler implementor I have spoken with on the topic of deleted features has said that they must continue to support deleted features. Deleting features provides no benefits and actually adds complexity for implementations which have to figure out how those features continue to work with the rest of the standard.\n\n\nMy recommendation would be to \"save your strength\" and advocate for new features that will support the programming paradigms you'd like to use.\n\nHere I mostly agree with Steve's opinions above (regarding fixed form)... Indeed,  I am skeptical that the (hypothetical) deletion of fixed form will actually contribute to giving any fresh impression to new users or encouraging new projects in Fortran. This is because many users already know free form and have been using it (unless fixed form is enforced by existing projects). Nevertheless, there is a continuing decline in the number of new projects  (according to #106 and also from my experience...), suggesting that key problems are not fixed vs free form.\nOn technical sides, I also think it is rather easy to make new syntaxes to fit with fixed form (e.g., #102). For enumerators (#11), simply switching the keywords ENUMERATOR and ENUM makes it less verbose, even if we cannot omit ENUM inside the construct (and there also seem more concise syntaxes possible...).\n\nI do not agree that fixed-form source is why (allegedly) young programmers are not learning Fortran.\n\nWhile I agree with the above sentence,\n\nI also disagree with that basic premise. While Fortran is not often taught in the US, in favor of sparkly languages not common in production environments, it is widely taught in Europe and Asia. This isn't the standard's fault.\n\nmy experience is very different from Steve's assumption above. For example, in our (combined) group, the ratio of students who use Fortran has significantly dropped in the last 10 years because new staffs are using C++ (and so their students as well). Another factor that accelerates this trend is the retirement of old professors who \"enforced\" students to use Fortran (apart from whether it is good or not).\nI am also not sure about the popularity of Fortran in Asia now; for example, there seems to be a growing community of Julia in China (with a dedicated Discourse site in Chinese https://discourse.juliacn.com/). In Japan, there are few books of Fortran sold in book stores (which can be noticed very easily). As for UK, I remember having seen a web page showing that the fraction of Fortran programs used in ARCHER (a UK supercomputer) is now about 50 % or so (? I will search for the original page if necessary), while Fortran dominated such supercomputers in ~2000 (IIRC). Even that 50% is very likely dominated by well-established program suites (e.g., VASP for materials science), and the ratio of new programs is unknown (at least I did not find any new program names in the application list shown in the web page). So, my experience is \"not at all optimistic\". I also think such a situation of course relates to the current standard, at least partly (again IMHO)."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-12-12 13:27:59+00:00",
-                    "text": "@aradi wrote:\n\nI'd like to note that a language version keyword as discussed in #83 could also allow for giving up compatibility with fixed-form source. Whenever the programmer specifies a language version newer than a given date (e.g. 202Y), the processor could refuse to compile the module, if it is in fixed-form. Nevertheless, people could still compile and develop their legacy codes, they just would not be allowed to use any new constructs (and default behaviors) introduced in Fortran 202Y or later without converting to free-form.\n\nI think the above approach is very appealing, but I am wondering whether a parser (of Fortran sources) may need to determine fixed or free form before starting to parse them anyway (e.g. via file suffix or compiler options)? I guess things may work if, for example, foo.f is parsed as usual (as fixed form) and terminated with an error if a module in the file contains a new keyword for newer standards."
                 },
                 {
                     "user": "sblionel",
@@ -5334,16 +5605,6 @@
                     "user": "cmacmackin",
                     "date": "2019-12-04 23:37:48+00:00",
                     "text": "I also agree that the situation is dire. I'm working as a research software engineer at the UK Atomic Energy Authority and new code is all written in Python or C++ (very occasionally Julia). While I have provided resources showing best-practice for those wishing to start a new project in Fortran, I know of no one who plans to do so. Codes currently written in Fortran are tending to be converted to Python for all except the most numerically-intensive parts (which get wrapped using f2py). Frankly, I would find it difficult to recommend anyone writes new software in Fortran, given the its verbosity, the poor compiler support for recent more powerful features, and the massive amount of time required to reimplement features which are built into most other languages.\nIt must be said that not all of this is due to the standards committee; the compiler vendors must take a great deal of the blame. They have failed to keep up with what new features are introduced. Gfortran at least has the excuse that it is primarily worked on by volunteers with limited time (although frankly, industry should start donating money and/or developers to overcome that). The commercial compilers really must do better, however.\nWithout meaning any animosity towards those on the committee or those working for the vendors, I fear that the current path will lead to the demise of the language in all but legacy code. The problem, I think, is this: at present the main customers for Fortran compilers are those with large legacy code-bases. Therefore, the vendors are compelled to cater towards those needs and will prioritise that over implementing new features or pursuing new, experimental, and/or innovative developments to the language. However, in doing so they are making it less and less likely that new projects/customers will use Fortran, given that there are other more powerful or productive languages they could work in. Ultimately I think this will spell the death of the language. Unfortunately, given the economic incentives, I also don't see an easy way out.\nWhat we desperately need (as others have said) is an open source Fortran compiler which offers faster development of new features, including experimental ones. Not being dependent on legacy clients, it would be less constrained by the past and could even blaze a trail for the standards committee to some extent. It would be nice if gfortran could provide this, but given its massive and intimidating nature (not to mention that it is written in C) I think this seems unlikely enough people would have the skills to get involved. Perhaps Flang or LFortran will be able to fill this role, although we would still have the issue of resources; such a project is likely to struggle if it is done purely on a voluntary basis. However, something along these lines is surely necessary if we are to modernise the language."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-12-05 20:42:51+00:00",
-                    "text": "I want to point out one important thing... Many, many customers have told me that they are not allowed to use a new feature unless said feature is supported in at least three (usually) mainstream compilers.\n\nIdeally, I also wish three compilers to support the latest features (to compare\ntheir behavior and notice possible compiler issues). Currently, gfortran and ifort provide most of the latest features I use (*). I can even live with only two compilers (i.e., ifort + gfortran), though one more compiler would be great if available, of course. I guess f18 (flang) or LFortran may fit into this position, such that there are three compilers available for latest features.\nFWIW, for most of other modern languages (including D and Julia), the number of available compiler implementations is very limited (typically only 1 or 2, at most 3). Compared to that situation, I think it is already pretty nice to have three Fortran compilers that provide a (nearly) latest set of features.\n(*) I have not included PDT, derived-type I/O, FINAL etc into my \"wish list\" of implemented features because I have never used them in my codes... (More precisely, my desired features are different from the features \"behind compiler implementation\" such as PDT.) So the lack of them is not a problem at all, at least for me."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-12-05 21:00:21+00:00",
-                    "text": "The last thing I think any of us want to see is another Fortran 2008 situation, where even 10 years after publication there are only two full implementations (one of which is for a platform most don't have access to),\n\nI believe Fortran2008 is rather special because it incorporates coarrays (a PGAS feature) into the language itself, a drastic addition (IMHO (*1)). Considering that none of other PGAS languages have gained popularity yet, I feel it is not strange at all that Fortran2008 is not implemented by most compilers (due to difficulty of implementation or lack of sufficient interest). So I think the lack of \"full\" F2008  compilers (with coarrays) and many feature requests in the Github page should be considered rather separately (or in an orthogonal way).\n(*1) My meaning of \"drastic\" here is that it seems closer to the addition of CS-oriented experimental feature rather than something popularly used by many users in other languages. In this sense, the order of feature introduction seems to be somewhat skewed (i.e., popular features like generics / various containers / utilities still not introduced, while more experimental parallel features introduced first). C++ seems to be introducing features in a reverse order (i.e., utilities first, parallel next). I am wondering why this choice was made for F2008 despite that  F2003 was in a more \"common\" direction (e.g., OOP). (Is the reason possibly related to High Performance Fortran and strong preference for parallel facilities in history...?) Parallel features are of course very important for HPC, but the order of feature introduction should probably have been opposite (IMHO). I feel the feature requests in this Github page are trying to fill this gap.\n\nand some of the most commonly used compilers don't even support all of Fortran 2003.\n\nI am wondering if the above sentence refers to FINAL, for example...? (e.g., gfortran seems still not good at FINAL, as mentioned in a recent comp.lang.fortran thread). The Fortran compiler in the Oracle Studio (the latest version 12.6) still lacks even the ASSOCIATE construct (if I remember correctly...). Here, I am wondering whether the committee wants to wait for these features to be \"fully implemented\" in those compilers (by neglecting the challenge of gathering contributors or a possible decline in investment). As for NAG Fortran, even the latest version does not seem to support coarrays with multiple images (correct...?) Here again, do we users need to wait for the NAG compiler to implement it (with the implementation schedule unknown?) Since some features will never be implemented in some compilers (for different reasons), it seems to me that the above model for waiting for \"overall good implementation status\" is pretty unrealistic already..."
                 },
                 {
                     "user": "jacobwilliams",
@@ -5732,19 +5993,9 @@
                     "text": "I wish there was some way to declare a matrix that didn't require you to know that the compiler was using column major order.\n\n\nBut for showing a beginner how to declare a 3x3 matrix parameter it's not really that great.\n\nWith these things being said, and returning to the last point in the original post, there is an argument for using row-major in the literal syntax in that it is the same as MATLAB and therefore will be familiar to beginners coming from MATLAB.\nIndeed, I understand that MATLAB uses row-major syntax despite being column major storage."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-11-28 17:52:23+00:00",
-                    "text": "This is the Matlab page showing the syntax:\nhttps://www.mathworks.com/help/matlab/math/multidimensional-arrays.html\nand Julia also uses a similar syntax. However, although this notation is appealing, I am not sure if it plays nicely with fixed-form Fortran sources because the latter neglect white spaces... (correct?) For example,\n      integer :: a(3)\n      a = [ 1 2 3, 456, 78 9 ]\n      print *, a\ngives 123  456  789. So it may be necessary to introduce exceptional rules for treating white space (and semicolon needs an exceptional treatment anyway), or need to consider other notations (e.g., based on commas or other symbols)."
-                },
-                {
                     "user": "LKedward",
                     "date": "2019-11-28 18:04:29+00:00",
                     "text": "MATLAB also accepts commas as column delimiters instead of spaces and this is generally recommended for readability.\ni.e. The following are equivalent in MATLAB\na = [1 2 3; 4 5 6; 7 8 9];\na = [1, 2, 3; 4, 5, 6; 7, 8, 9];\nIt is the same comma/semicolon syntax as suggested in the original post.\nAn alternative syntax not using the semicolon could be nested array literals:\ninteger :: a(3,3)\na = [[1,2,3],[4,5,6],[7,8,9]]\nbut this again raises the row-major/column-major syntax question."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-11-28 18:22:14+00:00",
-                    "text": "@LKedward  Thanks very much (I didn't know that up to now!) I used such multi-dimensional array literals only in Julia, and in that case I used white spaces for row vectors (and \"concatenate\" them).\nhttps://docs.julialang.org/en/v1/manual/arrays/#Concatenation-1\nIt seems that Julia distinguishes column and row vectors strictly by using commas or white spaces as delimiters, while Fortran (and Matlab also?) do not seem to distinguish them.\nAs for the nested use of [...], I am afraid that it interferes with the existing syntax because Fortran \"flattens\" all array elements into a one-dimensional sequence, for example\ninteger :: a(9)\na = [[1,2,3],[4,5,6],[7,8,9]]\nprint *, a\ngives 1  2 3 4 5 6 7 8 9, while if we declare a as a(3,3), it results in a compile-time error (like \"Incompatible ranks 2 and 1 in assignment\" for gfortran). So I guess some other delimiter (like semicolon?) might be necessary.\nAnd I agree that there is ambiguity about how the array elements on the RHS are assigned to a multi-dimensional array on the LHS. I feel \"RHS = row major\" would be more reasonable because the code looks like a matrix when we separate each row via line continuation, e.g.\n    a = [ 1, 2, 3 ; &\n          4, 5, 6 ; &\n          7, 8, 9 ; ]\n\nbut I am not sure whether some people may still feel it confusing (though hopefully not)."
                 },
                 {
                     "user": "jacobwilliams",
@@ -6415,16 +6666,6 @@
                     "text": "@rweed wrote:\n\n.. I guess what I'm saying is isn't it time we had a new vision of Fortran that doesn't include or support fixed source, implicit typing, all obsolete features and existing features we can all (mostly) agree were either a mistake to add to the language or are in their current form poorly implemented. I want a new standard that officially bans them and compilers that refuse to compile if it sees any of those features.  ..\n\n@rweed, I'm completely sympathetic to and understanding of your sentiments.\nSooner or later, the question \"For whom Fortran?\" will need to get addressed earnestly.\nAnd I can only hope that will result in the realization Fortran needs to transcend and rise above the confines of ISO IEC standards body bureaucracy.  That it's the latter who will have to follow the language where it freely needs to go.  One can notice that clearly with C++ and the rapid pace and expansive scope and brave conviction of each ISO revision.  Whereas many others on the IEEE Spectrum of most popular languages in the technical arena such as Python, Java, C#, R, MATLAB, Swift, Go, and even other HPC ones such as Julia, Haskell, etc. don't even bother with such standards bureaucracy but with no less success, that's for sure.\nThere is a lesson to be learned here: at some point, the 'bureaucracy' will need to adopt the US Marines ethos: lead, follow, or get out of the way.\nThe current snail's pace of incremental abominations of the likes of implicit none (type, external) is like adding insult to injury."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-11-18 17:43:57+00:00",
-                    "text": "(Just a counter argument against the \"new language\" direction to make a balance...)\nAlthough I also sometimes feel that \"a new language may give a fresh impression to potential new users and also useful to discard old/dangerous features\", I also believe that it is far from straightforward for any new language to be widely accepted by a broad community. For example, there are various nice languages which tries to overcome the drawback of C/C++ (e.g., the D language), but AFAIK they have been still struggling for wider adoption (though, D is already 17 years old, for example). Indeed, I think the \"successful\" languages as listed in a ranking page are rather exceptional (with the reason for their success ranging very widely, like huge investment or historical reasons). Various languages for HPC have also been developed up to now, but AFAIK (again) they have been experiencing a challenge for wider adoption (e.g., as compared to C++/Fortran).\nIndeed, although discarding ugly features will give good impression for existing users of modern Fortran (and increase safety for new users, e.g., against implied save), I am not sure to what extent they contribute to wider adoption if popular large code bases cannot be compiled any more (e.g., with no options provided for legacy modes etc). Also,  I guess that addition of new features are typically more attractive for new users (ideally, something that other languages cannot do easily or simplifies coding very much for the same task).\nAt the same time, I often feel that the name \"Fortran\" has recently a bit negative impression when talking with younger people, and I believe it is crucially important to keep sending the message that it is evolving and also let them know the latest / attractive features of modern Fortran (I am sorry to be a bit off-topic here).\n(Again, I emphasize that the above post is to make a balance, not to claim zero-or-one type thing.)"
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-11-18 18:27:41+00:00",
-                    "text": "By the way, is it possible to separate this kind of \"meta\" discussion to dedicated threads? I feel it very time-consuming to need to read technical and strongly opinionated posts in a mixed way, which could lead to a big waste of time for readers in the worst case (when more and more diverse topics mix). For example, if necessary, I guess we can split posts to make a new thread (using some functionality of Github?) and make a link to it for more readability."
-                },
-                {
                     "user": "certik",
                     "date": "2019-11-18 21:12:46+00:00",
                     "text": "By the way, is it possible to separate this kind of \"meta\" discussion to dedicated threads?\n\nYes, I encourage everyone to do so please. When you see a related but ultimately separate discussion, feel free to open a new issue and move it there. Sometimes it's hard to do, as we are discovering the \"space\" of arguments and we end up discussing these meta questions as we encounter them. But as we get better at this, we will eventually have dedicated issues with these meta questions so that we do not need to repeat the arguments."
@@ -6458,16 +6699,6 @@
                     "user": "FortranFan",
                     "date": "2019-11-20 18:42:25+00:00",
                     "text": "@rweed  wrote:\n\n,, Unfortunately, a quick review of compiler documentation of the compiler's I use or have used in the pass shows that (as far as I can tell) only Cray and gfortran support an implicit-none option. I can't find any reference to an equivalent option for Intel, PGI, or IBM. They may exist but I didn't see any reference to one.\n\nNAG Fortran documentation  states:\n-u\n    Specify that IMPLICIT NONE is in effect by default, unless overridden by explicit IMPLICIT\n    statements.\n\nAnd the same with IBM XL Fortran"
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-11-20 20:58:57+00:00",
-                    "text": "But doesn't the standard only have the concept of \"Fortran processor\" and formally ignore the existence of any specific devices/software (including compilers and options)? If compiler options are a valid approach (for the standard), I guess the story may be very different, but AFAIK it was usually \"rejected\" on comp.lang.fortran. My understanding is that, this is why people consider only new statement/directive/pragma things in other threads.\nPersonally, I am also interested in approaches like \"C and C++\", e.g., Fortran and FortranX (or any name), only the latter introducing new features like generics + prohibiting unsafe features by default, while the former is kept in the maintenance mode. But I have no idea whether two-language approaches are considered reasonable by other people (e.g. due to cost of compiler development)."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-11-20 21:39:59+00:00",
-                    "text": "All of these codes - without fail - either had\nIMPLICIT INTEGER(I-N), DOUBLE PRECISION (A-H,O-Z) or IMPLICIT NONE\n\nMajor packages I used up to now (written in legacy style) also have \"implicit real*8 (a-h,o-z)\" etc in every routine, so I guess prohibiting implicit typing is not a  serious problem for those packages.\nOn the other hand, there seem to be other famous/old packages that do not specify \"implicit xxx\" lines. For example...\nAMOS (A Portable Package for Bessel Functions of a Complex Argument\nand Nonnegative Order)\nhttp://www.netlib.org/amos/\nhttp://www.netlib.org/amos/readme\nwhere all routines(?) seem to have no implicit statement, e.g.,\nhttp://www.netlib.org/amos/zbesh.f\nThe AMOS package is used by the openspecfun library (and by SpecialFunctions.jl).\nhttps://github.com/JuliaMath/openspecfun\nhttps://github.com/JuliaMath/openspecfun/blob/master/amos/zbesh.f\nhttps://github.com/JuliaMath/SpecialFunctions.jl\nAnother example may be Collected Algorithms (ACM, TOMS)\nhttp://netlib.org/toms/\nHere, older codes seem to have no implicit statement (e.g. 404.gz), while newer codes use implicit none (or other languages like Matlab and Java).\nFWIW, this site gives download statistics for Netlib.\nhttp://www.netlib.org/master_counts2.html"
                 },
                 {
                     "user": "FortranFan",
@@ -7008,11 +7239,6 @@
                     "text": "@aradi wrote:\n\n.. @FortranFan We should come back to the original topic: is it desirable to have a keyword which allows to deprecate harmful features without breaking backwards compatibility? ..\n..\n\n@aradi with respect to the issues at hand with implicit typing and implied save, trying to retain backwards compatibility in the standard itself is a severely limiting constraint that will likely lead to highly suboptimal solution(s).\nAnd it also appears an exercise in futility since almost all the processors figure out other ways to continue supporting the removed features any way..\nThus with implicit typing and implied save, I prefer to see the language just delete them outright.\nSuch a move can be a boon for vendors who will then invent ways their processors can avoid the breaking of old code that rely on these 2 aspects, should there be such code-bases out there at all.\nBut everyone else will be freed up once and for all to cleanly work with a modern, type-safe Fortran that perhaps will also allow in situ variable declarations and initialization.\nThe other 2 categories are not of much concern:\n\n\nexternal procedures are mostly a thing of the past, at least in the few codes that are in Fortran in the teams I work with; unlike implicit typing and implied save, we don't worry about hidden traps involving them especially because the few new coders are more than happy to develop CONTAINed procedures in MODULEs and SUBMODULEs.\n\n\nsame with old features such as EQUIVALENCE, ENTRY, etc. or constructs such as arithmetic GOTO - there is hardly any risk of inadvertent usage of these things since no one I know who wants to use these facilities.\n\n\nThus I feel the language version keyword is not needed."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-11-19 04:55:13+00:00",
-                    "text": "Are there any other commonly used programming languages that have such a concept, and if so, what does it look like?\n\nI guess the strict pragma in Perl may be such a thing for changing unsafe constructs to errors...? (though this may be similar to \"implicit none\").\nhttps://perldoc.perl.org/strict.html"
-                },
-                {
                     "user": "certik",
                     "date": "2019-11-19 05:11:49+00:00",
                     "text": "Javascript also has use strict: https://www.w3schools.com/js/js_strict.asp"
@@ -7046,11 +7272,6 @@
                     "user": "ivan-pi",
                     "date": "2019-12-11 03:32:10+00:00",
                     "text": "@certik wrote:\n\nI think this modern (or strict) keyword is another way, so I added it to my list above: #83 (comment).\n\nSometimes I wonder, for how long will we the current Fortran be \"modern\". I imagine future Fortranners will laugh back at us Fortran 2018 people at some point too. If I can remember correctly, there are some books that referred to even Fortran 77 (or perhaps 90) as \"modern\" Fortran (in comparison to Fortran IV).\n@gronki wrote:\n\nAnd the reason that I propose this as a part of the language (and not a\ncompiler switch) is that I think standard should be more enforcing about\nnot using old features.\n\nI don't see why the standard should be more enforcing. Aren't we all responsible users? Most modern ;) Fortran books mark these features as obsolescent, meaning that as long as programmers are up to date with the current language standard (much easier with Fortran, than any other programming language I know), these features should not appear in any newly developed codes. If you depend on some old codes you can always use one of the automatic tools to convert it to Fortran 90, or perhaps even refactor it.\nNow, to comment on the actual issue. Something which I find vaguely similar to the proposed language version keyword is the way one can specify the file encoding in Python: https://www.python.org/dev/peps/pep-0263/#defining-the-encoding\nA simple way to get the desired effect would be to have a similar thing, e.g.\n!!! -*- version: Fortran 2060 -*-\nprogram main\n    ! no implicit none needed because explicit typing is now default ;)\n    ...\nend program\nThe way I see it the compiler would then just turn the right language subset compilation flags on and voila."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-12-12 07:36:05+00:00",
-                    "text": "@certik wrote:\n\nI think this modern (or strict) keyword is another way, so I added it to my list above: #83 (comment).\n\nI also think that the keyword modern may appear somewhat strange in future (or even cause confusion about its meaning), and so some different keyword or absolute thing might be better so as not to imply time concepts in a relative manner.\nFWIW, Chapel seems to be using a \"xxx + module\" thing, e.g., prototype module that controls error handling differently from usual modules (where xxx is absent).\nhttps://chapel-lang.org/docs/master/primers/errorHandling.html#modules"
                 },
                 {
                     "user": "aradi",
@@ -7554,19 +7775,9 @@
                     "text": ".. I do not understand how holding back the development of the language is in any way explained by few codes that could potentially require re-certification. ..\n\nCan anyone please post here some basic information (name, domain, etc.) on FORTRAN codes making use of implicit typing that are in \"production\" use?  Also, the ones which may have constraints such as software recertification?"
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2020-02-02 17:54:06+00:00",
-                    "text": "I second @klausler that no \"silent change\" of semantics should happen even by an introduction of new keywords. People (including me) are usually not so careful about all the semantic implications of new keywords, and I do not want to take a flight that crashes because of the ignorance (of the code maintainer) of the \"true\" meaning of a new keyword..\nBy the way, for implicit SAVE, I also second @FortranFan that\n\nSo if coders want \"SAVE\" behavior, it must be instructed explicitly. An example, logical, save :: first = .true.\n\n\nAnd if coders want initialization, to instruct so explicitly - say if INIT keyword is introduced, then perhaps using integer, init :: x= 42\n\nThat is, \"integer :: first = .true.\" becomes an error (hopefully with a helpful error message by compiler).\nPersonally, I also feel that \"init\" is already too verbose (sorry for my preference...). I think it would be more appealing to use some new symbol to express that, including \"integer :: x := 42\" (Go-like) or \"integer :: x <- 42\" (R-like) to indicate run-time initialization (rather than compile-time initialization). For example, looking at a recent Python assignment expression, the symbol \":=\" seems to be considered \"acceptable\" (for their usage)."
-                },
-                {
                     "user": "FortranFan",
                     "date": "2020-02-03 14:58:06+00:00",
                     "text": "As implied in my #83 (comment), my impression remains the use of implied SAVE as deliberate intent that is part and parcel of code design is absent in codebases developed using facilities introduced with Fortran 90 and later standard revisions.\nAn improvement in Fortran which forces explicitness in terms of SAVE attribute (thus no implied SAVE) will be a tremendous blessing that helps many a codebase rather than prove detrimental."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-02-03 22:01:14+00:00",
-                    "text": "(Just an addition to my above post)\nIf semantic changes are to be introduced (like changing implied SAVE to runtime initialization), I think it would be much better to give the language a different name (like \"C++ vs C\" or \"Python2 vs 3\") and formally declare that \"this new version is not strictly backward compatible with older versions\". At the same time, the new language could provide some directive to compile a given source with a \"traditional mode\" (e.g., \"legacy\" or \"unsafe\" directive at the top of a file). Then I guess the user will be more aware that they are re-activating old/unsafe syntax (hopefully!).\nWhat I feel most dangerous is (i) on one hand, formally say that \"Fortran is one language and provides backward compatibility\", and (ii) on the other hand, silently introduce semantic changes depending on keywords.\nIMHO, it is also important to consider the \"C++ counterpart\" of Fortran that changes the semantics to a more modern, safer, and extensible fashion while keeping the current strengths (which was discussed somewhere but I cannot find it...).\nBecause Steve (@sblionel) mentioned above that \"we spend a few minutes at the next meeting\", it seems that there is essentially no interest for the committee to think about breaking changes. But I think it is also important (in the long run) to consider it more seriously if it can bring more benefits (for users).\n(FAQ) Is it reasonable to propose incompatible changes to Python?\nhttps://docs.python.org/3/faq/general.html#is-it-reasonable-to-propose-incompatible-changes-to-python\nSteps For Introducing Backwards-Incompatible Features\nhttps://www.python.org/dev/peps/pep-0005/#steps-for-introducing-backwards-incompatible-features"
                 },
                 {
                     "user": "certik",
@@ -7864,19 +8075,9 @@
                     "text": "I do not think this solution is good or generic at all. So what is required from the programmer is to have a module with derived type called in a particular way (ELEMENT). What about a list of integers? What if we have an arbitrary type where we do not control how type is called? Create a wrapper module like:\nMODULE WRAPPER\nUSE MYTYPE2, ONLY: ELEMENT => WHATEVERNAMEWAS\nEND MODULE\nWhat if I want to use the list for some higher generic container? How do we then ensure that the module has type called ELEMENT? I cannot then create a wrapper module. What if we need two lists, both containing different kind of items? What about generic programming in terms of real/integer kinds?\u00a0\nI am against half-baked solutions that in 20 years everyone will hate but they will stay in the language forever because \"backwards compatibility\".\nFirst of all, what do we need the generic programming for? We won't have it for everything unless full-blown C++-like tempates are implemented. Do we need it to create linked lists and containers? I think they should be provided by the language. Do we need it to write one code for any kind of real/integer? Then probably we need something better than parametrized derived types that do not solve any problem.\nI think some realistic use cases from the industry should be taken. Everyone seems to be keen on writing containers (as they are missing from the language currently) but the truth is that should not even be the basic use case. So what else?"
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-11-06 16:19:19+00:00",
-                    "text": "Hi @gronki ,\n\nI am against half-baked solutions that in 20 years everyone will hate but they will stay in the language forever because \"backwards compatibility\".\n\nThough I feel your frustration, let's calm down and try \"Being respectful of differing viewpoints and experiences\" according to Code of Conduct :-)\nhttps://github.com/j3-fortran/fortran_proposals/blob/master/CODE_OF_CONDUCT.md\n\nFirst of all, what do we need the generic programming for? We won't have it for everything unless full-blown C++-like templates are implemented. Do we need it to create linked lists and containers? I think they should be provided by the language.\n\nI think this itself is a useful proposal. IMHO, I think this is a viable another approach (i.e., the language provides builtin types for containers rather than trying to provide generics and ask users to create container libraries). But I also remember that some people on comp.lang.fortran were against this latter idea (though I don't remember the details...)\n\nI think some realistic use cases from the industry should be taken. Everyone seems to be keen on writing containers (as they are missing from the language currently) but the truth is that should not even be the basic use case. So what else?\n\nIt may be another good thread for gathering \"use cases in action\" or similar."
-                },
-                {
                     "user": "gronki",
                     "date": "2019-11-06 16:22:45+00:00",
                     "text": "I did not mean to be disrespectful. What I meant was that i thought this solution was very specific (similarly to parametrized derived types)."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-11-06 16:35:30+00:00",
-                    "text": "@gronki Yes, I think I can understand that point. (My comment is against the \"half-baked\" parts. After all, these discussions are all \"half-baked\" in the middle stage.)\nBy the way, I also feel that PDT is rather specific (in the current status) and, personally, I have not used it in my codes up to now."
                 },
                 {
                     "user": "klausler",
@@ -9174,11 +9375,6 @@
                     "text": "What I consider a \"Fortran spirit\" (or: what makes it NOT C++):\n\ncode fast, don't waste time on reinventing the wheel\nlet compiler do the optimization\nencapsulate common operations and let vendors provide lightning fast implementations native for the hardware\nbe explicit, save time on debugging\nmake language rules force clean, self-explanatory code as your students will have to use it in 10 years\n\nThis is all in the context that it is mostly used by people who are paid for the results of their computations rather than the code itself. This is why I think tinkering with user-written primary components (strings, list) is very against the goal here and would like to see more common operations closed in intrinsic functions/subroutines."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-11-18 19:07:57+00:00",
-                    "text": "I believe it is crucially important to discuss the possible reasons \"why young people do not want to use Fortran.\" IMHO, apart from a \"trend\" thing (which is big though...), the inconvenient treatment of inhomogeneous/irregular data structure is one big reason why Fortran is not considered a good option for some projects.\nAFAIK, all the recent/fastest molecular-dynamics programs have been implemented in C++, and there is similar trends for electronic structure packages for highly correlated systems. I guess this is partly because Fortran is \"weak\" for the treatment of non-regular/non-rectangular data structures. (Here, \"weak\" = \"doable but very tedious or inconvenient\").\nFrom FORTRAN II to Modern Fortran (in Medium)\nhttps://medium.com/science-uncovered/modern-fortran-e6c3d2290d03\nThe last paragraph of the above page says:\n\nSo we see that Fortran\u2019s particular advantages as a high-end numerical language, especially where arrays are the main form of data object and/or where complex arithmetic is involved, are still to the fore. It is able to attain the highest achievable optimization, mainly because multi-dimensional arrays are \u2018natural\u2019 objects and because its pointers are highly constrained.\n\nHowever, this also implies that Fortran is not strong for non-array data structures. Though multi-dimensional arrays are 'natural' objects in some applications, they are not the main data structures in other applications. To me, the trend of less adoption of Fortran is partly because of the latter.\nThough I am not familiar with FEM, I remember having read some posts or articles that mentions the switch from Fortran to C++ is partly for this reason, i.e., to facilitate the treatment of complicated non-regular data structures.)\nAlso, though I am not familiar with HPC either, there seems to be an increasing trend for more importance of non-regular or sparse data.\nhttps://graph500.org/\nhttps://en.wikipedia.org/wiki/HPCG_benchmark\nAs for heterogenous data, Fortran does not even provide a builtin \"map\" or \"dictionary\" type. Each user needs to create them or search for external libraries (which is not only inconvenient, but also the performance may not be optimal)."
-                },
-                {
                     "user": "FortranFan",
                     "date": "2019-11-21 15:55:56+00:00",
                     "text": "A comment based on DRY/WET discussions in #1: I hope the vision for Fortran will always consider it as a general-purpose, multi-paradigm language even as it retains a strong focus on scientific and technical programming!\nRe: multi-paradigm: to achieve it I think one has to practice it regularly even in small aspects and being more open-minded to facilities that might be in areas outside their own experience base or inclinations (e.g., being considerate to needs in generics even if one doesn't care for it because of being interested only in, say, Fortran 95 style code-bases with coarrays perhaps) and to generally have a wide, open tent attitude to allow its practitioners to follow different approaches that suit their needs, all within some reasonable boundaries of course.\nI've lost count of the number of times I suggest some improvement in the realm of object-oriented (OO) programming and some other Fortranner will comment they don't particularly care for OO and they never use it.  But now, OO is such a critical aspect of so many large and new code-bases coming up in the scientific and technical computing domains even (particularly in industry) and it's blended so much together with other paradigms including parallel programming that to overlook areas of improvement toward OO in Fortran is a major disservice.\nBack to the smallish aspect: I think it is entirely reasonable for a group of practitioners to want to control \"namespaces\" and particularly their \"pollution\" (which are at the root of several issues like #1, #87, etc.) in one way, say via\nuse, namespace :: foo_m\n..\ncall foo_m::bar(..  ! note :: is only an illustrative token\n..\nand another group to do so by\nuse foo_m, only : bar ..\n..\ncall bar(..\n..\nand for Fortran to support both the options which legitimately fall in the category of good coding practices.\nThe usual arguments against this are language bloat and time-resource constraints for standard development.  I personally do not think the first is applicable once a matter at hand has the passed the filter of good coding practice.  The latter is something that can be managed better and better by striving continuously for improved collaboration and greater workflow efficiency with online platforms like this.\nFortran seriously needs to evolve faster and further to have any hope of being relevant in the future."
@@ -9192,6 +9388,106 @@
                     "user": "everythingfunctional",
                     "date": "2020-01-09 04:09:12+00:00",
                     "text": "I wrote up a blog post about what I think should be done to develop Fortran's \"vision\". I base my opinion's there heavily on some of the ideas the Rust team seems to be using as found in this video. (the stuff most relevant to my point starting around the 13 minute mark).\nI'm curious what you guys would think Fortran's \"core values\" should be? What about secondary values? What shouldn't we care about?"
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-08 06:24:45+00:00",
+                    "text": "I hope that Fortran finds a better balance between maintaining backward compatibility and modernization. I know that backward compatibility is important to many users, but I have the impression that it stops the further evolution of the language. The 'code once, run/compile forever' idea that the Fortran community sticks to is IMHO obsolete. Unit testing is industry standard today and enables continuous refactoring and modernization.\nI find it ridiculous that fixed form code is still used. Instead of forcing compiler developers to spend their time and efforts to ensure that such old code still works, the respective maintainers should to their job and modernize their code.\nOne striking example is LAPACK: It is the prime example for a very critical, and maintained software that is needed by virtually everyone doing linear algebra. It is written in Fortran, but one does not even get type checks during compilation from modules. Modules are a feature introduced in Fortran 30 years ago! As a result, using this Fortran library from python/numpy is more convenient that using it directly in Fortran. I'm convinced that pressure in the form of 'make modules mandatory' for F2008 would have triggered a re-write of LAPACK in truly modern Fortran and the situation would be much better now.\nSo my vision of Fortran is a fast, compiled language for scientific and engineering applications that values stability and innovation at the same time. To put numbers on this: A new revision every 2 years, a reference compiler that implements the new features after 2 more years and removal of deprecated features after 10 years."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-06-10 21:25:22+00:00",
+                    "text": "@MarDiehl I entirely agree. Some time ago, as a stepping stone in this \"modernisation\" direction, I have proposed a set of defaults for fpm to encourage this transition but reactions were, uhm, mixed."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-10 21:55:06+00:00",
+                    "text": "@MarDiehl, I would suggest a slightly bigger scope than what you proposed: not to delete deprecated features, but perhaps they have to be enabled with a compiler option. The ability to compile old codes is very nice and I would like to keep it. Furthermore, many production Fortran codes span much longer than 10 years.\nRegarding Lapack, the fact that they do not maintain Fortran modules is probably caused by most of their users being in C, C++ or Python anyway, as well as the fact that the de-facto standard regarding the API has been the  F77/C style API, no modules. The Fortran user base has just not been big enough to warrant maintaining modules or to modernize the Fortran API. Also their next generation Lapack will be written in C, for that reason: https://fortran-lang.discourse.group/t/why-abandon-fortran-for-linear-algebra/1191\nThe solution to the Lapack issue is actually quite simple: we should maintain the modern Fortran interface to it as a community under https://github.com/fortran-lang, and make the package fpm installable. As more and more people use fpm and use such modern Fortran libraries, the demand will rise and eventually everybody will do that."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-11 07:42:33+00:00",
+                    "text": "@certik Would it be correct to summarize your vision as 'continue as before, just add fpm and stdlib'? I doubt that this will give Fortran a future, it at best will slow down its decline.\nIf Fortran is not the first choice for a library like LAPACK, for which type of projects should it be first choice?\n\nFurthermore, many production Fortran codes span much longer than 10 years.\n\nYes, even my application is older than 10 years. But if someone is interested in a code, it should be possible to remove deprecated features within 10 years. Removing some features doesn't mean that one has to rewrite the whole code. It only requires to have a readable and maintained code.\nWhen I see F77 code, I simply want to scream and run away. So I don't think any investment in supporting it is a good investment. IMHO it would be much better to spend the time on implementing new features than support old ones. I have the impression that most compiler developers are short on man power and I would prefer if they allocate their scarce resources towards the modern language. I also believe that this would make it possible to advance the standard for quickly. The intersection between features required by the community (https://isotc.iso.org/livelink/livelink?func=ll&objId=19530634&objAction=Open&viewType=1) and the features going into 202X (https://wg5-fortran.org/N2151-N2200/N2184.pdf) is basically empty. Is it wrong to assume that this happened because of compiler vendors being afraid of getting extra work that they cannot handle?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-15 17:55:22+00:00",
+                    "text": "Here is a short mission statement that I like:\n\nEnable scientists, engineers, and other domain experts to write programs that naturally express the mathematics and algorithms employed, are portable across HPC systems, remain viable over decades of use, and extract a high percentage of performance from the underlying hardware.\n\nI would argue this is the original mission of Fortran and that should still be the mission today. We can perhaps reformulate the HPC, by which I simply understand \"modern computers\" of the given era, including (but not limited to) the fastest available at the given time."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-16 15:03:25+00:00",
+                    "text": "Some comments on the aspect remain viable over decades of use and backward compatibility after yesterdays monthly call.\nWhy backward compatibility?\nWith backward compatibility I mean the fact that almost any valid F77 program is a valid F2018 program. It is frequently claimed that this type of backward compatibility is one of the features that the community loves about Fortran. But what is the community?\nSince there are hardly any new Fortran projects,to me it seems that the community are people working on old projects that are not modernized.That is a pity, but it should be their problem.\nWhat can they do?\n\nIn my opinion, there is one reasonable solution:\nCare about your code and step-by-step re-implement functionality. Use of modern Fortran adds value to the code: readability, maintainability, robustness.\nThere is another solution that I find less reasonable:\nSet the standard flag of your compiler to F77/F90 and clearly communicate to the world that you don't care about your project.\nThe current way how Fortran standards are written provides another option:\nCompile with F2018 standard flag and ignore the fact that your code has reached a complexity that you cannot handle any more.\n\nSo backward compatibility just helps you to ignore the reality, where reality could mean:\n\nMe and my team stopped learning and we only want to do things in the same way as we have always done it.\nThe code of my project is an unmaintainable mess.\n\nThe cost of backward compatibility\nI think Fortran suffers from feature creep (C++ is also criticized for that). The language specification gets longer with each revision and this clearly increases the complexity. The problem is, IMHO, that the current standard has reached a complexity that cannot be handled anymore. I - not a compiler developer, but a long time (10 years) Fortran user - came to that conclusion based on the following observations:\n\nIt takes years until a standard is supported by at least some compilers (I use gfortran and ifort).\nFortran compilers are buggy: I have reported about 10 serious compiler bugs (rejection of valid code, wrong results, segmentation faults in my application, internal compiler errors) in the compilers I use (Intel, GNU) or tried to use (PGI).\nI never found a bug in Python which I use equally extensive.\n2/3 attempts to get a Fortran compiler into LLVM failed. Fortunately, the current efforts seems to be on a good way.\n\nThe only solution if one cannot handle complexity is to decrease it. The current Fortran strategy is not sustainable: Slow down the increase in complexity by avoiding the addition of new features as far as possible.\nBreaking changes\nBreaking changes just mean that a decision was revised.\n\nWas fixed form a good choice in the 1960? Probably yes!\nWould any sensible person today design a programming language with fixed form? Certainly not!\n\nSo why not simply acknowledge that and expect that in 2021 source code is not written in fixed form?\nManaging breaking changes\nBreaking changes are annoying. I know this because I am a user of PETSc. They do not care about backward compatibility at all: We will never keep in a bad design decision simply because changing it will require a lot of editing. By the way, reading the rest of https://www.mcs.anl.gov/petsc/documentation/faq.html#work-efficiently is also very enlightening.\nThis means that every time there is a new PETSc version I need to check if my code still runs. Ironically, I need to do the same when a new Fortran compiler version is released: Not because they contain intentional changes, simply because the Fortran compilers that I use tend to get new bugs at approximately the same rate that old bugs get removed.\nThe good point about the strategy of PETSc is the following: The changes I need to make my application are usually small, predictable, documented: Release early, release often\nAnd programmers can not only cope with these changes, they apparently like it. I think the impact of PETSc on contemporary science/engineering applications is bigger than than Fortan's impact. The PETSc user manual has 300 citations per year, more than the whole Fortran Forum journal.\nFunction to remove from the standard:\nAs outline above, I believe that cleaning up the standard to get room for improvements would be a sensible step. The following functionality came into my mind when I thought about the less valuable parts of the language:\n\nfixed form: Belongs into the museum, together with punch cards.\ncode not included in modules/submodules: The compiler of a strongly and statically typed language should be able to tell the programmer if a function was called with the wrong arguments. Immediately. Always.\nname-list IO: Not flexible enough for many realistic use cases.\ncommon blocks: Global variables are the best option for ruining code.\ndata statement: The only thing it seems to add is partial initialization of arrays.\nequivalence: Now there are pointers.\nco-arrays: I like the feature, but I'm not aware of any serious application using it. Not much bang for the buck.\n\nA comment to F202X\nI hope that no one from the standard committee takes this personal, but to me the addition of ACOSD, ASIND, ATAND, ATAN2D, COSD, SIND, TAND, ACOSPI, ASINPI, ATANPI, ATAN2PI, COSPI, SINPI, and TANPI is ridiculous. Even an unskilled programmer can write these functions in 1 hour. Why even bother? A multiplication with a constant has no performance implications in modern, memory bound applications. Providing a function deg2rad or even defining a constant PI (so far the best solution I found is real, parameter :: PI = acos(-1.0)) would be much more general and internally a compiler could optimize statements like sin(deg2rad(()) if there is really the need for that. This is really feature creep at its best. To me it summarizes the evolution of the standard pretty well: Add features that almost no one really needs as long as they are easy to implement.\nMy vision, finally\nA breaking change in the Fortran strategy: Look forward, not backward. Accept that breaking changes are needed.\nThe risk of trying is much smaller than the risk not trying it. Fortran has little to loose but a lot to gain. Continuing as before and hope scientists/engineers to use Fortran for their projects reminds me of the saying: The definition of insanity is doing the same thing over and over again and expecting a different result."
+                },
+                {
+                    "user": "gronki",
+                    "date": "2021-06-16 16:46:15+00:00",
+                    "text": "Hello and I hope that everything is going well in these challenging times.\n\nWhile I agree with your approach, there seems to be a rather big attachment\nto legacy fortran, especially from the industry side (if it ain't broke\ndon't fix it). I would also love to see Fortran as a modern and faster\ncompetitor to Numpy/Matlab and easier for scientists to handle than C/C++.\nWhile I like it that my Fortran programs will likely be valid in 20 years,\nI feel like the decisions which features are okay to drop are rather\narbitrary and probably come from large customers of compiler developers\n(such as government agencies). And I understand their point, after all\nwhile \"cleaning up\" the language would be wonderful for us enthusiasts, it\nalso needs to keep doing the job it was intended to, or otherwise it would\njust lose its relevance. As many codes are being moved from Fortran to\nC/C++, hopefully less legacy will be holding the decision makers back from\ndropping rather objectively bad features of the language (common blocks\netc).\n\nDominik\n\n\n\u015br., 16 cze 2021 o 17:03 Martin Diehl ***@***.***> napisa\u0142(a):\n\u2026\n Some comments on the aspect remain viable over decades of use and\n backward compatibility after yesterdays monthly call.\n Why backward compatibility?\n\n With backward compatibility I mean the fact that almost any valid F77\n program is a valid F2018 program. It is frequently claimed that this type\n of backward compatibility is one of the features that the community loves\n about Fortran. But what is *the community*?\n\n Since there are hardly any new Fortran projects,to me it seems that *the\n community* are people working on old projects that are not\n modernized.That is a pity, but it should be their problem.\n\n What can they do?\n\n    1. In my opinion, there is one reasonable solution:\n    Care about your code and step-by-step re-implement functionality. Use\n    of modern Fortran adds value to the code: readability, maintainability,\n    robustness.\n    2. There is another solution that I find less reasonable:\n    Set the standard flag of your compiler to F77/F90 and clearly\n    communicate to the world that you don't care about your project.\n    3. The current way how Fortran standards are written provides another\n    option:\n    Compile with F2018 standard flag and ignore the fact that your code\n    has reached a complexity that you cannot handle any more.\n\n So backward compatibility just helps you to ignore the reality, where\n reality could mean:\n\n    - Me and my team stopped learning and we only want to do things in the\n    same way as we have always done it.\n    - The code of my project is an unmaintainable mess.\n\n The cost of backward compatibility\n\n I think Fortran suffers from feature creep (C++ is also criticized for\n that). The language specification gets longer with each revision and this\n clearly increases the complexity. The problem is, IMHO, that the current\n standard has reached a complexity that cannot be handled anymore. I - not a\n compiler developer, but a long time (10 years) Fortran user - came to that\n conclusion based on the following observations:\n\n    - It takes years until a standard is supported by at least some\n    compilers (I use gfortran and ifort).\n    - Fortran compilers are buggy: I have reported about 10 serious\n    compiler bugs (rejection of valid code, wrong results, segmentation faults\n    in my application, internal compiler errors) in the compilers I use (Intel,\n    GNU) or tried to use (PGI).\n    I never found a bug in Python which I use equally extensive.\n    - 2/3 attempts to get a Fortran compiler into LLVM failed.\n    Fortunately, the current efforts seems to be on a good way.\n\n The only solution if one cannot handle complexity is to decrease it. The\n current Fortran strategy is not sustainable: Slow down the increase in\n complexity by avoiding the addition of new features as far as possible.\n Breaking changes\n\n Breaking changes just mean that a decision was revised.\n\n    - Was fixed form a good choice in the 1960? Probably yes!\n    - Would any sensible person today design a programming language with\n    fixed form? Certainly not!\n\n So why not simply acknowledge that and expect source code from 2021 is not\n written in fixed form?\n Managing breaking changes\n\n Breaking changes are annoying. I know this because I am a user of PETSc.\n They do not care about backward compatibility at all: *We will never keep\n in a bad design decision simply because changing it will require a lot of\n editing*. By the way, reading the rest of\n https://www.mcs.anl.gov/petsc/documentation/faq.html#work-efficiently is\n also very enlightening.\n\n This means that every time there is a new PETSc version I need to check if\n my code still runs. Ironically, I need to do the same when a new Fortran\n compiler version is released: Not because they contain intentional changes,\n simply because the Fortran compilers that I use tend to get new bugs at\n approximately the same rate that old bugs get removed.\n\n The good point about the strategy of PETSc is the following: The changes I\n need to make my application are usually small, predictable, documented: Release\n early, release often\n <https://en.wikipedia.org/wiki/Release_early,_release_often>\n And programmers can not only cope with these changes, they apparently like\n it. I think the impact of PETSc on contemporary science/engineering\n applications is bigger than the impact of Fortran. It's user manual has 300\n citations per year.\n Function to remove from the standard:\n\n As outline above, I believe that cleaning up the standard to get room for\n improvements would be a sensible step. The following functionality came\n into my mind when I thought about the less valuable parts of the language:\n\n    - *fixed form*: Belongs into the museum, together with punch cards.\n    - *code not included in modules/submodules*: The compiler of a\n    strongly and statically typed language should be able to tell the\n    programmer if a function was called with the wrong arguments. Immediately.\n    Always.\n    - *name-list IO*: Not flexible enough for many realistic use cases.\n    - *common blocks*: Global variables are the best option for ruining\n    code.\n    - *data statement*: The only thing it seems to add is partial\n    initialization of arrays.\n    - *equivalence*: Now there are pointers.\n    - *co-arrays*: I like the feature, but I'm not aware of any serious\n    application using it. Not much bang for the buck.\n\n A comment to F202X\n\n I hope that no one from the standard committee takes this personal, but to\n me the addition of ACOSD, ASIND, ATAND, ATAN2D, COSD, SIND, TAND, ACOSPI,\n ASINPI, ATANPI, ATAN2PI, COSPI, SINPI, and TANPI is ridiculous. Even an\n unskilled programmer can write these functions in 1 hour. Why even bother?\n A multiplication with a constant has no performance implications in modern,\n memory bound applications. Providing a function deg2rad or even defining\n a constant PI (so far the best solution I found is real, parameter :: PI\n = acos(-1.0)) would be much more general and internally a compiler could\n optimize statements like sin(deg2rad(()) if there is really the need for\n that. This is really feature creep at its best. To me it summarizes the\n evolution of the standard pretty well: Add features that almost no one\n really needs as long as they are easy to implement.\n My vision, finally\n\n A breaking change in the Fortran strategy: Look forward, not backward.\n Accept that breaking changes are needed.\n\n The risk of trying is much smaller than the risk not trying it. Fortran\n has little to loose but a lot to gain. Continuing as before and hope\n scientists/engineers to use Fortran for their projects reminds me of the\n saying: *The definition of insanity is doing the same thing over and over\n again and expecting a different result.*\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#59 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3PY4MLG7HHFXVE7JNLTTC4M7ANCNFSM4JFUVZ6A>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-16 16:55:27+00:00",
+                    "text": "Thanks @MarDiehl for writing this up. There are a lot of threads, I'll try to answer them. Overall, what you described is incredibly frustrating, and that is why I decided to get involved and see if I can help fix this.\n\nI hope that no one from the standard committee takes this personal, but to me the addition of ACOSD, ASIND, ATAND, ATAN2D, COSD, SIND, TAND, ACOSPI, ASINPI, ATANPI, ATAN2PI, COSPI, SINPI, and TANPI is ridiculous. Even an unskilled programmer can write these functions in 1 hour. Why even bother?\n\nIf it was me, I would not put these in either! The argument that I heard was that sin(pi) might not be exactly 0, and that if you want the degree functions to return exactly zero, it requires some special implementation. To which I would say, in the rare cases when a simple multiplication by pi/180 is not enough, we can have more accurate versions in stdlib. This should not go into the standard.\nLong term solution: involve the community in these decisions what should and should not get standardized. Functions like these should go into stdlib first, get some usage. If there is large and documented interest in the community, we can think about adding them to the standard later.\n\nFunction to remove from the standard:\n\nI think these can be implemented in a compiler to give warnings when you use it. I plan to do this in LFortran.  I agree with your list except co-arrays. Co-arrays are not used currently much. But they are not bad as a feature and once compilers support them reliably on all platforms, I think this allows to write more readable parallel programs. I think the jury is still out.\n\nManaging breaking changes\n\nI think the way to manage breaking changes is along the lines of some of the proposals in #83.\nHowever, with good default compiler warnings (or even errors) to effectively disable things like implicit typing, there might be just a few things that would need breaking. If there is a way to figure out how not to make any breaking changes, that is always preferable. But if we want to introduce something that would not be compatible, doing it via the langauge or edition keyword would ensure that old code continues working.\nOnce LFortran works, I am happy to brainstorm with you and others what (possibly breaking) changes we would like to see and prototype them in the compiler. Then we can have a productive discussion and experience and evaluate the pros and cons.\n\nFixed form\n\nI still like the idea of using .f for free form and that can be done via new compilers as well as fpm (fortran-lang/fpm#363). Yes, we should not use fixed form for new codes, I think everybody agrees.\n\nQuality of Fortran compilers\n\nAs a user I wish that Fortran compilers were better. So I decided to start LFortran and see if I can do it better from the perspective of both organizing the development by the community as well as arriving at a technically high quality product. This can't be done overnight, this is a long term project, an investment. As I mentioned on the call, two years ago I was asking people to give us 5 years to deliver. So 3 years from now, summer 2024. To clarify: we are shooting to compile first projects this summer, so I am hoping we can deliver much sooner. But a conservative estimate for a new compiler to deliver in 5 years is reasonable, in fact people usually say 10 years.\n\n@certik Would it be correct to summarize your vision as 'continue as before, just add fpm and stdlib'? I doubt that this will give Fortran a future, it at best will slow down its decline.\n\nThat is not my vision. I agree that just adding stdlib and fpm is not enough, that would only slow down (at best) the decline, exactly as you said. We need a high quality compiler or compilers, we need a good community, we need to start seeing lots of new projects being started in Fortran, and Fortran needs to be able to compete on both technical and social level with the alternatives. (We also need the Standard Committee to work more with the community, to get a community buy-in and agreement with the direction where things are heading --- we made big progress on this too, as evidenced by this very discussion on the \"incubator repository\", but I do not consider the problem fixed yet.)\nAlso: compilers should drive the development. Let's brainstorm and implement prototypes or extensions for new features and directions. Only later let's standardize.\nIf you (or anyone else!) want to chat more about this, I am happy to do a video call anytime."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-16 17:12:09+00:00",
+                    "text": "@MarDiehl  wrote:\n\nAccept that breaking changes are needed.\n\nI simply don't understand this conclusion at all.  Older features that you don't like aren't slowing progress.  If you don't want to use the older features, then don't use the older features.  If you want to delete them from the standards, that just makes their documentation harder to find.  If you want compilers to delete the older features, you're in for a disappointment; we all have users (& paying customers, for commercial products) that would be affected, and there's no advantage to be gained for us for removing working features.\nBackward compatibility is not what's dooming Fortran.  Backward compatibility is not at the expense of new features.  The reason you don't have templates or parametric modules or threading and memory models or multicore/GPU support in the standard language is not because the standard still has fixed form!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-16 17:21:02+00:00",
+                    "text": "If you want compilers to delete the older features, you're in for a disappointment; we all have users (& paying customers, for commercial products) that would be affected, and there's no advantage to be gained for us for removing working features.\n\nNot all compilers, for LFortran I want to have an optional mode where the compiler warns (or perhaps even gives errors) for features that you don't want to use. This would be super helpful to ensure your (new) project does not accidentally use some older features. This was one of the selling points of Python, that there was just \"one obvious way\" to do things. One can achieve something similar if the compiler \"encourages\" (via warnings and errors) just \"one obvious way\". (We can discuss if we can agree on such a subset as a community, or whether this might need to be configurable per project.)"
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-16 18:17:05+00:00",
+                    "text": "@MarDiehl wrote:\n\nAccept that breaking changes are needed.\n\nI simply don't understand this conclusion at all. Older features that you don't like aren't slowing progress.\n\nThe logic is the following:\n\nThe standard is large and complicated.\nThis makes implementation of the standard difficult.\nNew features make the standard even larger and more complicated.\nIt would make sense to sacrifice some old features in favor of new ones.\n\n@klausler: What is than slowing down the progress in your opinion?\n\nIf you don't want to use the older features, then don't use the older features.\n\nYes, I certainly don't use them. But I'm affected by the poor quality of the compiler and the slowly evolving language.\n\nIf you want to delete them from the standards, that just makes their documentation harder to find.\n\nIt would even be good if people don't find concepts like fixed form if they google for Fortran because it will scare them away. But those who insist on using old style can simply get a copy of the old standard.\n\nIf you want compilers to delete the older features, you're in for a disappointment; we all have users (& paying customers, for commercial products) that would be affected, and there's no advantage to be gained for us for removing working features.\n\nI don't suggest to remove features without notification. But if there is a clearly communicated roadmap and sufficient time, people can adopt. I know that this requires work, but continuous modernization is the only way to prevent a code from getting unmaintainable legacy.\nAs I wrote, I am not a compiler developer, but as a Fortran developer I'm not satisfied with the quality of the compilers that I have tried (Intel, GNU, PGI) and I also see that even F202X is missing features that would make my life easier.\nSetting priorities needs to be done in every software project. One cannot implement every possible feature because every feature comes at the price of complexity. Backward compatibility was always top priority of Fortran. But the result is obvious: Fortran is popular among old projects that benefit from backward compatibility, but new projects rarely choose Fortran. So I agree with @klausler, backward compatibility is on short term the right strategy. But it is pretty obvious that it is not a future-proof long term strategy to simply milk the cash cows of today and don't care about tomorrows customers."
+                },
+                {
+                    "user": "gronki",
+                    "date": "2021-06-16 18:19:23+00:00",
+                    "text": "I think everyone agrees that removing features is good and it actually\nhappens in the standard. There have been many deleted features. I guess the\ndisagreement is about how fast this process happens. Am I correct?\n\nDominik\n\n\u015br., 16 cze 2021, 20:17 u\u017cytkownik Martin Diehl ***@***.***>\nnapisa\u0142:\n\u2026\n @MarDiehl <https://github.com/MarDiehl> wrote:\n\n Accept that breaking changes are needed.\n\n I simply don't understand this conclusion at all. Older features that you\n don't like aren't slowing progress.\n\n The logic is the following:\n\n    1. The standard is large and complicated.\n    2. This makes implementation of the standard difficult.\n    3. New features make the standard even larger and more complicated.\n    4. It would make sense to sacrifice some old features in favor of new\n    ones.\n\n @klausler <https://github.com/klausler>: What is than slowing down the\n progress in your opinion?\n\n If you don't want to use the older features, then don't use the older\n features.\n\n Yes, I certainly don't use them. But I'm affected by the poor quality of\n the compiler and the slowly evolving language.\n\n If you want to delete them from the standards, that just makes their\n documentation harder to find.\n\n It would even be good if people don't find concepts like fixed form if\n they google for Fortran because it will scare them away. But those who\n insist on using old style can simply get a copy of the old standard.\n\n If you want compilers to delete the older features, you're in for a\n disappointment; we all have users (& paying customers, for commercial\n products) that would be affected, and there's no advantage to be gained for\n us for removing working features.\n\n I don't suggest to remove features without notification. But if there is a\n clearly communicated roadmap and sufficient time, people can adopt. I know\n that this requires work, but continuous modernization is the only way to\n prevent a code from getting unmaintainable legacy.\n\n As I wrote, I am not a compiler developer, but as a Fortran developer I'm\n not satisfied with the quality of the compilers that I have tried (Intel,\n GNU, PGI) and I also see that even F202X is missing features that would\n make my life easier.\n\n Setting priorities needs to be done in every software project. One cannot\n implement every possible feature because every feature comes at the price\n of complexity. Backward compatibility was always top priority of Fortran.\n But the result is obvious: Fortran is popular among old projects that\n benefit from backward compatibility, but new projects rarely choose\n Fortran. So I agree with @klausler <https://github.com/klausler>,\n backward compatibility is on short term the right strategy. But it is\n pretty obvious that it is not a future-proof long term strategy to simply\n milk the cash cows of today and don't care about tomorrows customers.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#59 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3NITIKEKM6ZUDTKJVLTTDTDBANCNFSM4JFUVZ6A>\n ."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-16 18:29:13+00:00",
+                    "text": "You seem to think that a compiler has some fixed maximum number of features that it can support, and once that limit is reached, that each new feature added requires an existing feature to be deleted.  That is not the case."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-16 18:52:00+00:00",
+                    "text": "@certik: Many thanks for your detailed reply.\nAs mentioned yesterday, I really find your work on building a community (stdlib, https://fortran-lang.org) for Fortran amazing. I totally agree that involving the community is something that pushes the language forward. Apparently, Fortran users and Fortran compiler developers have different interests and I'm willingly to express my interests as a Fortran user.\nRegarding co-arrays: This was is certainly an interesting feature and I was hesitating to put it on the list. But from an outside-view, it seems to be a rather complicated feature with (at least currently) a few users. Maybe @klausler can enlighten us about NVIDIAs plans for co-array support."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-16 19:13:53+00:00",
+                    "text": "You seem to think that a compiler has some fixed maximum number of features that it can support, and once that limit is reached, that each new feature added requires an existing feature to be deleted. That is not the case.\n\nYes, that is what I believe. But I forgot to mention that this maximum is not set by the language itself but by the capabilities of the compiler vendor. Some, like NVIDIA, struggle to include the F08 standard while others, like Intel, found a way to increase the number of features until F18 fits in."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-16 19:27:10+00:00",
+                    "text": "Thank you @MarDiehl.\n\nApparently, Fortran users and Fortran compiler developers have different interests and I'm willingly to express my interests as a Fortran user.\n\nI think this perception comes from the fact that historically the communication between compiler vendors, users and the standards committee members was not always optimal. I think we have greatly improved the situation.\nSecond, I have been trying to ensure the goals of LFortran are aligned with the users (myself included!). More generally, I think we should have a community maintained compiler(s) as part of fortran-lang (precisely to ensure that it does what Fortran users want and that the community has a \"buy-in\"), and I'll be happy to if LFortran would eventually become one."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-06-16 22:13:59+00:00",
+                    "text": "@MarDiehl wrote Jun. 16, 2021, 2:21 PM EDT:\n\nI also see that even F202X is missing features that would make my life easier.\n\nI apologize for not being able to understand your description of issues, I'm running into difficulties with your write-up above that advocates features you find backward or not useful removed e.g., coarrays.  But then you express interest in items you find convenient (\"make my life easier\") introduced in the upcoming and future revisions.  I don't know how to reconcile what comes across in your statements to readers who are remote from you and how to drive toward consensus across different needs.  Perhaps you can elaborate further on your points?"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-06-16 22:16:44+00:00",
+                    "text": "@septcolor wrote jun. 16, 2021 2:19 PM EDT:\n\nIs it not possible to \"feature freeze\" the current Fortran (or possibly F202X), while continuing the development of the \"successor\" with breaking changes ..\n\n@septcolor , please note this is happening out there in the real world all the time and has picked up rapid pace in the last 5-6 years!  Just that the \"successors\" are modern C++, C#, Java, Julia, Python, etc."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-17 04:54:01+00:00",
+                    "text": "@MarDiehl wrote Jun. 16, 2021, 2:21 PM EDT:\n\nI also see that even F202X is missing features that would make my life easier.\n\nI apologize for not being able to understand your description of issues, I'm running into difficulties with your write-up above that advocates features you find backward or not useful removed e.g., coarrays. But then you express interest in items you find convenient (\"make my life easier\") introduced in the upcoming and future revisions. I don't know how to reconcile what comes across in your statements to readers who are remote from you and how to drive toward consensus across different needs. Perhaps you can elaborate further on your points?\n\nsorry, it is true that my thoughts are not easy to understand.\nIn short, I propose to remove language features for which modern alternatives exist.\nI don't go into detail about new features that I like to add because the https://github.com/j3-fortran/fortran_proposals/issues contains already a long list. Personally, I find for example #1, #172, #70, and #16 relevant."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-17 11:55:28+00:00",
+                    "text": "Second, I have been trying to ensure the goals of LFortran are aligned with the users (myself included!). More generally, I think we should have a community maintained compiler(s) as part of fortran-lang (precisely to ensure that it does what Fortran users want and that the community has a \"buy-in\"), and I'll be happy to if LFortran would eventually become one.\n\nYes, having a community that actively participates in pushing the standard seems to be very important. Python and Rust do that very successfully. And the list of issues on the J3 repository is already quite long."
                 }
             ]
         },
@@ -9374,6 +9670,11 @@
                     "user": "certik",
                     "date": "2020-03-23 22:13:05+00:00",
                     "text": "@everythingfunctional if it is ok, let's discuss mixedCase in a separate issue #168 that I just created for it, so that we do not hijack the discussion here."
+                },
+                {
+                    "user": "HaoZeke",
+                    "date": "2021-06-24 20:38:33+00:00",
+                    "text": "The uppercase style also seems to reinforce unwelcome beliefs that Fortran is actually still FORTRAN."
                 }
             ]
         },
@@ -9652,6 +9953,11 @@
                     "user": "magicmouse",
                     "date": "2021-04-09 23:16:16+00:00",
                     "text": "Mr. Snyder's specification has proved very useful, as of 2021 i am aware of various languages that fully support physical units of measure. At compile time only there is F# and Cambridge FORTRAN.  For a full implementation, including user defined units of measure, and carrying the exponents of the fundamental quantities at runtime, you have Frink language (www.frinklang.org), and Beads (www.beadslang.org).  Frink is the supreme king of Units. Beads is a general purpose graphical interactive language that emits web apps, etc., and includes a layout model and event management in the language."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-06-12 23:03:25+00:00",
+                    "text": "pre-f90 working with a large number of projects scattered around the world we found almost all the unit issues were bound with input and output of values (including graphics) and basically make the Unix units(1) command into a subroutine and created a standard portable self-describing file format that required a unit code, and a routine called relate(3f) that would do y=mx+b conversions along with labels for each defined unit that was used as a default for labeling, particularly on plots.  So a user could specify the units he wanted a plot in and everything would be automatically converted, for example. There was a built-in relate default table of a few thousand entries, and a \"blessed\" file with several thousand more relationships. We found in our case most unit-related issues were not in the codes doing computation so much as the routines delivering the data between programs from different departments and labs.  We often wished there was something built into the language (almost all Fortran, some Ada PL/1, pascal,...) What we found in our particular case more of an issue at the coding level was uncertainty and accumlated floating point error issues;  I remember the consensus was that would still be solved by hardware support at the processor level -- what ever happened to that?  Think it would be great if Fortran supported units whether by types or casting or ... but that does not necessarily solve the primary issues we saw that involved input and output.  Would these solutions provide some kind of labeling of data?  I am glad XML was not around in the scientific world at the time or we might have tried that."
                 }
             ]
         },
@@ -11400,6 +11706,51 @@
                     "user": "everythingfunctional",
                     "date": "2021-04-27 20:55:36+00:00",
                     "text": "That's a good suggestion. I've got lots going on, but hopefully I can get to it before too long."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-08 05:41:24+00:00",
+                    "text": "I really don't understand the efforts of implementing a new string type. The current (allocatable) strings are rather flexible and serves at least my purposes very well.\nWhat is missing IMHO is a list type that can be used as a collection of arbitrary types. Strings of different length could be simply put in a list. That's how it is done in Python, where the a numpy string array is be also limited to strings of the same length."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2021-06-08 12:37:14+00:00",
+                    "text": "I've not followed this thread closely, but I think the distinction is that a proper String would encapsulate the allocatable aspect.  Without that any attempt to define something like a list would require a wrapper type due to Fortran's quirky syntax in this regard.  I.e., a list of Strings would be a virtually identical implementation to a list of Integers.  While a list of deferred length CHARACTER(len=:), ALLOCATABLE  would require a wrapper type and lots of boiler plate logic for diving down the extra level in the data structure."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-08 13:22:20+00:00",
+                    "text": "@tclune: If you neglect that you need to define the type, string handling is not much different from python:\nprogram test_string\n\n  character(len=:), allocatable :: string\n\n  string = 'hello world'\n  print*, len(string)\n\n  string = string//', hello Github'\n  print*, len(string)\n\n  print*, string(14:)\n\n  string = ''\n  print*, len(string)\n\n  string = ' '\n  print*, len(string)\n\nend program test_string\n\n#/usr/bin/env python3\n\nstring = 'hello world'\nprint(len(string))\n\nstring = 'hello world'+', hello Github'\nprint(len(string))\n\nprint(string[13:])\n\nstring = ''\nprint(len(string))\n\nstring = ' '\nprint(len(string))\nThe boiler plate comes in when you want to define a collection of strings, but IMHO this is due to the lack of a list type that can contain arbitrary types/kinds."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-06-08 16:25:35+00:00",
+                    "text": "I really don't understand the efforts of implementing a new string type. The current (allocatable) strings are rather flexible and serves at least my purposes very well.\nWhat is missing IMHO is a list type that can be used as a collection of arbitrary types. Strings of different length could be simply put in a list. That's how it is done in Python, where the a numpy string array is be also limited to strings of the same length.\n\nInstead of adding lists, maps, sets, &c. to Fortran, the language really needs the basic generic programming capabilities other languages have had since the 80's with which such data structures can be easily built.  Maybe in this decade that will happen in the standard language, and then implementations will follow in the decade after."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2021-06-08 16:44:22+00:00",
+                    "text": "Introducing such generic programming capabilities is my highest priority, and the primary reason I joined the Fortran committee in the first place.   And the ability to use that for containers is my most important use case.\nI don't want to overpromise on the schedule, and there are of course risks that such a big feature can fail to get the necessary votes."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2021-06-08 17:58:49+00:00",
+                    "text": "It also may be worth pointing out that even if Fortran were to introduce something like a List container that can contain \"anything\" it would be a bit difficult to use.    The dynamic typing in languages like Python significantly improves the usability of such a structure.\nFor instance, suppose we want to retrieve the 5th element from a list L and store it in a variable x.    How should we declare x?   The type of the 5th element cannot be known at compile time, so even if we \"know\" that it will be of type real and we do:\nreal :: x\n...\nx = L(5)\nHow does the compiler check that the types agree?    What should it do if the types do not agree at run time?\nYou might respond that CLASS(*) is the right thing in such a context and we would do:\nclass(*), pointer :: x\n...\nx => L(5)\nThat can work (with some less interesting caveats), but ... x is not very useful here.  We can't really do much else with it without an ugly (IMO)  SELECT TYPE block.\nBasically any attempt to make containers as incredibly flexible as they are in Python, will be very problematic in Fortran.   C++ STL is probably a safer guide to what can work in Fortran.   It does allow lists of void pointers, but requires casting.  Most STL containers are declared for specific types."
+                },
+                {
+                    "user": "MarDiehl",
+                    "date": "2021-06-08 18:55:32+00:00",
+                    "text": "Static typing clearly results in these constraints. SELECT TYPE is the price you need to pay if you don't want to give the programmer the responsibility (or freedom, depends on perspective) to cast to the correct type.\nI'm not very familiar with C+ STL, but to me it seems like a 'typed list'. A list of type class(*) would be then just one possibility of using this feature.\nI don't know what STL is usually used for, but from my python experience a list usually contains similar things. So I expect that a STL-like container will rarely result in long SELECT TYPE statements."
+                },
+                {
+                    "user": "tclune",
+                    "date": "2021-06-08 19:21:13+00:00",
+                    "text": "Yes - that was what I was trying to say ...    Usual cases involve concrete types or pointers to base types if polymorphism is desired.   But even then C++ STL has the same memory footprint for each object, and does not readily handle items of variable size.      This allows direct computation of memory offsets ala how Fortran manages array indexing.\nOne gets around that for say varying length strings, by having a standard string template that effectively creates a wrapper type that has an allocatable character array inside.  Which gets back to what the original discussion was requesting, if I understood.   Whether Fortran accomplishes this with the new generics facility or does something special just for the case of strings, is a useful topic.   My hope is that the former is powerful enough to obviate the need for the latter.   But early days ..."
+                },
+                {
+                    "user": "gronki",
+                    "date": "2021-06-16 18:40:10+00:00",
+                    "text": "I would actually not agree, introducing features of the language just so\nthat you can implement a object to represent a thing you actually need is\nwhat c++ does. I would suggest to just use C++ for such projects. Fortran\ndoes not allow much of an encapsulation or efficient OOP, it will not for\nmany more years and it doesn't even need to, so I would argue it's far from\noptimal route and it would be much better to have built in types for\ncontainers, just like allocatable character provides a good enough string\nfunctionality. Not to dismiss any efforts in creating user space libraries,\nit's awesome that the community takes the initiative on where the standard\nis lacking and far behind, but my personal preference is to use what is\nalready in the language, mostly because it just works. Fortran is not a\nflexible language like C++ because it's user target is different. I think\nthat introducing a couple of popular data structures and routines that\nwould be very well optimized by a compiler under the hood seems like much\ncloser to what Fortran aims at. Python is much more flexible than Fortran\nyet it does have data structures built in without the need to reinvent the\nwheel.\n\nJust my opinion!\nWishing you all good health\nDominik\n\nwt., 8 cze 2021, 18:25 u\u017cytkownik Peter Klausler ***@***.***>\nnapisa\u0142:\n\u2026\n I really don't understand the efforts of implementing a new string type.\n The current (allocatable) strings are rather flexible and serves at least\n my purposes very well.\n What is missing IMHO is a list type that can be used as a collection of\n arbitrary types. Strings of different length could be simply put in a list.\n That's how it is done in Python, where the a numpy string array is be also\n limited to strings of the same length.\n\n Instead of adding lists, maps, sets, &c. to Fortran, the language really\n needs the basic generic programming capabilities other languages have had\n since the 80's with which such data structures can be easily built. Maybe\n in this decade that will happen in the standard language, and then\n implementations will follow in the decade after.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#24 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3IWGHOUDNHBAYDDYE3TRZABBANCNFSM4JCNV2LA>\n ."
                 }
             ]
         },
@@ -11630,19 +11981,9 @@
                     "text": "FWIW I have changed how the proposal discusses arguments with no intent. Instead of assuming that such arguments will be treated the same as INTENT(IN) or VALUE, I call no intent out separately and note how the wording in the standard should be phrased to either treat them the same as INTENT(IN) or VALUE or treat them like INTENT(INOUT) or INTENT(OUT)."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2020-07-26 03:12:35+00:00",
-                    "text": "I was assuming that the default value is relevant only for dummy arguments with INTENT(IN) explicitly specified. On the other hand, if the dummy arguments with no intent are automatically given some different attributes in future (say, intent(OUT) or VALUE), doesn't it mean that it silently breaks existing codes? (For example, INTENT(OUT) deallocates allocatable dummy arrays automatically, while VALUE changes the semantics from pass-by-reference to pass-by-value (in practice), which is crucial for foreign language interface. (And, I am sorry if I misunderstand the above discussions because I have not been able to follow the contexts yet...)\nPersonally, I feel it would already be extremely useful to be able to specify the default value for only the case where INTENT(IN), VALUE is explicitly specified, while no default value is allowed otherwise. At the moment, I need to use PRESENT() and declare additional local variables to set the default value, which is very inconvenient (as compared to other languages)."
-                },
-                {
                     "user": "wclodius2",
                     "date": "2020-07-26 13:26:43+00:00",
                     "text": "My revised proposal was that default values are relevant for dummy arguments with INTENT(IN) or VALUE explicity specified. It originally had no intent as an option, but consistently repeating \u201cINTENT(IN), or, VALUE, or no intent\u201d was awkward, and there was the problem that many people assume the no intent was,ery similar to INtENT(INOUT). It did not propose to \u201cautomatically\u201d give some different attributes to no intent arguments. Users would have to explicitly give the DEFAULT attribute, and write out the DEFAULT assignment.\n\u2026\n On Jul 25, 2020, at 9:12 PM, septcolor ***@***.***> wrote:\n\n\n I was assuming that the default value is relevant only for dummy arguments with INTENT(IN) explicitly specified. On the other hand, if the dummy arguments with no intent are automatically given some different attributes in future (say, intent(OUT) or VALUE), doesn't it mean that it silently breaks existing codes? (For example, INTENT(OUT) deallocates allocatable dummy arrays automatically, while VALUE changes the semantics from pass-by-reference to pass-by-value (in practice), which is crucial for foreign language interface.\n\n I guess it would already be extremely useful to be able to specify the default value for only the case where INTENT(IN), VALUE is explicitly specified, while no default value is allowed otherwise. At the moment, I need to use PRESENT() and declare additional local variables to set the default value, which is very inconvenient (as compared to other languages).\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub <#22 (comment)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/APTQDOVDYPMAWERFPLL6Q3TR5ONLBANCNFSM4JCMOXGQ>."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-07-27 03:22:01+00:00",
-                    "text": "@wclodius2 Thanks very much for clarification! I will read the original and revised drafts (and this thread) more carefully..."
                 },
                 {
                     "user": "jvdp1",
@@ -12547,11 +12888,6 @@
                     "text": "The paper is submitted at https://j3-fortran.org/doc/year/19/19-246.txt. I will try to get feedback on it from the committee. CC @zingale."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-10-17 21:41:01+00:00",
-                    "text": "+1 for this proposal because, in addition to that many other languages\nprovide this feature, I often create a dummy derived type (having a lot of\nNOPASS module procedures) to mimic this behavior (which is very tedious).\nIndeed, this seems to be almost a \"frequently asked request (FAR)\" (not FAQ :-)\nhttp://fortranwiki.org/fortran/show/Extension+to+USE+statement"
-                },
-                {
                     "user": "cmacmackin",
                     "date": "2019-10-18 14:53:50+00:00",
                     "text": "Agree, this seems like a good feature."
@@ -12560,11 +12896,6 @@
                     "user": "certik",
                     "date": "2019-10-21 18:55:46+00:00",
                     "text": "So the committee unfortunately did not consider this proposal at the meeting last week. I was hoping to get at least a general \"yes\" or \"no\" direction from the committee. But I talked to a few members directly, and I did not hear any \"this is a bad idea\", or \"this should not be done\".\nHere is my plan:\n\n\nWrite a high quality full proposal for this. This means more use cases, we have to brainstorm any possible issues, and some members of the committee like to structure any new features as \"requirements\", \"specification\" and \"syntax\", so we should incorporate all that.\n\n\nI will ask on the j3 mailinglist once a more complete proposal is ready to get some feedback\n\n\nI will ensure that this gets to the committee program for next meeting to be officially considered for the 202y standard."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-10-23 18:00:30+00:00",
-                    "text": "I fully agree with plan (1-3), but I have one concern (which may apply to other proposals as well). Though I may be too nervous, I will explain it anyway...\nSpecifically, even if the proposal describes several use cases + comparison with other languages + possible new syntax, I'm afraid that many of the committee people may not \"intuitively\" get the utility of the proposal unless they have some real experience of using it in other languages and experiencing its utility. I felt this strongly when I read the discussions and responses about generics on comp.lang.fortran (much ago). There, the committee wanted to know the use cases of generics (apart from swap()), and it seems that only statistics (from the user survey) became the reason for considering generics as a candidate for revision. So I have some concern that the same thing might happen for other proposals (i.e., they do not \"feel\" good or bad about a new proposal and so possibly not willing to give either positive or negative responses).\nBut my concern above may be too nervous... (Still, I'm wondering if there is some means that the committee people would \"feel\" its utility via experience :)"
                 },
                 {
                     "user": "certik",
@@ -12592,19 +12923,9 @@
                     "text": "@FortranFan thanks a lot for pointing these potential issues out. Let's address them."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2019-11-18 17:19:25+00:00",
-                    "text": "As for why a more explicit namespace control is useful (and so commonly used by other languages), I think there may be at least several reasons:\n\nMinimize the degree of symbol/name contamination in the current scope\nEnhance the readability of a code via explicit qualifiers (no need to search for\n\"where this variable comes from\")\nDRY (don't repeat yourself) https://en.wikipedia.org/wiki/Don%27t_repeat_yourself\nPotentially benefit from advanced code completion by modern editors/IDEs (e.g. \"Intellisense\" https://docs.microsoft.com/en-us/visualstudio/ide/using-intellisense?view=vs-2019)\n\n\nReference a module like a global \"object\"\nIn object-oriented (OO) programing, we know that it is very convenient to have the ability to refer to components and TBP via the \"%\" symbol. What we want is close to this ability for a module, such that we can reference an entire module as a global object (like \"singleton\"). We could mimic its behavior by creating a dummy type that provides aliases to all module variables and contained routines (e.g., via pointers and TBP with NOPASS), but this approach is sometimes rather tedious and may not be straightforward for 3rd-party libraries. I think this kind of extra work becomes unnecessary when a qualifier-based module access is provided at the language level.\n\nAbout DRY vs WET\nThe DRY Wiki page mentions WET as an anti-pattern (i.e., not good practice), e.g. \"write everything twice\" and \"we enjoy typing\". To import a routine with a long name, I have to type it twice in current Fortran (i.e., once for a USE statement and once for actuall CALL statement). I often find this frustrating when I need to import many routines with long names. Sometimes, it is suggested to use the rename facility of USE (e.g., use foo_mod, only: shortname => long_routine_name), but I feel this approach is often not ideal because of the need to consider yet another name for each imported routine and also because the reader needs to search for their local definition at the top of the current scope.\n\nMatplotlib may illustrate the benefit of explicit qualifiers (mpl, plt, etc)\nI think yet another use case of explicit namespace control may be Python/matplotlib, which commonly uses the qualifier \"mpl\", \"plt\", etc. Because Matplotlib contains tons of names/symbols inside, it is clearly not good practice to import all symbols at the same time (via star import). On the other hand, if Python had only a Fortran-like import facility, we would have to type every routine names twice, which is rather tedious and lengthy in practice.\n(I guess it might be a good addition to https://j3-fortran.org/doc/year/19/19-246.txt as a typical \"real-world\" use case. I believe there are tons of other use cases, including \"std.\" or \"std::\", which may also be a nice addition. I hope I can find a good article that explains all the benefits nicely (as a convenient reference)...)"
-                },
-                {
                     "user": "gronki",
                     "date": "2019-11-19 14:16:28+00:00",
                     "text": "I think calling DRY good and WET bad is rather arbitrary and not a good\nargument. More explicit programming can help avoid some mistakes. In python\nI prefer importing explicitly all names that I use in the code I write. If\nI feel lazy or only do fast prototyping I import the whole module.\n\nI don't see the discussed feature as necessary but that's because I\nprobably will not use it. But for those who prefer that programming style\nit might be good to have that option.\n\nDominik\n\npon., 18 lis 2019, 18:19 u\u017cytkownik septcolor <notifications@github.com>\nnapisa\u0142:\n\u2026\n As for why a more explicit namespace control is useful (and so commonly\n used by other languages), I think there may be at least several reasons:\n\n    - Minimize the degree of symbol/name contamination in the current scope\n    - Enhance the readability of a code via explicit qualifiers (no need\n    to search for\n    \"where this variable comes from\")\n    - DRY (don't repeat yourself)\n    https://en.wikipedia.org/wiki/Don%27t_repeat_yourself\n    - Potentially benefit from a convenient feature for code completion by\n    modern editors and IDEs (e.g. \"Intellisense\"\n    https://docs.microsoft.com/en-us/visualstudio/ide/using-intellisense?view=vs-2019\n    )\n\n ------------------------------\n\n Reference a module like a global \"object\"\n\n In object-oriented (OO) programing, we know that it is very convenient to\n have the ability to refer to components and TBP via the \"%\" symbol. What we\n want is close to this ability for a module, such that we can reference an\n entire module as a global object (like \"singleton\"). We could mimic its\n behavior by creating a dummy type that provides aliases to all module\n variables and contained routines (e.g., via pointers and TBP with NOPASS),\n but this approach is sometimes rather tedious and may not be\n straightforward for 3rd-party libraries. I think this kind of extra work\n becomes unnecessary when a qualifier-based module access is provided at the\n language level.\n ------------------------------\n\n About DRY vs WET\n\n The DRY Wiki page mentions WET as an anti-pattern (i.e., not good\n practice), e.g. \"write everything twice\" and \"we enjoy typing\". To import a\n routine with a long name, I have to type it twice in current Fortran (i.e.,\n once for a USE statement and once for actuall CALL statement). I often find\n this frustrating when I need to import many routines with long names.\n Sometimes, it is suggested to use the rename facility of USE (e.g., use\n foo_mod, only: shortname => long_routine_name), but I feel this approach\n is often not ideal because of the need to consider yet another name for\n each imported routine and also because the reader needs to search for their\n local definition at the top of the current scope.\n ------------------------------\n\n Matplotlib may be a good \"use case\" of an explicit qualifier (mpl, plt,\n etc)\n\n I think a good \"real-world\" use case may be Python/matplotlib, which\n commonly use the qualifier \"mpl\", \"plt\", and so on. Because Matplotlib\n contains tons of names/symbols inside, it is clearly not good practice to\n import all symbols at the same time (via star import). On the other hand,\n if Python had only Fortran-like import facility, it would have to type\n every routine names twice, which is very tedious and lengthy in practice.\n\n In addition to the case of Lapack and redundantly named routines (as\n described in https://j3-fortran.org/doc/year/19/19-246.txt),\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#1?email_source=notifications&email_token=AC4NA3IACAIES5ITFULEN3LQULFB5A5CNFSM4JBFRGNKYY3PNVWWK3TUL52HS4DFVREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOEELG26Q#issuecomment-555117946>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AC4NA3IAD5NPU5VPGKDAU3TQULFB5ANCNFSM4JBFRGNA>\n ."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2019-11-19 20:12:09+00:00",
-                    "text": "@gronk Yes, programming styles depend on people, and I do not claim that one style is more \"correct\" over the other. For example, I do not strictly follow PEP8 in my (personal) Fortran codes, despite some people recommend it as a \"good\" style even for other languages.\nOn the other hand, one fact is that current Fortran does not provide the capability to use a module name as a qualifier, which does not allow one approach over the other (in contrast to Python or other languages).\nRE whether to use qualifiers or not, I think it also depends on cases. For example, some people insist using \"std::\" in C++ always, but I often import specific entities locally for brevity (unless ambiguity occurs). Here, the choice also depends on coding styles, approaches, and even on each specific program, I think.\nRE DRY, I am also not very sure whether this word is really appropriate here for one explanation (because the word seems to originate from other fields). So it may be better to find alternative explanations (if needed)."
                 },
                 {
                     "user": "qolin1",
@@ -12987,19 +13308,9 @@
                     "text": "@FortranFan Thank you, only after your detailed explanation I was able to understand--you're not decorating the module itself, but the public entities in the module. Now it makes more sense.\nI'd still advise against it because of how easily it can be confused with decorating as a software design pattern. For example, if I was teaching this concept, I'd have to caveat it with something like \"If you've used decorators in other languages before, be careful--this does something completely different\", and then refer to it as \"namespace\" in the rest of the material. :)\nThis is also a good example of why I think the choice of the word is important."
                 },
                 {
-                    "user": "septcolor",
-                    "date": "2020-09-27 18:39:17+00:00",
-                    "text": "Hi @certik,\n\n\nit doesn't allow for the otherwise orthogonal creation of both a namespace as well as unqualified importation of some names.\n\nNeither Python, Julia or Chapel allow that as far as I know with a single statement.\n\nJulia seems to allow this with one line, e.g. to import \"LinearAlgebra\" (a module or package name) and \"svd\" (a function name) only as\nusing LinearAlgebra: LinearAlgebra, svd \n\n\nNote 1: Julia's syntax for import A as B and import A: x as y is only implemented as a PR (JuliaLang/julia#37396) from 3 weeks ago (!), but not merged yet.\n\nThanks for the info! As for Note 4 (why Chapel introduced \"import\" in addition to \"use\"), I came across long discussion pages before, but was not able to catch the core reason very well ... (it might be related to automatic search for packages and modules).\n\n\n(FortranFan wrote) X is the separator yet to be decided; it can be % (as in call utils%savetxt(..)) or it might be double-colon (as in call utils::savetxt(..)), etc.\n\n:: looks also nice to me :)\n\nAnd one more possibility may be this form? (taken from the Fortran Wiki) (sorry if this is already discussed...)\nhttp://fortranwiki.org/fortran/show/Extension+to+USE+statement\nUSE [[, module-nature] ::] module-name [AS use-name] [, ONLY:only-list]\n\nWithout \u201cAS use-name\u201d it is a regular USE statement.\nHowever, when the \u201cAS use-name\u201d is used, then the entities defined\nin module \u201cmodule-name\u201d are accessed only with \u201cuse-name%entity-name\u201d syntax.\n\nEg: USE hitechlib AS ht"
-                },
-                {
                     "user": "FortranFan",
                     "date": "2020-09-27 19:31:34+00:00",
                     "text": "@septcolor wrote:\n\n..\nAnd one more possibility may be this form? ..\n.. USE hitechlib AS ht\n\nAs mentioned upthread, punctuation or a separator between conjunctions is needed to support the 2 sources forms in Fortran, and that's why this does not work."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-09-27 19:36:09+00:00",
-                    "text": "Hi @FortranFan\nThanks, then maybe we can do: USE hitechlib, AS: ht (?)\nAs another point to be considered: I am wondering whether various proposed syntax works for something like \"from numpy.linalg import norm\"...? (though I am not sure if the latter case can happen in Fortran)"
                 },
                 {
                     "user": "certik",
@@ -13085,21 +13396,6 @@
                     "user": "klausler",
                     "date": "2020-10-02 00:09:25+00:00",
                     "text": "@klausler wrote Oct. 1, 2020 6:48 PM EDT:\n\nThe harder part of this proposal remains to be discussed, too. ..\n\nI agree.\nAs I alluded to earlier, Fortran language can do better by gaining the formal concept of namespaces. Ideally, features such as this are best handled as part of that effort.\nConsidering the complexities and constraints involved with piecemeal attempts, a prototype implementation for the formal namespace concept itself will be nice. The aspects such as this thread can be subparts of such an initiative.\n\nHow do your namespaces differ from modules?"
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-10-02 20:32:14+00:00",
-                    "text": "Hi @klausler\nBecause I have no experience of writing a compiler, I strongly feel that \"noob\" opinions and proposals (including me) is actually very dangerous (because I cannot imagine such issues very soon). At the very least, I think people with sufficient knowledge of compiler development or CS backgrounds should be more responsible for this kind of tasks. In this regard, I always wonder: what is the role of the  current international standard committee here? Are they not consisting of compiler or CS experts to participate in proposing new features (if they belong to large companies and involved in Fortran related products)? I hope the compiler or CS experts in the committee (if any) will play more active roles in proposing new features to catch up with other modern languages (and make the life easier for Fortran users).\n\nAnd some cases are not obvious.  (...snip...)\n\nRE MODULE PROCEDURE NS%FOO, EXTERNAL :: NS%FOO, VOLATILE NS%FOO (<-- I understand that the \"response\" (particularly from noobs like me) is not needed here, but anyway...), I feel that the first stage for introducing such namespace can be very restrictive, for example, something like \"one shall not add new attributes for module entities defined in one scope via qualification by other modules\" etc, etc (so as to minimize the workload of considering semantic implications). And if it turns out to be no problem to allow a particular usage later, I guess the latter may be added (\"relaxed\") later (which seems to be a typical pattern used in Fortran before)."
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-10-02 20:48:09+00:00",
-                    "text": "@Klauser\n\nI don't know any of those languages well enough to know whether there's a correspondence or not.\n\nI often refer to Chapel because it is (1) a statically typed language, (2) its syntax was originally influenced partly by Fortran, (3) its main emphasis is massive parallel computing. However, Chapel is still a very niche language (it is even not within 100th of the TIOBE ranking), and I think it is no wonder that it is not known very well. (And, I am not trying to \"sell\" Chapel in any way; it has its own limitations that are different from Fortran or other languages.)\nhttps://en.wikipedia.org/wiki/Chapel_(programming_language)\nRE Python and Julia, they are already pretty popular in all the language list, but they are dynamically typed languages, so I think there exist inherent differences from statically typed languages (IMO). For example, in Python, module names and other variables are treated on an equal footing, but I guess it is not \"equal\" in statically typed languages. So, although the comparison with popular languages is useful (in that they increase the degree of familiarity for potential users from other languages), I am afraid there is potential cases that can lead to issues. After all, I also think that experimental implementation would reveal potential issues (based on specifications by experts, if possible...)"
-                },
-                {
-                    "user": "septcolor",
-                    "date": "2020-10-02 22:25:40+00:00",
-                    "text": "RE namespace and modules, C++20 now has modules. Other languages I've been learning all use the concept of modules + import now (indeed, things seem to have been converging to the latter). I think the concept of namespaces is of more \"low-level\" and possibly plays more primitive roles as building blocks. However, given that Fortran already has modules, what is the merit of further introducing the concept of namespaces separately? (I am not against it but cannot understand the merit very well because many other languages seem to have no problems with modules only.)\nhttps://en.cppreference.com/w/cpp/language/modules"
                 },
                 {
                     "user": "certik",
