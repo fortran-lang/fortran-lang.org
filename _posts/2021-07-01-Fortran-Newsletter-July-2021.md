@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: July 2021"
 category: newsletter
-author: Laurence Kedward, Sebastian Ehlert
+author: Laurence Kedward, Sebastian Ehlert, Zachary Moon, Milan Curcic
 ---
 
 Welcome to the July 2021 edition of the monthly Fortran newsletter.
