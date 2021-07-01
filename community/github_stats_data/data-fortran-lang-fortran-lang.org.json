@@ -2,6 +2,248 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 285,
+            "user": "Beliavsky",
+            "date": "2021-06-29 01:36:21+00:00",
+            "title": "Modern Fortran in Science and Technology by Lindemann and Dahlblom",
+            "text": "Modern Fortran in Science and Technology could be added to the Online Courses section. I skimmed it, and it seems pretty thorough.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-06-29 02:24:30+00:00",
+                    "text": "Yes, we should. Although the first place I randomly clicked: https://modern-fortran-in-science-and-technology.readthedocs.io/en/latest/chapter_fortran.html#arrays-and-matrices and it has a mistake, they assign 5.0 to a double precision number, which will only assign the first 7 digits or so instead of 15."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-06-29 02:44:23+00:00",
+                    "text": "They are aware of this and illustrate this issue with a sample program\nprogram constants\n    implicit none\n    integer, parameter :: dp = selected_real_kind(15,300)\n    real(dp) :: pi1, pi2\n    pi1 = 3.141592653589793\n    pi2 = 3.141592653589793_dp\n    write(*,*) 'pi1 = ', pi1\n    write(*,*) 'pi2 = ', pi2\n    stop\nend program constants\n\nbut maybe some of the code they present could be improved -- the book is on GitHub"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-29 02:55:02+00:00",
+                    "text": "Ok, I submitted a PR: jonaslindemann/modern_fortran_book#1"
+                },
+                {
+                    "user": "jonaslindemann",
+                    "date": "2021-06-29 08:07:21+00:00",
+                    "text": "I will look into the issues."
+                },
+                {
+                    "user": "jonaslindemann",
+                    "date": "2021-06-29 11:33:42+00:00",
+                    "text": "I hope I have fixed it in most places.\nThanks for the input."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-29 13:48:09+00:00",
+                    "text": "Thanks @jonaslindemann!\nYes, we should link it.\nBtw, currently when I open the page: https://modern-fortran-in-science-and-technology.readthedocs.io/, I am getting \"Warning: Potential Security Risk Ahead\" in Firefox and Chrome and it does not open for me. It could be an issue on my end."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-06-29 13:50:29+00:00",
+                    "text": "I just tried with FireFox myself and had no such problem.\n\nOp di 29 jun. 2021 om 15:48 schreef Ond\u0159ej \u010cert\u00edk ***@***.***\n\u2026\n:\n Thanks @jonaslindemann <https://github.com/jonaslindemann>!\n\n Yes, we should link it.\n\n Btw, currently when I open the page:\n https://modern-fortran-in-science-and-technology.readthedocs.io/, I am\n getting \"Warning: Potential Security Risk Ahead\" in Firefox and Chrome and\n it does not open for me. It could be an issue on my end.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#285 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4A3SI3OA55X5675VLTVHFKFANCNFSM47PCT32A>\n ."
+                },
+                {
+                    "user": "jonaslindemann",
+                    "date": "2021-06-29 13:51:23+00:00",
+                    "text": "I don't have any problems myself. It is built and hosted automatically by readthedocs using Sphinx. Thanks for linking it by the way!\nJonas"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-06-29 13:52:05+00:00",
+                    "text": "No problem with MS Edge either, so it seems indeed to be on your side (or\nit is a temporary thing)\n\nOp di 29 jun. 2021 om 15:50 schreef Arjen Markus ***@***.***\n\u2026\n:\n I just tried with FireFox myself and had no such problem.\n\n Op di 29 jun. 2021 om 15:48 schreef Ond\u0159ej \u010cert\u00edk <\n ***@***.***>:\n\n> Thanks @jonaslindemann <https://github.com/jonaslindemann>!\n>\n> Yes, we should link it.\n>\n> Btw, currently when I open the page:\n> https://modern-fortran-in-science-and-technology.readthedocs.io/, I am\n> getting \"Warning: Potential Security Risk Ahead\" in Firefox and Chrome and\n> it does not open for me. It could be an issue on my end.\n>\n> \u2014\n> You are receiving this because you are subscribed to this thread.\n> Reply to this email directly, view it on GitHub\n> <#285 (comment)>,\n> or unsubscribe\n> <https://github.com/notifications/unsubscribe-auth/AAN6YR4A3SI3OA55X5675VLTVHFKFANCNFSM47PCT32A>\n> .\n>"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-29 14:29:53+00:00",
+                    "text": "Perfect, I am glad it is only on my end. I'll try again in a few days. I also tried from my phone and that worked."
+                }
+            ]
+        },
+        {
+            "number": 284,
+            "user": "zmoon",
+            "date": "2021-06-29 00:57:28+00:00",
+            "title": "PRs script updates",
+            "text": "Fixes #283\n\nremoved attempted optimization that was causing merged PRs to be missed when a previously merged PR had another \"update\" after being merged\n\nunfortunately, it doesn't seem to currently be possible to sort by merge date in the API request\n\n\nfor now, the whole list of merged PRs is searched, which takes a few minutes\n\nwith progress bars if tqdm installed\n\n\nPR titles on new line in the generated Markdown\nsort merged PRs by merge date (earliest merged -> first in the output list)",
+            "comments": []
+        },
+        {
+            "number": 283,
+            "user": "LKedward",
+            "date": "2021-06-28 10:22:16+00:00",
+            "title": "PRs script issue",
+            "text": "@zmoon, for #281 I had a small issue with the prs.py script where it didn't seem to pick up all the PRs for the fortran-lang website repo from this month. It works fine for stdlib and fpm though, so I'm not sure if I'm using it wrong.",
+            "comments": [
+                {
+                    "user": "zmoon",
+                    "date": "2021-06-28 12:46:26+00:00",
+                    "text": "Sorry about that; I'll check it out"
+                }
+            ]
+        },
+        {
+            "number": 282,
+            "user": "Beliavsky",
+            "date": "2021-06-24 19:01:55+00:00",
+            "title": "How are packages sorted?",
+            "text": "Looking for example at quantum-chemistry packages, I don't see how they are sorted. If the ordering is by stars, that should be mentioned somewhere.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-25 05:23:52+00:00",
+                    "text": "In the package index they should be sorted alphabetically, in the search there is an internal match score which might be used to sort them.\nThe output is generated here:\n\n  \n    \n      fortran-lang.org/assets/js/package_search.js\n    \n    \n        Lines 118 to 120\n      in\n      c77bf4b\n    \n    \n    \n    \n\n        \n          \n           for (i=0;i<results.length;i++){ \n        \n\n        \n          \n            \n        \n\n        \n          \n               if (results[i].score > 0){ \n        \n    \n  \n\n\nBut this doesn't necessarily looks like there is any ordering applied. @LKedward can you comment on this?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-25 07:32:24+00:00",
+                    "text": "When you click a keyword tag, it just performs a search of the index using that tag. The search results are crudely ranked by how well the query string matches the meta data from each package and in which field the match occurred. Highest weighting goes to matches in the name field, followed by matches in description, tags and then all other fields. Longer matches are ranked higher than shorter ones, e.g. matching 'user interface' ranks higher than 'interface'.\nIt would perhaps be a good idea to add an additional sort so that search results with the same score (such as when searching for a keyword tag) are presented alphabetically."
+                }
+            ]
+        },
+        {
+            "number": 281,
+            "user": "LKedward",
+            "date": "2021-06-24 14:50:30+00:00",
+            "title": "July newsletter",
+            "text": "Hi all - I've started the initial draft for this Month's newletter.\n\n add stdlib updates\n add fpm updates\n add fortran-lang.org updates\n add monthly call link\n add LLVM / classic flang updates (@AlexisPerry)\n add LFortran updates (@certik)\n update contributor data (@LKedward)\n\nAs usual, please add your name to the authors list if you add, edit, or review content.",
+            "comments": [
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-06-25 22:15:19+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/281/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-30 07:29:39+00:00",
+                    "text": "@certik & @AlexisPerry do you have any updates you want to add to the newsletter?"
+                }
+            ]
+        },
+        {
+            "number": 280,
+            "user": "milancurcic",
+            "date": "2021-06-23 16:58:03+00:00",
+            "title": "Document a quickstart for fpm and GFortran using Conda on all platforms",
+            "text": "Originally from proposed by @certik here.\nDocument on fortran-lang.org how to get started on each platform using Conda in 5 minutes. Conda is nice because it does not require root access and installs locally, in a non-invasive manner. And the usage from the user perspective is almost identical on all platforms.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-24 09:06:06+00:00",
+                    "text": "And the usage from the user perspective is almost identical on all platforms.\n\nNote that fpm isn't yet available on Windows via Conda"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-24 09:11:22+00:00",
+                    "text": "I have a quite complete setup for Ubuntu, MacOS and Windows here. It's not a complete conda setup because I prefer to use the system compilers, but it's close.\nFor (native) Windows I made good experience with MSYS2, a few students chose this over the WSL approach and were quite successful."
+                }
+            ]
+        },
+        {
+            "number": 279,
+            "user": "Beliavsky",
+            "date": "2021-06-20 01:24:33+00:00",
+            "title": "multi-word tags",
+            "text": "Looking at\n\n\n\nqContainers\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\n\n\n\nStore any intrinsic or derived data type to a container\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\n\nTags:\u00a0qlibc tree table hash table linked list vector dynamic array unique set\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\n\n\nI think there are still many multi-word tags that need to be hyphenated. I assume\u00a0hash-table,\u00a0linked-list, and\u00a0dynamic-array\u00a0are multi-word tags.",
+            "comments": []
+        },
+        {
+            "number": 278,
+            "user": "awvwgk",
+            "date": "2021-06-16 19:32:02+00:00",
+            "title": "Mission statement",
+            "text": "Following up on Ond\u0159ej's suggestion from June's monthly call (see https://fortran-lang.discourse.group/t/fortran-monthly-call-june-2021/1334/14) we want put together a long-term mission statement for Fortran and where we want to be in three years from now.\nThe actual mission statement can be created collectively in the fortran-lang.org wiki here.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-06-16 19:42:12+00:00",
+                    "text": "I would like to brainstorm and write down goals that if achieved, would \"fix\" Fortran, from a practical perspective. I intuitively feel that can be achieved in 3 years, so that's why I chose that time frame."
+                }
+            ]
+        },
+        {
+            "number": 277,
+            "user": "awvwgk",
+            "date": "2021-06-10 12:50:52+00:00",
+            "title": "Add projects for Fortran-lua interfacing to package index",
+            "text": "flook\n\nDocumentation: http://electronicstructurelibrary.github.io/flook/doxygen/index.html\nSource: https://github.com/ElectronicStructureLibrary/flook\nBuilds with make\n\nLuaF\n\nSource: https://chiselapp.com/user/vadimz/repository/luaf (fossil)\n\naotus\n\nDocumentation: https://geb.sts.nt.uni-siegen.de/doxy/aotus/\nSource: https://osdn.net/projects/apes/scm/hg/aotus/ (mercurial)\nBuilds with waf\n\nfortran-lua53\n\nSource: https://github.com/interkosmos/fortran-lua53\nBuilds with xmake",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-10 14:27:26+00:00",
+                    "text": "The Fortran-Lua binding projects hanging around at interesting places, the software choices seem non-mainstream from our git centered bubble here:\n\nLuaF, using fossil, hosted at https://chiselapp.com\naotus, using mercurial, hosted at https://osdn.net/, builds with waf\n\nBoth projects are alive and active, but somewhat hard to find."
+                }
+            ]
+        },
+        {
+            "number": 276,
+            "user": "awvwgk",
+            "date": "2021-06-10 07:42:40+00:00",
+            "title": "Add LATTE tight-binding molecular dynamics code to package index",
+            "text": "source at https://github.com/lanl/LATTE\nGPL-2.0 licensed\nsupport CMake and make as build system",
+            "comments": []
+        },
+        {
+            "number": 275,
+            "user": "awvwgk",
+            "date": "2021-06-08 21:42:50+00:00",
+            "title": "Add crest program to package index",
+            "text": "This patch adds the conformer-rotamer ensemble search tool (crest) to the package index.\n\nOpenMP based task scheduler and automation tool for exploring potential energy surfaces written in Fortran\nthe package supports meson, CMake and plain make as build systems\ncompiles with Intel Fortran and GFortran, requires MKL\ndocumentation can be found here: https://xtb-docs.readthedocs.io/en/latest/crest.html\n\ncc @pprcht",
+            "comments": []
+        },
+        {
+            "number": 274,
+            "user": "dav05",
+            "date": "2021-06-07 22:05:14+00:00",
+            "title": "Add convert_FORTRAN_case formatter to package index",
+            "text": "Dear friends, I wrote this utility :\npython3 scrip for case conversion of source code files writen in fixed form fortran. Ignores comments, strings, escape, sequences within strings and some special words.\nI created it esentialy to use in my company, but during my personal time, so it's fully tested and I'm releasing as open source. I know it does not have the 3 git starts, as I just released the code, however is realy easy to verify that works very well. So I hope you can embrace this contribution to the comunity.\nMany thanks.\nDavid",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-06-08 00:22:04+00:00",
+                    "text": "It has 3 stars now. ;)\nAre there other tools that can convert fixed form to free form? Such a tool is something that I would like to have, well maintained, that can handle comments, empty lines, etc.\nCC @milancurcic, @LKedward, @awvwgk and others."
+                }
+            ]
+        },
+        {
+            "number": 273,
+            "user": "p-costa",
+            "date": "2021-06-04 22:45:00+00:00",
+            "title": "add the SNaC package ?",
+            "text": "Hello everyone,\nI wrote SNaC, a multi-block finite-difference solver for massively parallel simulations of fluid flows. Despite being young and the low number of stars, I hope you find it interesting and suitable for integrating the list of scientific codes.\nThanks in advance!\nPedro",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-06-04 22:58:23+00:00",
+                    "text": "Thanks @p-costa for submitting it! Is the \"the primary functionality of the package\" implemented? If so, then I think it should be included as far as I am concerned."
+                },
+                {
+                    "user": "p-costa",
+                    "date": "2021-06-04 23:05:16+00:00",
+                    "text": "Thanks, Ond\u0159ej @certik! Yes, it is definitely mature regarding the funtionality."
+                }
+            ]
+        },
+        {
+            "number": 272,
+            "user": "certik",
+            "date": "2021-06-03 18:15:59+00:00",
+            "title": "Add QUICK to packages",
+            "text": "I just discovered this application, written in Fortran:\nhttps://github.com/merzlab/QUICK\nI think it should be added.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-03 18:30:02+00:00",
+                    "text": "Seems more like a C project than an actual Fortran project (the Fortran part stems from a vendored BLAS/LAPACK version).\nWell, it is indeed Fortran with a large C part because of vendored C libraries..."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-03 18:53:09+00:00",
+                    "text": "Yes, the main program is in this directory: https://github.com/merzlab/QUICK/tree/master/src, which is indeed in (pure) Fortran. They have several dependencies that are in C and C++."
+                }
+            ]
+        },
+        {
             "number": 271,
             "user": "Beliavsky",
             "date": "2021-05-25 12:19:18+00:00",
@@ -82,7 +324,33 @@
             "date": "2021-05-22 09:31:18+00:00",
             "title": "Monthly newsletter: June",
             "text": "It's again time to prepare our monthly newsletter. Going forward we want to start earlier to give everybody enough time to contribute and also be able to publish on time.\n\n add stdlib updates\n add fpm updates\n add fortran-lang.org updates\n add monthly call link\n add LLVM / classic flang updates (@AlexisPerry)\n add LFortran updates (@certik)\n update contributor data (@LKedward)\n\nAs usual, please add your name to the authors list if you add, edit, or review content.\n\n@zmoon I used your script from #261 to prepare this post. Worked great to collect the relevant links, I'll add some feedback soon.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-30 08:57:17+00:00",
+                    "text": "@certik @AlexisPerry Do you have updates for the compiler sections we can include?\n@LKedward @milancurcic @certik Could any of you check the settings tab of this repo whether we can enable GitHub's new automerge feature for this repository? I would like to test creating an automerge for the 1st June."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-30 11:05:21+00:00",
+                    "text": "Sure, but just to check, if we enable auto-merge will this PR not merge immediately because it already has two reviews and checks passed?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-30 11:07:59+00:00",
+                    "text": "That's what I wanted to check, maybe we can set a delay for merging. Also, this repo has no requirements for merges and no CI that has to pass, everyone with push access can merge right away."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-05-30 11:13:59+00:00",
+                    "text": "I've enabled it for you to try, but I'm not sure what you have in mind is possible currently"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-05-31 15:36:28+00:00",
+                    "text": "Yes, I have updates that I will send later today."
+                }
+            ]
         },
         {
             "number": 262,
@@ -343,6 +611,66 @@
                     "user": "zmoon",
                     "date": "2021-05-17 14:21:31+00:00",
                     "text": "@LKedward I still have a few things I want to do first but I will be sure to mark ready after that, thanks."
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-30 03:10:20+00:00",
+                    "text": "@milancurcic could you (or someone else) explain what is meant by \"do concurrent is not a basic feature of Fortran\" in Operators and Control Flow?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-30 08:25:35+00:00",
+                    "text": "I think the comment on do concurrent refers the difference between expectation and actual implementations in compilers. I'll try to summarize what I picked up from the threads in discourse:\n\nconcurrent doesn't mean parallel, yet most users mean parallel when they are using do concurrent\nfrom a strict viewpoint, there is no guarantee that a do concurrent can actually be run in parallel\n\nthe compiler must ensure that the loop is correctly run sequentially if no parallelization due to data dependencies is possible\npractically this kind of compile time checks are difficult, if not impossible to implement (calling a pure procedure)\n\n\nsome compiler implement the do concurrent as a parallel do loop regardless, even if there is a data dependency which could prevent parallelization\nsome of those short-comings have been fixed in the Fortran 2018 variant of do concurrent which allows to declare the data dependencies explicitly"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-30 12:09:50+00:00",
+                    "text": "I think the comment on do concurrent refers the difference between expectation and actual implementations in compilers.\n\nSo maybe the first sentence in the note, \"do concurrent is not a basic feature of Fortran.\", could be replaced by something like \"Don't expect a loop to be parallelized simply by changing from do to do concurrent\". And I think also could mention compiler flags are needed, yes?\nIs there a resource comparing what the different major compilers can/will do with it?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-05-30 12:23:41+00:00",
+                    "text": "Maybe we can just put a general statement there that concurrency does not imply parallel execution. Not sure what GFortran does, but ifort will parallelize do concurrent if the -qopenmp flag is set, nvfortran will parallelize with -stdpar=multicore and generate device offloading code with -stdpar=gpu."
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-05-30 13:01:58+00:00",
+                    "text": "Cool. Yeah I just feel since it's for the Quickstart we should mention that compiler flags are necessary to get parallelization, and maybe mention a few (maybe should be gfortran (I guess would be -ftree-parallelize-loops=n + an -O flag \u2265 1; not sure if it does anything with -fopenmp) since it is used elsewhere in the minibook) / link to an external resource with more details, to give people what they need to get started with it quickly."
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-06-03 23:03:01+00:00",
+                    "text": "@awvwgk I made some changes to the do concurrent note but feel free to suggest others"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-06-10 22:08:40+00:00",
+                    "text": "@LKedward do you want to review?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-11 13:09:36+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-06-11 13:10:52+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/255/"
+                },
+                {
+                    "user": "zmoon",
+                    "date": "2021-06-11 19:29:09+00:00",
+                    "text": "@LKedward were you able to look at those small CSS changes and their impact? It adds horizontal scroll bars for the code blocks e.g. for mobile. And I was trying to fiddle with the container width a bit, in regards to #256."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-06-17 08:52:01+00:00",
+                    "text": "Sorry @zmoon, yes those CSS updates look fine to me and the rendering seems to work better now for narrow screens \ud83d\udc4d"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-17 20:24:49+00:00",
+                    "text": "With three approvals I will go ahead and merge this patch."
                 }
             ]
         },
@@ -438,6 +766,11 @@
                     "user": "certik",
                     "date": "2021-05-03 18:00:26+00:00",
                     "text": "@scivision would you have time to send a patch? I am busy right now."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-16 20:22:36+00:00",
+                    "text": "Done with #259"
                 }
             ]
         },
@@ -527,7 +860,7 @@
             "user": "vmagnin",
             "date": "2021-04-23 19:42:51+00:00",
             "title": "Transferring fortran90.org \"Fortran Best Practices\" into a mini-book",
-            "text": "Transferring the https://www.fortran90.org/src/best-practices.html page, into a mini-book named Fortran Best Practices.\nSee discussion in issue #79",
+            "text": "Transferring the https://www.fortran90.org/src/best-practices.html page, into a mini-book named Fortran Best Practices.\nSee discussion in issue #79\nA preview of the minibook can be found at https://fortran-lang.org/pr/246/learn/best_practices",
             "comments": [
                 {
                     "user": "awvwgk",
@@ -563,6 +896,81 @@
                     "user": "vmagnin",
                     "date": "2021-04-25 19:15:28+00:00",
                     "text": "some chapters like integer division and the parallel programming seem very short.\n\nThe \"Integer division\" chapter could be easily enriched into a more general \"Integer numbers\" and talk about:\n\nthe different kinds of integers (and kinds defined in iso_fortran_env),\nand their ranges and the problems when you go out of range: beginners knowing only Python may not be aware of those problems, as in Python the number of bytes is automatically adapted as needed... No limit!\ninquiry functions like huge(),\nthe fact that there is no unsigned integers (perhaps in Fortran 202x?) in Fortran, a big difference for people knowing C,\n..."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-02 13:31:17+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-06-02 13:34:11+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/246/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-02 13:49:25+00:00",
+                    "text": "I extended and rewrote a couple of chapters. There is still a lot to do and I haven't gotten around to check every chapter. I would also suggest to remove at least three of the currently added chapters in favor of separate minibooks.\n\n Introduction 5cf80cc\n Fortran Style Guide (sync with updated style guide from #255)\n Floating Point Numbers b885654\n Integer Division c358ace\n Modules and Programs a8da64c\n Arrays 976fd62\n Multidimensional Arrays f146342\n Element-wise Operations on Arrays Using Subroutines/Functions\n Allocatable Arrays 3383039\n File Input/Output 158a970\n Interfacing with C (removed in favor of separate minibook) f5978fb\n Interfacing with Python (removed in favor of #247) 7a9fcbc\n Callbacks c1e492a\n Type Casting in Callbacks\n Parallel programming (removed in favor of separate minibook) 1fb3b44"
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-06-02 13:57:00+00:00",
+                    "text": "I merely scanned the booklet, but I noticed a \"gotcha\" regarding\nfloating-point numbers: it looked like a link but it does not lead\nanywhere.\n\nAnd in the chapter on parallel computing I missed a section on coarrays.\n\nBut it is taking shape and that is an important thing :)\n\nOp wo 2 jun. 2021 om 15:49 schreef Sebastian Ehlert <\n***@***.***>:\n\u2026\n I extended and rewrote a couple of chapters. There is still a lot to do\n and I haven't gotten around to check every chapter. I would also suggest to\n remove at least three of the currently added chapters in favor of separate\n minibooks.\n\n    - Introduction\n    - Fortran Style Guide (sync with updated style guide from #255\n    <#255>)\n    - Floating Point Numbers\n    - Integer Division\n    - Modules and Programs\n    - Arrays\n    - Multidimensional Arrays\n    - Element-wise Operations on Arrays Using Subroutines/Functions\n    - Allocatable Arrays\n    - File Input/Output\n    - Interfacing with C (remove in favor of separate minibook?)\n    - Interfacing with Python (remove in favor of #247\n    <#247>?)\n    - Callbacks\n    - Type Casting in Callbacks\n    - Parallel programming (remove in favor of separate minibook?)\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#246 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4SGOASYO66UY6BYQLTQYZHJANCNFSM43PHAVYA>\n ."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-02 14:39:22+00:00",
+                    "text": "Thanks for the tip, Arjen. Linking against the internet archive version is probably safer for external links."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-02 17:28:07+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-06-02 17:30:45+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/246/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-03 10:06:14+00:00",
+                    "text": "I'm done for now with editing, the remaining chapters still need some work, though.\nThe typecasting in callbacks chapter is quite a mess and I didn't really grasp what message should be conveyed there, but the external links against gists and blogs are unacceptable IMO, if we can't explain it in the minibook we shouldn't mention it at all. Also, the elemental procedure chapter is really fuzzy and I didn't really got the overall message there, probably requires rewriting from scratch."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-08 21:03:12+00:00",
+                    "text": "Updating the #build_preview again."
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-06-08 21:05:51+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/246/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-17 20:34:56+00:00",
+                    "text": "How do want to move forward here?\nThere are two chapters remaining that require an editing pass. It doesn't have to be a full rewrite, but at least some cleanup should be done. The rest of the minibook should be fine for review now. I see @LKedward and @milancurcic have volunteered for reviewing already."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-17 20:55:31+00:00",
+                    "text": "Thanks for going over and polishing it @awvwgk. Overall I think the changes make it \"less opinionated\" which is I think better.\nI have two comments:\n\n\nin https://fortran-lang.org/pr/246/learn/best_practices/multidim_arrays it has been lost that you really want to loop over indices from the left for performance: https://www.fortran90.org/src/best-practices.html#multidimensional-arrays, so this information should be added there. The original has examples of this. We can perhaps add a subsection Performance and put this there.\n\n\nThe IO section seems more confusing: https://fortran-lang.org/pr/246/learn/best_practices/file_io than the original: https://www.fortran90.org/src/best-practices.html#file-input-output. Is the original wrong? I noticed the action keyword argument was added --- is that required by the standard or is it automatic? The three basic and most frequent operations are reading, writing and appending, so we can add such 3 subsections, and then we can add \"other\" and put the rest of the info there.\n\n\nOtherwise the changes are fine with me."
+                },
+                {
+                    "user": "brianconcannon2",
+                    "date": "2021-06-27 11:27:35+00:00",
+                    "text": "I would like to join your review if you need me.  I have used Fortran since the year 1966 and am especially familiar with old Fortran code.  Do you have any use for that expertise?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-27 20:16:56+00:00",
+                    "text": "@brianconcannon2 yes, we definitely do! Thank you. If you find any improvements in the tutorial, please let us know. (Or if you have any other questions.)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-06-28 22:39:18+00:00",
+                    "text": "Thank you @brianconcannon2, I just added you as a reviewer."
                 }
             ]
         },
@@ -1278,6 +1686,11 @@
                     "user": "github-actions[bot]",
                     "date": "2021-03-03 15:07:52+00:00",
                     "text": "The preview build for this PR has now been deleted."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-06-20 01:19:26+00:00",
+                    "text": "Looking at\n\n\n\n\nqContainers\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\u00a0\n\n\n\n\nStore any intrinsic or derived data type to a container\n\n\n\n\n\n\n\n\nTags:\u00a0qlibc tree table hash table linked list vector dynamic array unique set\n\n\n\n\n\n\n\n\n\n\nI think there are still many multi-word tags that need to be hyphenated. I assume hash-table, linked-list, and dynamic-array are multi-word tags."
                 }
             ]
         },
@@ -2521,6 +2934,61 @@
                     "user": "arjenmarkus",
                     "date": "2021-02-15 16:37:04+00:00",
                     "text": "Nice, just picking a few nits:\n\nPerhaps you can use the unlimited format:\n\nwrite(*,'(*(a))') buffer(:,iy)\n\nAnd if you check for a number of iterations larger than 10, there is no\nneed for MAX_ITER to be largerthan that, is there?\n\nAlso, the arguments max_iter and threshold could be taken from the host.\n\nOp ma 15 feb. 2021 om 17:19 schreef Philipp <notifications@github.com>:\n\u2026\n I\u2019m throwing in a Mandelbrot implementation in modern Fortran:\n\n ! mandelbrot.f90\n program main\n\n     implicit none\n\n     integer, parameter :: NCOLS = 80, NROWS = 40, MAX_ITER = 100\n\n     real,    parameter :: THRESHOLD = 2.0\n\n\n\n     character(len=1) :: buffer(NCOLS, NROWS)\n\n     character(len=8) :: fmt\n\n     integer          :: x, y\n\n     real             :: re, im\n\n     real             :: t1, t2\n\n\n\n     buffer(:, :) = ' '\n\n\n\n     call cpu_time(t1)\n\n\n\n     do concurrent (y = 0:NROWS)\n\n         im = -1.5 + y * 3.0 / NROWS\n\n\n\n         do concurrent(x = 0:NCOLS)\n\n             re = -2.0 + x * 3.0 / NCOLS\n\n\n\n             if (mandelbrot(cmplx(re, im), MAX_ITER, THRESHOLD) > 10) &\n\n                 buffer(x + 1, y + 1) = '*'\n\n         end do\n\n     end do\n\n\n\n     write (fmt, '(a, i0, a)') '(', NCOLS, '(a1))'\n\n\n\n     do y = 1, NROWS\n\n         print fmt, buffer(:, y)\n\n     end do\n\n\n\n     call cpu_time(t2)\n\n     print '(\"Time: \", f8.6, \" sec\")', t2 - t1\n contains\n\n     pure integer function mandelbrot(c, max_iter, threshold)\n\n         complex, intent(in) :: c\n\n         integer, intent(in) :: max_iter\n\n         real,    intent(in) :: threshold\n\n         complex             :: z\n\n\n\n         z = (0.0, 0.0)\n\n\n\n         do mandelbrot = 0, max_iter\n\n             z = z**2 + c\n\n             if (abs(z) > threshold) exit\n\n         end do\n\n     end function mandelbrot\n end program main\n\n Should work with all compilers and on all platforms, for example:\n\n $ gfortran -o mandelbrot mandelbrot.f90\n\n $ ./mandelbrot\n\n\n\n\n\n\n\n                                                  *\n\n                                                   ***\n\n                                                  ***\n\n                                               *********\n\n                                               ********\n\n                                      * *   ************  *     *\n\n                                       ********************* *****\n\n                                       **************************\n\n                                    ****************************\n\n                     *     *        *******************************\n\n                      *********    *******************************\n\n                      *********************************************\n\n                 *   *********************************************\n\n                  ***********************************************\n\n **************************************************************\n\n                  ***********************************************\n\n                 *   *********************************************\n\n                      *********************************************\n\n                      *********    *******************************\n\n                     *     *        *******************************\n\n                                    ****************************\n\n                                       **************************\n\n                                       ********************* *****\n\n                                      * *   ************  *     *\n\n                                               ********\n\n                                               *********\n\n                                                  ***\n\n                                                   ***\n\n                                                  *\n\n\n\n\n\n\n\n\n\n\n\n Time: 0.006165 sec\n\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#174 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5XPXUCBMWZBCH4QS3S7FCP7ANCNFSM4UMBJH2Q>\n ."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-16 20:18:36+00:00",
+                    "text": "I tried to come up with a shorter version of Philipp's mandelbrot implementation (33 lines, 30 LOC):\n! mandelbrot.f90\nprogram main\n  implicit none\n  integer, parameter :: NCOLS = 80, NROWS = 40, MAX_ITER = 10\n  real,    parameter :: THRESHOLD = 1.7\n  character :: buffer(NCOLS, NROWS)\n  integer   :: x, y, it\n  real      :: re, im, t1, t2\n\n  call cpu_time(t1)\n  do concurrent (y = 1:NROWS, x = 1:NCOLS)\n    im = -1.5 + (y - 1) * 3.0 / NROWS\n    re = -2.0 + (x - 1) * 3.0 / NCOLS\n    it = mandelbrot(cmplx(re, im), MAX_ITER, THRESHOLD)\n    buffer(x, y) = merge('*', ' ', it >= MAX_ITER)\n  end do\n  call cpu_time(t2)\n  print '(*(a1))', [(buffer(:, y), new_line('a'), y = 1, NROWS)]\n  print '(\"Time: \", f8.6, \" sec\")', t2 - t1\ncontains\n  pure integer function mandelbrot(c, max_iter, threshold)\n    complex, intent(in) :: c\n    integer, intent(in) :: max_iter\n    real,    intent(in) :: threshold\n    complex             :: z\n\n    z = (0.0, 0.0)\n    do mandelbrot = 0, max_iter\n        z = z**2 + c\n        if (abs(z) > threshold) exit\n    end do\n  end function mandelbrot\nend program main\nI just checked it with Nvidia's, NAG's, Intel's and GCC's Fortran compiler, just to make sure we are not using anything that is prone to break with those. Also tried to reduce the line length (column 63) to make it nicely visible in small code containers.\nI think it is a nice example to start with as a code snippet."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-16 20:52:30+00:00",
+                    "text": "For computing Mandelbrot, abs(z) is not a good choice, it's faster to compute:\nif (real(z)**2 + aimag(z)**2 > threshold**2) exit\nOf course it does not matter here with the low resolution: with MAX_ITER = 100000, the time difference is really sensible, but brings nothing graphically here..."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-16 21:22:55+00:00",
+                    "text": "Regarding abs(z) I want compilers to generate as fast code as real(z)**2 + aimag(z)**2, I can't see why they couldn't. I am aware that sometimes they don't, but I consider that a bug."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-16 21:38:31+00:00",
+                    "text": "I think it's still too long for a front page. Here is a shorter version, closer to the Julia example:\nprogram main\n  implicit none\n  integer, parameter :: NCOLS = 80, NROWS = 40\n  character :: buffer(NCOLS, NROWS)\n  integer   :: x, y\n  real      :: re, im\n  do concurrent (y = 1:NROWS, x = 1:NCOLS)\n    im = -1.5 + (y - 1) * 3.0 / NROWS\n    re = -2.0 + (x - 1) * 3.0 / NCOLS\n    buffer(x, y) = merge('*', ' ', abs(mandelbrot(cmplx(re, im))) < 2)\n  end do\n  print '(*(a1))', [(buffer(:, y), new_line('a'), y = 1, NROWS)]\ncontains\n  pure complex function mandelbrot(a) result(z)\n    complex, intent(in) :: a\n    integer :: i\n    z = 0\n    do i = 1, 50\n      z = z**2 + a\n    end do\n  end function\nend program\nOurs is better, because it's in parallel."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-06-16 21:58:57+00:00",
+                    "text": "Ours is better, because it's in parallel.\n\nParallel yes, but I'm not sure about the better\n\u276f nvfortran main.f90 -stdpar=multicore  && ./a.out\n/usr/bin/ld: warning: /opt/nvidia/Linux_x86_64/21.5/compilers/lib/nvhpc.ld contains output sections; did you forget -T?\n                                                                                \n     \n \n                                                                                \n        *\n*\n *                                                                              \n           \n \n                   *                             ****          *                \n         *  *     \n    \n                                       *** ***************                      \n                    \n   \n                                    ***************************                 \n                       \n                      **********   ******************************               \n                *        \n \n ************************************************************                   \n                           \n  \n                      *********    ******************************               \n               *               \n  \n                      *             **************************                  \n                 \n \n                                                *****                           \n                                               ******                           \n                                                 ****                           \n                                                                                \n                                                                                \n                                                                                \n                                                                                \n                                                                                \n                                                                                \n                                                                                \n\n\n\nIntel Fortran gets it right even in parallel. So no worries."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-06-17 20:28:00+00:00",
+                    "text": "Regarding abs(z) I want compilers to generate as fast code as real(z)**2 + aimag(z)**2, I can't see why they couldn't.\n\n@certik\nNo, don't forget that abs(z) = sqrt(real(z)**2 + aimag(z)**2)\nBy replacing abs() by real(z)**2 + aimag(z)**2, you are removing the useless computation of the square root, that's just why it's faster."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-17 20:38:48+00:00",
+                    "text": "You are right, if forgot about that."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-19 21:46:28+00:00",
+                    "text": "I still like the Laplace example the most. It's one of the simplest possible numerical methods. I agree the vectorized loop is not the simplest to read. But we can rewrite it in explicit loops, then it is clear that it is just the stencil. Here is the original:\nprogram laplace\nimplicit none\ninteger, parameter :: dp=kind(0.d0), N=100, Niter=80000\nreal(dp) :: u(N,N)\ninteger :: i\nu(1,:) = 1; u(2:,:) = 0\ndo i = 1, Niter\n    u(2:N-1,2:N-1) = ((u(3:,2:N-1) + u(:N-2,2:N-1)) + &\n        (u(2:N-1,3:) + u(2:N-1,:N-2))) / 4\nend do\nprint *, sum(u), sum(u**2)\nend program\nAnd here is the explicit stencil version:\nprogram laplace\nimplicit none\ninteger, parameter :: dp=kind(0.d0), N=100, Niter=80000\nreal(dp) :: u(N,N)\ninteger :: i, j, m\nu(1,:) = 1; u(2:,:) = 0\ndo m = 1, Niter\n    do j = 2, N-1\n    do i = 2, N-1\n        u(i,j) = (u(i+1,j) + u(i-1,j) + u(i,j+1) + u(i,j-1)) / 4\n    end do\n    end do\nend do\nprint *, sum(u), sum(u**2)\nend program\nThe first and second version produce the following numbers, respectively:\n   2500.9999999998840        1356.5191481174465     \n   2500.9999999998754        1356.5191481174404     \n\nFor smaller iteration numbers (Niter) they differ slightly because the first version updates the whole array at once, while the second version is reusing the new value in the next stencil, but as iterations progress, both versions converge towards the same result."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-06-21 07:49:47+00:00",
+                    "text": "How about using j = 2,size(N,2)-1 and similar for i? Just to illustrate an\nIMO important aspect of Fortran: that you do not need to rely explicitly on\nthe declaration of arrays, but have (a limited form of) introspection.\n\nAlso: I prefer 4.0 over 4\n\nOne last remark: as this determines the stationary solution, it is not a\nparticular problem to use the new value of u(i,j), but it would be if you\nwere to extend it to a time-dependent diffusion problem.\n\nOp za 19 jun. 2021 om 23:46 schreef Ond\u0159ej \u010cert\u00edk ***@***.***\n\u2026\n:\n I still like the Laplace example the most. It's one of the simplest\n possible numerical methods. I agree the vectorized loop is not the simplest\n to read. But we can rewrite it in loops, then it is clear that it is just\n the stencil. Here is the original:\n\n program laplaceimplicit noneinteger, parameter :: dp=kind(0.d0), N=100, Niter=80000real(dp) :: u(N,N)integer :: i\n u(1,:) = 1; u(2:,:) = 0do i = 1, Niter\n     u(2:N-1,2:N-1) = ((u(3:,2:N-1) + u(:N-2,2:N-1)) + &\n         (u(2:N-1,3:) + u(2:N-1,:N-2))) / 4end doprint *, sum(u), sum(u**2)end program\n\n And here is the explicit stencil version:\n\n program laplaceimplicit noneinteger, parameter :: dp=kind(0.d0), N=100, Niter=80000real(dp) :: u(N,N)integer :: i, j, m\n u(1,:) = 1; u(2:,:) = 0do m = 1, Niter\n     do j = 2, N-1\n     do i = 2, N-1\n         u(i,j) = (u(i+1,j) + u(i-1,j) + u(i,j+1) + u(i,j-1)) / 4\n     end do\n     end doend doprint *, sum(u), sum(u**2)end program\n\n The first and second version produce the following numbers, respectively:\n\n    2500.9999999998840        1356.5191481174465\n    2500.9999999998754        1356.5191481174404\n\n For smaller iteration numbers they differ slightly because the first\n version updates the whole array at once, while the second version is\n reusing the new value in the next stencil, but as iterations progress, both\n versions converge towards the same result.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#174 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR42IELQKEDJYSFJES3TTUF37ANCNFSM4UMBJH2Q>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-06-21 11:42:55+00:00",
+                    "text": "Btw, using 4.0 would give wrong answers, you want to use 4.0_dp. I prefer 4, because it is shorter, but I am fine with either.\nYes, we can do do i = 2, size(u)-1, although it's longer, so for cases like this, I usually prefer to use the variable N as it is shorter.\nBoth of these points are minor (from my perspective), so I am fine either way.\nGood point about time-dependent diffusion problem."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-06-21 11:49:26+00:00",
+                    "text": "Re 4: yes, that is true, it should be 4.0_dp. I prefer to be explicit about\nthe \"real\" character, so that 4/3 * pi * radius**3 or the like does not\ngive surprising results.\n\nRe size: I prefer the longer version, because then I do not have to look up\nwhat the dimensions were - and to avoid misreading them ;).\n\nBut I can live with the short version too. Picking nits is a wonderful\npastime, but it is also nice to actually produce things.\n\nOp ma 21 jun. 2021 om 13:43 schreef Ond\u0159ej \u010cert\u00edk ***@***.***\n\u2026\n:\n Btw, using 4.0 would give wrong answers, you want to use 4.0_dp. I prefer\n 4, because it is shorter, but I am fine with either.\n\n Yes, we can do do i = 2, size(u)-1, although it's longer, so for cases\n like this, I usually prefer to use the variable N as it is shorter.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#174 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6PRHZF7GBV5DYWKH3TT4QU5ANCNFSM4UMBJH2Q>\n ."
                 }
             ]
         },
