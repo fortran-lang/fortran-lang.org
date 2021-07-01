@@ -44,6 +44,10 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 Here's what's new in `stdlib`:
 
+* [#313](https://github.com/fortran-lang/stdlib/pull/313):
+  Legendre polynomials and gaussian quadrature
+* [#432](https://github.com/fortran-lang/stdlib/pull/432):
+  Outer product
 * [#439](https://github.com/fortran-lang/stdlib/pull/439):
   Reduce time spent on sorting tests
 * [#440](https://github.com/fortran-lang/stdlib/pull/440):
