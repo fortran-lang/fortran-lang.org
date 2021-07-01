@@ -85,8 +85,6 @@ Work in progress:
   Initial checkin for a module for tolerant comparison of reals
 * [#333](https://github.com/fortran-lang/stdlib/pull/333) (WIP):
   Provide abstract base class for a string object
-* [#313](https://github.com/fortran-lang/stdlib/pull/313) (WIP):
-  Legendre polynomials and gaussian quadrature
 * [#311](https://github.com/fortran-lang/stdlib/pull/311) (WIP):
   String list new
 * [#286](https://github.com/fortran-lang/stdlib/pull/286) (WIP):
