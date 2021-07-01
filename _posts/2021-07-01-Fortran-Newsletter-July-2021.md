@@ -166,7 +166,15 @@ environment in which new open source Fortran projects are created and published 
 
 ### LFortran
 
-
+* 49 Merge Requests merged
+* Highlights
+  * Improvements to array support in the LLVM backend and at the ASR level:
+    array sections, allocatable arrays, and other improvements
+  * Many parser fixes (`lfortran fmt` works on more projects): block data,
+    common block, equivalence, custom operator declaration, flush, critical and
+    event statements
+  * More runtime functions: minval, maxval, real, sum, abs
+  * Optional human readable mod files
 
 
 ## Events
