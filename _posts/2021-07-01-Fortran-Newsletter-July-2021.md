@@ -166,7 +166,7 @@ environment in which new open source Fortran projects are created and published 
 
 ### LFortran
 
-* 49 Merge Requests merged
+* 49 Merge Requests [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged)
 * Highlights
   * Improvements to array support in the LLVM backend and at the ASR level:
     array sections, allocatable arrays, and other improvements
