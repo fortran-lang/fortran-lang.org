@@ -184,6 +184,15 @@ You can watch the recording below:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/YRVLAlQpE5g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+* Joint J3/WG5 (Fortran Standards Committees) meeting was held virtually from June 21-30 (Mondays and Wednesdays only). You can find all the papers that were discussed [here](https://j3-fortran.org/doc/meeting/224). Highlights from the meeting:
+  - Conditional expressions syntax for Fortran 202X ([paper](https://j3-fortran.org/doc/year/21/21-157r2.txt)).
+  - Protected components specifications and syntax for Fortran 202X ([paper](https://j3-fortran.org/doc/year/21/21-168.txt)).
+  - The generics feature planned for Fortran 202Y was discussed at depth ([paper](https://j3-fortran.org/doc/year/21/21-144r4.txt)).
+  - Jeff Hammond (NVidia Corporation) is the new J3 member as a voting alternate to Bryce Adelstein-Lelbach.
+  - Target year for Fortran 202X is 2023, subject to change.
+
+* FortranCon 2021 will be held virtually from September 23-24, 2021. For more information, visit the [FortranCon website](https://tcevents.chem.uzh.ch/event/14/).
+
 * Work has started for our Google Summer of Code program. You read about our students and their progress so far on Discourse: <https://fortran-lang.discourse.group/c/gsoc-2021/11>
   
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
