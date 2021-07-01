@@ -77,8 +77,6 @@ Work in progress:
 [FPM] add fpm support
 * [#436](https://github.com/fortran-lang/stdlib/pull/436) (WIP):
   Implement low-level replace_all function
-* [#432](https://github.com/fortran-lang/stdlib/pull/432) (WIP):
-  Outer product
 * [#426](https://github.com/fortran-lang/stdlib/pull/426) (WIP):
   Addition of a subroutine to compute the median of array elements
 * [#420](https://github.com/fortran-lang/stdlib/pull/420) (WIP):
