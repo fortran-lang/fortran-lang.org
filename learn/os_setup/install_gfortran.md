@@ -98,7 +98,12 @@ sudo port install gcc10
 
 ## OpenBSD
 ```bash
-pkg_add g95-8.4.0p6
+pkg_add g95
+```
+
+On OpenBSD, the GFortran executable is named `egfortran`. To test it, type:
+```bash
+egfortran -v
 ```
 
 ---
