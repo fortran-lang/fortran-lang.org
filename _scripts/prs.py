@@ -18,6 +18,16 @@ CHILD_REPONAMES = {
 }
 
 
+def _maybe_prog(pl: github.PaginatedList.PaginatedList, desc: str):
+    try:
+        from tqdm import tqdm
+    except ImportError:
+        def tqdm(pl, *args, **kwargs):
+            return pl
+
+    return tqdm(pl, desc=desc, total=pl.totalCount, leave=False)
+
+
 _Prs = namedtuple("Prs", "merged wip")
 
 
@@ -27,13 +37,16 @@ def get_prs(
     t_b: datetime.datetime,
 ):    
     merged = []  # PRs merged during the month
-    for pr in repo.get_pulls("closed", sort="updated", direction="desc"):  # most recently merged first
+    pl = repo.get_pulls("closed", sort="updated", direction="desc")  # most recently *updated* first
+    for pr in _maybe_prog(pl, desc=repo.name):
         if pr.merged:
-            if t_a <= pr.merged_at < t_b:  # could check `.month` instead...
+            if t_a <= pr.merged_at < t_b:
                 merged.append(pr)
-            if pr.merged_at < t_a:
-                break
-            
+            # if pr.merged_at < t_a:
+            #     break
+            # ^ This causes some to be missed since recently updated not equiv. to recently merged.
+    merged.sort(key=lambda pr: pr.merged_at)  # earliest merged first
+
     wip = []  # WIP PRs (not merged, still open at this time)
     for pr in repo.get_pulls("open"):
         if pr.created_at < t_b: # and pr.updated_at >= t_a:
@@ -73,17 +86,17 @@ def main(smonth: Optional[str], token: Optional[str], skip_children: bool):
 
         print("## merged\n")
         for pr in prs.merged:
-            print(f"* [#{pr.number}]({pr.html_url}): {pr.title}")
+            print(f"* [#{pr.number}]({pr.html_url}):\n  {pr.title}")
         for child_reponame, child_prs in related_prs.items():
             for pr in child_prs.merged:
-                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`): {pr.title}")
+                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`):\n  {pr.title}")
 
         print("\n## WIP\n")
         for pr in prs.wip:
-            print(f"* [#{pr.number}]({pr.html_url}) (WIP): {pr.title}")
+            print(f"* [#{pr.number}]({pr.html_url}) (WIP):\n  {pr.title}")
         for child_reponame, child_prs in related_prs.items():
             for pr in child_prs.wip:
-                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`; WIP): {pr.title}")
+                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`; WIP):\n  {pr.title}")
 
 
 if __name__ == "__main__":
