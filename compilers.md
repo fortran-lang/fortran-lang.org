@@ -29,7 +29,7 @@ This project is under active development.
 
 ### Current Flang
 
-[Flang](https://github.com/flang-compiler/flang) is an open source compiler 
+[Flang](https://github.com/flang-compiler/flang) is an open source compiler
 based on the NVIDIA/PGI commercial compiler.
 
 
@@ -47,6 +47,7 @@ compiler.
 is Intel's suite of compilers, tools, and libraries for Fortran, C, C++, and
 Python. Intel oneAPI HPC Toolkit provides
 [two Fortran compilers](https://software.intel.com/content/www/us/en/develop/articles/intel-oneapi-fortran-compiler-release-notes.html):
+
 * Intel Fortran Compiler Classic (`ifort`), a mature compiler
   with full Fortran 2018 support; and
 * Intel Fortran Compiler Beta (`ifx`), a new, LLVM-based compiler
@@ -127,18 +128,14 @@ OpenMP standards and tuned for leading server-class Arm-based platforms. Built
 on the open source Flang front-end, and the LLVM‑based optimization and code
 generation back-end. Available as part of the Arm Compiler for Linux package.
 
-
 ### Absoft
 
-[Our compilers](https://www.absoft.com/products/) build faster code more
-efficiently than ever before. Pro Fortran delivers Absoft’s exclusive AP load
-balancing (offering an increase in performance of up to 20%!), AVX, OpenMP 3.1,
-highly extended Fortran 95 compiler with F2003 and F2008 features,, FX3
-graphical debugger, native tool suite integration, AMDAL HPC scientific and
-engineering library, and much more. Plus, Pro Fortran is the only compiler with
-Fast Data Visualization, an Absoft exclusive technology for graphical rendering
-and data output.
-
+[Absoft compilers](https://www.absoft.com/products/) include Pro Fortran
+delivering Absoft’s exclusive AP load balancing, AVX, OpenMP 3.1,
+extended Fortran 95 compiler with F2003 and F2008 features, FX3 graphical debugger,
+native tool suite integration, AMDAL HPC scientific and engineering library, and more.
+Pro Fortran includes Fast Data Visualization, an Absoft exclusive technology for
+graphical rendering and data output.
 
 ### Oracle / Sun
 
@@ -152,14 +149,12 @@ is highly optimized for Oracle systems, on-premise and in the cloud
 
 ### Lahey / Fujitsu
 
-Combining the 32/64-bit LGF Rainier compiler with the classic [Lahey/Fujitsu
-LF95](https://lahey.com/) compiler, LF Professional v7.8 delivers! LGF Rainier
-has full Fortran 95/90/77 compliance with extensive support for the Fortran 2003
-and 2008 standards. Lahey/Fujitsu LF95 offers best in class diagnostics.
+LF Professional v7.8 combines the 32/64-bit LGF Rainier compiler with the classic
+[Lahey/Fujitsu LF95](https://lahey.com/) compiler. LGF Rainier has full Fortran
+95/90/77 compliance with extensive support for the Fortran 2003 and 2008 standards.
+Lahey/Fujitsu LF95 offers best in class diagnostics.
 Includes the automatic-parallelizing GFortran compiler, Lahey/Fujitsu Fortran 95
-compiler, Visual Studio 2015 Shell (compatible with VS2017), Lahey's Exclusive
-Visual Studio Fortran support, Winteracter WiSK Graphics package, and more!
-
+compiler, Visual Studio Fortran support, Winteracter WiSK Graphics package, and more.
 
 ### Silverfrost FTN95
 
