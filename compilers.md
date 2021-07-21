@@ -29,7 +29,7 @@ This project is under active development.
 
 ### Current Flang
 
-[Flang](https://github.com/flang-compiler/flang) is an open source compiler 
+[Flang](https://github.com/flang-compiler/flang) is an open source compiler
 based on the NVIDIA/PGI commercial compiler.
 
 
@@ -177,19 +177,19 @@ of Fortran 77, Fortran 90 and Fortran 95.
 conforms to the Fortran-2003 standard (ISO/IEC 1539-1:2004) and supports many
 features from Fortran-2008 (ISO/IEC 1539-1:2010).
 
-
 ## Discontinued
 
 The following is a list of Fortran compilers that seem discontinued, so we do
 not list them above:
 
+* Apogee
+* Edinburgh Portable Compilers
 * Hewlett Packard
 * Watcom
 * PathScale
 * G95
 * Open64
 * Unisys
-
 
 ## Note
 
