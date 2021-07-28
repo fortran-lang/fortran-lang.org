@@ -1,8 +1,7 @@
 # Github action to build Jekyll site for a pull request preview
-#
-#  Built site is pushed to 'gh-pages' branch
-#   under directory pr/pr_id/
-#
+# We have to checkout and run untrusted code! This is dangerous if done in a privileged context.
+# That's why this action only has read-permissions.
+# Commenting on the PR and pushing the result is done in the "commentAndPushPRPreview.yml" action.
 
 name: Jekyll PR Preview
 
@@ -10,10 +9,11 @@ on:
   issue_comment:
     types: [created]
 
+permissions: read-all
+
 env:
   SRC_DIR: src
   PUBLISH_DIR: gh-pages
-  SITE_URL: https://fortran-lang.org
   FPM_INDEX: "https://raw.githubusercontent.com/fortran-lang/fpm-registry/master/index.json"
 
 jobs:
@@ -22,11 +22,16 @@ jobs:
     if: github.event.issue.pull_request && contains(github.event.comment.body,'#build_preview')
     
     steps:
+    
+    # Checkout repo into SRC_DIR
+    - name: Checkout pr/${{github.event.issue.number}}
+      uses: actions/checkout@v2
+      with:
+        path: ${{env.SRC_DIR}}
 
     # Checkout PR branch into SRC_DIR
-    - name: Checkout pr/${{github.event.issue.number}}
-      run: | 
-        git clone https://github.com/${{github.repository}} ${{env.SRC_DIR}}
+    - name: Fetch pr/${{github.event.issue.number}}
+      run: |
         cd ${{env.SRC_DIR}}
         git fetch origin pull/${{github.event.issue.number}}/head:pr-${{github.event.issue.number}}
         git checkout pr-${{github.event.issue.number}}
@@ -78,21 +83,19 @@ jobs:
         bundle exec jekyll build --future -d _site/${BUILD_DIR}
         cp -r _site/* ../${{env.PUBLISH_DIR}}/
         touch ../${{env.PUBLISH_DIR}}/.nojekyll
-
-    # Commit and push changes to remote/gh-pages
-    - name: Commit and push to gh-pages
-      uses: EndBug/add-and-commit@v4.4.0
+    - name: Upload jekyll site as artifact
+      uses: actions/upload-artifact@v2
       with:
-        cwd: ${{env.PUBLISH_DIR}}
-        message: "Jekyll build, preview ${{env.BUILD_DIR}} (on:pull_request)"
-        ref: 'gh-pages'
-      env:  
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    # Comment on pull request 
-    - name: Comment on pull request
-      uses: peter-evans/create-or-update-comment@v1
+        name: jekyllSite
+        path: |
+          ${{env.PUBLISH_DIR}}/${{env.BUILD_DIR}}
+    - name: Save PR number and BUILD_DIR
+      run: |
+          mkdir -p ./pr
+          echo ${{env.BUILD_DIR}} > ./pr/BUILD_DIR
+          echo ${{github.event.issue.number}} > ./pr/NR
+    - uses: actions/upload-artifact@v2
       with:
-        issue-number: ${{github.event.issue.number}}
-        body: "This PR has been built with Jekyll and can be previewed at: <${{env.SITE_URL}}/${{env.BUILD_DIR}}/>"
+        name: pr
+        path: pr/
 

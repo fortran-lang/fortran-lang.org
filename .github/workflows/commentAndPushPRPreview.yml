@@ -1,0 +1,75 @@
+name: Comment on the pull request and push the PR preview to the gh-pages branch
+
+# read-write repo token
+# access to secrets
+#
+# The PR preview of the changes is generated in the unprivileged action "buildPRPreview.yml".
+# This action takes the output and pushes it to the gh-pages branch and comments on the PR.
+# As we do not checkout/run untrusted code, this should be safe.
+
+on:
+  workflow_run:
+    workflows: ["Jekyll PR Preview"]
+    types:
+      - completed
+
+env:
+  PUBLISH_DIR: gh-pages
+  SITE_URL: https://fortran-lang.org
+  RUN_ID: ${{ github.event.workflow_run.id }}
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    if: >
+      ${{ github.event.workflow_run.event == 'issue_comment' &&
+      github.event.workflow_run.conclusion == 'success' }}
+    steps:
+        # Checkout existing gh-pages branch into PUBLISH_DIR
+      - name: Checkout gh-pages
+        uses: actions/checkout@v2
+        with:
+          path: ${{env.PUBLISH_DIR}}
+          ref: 'gh-pages' 
+          
+      - name: Get PR number and BUILD_DIR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: | 
+          gh run download -R ${{github.repository}} --name "pr" --dir "prNumberForWorkflow" "$RUN_ID" 
+          echo "UNTRUSTED_PR_NUMBER=$(cat prNumberForWorkflow/NR)" >> $GITHUB_ENV
+          echo "UNTRUSTED_BUILD_DIR=$(cat prNumberForWorkflow/BUILD_DIR)" >> $GITHUB_ENV
+        # Assume that an attacker can write arbitrary values into UNTRUSTED_PR_NUMBER and UNTRUSTED_BUILD_DIR
+          
+      - name: Download and extract jekyll site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh run download -R ${{github.repository}} --name "jekyllSite" --dir "/tmp/jekyllSite" "$RUN_ID"
+          cp -a /tmp/jekyllSite/. ${PUBLISH_DIR}/${UNTRUSTED_BUILD_DIR}
+
+      # We have to make sure that an attacker can not push **new** workflow files to the gh-pages branch
+      # If the attacker could do this, he could create a pull_request_target workflow and create a PR
+      # against the gh-pages branch. The "attacker" controlled files are written to 
+      # ${PUBLISH_DIR}/${UNTRUSTED_BUILD_DIR} by the `gh run download ` above, so this might look
+      # safe - because there is the ${UNTRUSTED_BUILD_DIR} directory - but an "attacker" could easily
+      # set this variable to an empty string. And then all files would be added directly into ${PUBLISH_DIR}.
+      - name: Reject invalid files
+        run: test ! -d ${PUBLISH_DIR}/.github/workflows/ && test ! -f ${PUBLISH_DIR}/.github/CODEOWNERS
+
+      # Commit and push changes to remote/gh-pages
+      - name: Commit and push to gh-pages
+        uses: EndBug/add-and-commit@v4.4.0
+        with:
+          cwd: ${{env.PUBLISH_DIR}}
+          message: "Jekyll build, preview ${{env.UNTRUSTED_BUILD_DIR}} (on:pull_request)"
+          ref: 'gh-pages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+               
+      # Comment on pull request 
+      - name: Comment on pull request
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{env.UNTRUSTED_PR_NUMBER}}
+          body: "This PR has been built with Jekyll and can be previewed at: <${{env.SITE_URL}}/${{env.UNTRUSTED_BUILD_DIR}}/>"
