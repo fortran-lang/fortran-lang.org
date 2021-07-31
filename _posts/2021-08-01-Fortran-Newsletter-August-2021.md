@@ -167,14 +167,24 @@ environment in which new open source Fortran projects are created and published 
 Updates for July 2021:
 
 * 90 [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged) MRs
+* Parser: we asked the community to test it, several people have reported about
+  15 bugs, we have fixed all of them (AST)
+* Initial fixed form parser (AST)
+* Classes and class procedures (ASR, LLVM)
+* Many common array usage now works, including allocatable (ASR, LLVM)
+* Associate construct (ASR, LLVM)
+* Compile time evaluation of constant expressions (ASR)
 * 7 people contributed code:
-   *  Ondřej Čertík
-   *  Thirumalai Shaktivel
-   *  Gagandeep Singh
-   *  Rohit Goswami
-   *  Dominic Poerio
-   *  Andrew Best
-   *  Sebastian Ehlert
+    * Ondřej Čertík
+    * Thirumalai Shaktivel
+    * Gagandeep Singh
+    * Rohit Goswami
+    * Dominic Poerio
+    * Andrew Best
+    * Sebastian Ehlert
+
+We are looking for new contributors, so if you are interested, please [get in
+touch with us](https://lfortran.org/)!
 
 
 ## Events
