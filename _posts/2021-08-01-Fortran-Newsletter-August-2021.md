@@ -164,6 +164,19 @@ environment in which new open source Fortran projects are created and published 
 
 ### LFortran
 
+Updates for July 2021:
+
+* 90 [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged) MRs
+* 7 people contributed code:
+   *  Ondřej Čertík
+   *  Thirumalai Shaktivel
+   *  Gagandeep Singh
+   *  Rohit Goswami
+   *  Dominic Poerio
+   *  Andrew Best
+   *  Sebastian Ehlert
+
+
 ## Events
 
 * We had our 14th Fortran Monthly call on July 20.
