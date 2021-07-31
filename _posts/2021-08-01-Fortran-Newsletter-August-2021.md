@@ -166,7 +166,7 @@ environment in which new open source Fortran projects are created and published 
 
 Updates for July 2021:
 
-* 90 [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged) MRs, this month we have reached over 1000 merged MRs, 12 total contributors
+* 90 [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged) MRs, this month we have crossed 1000 total merged MRs, 12 total contributors
 * Parser: we asked the community to test it, several people have reported about
   15 bugs, we have fixed all of them (AST)
 * Initial fixed form parser (AST)
