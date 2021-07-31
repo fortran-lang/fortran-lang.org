@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: August 2021"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Ondřej Čertík, Laurence Kedward
 ---
 
 Welcome to the August 2021 edition of the monthly Fortran newsletter.
