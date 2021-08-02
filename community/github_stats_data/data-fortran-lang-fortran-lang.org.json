@@ -2,6 +2,200 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 297,
+            "user": "intrigus-lgtm",
+            "date": "2021-07-27 20:02:13+00:00",
+            "title": "Fix insecure workflow.",
+            "text": "Actions triggered on \"issue_comment\" have access to\nwrite permissions and repository secrets by default.\nIf we checkout and build untrusted code an attacker\ncan get access to the secrets as well. They can exe-\ncute code by adding a jekyll ruby plugin in\n\"_plugins/malicious.rb\".\nTo prevent this, we split the building of the site\nand pushing the site to gh-pages and commenting on\nthe PR.\nThe site building is done with only read\npermissions, so running untrusted code is not a\nproblem. If the site building finished successfully\na privileged action is triggered that then pushed\nthe site to the gh-pages branch and comments on the\nPR.\nI also added a check that prevents pushing\n\".github/workflows/\" files to the gh-pages branch, because\nthis would allow secret extraction and repository modification as well.\n(If you can add new workflows files you do what every you want inside them)",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-07-27 20:05:23+00:00",
+                    "text": "@intrigus-lgtm thank you so much for this. We all really appreciate it! I'll let @LKedward review it."
+                }
+            ]
+        },
+        {
+            "number": 296,
+            "user": "MarDiehl",
+            "date": "2021-07-26 13:40:44+00:00",
+            "title": "my software with at least 5 stars",
+            "text": "I still plan to put os into stdlib, but currently don't have time.",
+            "comments": []
+        },
+        {
+            "number": 295,
+            "user": "milancurcic",
+            "date": "2021-07-23 14:51:42+00:00",
+            "title": "Initial draft of the August newsletter",
+            "text": "Update contributors data (@LKedward)\n Flang updates (@AlexisPerry)\n LFortran updates (@certik)\n Ensure PRs are up to date at the end of the month (@milancurcic)",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-31 01:48:33+00:00",
+                    "text": "Just a friendly reminder that we aim to merge this on August 1. Thank you!"
+                }
+            ]
+        },
+        {
+            "number": 294,
+            "user": "scivision",
+            "date": "2021-07-21 02:56:51+00:00",
+            "title": "compilers: use more objective tone",
+            "text": "The current verbiage for a couple compliers sounds like an advertisement vs. a reference article",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-07-21 08:55:36+00:00",
+                    "text": "Yeah --- we took it from their advertising materials. Ultimately I want this to be left to them to provide a text under 100 (?) words to put on the webpage. How to ensure it is less advertising and more information? I don't know. Until then, we can modify it along the lines of this PR. I think that will help show what we are looking for.\nOne idea is that any changes simply have to pass review, as they do now. So if reviewers think it is too much advertising, we can ask them to rework it."
+                }
+            ]
+        },
+        {
+            "number": 293,
+            "user": "scivision",
+            "date": "2021-07-21 02:47:55+00:00",
+            "title": "add Apogee and Edinburgh compilers",
+            "text": "",
+            "comments": []
+        },
+        {
+            "number": 292,
+            "user": "milancurcic",
+            "date": "2021-07-18 15:42:53+00:00",
+            "title": "Should fortran-lang.org provide reference to intrinsic modules?",
+            "text": "See PR #344 in ford, and specifically this comment by @ZedThree:\n\nThe Fortran wiki is probably still the best place for the intrinsic\nmodules. fortran-lang.org looks shinier, but it doesn't seem to have\nall the info the wiki does.\n\nIt seems that there is a visual appeal to fortran-lang.org, and it has higher search ranking than any other Fortran website. Though FortranWiki provides nice references, they're outdated. at least iso_fortran_env and iso_c_binding that I looked at are.\nShould we provide references to these modules under https://fortran-lang.org/learn?\nCC @certik @LKedward @awvwgk @jrblevin",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-18 17:01:18+00:00",
+                    "text": "Perhaps a new section Reference would be more suitable than Learn?\nI've always missed something similar to https://en.cppreference.com/w/ or https://docs.python.org/3/. I've looked at their pages and setup before but unfortunately I lack the time or webpage skills to get something started.\nStarting with the intrinsic modules would be a great way to get the ball rolling."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-18 17:02:27+00:00",
+                    "text": "I imagined Reference would be a mini-book under Learn, but a separate page would work as well."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-07-18 20:49:43+00:00",
+                    "text": "Yes, fortran-lang.org/reference would be perfect. An \"official\" (=community approved) reference to all intrinsic functions and language constructs in a searchable form. We definitely need that."
+                },
+                {
+                    "user": "ZedThree",
+                    "date": "2021-07-19 09:46:46+00:00",
+                    "text": "Fortran badly needs an equivalent to cppreference, including their compiler support page. There's something similar on Fortranwiki, but it uses data from the Fortran Forum which is \"does the latest version of compiler support feature\", as opposed to cppref's \"in what version did compiler first support feature\".\nIt might be useful to note that cppref is a wiki, but with a curated/managed structure."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-20 20:57:18+00:00",
+                    "text": "@urbanjost has the full reference as man pages:\n\nDiscourse thread\nRepository\nExample reference website\nfpm plugin"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-07-21 01:16:37+00:00",
+                    "text": "Actually, I moved the fpm plugin to plugins.  The link above still works, but I deleted that repository a while ago, and last I remember that means it will actually vanish at some point. I had several things including the platform-independent plugin I wanted to try (particularly useful on MSWIndows which does not typically have the man(1) command unless installed via Cygwin or some form of Linux) and wanted to make a Fortran version of txt2man and so on, and was thinking that putting a group of the man-pages by category out each month on Fortran Discourse or Learn (or ...?) for  group comment/editing might be useful; have been planning on some time of migration to fortran-lang for something like a year and never quite had the time.  If what I have is a useful seed I am open to ideas on how to leverage it for this purpose. The way I have it now lets me just edit plain text and automatically convert it to the M_intrinsics module for use by the plugin and actual man-pages via txt2man(1) which are things I want and have set up (in a very singular way) as a push-button operation, including extracting and building all the example programs in the man pages and I did not want to loose that, but I think having at least the intrinsic descriptions sans vendor extensions (or explicitly marking them as such) is worth pursing and some of this shouldl be usable for that purpose."
+                }
+            ]
+        },
+        {
+            "number": 291,
+            "user": "dependabot[bot]",
+            "date": "2021-07-13 09:28:47+00:00",
+            "title": "Bump addressable from 2.7.0 to 2.8.0",
+            "text": "Bumps addressable from 2.7.0 to 2.8.0.\n\nChangelog\nSourced from addressable's changelog.\n\nAddressable 2.8.0\n\nfixes ReDoS vulnerability in Addressable::Template#match\nno longer replaces + with spaces in queries for non-http(s) schemes\nfixed encoding ipv6 literals\nthe :compacted flag for normalized_query now dedupes parameters\nfix broken escape_component alias\ndropping support for Ruby 2.0 and 2.1\nadding Ruby 3.0 compatibility for development tasks\ndrop support for rack-mount and remove Addressable::Template#generate\nperformance improvements\nswitch CI/CD to GitHub Actions\n\n\n\n\nCommits\n\n6469a23 Updating gemspec again\n2433638 Merge branch 'main' of github.com:sporkmonger/addressable into main\ne9c76b8 Merge pull request #378 from ashmaroli/flat-map\n56c5cf7 Update the gemspec\nc1fed1c Require a non-vulnerable rake\n0d8a312 Adding note about ReDoS vulnerability\n89c7613 Merge branch 'template-regexp' into main\ncf8884f Note about alias fix\nbb03f71 Merge pull request #371 from charleystran/add_missing_encode_component_doc_entry\n6d1d809 Adding note about :compacted normalization\nAdditional commits viewable in compare view\n\n\n\n\nDependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting @dependabot rebase.\n\n\nDependabot commands and options\n\nYou can trigger Dependabot actions by commenting on this PR:\n\n@dependabot rebase will rebase this PR\n@dependabot recreate will recreate this PR, overwriting any edits that have been made to it\n@dependabot merge will merge this PR after your CI passes on it\n@dependabot squash and merge will squash and merge this PR after your CI passes on it\n@dependabot cancel merge will cancel a previously requested merge and block automerging\n@dependabot reopen will reopen this PR if it is closed\n@dependabot close will close this PR and stop Dependabot recreating it. You can achieve the same result by closing it manually\n@dependabot ignore this major version will close this PR and stop Dependabot creating any more for this major version (unless you reopen the PR or upgrade to it yourself)\n@dependabot ignore this minor version will close this PR and stop Dependabot creating any more for this minor version (unless you reopen the PR or upgrade to it yourself)\n@dependabot ignore this dependency will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)\n@dependabot use these labels will set the current labels as the default for future PRs for this repo and language\n@dependabot use these reviewers will set the current reviewers as the default for future PRs for this repo and language\n@dependabot use these assignees will set the current assignees as the default for future PRs for this repo and language\n@dependabot use this milestone will set the current milestone as the default for future PRs for this repo and language\n\nYou can disable automated security fix PRs for this repo from the Security Alerts page.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-07-13 13:09:10+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-07-13 13:10:15+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/291/"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-07-13 13:11:27+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-07-13 13:11:49+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 290,
+            "user": "awvwgk",
+            "date": "2021-07-10 09:17:19+00:00",
+            "title": "Add arrayfire-fortran to package index",
+            "text": "Repository: https://github.com/arrayfire/arrayfire-fortran\nSee also https://fortran-lang.discourse.group/t/questions-from-a-fortran-hpc-webinar/1516/20",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-10 09:38:02+00:00",
+                    "text": "Looks like arrayfire has binding to almost every language (I see Haskell, Ruby, R, Lisp, ...). With that many bindings it is probably difficult to keep them all up to date, maybe if we express interest in the Fortran binding they will consider updating it again."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-21 13:20:17+00:00",
+                    "text": "Thank you!"
+                }
+            ]
+        },
+        {
+            "number": 289,
+            "user": "interkosmos",
+            "date": "2021-07-09 12:56:36+00:00",
+            "title": "Small fix in packages index",
+            "text": "Changed url to github, added licence.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-09 13:43:11+00:00",
+                    "text": "Thank you!"
+                }
+            ]
+        },
+        {
+            "number": 288,
+            "user": "milancurcic",
+            "date": "2021-07-08 16:52:33+00:00",
+            "title": "Add Flatiron institute multipole libraries to the package index",
+            "text": "Thanks @Beliavsky for finding them.\n\nFMM3D\nfmm2d",
+            "comments": []
+        },
+        {
+            "number": 287,
+            "user": "Beliavsky",
+            "date": "2021-07-08 11:45:13+00:00",
+            "title": "Videos to add to Online Courses section",
+            "text": "EU Regional School 2021 Part 1 with Steve Lionel. Modern Fortran: Features for High-Performance Computing\nRecommended Videos from iRASPA Molecular Simulations",
+            "comments": []
+        },
+        {
+            "number": 286,
+            "user": "brocolis",
+            "date": "2021-07-02 04:31:06+00:00",
+            "title": "Installation process for GFortran on OpenBSD",
+            "text": "Installation process for GFortran on OpenBSD.",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-07-03 03:09:37+00:00",
+                    "text": "Thanks for reviewing it, @LKedward. I have one day of experience with OpenBSD \ud83d\ude38. Today I discovered that we can install GFortran with pkg_add g95, no need to include full version number. I'll update the PR."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-08 13:33:54+00:00",
+                    "text": "Very nice, thanks @brocolis!"
+                }
+            ]
+        },
+        {
             "number": 285,
             "user": "Beliavsky",
             "date": "2021-06-29 01:36:21+00:00",
@@ -66,7 +260,13 @@
             "date": "2021-06-29 00:57:28+00:00",
             "title": "PRs script updates",
             "text": "Fixes #283\n\nremoved attempted optimization that was causing merged PRs to be missed when a previously merged PR had another \"update\" after being merged\n\nunfortunately, it doesn't seem to currently be possible to sort by merge date in the API request\n\n\nfor now, the whole list of merged PRs is searched, which takes a few minutes\n\nwith progress bars if tqdm installed\n\n\nPR titles on new line in the generated Markdown\nsort merged PRs by merge date (earliest merged -> first in the output list)",
-            "comments": []
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-08 13:33:03+00:00",
+                    "text": "Thanks, @zmoon!"
+                }
+            ]
         },
         {
             "number": 283,
@@ -117,6 +317,16 @@
                     "user": "LKedward",
                     "date": "2021-06-30 07:29:39+00:00",
                     "text": "@certik & @AlexisPerry do you have any updates you want to add to the newsletter?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-07-01 02:38:00+00:00",
+                    "text": "Yes, I am working on it now."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-07-01 08:49:00+00:00",
+                    "text": "Thanks everyone!"
                 }
             ]
         },
@@ -172,6 +382,11 @@
                     "user": "awvwgk",
                     "date": "2021-06-10 14:27:26+00:00",
                     "text": "The Fortran-Lua binding projects hanging around at interesting places, the software choices seem non-mainstream from our git centered bubble here:\n\nLuaF, using fossil, hosted at https://chiselapp.com\naotus, using mercurial, hosted at https://osdn.net/, builds with waf\n\nBoth projects are alive and active, but somewhat hard to find."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-08 13:32:22+00:00",
+                    "text": "Great additions, thanks!"
                 }
             ]
         },
@@ -196,12 +411,17 @@
             "user": "dav05",
             "date": "2021-06-07 22:05:14+00:00",
             "title": "Add convert_FORTRAN_case formatter to package index",
-            "text": "Dear friends, I wrote this utility :\npython3 scrip for case conversion of source code files writen in fixed form fortran. Ignores comments, strings, escape, sequences within strings and some special words.\nI created it esentialy to use in my company, but during my personal time, so it's fully tested and I'm releasing as open source. I know it does not have the 3 git starts, as I just released the code, however is realy easy to verify that works very well. So I hope you can embrace this contribution to the comunity.\nMany thanks.\nDavid",
+            "text": "Dear friends, I wrote this utility :\npython3 scrip for case conversion of source code files written in fixed form FORTRAN. Ignores comments, strings, escape, sequences within strings and some special words.\nI created it essentially to use in my company, but during my personal time, so it's fully tested and I'm releasing as open source. I know it does not have the 3 git starts, as I just released the code, however is really easy to verify that works very well. So I hope you can embrace this contribution to the community.\nMany thanks.\nDavid",
             "comments": [
                 {
                     "user": "certik",
                     "date": "2021-06-08 00:22:04+00:00",
                     "text": "It has 3 stars now. ;)\nAre there other tools that can convert fixed form to free form? Such a tool is something that I would like to have, well maintained, that can handle comments, empty lines, etc.\nCC @milancurcic, @LKedward, @awvwgk and others."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-08 13:31:29+00:00",
+                    "text": "Thank you!"
                 }
             ]
         },
@@ -503,7 +723,7 @@
             "user": "zmoon",
             "date": "2021-05-13 00:11:36+00:00",
             "title": "PR lists for newsletter using GitHub API",
-            "text": "Maybe you guys already do something like this, but I wanted to figure out how it could be done, so I wrote a little Python script. Thought I would share, in case it would be helpful for the newsletter.\n\nCode and output\nCode:\n\"\"\"\nSummarize PRs for fortran-lang within a certain month.\n\"\"\"\nimport datetime\nfrom calendar import monthrange\n\nfrom github import Github\n\n# Set month\nmonth = 4  # April\n\n# Token (set so that the GitHub API doesn't complain)\ntoken = \"???\"\n\n# Determine time bounds to check\nnow = datetime.datetime.now()\n_, d_b = monthrange(now.year, month)\nt_a = datetime.datetime(now.year, month, 1, 0, 0)\nt_b = datetime.datetime(now.year, month, d_b, 23, 59)\n\ng = Github(token, per_page=100)\n\norg = g.get_organization(\"fortran-lang\")\n\n\ndef get_prs(repo=\"stdlib\"):\n    repo = org.get_repo(repo)\n    \n    merged = []  # PRs merged during the month\n    for pr in repo.get_pulls(\"closed\", sort=\"updated\", direction=\"desc\"):  # most recently merged first\n        if pr.merged:\n            if t_a <= pr.merged_at <= t_b:\n                merged.append(pr)\n            if pr.merged_at < t_a:\n                break\n            \n    wip = []  # WIP PRs (not merged, still open at this time)\n    for pr in repo.get_pulls(\"open\"):\n        if pr.created_at <= t_b:\n            wip.append(pr)\n    \n    return merged, wip\n\n\n# %% Print markdown\n\nmerged, wip = get_prs()  # takes a while...\n\nprint(\"## Fortran Standard Library\\n\")\nprint(\"Here's what's new in `stdlib`:\\n\")\nfor pr in merged:\n    print(f\"* [#{pr.number}]({pr.html_url}): {pr.title}\")\n\nprint(\"\\nWork in progress:\\n\")\nfor pr in wip:\n    print(f\"* [#{pr.number}]({pr.html_url}) (WIP): {pr.title}\")\n  \n    \n    \n\n    \n    \n\n  \n\n\nOutput:\n## Fortran Standard Library\n\nHere's what's new in `stdlib`:\n\n* [#391](https://github.com/fortran-lang/stdlib/pull/391): Add issue templates\n* [#367](https://github.com/fortran-lang/stdlib/pull/367): Add Intel compiler workflow for OSX\n* [#360](https://github.com/fortran-lang/stdlib/pull/360): Summarize build toolchain workflow and implied rules\n* [#388](https://github.com/fortran-lang/stdlib/pull/388): Changed filenames\n* [#384](https://github.com/fortran-lang/stdlib/pull/384): Implement starts_with and ends_with functions\n* [#336](https://github.com/fortran-lang/stdlib/pull/336): Add functions to convert integer/logical values to character values\n* [#343](https://github.com/fortran-lang/stdlib/pull/343): Implement strip and chomp as supplement to trim\n* [#349](https://github.com/fortran-lang/stdlib/pull/349): Simplify test makefile\n\nWork in progress:\n\n* [#386](https://github.com/fortran-lang/stdlib/pull/386) (WIP): Start the addition of the module stdlib_sorting\n* [#372](https://github.com/fortran-lang/stdlib/pull/372) (WIP): To_Title is corrected\n* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP): Added sort to stdlib_string_type.f90 file\n* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP): Initial checkin for a module for tolerant comparison of reals\n* [#333](https://github.com/fortran-lang/stdlib/pull/333) (WIP): Provide abstract base class for a string object\n* [#313](https://github.com/fortran-lang/stdlib/pull/313) (WIP): legendre polynomials and gaussian quadrature\n* [#311](https://github.com/fortran-lang/stdlib/pull/311) (WIP): String list new\n* [#286](https://github.com/fortran-lang/stdlib/pull/286) (WIP): Probability Distribution and Statistical Functions -- Beta Distribution Module\n* [#278](https://github.com/fortran-lang/stdlib/pull/278) (WIP): Probability Distribution and Statistical Functions -- Gamma Distribution Module\n* [#276](https://github.com/fortran-lang/stdlib/pull/276) (WIP): Probability Distribution and Statistical Functions -- Exponential Distribution Module\n* [#273](https://github.com/fortran-lang/stdlib/pull/273) (WIP): Probability Distribution and Statistical Functions -- Normal Distribution Module \n* [#272](https://github.com/fortran-lang/stdlib/pull/272) (WIP): Probability Distribution and Statistical Functions -- Uniform Distribution Module\n* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP): Initial implementation of COO / CSR sparse format\n* [#157](https://github.com/fortran-lang/stdlib/pull/157) (WIP): Update CMAKE files",
+            "text": "Maybe you guys already do something like this, but I wanted to figure out how it could be done, so I wrote a little Python script. Thought I would share, in case it would be helpful for the newsletter.\n\nCode and output\nCode:\n\"\"\"\nSummarize PRs for fortran-lang within a certain month.\n\"\"\"\nimport datetime\nfrom calendar import monthrange\n\nfrom github import Github\n\n# Set month\nmonth = 4  # April\n\n# Token (set so that the GitHub API doesn't complain)\ntoken = \"???\"\n\n# Determine time bounds to check\nnow = datetime.datetime.now()\n_, d_b = monthrange(now.year, month)\nt_a = datetime.datetime(now.year, month, 1, 0, 0)\nt_b = datetime.datetime(now.year, month, d_b, 23, 59)\n\ng = Github(token, per_page=100)\n\norg = g.get_organization(\"fortran-lang\")\n\n\ndef get_prs(repo=\"stdlib\"):\n    repo = org.get_repo(repo)\n    \n    merged = []  # PRs merged during the month\n    for pr in repo.get_pulls(\"closed\", sort=\"updated\", direction=\"desc\"):  # most recently merged first\n        if pr.merged:\n            if t_a <= pr.merged_at <= t_b:\n                merged.append(pr)\n            if pr.merged_at < t_a:\n                break\n            \n    wip = []  # WIP PRs (not merged, still open at this time)\n    for pr in repo.get_pulls(\"open\"):\n        if pr.created_at <= t_b:\n            wip.append(pr)\n    \n    return merged, wip\n\n\n# %% Print markdown\n\nmerged, wip = get_prs()  # takes a while...\n\nprint(\"## Fortran Standard Library\\n\")\nprint(\"Here's what's new in `stdlib`:\\n\")\nfor pr in merged:\n    print(f\"* [#{pr.number}]({pr.html_url}): {pr.title}\")\n\nprint(\"\\nWork in progress:\\n\")\nfor pr in wip:\n    print(f\"* [#{pr.number}]({pr.html_url}) (WIP): {pr.title}\")\nOutput:\n## Fortran Standard Library\n\nHere's what's new in `stdlib`:\n\n* [#391](https://github.com/fortran-lang/stdlib/pull/391): Add issue templates\n* [#367](https://github.com/fortran-lang/stdlib/pull/367): Add Intel compiler workflow for OSX\n* [#360](https://github.com/fortran-lang/stdlib/pull/360): Summarize build toolchain workflow and implied rules\n* [#388](https://github.com/fortran-lang/stdlib/pull/388): Changed filenames\n* [#384](https://github.com/fortran-lang/stdlib/pull/384): Implement starts_with and ends_with functions\n* [#336](https://github.com/fortran-lang/stdlib/pull/336): Add functions to convert integer/logical values to character values\n* [#343](https://github.com/fortran-lang/stdlib/pull/343): Implement strip and chomp as supplement to trim\n* [#349](https://github.com/fortran-lang/stdlib/pull/349): Simplify test makefile\n\nWork in progress:\n\n* [#386](https://github.com/fortran-lang/stdlib/pull/386) (WIP): Start the addition of the module stdlib_sorting\n* [#372](https://github.com/fortran-lang/stdlib/pull/372) (WIP): To_Title is corrected\n* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP): Added sort to stdlib_string_type.f90 file\n* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP): Initial checkin for a module for tolerant comparison of reals\n* [#333](https://github.com/fortran-lang/stdlib/pull/333) (WIP): Provide abstract base class for a string object\n* [#313](https://github.com/fortran-lang/stdlib/pull/313) (WIP): legendre polynomials and gaussian quadrature\n* [#311](https://github.com/fortran-lang/stdlib/pull/311) (WIP): String list new\n* [#286](https://github.com/fortran-lang/stdlib/pull/286) (WIP): Probability Distribution and Statistical Functions -- Beta Distribution Module\n* [#278](https://github.com/fortran-lang/stdlib/pull/278) (WIP): Probability Distribution and Statistical Functions -- Gamma Distribution Module\n* [#276](https://github.com/fortran-lang/stdlib/pull/276) (WIP): Probability Distribution and Statistical Functions -- Exponential Distribution Module\n* [#273](https://github.com/fortran-lang/stdlib/pull/273) (WIP): Probability Distribution and Statistical Functions -- Normal Distribution Module \n* [#272](https://github.com/fortran-lang/stdlib/pull/272) (WIP): Probability Distribution and Statistical Functions -- Uniform Distribution Module\n* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP): Initial implementation of COO / CSR sparse format\n* [#157](https://github.com/fortran-lang/stdlib/pull/157) (WIP): Update CMAKE files",
             "comments": [
                 {
                     "user": "milancurcic",
@@ -3830,7 +4050,7 @@
                 {
                     "user": "certik",
                     "date": "2020-10-09 14:18:28+00:00",
-                    "text": "+1 with me also\n\u2026\nOn Fri, Oct 9, 2020, at 3:08 AM, Laurence Kedward wrote:\n\n\n *@LKedward* approved this pull request.\n\n Great stuff! I don't see any issues with the workflow which has already\n been tested and demonstrated. Clearly some work is still required to\n link to the twitter account.\n\n It looks like anyone can create and modify a tweet, but only\n maintainers can merge and publish the tweet so I think this workflow\n works well. Thanks @p-costa <https://github.com/p-costa> \ud83d\udc4d\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#147 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWCPBVYHG75UIKRBAQLSJ3HJHANCNFSM4SESIBIA>."
+                    "text": "+1 with me also\n\u2026\nOn Fri, Oct 9, 2020, at 3:08 AM, Laurence Kedward wrote:\n\n\n ***@***.**** approved this pull request.\n\n Great stuff! I don't see any issues with the workflow which has already\n been tested and demonstrated. Clearly some work is still required to\n link to the twitter account.\n\n It looks like anyone can create and modify a tweet, but only\n maintainers can merge and publish the tweet so I think this workflow\n works well. Thanks @p-costa <https://github.com/p-costa> \ud83d\udc4d\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#147 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWCPBVYHG75UIKRBAQLSJ3HJHANCNFSM4SESIBIA>."
                 },
                 {
                     "user": "milancurcic",
@@ -3954,7 +4174,7 @@
                 {
                     "user": "certik",
                     "date": "2020-10-02 13:17:29+00:00",
-                    "text": "I agree. Such PRs are essentially spam PRs.\n\u2026\nOn Fri, Oct 2, 2020, at 6:28 AM, Laurence Kedward wrote:\n\n\n *@LKedward* approved this pull request.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#140 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWHQB3Y2PQNJXM4JD4TSIXBNLANCNFSM4SBUERSA>."
+                    "text": "I agree. Such PRs are essentially spam PRs.\n\u2026\nOn Fri, Oct 2, 2020, at 6:28 AM, Laurence Kedward wrote:\n\n\n ***@***.**** approved this pull request.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#140 (review)>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAAFAWHQB3Y2PQNJXM4JD4TSIXBNLANCNFSM4SBUERSA>."
                 },
                 {
                     "user": "certik",
@@ -4366,7 +4586,7 @@
         },
         {
             "number": 127,
-            "user": "schoonovernumerics",
+            "user": "fluidnumerics-joe",
             "date": "2020-07-27 14:24:20+00:00",
             "title": "Add Fortran Equation Parser",
             "text": "",
@@ -4512,7 +4732,7 @@
                 {
                     "user": "arjenmarkus",
                     "date": "2020-07-30 09:20:36+00:00",
-                    "text": "I read in the Slack page that they are still working on it (wednesday 22\njuly) - it is taking them more time than anticipated, as this is all new.\n\nMaybe Tiziano can provide an estimate?\n\nOp do 30 jul. 2020 om 11:03 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n *@LKedward* commented on this pull request.\n ------------------------------\n\n In _posts/2020-08-01-Fortran-Newsletter-August-2020.md\n <#125 (comment)>\n :\n\n > +* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm.\n +* Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.\n +* Adapt your Fortran package for fpm.\n +* Improve the documentation.\n +\n +The short term goal of fpm is to make development and installation of Fortran packages with dependencies easier.\n +Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy\n +environment in which new open source Fortran projects are created and published with ease.\n +\n +## Events\n +\n +* [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) was held July 2 - 4.\n +with many interesting talks.\n +See the talk schedule\n +[here](https://tcevents.chem.uzh.ch/event/12/timetable/#20200702.detailed).\n +FIXME: is recordings available?\n\n They said they would be made available on their SWITCHtube\n <https://tube.switch.ch/organizations/5>, but nothing there yet.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#125 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6RDIIBR3XNZNEJNZDR6EZNPANCNFSM4PDVP3PQ>\n ."
+                    "text": "I read in the Slack page that they are still working on it (wednesday 22\njuly) - it is taking them more time than anticipated, as this is all new.\n\nMaybe Tiziano can provide an estimate?\n\nOp do 30 jul. 2020 om 11:03 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n ***@***.**** commented on this pull request.\n ------------------------------\n\n In _posts/2020-08-01-Fortran-Newsletter-August-2020.md\n <#125 (comment)>\n :\n\n > +* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm.\n +* Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.\n +* Adapt your Fortran package for fpm.\n +* Improve the documentation.\n +\n +The short term goal of fpm is to make development and installation of Fortran packages with dependencies easier.\n +Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy\n +environment in which new open source Fortran projects are created and published with ease.\n +\n +## Events\n +\n +* [FortranCon 2020](https://tcevents.chem.uzh.ch/event/12) was held July 2 - 4.\n +with many interesting talks.\n +See the talk schedule\n +[here](https://tcevents.chem.uzh.ch/event/12/timetable/#20200702.detailed).\n +FIXME: is recordings available?\n\n They said they would be made available on their SWITCHtube\n <https://tube.switch.ch/organizations/5>, but nothing there yet.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#125 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6RDIIBR3XNZNEJNZDR6EZNPANCNFSM4PDVP3PQ>\n ."
                 },
                 {
                     "user": "certik",
@@ -5517,7 +5737,7 @@
                 {
                     "user": "arjenmarkus",
                     "date": "2020-06-08 06:43:13+00:00",
-                    "text": "Hi everyone,\n\nThanks for the suggestions and the approval. I hope to find time in the\nnext few days (let's be careful with promises) to incorporate these\nsuggestions. (I confess being a trifle lazy when it comes to hunting down\nthe relevant URLs :)).\n\nRegards,\nArjen\n\n\nOp zo 7 jun. 2020 om 13:04 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n *@LKedward* approved this pull request.\n\n Thanks Arjen for your work on this - it's looking really good \ud83d\udc4d\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6AIQVUPIOUL34AS2TRVNX2XANCNFSM4NU76QZQ>\n ."
+                    "text": "Hi everyone,\n\nThanks for the suggestions and the approval. I hope to find time in the\nnext few days (let's be careful with promises) to incorporate these\nsuggestions. (I confess being a trifle lazy when it comes to hunting down\nthe relevant URLs :)).\n\nRegards,\nArjen\n\n\nOp zo 7 jun. 2020 om 13:04 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n ***@***.**** approved this pull request.\n\n Thanks Arjen for your work on this - it's looking really good \ud83d\udc4d\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6AIQVUPIOUL34AS2TRVNX2XANCNFSM4NU76QZQ>\n ."
                 },
                 {
                     "user": "arjenmarkus",
@@ -5562,7 +5782,7 @@
                 {
                     "user": "arjenmarkus",
                     "date": "2020-06-17 14:23:23+00:00",
-                    "text": "Hi everyone,\n\njust committed the changes - I should now close the pull request, I guess?\n\nRegards,\n\nArjen\n\nOp wo 17 jun. 2020 om 15:46 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n *@LKedward* commented on this pull request.\n ------------------------------\n\n In learn/building_programs/distributing.md\n <#99 (comment)>\n :\n\n > +        !DEC$ ATTRIBUTES DLLEXPORT :: f\n\n +            real, intent(in) :: x\n\n +\n\n +            ... TO BE FILLED IN ...\n\n +\n\n +        end function f\n\n +        end module user_functions\n\n +```\n\n +\n\n +* Provide a basic build script with a command like:\n\n +\n\n +```shell\n\n +        gfortran -o function.dll function.f90 -shared\n\n +```\n\n +\n\n +        or:\n\n\n Okay, removing the indent fixes it.\n \u2b07\ufe0f Suggested change\n\n -        or:\n\n +or:\n\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZMTE2CNKZKBI4LU33RXDCMHANCNFSM4NU76QZQ>\n ."
+                    "text": "Hi everyone,\n\njust committed the changes - I should now close the pull request, I guess?\n\nRegards,\n\nArjen\n\nOp wo 17 jun. 2020 om 15:46 schreef Laurence Kedward <\nnotifications@github.com>:\n\u2026\n ***@***.**** commented on this pull request.\n ------------------------------\n\n In learn/building_programs/distributing.md\n <#99 (comment)>\n :\n\n > +        !DEC$ ATTRIBUTES DLLEXPORT :: f\n\n +            real, intent(in) :: x\n\n +\n\n +            ... TO BE FILLED IN ...\n\n +\n\n +        end function f\n\n +        end module user_functions\n\n +```\n\n +\n\n +* Provide a basic build script with a command like:\n\n +\n\n +```shell\n\n +        gfortran -o function.dll function.f90 -shared\n\n +```\n\n +\n\n +        or:\n\n\n Okay, removing the indent fixes it.\n \u2b07\ufe0f Suggested change\n\n -        or:\n\n +or:\n\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#99 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZMTE2CNKZKBI4LU33RXDCMHANCNFSM4NU76QZQ>\n ."
                 },
                 {
                     "user": "LKedward",

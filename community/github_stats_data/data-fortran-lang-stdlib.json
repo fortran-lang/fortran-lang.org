@@ -2,6 +2,614 @@
     "name": "fortran-lang/stdlib",
     "issues": [
         {
+            "number": 479,
+            "user": "awvwgk",
+            "date": "2021-07-30 12:32:40+00:00",
+            "title": "Abstract base class for map types",
+            "text": "Description\nThis issue should track a potential addition of a map class to stdlib. I think it would be preferable to first define an abstract base class which covers most of our needs. Here are some points I found important when working on TOML Fortran:\n\ndata structure owns data\n\nmemory safety\neasy deep copies\nno cyclic references\n\n\nget / find an element based on a key\n\nreturns pointer to value inside structure\n\n\nadd / push back an element for a key\n\nvalue must be allocatable\n\n\ndelete / drop an element at a given key\n\nshould value (optionally) be returned on delete / drop?\n\n\nget a list of all keys / provide an iterator over all keys\nkeys can be strings\n\nwhat about integer, real, ... values?\n\n\n\nExamples\nAbstract base class used in TOML Fortran to define maps\ntype, abstract :: map_class\ncontains\n  !> Find a value based on its key\n  procedure(find), deferred :: find\n  !> Push back a value to the structure\n  procedure(push_back), deferred :: push_back\n  !> Get list of all keys in the structure\n  procedure(get_keys), deferred :: get_keys\n  !> Delete a value at a given key\n  procedure(delete), deferred :: delete\n  !> Destroy the data structure\n  procedure(destroy), deferred :: destroy\nend type\n\nabstract interface\n  !> Find a value based on its key\n  subroutine find(self, key, ptr)\n    import :: map_class, value_type\n    !> Instance of the structure\n    class(map_class), intent(inout), target :: self\n    !> Key to the value\n    character(len=*), intent(in) :: key\n    !> Pointer to the stored value at given key\n    type(value_type), pointer, intent(out) :: ptr\n  end subroutine find\n  !> Push back a value to the structure\n  subroutine push_back(self, val)\n    import :: map_class, value_type\n    !> Instance of the structure\n    class(map_class), intent(inout), target :: self\n    !> Value to be stored\n    type(value_type), allocatable, intent(inout) :: val\n  end subroutine push_back\n  !> Get list of all keys in the structure\n  subroutine get_keys(self, list)\n    import :: map_class, string_type\n    !> Instance of the structure\n    class(map_class), intent(inout), target :: self\n    !> List of all keys\n    type(string_type), allocatable, intent(out) :: list(:)\n  end subroutine get_keys\n  !> Delete a value at a given key\n  subroutine delete(self, key)\n     import :: map_class, value_type\n     !> Instance of the structure\n     class(map_class), intent(inout), target :: self\n     !> Key to the value\n     character(len=*), intent(in) :: key\n  end subroutine delete\n  !> Deconstructor for data structure\n  subroutine destroy(self)\n     import :: map_class\n     !> Instance of the structure\n     class(map_class), intent(inout), target :: self\n  end subroutine destroy\nend interface",
+            "comments": []
+        },
+        {
+            "number": 478,
+            "user": "zoziha",
+            "date": "2021-07-30 10:58:15+00:00",
+            "title": "[stdlib_linalg] Add zeros, ones, ex function.",
+            "text": "add zeros function;\n add ones function;\n add ex function. (the name ex needs to discussed) (ready to expand)\n\nMore routines to do, not this PR\nsee #476.",
+            "comments": [
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-31 02:34:09+00:00",
+                    "text": "The existing grammar of Fortran cannot reproduce the ones and zeros of Matlab and Python very well. I am looking for ways to adapt the Fortran grammar to write such routines, hoping that the Fortran committee will support features such as generics and look forward to changes.\nWe can keep such routines in the experimental version, and if we know that Fortran has a better solution (maybe it has to wait for generics or other?), correct them!"
+                }
+            ]
+        },
+        {
+            "number": 477,
+            "user": "zoziha",
+            "date": "2021-07-30 10:54:59+00:00",
+            "title": "[stdlib_linalg] Add empty function. ",
+            "text": "add empty function. (see numpy/empty)\n\nMore routines to do, not this PR\nsee #476.",
+            "comments": []
+        },
+        {
+            "number": 476,
+            "user": "zoziha",
+            "date": "2021-07-30 10:51:15+00:00",
+            "title": "[feature] Add more base routines for `stdlib_linalg`",
+            "text": "Description\n\n\nFortran has its unique grammatical characteristics. I think it is impossible to learn from some routines of Matlab and Python completely. We should be based on the characteristics of Fortran.\nSeeing the implementation of linspace/logspace in stdlib_math, I want to implement some routines in stdlib, mainly for stdlib_linalg.\nTasks\n\n empty (see #477)\n zeros (see #478)\n ones (see #478)\n ex (see #478)\n seq/arange\n eye, for matrix is not squared\n det\n diff\n\n\n\n is_square\n is_symmetric\n\nPrior Art\n\nSome routines has been implemented in keurfonluu/Forlab (MIT license).\nI will rethink how to adapt to Fortran to write code.",
+            "comments": [
+                {
+                    "user": "ghbrown",
+                    "date": "2021-07-30 17:45:20+00:00",
+                    "text": "I was thinking about proposing and implementing some matrix property checks like\n\nis_square (not sure if it's the same is is_squared?)\nis_symmetric\nis_triangular (upper, lower, and diagonal can fit in here somewhere)\nis_hermitian\nis_hessenberg (upper, lower, etc.)\netc.\n\nI think there is at least a little bit about API to discuss here, since for example I have found it very useful for is_square to also set the dimension n. Also, there should be a very clean way to set the API for checks that can result in upper/lower/diagonal/none, but we could discuss what is best for everyone.\nI can open an issue to discuss this if that works for you."
+                }
+            ]
+        },
+        {
+            "number": 475,
+            "user": "jvdp1",
+            "date": "2021-07-23 18:57:43+00:00",
+            "title": "Generating sorting subroutines specific to `character` type with fypp",
+            "text": "Previously all sorting subroutines for integer, real, and string were generated with fypp. character had its own subroutines.\nI noticed that some checks were not present in character-based subroutines, while present for other types. Therefore, I modified the fypp instructions, such that the sorting subrotuines are generated from a same template for integer, real, string, and character.\nWith this strategy, if someone implements a derived type associated with >, <, ==,...., the sorting subroutines can be easily implemented for this DT by modifying only the fypp instructions.\nAdditional reviewer: @wclodius2",
+            "comments": []
+        },
+        {
+            "number": 474,
+            "user": "14NGiestas",
+            "date": "2021-07-23 14:17:01+00:00",
+            "title": "Bug fix: Allocatable argument 'x' is not allocated #472",
+            "text": "There is a unreliable behaviour when dealing with negative size at runtime in GCC 11, this bug fix is addressing this issue.\nprogram main\n    implicit none\n    real, allocatable :: x(:)\n\n    x = compile_time()\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\n\n    x = runtime(100)\n    print*, allocated(x) ! T\n    print*, size(x)      ! 100\n\n    x = runtime(-100)\n    print*, allocated(x) ! F -> this is a problem!\n    print*, size(x)      ! 0\n\n    x = runtime(0)\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\n\n    x = fix_runtime(-100)\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\n\ncontains\n\n    function compile_time() result(res)\n        real :: res(-100)\n    end function\n\n    function runtime(n) result(res)\n        integer, intent(in) :: n\n        real :: res(n)\n    end function\n\n    function fix_runtime(n) result(res)\n        integer, intent(in) :: n\n        real :: res(merge(n, 0, n > 0))\n    end function\n\nend program",
+            "comments": [
+                {
+                    "user": "14NGiestas",
+                    "date": "2021-07-23 15:04:51+00:00",
+                    "text": "I believe I should guard the logspace as well, to avoid any further trouble."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2021-07-25 17:43:34+00:00",
+                    "text": "Maybe this two should also be guarded."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-25 18:39:17+00:00",
+                    "text": "Thank you @14NGiestas for this bug fix. I'll merge it.\nFixes #472"
+                }
+            ]
+        },
+        {
+            "number": 473,
+            "user": "scivision",
+            "date": "2021-07-22 02:49:40+00:00",
+            "title": "Error stop improvements",
+            "text": "I originally authored this error_stop routine. The logic selecting it in CMake was no\nlonger relevant. I made a driver for the error stop test to make it more reliable.\noneAPI 2021.1 on MacOS has bugs breaking stdlib_error, so I update CI to latest oneAPI for MacOS.",
+            "comments": []
+        },
+        {
+            "number": 472,
+            "user": "brocolis",
+            "date": "2021-07-22 02:12:47+00:00",
+            "title": "Allocatable argument 'x' is not allocated",
+            "text": "Describe the issue\nCommand gnumake -f Makefile.manual FYPPFLAGS=-DMAXRANK=4 test on Windows with GCC-11.1.0 x64, ends with\n./test_linspace\n Made it through first round of tests\nAt line 111 of file test_linspace.f90\nFortran runtime error: Allocatable argument 'x' is not allocated\n\nWith GCC-10.3.0 x64, it works:\n./test_linspace\n Made it through first round of tests\n./test_logspace\ngnumake[2]: Leaving directory 'C:/fortran/stdlib/src/tests/math'\ngnumake[1]: Leaving directory 'C:/fortran/stdlib/src/tests'\n\nAll tests passed.",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-22 20:45:37+00:00",
+                    "text": "thank you @brocolis for reporting this issue. I can reproduce it on my Fedora computer (gcc 11.1.1). I will have a check"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-22 21:03:13+00:00",
+                    "text": "the issue happens at the line 109 of test_linspace.f90.\nIssue: a negative argument (-15) is provided to the function linspace. In such a case,  it is assumed that the result would be an array of size 0 (see the code here). However, with gcc11, the array remains dealloacted, which triggers the runtine error when evaluating size(x) at the following line.\nIs it an issue with the code (violating the standard) or with gfortran?\nPing: @ejovo13 @certik @milancurcic @ivan-pi @awvwgk"
+                },
+                {
+                    "user": "ejovo13",
+                    "date": "2021-07-22 21:38:58+00:00",
+                    "text": "Thank you for reporting this.\nI'm on vacation camping but I will be back on the grid by this weekend. Feel free to leave any more information and I will investigate.\nI know that other versions of gcc/gfortran were working. For example, on arch gcc version 11, the negative index was properly allocated to a size 0 array."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2021-07-23 11:29:39+00:00",
+                    "text": "this answer STD 2018, 12.6.2.2, pg4 states that:\n\nThe characteristics (12.3.3) of the function result are those of the result variable. On completion of execution of the function, the value returned is that of its result variable.\n\nSo if the result variable is unallocated, the return value will follow and since the argument to size must not be an unallocated allocatable variable, this leads to a error, so I believe gcc11 is correct.\nA quick fix would simply force the length 0 when n <= 0\n-      if(n <= 0) return ! If passed length is less than or equal to 0, return an empty (allocated with length 0) array\n+     ! If passed length is less than or equal to 0, return an empty (allocated with length 0) array\n+     if (n <= 0) then\n+          allocate(res(0))\n+          return\n+     end if\nEDIT: Ok... just checked that res isn't allocatable, this would imply that arrays in stack with size zero are not being allocated or something similar."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2021-07-23 12:01:37+00:00",
+                    "text": "I made a gist with a attempt to isolate the issue but couldn't find anything odd with the outputs (maybe a issue with 11.1.1) or any flags?\nEDIT: Actually the only odd thing is that dummy(0) and dummy(-100) one is allocated the other isn't and that's a problem"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-23 12:24:55+00:00",
+                    "text": "I believe that the main issue is that the result of the function is not\nallocatable, but is declared as, e.g., `real(dp) :: res(n)`.\nTherefore, it is different than `allocate(res(-15))`\n\nLe ven. 23 juil. 2021 \u00e0 14:01, Ian Giestas Pauli ***@***.***>\na \u00e9crit :\n\u2026\n I made a gist with a attempt to isolate the issue\n <https://gist.github.com/14NGiestas/78150b1feed3b5f54e9b68b698e340ad> but\n couldn't find anything odd with the outputs (maybe a issue with 11.1.1) or\n any flags?\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#472 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AD5RO7FUAHB5MUJO5B62U43TZFK2XANCNFSM5AZCX77Q>\n ."
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2021-07-23 12:46:25+00:00",
+                    "text": "I believe edits aren't being sent over e-mail (which makes sense, anyway):\nStack allocated variables is somewhat unreliable in this case, runtime negative indexes leaves the return unallocated, compile time negative indexes allocate the return with zero size.\nprogram main\n    implicit none\n    real, allocatable :: x(:)\n\n    x = dummy1()\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\n\n    x = dummy2(100)\n    print*, allocated(x) ! F\n    print*, size(x)      ! 0\n\n    x = dummy2(0)\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\ncontains\n\n    function dummy1() result(res)\n        real :: res(-100)\n    end function\n\n    function dummy2(n) result(res)\n        integer, intent(in) :: n\n        real :: res(-n)\n    end function\nend program\nEDIT: spelling"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-23 13:02:13+00:00",
+                    "text": "Thank you.\nJust got an idea:\n\nWhat about:\n\n`real(dp) :: res( merge(n, 0, n > 0))`\ninstead of\n`real(dp) :: res(n)`\n?"
+                },
+                {
+                    "user": "14NGiestas",
+                    "date": "2021-07-23 13:54:15+00:00",
+                    "text": "Neat! That probably solves the issue, and require minimum changes.\nprogram main\n    implicit none\n    real, allocatable :: x(:)\n\n    x = dummy1()\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\n\n    x = dummy2(100)\n    print*, allocated(x) ! T\n    print*, size(x)      ! 100\n\n    x = dummy2(-100)\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\n\n    x = dummy2(0)\n    print*, allocated(x) ! T\n    print*, size(x)      ! 0\ncontains\n\n    function dummy1() result(res)\n        real :: res(-100)\n    end function\n\n    function dummy2(n) result(res)\n        integer, intent(in) :: n\n        real :: res(merge(n, 0, n > 0))\n    end function\nend program"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-23 14:03:09+00:00",
+                    "text": "Thank you for testing it.\nWould you like to submit a PR with this change, if it works, please? It\nwould be helpful.\n\nLe ven. 23 juil. 2021 \u00e0 15:54, Ian Giestas Pauli ***@***.***>\na \u00e9crit :\n\u2026\n Neat! That probably solves the issue, and require minimum changes.\n\n program main\n     implicit none\n     real, allocatable :: x(:)\n\n     x = dummy1()\n     print*, allocated(x) ! T\n     print*, size(x)      ! 0\n\n     x = dummy2(100)\n     print*, allocated(x) ! T\n     print*, size(x)      ! 100\n\n     x = dummy2(-100)\n     print*, allocated(x) ! T\n     print*, size(x)      ! 0\n\n     x = dummy2(0)\n     print*, allocated(x) ! T\n     print*, size(x)      ! 0contains\n\n     function dummy1() result(res)\n         real :: res(-100)\n     end function\n\n     function dummy2(n) result(res)\n         integer, intent(in) :: n\n         real :: res(merge(n, 0, n > 0))\n     end functionend program\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#472 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AD5RO7D42IWSCVQSB5EZJS3TZFYBHANCNFSM5AZCX77Q>\n ."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-07-26 00:16:31+00:00",
+                    "text": "Fixed by #474, thank you.\nTested with GCC-9.4.0, 10.3.0, 11.1.0, 11.2.0 (release candidate) on Windows x64. All tests passed."
+                }
+            ]
+        },
+        {
+            "number": 471,
+            "user": "jvdp1",
+            "date": "2021-07-21 21:29:24+00:00",
+            "title": "Selection algorithms",
+            "text": "In #426, selection algorithms were mentioned. See e.g., these comment,  comment, and comment.\nDescription\n\n\nTo be completed\nPrior Art\n\nTo be completed",
+            "comments": [
+                {
+                    "user": "leonfoks",
+                    "date": "2021-07-22 01:06:05+00:00",
+                    "text": "First stab. Also, @jvdp1  should we add the proposal label?\nFWIW.  I would be up for doing this, I have yet to contribute directly to stdlib because I have not had the mental capacity to overcome my learning curve with fypp, but this is an easy enough example to get my toes wet and stuck in.\nOnce we have this, I can work on an implementation of Shewchuks adaptive floating point predicates (exact computation of the point inside/on/outside circle problem) and then KdTrees.\nDescription\nHoare's O(n) quick select algorithm to find the kth sorted entry in an unsorted array, without performing the full sort.\nWe can develop two types of algorithm based on this.  quick_select and arg_quick_select (or ord_quick_select, but former matches numpy argmin, argpartition, argsort etc.).\nBenefits\nCan be used to quickly find the median, or perhaps the value of the kth percentile in an array. The quick select is O(n) and in-place so is faster than first sorting the array and then choosing the kth value.\nThis will be very useful for KdTrees where at each iteration, the dimension with the highest variance is split at its median value to create nicely balanced trees. A fast median (quick_select) here is key, and also a fast arg_median (and hence arg_quick_select).\nAPI\nI'll put what I have in Coretran, this will change to match the stdlib format.\nAlso, I don't know how to use fypp, or the syntax, but ill try to use suitable placeholders for possible changeable declarations.\nThe implementations will go in a submodule.  By <array_type> in the code below, I mean real64, int64 etc. (or whatever stdlib is using as those parameters)\ninterface select\n    !!Use an in-place quick select on an array of numbers\n    module subroutine quick_select_<array_type>_<k_type>(array, k, out, left, right)\n      !! Interfaced with select()\n      <array_type>, intent(inout) :: array(:) \n        !! Array to choose kth smallest from\n      <k_type>, intent(in) :: k\n        !! kth smallest element, where 1 <= k <= size(array)\n      <array_type> :: out\n        !! Return the value of the kth element\n      <k_type>, intent(in), optional :: left\n        !! If array has already been partially sorted, use this as the starting left index\n      <k_type>, intent(in), optional :: right\n        !! If array has already been partially sorted, use this as the starting right index\n    end subroutine\nend interface\n\ninterface arg_select\n    !!Use an in-place quick select on an array of numbers using an index into the array.\n    module subroutine arg_quick_select_(array, indx, k, out, left, right)\n      !! Interfaced with argSelect()\n      <array_type>, intent(in) :: array(:) \n        !! Array to choose kth smallest from\n      <k_type>, intent(inout) :: indx(size(array))\n        !! Index into array.\n      <k_type>, intent(in) :: k\n        !! kth smallest element, where 1 <= k <= size(array)\n      <array_type> :: out\n        !! Return the value of the kth element\n      <k_type>, intent(in), optional :: left\n        !! If array has already been partially sorted, use this as the starting left index\n      <k_type>, intent(in), optional :: right\n        !! If array has already been partially sorted, use this as the starting right index\n    end subroutine\nend interface\nExample\nprogram select\nuse m_select, only: select\n\nreal(r64), allocatable :: d1D(:)\nreal(64) :: value\ninteger(i64), allocatable :: i1D(:)\ninteger(i64) :: ivalue\n\nallocate(d1D(10000))\nd1D = Assign values\nk = (1 + size(d1D)) / 2\nvalue = select(d1D, k)\nwrite(*,'(a)') 'kth element? '//str(value)\n\nallocate(i1D(10000))\ni1D = Assign integers\nivalue = select(i1D, k)\nwrite(*,'(a)') 'kth element? '//str(ivalue)\n\nend program\nCurrent implementations\nI have an implementation in Coretran, and during a discussion that started here @gareth-nx brought up the Matlab version with a permissive license, @gareth-nx did a quick translation and ill attach that below.\nTiming\nI timed the matlab version and my coretran version using the same arrays and compile flags.\nTimings are below and are very close with coretran being surprisingly faster for sorted arrays but maybe this is just timing fluctuations.\nIt might be easiest at this point to simply translate the matlab code, and add the arg_select variant which should be easy enough.\nLeft column is array length, right is time in seconds.  Timing was done around a loop of 10 quick selections and the average taken. The array used had samples from a random normal.\n==========================\nTesting : Selection\n==========================\nDouble precision quick select\n16777216  1.694E-01\n8388608  9.460E-02\n4194304  5.000E-02\n2097152  2.530E-02\n1048576  1.030E-02\n524288  3.500E-03\n\nAlready sorted double precision quick select\n16777216  1.030E-02\n8388608  4.500E-03\n4194304  2.800E-03\n2097152  1.000E-03\n1048576  6.000E-04\n524288  2.000E-04\n\n==========================\nTesting : Matlab Selection\n==========================\nDouble precision quick select\n16777216  1.579E-01\n8388608  8.530E-02\n4194304  4.260E-02\n2097152  2.130E-02\n1048576  9.300E-03\n524288  4.100E-03\nAlready sorted double precision quick select\n16777216  1.310E-02\n8388608  6.200E-03\n4194304  3.600E-03\n2097152  1.500E-03\n1048576  1.200E-03\n524288  4.000E-04\n\nMatlab translated version\nmodule qselect_mod\n!\n! This code is a translation of a matlab implementation \"qselect\" by Manolis Lourakis\n!   https://www.mathworks.com/matlabcentral/fileexchange/68947-qselect \n! Below is the licence of qselect\n!\n!\n! Copyright (c) 2018, Manolis Lourakis\n! All rights reserved.\n! \n! Redistribution and use in source and binary forms, with or without\n! modification, are permitted provided that the following conditions are met:\n! \n! * Redistributions of source code must retain the above copyright notice, this\n!   list of conditions and the following disclaimer.\n! \n! * Redistributions in binary form must reproduce the above copyright notice,\n!   this list of conditions and the following disclaimer in the documentation\n!   and/or other materials provided with the distribution\n! * Neither the name of Foundation for Research and Technology - Hellas nor the names of its\n!   contributors may be used to endorse or promote products derived from this\n!   software without specific prior written permission.\n! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n! AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n! IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE\n! FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n! DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n! SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n! CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n! OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n! OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n!\n\n    use iso_c_binding, only: C_DOUBLE, C_INT\n    implicit none\n\n    integer, parameter :: dp = C_DOUBLE, ip = C_INT\n\n    contains\n\n    function qselect(a, k) result(kth_largest)\n! qselect - select the k-th smallest out of n numbers\n! Implements Hoare s Quickselect algorithm (https://en.wikipedia.org/wiki/Quickselect)\n! with the median-of-3 pivot strategy. Operates in-place, avoiding sorting and recursion\n!\n!    kth = qselect(a, k)\n!\n!    a      - array of n elements\n!    k      - specifies the desired k-th smallest element\n!             the k-th *largest* element can be found by passing length(a)+1-k\n!\n! Returns\n!\n!    kth    - the sought element\n! Manolis Lourakis 2007-18\n! Institute of Computer Science, Foundation for Research & Technology - Hellas\n! Heraklion, Crete, Greece\n! Sep  2018  - Original version. (v. 1.0)\n!\n        real(dp), intent(inout) :: a(:)\n        integer(ip), intent(in) :: k\n        real(dp) :: kth_largest\n\n        integer(ip) :: l, r, s, i, j, k_local\n        real(dp) :: temp, pivot\n\n        l = 1_ip\n        r = size(a)\n        if(k < 1 .or. k > r) stop \"in qselect, k must be between 1 and size(a)\";\n        k_local = k\n\n        do while(.true.)\n            s = (l+r)/2_ip ! Deliberate integer division\n            if(a(s) < a(r)) then\n                temp = a(s); a(s) = a(r); a(r) = temp\n            end if\n            if(a(s) < a(l)) then\n                temp = a(s); a(s) = a(l); a(l) = temp\n            end if\n            if(a(r) < a(l)) then\n                temp = a(r); a(r) = a(l); a(l) = temp; \n            end if\n            pivot = a(r) ! Median\n            i = l\n\n            do j = l, r-1\n                if(a(j) <= pivot) then\n                    temp = a(i); a(i) = a(j); a(j) = temp\n                    i = i+1_ip\n                end if\n            end do\n            temp = a(r); a(r) = a(i); a(i) = temp\n            s = i-l+1\n            if(k_local < s) then\n                r = i-1_ip\n            else if(k_local > s) then\n                l=i+1_ip; k_local=k_local-s;\n            else\n                kth_largest = a(i)\n                return\n            end if\n        end do\n    end function\n\nend module"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-07-22 04:48:50+00:00",
+                    "text": "@leonfoks  I like the subroutine interfaces you propose. IMO it is good to make this a subroutine as in your interfaces, rather than a function as in the matlab translation -- because there is some input argument modification (which I personally avoid for functions in Fortran, although others may have different views).\nIn addition to supporting various real/integer types, one could follow the approach of the sorting routines, and develop versions for character(len=*) and type(string_type). However on first thought, I'm not sure they would be especially useful? The obvious applications of quick-select are 'median', 'percentiles' etc which probably only need numeric types. If such special cases are of interest, one could also consider enable arg_quick_select_ to take a comparison function as an input argument in place of the array (something like C's qsort).\nFor simplicity it may be best to focus on intrinsic numeric types for the first pull request."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-22 07:04:59+00:00",
+                    "text": "First stab. Also, @jvdp1 should we add the proposal label?\n\nYes, indeed @leonfoks . I was a bit short in time yesterday to start it, but wanted to open an issue to not forget about it. Thank you for adding this information. It is a great start IMO.\nRe: character(len=*) and type(string_type), I think it could be easily implemented once we have a clean version for integers and reals, similarly to stdlib sort."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-23 17:14:49+00:00",
+                    "text": "FWIW. I would be up for doing this, I have yet to contribute directly to stdlib because I have not had the mental capacity to overcome my learning curve with fypp, but this is an easy enough example to get my toes wet and stuck in.\n\nReally happy to read this. Regarding fypp, the community can help you, if needed. stdlib_sorting module could be a nice example too. Anyway, don't hesitate to ask if needed.\n\nThe quick select is O(n) and in-place so is faster than first sorting the array and then choosing the kth value.\n\nI think it would be good to propose both: a subroutine which is in-place, and a function with all argument intent(in) (keeping the array unchanged).\n\nThe implementations will go in a submodule. By <array_type> in the code below, I mean real64, int64 etc. (or whatever stdlib is using as those parameters)\n\nIt sounds good to me.\n\ninterface select\n    !!Use an in-place quick select on an array of numbers\n    module subroutine quick_select_<array_type>_<k_type>(array, k, out, left, right)\n      !! Interfaced with select()\n      <array_type>, intent(inout) :: array(:) \n        !! Array to choose kth smallest from\n      <k_type>, intent(in) :: k\n        !! kth smallest element, where 1 <= k <= size(array)\n      <array_type> :: out\n        !! Return the value of the kth element\n      <k_type>, intent(in), optional :: left\n        !! If array has already been partially sorted, use this as the starting left index\n      <k_type>, intent(in), optional :: right\n        !! If array has already been partially sorted, use this as the starting right index\n    end subroutine\nend interface\n\nAre left and right there to help the search?"
+                },
+                {
+                    "user": "leonfoks",
+                    "date": "2021-07-23 18:25:04+00:00",
+                    "text": "Anyway, don't hesitate to ask if needed\n\nGreat! Thanks @jvdp1\n\nI think it would be good to propose both: a subroutine which is in-place, and a function with all argument intent(in) (keeping the array unchanged).\n\nWe can implement the function with intent(in), we would just duplicate the incoming array.\n\nAre left and right there to help the search?\n\nShort answer: Yes.\nLong answer and a bit of a ramble:\nYes, they make it a little faster when building a KdTree.  Each time we split along a given dimension, the quick select puts all values lower than the median to the left and all values greater than to the right.  The kdtree build is recursive, so the next time we split a dimension, we keep track of the left and right indices and only quick select over the smaller range.\nFrom a median or percentile standpoint it's hidden to the user, but from a development/speed up standpoint (in future algorithms) it will be good to have.  Doing this allowed me to keep the co-ordinates of the KdTree in-place throughout building it, rather than passing sub arrays to the median algorithm, although my understanding at the time might have been lacking about how contiguous subarrays are passed to subroutines and whether an implicit copy happens or not.  Since the number of points for building a kdtree can be huge I thought this step might be important and also why i originally suggested a subroutine with intent(inout).\nI can make sure this is explained in the docstrings if needed!"
+                }
+            ]
+        },
+        {
+            "number": 470,
+            "user": "Aman-Godara",
+            "date": "2021-07-21 17:49:02+00:00",
+            "title": "Revival string list ",
+            "text": "This PR is based upon #311 by Arjen. Since 311 is very long, I decided to break it into parts and making it easier for others to review and for me to concentrate on one thing at a time.\nHow to Start Reviewing by gareth.\nPrevious discussions (in order of time):\nLinked Issue: #268\nstring list: #269\nstring list new: #311\nTime Line:\n\n 1. Arjen's kickstart\n 2. Corrected a bug in append operator(//)\n 3. Refactored code to use stdlib's string_type, Provided support for allocatable character (character(len=:), allocatable)\n 4. Used concept of forward backward indexes\n 5. added copy function\n 6. Blocked integer indexes to stringlist use only stringlist_index_type indexes\n 7.\n 8.\n 9.\n ---. Behaviour of get function/subroutine? comparing its behaviour with array section of Fortran (which is call by reference)\n\nCurrent Status: Need to get a review of forward backward indexes type. This PR provides a reference to discuss the issues with design in detail.\nNote for reviewers: Only review stringlist_type.f90 file for now. Ignore commented code it is not the focus at this moment and hence it is commented.\nPre-requisites: basic knowledge of Fortran would be enough. I will try to explain lines which I might find requiring explanation to make things easy. If I miss anything, please feel free to ask for clarifications. I will continue to mention updates of PR here in this heading comment, so make sure to look for changes to know the current status of PR.\nInviting: @zoziha, @St-Maxwell, others are welcomed as well.",
+            "comments": [
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-21 17:59:57+00:00",
+                    "text": "reason for using special indexes as explained by Arjen:\n\nThe idea of the special indices is that that way you can be very precise about the effects - does \u201cinsert at the head\u201d mean insert AFTER the first element or BEFORE the first element? Things like that."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-23 16:12:15+00:00",
+                    "text": "Explanation of forward and backward indexes:\nforward index: fidx\nbackward index: bidx\nAfter inserting an element at fidx( x ), the added element will appear at index fidx( x ) i.e. at xth position when counted from left to right.\nAfter inserting an element at bidx( y ), the added element will appear at index bidx( y ) i.e. yth position when counted from right to left.\ninserting at fidx( 1 ) is equivalent to inserting at bidx( len + 1 )\ninserting at bidx( 1 ) is equivalent to inserting at fidx( len + 1 )\nInserting an element at HEAD is like inserting at fidx( 1 ) and inserting an element at TAIL is like inserting at bidx( 1 )\nbackward index is like the forward index of the reversed form of the list.\n\n\n\n\n\n\n\nindex type\n...\n---\nA\nB\n..\nY\nZ\n---\n...\n\n\n\n\ninteger\n...\n---\n1\n2\n..\nlen - 1\nlen\n---\n...\n\n\nforward\n...\nfidx( 0 )\nfidx( 1 )\nfidx( 2 )\n..\nfidx( len - 1 )\nfidx( len )\nfidx( len + 1 )\n...\n\n\nbackward\n...\nbidx( len + 1 )\nbidx( len )\nbidx( len - 1 )\n..\nbidx( 2 )\nbidx( 1 )\nbidx( 0 )\n...\n\n\n\n\n\n\n\nIf you want to insert an element new_element before integer index q use the forward index of integer index q. If you want to insert an element new_element after integer index q use the backward index of integer index q.\nCurrently there is NO function in the PR which converts integer index to forward index or backward index [not to be confused with fidx and bidx of PR]"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-24 14:47:39+00:00",
+                    "text": "In fact, my programming ability is average. It may be more difficult for me to read your code, but I will actively participate in your code review.\nThank you for your work, it looks great! \u2764"
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-24 15:58:22+00:00",
+                    "text": "In fact, my programming ability is average.\n\nI only have 4-5 months of experience with Fortran. I too am learning Fortran through these Pull Requests, making mistakes, asking for clarifications and crawling internet. So, if you need to any clarification please feel free to ask, I would be happy to share whatever I have learned and meanwhile get to learn from you."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-24 16:02:10+00:00",
+                    "text": "Apart from reviewing code, you can also leave your opinion and feedback on the design. Coming up with a good design is the major challenge in this PR.\nThe design that I have proposed has problems (I agree) one of them is: no one would prefer to use these forward and backward indexes over integer indexes. Having these stringlist_index_type indexes just makes code more verbose by calling fidx and bidx function again and again (I wish I had a better solution to propose).\nI could have used positive integer indexes for forward indexes and negative integer indexes for backward indexes but the problem was with the zero. Take help of this comment to understand it better. While reviewing #311 I got the idea of using stringlist_index_type indexes: forward and backward. Now, I need community's help in figuring out other problems. So feel free to leave your opinion."
+                }
+            ]
+        },
+        {
+            "number": 469,
+            "user": "scivision",
+            "date": "2021-07-21 03:58:08+00:00",
+            "title": "CMake: corrections and updates",
+            "text": "I helped implement CMake for stdlib, and some syntax and techniques have become obsolete or no longer relevant. At the time I implemented, quite old compilers were being considered, which have long since not been supported by stdlib.\n\nremove discontinued and never worked with stdlib PGI\nremove syntax for unsupported old Intel compiler versions\ncorrect Intel compiler options for Windows",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-22 07:06:34+00:00",
+                    "text": "All questions seem to be answered. I'll merge it. Thank you @scivision for this PR."
+                }
+            ]
+        },
+        {
+            "number": 468,
+            "user": "scivision",
+            "date": "2021-07-21 03:18:43+00:00",
+            "title": "Update CI",
+            "text": "I helped implement the GItHub Actions CI for stdlib a couple years ago. Some parameters have gotten out of date. This fixes that.",
+            "comments": []
+        },
+        {
+            "number": 467,
+            "user": "Aman-Godara",
+            "date": "2021-07-16 15:02:17+00:00",
+            "title": "implemented move_alloc for string_type",
+            "text": "Closes #449\nTasks:\n\n Implemented move\n added test cases for move\n documented newly created function\n Pure vs Elemental?\n Name of the function?: as of now it is named as move\n move if both arguments are of type character(len=:)?: move_alloc does the same thing OR should we consider renaming it from move to move_alloc.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-16 17:37:23+00:00",
+                    "text": "Pure vs Elemental?\n\nIt can't be elemental since it might handle an allocatable data type in case of deferred length characters. You could swap two string_type arrays with an elemental subroutine, though. Not sure if this is a common application of this procedure.\n\nmove if both arguments are of type character(len=:)?: move_alloc does the same thing OR should we consider renaming it from move to move_alloc.\n\nIt can't overload move_alloc since we won't be able to use the procedure in the context of type(string_type), allocatable anymore, like in the example below:\nuse stdlib_string_type\ntype(string_type), allocatable :: str1, str2\nstr1 = string_type(\"Moveable string value\")\ncall move_alloc(str1, str2)\nend"
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-16 18:45:39+00:00",
+                    "text": "Requesting Clarification:\nAs I understand, the function can't be made elemental because a user cannot create an array in which each element is of type character(len=:), allocatable? Have I understood it correctly?"
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-16 18:55:33+00:00",
+                    "text": "How about instead of overloading the move_alloc we provide the functionality of move_alloc (for character allocatable) in move as well. To do this we will just call move_alloc inside move and that will do the job.\ncharacter(len=:), allocatable :: char_1, char_2\nchar_1 = \"moveable char\"\nmove(char_1, char_2)         ! char_2 <-- \"moveable char\"\nmove_alloc(char_2, char_1)   ! char_1 <-- \"moveable char\"\nabove expected behaviour can be carried out using move_alloc as well. Thus, both move_alloc and move can do this."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-28 09:35:53+00:00",
+                    "text": "@awvwgk I have added a commit 73ec8c5 corresponding to comment mentioned just above by me.\nI added move for both arguments as character allocatable (character(len=:), allocatable) so that a user need not to use a boilerplate if-else condition before using move to use move_alloc if both arguments are character allocatable.\nIf there are no repercussions, then in my opinion this will be good to have. Let me know your thoughts on this."
+                }
+            ]
+        },
+        {
+            "number": 466,
+            "user": "Aman-Godara",
+            "date": "2021-07-16 11:08:17+00:00",
+            "title": "MAXRANK error in stdlib with cmake ",
+            "text": "Describe the issue\n\nI did git reset --hard origin/master on my local master branch to get my local branch updated to the latest commit. But when I try to do cmake --build build on this, I get this error:\n\nI have pasted only the recurring part of the error. This same error has appeared for 6 files including stdlib_linalg.f90.\nI doubt that it is because of some local changes because other branches (which are not updated to the latest commit) which used to run successfully back then have suddenly started giving this error. I am unable to understand what has changed locally.\nAfter to this, I did cmake -B build -G Ninja but to no success.\nTechnical Details\n\nstdlib version: latest\n\nCompiler version: GCC 10.2.0\n\nPlatform and Architecture: Windows 10",
+            "comments": [
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-16 11:16:57+00:00",
+                    "text": "I have no problem on Linux.\nNote that MAXRANK should be equal to a number (e.g. 4), and not ot ON/OFF."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-16 11:20:42+00:00",
+                    "text": "I didn't change MAXRANK manually. How can I change it a number let's say 4?"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-16 11:26:25+00:00",
+                    "text": "I didn't change MAXRANK manually. How can I change it a number let's say 4?\n\nYou can find some explanations here, with e.g.\ncmake -B build -G Ninja -DCMAKE_MAXIMUM_RANK:String=7 -DCMAKE_INSTALL_PREFIX=$HOME/.local\n\n@awvwgk might help you further since you are on Windows."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-16 11:34:59+00:00",
+                    "text": "Thanks it worked! @jvdp1."
+                }
+            ]
+        },
+        {
+            "number": 465,
+            "user": "zoziha",
+            "date": "2021-07-15 06:28:11+00:00",
+            "title": "[Feedback] The inconsistency of `stdlib` internal modules about `access` keyword of opening files: stdlib_io_open, stdlib_logger",
+            "text": "Describe the issue\n\nI tried to use the stdlib_logger module, and used the open function in stdlib_io, and found that there was an adaptability problem. The root cause was that stdlib_logger required to open the log file as access=sequential, while the stdlib_io:open function defaulted to open the file as access=stream , I was wondering if this is a problem and how to solve this problem?\nprogram test_io_logger\n\n    use stdlib_logger, only: global_logger\n    use stdlib_io, only: open\n    implicit none\n    integer :: log_unit\n\n    log_unit = open(\"log.txt\",\"w+\")\n    call global_logger%add_log_unit(log_unit)\n        !! ERROR STOP unit in stdlib_logger % set_log_unit is not \"sequential\".\n\nend program test_io_logger\nLinks\n\n\n\n  \n    \n      stdlib/src/stdlib_io.fypp\n    \n    \n         Line 266\n      in\n      d0f13b0\n    \n    \n    \n    \n\n        \n          \n           access_ = 'stream' \n        \n    \n  \n\n\n\n  \n    \n      stdlib/src/stdlib_logger.f90\n    \n    \n        Lines 384 to 385\n      in\n      d0f13b0\n    \n    \n    \n    \n\n        \n          \n           error stop 'unit in ' // module_name // ' % ' // & \n        \n\n        \n          \n               procedure_name // ' is not \"sequential\".'",
+            "comments": [
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-15 06:38:50+00:00",
+                    "text": "Maybe I think open as a more basic function, can you consider leaving a loose possibility for access in open function? access can be included by the mode argument, and access=stream can be used by default.\n\n  \n    \n      stdlib/src/stdlib_io.fypp\n    \n    \n         Line 211\n      in\n      d0f13b0\n    \n    \n    \n    \n\n        \n          \n           character(*), intent(in), optional :: mode"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-15 10:41:14+00:00",
+                    "text": "Thanks @zoziha for bringing this inconsistency up.\nI believe that @jvdp1 as author of the stdlib_io and reviewer of the logger module is the best person to comment on this issue."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-15 11:11:28+00:00",
+                    "text": "Thank you for reporting this incompatibilit. Please see the PR #71 and its code that introduced open() in stdlib. With this code, the access was sequential. In #71 there was already a lot of discussions about this.\nThe specs of open() specify that all files are streamed files.\nI don't recall when the change of access was implemented. However, using mode argument is a good idea IMO to deal with that. Do you have any suggestions?\nAnother possibiliy would change the logger to accept streamed files, if possible (@wclodius2)."
+                }
+            ]
+        },
+        {
+            "number": 464,
+            "user": "zoziha",
+            "date": "2021-07-15 01:15:47+00:00",
+            "title": "[Proposal] add `time_stamp` function and `stdlib_time` module: get formatted now time information?",
+            "text": "Description\nFor example, the Go language standard library has a time library golang/time, and stdlib also has a time module requirement. Is it possible to provide basic time module capabilities for stdlib.\nStart stdlib_time module by implementing a time_stamp function ?\nPrior Art\n\nJohn Burkardt/fftpack51_test : timestamp (LGPL License)\nstdlib_logger/time_stamp\n\nFortran Time Packages\n\nwavebitscientific/datetime-fortran\nurbanjost/M_time\n\nRelated Issues\n#1 and #106",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-15 11:12:20+00:00",
+                    "text": "The codes of John Burkardt all contain a timestamp subroutine (GPL-licensed) with fixed format:\n\nsubroutine timestamp()\nsubroutine timestamp ( )\n\n!*****************************************************************************80\n!\n!! TIMESTAMP prints the current YMDHMS date as a time stamp.\n!\n!  Example:\n!\n!    31 May 2001   9:45:54.872 AM\n!\n!  Licensing:\n!\n!    This code is distributed under the GNU LGPL license.\n!\n!  Modified:\n!\n!    18 May 2013\n!\n!  Author:\n!\n!    John Burkardt\n!\n!  Parameters:\n!\n!    None\n!\n  implicit none\n\n  character ( len = 8 ) ampm\n  integer ( kind = 4 ) d\n  integer ( kind = 4 ) h\n  integer ( kind = 4 ) m\n  integer ( kind = 4 ) mm\n  character ( len = 9 ), parameter, dimension(12) :: month = (/ &\n    'January  ', 'February ', 'March    ', 'April    ', &\n    'May      ', 'June     ', 'July     ', 'August   ', &\n    'September', 'October  ', 'November ', 'December ' /)\n  integer ( kind = 4 ) n\n  integer ( kind = 4 ) s\n  integer ( kind = 4 ) values(8)\n  integer ( kind = 4 ) y\n\n  call date_and_time ( values = values )\n\n  y = values(1)\n  m = values(2)\n  d = values(3)\n  h = values(5)\n  n = values(6)\n  s = values(7)\n  mm = values(8)\n\n  if ( h < 12 ) then\n    ampm = 'AM'\n  else if ( h == 12 ) then\n    if ( n == 0 .and. s == 0 ) then\n      ampm = 'Noon'\n    else\n      ampm = 'PM'\n    end if\n  else\n    h = h - 12\n    if ( h < 12 ) then\n      ampm = 'PM'\n    else if ( h == 12 ) then\n      if ( n == 0 .and. s == 0 ) then\n        ampm = 'Midnight'\n      else\n        ampm = 'AM'\n      end if\n    end if\n  end if\n\n  write ( *, '(i2,1x,a,1x,i4,2x,i2,a1,i2.2,a1,i2.2,a1,i3.3,1x,a)' ) &\n    d, trim ( month(m) ), y, h, ':', n, ':', s, '.', mm, trim ( ampm )\n\n  return\nend\n\nOn the other hand the M_time module has a formatted time function:\n\nfunction fmtdate(values,format) RESULT (timestr)\n    program demo_fmtdate\n    use M_time, only : fmtdate\n    implicit none\n    integer :: dat(8)\n       call date_and_time(values=dat)\n       write(*,*)fmtdate(dat,\"current date: %w, %l %d, %Y %H:%m:%s %N\")\n       call showme()\n    contains\n    subroutine showme()\n       use M_time, only : fmtdate_usage\n       call fmtdate_usage() ! see all formatting options\n    end subroutine showme\n    end program demo_fmtdate\n\n\nHere are some options from other languages:\n\nJulia: Dates.format\n>>> Dates.format(now(), \"HH:MM\")  \n\"13:18\"\n\n\nPython: datetime.strftime(format) (same as the built-in datatime.format() operator)\ndt.strftime(\"%A, %d. %B %Y %I:%M%p\")\n'Tuesday, 21. November 2006 04:30PM'\n\n\nMATLAB: datestr()\nfprintf('This message is sent at time %s\\n', datestr(now,'HH:MM:SS'))\n\n\n\nSome open issues to discuss are:\n\nfixed vs flexible format\ninput argument type (datetime object, integer :: dat(8) returned by intrinsic date_and_time, other )\ninterface (function vs subroutine)"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-15 12:00:51+00:00",
+                    "text": "Perhaps this is a bad idea, but I wonder if there is any advantage to write into the format string directly?\ninteger :: dat(8)\ncall date_and_time(values=dat)\nwrite(*,fmtdate(dat))\n! vs\nwrite(*,'(A)') datestr(dat)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-15 14:06:42+00:00",
+                    "text": "Somewhat related is #106.\nRather than implementing a specific (fixed-format) time stamp, I recommend simply providing a binding to C strftime, which is a much more versatile solution with less code.\nThe Forlab implementation looks like it was adapted from John Burkardt's. timestamp(). Should probably note that in the Forlab LICENSE file."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-15 14:33:26+00:00",
+                    "text": "The Forlab implementation looks like it was adapted from John Burkardt's. timestamp(). Should probably note that in the Forlab LICENSE file.\n\nThanks for reminding. I have only come into contact with open source code not long ago, and have not been very familiar with open source licenses. If it is a relatively short function, do I need to follow its license because I changed it? Can a project simply combine multiple open source licenses?"
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2021-07-15 14:47:38+00:00",
+                    "text": "do I need to follow its license because I changed it?\n\nAbsolutely.  Adopting the same interface is okay, I believe, but you have to respect the license when it comes to the implementation.  That's why looking too closely at GPL code for the standard library isn't such a good idea IMO.  The standard library is aiming for MIT or BSD licensing isn't it?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-15 14:53:28+00:00",
+                    "text": "I'm very sorry about that, I didn't realize this before.\nJohn Burkardt/timestamp was a subroutine, but now forlab/times_stamp becomes a module function. Isn\u2019t it OK?\nI made this git push today, can I remove this license issue by just deleting this LGPL code git push? (I am scared\ud83d\ude22, I just deleted it just now.)"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-15 16:06:02+00:00",
+                    "text": "How about simply creating a fixed format time_stamp function to start stdlib_time. It's simple, but it's also useful.\nThis reminds people that there is still some work in stdlib_time, remember to improve stdlib_time. \ud83d\ude02"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-23 11:13:01+00:00",
+                    "text": "How about simply creating a fixed format time_stamp function to start stdlib_time. It's simple, but it's also useful.\n\nNAG has a simple function called nagf_time_date_array_string that takes as input an integer :: itime(7) (kind of similar to the return value of subroutine date_and_time and returns a formatted string.\nIf we can reach an agreement on the name and format I'm fine to have this. But in general the solution of @milancurcic will be more helpful. A downside of c_strftime is one needs to size the buffer correctly. If we could have function which returns a character(len=:), allocatable and accepts a custom format it would be more convenient. Then everyone can have the format they likes best and write a simple wrapper function\nfunction nowstr()\ncharacter(len=:), allocatable :: nowstr\ninteger :: vals(8)\ncall date_and_time(values=vals)\n! %c returns a date and time representation like:\n! Sun Aug 19 02:56:02 2012\nnowstr = fstrftime('%c',vals) \nend function"
+                }
+            ]
+        },
+        {
+            "number": 463,
+            "user": "ChetanKarwa",
+            "date": "2021-07-14 18:47:05+00:00",
+            "title": "APIs for linked list module.",
+            "text": "Description\nI am currently working on the Linked List module for stdlib (under GSoC 2021).\nThis issue is somewhat an extension to an already existing issue #68.\nThis especially focuses on APIs for Linked List. This thread is to welcome ideas for APIs that can be implemented in the module and ideas for optimum implementation of the same.\nFor my project, I have implemented 3 types of lists:\n\nA simple linked list\nA list of list\nA list of arrays\n\nBased on some tests with random data set, we decided that out of all the 3 implementations \"list of list\" is better compared to the other 2.\nSo for the time being, I intend to implement all the APIs on the \"list of list\" model.\nAPIs that I intend to implement\n\ninsert: Insert an element at the specified index of the list\nset/replace: Replaces an element at the given index\nclear: Deletes the whole list (Without memory leaks)\nSize: Returns the size of the list\nreverse: Reverse the list\nsort: Sort the items in the list (if homogenous, not sure)\nConcat: Appends a list to another list\nslice: Returns a Slice (a continuous part) of the list\nsplice: Removes a continuous part of the list\n\nAlready Implemented\n\nGet: Returns the element stored at index.\npop: Removes an element from the end of the list.\nremove: Removes an element present at given index\nappend: Append an element at the end of the list\n\nMy works (link).",
+            "comments": [
+                {
+                    "user": "ChetanKarwa",
+                    "date": "2021-07-14 19:18:13+00:00",
+                    "text": "APIs that I have already implemented are pretty straight forward but the others are a bit tricky.\nFor instance,\nInsert API, there can be many possible implementations but for now, I have decided to use the following idea to implement the same.\nThere can be 2 possible scenarios when it comes to inserting an element:\n\nThe child list where we need to insert the element is not full (i.e. number of elements < MaxSize)\n- Directly insert the element.\nThe child list is already full.\n- Splits the child list into two adjacent child lists (split the list at the index where we need to insert the element)\n\nThis is just one way to get past it, other ideas that occurred to me:\n\nCreate a new adjacent child list that will hold just the last element of the current list.\nCreate a new adjacent child list that will hold the last 50% of the elements of the current list. (More time consuming to traverse to the middle of the list)\n\nThis is just some example, so for writing such APIs I wish for as many perspectives as I can receive from the community.\nThank you."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-07-15 11:26:19+00:00",
+                    "text": "I thought at first that inserting a new element in a full child list could\nbe done in such a way that you get new child lists with just a few elements\nall the time. That may occur, perhaps by inserting two elements at the end\nof the child list:\nFIrst just before very end - N-1, causing a new child list to appear, with\nthe new element and the last element. Then insert another in the shortened\noriginal child list - that would be full then and you can repeat the\nprocess.\n\nAn alternative migh tbe to allow for some wiggle room - do not fill the\nchild list up to its maximum capacity but split it with some probability\neven when it is shorter. The effect would be that not all your child lists\nare of maximum length, but when the random splitting is chosen\nstrategically, you might get child lists of roughly equal size. Something\nlike: if the child list is at 90% or more of its capacilty, then spit it up\nwith a probability of x%. If it is full, then split it up anyway.\n\nMind you this thinking out loud! I can imagine all manner of small\nexperiments to determine a useful threshold and probability to see whether\nthe lengths of the child lists do not vary too much. Not an easy task,\nactually, you should carefully define what you want to achieve.\n\nOp wo 14 jul. 2021 om 21:18 schreef ChetanKarwa ***@***.***>:\n\u2026\n APIs that I have already implemented are pretty straight forward but the\n others are a bit tricky.\n For instance,\n Insert API, there can be many possible implementations but for now, I have\n decided to use the following idea to implement the same.\n There can be 2 possible scenarios when it comes to inserting an element:\n\n    - The child list where we need to insert the element is not full (i.e.\n    number of elements < MaxSize)\n    - Directly insert the element.\n    - The child list is already full.\n    - Splits the child list into two adjacent child lists (split the list\n    at the index where we need to insert the element)\n\n This is just one way to get past it, other ideas that occurred to me:\n\n    - Create a new adjacent child list that will hold just the last\n    element of the current list.\n    - Create a new adjacent child list that will hold the last 50% of the\n    elements of the current list. (More time consuming to traverse to the\n    middle of the list)\n\n This is just some example, so for writing such APIs I wish for as many\n perspectives as I can receive from the community.\n Thank you.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#463 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRZYCHM3LB4VX2IYBGTTXXPIBANCNFSM5AMAVMNA>\n ."
+                }
+            ]
+        },
+        {
+            "number": 462,
+            "user": "zoziha",
+            "date": "2021-07-13 14:58:18+00:00",
+            "title": "[Proposal] add `swap` subroutines: swap the values of two variables of the same type ?",
+            "text": "Description\n\n\nDoes stdlib need simple swap routines as follows?\ninterface swap\n    ...\nend interface swap\n\n!! Swap the values of two variables of the same type.\n!! `type & kind` description: logical, integer, real, complex, character, string_type\npure elemental subroutine swap_${t1[0]}$${k1}$(a1, a2)\n\timplicit none\n\t${t1}$ :: a1, a2\n\t${t1}$ :: a_\n\ta_ = a1\n\ta1 = a2\n\ta2 = a_\nend subroutine swap_${t1[0]}$${k1}$\n\ncall swap(a1, a2)",
+            "comments": [
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-16 15:19:54+00:00",
+                    "text": "swap using move_alloc for string_type (or in combination with allocatable character (character(len=:), allocatable)) might be a useful addition."
+                }
+            ]
+        },
+        {
+            "number": 460,
+            "user": "ivan-pi",
+            "date": "2021-07-12 17:20:50+00:00",
+            "title": "Zeros of Bessel functions J and Y",
+            "text": "Description\n\n\nA short description can be found at WolframMathWorld - Bessel Function Zeros.\nBooks:\n\nAbramovitz & Stegun, Handbook of Mathematical Functions with Formulas, Graphs, and Mathematical Tables, Dover, 1972, Section 9.5, pp. 370-374.\nNIST Digital Library of Mathematical Functions, Section 10.21\nShanjie Zhang & Jianming Jin, Computation of Special Functions, Wiley, 1996, Chapter 5.\nAli \u00dcmit Keskin, Ordinary Differential Equations for Engineers, Springer, 2019, Section 5.2, pg. 294.\n\nPapers:\n\nGard, J., & Zakraj\u0161ek, E. (1973). Method for evaluation of zeros of Bessel functions. IMA Journal of Applied Mathematics, 11(1), 57-72. https://doi.org/10.1093/imamat/11.1.57\nTemme, N. M. (1979). An algorithm with ALGOL 60 program for the computation of the zeros of ordinary Bessel functions and those of their derivatives. Journal of Computational Physics, 32(2), 270-279. https://doi.org/10.1016/0021-9991(79)90134-7\nIkebe, Y., Kikuchi, Y., & Fujishiro, I. (1991). Computing zeros and orders of Bessel functions. Journal of Computational and Applied Mathematics, 38(1-3), 169-184. https://doi.org/10.1016/0377-0427(91)90169-K\nElbert, A. (2001). Some recent results on the zeros of Bessel functions and orthogonal polynomials. Journal of computational and applied mathematics, 133(1-2), 65-83. https://doi.org/10.1016/S0377-0427(00)00635-X\n\nPrior Art\n\nA thread at comp.lang.fortran suggests several good resources:\n\nJ-P Moreau: BESSEL PROGRAMS IN FORTRAN 90\n\n        SUBROUTINE JYZO(N,NT,RJ0,RJ1,RY0,RY1)\n!       ======================================================\n!       Purpose: Compute the zeros of Bessel functions Jn(x),\n!                Yn(x), and their derivatives\n!       Input :  n  --- Order of Bessel functions (0 to 100)\n!                NT --- Number of zeros (roots)\n!       Output:  RJ0(L) --- L-th zero of Jn(x),  L=1,2,...,NT\n!                RJ1(L) --- L-th zero of Jn'(x), L=1,2,...,NT\n!                RY0(L) --- L-th zero of Yn(x),  L=1,2,...,NT\n!                RY1(L) --- L-th zero of Yn'(x), L=1,2,...,NT\n! ...\n\n\nCERN Program Library (GPL-licensed according to Wikipedia)\n\nSUBROUTINE DBZEJY(A,N,MODE,REL,X)\nREAL(DP), INTENT(IN) :: A       ! Order a  \nINTEGER, INTENT(IN) :: N        ! Number N of zeros wanted\nINTEGER, INTENT(IN) :: MODE     ! Defines the function for which the zeros are to be calculated\nREAL(DP), INTENT(IN) :: REL     ! Requested relative accuracy\nREAL(DP), INTENT(OUT) :: X(N)   ! On exit, contains the first N positive zeros of the function defined by MODE\n\nNAG Library (s17alf or bessel_zeros)\n\nsubroutine bessel_zeros(a,n,mode,rel,x,ifail)\ninteger, intent(in) :: n, mode\ninteger, intent(inout) :: ifail\nreal(kind=nag_wp), intent(in) :: a, rel\nreal(kind=nag_wp), intent(out) :: x(n)\nFinally, the results of a non-exhaustive search for Bessel zero resources:\n\nBoost C++ Libraries: Finding Zeros of Bessel Functions of the First and Second Kinds (the implementation is discussed towards the bottom of the page)\nGSL: Zeros of Regular Bessel functions\nOnline Calculator from CASIO\nscipy.special (Zeros of Bessel functions) - Cites code from Ref. 3 of the resources above, available in the SPECIAL_FUNCTIONS package from John Burkardt's collection. Here is a permalink to the code in Scipy.\nFunctionZeros.jl (an issue is open to add this to the Julia SpecialFunctions.jl)\nMATLAB Central Packages:\n\nBessel Zero Solver by Jason Nicholson\nBessel Function Zeros by Greg von Winckel\nBessel Derivative Zeros by Carey Smith\n\n\nmisc/besz.c - fast zero finder for bessel functions J_nu(x) by E. Onofri\n\nRelated issues: #305, #179, #102\nSince Fortran already supports Bessel functions\n\nbessel_j0(x)\nbessel_j1(x)\nbessel_jn(n,x) or bessel_jn(n1,n2,x)\nbessel_y0(x)\nbessel_y1(x)\nbessel_yn(n,x) or bessel_yn(n1,n2,x)\n\nit would be nice to come up with a similar interface.",
+            "comments": []
+        },
+        {
+            "number": 459,
+            "user": "wyphan",
+            "date": "2021-07-11 18:58:06+00:00",
+            "title": "Fix CMake variable usage",
+            "text": "CMAKE_MAXIMUM_RANK is now properly defined as a CMake cache variable of type string (even though it functions as an int). Thus, at configure time, it is passed on as cmake -DCMAKE_MAXIMUM_RANK:String=7, for instance.\nI only changed the semantics of defining the variable -- use set instead of option -- and updated the README file and CI workflows accordingly.",
+            "comments": [
+                {
+                    "user": "wyphan",
+                    "date": "2021-07-11 19:16:08+00:00",
+                    "text": "@awvwgk The online documentation for CMake on option seems to suggest that it is used mainly for boolean ON/OFF values, not for integer data. It has its uses though, as you can see in this StackOverflow page. Don't worry, I'm still learning CMake too!"
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2021-07-11 19:18:10+00:00",
+                    "text": "Also, the thing that made me recognize the issue in the first place is when I ran cmake-gui. If declared as an option, it shows up a checkmark, instead of a text field where I can input a number."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-11 19:57:37+00:00",
+                    "text": "Thank you for this PR. I am learning something too. However, I think that cmake -DCMAKE_MAXIMUM_RANK:String=4 is not really intuitive, and more \"complex\" than cmake -DCMAKE_MAXIMUM_RANK=4.\nAre there any other alternatives?"
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2021-07-11 20:00:44+00:00",
+                    "text": "The old syntax `-DCMAKE_MAXIMUM_RANK=4` should still work, albeit not\n\"standard-conforming\".\n\u2026\nOn Sun, Jul 11, 2021, 15:57 Jeremie Vandenplas ***@***.***> wrote:\n Thank you for this PR. I am learning something too. However, I think that cmake\n -DCMAKE_MAXIMUM_RANK:String=4 is not really intuitive, and more \"complex\"\n than cmake -DCMAKE_MAXIMUM_RANK=4.\n\n Are there any other alternatives?\n\n \u2014\n You are receiving this because you authored the thread.\n Reply to this email directly, view it on GitHub\n <#459 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AMERY5CMW57H6WHD7ZPS25DTXHZTZANCNFSM5AFRYNCQ>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-07-11 22:48:59+00:00",
+                    "text": "Fine with me also."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-14 20:34:33+00:00",
+                    "text": "Fine for @certik + 2 approvals, I'll merge."
+                }
+            ]
+        },
+        {
+            "number": 458,
+            "user": "awvwgk",
+            "date": "2021-07-11 15:12:25+00:00",
+            "title": "Detailed reviewer guidelines",
+            "text": "Related discussion: https://fortran-lang.discourse.group/t/1506/4\nWe should setup more detailed guidelines to help reviewers to get started with the GitHub web interface used for the code review. This could be realized as a markdown document in the repository or a page in the wiki.",
+            "comments": []
+        },
+        {
+            "number": 457,
+            "user": "St-Maxwell",
+            "date": "2021-07-10 05:10:32+00:00",
+            "title": "Cross Product",
+            "text": "Hello, I tried to implement cross_product function as a component of linalg module. And a brief description is presented below. If we can have an agreement on the interface of cross_product, I will create a pull request.\nCross Product\nOverview\nCross product is a binary operation on two vectors in  space, denoted by . The result of  is a vector that is perpendicular to both  and . Let , , and  being the orthonormal basis vectors in  space,  and  can be represented by the following expressions\n\n\nThen  has a determinant form:\n\nAPI\ninterface\n    function cross_product(a, b) result(c)\n        real, intent(in) :: a(:)\n        real, intent(in) :: b(:)\n        real :: c(3)\n    end function\nend interface\nerror stop when the size of a or b is not equal to 3.\nDiscussion\nI think the vectors a and b should be passed as assumed-shape array. There is no need to explicitly define a and b as fixed-size array, i.e. real, intent(in) :: a(3), b(3). Compilers are not able to check whether the size is reasonable at compile-time since in many cases, allocatable arrays are used. Therefore, the assertion for array size is placed in the body of cross_product function, where error_stop is called. As a result, cross_product is no longer a pure function.\nBased on the above discussion and consideration of simplicity, I chose an analogous way to Julia to implement cross_product.\nReference Implementations\n\nNumpy\nJulia\nC++ (Boost)",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-12 13:09:40+00:00",
+                    "text": "There is a blog-post by @jacobwilliams on this function: http://degenerateconic.com/old-school/\nI would be happy to drop the assertion and simply document the size of the arguments should be 3. Since it is a low-level function that might be called hundreds of times I think we don't want an error check."
+                },
+                {
+                    "user": "St-Maxwell",
+                    "date": "2021-07-13 06:12:30+00:00",
+                    "text": "@ivan-pi Thanks for sharing your idea. I agree that the assertion would lower the efficiency of cross_product. But I'm wondering if we could have a better solution, for example, a fypp preprocess statement that enables the assertion when debug and drops it for release."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-13 12:30:54+00:00",
+                    "text": "Having a preprocessor warning block would be one way, but I really think the cross-product should be a pure function to benefit from compiler inlining.\nWith the debug build in fpm or CMake we already have -fcheck=bounds for gfortran and  -check bounds for ifort that should be able to capture if size(a) /= size(b) or if a and b are not allocated.\nDo you have any suggestion for an interface to deal with the cross-product of a vector field, e.g. to solve the shallow water equations on a sphere:\n\ninteger, parameter :: n = 1000 ! number of grid points\nreal, allocatable :: x(:,:), u(:,:)\n\n! Nodes on the sphere\nallocate(x(3,n))\n\n! Velocity vectors on the sphere surface\nallocate(u(3,n))\n\nAlternatively, I might decide to use a different memory layout:\n! Array of Structures layout\nallocate(u(n,3), x(n,3))\n\n! or, AoS more explicitly\ntype :: vector_field_t\n  integer :: n\n  real, allocatable :: x(:), y(:), z(:)\nend type"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-13 12:45:07+00:00",
+                    "text": "I just wanted to add that requests for cross product have appeared previously on both comp.lang.fortran and StackExchange."
+                }
+            ]
+        },
+        {
+            "number": 456,
+            "user": "Aman-Godara",
+            "date": "2021-07-09 13:01:26+00:00",
+            "title": "slice function's documentation made user friendly",
+            "text": "Previously, the documentation was bit lengthy and complex to understand especially for a person learning a programming language for the first time.\nAlthough conceptually documentation is still same but it is simpler and shorter now.\nPlease let me know which one did you find easier to understand.",
+            "comments": [
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-09 14:11:28+00:00",
+                    "text": "I'd remove L207 (Deduction process:) and L212 (Extraction process:), I think they're redundant because the paragraphs that follow each already say what process is happening.\n\nI added them so that a person can categorise a line under either of the 2 different processes. Explicitly grouping them makes it easier to get a bird view of the overall function and memorise what function does, otherwise there will be too many lines for a user under a single large umbrella to draw a map (in brain) of what function slice does. That was my reason to add these 2 lines, if others think the same then I will remove them."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-09 14:14:20+00:00",
+                    "text": "Sounds good, I don't think it's too important to remove them."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-11 19:58:36+00:00",
+                    "text": "Ok. 3 approvals, I will merge it. Thank you @Aman-Godara for this PR."
+                }
+            ]
+        },
+        {
+            "number": 455,
+            "user": "awvwgk",
+            "date": "2021-07-06 17:03:52+00:00",
+            "title": "stdlib_hash: waterhash algorithm",
+            "text": "Implementation of waterhash algorithm. Returns a 32 bit hash using a 64 bit seed.\nFpm project available at awvwgk/waterhash for review.",
+            "comments": []
+        },
+        {
+            "number": 454,
+            "user": "Aman-Godara",
+            "date": "2021-07-04 16:00:09+00:00",
+            "title": "added stdlib_math to specs/index.md",
+            "text": "Added missing stdlb_math to doc/specs/index.md file.",
+            "comments": []
+        },
+        {
+            "number": 453,
+            "user": "Aman-Godara",
+            "date": "2021-07-04 15:32:07+00:00",
+            "title": "implemented count function",
+            "text": "Counts the number of time substring pattern has occurred in the input string.\nTasks\n\n implemented count function\n added test cases\n documented the function\n Elemental or Pure -> Elemental",
+            "comments": []
+        },
+        {
+            "number": 452,
+            "user": "awvwgk",
+            "date": "2021-07-04 11:32:19+00:00",
+            "title": "Implementation of a map data type",
+            "text": "This is a very basic implementation of a container data type and a map data type. The main purpose of this PR is to explore a possible API for a container and map data type, which can later get expanded to become more general\nAdditions\n\nadd placeholder container_type\nadd abstract base class for map data type (map_class)\nadd implementation of unsorted map using cuckoo hashing (cuckoo_hash, pure allocatable implementation)\nmap data structure owns data containers to avoid possibilities of memory leaks\nadd Fortran portation of waterhash (Unlicense, i.e. public domain)\n\nShort comings\n\nmap only defined between character scalar keys and container_type values\nno possibility to retrieve a list of all keys or iterate over the map (will add this later)\nrequires C component until we have a hash function implemented in Fortran\nCMake build system is not adding flags correctly for the build therefore build of C component currently fails with Intel",
+            "comments": [
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-07-05 00:58:24+00:00",
+                    "text": "Currently the container has a value of type class(*). Another option is to have a value of type(c_ptr). It would also be possible to support both, say by providing container%val_cptr in the container type.\nTo my understanding these have different strengths and weaknesses when it comes to holding arbitrary data.\nI believe the class(*) approach retains the type information of its value, which is good, but a downside is we cannot hold a array variable. Those cases can be treated by the user making a new derived-type containing the array -- but different derived types are required for each rank, kind, etc. I also understand the language does not permit setting a class(*) variable to be of type(c_ptr).\nOTOH I understand type(c_ptr) can point to anything, including arrays of arbitrary rank. But the downside is that we lose the type information, and so the programmer has to \"know\" from the context what the type is, and then use it by providing a fortran pointer of the right type and calling c_f_pointer.\nIs there value to supporting both?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-05 09:50:17+00:00",
+                    "text": "One drawback for type(c_ptr) I see is that the higher-level data structure cannot own the data anymore. With class(*), allocatable we should be memory safe automatically as long as the map data type doesn't use pointer attributes (requires final procedure).\nHaving a type(c_ptr) requires some extra attention when deleting from a data structure, i.e. we cannot delete the data that is behind the pointer, because we don't know nothing about it. One way around it is to require the drop or delete procedure in data structures to provide the removed container as output and the user has to finalize the contained data manually. I don't see an easy way to use a final procedure in this case, maybe with a user provided procedure pointer, which is invoked on a container on finalization?"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-07-05 10:00:46+00:00",
+                    "text": "One drawback for type(c_ptr) I see is that the higher-level data structure cannot own the data anymore.\n\nThat's a good point, and IMO seems reason enough to keep it as is. The options for managing the deletion would seem to complicate things quite a bit, as compared to the alternative approach of working with arrays -- where users make a custom derived type to hold whatever they need."
+                }
+            ]
+        },
+        {
+            "number": 451,
+            "user": "hsnyder",
+            "date": "2021-07-02 16:29:56+00:00",
+            "title": "Compiler optimizations (how?)",
+            "text": "When building stdlib, what's the best way to control the optimization level? I have been manually editing the FFLAGS in Makefile.manual, but I suspect there's a better/proper way, and a way that's CMake-compatible.",
+            "comments": []
+        },
+        {
+            "number": 450,
+            "user": "awvwgk",
+            "date": "2021-07-02 11:52:23+00:00",
+            "title": "Interfaces and wrappers: BLAS",
+            "text": "Description\n\n\nTo support linear algebra operations we want to have interfaces/wrappers for BLAS and LAPACK, maybe even to BLACS, PBLAS and ScaLAPACK at some point. Before we start working on a high-level API, there are additional stages to consider. For this issue I want to focus on BLAS only, because the size of the problem is much more limited than the other linear algebra libraries and we can flesh out the workflow\n\nHow to include BLAS in stdlib?\n\nbuilding (reference) BLAS from source with fpm and/or CMake sounds like a bad idea (performance), but might be a fallback\nlinking against system BLAS and optimized BLAS libraries like MKL or OpenBLAS\n\n\nHow due we provide the BLAS functionality?\n\ninterface modules like BLAS95 are available\ndo we reproduce the actual reference BLAS interface (doesn't include intent in the dummy arguments)\ndo we overload the names to drop the s/d/c/z prefixes\nare the interfaces part of stdlib or bundled from a separate project\n\n\nHow do we abstract the operations available in BLAS?\n\nhow many layers of abstractions do we want?\njust simple wrapper to infer dimensions\noverloaded operators",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-07-02 12:38:19+00:00",
+                    "text": "One additional thing: as the source code does not use modules, we are\n\"polluting\" the namespace with the names of the BLAS routines. So an\nadditional step might be to put the individual routines into modules to\navoid that.\n\nAnother aspect is the use of routines such as DMACH1 (not in LAPACK and\nBLAS, but similar routines are). Some of these venerable packages require\nyou to adjust the code for specific machines. With Fortran in its current\nincarnation we can rely on  intrinsic functions for most of these.\n\nOp vr 2 jul. 2021 om 13:52 schreef Sebastian Ehlert <\n***@***.***>:\n\u2026\n *Description*\n\n To support linear algebra operations we want to have interfaces/wrappers\n for BLAS and LAPACK, maybe even to BLACS, PBLAS and ScaLAPACK at some\n point. Before we start working on a high-level API, there are additional\n stages to consider. For this issue I want to focus on BLAS only, because\n the size of the problem is much more limited than the other linear algebra\n libraries and we can flesh out the workflow\n\n    1. How to include BLAS in stdlib?\n       - building (reference) BLAS from source with fpm and/or CMake\n       sounds like a bad idea (performance), but might be a fallback\n       - linking against system BLAS and optimized BLAS libraries like MKL\n       or OpenBLAS\n    2. How due we provide the BLAS functionality?\n       - interface modules like BLAS95 are available\n       - do we reproduce the actual reference BLAS interface (doesn't\n       include intent in the dummy arguments)\n       - do we overload the names to drop the s/d/c/z prefixes\n       - are the interfaces part of stdlib or bundled from a separate\n       project\n    3. How do we abstract the operations available in BLAS?\n       - how many layers of abstractions do we want?\n       - just simple wrapper to infer dimensions\n       - overloaded operators\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#450>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6EX4HDKZCIZD5Y7ITTVWSADANCNFSM47WSLGFA>\n ."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-02 13:09:20+00:00",
+                    "text": "@arjenmarkus I think the namespace pollution can't be helped, at least if we want to rely on optimized BLAS libraries. Putting the routines into modules would produce ABI issues unless we export them with bind(C), which kind of defeats the purpose of cleaning up the global namespace with modules in the first place."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-02 14:01:00+00:00",
+                    "text": "It will be good to study how NumPy embeds BLAS: Accelerated BLAS/LAPACK libraries\nKind of ironically for the fallback BLAS NumPy depends on a f2c'd version of BLAS which is patched to replace any new constructs with legacy constructs that work with f2c."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-02 14:16:54+00:00",
+                    "text": "I was surprised to see a new release of LAPACK 3.10.0 on netlib just a few days ago, now also featuring free format source code. Therefore, I doubt that NumPy's f2c'ing strategy will be viable in the long run, maybe the transpilers planned for LFortran will be a viable alternative for NumPy at some point."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-07-02 14:56:24+00:00",
+                    "text": "The fact that the code is on github as well, makes life a lot easier for\nfpm as well.\n\nOp vr 2 jul. 2021 om 16:17 schreef Sebastian Ehlert <\n***@***.***>:\n\u2026\n I was surprised to see a new release of LAPACK 3.10.0 on netlib\n <http://netlib.org/lapack/lapack-3.10.0.html> just a few days ago, now\n also featuring free format source code. Therefore, I doubt that NumPy's\n f2c'ing strategy will be viable in the long run, maybe the transpilers\n planned for LFortran will be a viable alternative for NumPy at some point.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#450 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR2O4UBJCS4EKBINZODTVXC6BANCNFSM47WSLGFA>\n ."
+                }
+            ]
+        },
+        {
+            "number": 449,
+            "user": "Aman-Godara",
+            "date": "2021-06-30 16:20:01+00:00",
+            "title": "move_alloc for strings",
+            "text": "Description\n\n\nSince the underlying raw variable (character(:), allocatable) of string_type is allocatable, we can have a move_alloc for string_type.\nPrior Art\n\nfortran has move_alloc for allocatables.",
+            "comments": []
+        },
+        {
             "number": 448,
             "user": "zoziha",
             "date": "2021-06-28 06:32:09+00:00",
@@ -22,6 +630,21 @@
                     "user": "awvwgk",
                     "date": "2021-06-28 08:26:11+00:00",
                     "text": "I have tried compiling it a few times because I'm using nvfortran for one of my projects, but so far without success (main issue is missing quadruple precision support). I totally agree that nvfortran has a very unstable front-end, which makes it a real challenge to work with. Same holds for the current flang compiler which uses basically the same front-end.\nThere is hope that nvfortran will at some point use the f18 front-end instead of the current pgfortran based one, but this is still a long way to go.\nRelated issue: #107"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-01 03:34:42+00:00",
+                    "text": "In the situation I encountered today, merge(character(6) :: format, character(4) :: \"(g0)\", present(character(6) :: format)) will report an error: \"Unequal character lengths ( 6/4) in MERGE intrinsic\".\nBut the optval routine will not report such an error.\nThis is because the function definition of merge is stricter. RESULT = MERGE (TSOURCE, FSOURCE, MASK) requires: FSOURCE shall be of the same type and type parameters as TSOURCE. (See https://gcc.gnu.org/onlinedocs/gfortran/MERGE.html)\nThis round, optval wins  in character variables involving character length!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-01 04:12:24+00:00",
+                    "text": "On a related topic, conditional expression syntax was accepted today for F202X (hopefully F2023). You will then be able to do\n! print *, merge(opt, 2., present(opt)) ! invalid\n\nprint *, (present(opt) ? opt : 2.) ! F202X\n\nSyntax paper here."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-13 15:20:29+00:00",
+                    "text": "At this stage, we can use both the merge and optval functions in stdlib, only when the object is a string of different lengths, we have to use optval function.\nBecause merge is a standard function, we can reduce optval module dependencies by using it(merge).\nIt is convenient to replace them with the conditional expression syntax (F202X) in the future."
                 }
             ]
         },
@@ -53,13 +676,43 @@
             "number": 445,
             "user": "zoziha",
             "date": "2021-06-25 19:05:46+00:00",
-            "title": "[feature] `disp`(display your data) & `format_string`(format other type to string)",
-            "text": "This branch develops subroutines disp and format_string for stdlib based on the disp and num2str functions in the forlab library.\ndisp subroutine\nQuickly display strings, scalars and low-dimensional arrays to the screen (or the default output location).\nformat_string function\nFormat or transfer a integer/real/complex/logical variable as a character sequence.\nLinks\n\n(issue see #435 )\ud83d\udd30\nkeurfonluu/Forlab\nzoziha/forlab\nj3-fortran/fortran_proposals#212\n\nProblem\n1. src/stdlib_string_format_string.fypp\n\u2753print *, '*'\nWhen an error occurs, an star * is output. But the fortran language standard is to output multiple stars sign like ******. How do we deal with this problem?(also see #444, This #444 PR is mainly about the format_string function, we may not be very skilled, so we submitted twice in stages)\n2. src/stdlib_disp.fypp\n\u2753format disp\nThe format looks a bit messy, should we align all the data to the left or the right? Or keep Fortran's default output style (like print *,)?\n3. format of complex type\n\u2753j3-fortran/fortran_proposals#212\nWhich style is better? Do we need to make its output style for complex numbers, just like above proposal. Now disp outputs the style (1.00, 1.00) by default.\nEffects\n disp(string):\n string\n It is a note.\n\n disp(r):\n 0.1000E-10   1.000       1.000\n  1.000       1.000       1.000\n disp(c):\n          (1.000,0.000)           (1.000,0.000)           (1.000,0.000)\n          (1.000,0.000)      (0.1000E+07,0.000)           (1.000,0.000)\n disp(i):\n          1           1           1\n          1           1           1\n disp(l):\n          T           T           T\n          T           T           T\n disp(c_3d, 3):\n Slice (:,:,1):\n          (2.000,0.000)           (2.000,0.000)      (1000.,0.1000E-02)\n          (2.000,0.000)           (2.000,0.000)           (2.000,0.000)\n Slice (:,:,2):\n          (2.000,0.000)           (2.000,0.000)           (2.000,0.000)\n          (2.000,0.000)           (2.000,0.000)           (2.000,0.000)\n disp(c_3d, 2):\n Slice (:,1,:):\n          (2.000,0.000)           (2.000,0.000)\n          (2.000,0.000)           (2.000,0.000)\n Slice (:,2,:):\n          (2.000,0.000)           (2.000,0.000)\n          (2.000,0.000)           (2.000,0.000)\n Slice (:,3,:):\n     (1000.,0.1000E-02)           (2.000,0.000)\n          (2.000,0.000)           (2.000,0.000)",
+            "title": "[feature] `disp`(display your data) & `format_string`(format other type to string, see #444)",
+            "text": "This branch develops subroutines disp and format_string for stdlib based on the disp and num2str functions in the forlab library.\ndisp subroutine\nQuickly display strings, scalars and low-dimensional arrays to the screen (or the default output location).\nformat_string function\nFormat or transfer a integer/real/complex/logical variable as a character sequence.\n(see #444)\nLinks\n\n(issue see #435 )\ud83d\udd30\nkeurfonluu/Forlab\nzoziha/forlab\nj3-fortran/fortran_proposals#212\n\nProblem\n1. src/stdlib_string_format_string.fypp\n(see #444)\n2. src/stdlib_disp.fypp\n\u2753format disp\nThe format looks a bit messy, should we align all the data to the left or the right? Or keep Fortran's default output style (like print *,)?\n3. format of complex type\n\u2753j3-fortran/fortran_proposals#212\nWhich style is better? Do we need to make its output style for complex numbers, just like above proposal. Now disp outputs the style (1.00, 1.00) by default.\nEffects\n disp(string):\n string\n It is a note.\n\n disp(r):\n [matrix size: 2\u00d73]\n -0.1000E-10  -0.1000E+11    1.000\n   1.000        1.000        1.000\n disp(c):\n [matrix size: 2\u00d73]\n            (1.000,0.000)             (1.000,0.000)             (1.000,0.000)\n            (1.000,0.000) (-0.1000E+11,-0.1000E+11)             (1.000,0.000)\n disp(i):\n [matrix size: 2\u00d73]\n           1            1            1\n           1            1            1\n disp(l):\n [matrix size: 10\u00d710]\n           T            T            T          ...            T\n           T            T            T          ...            T\n           T            T            T          ...            T\n           :            :            :            :            :\n           T            T            T          ...            T\n disp(c_3d, 3):\n [matrix size: 2\u00d7100]\n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n disp(c_3d, 2):\n [matrix size: 100\u00d720]\n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n                        :                         :                         :                         :                         :  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000) \nTasks\n\n output_unit\n select case block\n update docs\n default format (see #445 (comment))\n a right test program\n rm description flag\n rank\n brief arguments\n to support string_type in stdlib_string_type.fypp (see #445 (review))\n how to handle the details of brief optional argument for users (see #445 (comment))\n disp the real type of matrix, symbol misalignment problem (Ignore it for now, it's not that important, see #445 (comment))",
             "comments": [
                 {
                     "user": "awvwgk",
                     "date": "2021-06-25 20:34:12+00:00",
                     "text": "Thanks @zoziha, @St-Maxwell for opening those pull requests. I think it is fine to have two PRs here, we will first discuss on #444 about the string formatting routines and once we agree on the API we will continue with the review of the display function. How does the plan sound to you?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-06 03:49:49+00:00",
+                    "text": "I may have some questions about the scheme of setting output_unit:\n\nA single * Already means the default output location, which is the same as [iso_fortran_env(module):output_unit(integer)] and belongs to the standard output, or is it that I understand it wrong, they are different?\nOr your idea is to add a input argument for setting the output_unit number to the disp subroutine.\nIf it is the latter, you will encounter such a problem, and the polymorphic interface with two optional arguments will encounter such a problem (see fortran interface optional). At this time, it is better to consider rewriting a set of functions disp(value [, string]) + disp(value, unit [, string]). (I can't express what I mean very well)\n\nThe existing test (comment) does not report an error if there is any issue, because it simply outputs data to the screen (output_unit) and cannot be tested well. If the output_unit scheme is improved, further testing may be possible."
+                },
+                {
+                    "user": "St-Maxwell",
+                    "date": "2021-07-06 04:08:05+00:00",
+                    "text": "I may have some questions about the scheme of setting output_unit:\n\nA single * Already means the default output location, which is the same as [iso_fortran_env(module):output_unit(integer)] and belongs to the standard output, or is it that I understand it wrong, they are different?\nOr your idea is to add a input argument for setting the output_unit number to the disp subroutine.\nIf it is the latter, you will encounter such a problem, and the polymorphic interface with two optional arguments will encounter such a problem (see fortran interface optional). At this time, it is better to consider rewriting a set of functions disp(value [, string]) + disp(value, unit [, string]). (I can't express what I mean very well)\n\nThe existing test (comment) does not report an error if there is any issue, because it simply outputs data to the screen (output_unit) and cannot be tested well. If the output_unit scheme is improved, further testing may be possible.\n\nI think the interface of disp would be something like disp(value [, unit=output_unit] [, string]). The dummy arguments unit and string are optional, and unit has a default value output_unit.\nIn fact, disp reminds me of  raw_print function in Armadillo. That's why I proposed a similar interface for disp."
+                },
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-07-06 06:35:27+00:00",
+                    "text": "The parameter output_unit is equivalent to the * in \"write(*,'(a)')\n'Hello'\". Historically the value was 6, so that you may encounter\n\"write(6,*) ...\" as well, but there is NO guarantee that LU-number 6\ncorresponds to the console. Before the introduction of output_unit and its\nbrethren it was not really possible to refer to \"standard output\" etc in a\nstandard way.\n\nOp di 6 jul. 2021 om 05:50 schreef zoziha ***@***.***>:\n\u2026\n I may have some questions about the scheme of setting output_unit:\n\n    1. A single * Already means the default output location, which is the\n    same as [iso_fortran_env(module):output_unit(integer)] and belongs to\n    the standard output, or is it that I understand it wrong, they are\n    different?\n    2. Or your idea is to *add a input argument* for setting the\n    output_unit number to the disp subroutine.\n    If it is the latter, you will encounter such a problem, and the\n    polymorphic interface with two optional arguments will encounter such a\n    problem (see fortran interface optional\n    <https://stackoverflow.com/questions/3121954/fortran-90-presence-of-optional-arguments>).\n    At this time, it is better to consider rewriting a set of functions\n    disp(value [, string]) + disp(value, unit [, string]). (I can't express\n    what I mean very well)\n\n The existing test (comment\n <#445 (comment)>)\n does not report an error if there is any issue, because it simply outputs\n data to the screen (output_unit) and cannot be tested well. If the\n output_unit scheme is improved, further testing may be possible.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#445 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YRYCMED5L5Q3RKBBLF3TWJ4ORANCNFSM47KNB3SA>\n ."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-06 07:29:39+00:00",
+                    "text": "Generally, in the example below, calling the disp subroutine needs to pass the parameters in the order of unit and string. If the parameters are not passed in this order, we need to use the variable name to explicitly achieve this. I am worried that this is more demanding for users (not easy-to-use).\nmodule itf\ncontains\n    subroutine disp(value, unit, string)\n        use, intrinsic :: iso_fortran_env, only: output_unit\n        real :: value\n        integer, optional :: unit\n        character(*), optional :: string\n        integer :: unit_\n        unit_ = merge(unit, output_unit, present(unit))\n        if (present(string)) write (unit_, *), string\n        write (unit_, *), value\n    end subroutine disp\nend module itf\n\nprogram test_itf\n    use itf, only: disp\n    integer :: unit\n\n    call disp(1.0)\n    call disp(1.0, 'disp(1.0) :')           !! \u274c\n    call disp(1.0, string='disp(1.0) : ')   !! \u2714\n\n    open (newunit=unit, file='temp.out')\n    call disp(1.0, unit)\n    call disp(1.0, unit, 'disp(1.0) :')\nend program test_itf"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-07 10:02:11+00:00",
+                    "text": "Hello, I got a suggestion from @St-Maxwell  and tried to implement it simply. I created a new branch disp_unit_brief in which I implemented optional unit and brief. If all of you feel good, I can merge it to this PR.\nExample\n(see stdlib_io.md/disp_example)\n disp(string):\n string\n It is a note.\n\n disp(r):\n [matrix size: 2\u00d73]\n -0.1000E-10  -0.1000E+11    1.000\n   1.000        1.000        1.000\n disp(c):\n [matrix size: 2\u00d73]\n            (1.000,0.000)             (1.000,0.000)             (1.000,0.000)\n            (1.000,0.000) (-0.1000E+11,-0.1000E+11)             (1.000,0.000)\n disp(i):\n [matrix size: 2\u00d73]\n           1            1            1\n           1            1            1\n disp(l):\n [matrix size: 10\u00d710]\n           T            T            T          ...            T\n           T            T            T          ...            T\n           T            T            T          ...            T\n           :            :            :            :            :\n           T            T            T          ...            T\n disp(c_3d, 3):\n [matrix size: 2\u00d7100]\n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n disp(c_3d, 2):\n [matrix size: 100\u00d720]\n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000)  \n                        :                         :                         :                         :                         :  \n            (2.000,0.000)             (2.000,0.000)             (2.000,0.000)                       ...             (2.000,0.000) \nReference links\n\n\narmadillo/brief_print\n\n\n\nctsa/mdisplay"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-10 06:10:17+00:00",
+                    "text": "I found two problems during my coding process:\n\nOther data types, such as integer, complex, character and logical types, are all right-aligned, but the default printing format of real types is neither left-aligned nor right-aligned. This looks weird in disp_brief, of course, we can ignore it, this problem is not fatal.\n\nI saw stdlib set the derived string type string_type, I wonder if disp needs to support it?"
                 }
             ]
         },
@@ -114,6 +767,121 @@
                     "user": "zoziha",
                     "date": "2021-06-28 15:02:22+00:00",
                     "text": "@Aman-Godara Thank you very much for your work! I think it is good. My English is not very good and I am personally careless. There are indeed some problems in the writing. Thank you for your corrections.\ud83d\ude18\nI was influenced by the ford document, so I used the way of writing comments recommended by ford. (See ford wiki)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-04 16:44:08+00:00",
+                    "text": "@St-Maxwell @zoziha @awvwgk thank you for working on this. I took a look at the implementation and it looks good to me.\nI have a concern about the name format_string. To me, this sounds like it formats an input string into something. But it actually formats other stuff into a string. So a more accurate (and less confusing IMO) name would be format_to_string.\nHowever, this being a wrapper around write(string, fmt='...'), I suggest calling it format just like the statement. We have a precedent for this in stdlib_io open function, and we envision having similar read and write wrappers that will provide similar functionality to existing statements but with a simpler API.\n@certik can you chime in on this considering that we discussed this a lot at the beginning of stdlib?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-06 18:49:34+00:00",
+                    "text": "I think the name format_to_string is too long for a function that's likely to be used often. What do you think about format? Or to_string?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-06 18:54:26+00:00",
+                    "text": "I'd be fine with format. Using to_string would make it mutually exclusive with the existing to_string routines due to the optional format argument. Unless we make the format argument mandatory we can't have to_string as name for this procedure."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-07 04:21:08+00:00",
+                    "text": "Call it num2str directly, and don't care about the optional format when naming it? It was called num2str in forlab/num2str. (also see #435 (comment))"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-07 15:29:45+00:00",
+                    "text": "@awvwgk Ah, yes, I forgot about the to_string in the ascii module. Let's not call it that then."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-07-08 00:19:32+00:00",
+                    "text": "I have found that it is useful for such a function to also take CHARACTER types and so consider trailing space significant and for the leading and trailing parenthesis in the format to be optional.  It is not a \"perfect\" solution, but I insert \",a\" before the closing parenthesis and then use INDEX() and search for a null character from the right end of the buffer to still return an allocatable string but leave trailing whitespace. All the writes then have the argument and achar(0) as values to print. Food for thought, but is it useful for creating strings of specific lengths for lining up output if formats like \"g0,t20\" are used, and although you could do it with concatenation, things like\nwrite(,)FORMAT('hello',brackets)\nis nice where\ncharacter(len=*),parameter :: brackets='(\"[\",a,\"]\")'\nand so on as a case for support of CHARACTER.  As far as the name goes, I use FMT(), but used to use FORMAT() but short is nice in this case, as it can often be called multiple times in a single statement."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-10 06:23:03+00:00",
+                    "text": "write(,)FORMAT('hello',brackets)\nis nice where\ncharacter(len=*),parameter :: brackets='(\"[\",a,\"]\")'\nand so on as a case for support of CHARACTER. As far as the name goes, I use FMT(), but used to use FORMAT() but short is nice in this case, as it can often be called multiple times in a single statement.\n\nDo you mean to let format_string support the formatting of character? I think this is a good proposal. There are indeed needs in this area. Its function looks like this process:\nwrite(string_after, format) string_before\n=>\nstring_after = format_string( string_before, format )"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-20 20:20:33+00:00",
+                    "text": "@St-Maxwell Should we review this PR before #445? If yes, could the conflicts be resolved, please?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-21 03:42:36+00:00",
+                    "text": "E.g:\nstring = format_to_string((1000, 1),'(SP,F6.3)')\n\nIs the name format_to_string too long, do we need to think about it again?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-21 15:49:37+00:00",
+                    "text": "Yes, I think format_to_string is too long. Are you opposed to format?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-22 01:12:30+00:00",
+                    "text": "I think the main contradiction of the difficulty of naming is that there is already a function to_string, and to_string and format_string overlap to a certain extent :\nto_string is suitable for unformatted integer and logical variables.\nformat_string is suitable for unformatted and formatted variables except for character type and string_type type variables.\nI tried to simply test the time performance of the two converted to strings, see test_to_string.f90.\n!! Test for array of dimension 10000\nItem                                                       Time /ms\n`to_string` time for integer `i=1` :                       1.1416999999999999\n`format_to_string` time for integer `i=1` :                63.093699999999998\n`to_string` time for integer `i=huge(i(1))` :              1.5802000000000000\n`format_to_string` time for integer `i=huge(i(1))` :       60.947099999999999\n`to_string` time for logical `l=.true.` :                  0.92299999999999993E-1\n`format_to_string` time for logical `l=.true.` :           59.209699999999998\nI think it may be feasible to merge to_string and format_string and put them in stdlib_string, and the name is still taken as to_string.\nDo you have any other good opinions?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-22 14:39:55+00:00",
+                    "text": "After thinking about it again, the last idea is a bit unrealistic, so it is better to separate them.\nHow about to_chars(value [, format])?\n\nIt is more similar to to_string in semantics, but to_string belongs to the stdlib_ascii module, and to_chars will belongs to the stdlib_string module. The main functions of the two modules have a certain distinction.\nThe name of to_chars is shorter, and it is more suitable for the following style with the optional format argument :\n\nstring = format_to_string((1000, 1),'(SP,F6.3)')\nstring = to_chars((1000, 1),'(SP,F6.3)')         # `to_chars` is 8 characters less than `format_to_string`.\n---\nstring = format_to_string(value)\nstring = to_chars(value)         # `to_chars` is 8 characters less than `format_to_string`.\nstring = to_string(value)\n1. `format` - 6 characters;\n2. `string` - 6 characters;\n3. `num2str` - 7 characters;\n4. `to_chars` - 8 characters; \n5. `to_string` - 9 characters; \n6. `format_string` - 13 characters;\n7. `format_to_string` - 16 characters;"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-22 14:44:29+00:00",
+                    "text": "@zoziha did you see my comment?\n\nYes, I think format_to_string is too long. Are you opposed to format?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-22 15:00:00+00:00",
+                    "text": "@milancurcic I think format is OK, even though I think the name of format is a bit broad and special.\nThe name format expresses the meaning of format in the name format_to_string, but fails to express the meaning of to_string, and the format arguments in format_to_string is optional.\nBut I also think it is ok, stdlib_string(module):format(function) and stdlib_ascii(module):to_string(function) have a strong distinction, users will not mistake them, and format indicates the intention of format conversion."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-22 16:41:45+00:00",
+                    "text": "Let's get some more preferences on the naming; @certik, @LKedward @nshaffer @ivan-pi @jvdp1 which names do you like best?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-22 19:07:56+00:00",
+                    "text": "format would be an option for me. to_string would also work but requires to drop the optional format argument from the interface."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-22 20:40:32+00:00",
+                    "text": "My preference would go for to_chars, ornum2char. Because the result is a character scalar, I don't really like a name which containts string (the user could think that the result is a DT string.\nI think the name format is not self explainable, but I prefer it over something with string."
+                },
+                {
+                    "user": "nshaffer",
+                    "date": "2021-07-23 04:51:50+00:00",
+                    "text": "I definitely prefer format over to_*. In my own codes, I call it str, but that is too terse for stdlib. If we go with format, I suggest renaming the format-string argument either to fmt or as (as in: \"format X as Y\").\nReading the source, I have some comments on the buffer.\n\n\nIs a buffer size of 512 necessary? For formatting scalars, I think we can use much less. What's the widest reasonable value someone might ask to format? Maybe a complex number with quad-precision real and imaginary components? IIRC, the IEEE quad format has up to 36 significant digits in the fractional part, and up to 4 digits in the exponent. So each part of a complex number would need at most 45 characters, if I'm counting right (1 for sign, 1 for first digit, 1 for the dot, 36 for the fraction, 1 to denote the start of the exponent (e.g., 'E', 'D', or 'Q'), 1 for exponent's sign, 4 for exponent). Plus 3 for the parens and comma. That's 93 characters. So I think we can drop the buffer size down to 256, or maybe even 128.\n\n\nTrimming the buffer means that trailing whitespace will not be respected. That is, the result of format_to_string(1.0, \"(g0,5x)\") will not include the five spaces at the end, which the user presumably wanted to have. For now, I think it is good enough to mention this behavior in the documentation. We can consider fancier approaches later, if we decide to start parsing the input format string.\n\n\nBesides those technical points, I think this PR is good."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-23 08:22:27+00:00",
+                    "text": "Is a buffer size of 512 necessary? For formatting scalars, I think we can use much less. What's the widest reasonable value someone might ask to format? Maybe a complex number with quad-precision real and imaginary components? IIRC, the IEEE quad format has up to 36 significant digits in the fractional part, and up to 4 digits in the exponent. So each part of a complex number would need at most 45 characters, if I'm counting right (1 for sign, 1 for first digit, 1 for the dot, 36 for the fraction, 1 to denote the start of the exponent (e.g., 'E', 'D', or 'Q'), 1 for exponent's sign, 4 for exponent). Plus 3 for the parens and comma. That's 93 characters. So I think we can drop the buffer size down to 256, or maybe even 128.\n\n\nA format like (1000x, g0) will still overflow with the current buffersize, what we need in the long run is a format parser which can tell us exactly how long the buffer string at least has to be.\n\n\nTrimming the buffer means that trailing whitespace will not be respected. That is, the result of format_to_string(1.0, \"(g0,5x)\") will not include the five spaces at the end, which the user presumably wanted to have. For now, I think it is good enough to mention this behavior in the documentation. We can consider fancier approaches later, if we decide to start parsing the input format string.\n\n\nThis is actually the correct behavior since I would consider the formatter routines as advancing IO, if you write with print '(g0, 5x)', 0.0 to stdout there will be no trailing spaces as well, since trailing skip formatters are only active in non-advancing IO. Also, we will always exhaust only the part of the formatter to write one element in this context."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-23 10:25:25+00:00",
+                    "text": "Let's get some more preferences on the naming; @certik, @LKedward @nshaffer @ivan-pi @jvdp1 which names do you like best?\n\nHow about print like in the proposals for WG5 from Espen Myklebust (see Section 7.1.3)?\nfunction print(expr,fmt)\n  <numeric-type>, intent(in) :: expr\n  character(len=*), intent(in), optional :: fmt\n  character(len=:), allocatable :: print\nend function"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-23 10:43:11+00:00",
+                    "text": "@zoziha, concerning the following point\n\n\nIt is more similar to to_string in semantics, but to_string belongs to the stdlib_ascii module, and to_chars will belongs to the stdlib_string module. The main functions of the two modules have a certain distinction.\n\n\nsee #399. IMO, also to_string should be moved from stdlib_ascii to stdlib_string."
+                },
+                {
+                    "user": "St-Maxwell",
+                    "date": "2021-07-23 16:13:48+00:00",
+                    "text": "Sorry for my absence in recent discussion because I was busy in my project. I like format, and to_chars is also OK for me."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-24 04:26:32+00:00",
+                    "text": "So I think we can drop the buffer size down to 256, or maybe even 128.\n\nYes, 512 is a bit long, we can decide a certain length, it can be 128. And it is stated in the docs (stdlib_strings.md).\n\nTrimming the buffer means that trailing whitespace will not be respected.\n\nIf I try to cancel the trim, more complicated things will happen, or we have to spend time trying to write routines to parse the \"(g0, 5x)\" format, which will become more complicated. At this stage, it is better for us to annotate it in the document. \"We can consider fancier approaches later.\"\n\nA format like (1000x, g0) will still overflow with the current buffersize, what we need in the long run is a format parser which can tell us exactly how long the buffer string at least has to be.\n\nIf format_to_string is renamed to format, then it should be more like a formatter, and you need to consider \"(1000X, g0)\";\n1. Data format edit descriptor: I, B, O, Z, F, E, EN, ES, D, G, L, A\n2. Control format edit descriptor: T, TL, TR, X, S, SP, SS,:, /\n3. Character string format edit descriptor: H, ``, \"\"\n\nIf it is renamed num2str, its main function is to convert other variables into characters, mainly involving data format edit descriptors, and SP is not necessary.\n\nIMO, also to_string should be moved from stdlib_ascii to stdlib_string.\n\n\nI don't really like a name which containts string (the user could think that the result is a DT string.\n\nIf stdlib_ascii(module):to_string(function) is to be migrated to stdlib_strings(module) in the future, I would prefer to name format_to_string as num2str, to_chars."
                 }
             ]
         },
@@ -180,7 +948,7 @@
             "user": "Aman-Godara",
             "date": "2021-06-22 17:32:24+00:00",
             "title": "implemented pad function",
-            "text": "#394\nCurrently the PR has code for replace_all function as well, kindly ignore that and only review the code for padl and padr.\nTask:\n\n Implemented pad function\n add test cases\n document the function\n Elemental or Pure? -> Pure",
+            "text": "#394\nTask:\n\n Implemented pad function\n add test cases\n document the function\n Elemental or Pure? -> Pure",
             "comments": [
                 {
                     "user": "Aman-Godara",
@@ -201,6 +969,11 @@
                     "user": "Aman-Godara",
                     "date": "2021-06-24 09:22:18+00:00",
                     "text": "I didn't consider the case where a user gives an array in output_length argument as such:\npad_with([\"abc\", \"bcd\"], [5, 6], '#')\nwhere returning the output [\"abc##\", \"bcd###\"] in an array won't be possible.\nI am keeping all functions as pure for now."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-04 20:43:20+00:00",
+                    "text": "Sorry for the merge conflict, I probably merged the PRs in the wrong order."
                 }
             ]
         },
@@ -306,6 +1079,11 @@
                     "user": "ivan-pi",
                     "date": "2021-06-21 10:14:50+00:00",
                     "text": "I imagine in many cases, users will only need one or two modules from stdlib and not the entire library. Some users are facing problems with the compilation time (#438) in connection with the large number generic routines in stdlib_stats. Having fpm clone and build the entire stdlib is sub-optimal if the module is not used at all.\nI am not sure what would be the best way to address this long term. Maybe add more control over stdlib directly to fpm?"
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-07-02 04:24:27+00:00",
+                    "text": "User efficiency\nIn order to improve the efficiency of users of stdlib, we can set the stdlib-fpm branch for stdlib, allowing users to add the following reference in their projects:\n[dependencies]\nstdlib = { git = \"https://github.com/fortran-lang/stdlib\", branch = \"stdlib-fpm\" }\nDeveloper efficiency\nHowever, the efficiency of developers has not been improved. stdlib now uses make and cmake tools to build code, which means that when we add functions to stdlib, we not only need to take care of the function implementation, but also need to maintain more make and cmake configurations files (In the development process, it is easy to cause git conflicts with other developers, and it is easy to forget or write the configuration files incorrectly, which increases the development cost.)  can we consider using fpm to empower developers?\nAlthough the solution of the src/fpm folder is a clumsy way, it allows developers to use the easiest fpm to develop stdlib (In the future, stdlib will also need to support fpm). Developers only need to consider function implementation, function testing, fpm.toml and use a simple makefile to convert fypp code to f90 code.\nI don\u2019t know if there will be any technical difficulties.\nPossible solution\nFor developers:\nLike zoziha/forlab, mete-programming source codes in meta-src folder, generation source codes in src folder to support fpm.\nmake         # use makefile convert fypp to f90\nfpm test <test_name>         # easy-to-test\nGradually use fpm instead of make/cmake, allow developers to use makefile in stdlib to convert *.fypp to *.f90, allow developers to use fpm.toml in stdlib to develop and test code, and developers only submit meta-programming source codes to stdlib-master.\nSet the stdlib-fpm branch in stdlib for users, and convert *.fypp in stdlib-master into *.f90 files through github-ci.\nFor users:\nUsers can use the following reference to use stdlib,\n[dependencies]\nstdlib = { git = \"https://github.com/fortran-lang/stdlib\", branch = \"stdlib-fpm\" }\nIf fpm supports fypp in the future, the stdlib-fpm branch can be retired."
                 }
             ]
         },
@@ -330,6 +1108,21 @@
                     "user": "Aman-Godara",
                     "date": "2021-06-28 09:20:50+00:00",
                     "text": "On page 124 of https://j3-fortran.org/doc/year/18/18-007r1.pdf, It is mentioned that output of character slicing is of length max(l - f + 1, 0) which is exactly what is desired in here by the function replace_all. Thus, I am making use of intrinsic character slicing instead of slice in line 633 and 648. This will slightly improve the performance of the function."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-03 12:54:16+00:00",
+                    "text": "@fortran-lang/push-access Can anyone help out with reviewing this patch to allow @Aman-Godara to move forward with his GSoC project?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-04 00:48:04+00:00",
+                    "text": "I can't find the explanation in this thread or in the related issue: Why did you choose pure over elemental?\n\nAll good, I see why, please disregard \ud83d\udc4d"
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-04 07:00:39+00:00",
+                    "text": "I can't find the explanation in this thread or in the related issue: Why did you choose pure over elemental?\n\nLet me still mention it for future reference,\nif the length of replacement string is not equal to the length of pattern string, then different outputs might have varying length which become problematic to be stored in a single output array.\nfor example:\nreplace_all (string, pattern, replacement)\nreplace_all([\"abcabcT\", \"bcdabcT\"], [\"abc\", \"bcd\"], [\"X\", \"Y\"])\noutput array in this case will be: [\"XXT\", \"YabcT\"] which cannot be stored in a single output array because of varying lengths of different outputs \"XXT\" and \"YabcT."
                 }
             ]
         },
@@ -531,6 +1324,11 @@
                     "user": "ghbrown",
                     "date": "2021-06-14 14:07:45+00:00",
                     "text": "@ivan-pi All comments should be addressed. Thanks for catching my mistakes, apologies there were so many."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-06-30 18:53:41+00:00",
+                    "text": "I'll merge. Thank oyu @ghbrown"
                 }
             ]
         },
@@ -720,6 +1518,11 @@
                     "user": "ivan-pi",
                     "date": "2021-06-07 02:07:55+00:00",
                     "text": "...but I was expecting you to suggest linalg.\n\nYou are right, linalg is more suitable."
+                },
+                {
+                    "user": "ghbrown",
+                    "date": "2021-07-16 14:15:34+00:00",
+                    "text": "I'm going to close this issue. If this is premature, please feel free to reopen."
                 }
             ]
         },
@@ -769,6 +1572,111 @@
                     "user": "jvdp1",
                     "date": "2021-06-11 17:58:06+00:00",
                     "text": "@gareth-nx @arjenmarkus I added a check on the shapes of x and mask ;) Question: how to test that it works properly, since it used an error stop?"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-07-04 00:27:34+00:00",
+                    "text": "Hi @jvdp1\nIs this ready for review? I will be happy to do that once it is (but I note the very top of the thread suggests you still need to update some hyperlinks)."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-04 06:33:28+00:00",
+                    "text": "Hi @gareth-nx,\n\nThjank you. you may start the review. I will try to update the hyperlinks\nfor FORD later...\n\nLe dim. 4 juil. 2021 \u00e0 02:27, gareth-nx ***@***.***> a \u00e9crit :\n\u2026\n Hi @jvdp1 <https://github.com/jvdp1>\n\n Is this ready for review? I will be happy to do that once it is (but I\n note the very top of the thread suggests you still need to update some\n hyperlinks).\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#426 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AD5RO7H7HEZOOV42SZEEYFTTV6TIDANCNFSM46DRBQGA>\n ."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-04 16:28:16+00:00",
+                    "text": "Thank you @gareth-nx for your review. I think I answered all your comments."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-05 20:53:48+00:00",
+                    "text": "@gareth-nx\n\nOh I mean like single precision, double precision, etc. If that is already implied by the statement above, then no problem. I get confused because in Fortran \"real\" is single precision, but we can also speak of the \"real kinds\".\n\nThe sentence in the specs is similar to the sentence used to decribed the array in sum intrinsic in the gcc page.  If you have another proposition, please provide it."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-05 20:55:12+00:00",
+                    "text": "@gareth-nx reviewed this PR. Could some others with write-access review it too, please? @ivan-pi @awvwgk @milancurcic ? others?"
+                },
+                {
+                    "user": "msz59",
+                    "date": "2021-07-18 08:40:21+00:00",
+                    "text": "Median is just a special case of [per]centile, namely the 50th percentile or second quartile. I wonder whether it might be worth adding an optional parameter to specify the percentile (default=50). It would change the code just in one final place, to compute the index into the sorted array.\nAnother approach could be naming the (extended) function 'percentile' or 'centile' and add median as an 'alias' with that optional parameter set to 50."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-19 20:58:14+00:00",
+                    "text": "Median is just a special case of [per]centile, namely the 50th percentile or second quartile. I wonder whether it might be worth adding an optional parameter to specify the percentile (default=50). It would change the code just in one final place, to compute the index into the sorted array.\n\nThank you @msz59 for your comments. I agree that median is just a special case of (per)centile and quantile. However, I don't think that the change of the proposed code to a more general code like for computing quantiles is as easy as proposed. Indeed, several methods are available to compute quantiles, and some of them rely on the computation of the median. However, any propositions to improve the API/code for generalisation are welcome."
+                },
+                {
+                    "user": "leonfoks",
+                    "date": "2021-07-20 23:17:04+00:00",
+                    "text": "I'm not sure where comments about the implementation of this should go, please let me know if I should submit something elsewhere etc.\nThe calculation of the median would benefit from using a \"quick select\" algorithm preferably with random pivots, it picks the kth value in an unsorted array by partial sorting, rather than a full sort and choose.  This was a nice explanation of the difference.  Using the full sort, we are bound by the complexity of the sorting algorithm, where as a quick select is O(n).\nLooking at this comment there could be considerable gains in time.\nAn implementation of quick select will be applicable to both a median function and percentile function as @msz59  suggested, median(array) could call a function \"percentile(array, 0.5)\" but, in the special case of median, it would be faster to call \"quickselect(array, N/2)\" (I'm omitting the case where we need the average of two central values here).\nA fast median algorithm will be required if we implement things like KdTrees, where splitting can occur at the median value along the dimension with the highest variance."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-21 08:20:00+00:00",
+                    "text": "Hi @jvdp1, could you point us to some resources about the median computation? I am not familiar enough with the median computation to evaluate the implementation in stdlib_stats_median.fypp.\n\nThank you @ivan-pi for your review. To answer your question, here is some documentions:\n\nwikipedia\nOctave\nJulia\nNumpy\n\nAs mentioned by @leonfoks I agree that the implemented approach for computing the median is most likely not the most efficient. However, my idea was to first propose this function with what was available in stdlib, such that users can test its API. Improvement of the implementation could come later. However, this approach might not be appropriate."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-21 08:25:10+00:00",
+                    "text": "I'm not sure where comments about the implementation of this should go, please let me know if I should submit something elsewhere etc.\n\nThank you @leonfoks for you comment. I think it is the right place to discuss the API and implementation of this function.\n\nThe calculation of the median would benefit from using a \"quick select\" algorithm preferably with random pivots, it picks the kth value in an unsorted array by partial sorting, rather than a full sort and choose. This was a nice explanation of the difference. Using the full sort, we are bound by the complexity of the sorting algorithm, where as a quick select is O(n).\nLooking at this comment there could be considerable gains in time.\n\nI totally agree with you that the implemented approach for computing the median is most likely not the most efficient. However, my idea was to first propose this function with what was available in stdlib_sorting, such that users can test its API. Improvement of the implementation could come later. However, this approach might not be appropriate.\n\nAn implementation of quick select will be applicable to both a median function and percentile function as @msz59 suggested, median(array) could call a function \"percentile(array, 0.5)\" but, in the special case of median, it would be faster to call \"quickselect(array, N/2)\" (I'm omitting the case where we need the average of two central values here).\nA fast median algorithm will be required if we implement things like KdTrees, where splitting can occur at the median value along the dimension with the highest variance.\n\nThis would require the implementation of a quick select algorithm in stdlib, which is not available currently. Do you have any references to propose for this?\nMaybe @wclodius2 who develop stdlib_sorting have some ideas on this topic."
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-07-21 09:32:21+00:00",
+                    "text": "Regarding quickselect, there is a matlab routine here (licence seems suitably permissive for a translation): https://www.mathworks.com/matlabcentral/fileexchange/68947-qselect"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-21 09:47:39+00:00",
+                    "text": "Since we need a \"naive\" median anyway to verify correctness/speed improvement of better algorithms my suggestion would be to\n\nconfirm through review the implementation and tests are consistent\napprove this PR and merge, thereby stabilizing the interface suggested by @jvdp1\nimplement the quick-select or whatever other median algorithm in a new pull request"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-07-21 10:27:13+00:00",
+                    "text": "I agree that quickselect can be added later on.\nThat said I just translated the matlab version to Fortran. It's nowhere near ready for stdlib, but copied below with a couple of tests in case anyone wants to try and/or modify.\nmodule qselect_mod\n!\n! This code is a translation of a matlab implementation \"qselect\" by Manolis Lourakis\n!   https://www.mathworks.com/matlabcentral/fileexchange/68947-qselect \n! Below is the licence of qselect\n!\n!\n! Copyright (c) 2018, Manolis Lourakis\n! All rights reserved.\n! \n! Redistribution and use in source and binary forms, with or without\n! modification, are permitted provided that the following conditions are met:\n! \n! * Redistributions of source code must retain the above copyright notice, this\n!   list of conditions and the following disclaimer.\n! \n! * Redistributions in binary form must reproduce the above copyright notice,\n!   this list of conditions and the following disclaimer in the documentation\n!   and/or other materials provided with the distribution\n! * Neither the name of Foundation for Research and Technology - Hellas nor the names of its\n!   contributors may be used to endorse or promote products derived from this\n!   software without specific prior written permission.\n! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\n! AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\n! IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\n! DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE\n! FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n! DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\n! SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\n! CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\n! OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n! OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n!\n\n    use iso_c_binding, only: C_DOUBLE, C_INT\n    implicit none\n\n    integer, parameter :: dp = C_DOUBLE, ip = C_INT\n\n    contains\n\n    function qselect(a, k) result(kth_largest)\n! qselect - select the k-th smallest out of n numbers\n! Implements Hoare s Quickselect algorithm (https://en.wikipedia.org/wiki/Quickselect)\n! with the median-of-3 pivot strategy. Operates in-place, avoiding sorting and recursion\n!\n!    kth = qselect(a, k)\n!\n!    a      - array of n elements\n!    k      - specifies the desired k-th smallest element\n!             the k-th *largest* element can be found by passing length(a)+1-k\n!\n! Returns\n!\n!    kth    - the sought element\n! Manolis Lourakis 2007-18\n! Institute of Computer Science, Foundation for Research & Technology - Hellas\n! Heraklion, Crete, Greece\n! Sep  2018  - Original version. (v. 1.0)\n!\n        real(dp), intent(inout) :: a(:)\n        integer(ip), intent(in) :: k\n        real(dp) :: kth_largest\n\n        integer(ip) :: l, r, s, i, j, k_local\n        real(dp) :: temp, pivot\n\n        l = 1_ip\n        r = size(a)\n        if(k < 1 .or. k > r) stop \"in qselect, k must be between 1 and size(a)\";\n        k_local = k\n\n        do while(.true.)\n            s = (l+r)/2_ip ! Deliberate integer division\n            if(a(s) < a(r)) then\n                temp = a(s); a(s) = a(r); a(r) = temp\n            end if\n            if(a(s) < a(l)) then\n                temp = a(s); a(s) = a(l); a(l) = temp\n            end if\n            if(a(r) < a(l)) then\n                temp = a(r); a(r) = a(l); a(l) = temp; \n            end if\n            pivot = a(r) ! Median\n            i = l\n\n            do j = l, r-1\n                if(a(j) <= pivot) then\n                    temp = a(i); a(i) = a(j); a(j) = temp\n                    i = i+1_ip\n                end if\n            end do\n            temp = a(r); a(r) = a(i); a(i) = temp\n            s = i-l+1\n            if(k_local < s) then\n                r = i-1_ip\n            else if(k_local > s) then\n                l=i+1_ip; k_local=k_local-s;\n            else\n                kth_largest = a(i)\n                return\n            end if\n        end do\n    end function\n\nend module\n\nprogram test_quickselect\n    use qselect_mod\n    implicit none\n\n    real(dp) :: x(10), x_copy(10), mat(8), mat_copy(8), len1(1), len2(2)\n    integer(ip) :: k, i\n\n    ! Make x contain the numbers 1**2, 2**2, .... 10**2,\n    x = (/( i**2, i=1, size(x) )/)\n    ! but mix up the order \n    x(5:2:-1) = x(2:5)\n    x(10:8:-1) = x(8:10)\n\n    ! Check that qselect(x, i) == i**2\n    do i = 1, size(x)\n        x_copy = x\n        if(qselect(x_copy, i) == i**2) then\n            print*, 'PASS'\n        else\n            print*, 'FAIL'\n        end if\n    end do\n\n    !\n    ! Test that came with the matlab documentation \n    !\n    mat = 1.0_dp * [3, 2, 7, 4, 5, 1, 4, -1]\n\n    mat_copy = mat\n    print*, merge('PASS', 'FAIL', qselect(mat_copy, 2_ip) == 1)\n\n    mat_copy = mat\n    print*, merge('PASS', 'FAIL', qselect(mat_copy, size(mat)+1_ip-4_ip) == 4)\n\n    ! Check it works for size(a) == 1\n    len1(1) = -1.0_dp\n    print*, merge('PASS', 'FAIL', qselect(len1, 1_ip) == -1.0_dp)\n\n    ! size(a) == 2\n    len2 = [-3.2_dp, -5.1_dp]\n    print*, merge('PASS', 'FAIL', qselect(len2, 2_ip) == -3.2_dp)\n    len2 = [-3.2_dp, -5.1_dp]\n    print*, merge('PASS', 'FAIL', qselect(len2, 1_ip) == -5.1_dp)\n\nend program"
+                },
+                {
+                    "user": "leonfoks",
+                    "date": "2021-07-21 14:33:32+00:00",
+                    "text": "I think at this stage, the current implementation is fine and should definitely be incorporated. Thank you for doing the work and having this ready!\nI implemented a quick-select in coretran here. The partition submodule that I use within quick select is here. I switch to an insertion sort at short lengths, I seem to remember doing some timing and found that to be faster than without the insertion sort.\nIt would be far less work to translate the matlab implementation above, rather than incorporating what I did in coretran.  I pulled out in the inner section into a partition subroutine since I needed it for my introspection sort.  I also had a simple swap function (I think this just got requested in an issue). From what I gather it's faster to just do the swap rather than call a function to do it.  I did however implement argQuickSelect to do the selection using an index into an array."
+                },
+                {
+                    "user": "leonfoks",
+                    "date": "2021-07-21 15:38:33+00:00",
+                    "text": "I just tested the matlab code using the same compile flags and test arrays that I used in Coretran.  Timings are below, interestingly i took out the insertion sort in coretran and times are better...  The times are very close with coretran being surprisingly faster for sorted arrays but maybe this is just timing fluctuations.\nIt might be easiest at this point to simply translate the matlab code! Thanks for hearing me out about this!\nLeft column is array length, right is time in seconds.  Timing was done around a loop of 10 quick selections and the average taken. The array used had samples from a random normal.\n==========================\nTesting : Selection\n==========================\nDouble precision quick select\n16777216  1.694E-01\n8388608  9.460E-02\n4194304  5.000E-02\n2097152  2.530E-02\n1048576  1.030E-02\n524288  3.500E-03\n\nAlready sorted double precision quick select\n16777216  1.030E-02\n8388608  4.500E-03\n4194304  2.800E-03\n2097152  1.000E-03\n1048576  6.000E-04\n524288  2.000E-04\n\n==========================\nTesting : Matlab Selection\n==========================\nDouble precision quick select\n16777216  1.579E-01\n8388608  8.530E-02\n4194304  4.260E-02\n2097152  2.130E-02\n1048576  9.300E-03\n524288  4.100E-03\nAlready sorted double precision quick select\n16777216  1.310E-02\n8388608  6.200E-03\n4194304  3.600E-03\n2097152  1.500E-03\n1048576  1.200E-03\n524288  4.000E-04"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-21 21:20:17+00:00",
+                    "text": "Thank you @gareth-nx @leonfoks @ivan-pi @milancurcic for your review and comments.\nI believe I answered all of them.\nThis whole discussion about selection algorithms led me to add some rules for cases where array contains NaN. Now if it is the case, the result will contain NaN too. In the previous implementation, the result was undetermined in such cases."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-22 19:26:33+00:00",
+                    "text": "@ivan-pi can this PR be merged?"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-07-23 07:17:58+00:00",
+                    "text": "Following the links you provided the implementation looks good to me. The preprocessing work necessary to manage the different ranks is admirable.\nThe only comment I have left is how does the behavior compare to other languages when NaN values are present? The check at the beginning any(ieee_is_nan(x)) seems quite expensive, assuming that the majority of cases NaNs won't be there. But perhaps I am wrong and this is not a big issue.\n\nThe R interpreter gives NA if there are NA or NaN values present in the input vector:\n> median(c(1,2,3,NA))\n[1] NA\n\n> median(c(1,2,3,NaN))\n[1] NA"
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-23 08:10:35+00:00",
+                    "text": "The only comment I have left is how does the behavior compare to other languages when NaN values are present? The check at the beginning any(ieee_is_nan(x)) seems quite expensive, assuming that the majority of cases NaNs won't be there. But perhaps I am wrong and this is not a big issue.\n\nJulia median returns NaN when NaN are present in the array (and as mentioned in @gareth-nx comment, it seems to be case for R too).\nMy main issue was that the result of sort is undetermined in prensence of NaN. Therefore, it would be also the case for median if there were no checks for NaN, and modifying its implementation (as proposed with quickselect) may result in a different behaviour. Checking for NaN allows to avoid possible future changes in the behavior of median if its implementation is modified.\n@ivan-pi I answered all your questions. However, a couple of comments remain opened."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-23 08:30:04+00:00",
+                    "text": "The open comments don't affect the behaviour, so with three approvals this can be merged.\nThanks for your work.\ud83d\ude4f"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-23 13:56:27+00:00",
+                    "text": "Thank you all, I'll merge."
                 }
             ]
         },
@@ -1053,6 +1961,36 @@
                     "user": "ejovo13",
                     "date": "2021-06-09 10:00:30+00:00",
                     "text": "I haven't been able to fully understand the problem, but something has gone wrong with the templating in your last commit.\n\nYeah thats my bad, I had to leave early yesterday to a different city so I rushed and pushed the commit so I could work on my laptop, after figuring out that the build fails :/.\nGonna get back later today though so I'll try and figure it out. I also noticed it was something with the templating but in my 10 minutes of troubleshooting I just couldnt figure out why."
+                },
+                {
+                    "user": "ejovo13",
+                    "date": "2021-07-10 16:54:56+00:00",
+                    "text": "Hello all,\nI was living in Europe and had to move back to the US recently (I will be continuing my graduate studies in France next year). Unfortunately I've been incredibly busy with making those arrangements, and this pull request fell way behind on my list of priorities. I am back home and am back up and running. I'll try and get this PR cleaned up, integrate your suggestions, and hopefully get it merged. Thanks for your patience."
+                },
+                {
+                    "user": "ejovo13",
+                    "date": "2021-07-11 22:09:12+00:00",
+                    "text": "I've extensively cut down on obsolete fypp generic function combinations, such that my original stdlib_math.f90 (after preprocessing) has been reduced from 1600 loc to just barely over 600.\nBuilding through cmake with Ubuntu and gcc version 10 is successful again. I'm incorporating @nncarlson's do-loop suggestion and modifying the testing subroutines. After which I will mark this PR as ready for review and no longer a draft."
+                },
+                {
+                    "user": "ejovo13",
+                    "date": "2021-07-12 03:41:23+00:00",
+                    "text": "I've addressed all comments and revamped the testing procedures. This PR is ready to be reviewed and merged unless there are any further issues to be addressed."
+                },
+                {
+                    "user": "ejovo13",
+                    "date": "2021-07-12 15:33:35+00:00",
+                    "text": "@awvwgk I fixed the manual dependencies error that prevented the final check on Ubuntu version 10 from being successful. I just successfully compiled and built stdlib using both cmake and make on my machine (Ubuntu, wsl with gcc version 10). Hoping that this one passes \u2714\ufe0f and you'll no longer have to manually approve my commits!"
+                },
+                {
+                    "user": "ejovo13",
+                    "date": "2021-07-12 21:02:58+00:00",
+                    "text": "Well, I believe that I've addressed, on my side, all of your comments. What I thought was going to be a quick and easy first PR has dragged on (not that that's a bad thing) and generated a lot of fruitful discussion. Thank you to everyone for their contributions and suggestions to improve this PR.\nApart from a few unresolved discussions, I don't believe that there is anything left for me to do. The ball is in your court and I will wait for any further direction. Thank you all."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-07-14 20:18:47+00:00",
+                    "text": "@ivan-pi @milancurcic you commented this PR. Could you check if your comments were answered appropriately, and appove this PR if it is ok, please?"
                 }
             ]
         },
@@ -1342,7 +2280,7 @@
             "user": "Beliavsky",
             "date": "2021-05-13 15:00:21+00:00",
             "title": "Function to construct array of character variables",
-            "text": "A defect of Fortran is that you cannot write x = [\"one\",\"three\",\"four\"] but must instead either pad with x = [\"one  \",\"three\",\"four \"] or write x = [character(len=5) :: \"one\",\"three\",\"four\"], which is wordy. A convenience function that I use in many of my programs lets you write x = c(\"one\",\"three\",\"four\"). It works for up to 10 arguments. I suggest something like it for stdlib. Here is the code:\nfunction c(x1,x2,x3,x4,x5,x6,x7,x8,x9,x10) result(vec)\n! return character array containing present arguments\ncharacter (len=*)  , intent(in), optional    :: x1,x2,x3,x4,x5,x6,x7,x8,x9,x10\ncharacter (len=100)            , allocatable :: vec(:)\ncharacter (len=100)            , allocatable :: vec_(:)\ninteger                                      :: n\nallocate (vec_(10))\nif (present(x1))  vec_(1)  = x1\nif (present(x2))  vec_(2)  = x2\nif (present(x3))  vec_(3)  = x3\nif (present(x4))  vec_(4)  = x4\nif (present(x5))  vec_(5)  = x5\nif (present(x6))  vec_(6)  = x6\nif (present(x7))  vec_(7)  = x7\nif (present(x8))  vec_(8)  = x8\nif (present(x9))  vec_(9)  = x9\nif (present(x10)) vec_(10) = x10\nn = count([present(x1),present(x2),present(x3),present(x4),present(x5), &\n           present(x6),present(x7),present(x8),present(x9),present(x10)])\nallocate (vec(n))\nif (n > 0) vec = vec_(:n)\nend function c\n\n  \n    \n    \n\n    \n    \n\n  \n\n\nThe user is not supposed to write things like x = c(x1=\"a\",x3=\"b\")",
+            "text": "A defect of Fortran is that you cannot write x = [\"one\",\"three\",\"four\"] but must instead either pad with x = [\"one  \",\"three\",\"four \"] or write x = [character(len=5) :: \"one\",\"three\",\"four\"], which is wordy. A convenience function that I use in many of my programs lets you write x = c(\"one\",\"three\",\"four\"). It works for up to 10 arguments. I suggest something like it for stdlib. Here is the code:\nfunction c(x1,x2,x3,x4,x5,x6,x7,x8,x9,x10) result(vec)\n! return character array containing present arguments\ncharacter (len=*)  , intent(in), optional    :: x1,x2,x3,x4,x5,x6,x7,x8,x9,x10\ncharacter (len=100)            , allocatable :: vec(:)\ncharacter (len=100)            , allocatable :: vec_(:)\ninteger                                      :: n\nallocate (vec_(10))\nif (present(x1))  vec_(1)  = x1\nif (present(x2))  vec_(2)  = x2\nif (present(x3))  vec_(3)  = x3\nif (present(x4))  vec_(4)  = x4\nif (present(x5))  vec_(5)  = x5\nif (present(x6))  vec_(6)  = x6\nif (present(x7))  vec_(7)  = x7\nif (present(x8))  vec_(8)  = x8\nif (present(x9))  vec_(9)  = x9\nif (present(x10)) vec_(10) = x10\nn = count([present(x1),present(x2),present(x3),present(x4),present(x5), &\n           present(x6),present(x7),present(x8),present(x9),present(x10)])\nallocate (vec(n))\nif (n > 0) vec = vec_(:n)\nend function c\n\nThe user is not supposed to write things like x = c(x1=\"a\",x3=\"b\")",
             "comments": [
                 {
                     "user": "urbanjost",
@@ -1362,7 +2300,13 @@
             "date": "2021-05-12 19:19:45+00:00",
             "title": "Cross correlation using Fast Fourier Transform",
             "text": "To compute the cross correlation at lag p of two 1D arrays of length n you compute sum(x(1+p:n)*y(1:n-p)). If you want the cross correlation at all lags, the Fast Fourier Transform can be used to speed the calculation. Intel describes Implementing the Fourier Correlation Algorithm Using oneAPI. I suggest adding a function ccf(x,y,p) which computes cross correlations from lags 0 to p and uses an FFT when that is the fastest method (which will be for large p).\nIn general, linear time series analysis and signal processing could be part of stdlib.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-07-08 19:07:50+00:00",
+                    "text": "A Fortran package that does this is ACFbyFFT, which calls fftw. One could rewrite it to call an FFT that is part of stdlib."
+                }
+            ]
         },
         {
             "number": 408,
@@ -1825,6 +2769,11 @@
                     "user": "ivan-pi",
                     "date": "2021-06-21 13:29:17+00:00",
                     "text": "Yes, I believe we should not do a \"hard truncation\", but rather follow the behavior in other languages:\n\nJulia:\n\nStringify s and pad the resulting string on the left with p to make it n characters (code points) long. If s is already n characters long, an equal string is returned. Pad with spaces by default.\"\n\n\nMATLAB\n\npad(str,numberOfCharacters) adds space characters so the strings in newStr have the length specified by numberOfCharacters. If any strings in str have more characters than numberOfCharacters, then pad does not modify them."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-07-23 10:15:04+00:00",
+                    "text": "@milancurcic, now that #441 added padl should we still pursue a specific function for zero-filling integers or should we settle on a general format function like #444 that requires parsing a format string?\nUsing the currently available tools a string like \"000123\" could be created using:\ncharacter(len=6) :: zstr\nzstr = padl(to_string(123),6,'0')\n\ncompared with the intrinsic internal I/O\nwrite(zstr,'(I0.6)') 123\n\nOf course the major difference is the stdlib functions can be inlined, e.g. unit = open(\"my_file\"//padl(...)), freeing the programmer from the need to declare a character buffer.\nPersonally, I'd still be interested in having a zfill function like Python does."
                 }
             ]
         },
@@ -4548,6 +5497,11 @@
                     "user": "hsnyder",
                     "date": "2021-06-29 21:10:34+00:00",
                     "text": "So it turns out I cannot merge this myself as I don't have write access. @milancurcic are you able to do so? Feel free to change the name if you want (though I still prefer \"specialfunctions\", or Arjen's suggestion instead of just \"special\").\nThanks!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-06-30 21:46:24+00:00",
+                    "text": "Thanks, @hsnyder, I'll merge as is."
                 }
             ]
         },
@@ -4750,7 +5704,7 @@
                 {
                     "user": "arjenmarkus",
                     "date": "2021-03-22 07:23:14+00:00",
-                    "text": "@Aman-Godara, could you elaborate? I am not quite seeing what you mean ;).\n\nOp do 11 mrt. 2021 om 15:49 schreef Aman Godara ***@***.***>:\n\u2026\n *@Aman-Godara* commented on this pull request.\n ------------------------------\n\n In src/stdlib_stringlist.f90\n <#311 (comment)>:\n\n > +     type(stringlist_type)             :: prepend_string\n +\n +     prepend_string = list\n +     call prepend_string%insert( list_head, string )\n +end function prepend_string\n +\n +function append_stringlist( slist, list )\n +     type(stringlist_type), intent(in) :: list\n +     type(stringlist_type), intent(in) :: slist\n +     type(stringlist_type)             :: append_stringlist\n +\n +     append_stringlist = list\n +     call append_stringlist%insert( list_after_end, slist )\n +end function append_stringlist\n +\n +function append_stringarray( list, sarray )\n\n in my opinion it will be better to have arguments as ( sarray , list ) so\n that it becomes coherent with the previous functions convention\n (append_stringlist, prepend_string, etc.).\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#311 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4XZO776ACL2K76KF3TDDJ6JANCNFSM4XFADDSQ>\n ."
+                    "text": "@Aman-Godara, could you elaborate? I am not quite seeing what you mean ;).\n\nOp do 11 mrt. 2021 om 15:49 schreef Aman Godara ***@***.***>:\n\u2026\n ***@***.**** commented on this pull request.\n ------------------------------\n\n In src/stdlib_stringlist.f90\n <#311 (comment)>:\n\n > +     type(stringlist_type)             :: prepend_string\n +\n +     prepend_string = list\n +     call prepend_string%insert( list_head, string )\n +end function prepend_string\n +\n +function append_stringlist( slist, list )\n +     type(stringlist_type), intent(in) :: list\n +     type(stringlist_type), intent(in) :: slist\n +     type(stringlist_type)             :: append_stringlist\n +\n +     append_stringlist = list\n +     call append_stringlist%insert( list_after_end, slist )\n +end function append_stringlist\n +\n +function append_stringarray( list, sarray )\n\n in my opinion it will be better to have arguments as ( sarray , list ) so\n that it becomes coherent with the previous functions convention\n (append_stringlist, prepend_string, etc.).\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#311 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4XZO776ACL2K76KF3TDDJ6JANCNFSM4XFADDSQ>\n ."
                 },
                 {
                     "user": "Aman-Godara",
@@ -4760,7 +5714,7 @@
                 {
                     "user": "arjenmarkus",
                     "date": "2021-03-31 11:02:44+00:00",
-                    "text": "Yes, that is right. That is a general feature with functions that return\nvalues, not pointers.\n\nOp wo 31 mrt. 2021 om 12:48 schreef Aman Godara ***@***.***>:\n\u2026\n *@Aman-Godara* commented on this pull request.\n ------------------------------\n\n In src/stdlib_stringlist.f90\n <#311 (comment)>:\n\n > +     string_greater = string1%value > string2%value\n +end function string_greater\n +\n +elemental logical function string_equal( string1, string2 )\n +     type(string_type), intent(in) :: string1\n +     type(string_type), intent(in) :: string2\n +\n +     string_equal = string1%value == string2%value\n +end function string_equal\n +\n +function append_string( list, string )\n +     type(stringlist_type), intent(in) :: list\n +     character(len=*), intent(in)      :: string\n +     type(stringlist_type)             :: append_string\n +\n +     append_string = list\n\n I have a query in this line:\n I think this will create a copy (deep copy) of list which will be\n assigned to append_string here. Have I got it right?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#311 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4PGSRISRY3CJUXKRLTGL4XRANCNFSM4XFADDSQ>\n ."
+                    "text": "Yes, that is right. That is a general feature with functions that return\nvalues, not pointers.\n\nOp wo 31 mrt. 2021 om 12:48 schreef Aman Godara ***@***.***>:\n\u2026\n ***@***.**** commented on this pull request.\n ------------------------------\n\n In src/stdlib_stringlist.f90\n <#311 (comment)>:\n\n > +     string_greater = string1%value > string2%value\n +end function string_greater\n +\n +elemental logical function string_equal( string1, string2 )\n +     type(string_type), intent(in) :: string1\n +     type(string_type), intent(in) :: string2\n +\n +     string_equal = string1%value == string2%value\n +end function string_equal\n +\n +function append_string( list, string )\n +     type(stringlist_type), intent(in) :: list\n +     character(len=*), intent(in)      :: string\n +     type(stringlist_type)             :: append_string\n +\n +     append_string = list\n\n I have a query in this line:\n I think this will create a copy (deep copy) of list which will be\n assigned to append_string here. Have I got it right?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#311 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR4PGSRISRY3CJUXKRLTGL4XRANCNFSM4XFADDSQ>\n ."
                 },
                 {
                     "user": "arjenmarkus",
@@ -4791,6 +5745,16 @@
                     "user": "Jim-215-Fisher",
                     "date": "2021-06-29 19:36:33+00:00",
                     "text": "This is a bit of confusing. We have string_type and strings in stdlib, now we have another string_list_new. Can we combine them  all together?"
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-06-30 07:38:37+00:00",
+                    "text": "This might help: #399 (comment)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-07-22 00:11:47+00:00",
+                    "text": "Closed in favor of #470"
                 }
             ]
         },
@@ -6438,6 +7402,11 @@
                     "user": "arjenmarkus",
                     "date": "2021-01-27 15:22:32+00:00",
                     "text": "Hm, negative indices start at the end and when you get outside the list the\nitem is either inserted at the start (negative indices) or at the end.\n\nWell, that is an acceptable model, as well, I suppose :). Perhaps even more\nthan trying to accommodate for inserting in arbitrary places. I can\ncertainly do that.\n\nOp ma 25 jan. 2021 om 23:21 schreef Ond\u0159ej \u010cert\u00edk <notifications@github.com\n\u2026\n:\n This is the behavior on Python:\n\n >>> a = [1, 2, 3]\n >>> a[2]\n 3\n >>> a[0]\n 1\n >>> a[-1]\n 3\n >>> a.insert(-10, 4)\n >>> a\n [4, 1, 2, 3]\n\n It looks like it prepends it at the beginning?\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#268 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5SQZD2Q7ZAWSL5XF3S3XVHFANCNFSM4U7P3HOA>\n ."
+                },
+                {
+                    "user": "Aman-Godara",
+                    "date": "2021-07-26 13:10:25+00:00",
+                    "text": "This comment is aimed to discuss the design around which PR #470 is built upon:\nExplanation of forward and backward indexes:\nforward index: fidx\nbackward index: bidx\nAfter inserting an element at fidx( x ), the added element will appear at index fidx( x ) i.e. at xth position when counted from left to right.\nAfter inserting an element at bidx( y ), the added element will appear at index bidx( y ) i.e. yth position when counted from right to left.\ninserting at fidx( 1 ) is equivalent to inserting at bidx( len + 1 )\ninserting at bidx( 1 ) is equivalent to inserting at fidx( len + 1 )\nInserting an element at HEAD is like inserting at fidx( 1 ) and inserting an element at TAIL is like inserting at bidx( 1 )\nbackward index is like the forward index of the reversed form of the list.\nI am looking at insert API with a different perspective i.e. instead of talking about whether it will insert an element before i-th index or after i-th index I rather say that after insertion is completed the newly_inserted_element will be found at i-th index. What are your opinions on this way of looking at insert( i )?\n\n\n\n\n\n\n\nindex type\n...\n---\nA\nB\n..\nY\nZ\n---\n...\n\n\n\n\ninteger\n...\n---\n1\n2\n..\nlen - 1\nlen\n---\n...\n\n\nforward\n...\nfidx( 0 )\nfidx( 1 )\nfidx( 2 )\n..\nfidx( len - 1 )\nfidx( len )\nfidx( len + 1 )\n...\n\n\nbackward\n...\nbidx( len + 1 )\nbidx( len )\nbidx( len - 1 )\n..\nbidx( 2 )\nbidx( 1 )\nbidx( 0 )\n...\n\n\n\n\n\n\n\nIf you want to insert an element new_element before integer index q use the forward index of integer index q. If you want to insert an element new_element after integer index q use the backward index of integer index q.\nCurrently there is NO function in the PR which converts integer index to forward index or backward index [not to be confused with fidx and bidx of PR]"
                 }
             ]
         },
@@ -6717,6 +7686,11 @@
                     "user": "wclodius2",
                     "date": "2021-03-08 02:51:23+00:00",
                     "text": "I now have a number of different hash functions most with different APIs. In order to narrow down the number of hash functions I decided to look at what I should be using for a hash table. My current implementations are inspired by a simple C based table of David Chase. I decided that this was probably not as well optimized as we would like for the standard library, and I should probably look at some modern implementations of hash tables, particularly ones that give better performance on 64 bit processors. I then found the benchmark by Martin Ankerl Hashmaps Benchmarks - Overview. In it he examines 20 different C++ hash table implementations with five different hashing functions. All of the ones he recommends make too much use of templates (and often assembly) to simply translate to Fortran 2008. He also recommends the Youtube lecture CppCon 2017: Matt Kulukundis \u201cDesigning a Fast, Efficient, Cache-friendly Hash Table, Step by Step\u201d. There is also a more limited, slightly older, evaluation of hash table implementations, Revisiting hash table performance. I also found sone guides on hash table techniques: Advanced techniques to implement fast hash tables, and Deletion from hash tables without tombstones  My conclusions from the above and Richter et al for a Fortran standard Library hash table:\n\nUse 64 bit hashes, their calculation and use on 64 bit machines are cheaper than 32 bit hashes and 32 bit machines are disappearing rapidly.\nConsider using a secondary hash function to map hash values to bucket indices,\nConsider using as secondary hash functions, Martin Ankerl's hash functions, hash_int and hash, from his [robin_hood.h].(https://github.com/martinus/robin-hood-hashing/blob/master/src/include/robin_hood.h) hash table code.\nUse an Open table as they are consistently more efficient than chaining tables for small keys.\nConsider using Robin Hood probing to resolve collisions in the open table as it is used by all but the most sophisticated high performance tables.\nProvide two categories of hash tables, hash_map (for key-value pairs) and hash_set (for keys without values).\nAllow two different types of keys in each category: INT8 arrays as stand-ins for integer arrays and character strings, and simple INT64 scalars as stand-ins for any scalar type key.\nConsider a new way of dealing with deleted entries.\nExamine other C implementations for ideas, e.g. khash.h."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-07-04 14:47:33+00:00",
+                    "text": "I added a waterhash implementation in #452, testing against the C version my Fortran portation seems to work correctly for all cases I checked so far."
                 }
             ]
         },
@@ -8170,7 +9144,7 @@
                 {
                     "user": "arjenmarkus",
                     "date": "2020-09-18 06:36:07+00:00",
-                    "text": "Personally, I do not like to add extra parentheses around such expressions,\nI just left them when I found them. While I think it is a matter of style,\nI would indeed opt for removing the superfluous ones, unless they increase\nreadability, such as when you have .and. and .or. combined.\n\nI am all for explicit comments like the proposed one to explain the use of\n~.\n\nI will make these changes.\n\nOp vr 18 sep. 2020 om 01:50 schreef Ian Giestas Pauli <\nnotifications@github.com>:\n\u2026\n ***@***.***NGiestas* commented on this pull request.\n ------------------------------\n\n In src/stdlib_ascii.f90\n <#233 (comment)>:\n\n >      end function\n\n\n\n      !> Checks whether `c` is a lowercase ASCII letter (a .. z).\n\n      pure logical function is_lower(c)\n\n          character(len=1), intent(in) :: c !! The character to test.\n\n -        is_lower = (c >= 'a') .and. (c <= 'z')\n\n +        integer :: ic\n\n +        ic = iachar(c)\n\n +        is_lower = (ic >= iachar('a')) .and. (ic <= iachar('z'))\n\n\n Is this parenthesis really needed here?\n \u2b07\ufe0f Suggested change\n\n -        is_lower = (ic >= iachar('a')) .and. (ic <= iachar('z'))\n\n +        is_lower = ic >= iachar('a') .and. ic <= iachar('z')\n\n\n ------------------------------\n\n In src/stdlib_ascii.f90\n <#233 (comment)>:\n\n > @@ -145,13 +145,15 @@ pure logical function is_printable(c)\n\n          character(len=1), intent(in) :: c !! The character to test.\n\n          integer :: ic\n\n          ic = iachar(c)                    ! '~'\n\n\n z'7E' = '~'\n I suggest either adding some spaces so the character is aligned again\n (or removing it and adding a explicit comment in a new line showing how we\n are checking it)\n \u2b07\ufe0f Suggested change\n\n -        ic = iachar(c)                    ! '~'\n\n +        ic = iachar(c)\n\n +        !The character is printable if it's between ' ' and '~' in the ASCII table\n\n\n What do you think?\n ------------------------------\n\n In src/stdlib_ascii.f90\n <#233 (comment)>:\n\n >      end function\n\n\n\n      !> Checks whether `c` is a lowercase ASCII letter (a .. z).\n\n      pure logical function is_lower(c)\n\n          character(len=1), intent(in) :: c !! The character to test.\n\n -        is_lower = (c >= 'a') .and. (c <= 'z')\n\n +        integer :: ic\n\n +        ic = iachar(c)\n\n +        is_lower = (ic >= iachar('a')) .and. (ic <= iachar('z'))\n\n\n I noticed the entire code has those extra parenthesis except the change\n above so... I think we should either remove all of them or add some extra\n parenthesis in the function is_printable above so it matches the style of\n the other ones.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#233 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR2H274ZGQKU3MU4KMTSGKOFPANCNFSM4RPBDAVA>\n ."
+                    "text": "Personally, I do not like to add extra parentheses around such expressions,\nI just left them when I found them. While I think it is a matter of style,\nI would indeed opt for removing the superfluous ones, unless they increase\nreadability, such as when you have .and. and .or. combined.\n\nI am all for explicit comments like the proposed one to explain the use of\n~.\n\nI will make these changes.\n\nOp vr 18 sep. 2020 om 01:50 schreef Ian Giestas Pauli <\nnotifications@github.com>:\n\u2026\n ***@***.**** commented on this pull request.\n ------------------------------\n\n In src/stdlib_ascii.f90\n <#233 (comment)>:\n\n >      end function\n\n\n\n      !> Checks whether `c` is a lowercase ASCII letter (a .. z).\n\n      pure logical function is_lower(c)\n\n          character(len=1), intent(in) :: c !! The character to test.\n\n -        is_lower = (c >= 'a') .and. (c <= 'z')\n\n +        integer :: ic\n\n +        ic = iachar(c)\n\n +        is_lower = (ic >= iachar('a')) .and. (ic <= iachar('z'))\n\n\n Is this parenthesis really needed here?\n \u2b07\ufe0f Suggested change\n\n -        is_lower = (ic >= iachar('a')) .and. (ic <= iachar('z'))\n\n +        is_lower = ic >= iachar('a') .and. ic <= iachar('z')\n\n\n ------------------------------\n\n In src/stdlib_ascii.f90\n <#233 (comment)>:\n\n > @@ -145,13 +145,15 @@ pure logical function is_printable(c)\n\n          character(len=1), intent(in) :: c !! The character to test.\n\n          integer :: ic\n\n          ic = iachar(c)                    ! '~'\n\n\n z'7E' = '~'\n I suggest either adding some spaces so the character is aligned again\n (or removing it and adding a explicit comment in a new line showing how we\n are checking it)\n \u2b07\ufe0f Suggested change\n\n -        ic = iachar(c)                    ! '~'\n\n +        ic = iachar(c)\n\n +        !The character is printable if it's between ' ' and '~' in the ASCII table\n\n\n What do you think?\n ------------------------------\n\n In src/stdlib_ascii.f90\n <#233 (comment)>:\n\n >      end function\n\n\n\n      !> Checks whether `c` is a lowercase ASCII letter (a .. z).\n\n      pure logical function is_lower(c)\n\n          character(len=1), intent(in) :: c !! The character to test.\n\n -        is_lower = (c >= 'a') .and. (c <= 'z')\n\n +        integer :: ic\n\n +        ic = iachar(c)\n\n +        is_lower = (ic >= iachar('a')) .and. (ic <= iachar('z'))\n\n\n I noticed the entire code has those extra parenthesis except the change\n above so... I think we should either remove all of them or add some extra\n parenthesis in the function is_printable above so it matches the style of\n the other ones.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#233 (review)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR2H274ZGQKU3MU4KMTSGKOFPANCNFSM4RPBDAVA>\n ."
                 },
                 {
                     "user": "arjenmarkus",
@@ -8447,6 +9421,11 @@
                     "user": "brocolis",
                     "date": "2021-01-30 21:02:44+00:00",
                     "text": "Hi @urbanjost . I think you are right. I've tried M_escape with fpm and it works beautifuly on Windows. Yes, I use only basic color formatting (don't need cursor positioning).\nIt seems that the only open question is the redirection issue pointed out above."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-07-25 19:30:41+00:00",
+                    "text": "I added an fpm(1) package M_attr that concentrates on polishing up the HTML-like mode explored in M_escape, including an example of using the ISATTY extension from gfortran and ifort as an example of what was discussed above, as an alternative to the solution given, as it eliminates the need for a C interface in trade for using a non-standard but common feature. Made prettier examples; added support for a character array and a way to set a fixed right margin for non-default blocks with a background color set and a few other expansions on the original M_escape submode, including examples of pre-defined strings like \"write(,)attr(' error message') for very simple basic but common use-cases."
                 }
             ]
         },
@@ -11283,7 +12262,7 @@
             "user": "jvdp1",
             "date": "2020-05-17 13:32:37+00:00",
             "title": "Pearson correlation among elements of an array",
-            "text": "Related to the functions cov and var\nAs usual, everything can/must be discussed.\nOther implementations\n\nOctave corr\nMatlab corr\nR cor\nJulia cor\nNumpy corrcoef\n\nSpecs:\ncorr - Pearson correlation of array elements\nDescription\nReturns the Pearson correlation of the elements of array along dimension dim if the corresponding element in mask is true.\nThe Pearson correlation between two rows (or columns), say x and y, of array is defined as:\n corr(x, y) = cov(x, y) / sqrt( var(x) * var(y))\n\n  \n    \n    \n\n    \n    \n\n  \n\n\nSyntax\nresult = corr(array, dim [, mask])\nArguments\narray: Shall be a rank-1 or a rank-2 array of type integer, real, or complex.\ndim: Shall be a scalar of type integer with a value in the range from 1 to n, where n is the rank of array.\nmask (optional): Shall be of type logical and either a scalar or an array of the same shape as array.\nReturn value\nIf array is of rank 1 and of type real or complex, the result is of type real corresponding to the type of array.\nIf array is of rank 2 and of type real or complex, the result is of the same type as array.\nIf array is of type integer, the result is of type real(dp).\nIf array is of rank 1 and of size larger than 1, a scalar equal to 1 is returned. Otherwise, IEEE NaN is returned.\nIf array is of rank 2, a rank-2 array  with the corresponding correlations is returned.\nIf mask is specified, the result is the Pearson correlation of all elements of array corresponding to true elements of mask. If every element of mask is false, the result is IEEE\nNaN.\nExample\nprogram demo_corr\n    use stdlib_experimental_stats, only: corr\n    implicit none\n    real :: x(1:6) = [ 1., 2., 3., 4., 5., 6. ]\n    real :: y(1:2, 1:3) = reshape([ -1., 40., -3., 4., 10., 6. ], [ 2, 3])\n    print *, corr(x, 1)           !returns 1.\n    print *, corr(y, 2)           !returns reshape([ 1., -.32480, -.32480, 1. ], [ 2, 3])\nend program demo_corr",
+            "text": "Related to the functions cov and var\nAs usual, everything can/must be discussed.\nOther implementations\n\nOctave corr\nMatlab corr\nR cor\nJulia cor\nNumpy corrcoef\n\nSpecs:\ncorr - Pearson correlation of array elements\nDescription\nReturns the Pearson correlation of the elements of array along dimension dim if the corresponding element in mask is true.\nThe Pearson correlation between two rows (or columns), say x and y, of array is defined as:\n corr(x, y) = cov(x, y) / sqrt( var(x) * var(y))\n\nSyntax\nresult = corr(array, dim [, mask])\nArguments\narray: Shall be a rank-1 or a rank-2 array of type integer, real, or complex.\ndim: Shall be a scalar of type integer with a value in the range from 1 to n, where n is the rank of array.\nmask (optional): Shall be of type logical and either a scalar or an array of the same shape as array.\nReturn value\nIf array is of rank 1 and of type real or complex, the result is of type real corresponding to the type of array.\nIf array is of rank 2 and of type real or complex, the result is of the same type as array.\nIf array is of type integer, the result is of type real(dp).\nIf array is of rank 1 and of size larger than 1, a scalar equal to 1 is returned. Otherwise, IEEE NaN is returned.\nIf array is of rank 2, a rank-2 array  with the corresponding correlations is returned.\nIf mask is specified, the result is the Pearson correlation of all elements of array corresponding to true elements of mask. If every element of mask is false, the result is IEEE\nNaN.\nExample\nprogram demo_corr\n    use stdlib_experimental_stats, only: corr\n    implicit none\n    real :: x(1:6) = [ 1., 2., 3., 4., 5., 6. ]\n    real :: y(1:2, 1:3) = reshape([ -1., 40., -3., 4., 10., 6. ], [ 2, 3])\n    print *, corr(x, 1)           !returns 1.\n    print *, corr(y, 2)           !returns reshape([ 1., -.32480, -.32480, 1. ], [ 2, 3])\nend program demo_corr",
             "comments": [
                 {
                     "user": "jvdp1",
@@ -16366,6 +17345,31 @@
                     "user": "epagone",
                     "date": "2021-01-07 11:22:38+00:00",
                     "text": "I guess the reason you cannot find much prior art is that writing at least a simple bracket search is not that hard. For a fixed interval you divide it into smaller pieces. For an open interval you expand (e.g. by multiply the interval with a constant factor).\n\nTrue, but if you want to do a proper job (that is efficient and takes into account subtle numerical problems), it's not that trivial. Have a look at the algorithm of MATH77(that only looks outside of an interval to bracket a root):\n\nWhen F1$\\times \\text{F2} > 0$ at the initial point, iterates are generated\naccording to the formula $x = x_{\\min } + (x_{\\min } - x_{\\max }) \\times\n\\rho$, where the subscript ``min\" is associated with the $(x, f)$ pair\nthat has the smallest value for $|f|$, and $\\rho $ is 8 if $r = f_{\\min\n}:/:(f_{\\max } - f_{\\min }) \\geq 8$, else $\\rho = \\max (\\kappa /4, r)$,\nwhere $\\kappa $ is a count of the number of iterations that have been\ntaken without finding $f$'s with opposite signs.  If X1 and X2 have the\nsame value initially (and F1 and F2 equal F(X1)), then the next $x$ is a\ndistance $0.008 + |x_{\\min }|/4$ from $x_{\\min }$ taken toward~0.  (If\nX1 = X2 = 0, the next $x$ is $-$.008.)\n\nIt is a bit like coding on your own the scalar root finding method: it's not that hard, but to do it properly it's much harder.\n\nIn applications where I required a root-finder my problems typically had some \"intrinsic\" brackets (e.g. related to known solution limits), or I had a good initial guess (e.g. from a previous time step), meaning I could safely use an iterative method without bracketing.\n\nMe too...in some cases, but not all.\n\nI think the way Boost does it is most flexible, either you can call the root-finding routine directly (on your interval of choice directly), or you allow the root-finder to expand/shrink the bracket as necessary. I would be in favor of having this. I would point out however, the Boost functions is limited to monotonic functions. Such bracketing routines will also fail at double roots (e.g. like in case of the function x^2). Unfortunately, no design will be completely foolproof.\n\nAgreed\n\nI also found the NAG library has a solution: NAG FL Interface - C05 (Roots)\nThe IMSL Fortran library on the other hand only provides one bracketed root-finding method (Brent's) and one iterative one (M\u00fcller's method): IMSL - Chapter 7: Nonlinear equations\n\nNice, thanks."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-07-05 17:17:10+00:00",
+                    "text": "OK, just to get something started, I have: https://github.com/jacobwilliams/opt-lib\nCurrently, this has methods for non-derivative scalar root finding for a bracketed interval. The methods are in classes, but I also have a single function interface (root_scalar). Example:\n  call root_scalar('pegasus',func,x1,x2,xzero,fzero,iflag)\nMethods are:\n\nbrent [basically zeroin]\nbrentq [alternate brent from SciPy]\nbrenth [alternate brent from SciPy]\nbisection\nanderson_bjorck\nridders\npegasus\nbdqrf\nmuller\n\nThis is not final by any means and comments are welcome! I also have to figure out the preprocessor thing to get it to work with different real kinds."
+                },
+                {
+                    "user": "rweed",
+                    "date": "2021-07-05 18:14:06+00:00",
+                    "text": "@jacobwilliams\nYou might also want to look at the algorithm in the following reference\nT.R. Chandrupatla, \" A new hybrid quadratic/bisection algorithm for\nfinding the zero of a nonlinear function without derivatives,\" Advances in\nEngineering Software, Vol 28, 1997, pp. 145-149.\nIt's similar to Brents method but adds some constraints that are suppose to improve\nperformance for functions with repeated roots by elminating some of the bisection\nevaluations. The code in the article is BASIC but its easy to implement in Fortran.\nRW"
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-07-05 19:40:56+00:00",
+                    "text": "@rweed Done! Couldn't find the original paper, but got it from here: https://books.google.com/books?id=cC-8BAAAQBAJ&pg=PA95#v=onepage&q&f=false"
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-07-05 20:12:54+00:00",
+                    "text": "Might be of interest also TOMS 748 (from scipy):\n\nAlgorithm 748 with k=2 is asymptotically the most efficient algorithm known for finding roots of a four times continuously differentiable function. In contrast with Brent\u2019s algorithm, which may only decrease the length of the enclosing bracket on the last step, Algorithm 748 decreases it each iteration with the same asymptotic efficiency as it finds the root.\n\nReference: Alefeld, G. E. and Potra, F. A. and Shi, Yixun, Algorithm 748: Enclosing Zeros of Continuous Functions, ACM Trans. Math. Softw. Volume 221(1995) doi = {10.1145/210089.210111}\nPS: I don't know about potential license implications"
+                },
+                {
+                    "user": "rweed",
+                    "date": "2021-07-07 14:09:40+00:00",
+                    "text": "@jacobwilliams\nI have created a github repository to hold some utility routines I've written over the years and have included my implementations of the Brent and Chandruptla root finders. see: https://github.com/rweed/ModForUtils/root_finders. The files there contain two implementations (each) of the Brent and Chandruptla codes along with the nine test functions described in Chandrupatla's article and a test program that compares the two methods for two different intervals around the desired root. Feel free to modify the code as needed (and change the license) if you wish to include the Chandrupatla code in your stdlib code. Note, the versions of the Brent and Chandruptla solvers differ only in the way I pass the desired functions. The first way defines an \"univariate\" function class that wraps calls to the test functions and is mostly for testing purposes. The second way passes a procedure argument based on an abstract interface.\nThe rest of the utilities in the repository are some things I've used extensively in working codes and do things like compute binomial coefficients and factorials, test for NaN and Infinity floating point exceptions, check for\n\"almost\" equality of floating point numbers, provide support for various random number tasks, and provide my implementations of various array sorters (quicksort, heapsort, mergesort, insertion sort, and counting sort). The repository is a \"work in progress\" and I intend to include all the code I can that's not restricted by copyrights or GPL licenses etc. or the ITAR restrictions imposed by some of my DoD sponsored work."
                 }
             ]
         },
@@ -20849,6 +21853,11 @@
                     "user": "hsnyder",
                     "date": "2021-06-23 23:06:45+00:00",
                     "text": "@certik based on reading fortran-lang/fpm-registry#40 it sounds like the current plan is to maintain fftpack under fortran-lang, as it's own library rather than fold it into stdlib, is that correct? If so, I'm curious as to why we don't simply include it in stdlib?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-07-26 14:24:31+00:00",
+                    "text": "@hsnyder sorry, I forgot to reply. We can of course just include it in stdlib, but I think it's better to maintain it as a separate standalone package, and just make stdlib depend on it. We can then include modern Fortran interface, either in stdlib, or in the fftpack standalone package. It seems that's a better decision, because I think there will be interest in having a well maintained standalone package for all these old libraries like fftpack."
                 }
             ]
         },
