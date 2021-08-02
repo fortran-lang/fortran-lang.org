@@ -37,6 +37,10 @@ This month we've had several updates to the website:
   Add arrayfire-fortran to package index
 * [#294](https://github.com/fortran-lang/fortran-lang.org/pull/294):
   compilers: use more objective tone
+* [#296](https://github.com/fortran-lang/fortran-lang.org/pull/296):
+  my software with at least 5 stars
+* [#297](https://github.com/fortran-lang/fortran-lang.org/pull/297):
+  Fix insecure workflow.
 
 Ongoing work:
 
@@ -50,7 +54,7 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 ## Fortran Standard Library
 
-Here's what's new in `stdlib`:
+Here's what's new in stdlib:
 
 * [#436](https://github.com/fortran-lang/stdlib/pull/436):
   implemented low-level `replace_all` function
@@ -72,11 +76,21 @@ Here's what's new in `stdlib`:
   CMake: corrections and updates
 * [#426](https://github.com/fortran-lang/stdlib/pull/426):
   Addition of a subroutine to compute the median of array elements
+* [#474](https://github.com/fortran-lang/stdlib/pull/474):
+  Bug fix: Allocatable argument 'x' is not allocated #472
 
 Work in progress:
 
-* [#474](https://github.com/fortran-lang/stdlib/pull/474) (WIP):
-  Bug fix: Allocatable argument 'x' is not allocated #472
+* [#481](https://github.com/fortran-lang/stdlib/pull/481) (WIP):
+  [`stdlib_linalg`] Update eye function.
+* [#480](https://github.com/fortran-lang/stdlib/pull/480) (WIP):
+  [`stdlib_math`] Add seq function.
+* [#478](https://github.com/fortran-lang/stdlib/pull/478) (WIP):
+  [`stdlib_linalg`] Add zeros, ones, ex function.
+* [#477](https://github.com/fortran-lang/stdlib/pull/477) (WIP):
+  [`stdlib_linalg`] Add empty function.
+* [#475](https://github.com/fortran-lang/stdlib/pull/475) (WIP):
+  Generating sorting subroutines specific to character type with fypp
 * [#473](https://github.com/fortran-lang/stdlib/pull/473) (WIP):
   Error stop improvements
 * [#470](https://github.com/fortran-lang/stdlib/pull/470) (WIP):
@@ -121,8 +135,10 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 ## Fortran Package Manager
 
-Here is what is new in fpm:
+Here's what's new in fpm:
 
+* [#507](https://github.com/fortran-lang/fpm/pull/507):
+  optimize file listing
 * [#511](https://github.com/fortran-lang/fpm/pull/511):
   check name used for package, executable, test, or example
 * [#516](https://github.com/fortran-lang/fpm/pull/516):
@@ -131,15 +147,17 @@ Here is what is new in fpm:
   Fix run
 * [#522](https://github.com/fortran-lang/fpm/pull/522):
   remove warnings and fix truncated help text
+* [#523](https://github.com/fortran-lang/fpm/pull/523):
+  Fix compilation error in ifort
 
 Work in progress:
 
-* [#523](https://github.com/fortran-lang/fpm/pull/523) (WIP):
-  Fix compilation error in ifort
+* [#525](https://github.com/fortran-lang/fpm/pull/525) (WIP):
+  proposal to close #525 by generating build/.gitignore
+* [#527](https://github.com/fortran-lang/fpm/pull/527) (WIP):
+  Add objects for handling compiler and archiver
 * [#521](https://github.com/fortran-lang/fpm/pull/521) (WIP):
   expand tabs
-* [#507](https://github.com/fortran-lang/fpm/pull/507) (WIP):
-  optimize file listing
 * [#506](https://github.com/fortran-lang/fpm/pull/506) (WIP):
   Draft: initial implementation of `implicit_none`
 * [#498](https://github.com/fortran-lang/fpm/pull/498) (WIP):
@@ -159,8 +177,6 @@ Its long term goal is to build a rich and decentralized ecosystem of Fortran pac
 environment in which new open source Fortran projects are created and published with ease.
 
 ## Compilers
-
-### Flang
 
 ### LFortran
 
