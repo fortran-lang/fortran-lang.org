@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: September 2021"
 category: newsletter
-author: Milan Curcic
+authors: Milan Curcic, Alexis Perry-Holby
 ---
 
 Welcome to the September 2021 edition of the monthly Fortran newsletter.
@@ -56,7 +56,34 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
-TODO @AlexisPerry
+Recent development updates:
+
+* New Driver and CMake integration:
+    * The new driver has replaced the old, hence f18 has been deleted. 
+    * flang-new (aka. the new driver) now drives the flang bash script before an external compiler is called.
+    * Code-generation work is ongoing.
+    * Work is now proceeding to enable CMake to recognize the compiler and set the appropriate options for build configurations.
+* FIR (Fortran IR - a dialect of MLIR):
+    * Fortran 95 lowering and runtime support is nearing completion, particularly of intrinsics
+    * Code upstreaming will begin again in earnest once F95 is deemed complete
+* OpenMP
+    * Nesting of region semantic checks
+    * enter_data MLIR to LLVM IR lowering
+    * Semantic checks for allocate directive
+    * Lowering for various modifiers for the schedule clause
+    * Pretty printer and parser for omp.target operation
+    * Semantic checks for linear, nested barrier, allocate directive
+    * Progress with firstprivate, critical, collapse, ordered, reduction
+* Lift -Werror checks into local functions
+* Document the flang wrapper script
+* Fix the extent calculation when upper bounds are less than lower bounds
+* Fix list-directed plural repeated null values at end of record
+* Fix build failure on MacOS involving std::clock_t
+* Fix error messages on Windows.
+* Disable Plugins in out-of-tree builds
+* Correct off-by-one error in SET_EXPONENT
+
+Call notes are recorded [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
 
 ### LFortran
 
