@@ -15,7 +15,19 @@ Fortran news from the previous month.
 
 This month we've had several updates to the website:
 
-TODO @milancurcic
+* [#303](https://github.com/fortran-lang/fortran-lang.org/pull/303):
+  Add NJOY to package index
+
+### Work in progress
+
+* [#302](https://github.com/fortran-lang/fortran-lang.org/pull/302) (WIP):
+  Update Silverfrost compiler description.
+* [#300](https://github.com/fortran-lang/fortran-lang.org/pull/300) (WIP):
+  Add QCxMS to package index
+* [#246](https://github.com/fortran-lang/fortran-lang.org/pull/246) (WIP):
+  Transferring fortran90.org "Fortran Best Practices" into a mini-book
+* [#201](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP):
+  Internationalization for fortran-lang
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
 We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
