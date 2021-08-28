@@ -24,7 +24,66 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 Here's what's new in stdlib:
 
-TODO @milancurcic
+* [#467](https://github.com/fortran-lang/stdlib/pull/467):
+  Implemented move_alloc for string_type
+* [#470](https://github.com/fortran-lang/stdlib/pull/470):
+  Revival string list 
+* [#481](https://github.com/fortran-lang/stdlib/pull/481):
+  [stdlib_linalg] Update eye function.
+* [#493](https://github.com/fortran-lang/stdlib/pull/493):
+  Update copyright and remove old artifact
+* [#444](https://github.com/fortran-lang/stdlib/pull/444):
+  Add format_string routine to format other types to strings
+* [#483](https://github.com/fortran-lang/stdlib/pull/483):
+  Remove GCC Fortran MinGW 8.4.0 from known to work list
+
+### Work in progress
+
+* [#501](https://github.com/fortran-lang/stdlib/pull/501) (WIP):
+  Minor updates to README.md
+* [#500](https://github.com/fortran-lang/stdlib/pull/500) (WIP):
+  Selection algorithms
+* [#499](https://github.com/fortran-lang/stdlib/pull/499) (WIP):
+  [stdlib_linalg] matrix property checks
+* [#498](https://github.com/fortran-lang/stdlib/pull/498) (WIP):
+  [stdlib_math] add `arg/argd/argpi`
+* [#494](https://github.com/fortran-lang/stdlib/pull/494) (WIP):
+  Add testing module to allow better structuring of test suites
+* [#491](https://github.com/fortran-lang/stdlib/pull/491) (WIP):
+  Stdlib linked list
+* [#488](https://github.com/fortran-lang/stdlib/pull/488) (WIP):
+  [stdlib_math] add `is_close` routines.
+* [#478](https://github.com/fortran-lang/stdlib/pull/478) (WIP):
+  [stdlib_linalg] Add zeros, ones function.
+* [#475](https://github.com/fortran-lang/stdlib/pull/475) (WIP):
+  Generating sorting subroutines specific to `character` type with fypp
+* [#473](https://github.com/fortran-lang/stdlib/pull/473) (WIP):
+  Error stop improvements
+* [#455](https://github.com/fortran-lang/stdlib/pull/455) (WIP):
+  stdlib_hash: waterhash algorithm
+* [#452](https://github.com/fortran-lang/stdlib/pull/452) (WIP):
+  Implementation of a map data type
+* [#445](https://github.com/fortran-lang/stdlib/pull/445) (WIP):
+  [stdlib_io] `disp`(display your data)
+* [#437](https://github.com/fortran-lang/stdlib/pull/437) (WIP):
+  [FPM] add fpm support
+* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
+  Sorting string's characters according to their ASCII values
+* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP):
+  Initial checkin for a module for tolerant comparison of reals
+* [#286](https://github.com/fortran-lang/stdlib/pull/286) (WIP):
+  Probability Distribution and Statistical Functions -- Beta Distribution Module
+* [#278](https://github.com/fortran-lang/stdlib/pull/278) (WIP):
+  Probability Distribution and Statistical Functions -- Gamma Distribution Module
+* [#276](https://github.com/fortran-lang/stdlib/pull/276) (WIP):
+  Probability Distribution and Statistical Functions -- Exponential Distribution Module
+* [#273](https://github.com/fortran-lang/stdlib/pull/273) (WIP):
+  Probability Distribution and Statistical Functions -- Normal Distribution Module 
+* [#272](https://github.com/fortran-lang/stdlib/pull/272) (WIP):
+  Probability Distribution and Statistical Functions -- Uniform Distribution Module
+* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP):
+  Initial implementation of COO / CSR sparse format
+
 
 Please help improve stdlib by testing and [reviewing pull requests](https://github.com/fortran-lang/stdlib/issues?q=is%3Apr+is%3Aopen+label%3A%22reviewers+needed%22)!
 
