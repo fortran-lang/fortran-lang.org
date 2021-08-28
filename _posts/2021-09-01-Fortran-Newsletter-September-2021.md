@@ -192,7 +192,7 @@ touch with us](https://lfortran.org/)!
 
 * We had our 15th Fortran Monthly call on August 17.
   You can watch the recording below:
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/9goA20JAHls" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/496oZFYcA00" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 * FortranCon 2021 will be held virtually from September 23-24, 2021.
   Registration is free of charge and is due by September 15.
