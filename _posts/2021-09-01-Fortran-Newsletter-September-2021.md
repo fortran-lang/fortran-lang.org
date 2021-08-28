@@ -52,6 +52,33 @@ The short-term goal of fpm is to make development and installation of Fortran pa
 Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
 environment in which new open source Fortran projects are created and published with ease.
 
+## FFTPACK
+
+Zuo Zhihua ([@zoziha](https://github.com/zoziha)) and Ondřej Čertík ([@certik](https://github.com/certik)) started maintaining the public domain project FFTPACK under the Fortran-lang namespace.
+The project is readily available for usage in with fpm.
+
+Here is what is new in FFTPACK:
+
+* [#10](https://github.com/fortran-lang/fftpack/pull/10):
+  Add `(i)qct/dcosqi/dcosqf/dcosqb` interfaces for quarter wave data.
+* [#7](https://github.com/fortran-lang/fftpack/pull/7):
+  Add `dzffti/dzfftf/dzfftb` interfaces
+* [#4](https://github.com/fortran-lang/fftpack/pull/4):
+  Improve fft interface for `complex` sequences: `(i)fft/zffti/zfftf/zfftb`
+* [#6](https://github.com/fortran-lang/fftpack/pull/6):
+  Add  `(i)rfft/dffti/dfftf/dfftb` interface and ready to move to `fortran-lang`
+* [#5](https://github.com/fortran-lang/fftpack/pull/5):
+  Add `fftshift/ifftshift`
+* [#3](https://github.com/fortran-lang/fftpack/pull/3):
+  Add CI: fpm.yml
+
+### Work in progress
+
+* [#11](https://github.com/fortran-lang/fftpack/pull/11) (WIP):
+  Add `(i)dct/dcosti/dcost` interfaces.
+
+Feedback and ideas for this project are welcome.
+
 ## Compilers
 
 ### Flang
