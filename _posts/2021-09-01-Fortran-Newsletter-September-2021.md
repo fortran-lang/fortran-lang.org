@@ -108,7 +108,31 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 Here's what's new in fpm:
 
-TODO @milancurcic
+* [Version 0.4.0](https://github.com/fortran-lang/fpm/releases/tag/v0.4.0):
+  Alpha release update
+* [#546](https://github.com/fortran-lang/fpm/pull/546):
+  Update version for release 0.4.0
+* [#548](https://github.com/fortran-lang/fpm/pull/548):
+  Fix build on MacOS/ARM64
+* [#527](https://github.com/fortran-lang/fpm/pull/527):
+  Add objects for handling compiler and archiver
+* [#536](https://github.com/fortran-lang/fpm/pull/536):
+  Always call `git init` in fpm new when backfilling
+* [#533](https://github.com/fortran-lang/fpm/pull/533):
+  Allow extra section in package manifest
+* [#528](https://github.com/fortran-lang/fpm/pull/528):
+  Generate `build/.gitignore`
+
+### Work in progress
+
+* [#539](https://github.com/fortran-lang/fpm/pull/539) (WIP):
+  Add parent packages into dependency tree
+* [#521](https://github.com/fortran-lang/fpm/pull/521) (WIP):
+  Expand tabs in source parsing
+* [#506](https://github.com/fortran-lang/fpm/pull/506) (WIP):
+  Initial implementation of implicit_none
+* [#498](https://github.com/fortran-lang/fpm/pull/498) (WIP):
+  Compiler flags profiles
 
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
