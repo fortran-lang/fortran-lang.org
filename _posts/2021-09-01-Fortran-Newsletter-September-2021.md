@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: September 2021"
 category: newsletter
-authors: Milan Curcic, Alexis Perry-Holby
+author: Milan Curcic, Alexis Perry-Holby, Sebastian Ehlert, Ondřej Čertík
 ---
 
 Welcome to the September 2021 edition of the monthly Fortran newsletter.
@@ -15,7 +15,19 @@ Fortran news from the previous month.
 
 This month we've had several updates to the website:
 
-TODO @milancurcic
+* [#303](https://github.com/fortran-lang/fortran-lang.org/pull/303):
+  Add NJOY to package index
+
+### Work in progress
+
+* [#302](https://github.com/fortran-lang/fortran-lang.org/pull/302) (WIP):
+  Update Silverfrost compiler description.
+* [#300](https://github.com/fortran-lang/fortran-lang.org/pull/300) (WIP):
+  Add QCxMS to package index
+* [#246](https://github.com/fortran-lang/fortran-lang.org/pull/246) (WIP):
+  Transferring fortran90.org "Fortran Best Practices" into a mini-book
+* [#201](https://github.com/fortran-lang/fortran-lang.org/pull/201) (WIP):
+  Internationalization for fortran-lang
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
 We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
@@ -24,7 +36,66 @@ We welcome any new contributors to the website and the tutorials page in particu
 
 Here's what's new in stdlib:
 
-TODO @milancurcic
+* [#467](https://github.com/fortran-lang/stdlib/pull/467):
+  Implemented move_alloc for string_type
+* [#470](https://github.com/fortran-lang/stdlib/pull/470):
+  Revival string list 
+* [#481](https://github.com/fortran-lang/stdlib/pull/481):
+  [stdlib_linalg] Update eye function.
+* [#493](https://github.com/fortran-lang/stdlib/pull/493):
+  Update copyright and remove old artifact
+* [#444](https://github.com/fortran-lang/stdlib/pull/444):
+  Add format_string routine to format other types to strings
+* [#483](https://github.com/fortran-lang/stdlib/pull/483):
+  Remove GCC Fortran MinGW 8.4.0 from known to work list
+
+### Work in progress
+
+* [#501](https://github.com/fortran-lang/stdlib/pull/501) (WIP):
+  Minor updates to README.md
+* [#500](https://github.com/fortran-lang/stdlib/pull/500) (WIP):
+  Selection algorithms
+* [#499](https://github.com/fortran-lang/stdlib/pull/499) (WIP):
+  [stdlib_linalg] matrix property checks
+* [#498](https://github.com/fortran-lang/stdlib/pull/498) (WIP):
+  [stdlib_math] add `arg/argd/argpi`
+* [#494](https://github.com/fortran-lang/stdlib/pull/494) (WIP):
+  Add testing module to allow better structuring of test suites
+* [#491](https://github.com/fortran-lang/stdlib/pull/491) (WIP):
+  Stdlib linked list
+* [#488](https://github.com/fortran-lang/stdlib/pull/488) (WIP):
+  [stdlib_math] add `is_close` routines.
+* [#478](https://github.com/fortran-lang/stdlib/pull/478) (WIP):
+  [stdlib_linalg] Add zeros, ones function.
+* [#475](https://github.com/fortran-lang/stdlib/pull/475) (WIP):
+  Generating sorting subroutines specific to `character` type with fypp
+* [#473](https://github.com/fortran-lang/stdlib/pull/473) (WIP):
+  Error stop improvements
+* [#455](https://github.com/fortran-lang/stdlib/pull/455) (WIP):
+  stdlib_hash: waterhash algorithm
+* [#452](https://github.com/fortran-lang/stdlib/pull/452) (WIP):
+  Implementation of a map data type
+* [#445](https://github.com/fortran-lang/stdlib/pull/445) (WIP):
+  [stdlib_io] `disp`(display your data)
+* [#437](https://github.com/fortran-lang/stdlib/pull/437) (WIP):
+  [FPM] add fpm support
+* [#363](https://github.com/fortran-lang/stdlib/pull/363) (WIP):
+  Sorting string's characters according to their ASCII values
+* [#353](https://github.com/fortran-lang/stdlib/pull/353) (WIP):
+  Initial checkin for a module for tolerant comparison of reals
+* [#286](https://github.com/fortran-lang/stdlib/pull/286) (WIP):
+  Probability Distribution and Statistical Functions -- Beta Distribution Module
+* [#278](https://github.com/fortran-lang/stdlib/pull/278) (WIP):
+  Probability Distribution and Statistical Functions -- Gamma Distribution Module
+* [#276](https://github.com/fortran-lang/stdlib/pull/276) (WIP):
+  Probability Distribution and Statistical Functions -- Exponential Distribution Module
+* [#273](https://github.com/fortran-lang/stdlib/pull/273) (WIP):
+  Probability Distribution and Statistical Functions -- Normal Distribution Module 
+* [#272](https://github.com/fortran-lang/stdlib/pull/272) (WIP):
+  Probability Distribution and Statistical Functions -- Uniform Distribution Module
+* [#189](https://github.com/fortran-lang/stdlib/pull/189) (WIP):
+  Initial implementation of COO / CSR sparse format
+
 
 Please help improve stdlib by testing and [reviewing pull requests](https://github.com/fortran-lang/stdlib/issues?q=is%3Apr+is%3Aopen+label%3A%22reviewers+needed%22)!
 
@@ -37,7 +108,31 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 Here's what's new in fpm:
 
-TODO @milancurcic
+* [Version 0.4.0](https://github.com/fortran-lang/fpm/releases/tag/v0.4.0):
+  Alpha release update
+* [#546](https://github.com/fortran-lang/fpm/pull/546):
+  Update version for release 0.4.0
+* [#548](https://github.com/fortran-lang/fpm/pull/548):
+  Fix build on MacOS/ARM64
+* [#527](https://github.com/fortran-lang/fpm/pull/527):
+  Add objects for handling compiler and archiver
+* [#536](https://github.com/fortran-lang/fpm/pull/536):
+  Always call `git init` in fpm new when backfilling
+* [#533](https://github.com/fortran-lang/fpm/pull/533):
+  Allow extra section in package manifest
+* [#528](https://github.com/fortran-lang/fpm/pull/528):
+  Generate `build/.gitignore`
+
+### Work in progress
+
+* [#539](https://github.com/fortran-lang/fpm/pull/539) (WIP):
+  Add parent packages into dependency tree
+* [#521](https://github.com/fortran-lang/fpm/pull/521) (WIP):
+  Expand tabs in source parsing
+* [#506](https://github.com/fortran-lang/fpm/pull/506) (WIP):
+  Initial implementation of implicit_none
+* [#498](https://github.com/fortran-lang/fpm/pull/498) (WIP):
+  Compiler flags profiles
 
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
@@ -51,6 +146,33 @@ Here's how you can help today:
 The short-term goal of fpm is to make development and installation of Fortran packages with dependencies easier.
 Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
 environment in which new open source Fortran projects are created and published with ease.
+
+## FFTPACK
+
+Zuo Zhihua ([@zoziha](https://github.com/zoziha)) and Ondřej Čertík ([@certik](https://github.com/certik)) started maintaining the public domain project FFTPACK under the Fortran-lang namespace.
+The project is readily available for usage in with fpm.
+
+Here is what is new in FFTPACK:
+
+* [#10](https://github.com/fortran-lang/fftpack/pull/10):
+  Add `(i)qct/dcosqi/dcosqf/dcosqb` interfaces for quarter wave data.
+* [#7](https://github.com/fortran-lang/fftpack/pull/7):
+  Add `dzffti/dzfftf/dzfftb` interfaces
+* [#4](https://github.com/fortran-lang/fftpack/pull/4):
+  Improve fft interface for `complex` sequences: `(i)fft/zffti/zfftf/zfftb`
+* [#6](https://github.com/fortran-lang/fftpack/pull/6):
+  Add  `(i)rfft/dffti/dfftf/dfftb` interface and ready to move to `fortran-lang`
+* [#5](https://github.com/fortran-lang/fftpack/pull/5):
+  Add `fftshift/ifftshift`
+* [#3](https://github.com/fortran-lang/fftpack/pull/3):
+  Add CI: fpm.yml
+
+### Work in progress
+
+* [#11](https://github.com/fortran-lang/fftpack/pull/11) (WIP):
+  Add `(i)dct/dcosti/dcost` interfaces.
+
+Feedback and ideas for this project are welcome.
 
 ## Compilers
 
@@ -97,7 +219,7 @@ touch with us](https://lfortran.org/)!
 
 * We had our 15th Fortran Monthly call on August 17.
   You can watch the recording below:
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/9goA20JAHls" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/496oZFYcA00" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 * FortranCon 2021 will be held virtually from September 23-24, 2021.
   Registration is free of charge and is due by September 15.
