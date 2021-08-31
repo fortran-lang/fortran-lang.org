@@ -205,7 +205,7 @@ Recent development updates:
 * Disable Plugins in out-of-tree builds
 * Correct off-by-one error in SET_EXPONENT
 
-Call notes are recorded [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY).
+Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
 ### LFortran
 
