@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: September 2021"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Sebastian Ehlert, Ondřej Čertík
 ---
 
 Welcome to the September 2021 edition of the monthly Fortran newsletter.
