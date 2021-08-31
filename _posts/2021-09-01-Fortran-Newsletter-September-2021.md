@@ -209,10 +209,68 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 
 ### LFortran
 
-TODO @certik
+* 168
+  [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged)
+  Merge Requests in August 2021
+* The following people have contributed code in August:
+   * Ondřej Čertík
+   * Thirumalai Shaktivel
+   * Rohit Goswami
+   * Gagandeep Singh
+   * Andrew Best
+   * Carlos Une
+* Our 3 Google Summer of Code (GSoC) students have successfully finished their
+  projects. Here are their final reports:
+   * Gagandeep Singh: https://czgdp1807.github.io/2021/08/16/z_final_report.html
+   * Thirumalai Shaktivel: https://gist.github.com/Thirumalai-Shaktivel/c2a1aaa5239e792e499eaa8942987519
+   * Rohit Goswami: https://rgoswami.me/posts/gsoc21-fin-reprot/
+
+#### LFortran 0.12.0 was released on August 15
+
+Changes since the last release.
+
+* Fixed all issues in the parser that were reported (AST)
+  * multiple loop single end do
+  * arithmetic if
+* Comments and empty lines are now represented in AST and formatted correctly (AST)
+* The formatter (`lfortran fmt`) now uses the minimal amount of parentheses in expressions
+* Initial fixed-form parser (AST)
+* Initial class support (ASR, LLVM)
+* Allocate / deallocate, allocatable arrays (ASR, LLVM)
+* Associate block (ASR, LLVM)
+* Runtime library refactoring (ASR, LLVM)
+  * Split into builtin, pure and impure
+  * `iso_fortran_env`, `iso_c_binding` intrinsic modules added
+* Compile time evaluation (ASR, LLVM)
+
+Commits (`git shortlog -ns v0.11.0..v0.12.0`):
+```
+   369  Ondřej Čertík
+    85  Thirumalai Shaktivel
+    79  Gagandeep Singh
+    75  Rohit Goswami
+    20  Andrew Best
+     4  Dominic Poerio
+```
+
+
+#### Updates in master since the last release:
+
+* LFortran can now compile binaries on Windows
+* C interoperation works on all platforms (including Windows and MSVC)
+* Runtime library improvements
+  * Complex intrinsics fixed on all platforms
+  * All trigonometric functions now use the Fortran `impure` interface in the runtime library
+  * More intrinsics implemented
+* Initial implementation of classes and methods
+* LFortran now works with `fpm` and compiles the hello world project and a few other example projects
+* Parser improvements: team and sync statements
+* Improved handling of character types as function arguments and return values
+
 
 We are looking for new contributors, so if you are interested, please [get in
-touch with us](https://lfortran.org/)!
+touch with us](https://lfortran.org/)! We would be happy to do a video call
+with you to get you started.
 
 
 ## Events
