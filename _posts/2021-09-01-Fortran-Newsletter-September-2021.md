@@ -212,13 +212,15 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 * 168
   [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged)
   Merge Requests in August 2021
-* The following people have contributed code in August:
+* The following people have contributed code to LFortran in August:
    * Ondřej Čertík
    * Thirumalai Shaktivel
    * Rohit Goswami
    * Gagandeep Singh
    * Andrew Best
    * Carlos Une
+* Sebastian Ehlert got LFortran working with fpm
+* Many people have reported bugs (thank you all!)
 * Our 3 Google Summer of Code (GSoC) students have successfully finished their
   projects. Here are their final reports:
    * Gagandeep Singh: https://czgdp1807.github.io/2021/08/16/z_final_report.html
