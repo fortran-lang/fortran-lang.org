@@ -223,9 +223,9 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 * Many people have reported bugs (thank you all!)
 * Our 3 Google Summer of Code (GSoC) students have successfully finished their
   projects. Here are their final reports:
-   * Gagandeep Singh: https://czgdp1807.github.io/2021/08/16/z_final_report.html
-   * Thirumalai Shaktivel: https://gist.github.com/Thirumalai-Shaktivel/c2a1aaa5239e792e499eaa8942987519
-   * Rohit Goswami: https://rgoswami.me/posts/gsoc21-fin-reprot/
+   * Gagandeep Singh: [https://czgdp1807.github.io/2021/08/16/z_final_report.html](https://czgdp1807.github.io/2021/08/16/z_final_report.html)
+   * Thirumalai Shaktivel: [https://gist.github.com/Thirumalai-Shaktivel/c2a1aaa5239e792e499eaa8942987519](https://gist.github.com/Thirumalai-Shaktivel/c2a1aaa5239e792e499eaa8942987519)
+   * Rohit Goswami: [https://rgoswami.me/posts/gsoc21-fin-reprot/](https://rgoswami.me/posts/gsoc21-fin-reprot/)
 
 #### LFortran 0.12.0 was released on August 15
 
