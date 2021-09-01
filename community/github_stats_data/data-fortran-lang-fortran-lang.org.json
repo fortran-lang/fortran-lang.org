@@ -2,6 +2,184 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 308,
+            "user": "scivision",
+            "date": "2021-08-30 17:39:16+00:00",
+            "title": "remove excess 'mpi' tag from fortran2018-examples",
+            "text": "The MPI examples were moved to another repo:\nhttps://github.com/scivision/fortran-coarray-mpi-examples",
+            "comments": []
+        },
+        {
+            "number": 307,
+            "user": "paniash",
+            "date": "2021-08-30 17:36:52+00:00",
+            "title": "Fixed typo",
+            "text": "None",
+            "comments": []
+        },
+        {
+            "number": 306,
+            "user": "jacobwilliams",
+            "date": "2021-08-29 23:14:11+00:00",
+            "title": "added 2 interpolation and 4 ode packages",
+            "text": "None",
+            "comments": []
+        },
+        {
+            "number": 305,
+            "user": "milancurcic",
+            "date": "2021-08-23 21:45:18+00:00",
+            "title": "September newsletter draft",
+            "text": "I will run the PRs script on August 31.\nI will study how to run the contributors script, and if I get stuck will ask for help from @LKedward.\nAnd as usual, looking forward to compiler updates from @AlexisPerry and @certik.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-08-28 10:56:52+00:00",
+                    "text": "Maybe we can also mention that fftpack is now maintained under @fortran-lang. Just a short section mentioning the team working on this project now or we can also include fftpack in the regular updates. What do you think?\ncc @fortran-lang/fftpack"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-28 14:34:19+00:00",
+                    "text": "Yes, thanks for mentioning fftpack."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-08-31 15:34:22+00:00",
+                    "text": "Hi @AlexisPerry, will you be able to contribute Flang updates by tomorrow (9/1)?"
+                },
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-08-31 15:37:21+00:00",
+                    "text": "Hi @AlexisPerry, will you be able to contribute Flang updates by tomorrow (9/1)?\n\nYes, I have created a PR here: milancurcic#1"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-08-31 15:39:33+00:00",
+                    "text": "@AlexisPerry perfect, thanks, I didn't see the notification for the PR."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-08-31 23:52:19+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-08-31 23:53:57+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/305/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-01 00:06:40+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-09-01 00:08:36+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/305/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-01 00:10:49+00:00",
+                    "text": "Ok, it looks good to me now!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-01 00:12:34+00:00",
+                    "text": "@AlexisPerry thank you for submitting the Flang updates."
+                }
+            ]
+        },
+        {
+            "number": 304,
+            "user": "Beliavsky",
+            "date": "2021-08-17 19:57:09+00:00",
+            "title": "Show how to declare multiple variables of the same type in one line",
+            "text": "The tutorial says\nThe syntax for declaring variables is:\n<variable_type> :: <variable_name>\nwhere <variable_type> is one of the built-in variable types listed above and <variable_name> is the name that you would like to call your variable.\n\nIn even the smallest programs one may have several variables of the same type, so I think it is worth introducing the syntax for this at the beginning. So the above could be changed to\nThe syntax for declaring variables is:\n<variable_type> :: <variable_name_1>, <variable_name_2>\nwhere <variable_type> is one of the built-in variable types listed above and <variable_name_1> and <variable_name_2> are the names that you would like to call your variables.\n\nThen in the illustrative program\nprogram arithmetic\n  implicit none\n\n  real :: pi\n  real :: radius\n  real :: height\n  real :: area\n  real :: volume\n\nthe declarations can be consolidated to one line. Modern Fortran has been criticized as verbose -- I think concise syntax should be used when it does not sacrifice clarity.\nA nitpick about the code is that the line\narea = pi * radius**2.0\nshould be\narea = pi * radius**2\nWhen you want to raise a value to an exact integer power, you should not write the exponent as a float.\nTypo -- \"running\" not \"runnning\" (2 not 3 n's) at https://fortran-lang.org/learn/quickstart/arrays_strings .",
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2021-08-18 06:25:34+00:00",
+                    "text": "I agree with these observations (should we add a comment about the difference between integer and real exponents?)"
+                }
+            ]
+        },
+        {
+            "number": 303,
+            "user": "certik",
+            "date": "2021-08-14 03:59:03+00:00",
+            "title": "Add NJOY",
+            "text": "https://github.com/njoy/NJOY2016",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-08-15 03:22:53+00:00",
+                    "text": "Thanks for the review @awvwgk and @brocolis!"
+                }
+            ]
+        },
+        {
+            "number": 302,
+            "user": "brocolis",
+            "date": "2021-08-14 00:37:53+00:00",
+            "title": "Update Silverfrost compiler description.",
+            "text": "Author: Beliavsky; Closes #301.",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-08-14 19:19:53+00:00",
+                    "text": "Thank you for reviewing it."
+                }
+            ]
+        },
+        {
+            "number": 301,
+            "user": "Beliavsky",
+            "date": "2021-08-13 19:12:15+00:00",
+            "title": "Update Silverfrost compiler description",
+            "text": "Based on the discussion here, I suggest editing the Silverfrost compiler description by appending the sentences,\nSome features of Fortran 2003 and 2008 have been added. There is a free personal edition.",
+            "comments": []
+        },
+        {
+            "number": 300,
+            "user": "awvwgk",
+            "date": "2021-08-06 21:58:53+00:00",
+            "title": "Add QCxMS to package index",
+            "text": "source at qcxms/qcxms\nbuilds with meson, supports Intel Fortran\ndocumentation\n\ncc @JayTheDog",
+            "comments": []
+        },
+        {
+            "number": 299,
+            "user": "jacobwilliams",
+            "date": "2021-08-02 02:22:43+00:00",
+            "title": "Compiler platform listings",
+            "text": "The compiler listings should be more specific about which platforms are supported by which compilers. Some are listed, but some are not clear.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-08-02 05:35:52+00:00",
+                    "text": "This is something that we will have to have establish communication with the compiler vendors. Which we should."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-08-08 19:19:59+00:00",
+                    "text": "I originally added the supported platforms for all commercial compilers that offer free community versions. This way it was easy enough to verify whether the compiler is actually usable for the respective platform / architecture combination.\nThis leaves the open source compilers:\n\nGFortran, as part of GCC it is available on pretty much every major platform / architecture:\n\nLinux / x86_64, ppc64le, aarch64, ia64, s390, sparc, ...\nFreeBSD / x86_64\nOpenBSD / x86_64\nOSX / ppc64le, x86_64, aarch64\nWindows (MinGW) / x86_64\nWindows (Cygwin) / x86_64\nSolaris / sparc, x86_64\nAIX / ppc64le\nprobably more...\n\n\nLFortran:\n\nLinux / x86_64\nOSX / x86_64, aarch64\nWindows / x86_64\n\n\n\nNo idea about flang and f18. I know that at least (classic) flang is available for Linux / x86_64 and conda-forge's fork also provides support for Windows / x86_64. It is also difficult to track down on repology and similar because some projects package the (classic) flang, usually by release date, and some package f18 under the name flang, usually by LLVM version number, but I have already seen packaged versions of (classic) flang under the LLVM version number.\nHere is what I could find out about the other commercial compilers by checking their webpage\n\nNAG:\n\nLinux / x86_64\nOSX / x86_64, aarch64\nWindows / x86_64\n\n\nAbsoft\n\nLinux / x86_64\nOSX / x86_64\nWindows / x86_64\n\n\n\nFor other commercial compilers it is not that clear."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-08-13 19:06:49+00:00",
+                    "text": "This issue should be consolidated with #240 , \"List compilers by platform\"."
+                }
+            ]
+        },
+        {
+            "number": 298,
+            "user": "certik",
+            "date": "2021-08-01 09:29:45+00:00",
+            "title": "Run failed: Comment on the pull request and push the PR preview to the gh-pages branch - master",
+            "text": "Every time I comment on a pull request such as: #295, I get an email with the above title and a link to:\nhttps://github.com/fortran-lang/fortran-lang.org/actions/runs/1086966949\nIt seems something in the CI is broken.",
+            "comments": []
+        },
+        {
             "number": 297,
             "user": "intrigus-lgtm",
             "date": "2021-07-27 20:02:13+00:00",
@@ -34,6 +212,81 @@
                     "user": "milancurcic",
                     "date": "2021-07-31 01:48:33+00:00",
                     "text": "Just a friendly reminder that we aim to merge this on August 1. Thank you!"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-07-31 05:32:53+00:00",
+                    "text": "Thanks for starting Milan! Looks good pending updates to the PRs."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-07-31 06:33:41+00:00",
+                    "text": "I will submit LFortran later today."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-07-31 16:10:24+00:00",
+                    "text": "I am still working on it."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-07-31 16:55:46+00:00",
+                    "text": "@LKedward is there some documentation how you update the automatic contributor list? I know I wrote some initial scripts, but I think you might have some changes to those that you use, and I would like to learn and document how to do this."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-08-01 07:19:00+00:00",
+                    "text": "I don't think I've made any changes to the original scripts, so I'm just following the README as documentation. I can add something to our Newsletter wiki page, however the process needs to be moved into our CI - unfortunately I haven't had the time to do this quite yet."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-01 07:38:02+00:00",
+                    "text": "I'm just following the README as documentation\n\nThis README: https://gitlab.com/fortran-lang/github_stats/-/blob/master/README.md or some other README?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-08-01 07:42:28+00:00",
+                    "text": "Yes that README. I just updated the Wiki page with some basic instructions."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-01 09:00:45+00:00",
+                    "text": "I see it now, awesome. We should improve the scripts more. For example, it seems we do not need to store the actual text of the comments. I stored initially everything, as I didn't know if we will need it, but it seems we don't (unless we wanted to count words, or something like that)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-08-02 01:58:50+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-08-02 02:00:26+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/295/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-08-02 02:03:23+00:00",
+                    "text": "Thank you all, the newsletter looks good, I'll merge."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-08-02 02:06:12+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-08-02 02:06:33+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                },
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-08-02 19:34:33+00:00",
+                    "text": "Sorry I missed the last couple newsletters; I was out on maternity leave.  Will catch up on the Flang updates in the next one."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-04 02:14:39+00:00",
+                    "text": "@AlexisPerry no problem, thanks for letting us know and looking forward for the next month's update."
                 }
             ]
         },

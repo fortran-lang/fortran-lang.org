@@ -2,12 +2,234 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 225,
+            "user": "FortranFan",
+            "date": "2021-08-26 03:47:41+00:00",
+            "title": "A new category of outmoded features: Retired",
+            "text": "Background\nFortran standard revisions starting Fortran 90 include 2 categories of \"outmoded features\": Deleted and Obsolescent.\nWith Deleted features, the standard makes their status clear, such features are simply \"not included\" starting with the revision the features get placed in that category.\nThe Obsolescent category however is indistinct: the features in this category remain included in the standard albeit with a smaller type size; additionally, newer feature additions to the standard need to integrate with them.  A revealing example of this issue is fixed-form source, which has been obsolescent since the Fortran 95 revision that was published nearly 25 years ago, and the feature set under development as part of \"Conditional Expressions\" in Fortran 202X wherein the proposed and voted-upon solution was predicated by the need to work with both source forms.\nAnd note the standard states, \"A future revision of this part of ISO/IEC 1539 might delete an obsolescent feature if its use has become insignificant.\"  Note the operative phrase, \"if its use has become insignificant.\"  There is no objective method amenable to anyone including the Fortran standard body to ascertain when the use of obsolescent feature has become insignificant.  Consider implicit mapping which is not yet obsolescent: one is hard-pressed to point to a single codebase among the vast number of known and now increasingly public codebases that truly and purposefully employs the implicit mapping facility in the standard.  Yet the refrain remains there are significant investments with such a feature remaining in existing software and thus the feature cannot be deleted.\nThe situation then is the near impossibility of deleting an obsolescent feature when the continued presence and support of outmoded features hinders the advancement of the language and hurts its image and the goodwill around it.\nProposal\nIntroduce a new category termed Retired to unburden future revisions of the standard.  It is expected the standard body and the Community shall collaborate to determine the attributes of features marked as Retired.  The initial expectation with Retired features is\n\nthey are those that were first marked as Obsolescent,\nonce a feature is retired in a given standard revision, new feature introductions in that revision and subsequent revisions shall not be required to integrate with the retired feature with the possibility being also of the retired features being incompatible with subsequent new features,\nwhere a standard-conforming processor shall be asked to have the ability to detect and report them as such i.e., to the extent it is reasonable for a processor to do so within the rules and constraints in the standard; this is the same as included in the current standard with obsolescent features,\nthe retired features are identified in the standard by a relegation of all the details pertaining to its semantics and syntax to a certain location such as Annex xx (xx depending on the standard revision document),\nthe standard text on the retired features being considered as frozen, meaning no further edits or enhancements to the text of the standard shall be made to such features.\nthey are the ones that are on the slate for consideration toward eventual deletion from the standard.  That is, the order can be an outmoded feature goes to being Obsolescent first, then Retired, followed by Deleted.",
+            "comments": [
+                {
+                    "user": "rouson",
+                    "date": "2021-08-28 20:20:19+00:00",
+                    "text": "I like this idea. It would be interesting to hear the Editor's perspective on the feasibility of this proposal.  For features that have a section of the standard devoted to them, it would be straightforward to move that section to an annex.  What about when the feature interact with another feature in some way that needs to be mentioned in a different section?  If these additional references to the retired feature are also moved to the annex, it might make parts of the standard tricky to use."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-29 17:02:09+00:00",
+                    "text": "@rouson writes Aug. 28, 2021, 4:20 PM EDT:\n\nI like this idea. It would be interesting to hear the Editor's perspective on the feasibility of this proposal. For features that have a section of the standard devoted to them, it would be straightforward to move that section to an annex. What about when the feature interact with another feature in some way that needs to be mentioned in a different section? If these additional references to the retired feature are also moved to the annex, it might make parts of the standard tricky to use.\n\nGlad to read, \"I like this idea\".  I appreciate your comments and agree entirely with the concerns.\nBut I think things are coming to a head with Fortran i.e., the modern incarnation starting with the ISO/IEC 1539 : 1990 revision.\nModern Fortran is arriving (or has arrived) at the proverbial \"fork in the road\": to paraphrase Frost, does Fortran now take the easy path, one that is highly comforting to and strongly preferred by the dominant majority among the standard bearers and which addresses mostly some immediate needs only at considerable harm to longer-term innovation and advancement; or, embrace the harder path (fork) that requires more effort and attention to vision and be brave and which can strengthen the language, its advancement and its application toward the bigger challenges facing humanity whether it be climate change,  energy demands, pandemics, etc.\nFew things in life are easy; if they were, there would be no need for computers or computing generally.  Humanity could have made do with the digits on their hands, or having invented abacus, been content with it.\nNow, consider ANSI X3.9 1978, ISO 1539-1980 document that pursued full language and a subset language demarcations: \"FORTRAN 77 is a revision of American National Standard FORTRAN, ANSI X3.9-1966. It describes two levels of the FORTRAN language, referred to as FORTRAN and Subset FORTRAN. FORTRAN is the full language and appears on the righthand pages; Subset FORTRAN is a subset of the full language and appears on the lefthand pages.\"\nImagine the effort on the writers of 1539-1980 to layout the subset language on the lefthand pages and the FULL language on the righthand pages!\nThe proposal here is not specifically demanding the same approaches as pursued previously be adopted exactly, not by any means.  The suggestion here is mostly to be inspired.  When there were needs, those who preceded in Fortran's journey did the hard yards.  There is so much an Editor (or an Editorial Board) can do now to achieve more with lesser effort with modern document management tools and collaborative approaches and crowdsourcing.  If there is a will, there will be a way.\nRather than preserve the status quo, can something be done with the standard document itself to move beyond aspects that have long been obsolescent but which yet need to be taken into account in future directions?"
+                }
+            ]
+        },
+        {
+            "number": 224,
+            "user": "brandongc",
+            "date": "2021-08-25 17:36:58+00:00",
+            "title": "scan clause for `do concurrent reduce`",
+            "text": "OpenMP has a scan clause for reductions.\nThere is some nontrivial design space in good concurrent implementations of this primitive:\n\nhttp://www.eecs.umich.edu/courses/eecs570/hw/parprefix.pdf\nhttps://software.intel.com/content/www/us/en/develop/articles/openmp-simd-for-inclusiveexclusive-scans.html",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-08-25 18:03:16+00:00",
+                    "text": "Indeed, I have heard from multiple people that we should consider adding it. Kokkos has it too: https://github.com/kokkos/kokkos/wiki/Kokkos::parallel_scan"
+                }
+            ]
+        },
+        {
+            "number": 223,
+            "user": "brandongc",
+            "date": "2021-08-25 17:33:46+00:00",
+            "title": "additional co array collectives",
+            "text": "In particular an inclusive and exclusive scan would be useful for several applications, but I think a case could be made for other collectives such allreduce and alltoall too.",
+            "comments": []
+        },
+        {
+            "number": 222,
+            "user": "brandongc",
+            "date": "2021-08-25 16:49:47+00:00",
+            "title": "`log2` instrinsic",
+            "text": "Currently the standard has log and log10 functions, but no log2.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-08-25 16:51:34+00:00",
+                    "text": "Good candidate for stdlib."
+                }
+            ]
+        },
+        {
+            "number": 221,
+            "user": "everythingfunctional",
+            "date": "2021-08-25 15:22:33+00:00",
+            "title": "A shorthand for immutability",
+            "text": "There is already a method of specifying immutable local values (i.e. calculate once, reference multiple times), but often results in some inconvenience/verbosity. For example\nassociate(val1 => (some_expr))\n  associate(val2 => val1 + another_expr)\n    associate(val3 => val2 + yet_another_expr)\n      result = val1 + val2 * val3\n    end associate\n  end associate\nend associate\nI have seen it requested in a few places that the end associate be made optional, but I think that deserves a different keyword. I would propose let. Thus\nlet val1 = some_expr\nwould be exactly equivalent to\nassociate(val1 => (some_expr))\n  ! following code\nend associate\nend ! of enclosing scope\nwhich would simplify the example above to\nlet val1 = some_expr\nlet val2 = val1 + another_expr\nlet val3 = val2 + yet_another_expr\nresult = val1 + val2 * val3\nThis has the benefit of making it clear that associate is not being used to alias, and thus any following assignment to the value is prohibited (e.g. the variable is immutable). It also enables automatic types for local variables, albeit with the side-effect (IMO benefit) that they can only be assigned to once.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-08-25 15:24:23+00:00",
+                    "text": "In addition to let, we can also consider let mut for a mutable assignment, just like in Rust: https://doc.rust-lang.org/std/keyword.let.html"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-25 15:28:56+00:00",
+                    "text": "So this proposal I think is equivalent to C++'s auto (#129):\nlet val1 = some_expr\nlet mut val2 = val1 + another_expr\n\nis equivalent to:\nconst auto val1 = some_expr;\nauto val2 = val1 + another_expr;\n\nAnd so all my objections from #129 apply here also. Mainly that the code is actually less readable because it is not clear what type val1 is. The same objection already applies to associate. Rust allows you to optionally specify the type (let thing1: i32 = 100;), I wonder if we could do the same here."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-08-25 15:45:30+00:00",
+                    "text": "Some languages use var for that. I somewhat prefer that to let mut, and then we can allow the optional type-spec for let, but not for var, as that would kind of defeat the point. I.e.\nlet [type-spec ::] val = some_expr\nvar var1 = expr ! var is now \"declared\" with the type of expr, but may also be reassigned to"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-08-25 15:50:42+00:00",
+                    "text": "The syntax that you propose is ambiguous with assignment-stmt in fixed form."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-08-25 15:59:34+00:00",
+                    "text": "I suppose that's true, but as fixed-form is obsolescent (IMO) it would be reasonable for that feature not to be available in fixed form.  Of course there are plenty of other opinions on that front."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-25 16:03:17+00:00",
+                    "text": "@everythingfunctional writes Aug. 25, 2021, 11:22 AM EDT:\n\nI have seen it requested in a few places that the end associate be made optional, but I think that deserves a different keyword. I would propose let.\n\nTo make \"end associate be made optional\" means, in my mind, to introduce an ASSOCIATE statement form to complement the ASSOCIATE block construct.\nMy observation remains Fortran has a long history of statement-construct pairs, from IF to WHERE.\nI firmly believe ASSOCIATE statement form will be the better Fortrannesque way to introduce the concept of the original post (which is primarily about verbosity though) into the language.  ASSOCIATE statement form will integrate better into the current standard the semantics to be brought in to satisfy different needs of Fortranners in terms of mutability c.f., what is mentioned upthread with mut.\nI personally will be firmly opposed to introducing something like let."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-25 16:18:57+00:00",
+                    "text": "See this and this."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-25 16:44:22+00:00",
+                    "text": "@FortranFan if you wouldn't mind, to keep our conversations focused, in the future can you please post more general comments into issues like #59 (and/or create new ones), and then just provide a quick link here. That way we can separate general discussion about \"vision\" from a technical discussion about a let feature; while at the same time keeping in mind these general issues which are connected to it.\nUpdate: Thank you @FortranFan for opening up the other issues and linking them here!"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-08-25 23:01:08+00:00",
+                    "text": "I suppose that's true, but as fixed-form is obsolescent (IMO) it would be reasonable for that feature not to be available in fixed form.\n\nIt would also be reasonable to delete an obsolescent feature that has had a better alternative  (free form) for nearly the entire lifetime of some of the younger people in this dialogue.  If a generation of Fortran programmers has gone from kindergarten to service on the language standard body in the time since a better alternative entered the language, it has to be time to jettison the obsolescent feature that conflicts with a compelling new proposal.   Compiler developers who must support the obsolescent feature can require a flag to enable the support for the obsolescent feature and let users know that the flag precludes the use of the newer conflicting feature."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-08-25 23:10:30+00:00",
+                    "text": "@FortranFan writes Aug. 25, 2021, 11:22 AM EDT:\nTo make \"end associate be made optional\" means, in my mind, to introduce an ASSOCIATE statement form to complement the ASSOCIATE block construct.\nMy observation remains Fortran has a long history of statement-construct pairs, from IF to WHERE.\n\nI like this idea and agree that it nicely mirrors other features.\n\nI personally will be firmly opposed to introducing something like let.\n\nI agree with everything you wrote except the last sentence.    I like your suggestion of the associate statement better than I like let even though I originally liked let.   Let's keep discussions as open as possible, especially in the early phases of considering a proposal.  At least let's not draw lines in the sand on the very day a proposal is made."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-08-25 23:37:12+00:00",
+                    "text": "To make \"end associate be made optional\" means, in my mind, to introduce an ASSOCIATE statement form to complement the ASSOCIATE block construct.\nMy observation remains Fortran has a long history of statement-construct pairs, from IF to WHERE.\n\nI'm tempted to agree with this, and that it probably would be the more \"Fortranique\" way, but I don't like that it is effectively two separate features masquerading as one: create an alias, and create an immutable variable. I'd prefer if we're adding a new feature to make it clear that they are two separate things by having two different keywords. I could live with an ASSOCIATE statement, but it's not my first choice."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-26 23:40:59+00:00",
+                    "text": "I suppose that's true, but as fixed-form is obsolescent (IMO) it would be reasonable for that feature not to be available in fixed form. Of course there are plenty of other opinions on that front.\n\nPlease see #225.  If the obsolescent category were defined with some \"teeth\" in the standard, or an outmoded feature at issue (like fixed-form source here) were placed in a different category as retired, then an ideation phase will not be hindered similarly."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-08-27 00:28:01+00:00",
+                    "text": "You should perhaps consider the option of limiting the scope of the immutable captured expression value to be something other than just \"from here to the end of the BLOCK or executable-part\".  Otherwise, you'll have to come up with semantics for things like\ndo j=1,n\n  let(x=a(j)+b(j))\nend do\n! can x be used here?  does it capture the last value?  what if n==0?\n\nand\nif (flag) then\n  let(x=a+b)\nelse\n  let(x=c+d)\nend if\n! can x be used here?\n\nIf you make the name a construct entity (19.1, 19.4) owned by the enclosing construct, if any, and finesse the scoping a little to isolate THEN parts from ELSE parts (and various cases from each other in SELECT, &c., you get the idea), you would dodge these concerns, which I think you have to worry about with your original statement of the scope having essentially an implied END ASSOCIATE before the end of the enclosing scope."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-27 01:13:30+00:00",
+                    "text": "I don't like that it is effectively two separate features masquerading as one: create an alias, and create an immutable variable.\n\nIn order to achieve effective immutability in a local scope, Fortran offers options, 2 of which are rather convenient: a) named constant and b) intent(in), particularly with a contained procedure.  Then there is the ASSOCIATE construct, as stated above.  And ASSOCIATE statement is something that can complement the construct entity and it will be a good addition.  Taken together, all these options would cover such a large percentage of the needs that it should be more than good enough for a perennially resource-constrained language such as Fortran."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-08-27 11:44:36+00:00",
+                    "text": "If you make the name a construct entity (19.1, 19.4) owned by the enclosing construct\n\nExactly the kind of insight I look forward to seeing from this community. I like the idea.\n\nIn order to achieve effective immutability in a local scope, Fortran offers options, 2 of which are rather convenient: a) named constant and b) intent(in), particularly with a contained procedure.\n\nI don't think these are convenient.\na) does not work for values that are not constant expressions\nb) is even more verbose than nested associate blocks, and harder to follow\nIt's not that I don't think an ASSOCIATE statement wouldn't be usable, it's that it communicates two different things to the reader at the same time. One has to parse the rhs to understand whether the variable can be assigned to later or not."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-08-27 12:01:18+00:00",
+                    "text": "To use an old expression we don\u2019t hear often  anymore, Brad just took the\nwords right out of my mouth. For the past ~24 hours, I\u2019ve been thinking of\nexpressing precisely the same sentiment.  I probably would have done so\nalready if my computer hadn\u2019t died yesterday.\n\nI want to be clear that what we are discussing  is a much bigger point than\nmany might realize.  Working with immutable state  is  central to the\nfunctional programming paradigm. As Fortran has evolved to support multiple\nprogramming paradigms, some have gotten a lot more attention and explicit\nsupport than others.  Object-oriented, parallel, and array programming have\nextensive feature sets in Fortran.  Hopefully generic programming will too\nin Fortran 202Y.\n\nFunctional programming support is limited and little-used.   Think about\nhow rare it is to see pure procedures. And before this exchange, how many\npeople even knew that associating with an expression defines immutable\nstate?  Those who work closely with me know that this practice has now\nbecome ubiquitous in my Fortran programming.  I rarely declare local\nvariables anymore and only when I have a specific need such as a loop\nindex, but I also eschew loops in favor of array statements and elemental\nprocedures whenever possible.   I rather like the idea of calling out\nimmutability in a new and more prominent way than hiding it as a special\ncase of a feature that most people probably don\u2019t use often.\n\nDamian\n\u2026\nOn Wed, Aug 25, 2021 at 16:37 Brad Richardson ***@***.***> wrote:\n To make \"end associate be made optional\" means, in my mind, to introduce\n an ASSOCIATE statement form to complement the ASSOCIATE block construct.\n\n My observation remains Fortran has a long history of statement-construct\n pairs, from IF to WHERE.\n\n I'm tempted to agree with this, and that it probably would be the more\n \"Fortranique\" way, but I don't like that it is effectively two separate\n features masquerading as one: create an alias, and create an immutable\n variable. I'd prefer if we're adding a new feature to make it clear that\n they are two separate things by having two different keywords. I could live\n with an ASSOCIATE statement, but it's not my first choice.\n\n \u2014\n You are receiving this because you commented.\n Reply to this email directly, view it on GitHub\n <#221 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/ADEANBG3G7I4P4LSF7KXCWLT6V5DHANCNFSM5CZKUNRA>\n .\n Triage notifications on the go with GitHub Mobile for iOS\n <https://apps.apple.com/app/apple-store/id1477376905?ct=notification-email&mt=8&pt=524675>\n or Android\n <https://play.google.com/store/apps/details?id=com.github.android&utm_campaign=notification-email>\n ."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-27 14:12:31+00:00",
+                    "text": "Thank you everybody for the discussion, this is very helpful!\nI think this should be prototyped in a compiler, and let's simply use it and see how it looks and feels."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-27 21:24:03+00:00",
+                    "text": "@rouson writes Aug. 27, 2021 8:21 PM EDT:\n\nWorking with immutable state is central to the functional programming paradigm.\n\n@rouson , perhaps you can open up a new issue thread toward better support toward the functional programming paradigm in Fortran?  And perhaps also drive a comprehensive review of the needs and benefits with this paradigm in a set of domains (are they still in scientific and technical computing) with use cases and examples, even if in abstract algorithmic terms and/or with other languages?  And what Fortran offers currently (there is of course PURE and ELEMENTAL, and now SIMPLE).  Then consider what other facilities would bring benefits and how to integrate them all together better in Fortran.\nIt will be really good if attempts are not made instead to one-plus facilities like with let that comes across rather foreign to Fortran especially when you have a broader goal.  One-plussing brings with it the dangers of premature optimization Knuth warned out, in this instance with language design and its coherency of course."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-28 03:05:00+00:00",
+                    "text": "It will be really good if attempts are not made instead to one-plus facilities like with let that comes across rather foreign to Fortran especially when you have a broader goal. One-plussing brings with it the dangers of premature optimization Knuth warned out, in this instance with language design and its coherency of course.\n\nGood point @FortranFan. I agree that we should have a broader vision for Fortran with regards to functional programming, if we want to go that way, and then ensure that let or whatever other proposal fits well with that vision. I don't have a strong feeling either way."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-28 15:04:46+00:00",
+                    "text": "@rouson writes Aug. 27, 2021 8:01 PM EDT:\n\n.. Working with immutable state  is  central to the functional programming paradigm.. Functional programming support is limited and little-used .. I rarely declare local variables anymore ..\n\nFrom what I have seen, the notion of immutability outside the contexts of named constant and INTENT(IN) function parameters (dummy arguments) is highly overrated.  To quote the great Bard, it really is much ado about nothing.  It's one of those theoretical computer science premises that may sound alright on paper but which in our experience falls apart the minute the \"rubber hits the road.\"\nAs to not using local variables and its connection with functional programming, it surely is aspirational when it comes to good coding practices.  But it's up to the library authors to aspire to it.  The question then becomes what tools they require to achieve it in Fortran.  However as I write above, that is a separate and broader discussion and separate from considerations of immutability.\nA simple example I usually give is the Euclidean algorithm to find the greatest common divisor of two positive integers: apart from any outstanding bugs (it only had limited testing) and any aspects of a generic algorithm (any kind integer e.g., 64-bit) and style considerations, the following is a perfectly reasonable function in Fortran:\nmodule euclid_m\ncontains\n   elemental function gcd( m, n )\n   ! Find the greatest common advisor of two positive integers\n      ! Argument list\n      integer, intent(in) :: m, n\n      ! Function result\n      integer :: gcd\n      ! Local variables\n      integer :: lvar, tmp\n      if ( (m <= 0).or.(n <= 0) ) error stop \"m,n must be positive.\"\n      if ( m < n ) then \n         gcd = m ; lvar = n\n      else\n         gcd = n ; lvar = m\n      end if\n      loop_gcd: do\n         if ( lvar == 0 ) exit loop_gcd\n         tmp = gcd\n         gcd = lvar\n         lvar = mod( tmp, lvar )\n      end do loop_gcd\n   end function \nend module\n\nThe above with the simple driver program\n   use euclid_m\n   integer :: a, b\n   a = 46332 ; b = 71162\n   print *, \"a = \", a, \"; b = \", b\n   print *, \"gcd(a,b) = \", gcd(a, b), \"; expected result is 26\" \nend\nwith any current standard-conforming processor should yield:\n\na =  46332 ; b =  71162\ngcd(a,b) =  26 ; expected result is 26\n\nNow, keeping in mind everything around Fortran with its strong legacy of Fortran of nearly 75 years and all the great effort in its standard development with facilities toward better functional programming and the accompanying constraints imply:\n\nit simply will be insensible, not to mention nonconforming, for the dummy arguments to be anything other INTENT(IN),\nthe use of local variables in this prime case of an Euclidean function is well-justified,\nthere is no real use case here for the local tmp variable to be immutable.\n\nThen consider a \"textbook\" case of an equivalent code in Rust that touts its drive for functional programming and which too may be the basis for the let suggestion in the original post\nfn gcd(mut n: u64, mut m: u64) -> u64 {\n    assert!(n !=0 && m != 0);\n    while m != 0 {\n        if m < n {\n            let t = m;\n            m = n;\n            n = t;\n        }\n        m = m % n;\n    }\n    n\n}\nGoing strictly by the number of typed characters above, sure the code in Fortran is more verbose than in Rust.  However the verbosity in Fortran is inherent to its design and it's also beneficial; regardless, it's divorced from any immutability aspects here.  Looking at the Rust code though, there are instead far bigger issues of significant concern:\n\nhaving built a major edifice around immutability with \"patterns\" and considerations of functional programming, it had to bring in exceptions with mut with let as well as function parameters c.f. the function prototype, \"gcd(mut n: u64, mut m: u64).\"  That is arguably a failure in Rust when one creates a rule and has to proceed to immediately pair with an exception.  This is highly objectionable in the context of Fortran and its modern journey starting with Fortran 90.\nWithin the scope of the if construct (\"if m < n\") within the loop, there is hardly much of anything to be gained by having t immutable as with 'let t = m;\"\n\nGoing by this, one can even argue there is hardly much of anything to be \"imported\" into Fortran from Rust such as let.\nThis is why I suggested above to take a broader view of the functional paradigm with fully worked out use cases, even if they are in abstract algorithmic terms or minimal working examples from other languages.  To take some isolated code snippets and start building solutions around them is detrimental, in my opinion.  It's something which has been quite problematic with several feature introductions in recent Fortran standard revisions also and which has led to suboptimal facilities and the approach is better avoided from now on."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-28 16:52:26+00:00",
+                    "text": "@FortranFan that is where I am coming from also, thanks for writing it up. This is a really good discussion.\nI think let might be similar to const in C++, where my understanding of the culture and experience there, the main advantage is to help programmers, not the compiler. Having the code \"const correct\" allows the compiler to prevent the user to modify things that were not meant to be modified.\n\n\nhaving built a major edifice around immutability with \"patterns\" and considerations of functional programming, it had to bring in exceptions with mut with let as well as function parameters c.f. the function prototype, \"gcd(mut n: u64, mut m: u64).\" That is arguably a failure in Rust when one creates a rule and has to proceed to immediately pair with an exception. This is highly objectionable in the context of Fortran and its modern journey starting with Fortran 90.\n\n\nI think you are onto something here, but I didn't understand your argument. Can you elaborate on this? My understanding is that Rust does not have exceptions: https://doc.rust-lang.org/book/ch09-00-error-handling.html, you have to return the error as a result, and Rust has some syntax that helps making this smooth. The Zig language follows a very similar approach I think."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-08-28 20:45:55+00:00",
+                    "text": "@FortranFan thanks for the example.  I agree that local variables can be indispensable. The original issue description by @everythingfunctional did not mention functional programming so I took us off-course by bringing it up.  Apologies.  I think the original use cases suffice for what was being proposed.  If we can communicate more intention to the reader and to the compiler and thereby clarify code and prevent mistakes (.e.g., mistakenly modifying data), then I think those are good things in their own right, independent of the programming paradigm that inspired them.\nJust in case it's not clear from earlier comments, associate ensures immutability when associating with an expression but allows for partial mutability when associating with a variable or object.  Associating with a variable still leaves the variable's value mutable but not its allocation status, for example.  These subtleties make using associate tricky.  When I first started using it, I didn't realize that associate names do not inherit the allocatable attribute.  I mistakenly expected automatic (re)allocation on assignment and that mistake cost me time in debugging.  The thing I like best about let is that the programmer and the reader won't have to think about such subtleties as the value being mutable but not the allocation status."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-28 21:57:00+00:00",
+                    "text": "I didn't understand your argument. Can you elaborate on this? My understanding is that Rust does not have exceptions\n\n@certik, when I mentioned \"exception\" I only meant it as in ordinary English usage as illustrated in this quote! :-)"
+                }
+            ]
+        },
+        {
+            "number": 220,
+            "user": "klausler",
+            "date": "2021-08-20 18:30:36+00:00",
+            "title": "The scope of an implied DO index is wrong in DATA statements and array constructors.",
+            "text": "Fortran 2018 in subclause 19.4 (paragraph 5) defines the scope of the index of a data-implied-do or ac-implied-do to be the implied DO loop.  But the scope should only be the \"body\" of the implied DO, and not its bounds expressions.  As things stand, in an example like:\n  integer, parameter :: j = 10\n  real :: a(10) = [(j, j=1, j)]\n\nthe current scoping rule forces the last j to refer to the index variable itself, which can't have a meaningful defined value at that point.\nMost of the Fortran compilers to which I have access fix this problem by interpreting the scope to be only the \"body\", usually with a warning, at least when the name is present in the enclosing scope (and not also an implied DO index, which is disallowed explicitly).\nThe same problem exists for DATA implied DO loops, but not I/O data transfer statement implied DO loops.",
+            "comments": []
+        },
+        {
+            "number": 219,
+            "user": "Beliavsky",
+            "date": "2021-08-19 14:00:24+00:00",
+            "title": "Have size(x) return -1 when x is an unallocated ALLOCATABLE array",
+            "text": "To safely determine the size of an allocatable array one must first check that it is allocated, with code such as\nif (allocated(x)) then\n   n = size(x)\nelse\n   n = -1\nend if\n\nI suggest that the size of an unallocated allocatable array be defined as -1, so that the above code could just be replaced by\nn = size(x)\nThis would simplify code using allocatable arrays.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-08-19 15:15:21+00:00",
+                    "text": "You could write a small library function with these odd semantics; why should they be in the standard language?"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-08-19 17:21:53+00:00",
+                    "text": "@klausler Separate functions would be needed for each built-in data type and for user-defined types and classes. Maybe for ranks, too, but perhaps functions could be written with assumed rank arguments. I think it's better for the size function to return a value signaling an error than to crash."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-08-19 17:40:27+00:00",
+                    "text": "module mySizeModule\n contains\n  pure integer function mySize(x)\n    class(*), dimension(..), intent(in), optional :: x\n    mySize = -1\n    if (present(x)) mySize = size(x)\n  end function\nend module\n\nuse mySizeModule\ninteger, allocatable :: a(:), b(:)\nallocate(a(10))\nprint *, mySize(a), mySize(b)\nend"
+                }
+            ]
+        },
+        {
             "number": 218,
             "user": "FortranFan",
             "date": "2021-07-30 22:54:00+00:00",
             "title": "Eliminate implicit mapping",
-            "text": "Issue #90 proposes to eliminate implicit typing in Fortran.  There is strong resistance to this, there being a major concern that to \"eliminate implicit typing\", if pursued with any seriousness, will require a deletion of the IMPLICIT statement from the language.  There is great worry some existing code would break as a result.\nCan the Fortran community then coalesce to a somewhat simpler proposal, to eliminate implicit mapping instead?\nThe main aspect of such a proposal is to primarily change one sentence in the section on IMPLICIT statement:\n\"If a mapping is not specified for a letter, the default for a program unit or an interface body shall be NULL, and the default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit\"\nCurrent Fortran standard (document 18-007r1) states in section 8.7 IMPLICIT STATEMENT page 114, paragraph 3, lines 32-34, \"If a mapping is not specified for a letter, the default for a program unit or an interface body is default integer if the letter is I, J, ..., or N and default real otherwise, and the default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit.\"  This one sentence tries to achieve backward compatibility with code written from the days of FORTRAN I where \"ICARUS was an integer unless specified as REAL\", to paraphrase a long-standing joke with FORTRAN!\nBut now almost all the code written from the days of FORTRAN 77 then has tried to avoid the fate of the legend and not drown while trying to only take flight via the explicit use of the IMPLICIT statement, IMPLICIT NONE overwhelmingly but IMPLICIT INTEGER(I-N), xx(A-H, O-Z) {xx = DOUBLE PRECISION, REAL, REAL*8, etc.].  This proposal intends not to affect in any adverse manner any such existing code that makes explicit use of IMPLICIT statements.\nThe intended benefit of this one change is to set in motion finally a positive change where IMPLICIT NONE becomes the default in any and all program units and in all the interface bodies, gone will be the need to ensure the inclusion of implicit none in a list of explicit interfaces:\ninterface\n   function foo(..) result(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end function\n   function bar(..) result(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end function\n   subroutine foobar(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end subroutine\nend interface\nAlmost every processor tries to offer a compiler option to enforce the gist of this proposal, with fpm and LFortran considering making this even the default.  Why not standardize all such good intent?\nWhat say you all, can you support this for Fortran 202Y?  Please keep in mind even with 202Y, it may be year 2040 by the time this can become practicable.  Is it not time now to start giving this a serious consideration?",
-            "comments": []
+            "text": "Issue #90 proposes to eliminate implicit typing in Fortran.  There is strong resistance to this, there being a major concern that to \"eliminate implicit typing\", if pursued with any seriousness, will require a deletion of the IMPLICIT statement from the language.  There is great worry some existing code would break as a result.\nCan the Fortran community then coalesce to a somewhat simpler proposal, to eliminate implicit mapping instead?\nThe main aspect of such a proposal is to primarily change one sentence in the section on IMPLICIT statement to introduce the following:\n\"If a mapping is not specified for a letter, the default for a program unit or an interface body shall be NULL, and the default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit\"\nNote the current Fortran standard (document 18-007r1) instead states in section 8.7 IMPLICIT STATEMENT page 114, paragraph 3, lines 32-34, \"If a mapping is not specified for a letter, the default for a program unit or an interface body is default integer if the letter is I, J, ..., or N and default real otherwise, and the default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit.\"\nThis one sentence in the current standard effectively ends up achieving backward compatibility with code written from the days of FORTRAN I where \"ICARUS was an integer unless specified as REAL\", to paraphrase a long-standing joke with FORTRAN!\nBut now almost all the code written from the days of FORTRAN 77 then has tried to avoid the fate of the legend and not drown while trying to only take flight via the explicit use of the IMPLICIT statement, IMPLICIT NONE overwhelmingly but IMPLICIT INTEGER(I-N), xx(A-H, O-Z) {xx = DOUBLE PRECISION, REAL, REAL*8, etc.].  This proposal intends not to affect in any adverse manner any such existing code that makes explicit use of IMPLICIT statements.\nThe intended benefit of this one change is to set in motion finally a positive change where IMPLICIT NONE becomes the default in any and all program units and in all the interface bodies, gone will be the need to ensure the inclusion of implicit none in a list of explicit interfaces:\ninterface\n   function foo(..) result(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end function\n   function bar(..) result(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end function\n   subroutine foobar(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end subroutine\nend interface\nAlmost every processor tries to offer a compiler option to enforce the gist of this proposal, with fpm and LFortran considering making this even the default.  Why not standardize all such good intent?\nWhat say you all, can you support this for Fortran 202Y?  Please keep in mind even with 202Y, it may be year 2040 by the time this can become practicable.  Is it not time now to start giving this a serious consideration?",
+            "comments": [
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-07-31 15:58:22+00:00",
+                    "text": "I don't understand quite how this differs from #90. By \"eliminate implicit typing\" I mean that any variables not explicitly declared (or declared by implicit double precision (a-h), etc. in any context would be a syntax error. Is that not what this is?"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-07-31 19:49:37+00:00",
+                    "text": "@jacobwilliams wrote July 31, 2021 11:58 AM EDT:\n\nI don't understand quite how this differs from #90. By \"eliminate implicit typing\" I mean that any variables not explicitly declared (or declared by implicit double precision (a-h), etc. in any context would be a syntax error. Is that not what this is?\n\nThis proposal differs in the sense it tries to be very specific and it strives to state what exactly is meant, and what particular aspect(s) in the Fortran standard will be addressed for improvement.\nSure the original post in this thread does not get into the fully detailed mode but that is intentional; ultimately, such effort will be completed by the Fortran standards committee no matter what.\nNonetheless the words in this original post here are an attempt with a \"sharpened pencil\" beyond \"one-liners\", intended both to convey scope and benefits better and to allay concerns."
+                }
+            ]
         },
         {
             "number": 217,
@@ -45,7 +267,18 @@
             "date": "2021-07-04 16:18:58+00:00",
             "title": "Add CONSTEXPR procedures in Fortran",
             "text": "\"Constexpr as much as possible\" or in other words, utilize as much compile-time computing as viable is a mantra that's increasingly becoming important in many modern codes based on C++17 (and later revisions) toward scientific and technical computing in industry, especially in process simulations and modeling.\nImproved constexpr in C++17 is particularly valuable when one needs to construct large named constants arrays for use in simulations based on other constants (e.g., coefficients in engineering correlations, results from prior simulation runs, results from first-principles models to be applied in reduced-order models, etc.).  These are all use cases that are rather similar to some threads that have come up at Fortran-lang.org:\n\nUser defined functions in constant expressions\nThread-safe initialization of shared module data (OpenMP)\n\nAn option can be to introduce a CONSTEXPR attribute to functions in Fortran combined with appropriate semantics and constraints which can allow such a nonintrinsic i.e., user-defined functions to be used in constant expressions.\nSuch an option appears consistent, in my view , with the evolution path of Fortran with PURE/ELEMENTAL procedures in Fortran 95 to SIMPLE procedures in Fortran 202X.\nThe introduction of such a CONSTEXPR procedure in a future Fortran standard, say 202Y, will greatly enhance compile-time computing facilities in Fortran and it holds the promise of great benefit in scientific and technical computing.\nSome further reading here",
-            "comments": []
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-08-02 15:39:21+00:00",
+                    "text": "C++'s constexpr is useful for computing values that are needed at compilation time.  Large named constant arrays that must be present before execution begins are not the same use case; they can be computed once at build time and written to an unformatted file, for example, but their contents do not determine types.  I think you should concentrate your use case justification for a Fortran constexpr upon the calculation of things that are needed for compilation and are typically implemented today via preprocessor macros or via INCLUDE of precalculated values."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-03 12:59:09+00:00",
+                    "text": "Another approach worth investigating is Zig's comptime feature:\n\nhttps://ziglang.org/documentation/master/#comptime\nhttps://kristoff.it/blog/what-is-zig-comptime/"
+                }
+            ]
         },
         {
             "number": 213,
@@ -132,6 +365,11 @@
                     "user": "Euler-37",
                     "date": "2021-07-02 01:42:28+00:00",
                     "text": "I think both of these could be implemented in stdlib first.\n\nYes , (feature) disp they prepare to add function disp ,It is a good feature."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-08-02 15:46:29+00:00",
+                    "text": "Examples (1) and (2) are surprising omissions in Fortran; implementing them would be straightforward and valuable.  List-directed and NAMELIST output of COMPLEX already exist in the language in this parenthesized form, with an adjustable comma character too.\nExample (3) is more dubious.  The FORMAT edit descriptor \"Z\" is already taken for another purpose, and emitting a form of complex output that differs from those used in Fortran source code is less compelling."
                 }
             ]
         },
@@ -4577,6 +4815,11 @@
                     "user": "wclodius2",
                     "date": "2020-11-13 00:09:39+00:00",
                     "text": "FWIW in the example\nmodule A\nimplicit none\nprivate\npublic :: T\n\n  type, requirements :: T\n  contains\n    generic :: operator(+) => plus\n  end type\n\n  abstract interface\n    function plus(lhs,rhs)\n      type(T), intent(in) :: lhs, rhs\n      type(T) :: plus\n    end function\n  end interface\n\nend module A\n\nmodule A2\nuse A, only: T\nimplicit none\nprivate\npublic :: f\n\ncontains\n\n    type(T) function f(x)\n    type(T), intent(in) :: x\n    f = x + 1\n    end function\n\nend module A2\nThe interface should be:\n  abstract interface\n    function plus(lhs,rhs)\n      type(T), intent(in) :: lhs\n      integer, intent(in) :: rhs\n      type(T) :: plus\n    end function\n  end interface\nThe type probably also needs an assignment interface for the \"strong concepts\" to be enforced, and would benefit from having an example instantiation, so a full example should probably be\nmodule A\nimplicit none\nprivate\npublic :: T\n\n  type, requirements :: T\n  contains\n    generic :: operator(+) => plus\n    generic :: assignment(=) => assign\n  end type\n\n  abstract interface\n    function plus(lhs,rhs)\n      type(T), intent(in) :: lhs\n      integer, intent(in) :: rhs\n      type(T) :: plus\n    end function plus\n  end interface\n\n  abstract interface\n    function assgn(lhs,rhs)\n      type(T), intent(out) :: lhs\n      type(T), intent(in) :: rhs\n    end function assign\n  end interface\n\nend module A\n\nmodule A2\nuse A, only: T\nimplicit none\nprivate\npublic :: f\n\ncontains\n\n    type(T) function f(x)\n    type(T), intent(in) :: x\n    f = x + 1\n    end function\n\nend module A2\n\nprogram example\nuse A2\nimplicit none\nreal :: two\ntwo = f(1.0)\nend program example"
+                },
+                {
+                    "user": "brandongc",
+                    "date": "2021-08-25 17:46:56+00:00",
+                    "text": "(Let me know if you think should be a different linked issue vs a comment on this one)\nIt would be great if the intrinsics such as matmul and dot_product would also take advantage of this and work with types provided the appropriate operators (*,+,=) and traits (e.g. \"associative\") are defined.\nThis would be particularly useful for working with a broad range of algebraic structures."
                 }
             ]
         },
@@ -5088,7 +5331,7 @@
             "number": 113,
             "user": "Leonard-Reuter",
             "date": "2019-12-16 12:49:09+00:00",
-            "title": "Augmented assignment",
+            "title": "Augmented assignment (+=)",
             "text": "allow writing\na += b\ninstead of\na = a + b\nand\na *= b\ninstead of\na = a * b\nI think this feature is quite important, since the lack of it misleads programmers towards the use of (too) short variable names:\nI would write like to write this:\nelectrons_number += charge\nBut maybe prefer this\nen = en + charge\nover this abomination of a line =)\nelectrons_number = electrons_number + charge\nThis should not end in a discussion whether to use long variable names or not, let's just agree, that they are better sometimes.\nThis is a second use case\nThis is a third (and fourth) use case",
             "comments": [
                 {
@@ -5215,6 +5458,41 @@
                     "user": "opeil",
                     "date": "2020-04-14 19:00:13+00:00",
                     "text": "Perhaps, it is too late to discuss this but somehow I have not seen anyone mentioning another important aspect of the compound/augmented assignment: It allows to perform more efficient in-place operations, such as big_array(:, :, :) += big_array2(:, :, :), without the risk of creating temporaries. This makes it more than just a syntactic sugar.\nAnother similar example is that if we have a type like this\ntype :: BigObject\n   real(dp) :: values(10000, 10000)\nend type\n\ntype(BigObject) :: a, b\n\nand there is a frequent need to do operations like this -- a % values = a % values + b % values, then a naive overloading of operator (+) would result in an extremely inefficient code. It would be great if one has a possibility to overload something like (+=) [with obvious call semantics] to implement heavy in-place operations."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-25 18:07:13+00:00",
+                    "text": "There is a renewed discussion at the J3 mailinglist about this feature.\nI created a prototype implementation in a compiler: https://gitlab.com/lfortran/lfortran/-/merge_requests/1286"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-08-27 16:29:46+00:00",
+                    "text": "ASSOCIATE can't be used to form a mutable association with every variable.  Variables with vector-valued subscripts, and coindexed references, become immutable copies of expressions if they appear as \"right-hand\" sides of selectors in ASSOCIATE & al.  If you want to use ASSOCIATE to get a mutable abbreviation of the variable of an assignment-stmt, it won't always work.\nI prefer the idea of using a symbol in the expr of assignment-stmt to denote (a copy of) the variable, e.g. \"var = @ + expr\".  It would work with any operation (including those spelled like .AND.) and it allows repetition, use of the functions (e.g., var=transpose(@)), and the syntax doesn't look like it implies atomicity.  (If @ can't be used, there's other symbols that would work syntactically.)"
+                },
+                {
+                    "user": "mjklemm",
+                    "date": "2021-08-27 17:01:18+00:00",
+                    "text": "Ada extends the notion of '@' so that you can do things like this:\n\nc(i,j) = cmplx(real(@) + 1.0d0, aimag(@) * 3.0d0, real64)\n\nThe '@' can stand-in for the entity on LHS as many times as needed and as a sub-expression on the RHS.\n\nSo, this generalizes what you could achieve with operator assignments like +=."
+                },
+                {
+                    "user": "mjklemm",
+                    "date": "2021-08-27 17:03:06+00:00",
+                    "text": "PS: It's required that the expression that is bound via '@' is evaluated only once, so that it's clear how many times functions and the likes are evaluated then they occur multiple times as part of a '@'."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-27 17:06:01+00:00",
+                    "text": "Thanks @klausler and @mjklemm for the comments!"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-08-27 17:19:45+00:00",
+                    "text": "I do quite like the idea of a symbol for a shorthand for the lhs. I feel almost certain that using @ for that would conflict somehow with its use as the rank-agnostic subscript feature, but I can't quite put my finger on exactly how. Hopefully we can come up with some other agreeable symbol. $ perhaps? I don't believe it's been used other than in format specifications, but I could be mistaken."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-08-27 17:27:22+00:00",
+                    "text": "Settle on the semantics, then pick the symbol.  You have lots of options there (incl. \u201c..\u201d which would look pretty intuitive IMO, e.g. `complicatedArray(indices(:)) = .. + 1.0`)."
                 }
             ]
         },
@@ -5554,6 +5832,46 @@
                     "user": "klausler",
                     "date": "2020-01-03 23:21:09+00:00",
                     "text": "At what point on a language change's path from concept to formal description to standardization to implementation should cost become relevant?\n\n@sblionel wrote:\n\n.. there's a significant cost to deleting features from the language.\n\nI request any argument in terms of \"cost\" be treated as firmly off-topic in this repository.\nNo reliable and accurate data are available on any matter related to costs in Fortran. No honest or trustworthy discussion is then possible.\nMoreover, any discussion regarding \"cost\" is meaningless without a full and fair consideration of the benefits.\nWhen it comes to benefits though, I find the feedback on the value proposition and the benefit statements offered by many a persevering, \"mere mortal\" Fortranner either gets ignored or is rejected outright.\nUnder the circumstances, no \"good faith\" discussion can take place once cost and only cost makes it way into the discussion.\nYet if the cost argument is allowed to persist, then a honest position will be to note:\n\nfeatures delayed are features denied, period.  The resultant \"opportunity costs\" to Fortran and its well-being are then immeasurably high.  Entire code-bases move permanently away from Fortran as a result\nfeatures HALF-BAKED (e.g., several aspects introduced in Fortran 2003) are features ignored or misused.  The resultant \"opportunity costs\" to Fortran and its well-being are again immeasurably high.\nfeatures too VERBOSE are features abhorred by a large section of the computing community.  The costs to Fortran's well-being again are immense.\n\nWith Fortran, all 3 of these points - delays, half-baked aspects, and verbosity - have been impacted to some extent or other by vendors' notions of backward compatibility, the continuing support of fixed-form source very much falls under this.\nThere is considerable evidence an inherently dishonest and unequal treatment of backward compatibility remains in Fortran, one just has to look at Annex B of the Fortran standard.\nThe aspect of the obsolescent-since-1997 fixed-form source facility is part and parcel of this biased treatment of backward compatibility in the language.\nThe cost argument is simply untenable, more than anything else it's one that always threatens to \"derail a discussion\"."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-25 22:58:53+00:00",
+                    "text": "See this comment in #221.\nIn reply, @everythingfunctional writes\n\n.. fixed-form is obsolescent (IMO) it would be reasonable for that feature not to be available in fixed form\n\nMy view is as follows:\nObsolescent is simply a label per the standard, it has no teeth.  A feature marked obsolescent remains effectively \"first class,\" meaning all new features need to integrate with it.  As long as a feature is NOT deleted from the standard, its semantic and syntactical implications need to be fully taken into account.\nFixed-form has been obsolescent since Fortran 95, published nearly 25 years ago.  It will continue to hinder options for newer revisions as long as it is not deleted.  As recently as the last standard meeting, the selection for conditional expressions was predicated on support for fixed-form source; the final form that was chosen was low in popularity at the online forum."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-25 23:01:56+00:00",
+                    "text": "It should be deleted from the standard.\nBut what should compilers do? They have to support it. I think the natural way is to not support some newer features that will be available in free form only."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-08-25 23:03:39+00:00",
+                    "text": "I disagree with @FortranFan - obsolescent features are NOT \"first-class\", they generate diagnostics when standards checking is enabled (some compilers by default), they are in small type in the standard and tend to not be taught in textbooks.\nIn practical terms, deleting fixed-form source would have no effect beyond declaring it obsolescent. Compilers will continue to support it. If deleted, compiler developers will lose guidance for how to process fixed-form source."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-25 23:12:06+00:00",
+                    "text": "I disagree with @FortranFan - obsolescent features are NOT \"first-class\",\n\nWhat part of \"effectively\" and the quote around the \"first class\" and the following description of mine do you not understand?"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-08-25 23:21:48+00:00",
+                    "text": "My response stands."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-08-25 23:40:31+00:00",
+                    "text": "If deleted, compiler developers will lose guidance for how to process fixed-form source.\n\nIMO, that's ok, because it's not part of the standard. That said, I do understand the predicament it would put a lot of people in. This whole limbo state is occasionally obnoxious though. Is fixed-form Fortran or not?"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-26 03:53:31+00:00",
+                    "text": "It should be deleted from the standard.\nBut what should compilers do? They have to support it. I think the natural way is to not support some newer features that will be available in free form only.\n\nPlease see #225.\nRe: \"what should compilers do?\", in the context of this thread, well I think they should unburden themselves from having to implement any new feature in fixed-form source once this outmoded source form can be marked as retired officially in the standard."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-26 04:29:03+00:00",
+                    "text": "Re: \"what should compilers do?\", in the context of this thread, well I think they should unburden themselves from having to implement any new feature in fixed-form source once this outmoded source form can be marked as retired officially in the standard.\n\nThe biggest issue with fixed-form is that white space is irrelevant. For LFortran I tried to see how far you can get with parsing fixed-form as if it was free-form, so you just fix the columns and some other slight differences in a prescanner, and then use the same tokenizer and parser. And it turns out most of SciPy seems to parse just fine. There are some slight issues, but I am hoping to implement few more heuristics to make it useful for people. The SciPy developers would be ok with changing their fixed-form a bit so that it can parse. If there is demand for a better fixed-form parser, then we'll have to implement the full fixed-form parser, as a separate parser."
                 }
             ]
         },
@@ -6692,6 +7010,11 @@
                     "user": "sblionel",
                     "date": "2021-04-06 14:03:23+00:00",
                     "text": "@ivan-pi , I don't recall ever seeing a proposal along these lines. It's an interesting idea."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-08-18 15:12:49+00:00",
+                    "text": "I think this proposal is very similar to #128."
                 }
             ]
         },
@@ -9550,6 +9873,11 @@
                     "user": "MarDiehl",
                     "date": "2021-06-17 11:55:28+00:00",
                     "text": "Second, I have been trying to ensure the goals of LFortran are aligned with the users (myself included!). More generally, I think we should have a community maintained compiler(s) as part of fortran-lang (precisely to ensure that it does what Fortran users want and that the community has a \"buy-in\"), and I'll be happy to if LFortran would eventually become one.\n\nYes, having a community that actively participates in pushing the standard seems to be very important. Python and Rust do that very successfully. And the list of issues on the J3 repository is already quite long."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-08-25 23:06:43+00:00",
+                    "text": "See this comment at #108.\nMy view is as follows:\nAt some point, Fortran has to be open to certain targeted deletions from the standard.  The adverse impact I see from requiring implicit none in every program unit and interface body; from implicit save. and the continued need to have new features integrate with obsolescent ones are pernicious.  It's rather unfortunate there is no acceptance of this reality, it's total denial.\nNewer languages that are getting embraced and employed far more readily in technical computing, particularly in industry, are able to achieve exemplary feature introductions in about 4 years that can take decades with Fortran.  Sure, there are multiple root causes to this, however certain thorns in the attitude cannot be ignored.\nThis is my primary reason to hope for and nudge the Fortran Community to become more aware and vigilant and brave and absolutely demanding with at least some targeted deletions from the modern Fortran standard, in opposition to certain WG5 members and certain vendors.\nOtherwise, progress will really be held back and the old features will simply remain a millstone around the neck of poor, persevering, practitioners striving to use modern Fortran even.  And who might as well then just wrap their existing creations of Fortran codebase in libraries invokable from other programming languages and migrate away from Fortran.  Vast swaths of domains elsewhere, particularly in industry, have done so and doing more of this.\nThis is again a vision thingy for the language, it's entirely lacking in some key spaces among the language bearers."
                 }
             ]
         },
