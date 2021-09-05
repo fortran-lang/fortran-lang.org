@@ -160,7 +160,7 @@ if (size(r) /= 4) error stop "Incorrect size of 'r'"
 if (any(shape(r) /= [2, 2])) error stop "Incorrect shape of 'r'"
 ```
 
-Note that ``size`` returns the total size of all dimensions, to obtain the shape of
+Note that ``size`` returns the total size of all dimensions. To obtain the shape of
 a specific dimension add it as second argument to the function.
 
 Arrays can be initialized by using an array constructor
