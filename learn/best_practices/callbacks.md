@@ -67,8 +67,8 @@ contains
 end module demo_functions
 ```
 
-Exporting the abstract interface allows to create procedure pointers with the
-correct signature and also to extend the callback further like shown here
+Exporting the abstract interface allows you to create procedure pointers with the
+correct signature and also to extend the callback further as shown here
 
 ```fortran
 module demo_integrals
