@@ -119,8 +119,8 @@ call f(size(r), r)
 call g(size(s, 1), size(s, 2), s)
 ```
 
-Note that the shape is not checked, therefore the following would be valid code
-with will potentially yield incorrect results:
+Note that the shape is not checked, so the following would be legal code
+that will potentially yield incorrect results:
 
 ```fortran
 real(dp) :: s(3, 4)
