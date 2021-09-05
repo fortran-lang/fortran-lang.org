@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Fortran Programming Language">
-    <title>Fortran Best Practices - Fortran Programming Language</title>
+    <title>Floating Point Numbers - Fortran Programming Language</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <link href="/assets/css/main.css" rel="stylesheet">
     <link href="/assets/css/syntax.css" rel="stylesheet">
-    <link rel="canonical" href="https://fortran-lang.org/learn/best_practices" />
+    <link rel="canonical" href="https://fortran-lang.org/learn/best_practices/floating_point" />
     <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
     <link rel="stylesheet" href="/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
@@ -172,8 +172,15 @@
     
   
     
+    
       
+        
       
+        
+          
+          
+    
+  
 
   <a href="/learn#book-index">
     <i class="fas fa-arrow-circle-left"></i>
@@ -193,10 +200,8 @@
     
     <!-- Add link to book introduction (index) -->
     
-      <li><b><a href="/learn/best_practices">
-        Introduction</a></b></li>
-        <ul id="page-nav"></ul>
-        
+      <li><a href="/learn/best_practices">
+        Introduction</a></li>
     
 
     <!-- List pages in this book -->
@@ -358,8 +363,14 @@
           
 
       
-        <li><a href="/learn/best_practices/floating_point">
-          Floating Point Numbers</a></li>
+        <li>
+          <b><a href="/learn/best_practices/floating_point">
+            Floating Point Numbers</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
       
 
     
@@ -891,29 +902,104 @@
 
     <div class="newsletter col-right">
 
-      <h1>Fortran Best Practices</h1>
+      <h1>Floating Point Numbers</h1>
 
       <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
         <i></i>
         
-          <p><i>Authors:</i> Ondřej Čertík, John Pask, Jed Brown, Matthew Emmett, Juan Luis Cano Rodríguez, Neil Carlson, Andrea Vigliotti, Pierre Haessig, Vincent Magnin, Sebastian Ehlert, Jeremie Vandenplas</p>
-        
       </div>
 
-      <p>This mini-book collects a modern canonical way of doing things in Fortran.
-It serves as a style guide and best practice recommendation for popular topics
-and common tasks. Generally, a cononical solution or pattern is presented and
-discussed. It is meant for programmers with basic familarity of the Fortran syntax
-and programming in general.</p>
+      <p>The default representation of floating point numbers is using single precision
+(usually 32 bits / 4 bytes). For most application a higher precision is required.
+For this purpose a custom kind parameter can be defined.
+The recommended way of defining kind parameters is to use</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_real_kind</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For many purposes it also suffices to directly infer the kind parameter from
+a literal like here</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+
+<p>or to rename the imported kind parameter from the <code class="highlighter-rouge">iso_fortran_env</code> module</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">real64</span><span class="w">
+</span></code></pre></div></div>
+
+<p>For some insightful thoughts on kind parameters see
+<a href="https://web.archive.org/web/20200930090137/https://stevelionel.com/drfortran/2017/03/27/doctor-fortran-in-it-takes-all-kinds/">Doctor Fortran in it takes all KINDs</a>.</p>
+
+<p>It is recommended to have a central module to define kind parameters and include
+them with use as necessary. An example for such a module is given with</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!&gt; Numerical storage size parameters for real and integer values
+module kind_parameter
+   implicit none
+   public
+
+   !&gt; Single precision real numbers, 6 digits, range 10⁻³⁷ to 10³⁷-1; 32 bits
+   integer, parameter :: sp = selected_real_kind(6, 37)
+   !&gt; Double precision real numbers, 15 digits, range 10⁻³⁰⁷ to 10³⁰⁷-1; 64 bits
+   integer, parameter :: dp = selected_real_kind(15, 307)
+   !&gt; Quadruple precision real numbers, 33 digits, range 10⁻⁴⁹³¹ to 10⁴⁹³¹-1; 128 bits
+   integer, parameter :: qp = selected_real_kind(33, 4931)
+
+   !&gt; Char length for integers, range -2⁷ to 2⁷-1; 8 bits
+   integer, parameter :: i1 = selected_int_kind(2)
+   !&gt; Short length for integers, range -2¹⁵ to 2¹⁵-1; 16 bits
+   integer, parameter :: i2 = selected_int_kind(4)
+   !&gt; Length of default integers, range -2³¹ to 2³¹-1; 32 bits
+   integer, parameter :: i4 = selected_int_kind(9)
+   !&gt; Long length for integers, range -2⁶³ to 2⁶³-1; 64 bits
+   integer, parameter :: i8 = selected_int_kind(18)
+
+end module kind_parameter
+</code></pre></div></div>
+
+<p>Floating point constants should always be declared including a kind parameter suffix:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w">
+</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w">
+</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.5_dp</span><span class="w">
+</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.34e8_dp</span><span class="w">
+</span></code></pre></div></div>
+
+<p>It is safe to assign integers to floating point numbers without losing accuracy:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
+</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span></code></pre></div></div>
+
+<p>In order to impose floating point division (as opposed to integer
+division <code class="highlighter-rouge">1/2</code> equal to <code class="highlighter-rouge">0</code>), one can convert the integer to a floating
+point number by:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
+</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! 'a' is equal to 0.5_dp</span><span class="w">
+</span></code></pre></div></div>
+
+<p>To print floating point numbers without losing precision use the unlimited
+format specificer <code class="highlighter-rouge">(g0)</code> or the exponential representation <code class="highlighter-rouge">(es24.16e3)</code>,
+which will give you 17 significant digits of printout.</p>
 
 
       <div class="container-flex">
 
         
+          
+            <a href="/learn/best_practices/style_guide" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        
 
         
           
-          <a href="/learn/best_practices/style_guide"
+          <a href="/learn/best_practices/integer_division"
           style="margin-left: auto;">
             <h3>
               Next
