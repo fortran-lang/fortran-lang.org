@@ -5,7 +5,7 @@ permalink: /learn/best_practices/arrays
 ---
 
 Arrays are a central object in Fortran. The creation of dynamic sized arrays
-is discussed in the [allocatable arrays arrays](./allocatable_arrays.html).
+is discussed in the [allocatable arrays section](./allocatable_arrays.html).
 
 To pass arrays to procedures four ways are available
 
