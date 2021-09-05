@@ -97,5 +97,5 @@ if (exists) then
 end if
 ```
 
-A useful IO feature are scratch files, which can be opened with ``status="scratch"``.
+A useful IO feature is scratch files, which can be opened with ``status="scratch"``.
 They are automatically deleted after closing the unit identifier.
