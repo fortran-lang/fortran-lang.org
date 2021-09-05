@@ -4,7 +4,7 @@ title: Integer Division
 permalink: /learn/best_practices/integer_division
 ---
 
-Fortran distinguishs between floating point and integer arithmetic.
+Fortran distinguishes between floating point and integer arithmetic.
 It is important to note that division for integers is always using
 integer arithmetic.
 Consider the following example for integer division of an odd number:
