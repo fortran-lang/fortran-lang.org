@@ -82,7 +82,7 @@ end subroutine proc
 ```
 
 Passing an unallocated array in this context will lead to an invalid memory access.
-Allocatable arrays can be passed to ``optional`` dummy arguments, if they are unallocated
+Allocatable arrays can be passed to ``optional`` dummy arguments -- if they are unallocated
 the argument will not be present. The ``allocatable`` attribute is not limited to
 arrays and can also be associated with scalars, which can be useful in combination
 with ``optional`` dummy arguments.
