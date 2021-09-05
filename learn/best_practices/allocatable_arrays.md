@@ -119,7 +119,7 @@ subroutine resize(var, n)
 end subroutine resize
 ```
 
-Finally, allocations do not initialize the array, the content of the uninitialized
+Finally, allocations do not initialize the array. The content of the uninitialized
 array is most likely just the bytes of whatever was previously at the respective address.
 The allocation supports initialization using the source attribute:
 
