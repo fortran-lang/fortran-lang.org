@@ -170,7 +170,7 @@ integer :: r(5)
 r = [1, 2, 3, 4, 5]
 ```
 
-The array constructor can be annoted with the type of the constructed array
+The array constructor can be annotated with the type of the constructed array
 
 ```fortran
 real(dp) :: r(5)
