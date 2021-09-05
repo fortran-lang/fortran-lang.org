@@ -27,7 +27,7 @@ subroutine f(r)
 end subroutine f
 ```
 
-Higher dimensional arrays can be passed in a similar way.
+Higher-dimensional arrays can be passed in a similar way.
 
 ```fortran
 subroutine g(A)
