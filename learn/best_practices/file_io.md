@@ -66,8 +66,8 @@ write(io, *) a, b
 close(io)
 ```
 
-Alternatively, ``status="replace"`` can be used to overwrite an existing file,
-it is highly recommended to first check for the existence of a file before deciding
+Alternatively, ``status="replace"`` can be used to overwrite an existing file.
+It is highly recommended to first check for the existence of a file before deciding
 on the *status* to use.
 To append to an output file the *position* keyword can be specified explicitly with
 
