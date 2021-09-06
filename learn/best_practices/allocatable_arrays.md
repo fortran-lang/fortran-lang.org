@@ -82,7 +82,7 @@ end subroutine proc
 ```
 
 Passing an unallocated array in this context will lead to an invalid memory access.
-Allocatable arrays can be passed to ``optional`` dummy arguments, if they are unallocated
+Allocatable arrays can be passed to ``optional`` dummy arguments -- if they are unallocated
 the argument will not be present. The ``allocatable`` attribute is not limited to
 arrays and can also be associated with scalars, which can be useful in combination
 with ``optional`` dummy arguments.
@@ -119,7 +119,7 @@ subroutine resize(var, n)
 end subroutine resize
 ```
 
-Finally, allocations do not initialize the array, the content of the uninitialized
+Finally, allocations do not initialize the array. The content of the uninitialized
 array is most likely just the bytes of whatever was previously at the respective address.
 The allocation supports initialization using the source attribute:
 

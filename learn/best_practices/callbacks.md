@@ -15,10 +15,10 @@ module integrals
   use types, only: dp
   implicit none
   private
-  public :: simpson, integratable_function
+  public :: simpson, integrable_function
 
   abstract interface
-    function integratable_function(x) result(func)
+    function integrable_function(x) result(func)
       import :: dp
       real(dp), intent(in) :: x
       real(dp) :: func
@@ -29,7 +29,7 @@ contains
 
   function simpson(f, a, b) result(s)
     real(dp), intent(in) :: a, b
-    procedure(integratable_function) :: f
+    procedure(integrable_function) :: f
     real(dp) :: s
 
     s = (b-a) / 6 * (f(a) + 4*f((a+b)/2) + f(b))
@@ -67,22 +67,22 @@ contains
 end module demo_functions
 ```
 
-Exporting the abstract interface allows to create procedure pointers with the
-correct signature and also to extend the callback further like shown here
+Exporting the abstract interface allows you to create procedure pointers with the
+correct signature and also to extend the callback further as shown here
 
 ```fortran
 module demo_integrals
   use types, only: dp
-  use integrals, only: simpson, integratable_function
+  use integrals, only: simpson, integrable_function
   implicit none
   private
-  public :: simpson2, integratable_function
+  public :: simpson2, integrable_function
 
 contains
 
   function simpson2(f, a, b) result(s)
     real(dp), intent(in) :: a, b
-    procedure(integratable_function) :: f
+    procedure(integrable_function) :: f
     real(dp) :: s
     real(dp) :: mid
     mid = (a + b)/2

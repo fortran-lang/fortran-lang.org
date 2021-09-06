@@ -9,7 +9,7 @@ Naming Convention
 
 Ultimately this is a matter of preference. Here is a style guide that we
 like and that seems to be prevalent in most scientific codes (as well as
-the Fortran standard library) and you are welcome to follow it.
+the Fortran standard library), and you are welcome to follow it.
 
 1.  Use lowercase for all Fortran constructs (`do`, `subroutine`,
     `module`, ...).

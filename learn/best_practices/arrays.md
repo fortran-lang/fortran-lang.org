@@ -5,7 +5,7 @@ permalink: /learn/best_practices/arrays
 ---
 
 Arrays are a central object in Fortran. The creation of dynamic sized arrays
-is discussed in the [allocatable arrays arrays](./allocatable_arrays.html).
+is discussed in the [allocatable arrays section](./allocatable_arrays.html).
 
 To pass arrays to procedures four ways are available
 
@@ -27,7 +27,7 @@ subroutine f(r)
 end subroutine f
 ```
 
-Higher dimensional arrays can be passed in a similar way.
+Higher-dimensional arrays can be passed in a similar way.
 
 ```fortran
 subroutine g(A)
@@ -119,8 +119,8 @@ call f(size(r), r)
 call g(size(s, 1), size(s, 2), s)
 ```
 
-Note that the shape is not checked, therefore the following would be valid code
-with will potentially yield incorrect results:
+Note that the shape is not checked, so the following would be legal code
+that will potentially yield incorrect results:
 
 ```fortran
 real(dp) :: s(3, 4)
@@ -145,8 +145,8 @@ function f(n) result(r)
 end function
 ```
 
-Finally, there are *assumed-size* arrays, which provide the least compile and runtime
-checking and can be found be found frequently in legacy code, they should be avoided
+Finally, there are *assumed-size* arrays, which provide the least compile-time and run-time
+checking and can be found be found frequently in legacy code. They should be avoided
 in favour of *assumed-shape* or *assumed-rank* arrays.
 An *assumed-size* array dummy argument is identified by an asterisk as the last dimension,
 this disables the usage of this array with many intrinsic functions, like ``size`` or
@@ -160,7 +160,7 @@ if (size(r) /= 4) error stop "Incorrect size of 'r'"
 if (any(shape(r) /= [2, 2])) error stop "Incorrect shape of 'r'"
 ```
 
-Note that ``size`` returns the total size of all dimensions, to obtain the shape of
+Note that ``size`` returns the total size of all dimensions. To obtain the shape of
 a specific dimension add it as second argument to the function.
 
 Arrays can be initialized by using an array constructor
@@ -170,7 +170,7 @@ integer :: r(5)
 r = [1, 2, 3, 4, 5]
 ```
 
-The array constructor can be annoted with the type of the constructed array
+The array constructor can be annotated with the type of the constructed array
 
 ```fortran
 real(dp) :: r(5)

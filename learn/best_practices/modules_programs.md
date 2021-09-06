@@ -8,7 +8,7 @@ Modules are the preferred way create modern Fortran libraries and applications.
 As a convention, one source file should always contain only one module, while
 the module name should match the filepath to allow easy navigation in larger
 projects. It is also recommended to prefix module names with the library name
-to avoid nameclashes when used as dependency in other projects.
+to avoid name clashes when used as dependency in other projects.
 
 An example for such a module file is given here
 
