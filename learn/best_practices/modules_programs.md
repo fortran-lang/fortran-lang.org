@@ -63,7 +63,7 @@ statements.
 Finally, the `implicit none` statement works for the whole module and there
 is no need to repeat it within each procedure.
 
-Variables inside a module are static (*implicitly saved*), it is highly
+Variables inside a module are static (*implicitly saved*). It is highly
 recommended to limit the usage of module variables to constant expressions,
 like parameters or enumerators only or export them as *protected* rather
 than *public*.
