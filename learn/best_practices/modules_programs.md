@@ -143,6 +143,6 @@ Note that the module procedures do not have to be implemented in the same submod
 Several submodules can be used to reduce the compilation load for huge modules.
 
 Finally, when setting up a program, it is recommended to keep the actual implementations
-in the program body at minimum. Reusing implementations from modules allows to write
-reusable code and focus in the program unit only on translating user input to the
-respective library functions and objects.
+in the program body at minimum. Reusing implementations from modules allows you to write 
+reusable code and focus the program unit on conveying user input to the respective library 
+functions and objects.
