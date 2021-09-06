@@ -38,7 +38,7 @@ contains
 end module integrals
 ```
 
-The function can than be used with a callback by importing the module
+The function can then be used with a callback by importing the module
 as shown in the following example
 
 ```fortran
