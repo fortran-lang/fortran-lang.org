@@ -16,7 +16,7 @@ your application, usually when performing operations on a multidimensional
 the sequential access should always advance in unity strides.
 
 In the following example the inverse distance between two sets of points
-is evaluated, note that the points are stored contiguously in the arrays
+is evaluated. Note that the points are stored contiguously in the arrays
 ``xyz1``/``xyz2``, while the inner-most loop is advancing the left-most
 index of the matrix ``a``.
 
