@@ -916,7 +916,7 @@
       </div>
 
       <p>Arrays are a central object in Fortran. The creation of dynamic sized arrays
-is discussed in the <a href="./allocatable_arrays.html">allocatable arrays arrays</a>.</p>
+is discussed in the <a href="./allocatable_arrays.html">allocatable arrays section</a>.</p>
 
 <p>To pass arrays to procedures four ways are available</p>
 
@@ -939,7 +939,7 @@ is discussed in the <a href="./allocatable_arrays.html">allocatable arrays array
 </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">f</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Higher dimensional arrays can be passed in a similar way.</p>
+<p>Higher-dimensional arrays can be passed in a similar way.</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w">
   </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">A</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w">
@@ -1023,8 +1023,8 @@ argument like in the example below</p>
 </span><span class="k">call</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Note that the shape is not checked, therefore the following would be valid code
-with will potentially yield incorrect results:</p>
+<p>Note that the shape is not checked, so the following would be legal code
+that will potentially yield incorrect results:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">
 </span><span class="k">call</span><span class="w"> </span><span class="n">g</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="c1">! s(12, 1) in g</span><span class="w">
@@ -1047,8 +1047,8 @@ arrays in case non-contiguous array strides are passed.</p>
 </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Finally, there are <em>assumed-size</em> arrays, which provide the least compile and runtime
-checking and can be found be found frequently in legacy code, they should be avoided
+<p>Finally, there are <em>assumed-size</em> arrays, which provide the least compile-time and run-time
+checking and can be found be found frequently in legacy code. They should be avoided
 in favour of <em>assumed-shape</em> or <em>assumed-rank</em> arrays.
 An <em>assumed-size</em> array dummy argument is identified by an asterisk as the last dimension,
 this disables the usage of this array with many intrinsic functions, like <code class="highlighter-rouge">size</code> or
@@ -1061,7 +1061,7 @@ this disables the usage of this array with many intrinsic functions, like <code 
 </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="nb">shape</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]))</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s2">"Incorrect shape of 'r'"</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Note that <code class="highlighter-rouge">size</code> returns the total size of all dimensions, to obtain the shape of
+<p>Note that <code class="highlighter-rouge">size</code> returns the total size of all dimensions. To obtain the shape of
 a specific dimension add it as second argument to the function.</p>
 
 <p>Arrays can be initialized by using an array constructor</p>
@@ -1070,7 +1070,7 @@ a specific dimension add it as second argument to the function.</p>
 </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">]</span><span class="w">
 </span></code></pre></div></div>
 
-<p>The array constructor can be annoted with the type of the constructed array</p>
+<p>The array constructor can be annotated with the type of the constructed array</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w">
 </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">]</span><span class="w">

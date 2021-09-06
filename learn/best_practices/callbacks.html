@@ -935,10 +935,10 @@ for the passed callback.</p>
   </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
   </span><span class="k">private</span><span class="w">
-  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">simpson</span><span class="p">,</span><span class="w"> </span><span class="n">integratable_function</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">simpson</span><span class="p">,</span><span class="w"> </span><span class="n">integrable_function</span><span class="w">
 
   </span><span class="k">abstract</span><span class="w"> </span><span class="k">interface</span><span class="w">
-    </span><span class="k">function</span><span class="w"> </span><span class="n">integratable_function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w">
+    </span><span class="k">function</span><span class="w"> </span><span class="n">integrable_function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w">
       </span><span class="k">import</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="w">
       </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
       </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">func</span><span class="w">
@@ -949,7 +949,7 @@ for the passed callback.</p>
 
   </span><span class="k">function</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
     </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
-    </span><span class="k">procedure</span><span class="p">(</span><span class="n">integratable_function</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+    </span><span class="k">procedure</span><span class="p">(</span><span class="n">integrable_function</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
     </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">s</span><span class="w">
 
     </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">))</span><span class="w">
@@ -986,21 +986,21 @@ as shown in the following example</p>
 </span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">demo_functions</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Exporting the abstract interface allows to create procedure pointers with the
-correct signature and also to extend the callback further like shown here</p>
+<p>Exporting the abstract interface allows you to create procedure pointers with the
+correct signature and also to extend the callback further as shown here</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">demo_integrals</span><span class="w">
   </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
-  </span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">simpson</span><span class="p">,</span><span class="w"> </span><span class="n">integratable_function</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">simpson</span><span class="p">,</span><span class="w"> </span><span class="n">integrable_function</span><span class="w">
   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
   </span><span class="k">private</span><span class="w">
-  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">simpson2</span><span class="p">,</span><span class="w"> </span><span class="n">integratable_function</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">simpson2</span><span class="p">,</span><span class="w"> </span><span class="n">integrable_function</span><span class="w">
 
 </span><span class="k">contains</span><span class="w">
 
   </span><span class="k">function</span><span class="w"> </span><span class="n">simpson2</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
     </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
-    </span><span class="k">procedure</span><span class="p">(</span><span class="n">integratable_function</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+    </span><span class="k">procedure</span><span class="p">(</span><span class="n">integrable_function</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
     </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">s</span><span class="w">
     </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">mid</span><span class="w">
     </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="w">
