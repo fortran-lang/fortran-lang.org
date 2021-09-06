@@ -47,9 +47,9 @@ end module fpm_toml
 ```
 
 There are a few things in this example module to highlight. First, every module
-starts with comments documenting the purpose and content of the module,
-similarly, every procedure starts with a comment briefly describing its
-purse and the intent of the dummy arguments. Documentation is one of the most
+starts with comments documenting the purpose and content of the module.
+Similarly, every procedure starts with a comment briefly describing its
+purpose and the intent of the dummy arguments. Documentation is one of the most
 important parts of creating long-living software, regardless of language.
 
 Second, imports (*use*) and exports (*public*) are explicitly given, this
@@ -57,7 +57,7 @@ allows on a glance at the module source to check the used and available
 procedures, constants and derived types. The imports are usually limited
 to the module scope rather than reimported in every procedure or interface
 scope. Similarly, exports are made explicitly by adding a *private* statement
-one a single line and explicitly listing all exported symbols in *public*
+on a single line and explicitly listing all exported symbols in *public*
 statements.
 
 Finally, the `implicit none` statement works for the whole module and there
