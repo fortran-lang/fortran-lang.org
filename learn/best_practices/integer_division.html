@@ -911,29 +911,35 @@
         
       </div>
 
-      <p>Fortran distinguishes between floating point and integer arithmetic.
-It is important to note that division for integers is always using
-integer arithmetic.
-Consider the following example for integer division of an odd number:</p>
+      <p>Fortran distinguishes between floating point and integer arithmetic.  It is
+important to note that division for integers is always using integer
+arithmetic. Furthermore, while Fortran uses the standard order-of-operations
+(e.g. multiplication and division preceed addition and subtraction, in the
+absence of parenthesis), operations of the same precedance are evaluated from
+left to right.  Consider the following example for integer division of an odd
+number:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">
 </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
 </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints 1</span><span class="w">
 </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)/</span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints 6</span><span class="w">
-</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="c1">! prints 4</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">  </span><span class="c1">! prints 4 (left-to-right evaluation order)</span><span class="w">
 </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-3</span><span class="w">
 </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints -1</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Be careful about whether you want to actually use integer arithmetic
 in this context. If you want to use floating point arithmetic instead
-make sure to cast to reals before using the division operator:</p>
+make sure to cast to reals before using the division operator, or separate
+the integers by multiplying by <code class="highlighter-rouge">1.0_dp</code>:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">
 </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">
 </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints 1.5</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints 1.5</span><span class="w">
 </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-3</span><span class="w">
 </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints -1.5</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">2</span><span class="w">  </span><span class="c1">! prints -1.5</span><span class="w">
 </span></code></pre></div></div>
 
 
