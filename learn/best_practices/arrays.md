@@ -146,7 +146,7 @@ end function
 ```
 
 Finally, there are *assumed-size* arrays, which provide the least compile-time and run-time
-checking and can be found be found frequently in legacy code. They should be avoided
+checking and can be found frequently in legacy code. They should be avoided
 in favour of *assumed-shape* or *assumed-rank* arrays.
 An *assumed-size* array dummy argument is identified by an asterisk as the last dimension,
 this disables the usage of this array with many intrinsic functions, like ``size`` or
