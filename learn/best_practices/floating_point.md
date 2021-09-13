@@ -74,12 +74,19 @@ a = 3
 ```
 
 In order to impose floating point division (as opposed to integer
-division `1/2` equal to `0`), one can convert the integer to a floating
+division `3/4` equal to `0`), one can convert the integer to a floating
 point number by:
 
 ```fortran
 real(dp) :: a
-a = real(1, dp) / 2  ! 'a' is equal to 0.5_dp
+a = real(3, dp) / 4  ! 'a' is equal to 0.75_dp
+```
+
+or simply separate the integer division with multiplication by `1.0_dp`
+
+```fortran
+real(dp) :: a
+a = 3 * 1.0_dp / 4  ! 'a' is equal to 0.75_dp
 ```
 
 To print floating point numbers without losing precision use the unlimited
