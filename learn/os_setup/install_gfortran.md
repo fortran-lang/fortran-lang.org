@@ -22,7 +22,7 @@ For those familiar with a unix-like development environment, several emulation o
 
 * __Cygwin:__ A runtime environment that provides POSIX compatibility to Windows;
 * __MSYS2:__ A collection of Unix-like development tools, based on modern Cygwin and MinGW-w64;
-* __Windows Subsystem for Linux (WSL):__ An official compatibility layer for running Linux binary executables on Windows.
+* __Windows Subsystem for Linux (WSL):__ An official compatibility layer for running Linux binary executables on Windows. With [Windows Subsystem for Linux GUI](https://github.com/microsoft/wslg) one can run text editors and other graphical programs.
 
 All of the above approaches provide access to common shells such as bash and development tools including GNU coreutils, Make, CMake, autotools, git, grep, sed, awk, ssh, etc.
 
