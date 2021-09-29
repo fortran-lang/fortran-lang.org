@@ -225,7 +225,7 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 
 * We had our 16th Fortran Monthly call on September 22.
   You can watch the recording below:
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/496oZFYcA00" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/ssqjsdBmnqc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 * The second international Fortran Conference (FortranCon) 2021 was held virtually on September 23-24
   Video recordings of the talks will be made available soon.
