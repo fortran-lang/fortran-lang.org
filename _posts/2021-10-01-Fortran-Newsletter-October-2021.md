@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: October 2021"
 category: newsletter
-author: Laurence Kedward
+authors: Laurence Kedward, Alexis Perry-Holby
 ---
 
 Welcome to the October 2021 edition of the monthly Fortran newsletter.
@@ -213,6 +213,49 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
+Recent development updates:
+
+* New Driver and CMake integration:
+    * flang-omp-report plugin - first full fledged frontend plugin has been contributed
+    * CMake integration - waiting on a new PR
+    * Code-generation work is ongoing - task list has been presented to the community for discussion and approval
+* FIR (Fortran IR - a dialect of MLIR):
+    * Fortran 95 lowering and runtime support is nearing completion
+    * Code upstreaming has begun again
+* OpenMP
+    * Merged: Critical, collapse clause, Fixes for SNAP. 
+    * In review: Firstprivate, Ordered, MLIR definitions for a few target side constructs, semantic checks for atomic, critical, sections, simd
+    * OpenMP 5.0 metadirective
+* Runtime
+    * Change complex type define in runtime for clang-cl
+    * Implement READ(SIZE=) and INQUIRE(IOLENGTH=) in runtime
+    * GET_COMMAND_ARGUMENT runtime implementation, handling the LENGTH, VALUE, STATUS and ERRMSG parameters. 
+    * COMMAND_ARGUMENT_COUNT runtime implementation
+    * Add POSIX implementation for SYSTEM_CLOCK
+    * Fix WRITE after BACKSPACE on variable-length file
+    * Implement Posix version of DATE_AND_TIME runtime
+* Ported test scripts to Python, enables testing on Windows
+* More precise checks for NULL() operands
+* Enforce array conformance in actual arguments to ELEMENTALs
+* Constant folding for COUNT, SQRT, HYPOT, CABS, CSHIFT, EOSHIFT, PACK, UNPACK, and TRANSPOSE
+* Make this_image() an intrinsic function
+* Revamp C1502 checking of END INTERFACE [generic-spec]
+* Accept SIZE(assumed-rank, DIM=n)
+* Validate SIZE(x,DIM=n) dimension for assumed-size array x
+* Catch errors with intrinsic array inquiry functions
+* Correct overflow detection in folding of real->integer conversions
+* Upgrade warning to error in case of PURE procedure
+* Enforce fixed form rules about END continuation
+* Enforce specification function rules on callee, not call
+* Catch error: base of DATA statement object can't be a pointer
+* Represent parentheses around derived types
+* Enforce constraint: defined ass't in WHERE must be elemental
+* Catch branching into FORALL/WHERE constructs
+* Implement semantic checks for ELEMENTAL subprograms
+* Signal EOR in non advancing IO and move to next record
+* Extension: reduced scope for some implied DO loop indices
+* Take result length into account in ApplyElementwise folding
+* Apply double precision KindCode in specific proc interface
 
 Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
