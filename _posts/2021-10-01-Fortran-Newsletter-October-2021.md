@@ -92,6 +92,8 @@ Here's what's new in stdlib:
 
 ### Work in progress
 
+* [#543](https://github.com/fortran-lang/stdlib/pull/543) (WIP):
+  Fix string concat
 * [#539](https://github.com/fortran-lang/stdlib/pull/539) (WIP):
   Add function gcd
 * [#538](https://github.com/fortran-lang/stdlib/pull/538) (WIP):
@@ -178,6 +180,8 @@ Here's what's new in fpm:
   help text was truncated
 * [#579](https://github.com/fortran-lang/fpm/pull/579):
   Fix dir not getting removed after testing fpm
+* [#584](https://github.com/fortran-lang/fpm/pull/584):
+  Actually read environment variables
 
 
 ### Work in progress
@@ -223,13 +227,13 @@ Recent development updates:
     * Fortran 95 lowering and runtime support is nearing completion
     * Code upstreaming has begun again
 * OpenMP
-    * Merged: Critical, collapse clause, Fixes for SNAP. 
+    * Merged: Critical, collapse clause, Fixes for SNAP.
     * In review: Firstprivate, Ordered, MLIR definitions for a few target side constructs, semantic checks for atomic, critical, sections, simd
     * OpenMP 5.0 metadirective
 * Runtime
     * Change complex type define in runtime for clang-cl
     * Implement READ(SIZE=) and INQUIRE(IOLENGTH=) in runtime
-    * GET_COMMAND_ARGUMENT runtime implementation, handling the LENGTH, VALUE, STATUS and ERRMSG parameters. 
+    * GET_COMMAND_ARGUMENT runtime implementation, handling the LENGTH, VALUE, STATUS and ERRMSG parameters.
     * COMMAND_ARGUMENT_COUNT runtime implementation
     * Add POSIX implementation for SYSTEM_CLOCK
     * Fix WRITE after BACKSPACE on variable-length file
