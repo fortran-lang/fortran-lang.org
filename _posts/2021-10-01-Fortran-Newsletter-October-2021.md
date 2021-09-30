@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: October 2021"
 category: newsletter
-authors: Laurence Kedward, Alexis Perry-Holby
+authors: Laurence Kedward, Alexis Perry-Holby, Ondřej Čertík
 ---
 
 Welcome to the October 2021 edition of the monthly Fortran newsletter.
