@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Building programs - Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/339/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/339/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/building_programs" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/339/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/339/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/339" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 339</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/339/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/339/" class="navbar-brand">
+		    <img src="/pr/339/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/339/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/339/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/339/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/339/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/339/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/339/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+      
+      
+
+  <a href="/pr/339/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index 
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Building programs</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><b><a href="/pr/339/learn/building_programs">
+        Introduction</a></b></li>
+        <ul id="page-nav"></ul>
+        
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/compiling_source">
+          Compiling the source code</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/linking_pieces">
+          Linking the objects</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/runtime_libraries">
+          Run-time libraries</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/include_files">
+          Include files and modules</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/managing_libraries">
+          Managing libraries (static and dynamic libraries)</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/build_tools">
+          Build tools</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/project_make">
+          An introduction to make</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/339/learn/building_programs/distributing">
+          Distributing your programs</a></li>
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Building programs</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+          <p><i>Authors:</i> Arjen Markus, Ondřej Čertík, Milan Curcic, Laurence Kedward, Brad Richardson, Jeremie Vandenplas, Sebastian Ehlert</p>
+        
+      </div>
+
+      <p>Languages like Fortran, C, C++ and Java, to name but a few, share
+certain characteristics: you write code in your language of choice but
+then you have to build an executable program from that source code.
+Other languages are interpreted — the source code is analysed by a
+special program and taken as direct instructions. Two very simple
+examples of that type of language: Windows batch files and Linux shell
+scripts.</p>
+
+<p>In this tutorial we concentrate on the first type of languages, with
+Fortran as the main example. One advantage of compiled languages is that
+the build process that you need to build an executable program, is used
+to transform the human-readable source code into an efficient program
+that can be run on the computer.</p>
+
+<p>Remark: this tutorial gives examples for the Windows and Linux operating
+systems, however the workflow and general principles still apply to macOS.</p>
+
+<h2 id="compiled-languages">Compiled languages</h2>
+
+<p>Let us have a look at a simple example:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">hello</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'Hello!'</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">hello</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This is just about the simplest program you can write in Fortran and it
+is certainly a variation on one of the most famous programs. Even though
+it is simple to express in source code, a lot of things actually happen
+when the executable that is built from this code runs:</p>
+
+<ul>
+  <li>A process is started on the computer in such a way that it can write
+to the console — the window (DOS-box, xterm, …) at which you type the
+program’s name.</li>
+  <li>It writes the text “Hello!” to the console. To do so it must properly
+interact with the console.</li>
+  <li>When done, it finishes, cleaning up all the resources (memory,
+connection to the console etc.) it took.</li>
+</ul>
+
+<p>Fortunately, as a programmer in a high-level language you do not need to
+consider all these details. In fact, this is the sort of things that is
+taken care of by the build process: the compiler and the linker.</p>
+
+
+      <div class="container-flex">
+
+        
+
+        
+          
+          <a href="/pr/339/learn/building_programs/compiling_source"
+          style="margin-left: auto;">
+            <h3>
+              Next
+              <i class="fas fa-arrow-circle-right"></i>
+            </h3>
+          </a>
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/339/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/339/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/339/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/339/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/339/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.org/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/339/assets/js/fortranlang.js"></script>
+    <script src="/pr/339/assets/js/page_nav.js"></script>
+    <script src="/pr/339/assets/js/gh-contributors.js"></script>
+    <script src="/pr/339/assets/js/package_search.js"></script>
+    <script src="/pr/339/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
