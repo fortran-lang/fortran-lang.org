@@ -265,7 +265,31 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 
 ### LFortran
 
+* 81
+  [merged](https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&state=merged)
+  Merge Requests in September 2021
+* LFortran Minimum Viable Product (MVP) [released](https://lfortran.org/blog/2021/09/lfortran-minimum-viable-product-mvp/)
+* LFortran 0.13.0, 0.13.1 and 0.14.0 released in September
+* The following people have contributed code to LFortran in September:
+    * Ondřej Čertík
+    * Gagandeep Singh
+    * Carlos Une
+    * Thirumalai Shaktivel
+    * Harris M. Snyder
+    * Sebastian Ehlert
+    * Mengjia Lyu
+* Many people have reported bugs (thank you all!)
+* Main features implemented in September:
+  * Operator overloading (ASR, LLVM)
+  * Goto (ASR, LLVM)
+  * Runtime library improvements: `iand`, `len`, `trim`, `len_trim`
+  * Interactive mode: get complex numbers, intrinsic functions working
+    (Windows, macOS, Linux)
+  * New driver options: --fast, --symtab-only, --target
 
+
+We are looking for new contributors. Please do not hesitate to contact us if
+you are interested. We will help you get up to speed.
 
 
 ## Events
