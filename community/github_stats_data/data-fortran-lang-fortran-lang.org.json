@@ -2,6 +2,449 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 339,
+            "user": "LKedward",
+            "date": "2021-09-28 11:15:42+00:00",
+            "title": "Initial draft of october newsletter.",
+            "text": "Make sure PRs are up-to-date on Thursday (@LKedward)\n Update contributor data on Thursday (@LKedward)\n Add news from Flang (@AlexisPerry)\n Add news from lfortran (@certik\n Add monthly meeting recording link (@milancurcic)",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-09-28 14:43:05+00:00",
+                    "text": "@AlexisPerry & @certik, apologies for the late start this month - are you both able to provide the usual compiler updates in the next couple of days?"
+                },
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-09-28 19:41:01+00:00",
+                    "text": "Yes, I'm planning to tackle it after the Flang biweekly meeting tomorrow so I can provide the most up to date information,"
+                },
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-09-29 17:36:48+00:00",
+                    "text": "@LKedward  Check out the PR here: LKedward#5"
+                }
+            ]
+        },
+        {
+            "number": 338,
+            "user": "tclune",
+            "date": "2021-09-24 17:29:22+00:00",
+            "title": "Consider renaming default branch to `main`",
+            "text": "Just a socially conscious recommendation.\nhttps://github.com/github/renaming",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-24 17:38:34+00:00",
+                    "text": "Thanks. We considered that and renamed other repositories. But with this one we need to do quite a few fixes:\nhttps://github.com/fortran-lang/fortran-lang.org/search?q=master\nHowever if you send us PRs, it can happen faster. :)"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-24 18:48:54+00:00",
+                    "text": "Duplicate of #325"
+                }
+            ]
+        },
+        {
+            "number": 337,
+            "user": "milancurcic",
+            "date": "2021-09-24 17:15:16+00:00",
+            "title": "Site build fails ",
+            "text": "Build for PR #334 fails: https://github.com/fortran-lang/fortran-lang.org/runs/3702605456. I think the offending line is https://github.com/fortran-lang/fortran-lang.org/runs/3702605456#step:7:103, which perhaps means that there is a required field in the package index that's missing?\nWhat's more confusing to me, we only have some (inactive?) Twitter action running on open PRs. I thought we used to build the site in CI on every PR.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-24 17:17:30+00:00",
+                    "text": "At least the issue #298 now seems fixed. ;) Never mind, just got the email."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-24 17:23:28+00:00",
+                    "text": "From the Action log, the Ruby parser complains about the gFTL entry : \n  \n    \n      fortran-lang.org/_data/package_index.yml\n    \n    \n         Line 1386\n      in\n      a8dfa97\n    \n    \n    \n    \n\n        \n          \n           - name: gFTL \n        \n    \n  \n\n.\nThe error message is\n/home/runner/work/fortran-lang.org/fortran-lang.org/src/.bundle/ruby/2.7.0/gems/safe_yaml-1.0.5/lib/safe_yaml/load.rb:143:in `parse': (/home/runner/work/fortran-lang.org/fortran-lang.org/src/_data/package_index.yml): did not find expected key while parsing a block mapping at line 1386 column 3 (Psych::SyntaxError)\n\nBut from looking at that block, it seems to me all needed keys are there. @awvwgk @LKedward do you have an idea?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-24 17:28:32+00:00",
+                    "text": "Fixed by #336."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-24 17:48:05+00:00",
+                    "text": "I guess there was an extra space at the beginning of the line, so the yaml syntax was broken?"
+                }
+            ]
+        },
+        {
+            "number": 336,
+            "user": "tclune",
+            "date": "2021-09-24 17:11:16+00:00",
+            "title": "One more package",
+            "text": "Also corrected categories on previous submissions.  Did not notice that there was a short-list.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-24 17:26:03+00:00",
+                    "text": "Thanks!"
+                }
+            ]
+        },
+        {
+            "number": 335,
+            "user": "tclune",
+            "date": "2021-09-24 16:04:54+00:00",
+            "title": "Adding two more packages to the index",
+            "text": "None",
+            "comments": [
+                {
+                    "user": "tclune",
+                    "date": "2021-09-24 17:05:34+00:00",
+                    "text": "I just remembered that I should add in the gFTL-shared project which instantiates the templates for common containers with intrinsic elements.     As a project it is uninteresting, but for users, it might be all they need.  Kept separate because the templates don't require any specific compiler and can be installed in a compile-independent location."
+                }
+            ]
+        },
+        {
+            "number": 334,
+            "user": "awvwgk",
+            "date": "2021-09-24 15:51:30+00:00",
+            "title": "Add pFlogger to package index",
+            "text": "source: https://github.com/Goddard-Fortran-Ecosystem/pFlogger\nThanks, @tclune for the link.",
+            "comments": []
+        },
+        {
+            "number": 333,
+            "user": "awvwgk",
+            "date": "2021-09-24 12:42:31+00:00",
+            "title": "Add fparser to package index",
+            "text": "Source: stfc/fparser",
+            "comments": []
+        },
+        {
+            "number": 332,
+            "user": "Beliavsky",
+            "date": "2021-09-22 00:10:56+00:00",
+            "title": "Formatting of Derived Types page",
+            "text": "At https://fortran-lang.org/learn/quickstart/derived_types , using Chrome on Windows, if I magnify the page enough with Cntrl+ , and I use the scroll bar on the right, the words at the bottom, Learn, Compilers, Community, Packages, News are sometimes on top of the the text under Quickstart Fortran Tutorial.",
+            "comments": []
+        },
+        {
+            "number": 331,
+            "user": "Beliavsky",
+            "date": "2021-09-14 15:59:09+00:00",
+            "title": "Mention conference",
+            "text": "The site should mention the upcoming FortranCon conference and link to the 2020 conference. Maybe at the top of the site, in the list\nLearn\nCompilers\nCommunity\nPackages\nNews\nadd Conference with an appropriate link? Links to the 2020 and/or 2021 conferences could also be added to Other Resources section.",
+            "comments": []
+        },
+        {
+            "number": 330,
+            "user": "Beliavsky",
+            "date": "2021-09-14 15:29:08+00:00",
+            "title": "Why is the book \"The Practice of Programming\" listed?",
+            "text": "Why is the book Kernighan, B. and Pike, R.. 1999. The Practice of Programming listed? It's a well-regarded book, but I don't think it covers Fortran.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-14 16:31:00+00:00",
+                    "text": "I vaguely recall the rationale (if there was any) was that the book is useful for Fortran programmers, even if it doesn't cover Fortran. I may be making that up. I'm fine with this book being listed or not."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-14 17:18:33+00:00",
+                    "text": "I would either not list it, or create a section \"general programming books\" and list it there."
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2021-09-17 20:49:35+00:00",
+                    "text": "I wonder if someone was thinking of Kernighan and Plauger's book Software Tools, which used a structured version of Fortran called Ratfor. (This is a really old book, though, from 1976.)"
+                }
+            ]
+        },
+        {
+            "number": 329,
+            "user": "Beliavsky",
+            "date": "2021-09-14 15:14:23+00:00",
+            "title": "Quantum Information book, WSL GUI, and typos",
+            "text": "None",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-14 17:31:05+00:00",
+                    "text": "One can obtain a preview of the book here: https://www.taylorfrancis.com/books/mono/10.1201/9781003164678/numerical-recipes-quantum-information-theory-quantum-computing-ramkarthik-payal-solanki\nThe preview looks quite good. But a few things stand out:\n\nThey use FORTRAN instead of Fortran.\nThey recommend real*8 and complex*8 for double precision real and complex numbers, and to use .d0 for double precision numbers, instead of real(dp), complex(dp) and ._dp.\n\nI am hoping that more \"opinionated\" guides at fortran-lang.org will help with this, as well as opinionated \"pedantic\" mode in LFortran (https://gitlab.com/lfortran/lfortran/-/issues/450)."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-14 19:20:13+00:00",
+                    "text": "One can obtain a preview of the book here: https://www.taylorfrancis.com/books/mono/10.1201/9781003164678/numerical-recipes-quantum-information-theory-quantum-computing-ramkarthik-payal-solanki\nThe preview looks quite good. But a few things stand out:\n\nThey use FORTRAN instead of Fortran.\nThey recommend real*8 and complex*8 for double precision real and complex numbers, and to use .d0 for double precision numbers, instead of real(dp), complex(dp) and ._dp.\n\nI am hoping that more \"opinionated\" guides at fortran-lang.org will help with this, as well as opinionated \"pedantic\" mode in LFortran (https://gitlab.com/lfortran/lfortran/-/issues/450).\n\n@certik I announced the book on Fortran Discourse. More people would see your comments if posted there."
+                }
+            ]
+        },
+        {
+            "number": 328,
+            "user": "awvwgk",
+            "date": "2021-09-13 21:08:37+00:00",
+            "title": "Add incompact3d to package index",
+            "text": "See https://github.com/xcompact3d/Incompact3d",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-14 17:03:50+00:00",
+                    "text": "Looks good. I am happy to see codes like these in Fortran."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-14 17:17:51+00:00",
+                    "text": "Found this one by following @fschuch from the recent stars at test-drive ;)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-14 17:20:33+00:00",
+                    "text": "Awesome. @fschuch, if you have any feedback on our efforts, please let us know!"
+                }
+            ]
+        },
+        {
+            "number": 327,
+            "user": "Beliavsky",
+            "date": "2021-09-13 20:48:21+00:00",
+            "title": "Mention Windows Subsystem for Linux (WSL) GUI in \"Unix-like development on Windows\" section",
+            "text": "As I mentioned on Fortran Discourse, Microsoft has recently upgraded WSL 2 so that you can run Linux GUI programs, including text editors. Currently fortran-lang says \"All of the above approaches provide access to common shells such as bash and development tools including GNU coreutils, Make, CMake, autotools, git, grep, sed, awk, ssh, etc.\"\nIn the description of WSL I suggest adding the text \"With Windows Subsystem for Linux GUI one can run text editors and other graphical programs.\"\nI could submit a PR but my last trivial one is still pending ...",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-13 21:15:56+00:00",
+                    "text": "I could submit a PR but my last trivial one is still pending ...\n\nJust took care of that one.\nYou can submit multiple PRs from your fork, by creating feature branches for each of your contributions. Just click on the branch dropdown menu and create a new one there:\n\nThis will also make it easier to sync your fork again, if someone (probably me) squashes small PRs on merge, which are done from the default branch of a fork."
+                }
+            ]
+        },
+        {
+            "number": 326,
+            "user": "Beliavsky",
+            "date": "2021-09-13 16:29:43+00:00",
+            "title": "Make Fortran Better -- comments",
+            "text": "The Develop tools section says \"You can also help make Fortran better by contributing to its suite of tools, such as Standard Library, Package Manager, or this website.\" The gfortran, lfortran and I think flang compilers are open-source projects that accept the contributions of volunteers. Why not mention them?\nThe Write Fortran Software section says \"Or just write Fortran software for your research, business, or schoolwork. You can learn how to get started here.\" Writing code for your own use is fine but does not by itself benefit the Fortran community. Maybe add \"and share your code on sites such as GitHub\" to the end of the first sentence?\nParticipants in Fortran-related GSoC projects have not only improved Fortran but earned some money and gained experience that they can put on their resumes. Mention this when GSoC next has openings?",
+            "comments": []
+        },
+        {
+            "number": 325,
+            "user": "awvwgk",
+            "date": "2021-09-08 16:06:52+00:00",
+            "title": "Renaming default branch",
+            "text": "See fortran-lang/fpm#421 for details.\nPlease collect references in @fortran-lang projects to files inside this repository such that we can fix those links after renaming.",
+            "comments": []
+        },
+        {
+            "number": 324,
+            "user": "Beliavsky",
+            "date": "2021-09-08 02:46:39+00:00",
+            "title": "replaced \"be found be found\" with \"be found\"",
+            "text": "I am submitting a PR for a single typo, noted by someone else on Fortran Discourse. In the future would you prefer that I wait until I have several suggested changes to make a pull request?",
+            "comments": []
+        },
+        {
+            "number": 323,
+            "user": "Beliavsky",
+            "date": "2021-09-07 12:25:06+00:00",
+            "title": "Fortran Best Practices -- add section on error handling",
+            "text": "I suggest that a chapter on error handling be added. In a Fortran Discourse thread a few approaches were listed and evaluated.",
+            "comments": []
+        },
+        {
+            "number": 322,
+            "user": "Beliavsky",
+            "date": "2021-09-07 12:17:36+00:00",
+            "title": "Add search capability to site",
+            "text": "It would be nice if fortran-lang.org had a search bar. Python.org and isocpp.org do.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-07 12:33:11+00:00",
+                    "text": "We might be able to do this easily when switching our static side generator to sphinx + MyST (see #89), which would also allow having translations of the webpage. But I haven't got around to follow up on this issue yet, too much other stuff to do.\nNot sure how simple / difficult this is to implement in jekyll."
+                }
+            ]
+        },
+        {
+            "number": 321,
+            "user": "arjenmarkus",
+            "date": "2021-09-07 11:49:10+00:00",
+            "title": "Inconsistent text in page on style guide",
+            "text": "I read the page on the style guide and found this curious text:\nIndentation\nUse a consistent indentation to make your code readable. The amount of indentation is a matter of preference, the most common choices are two, three or four spaces.\nComparison to Other Languages\nOn the other hand, in most of the rest of the programming world, ...\nThe first sentence of \"Comparison to Other Languages\" feels to me as if it refers to preceding text that has disappeared. What is the first hand? Whatever it is, the short text on the indentation is not related to it. This requires some editing.",
+            "comments": []
+        },
+        {
+            "number": 320,
+            "user": "gareth-nx",
+            "date": "2021-09-07 10:44:07+00:00",
+            "title": "Alternative approach to avoiding integer division",
+            "text": "The tutorial suggests bypassing integer division by type-casting one variable to real, i.e. to avoid 3/4 == 0, you can do real(3, dp) / 4.\nWhile that's fine, it is often nicer to simply write 3 * 1.0_dp / 4. This pull request updates the tutorial to note that.\nIn addition, the documentation now notes Fortran's default left-to-right operator precedence -- which affects one of the examples on the page about integers.",
+            "comments": [
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-07 13:14:16+00:00",
+                    "text": "Why would you write 3 * 1.0_dp / 4 instead of just 3.0_dp/4 ?"
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-09-07 13:44:08+00:00",
+                    "text": "@Beliavsky Indeed you would not!\nHowever, if the 3 and 4 were actually variables (say i and j), then the approach presented in the edits generalises correctly (i * 1.0_dp / j).\nYour comment also applies to the other example -- we wouldn't write real(3, dp) / 4 in preference to 3.0_dp / 4. But the former version generalises.\nThat was my thinking. But it's tricky to have just the right amount of complexity without confusing people. Suggestions for making it clearer are most welcome."
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-09-07 13:53:10+00:00",
+                    "text": "One approach -- we could change the example to define i = 3; j = 4, so that the use of variables is clear. But I don't know whether the extra complexity is worth the benefit."
+                },
+                {
+                    "user": "gareth-nx",
+                    "date": "2021-09-09 11:34:33+00:00",
+                    "text": "I looked at this again, and could not see a clean way to introduce integer variables i, j without adding too much complexity (noting the style of the tutorial).\nSo in my opinion this is ready to merge."
+                }
+            ]
+        },
+        {
+            "number": 319,
+            "user": "Beliavsky",
+            "date": "2021-09-07 00:46:08+00:00",
+            "title": "Listing Fortran codes",
+            "text": "I mentioned my Fortran code on GitHub repo (call it FCoG) on Fortran Discourse in June, which now has 800+ entries, and @awvwgk asked, \"How do you feel about contributing this list to the package index or have a separate package page at fortran-lang.org to host this information?\" I am happy to collaborate but am unsure in what form. The readme.md page does link to the fortran-lang package index, and FCoG has the unlicense license, so it can be copied. A place where FCoG could use help is classification. The \"physics\" category is too broad, and some codes in it could be moved to categories such as condensed matter or plasma physics. The \"earth science\" category is also large and heterogeneous.\nI think the emphasis of the flang package list is high-quality open source code that people can use in their own projects. Listed GitHub projects should have 5 stars. Although FCoG has numerical methods categories listing many of the same codes, it also has lots of specialized codes for astrophysics, earth science, and quantum chemistry and electronic structure. I will list a repo on FCoG even if it has few stars, if it looks like a \"production code\". I created FCoG partly to document what Fortran is being used for.\nPossibly the section \"What is Fortran used for?\" section could link to FCoG. Or at the bottom of the packages page, after \"See  here for how to get your project listed\", the sentence \"Another categorized list is Fortran Code on GitHub\" could be added.",
+            "comments": []
+        },
+        {
+            "number": 318,
+            "user": "awvwgk",
+            "date": "2021-09-06 18:34:06+00:00",
+            "title": "Building site with Ruby 3 fails",
+            "text": "Using the instructions in the Readme fails to setup the development environment for Jekyll when using Ruby 3:\n\u276f bundle config set path '.bundle'\n\u276f bundle install\nFetching gem metadata from https://rubygems.org/.........\nlisten-3.2.1 requires ruby version >= 2.2.7, ~> 2.2, which is incompatible with\nthe current version, ruby 3.0.2p107",
+            "comments": []
+        },
+        {
+            "number": 317,
+            "user": "Beliavsky",
+            "date": "2021-09-06 11:52:26+00:00",
+            "title": "more grammar, spelling, and rewording for Fortran Best Practices",
+            "text": "None",
+            "comments": [
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-06 11:55:32+00:00",
+                    "text": "Closes #316"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-06 18:34:08+00:00",
+                    "text": "Lovely, thank you for these fixes."
+                }
+            ]
+        },
+        {
+            "number": 316,
+            "user": "Beliavsky",
+            "date": "2021-09-06 01:51:13+00:00",
+            "title": "Fortran Best Practices -- typos and grammar",
+            "text": "I'll create a PR eventually. Since the PR in my previous fork has been incorporated, can I delete that fork and fork the current repo?\n\"purpose\" not \"purse\" in \"every procedure starts with a comment briefly describing its purse and the intent of the dummy arguments\" at https://fortran-lang.org/learn/best_practices/modules_programs\n\"on\" not \"one\" in \"Similarly, exports are made explicitly by adding a private statement one a single line and explicitly listing all exported symbols in public statements.\" (same page)\nFor \"Variables inside a module are static (implicitly saved), it is highly recommended to limit the usage of module variables to constant expressions, like parameters or enumerators only or export them as protected rather than public.\" start a second sentence at \"it\".\nChange \"Reusing implementations from modules allows to write reusable code and focus in the program unit only on translating user input to the respective library functions and objects.\" to \"Reusing implementations from modules allows you to write reusable code and focus the program unit on conveying user input to the respective library functions and objects.\"\nIn \"In the following example the inverse distance between two sets of points is evaluated, note that the points are stored contiguously in the arrays xyz1/xyz2, while the inner-most loop is advancing the left-most index of the matrix a.\" start a new sentence at \"note\" . Page is https://fortran-lang.org/learn/best_practices/multidim_arrays.\n\"then\" not \"than\" in \"The function can than be used with a callback by importing the module as shown in the following example\" at https://fortran-lang.org/learn/best_practices/callbacks",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-06 06:42:17+00:00",
+                    "text": "I'll create a PR eventually. Since the PR in my previous fork has been incorporated, can I delete that fork and fork the current repo?\n\nIf you go to your fork there is a Fetch upstream button to sync your repo again:"
+                }
+            ]
+        },
+        {
+            "number": 315,
+            "user": "Beliavsky",
+            "date": "2021-09-06 00:36:42+00:00",
+            "title": "Fortran Best Practices -- suggestions",
+            "text": "In (#313) I made suggestions about grammar and spelling and later made a pull request, which was accepted. I also made suggestions about content, which I will repeat here, since that issue was closed:\nFor naming conventions, I suggest that short, especially one-letter variable names for integers and reals follow Fortran's implicit typing rules, although one should use implicit none. A variable i should be an integer and x should be a real, for example.\nA naming convention I would suggest is to use consistent names for integer variables in a do loop. For example, to loop over days of data,\ndo iday=1,ndays\n   ...\nend do\n\nAlso, it is common for an integer variable starting with n to denote a loop bound or array dimension and for a variable starting with i to be a loop variable. So one would not write\ndo nday=1,idays\n   ...\nend do\n\nAt https://fortran-lang.org/learn/best_practices/modules_programs use, only is done for imports, which I agree with, but it should be explained that this reduces name clashes and helps the reader understand where imported entities are coming from.\nThe code examples use argument intent, but is there a place where that is explicitly suggested and justified?\nWhy use Roman numerals instead of the usual Arabic digits in https://fortran-lang.org/learn/best_practices/type_casting ?\nA naming convention I suggest is that local variables that shadow optional variables have similar names, possibly appending \"_\". For example,\nsubroutine sub(a,b)\nreal, intent(in) :: a\nreal, intent(in), optional :: b\nreal :: b_\nif (present(b)) then\n   b_ = b\nelse\n   b_ = default_value\nend if\n! remaining code uses b_, not b\nend subroutine sub\n\nIt may not hurt to state the obvious -- a \"best practice\" is to use free source form. Free source form code should use the .f90 suffix, not .f95 or .f03 etc., because .f90 stands for free source form, not for compliance to the Fortran 90 standard. I believe @certik supports .f for free source form, but since 99% of .f Fortran code uses fixed source form, I think that causes confusion.",
+            "comments": []
+        },
+        {
+            "number": 314,
+            "user": "Beliavsky",
+            "date": "2021-09-05 18:16:08+00:00",
+            "title": "grammar and spelling from issue #313",
+            "text": "None",
+            "comments": []
+        },
+        {
+            "number": 313,
+            "user": "Beliavsky",
+            "date": "2021-09-05 12:06:56+00:00",
+            "title": "Fortran Best Practices -- comments",
+            "text": "I think the suggested best practices are sound and thank the authors for writing this. Here are my comments.\n\"canonical\" not \"cononical\" at https://fortran-lang.org/learn/best_practices\nAdd comma before \"and\" to get \"Here is a style guide that we like and that seems to be prevalent in most scientific codes (as well as the Fortran standard library), and you are welcome to follow it.\" at https://fortran-lang.org/learn/best_practices/style_guide\nFor naming conventions, I suggest that short, especially one-letter variable names for integers and reals follow Fortran's implicit typing rules, although one should use implicit none. A variable i should be an integer and x should be a real, for example.\nA naming convention I would suggest is to use consistent names for integer variables in a do loop. For example, to loop over days of data,\ndo iday=1,ndays\n   ...\nend do\n\nAlso, it is common for an integer variable starting with n to denote a loop bound or array dimension and for a variable starting with i to be a loop variable. So one would not write\ndo nday=1,idays\n   ...\nend do\n\nAt https://fortran-lang.org/learn/best_practices/floating_point I would write\na = real(1, dp) / 2  ! 'a' is equal to 0.5_dp\nmore concisely as\na = 1.0_dp / 2  ! 'a' is equal to 0.5_dp\n\"distinguishes\" not \"distinguishs\" at https://fortran-lang.org/learn/best_practices/integer_division\n\"name clashes\" not \"nameclashes\" at https://fortran-lang.org/learn/best_practices/modules_programs\nAt https://fortran-lang.org/learn/best_practices/modules_programs use, only is done for imports, which I agree with, but it should be explained that this reduces name clashes and helps the reader understand where imported entities are coming from.\nAt https://fortran-lang.org/learn/best_practices/arrays include a colon in \"To pass arrays to procedures four ways are available:\" and a hyphen in \"higher-dimensional\".\nI think \"with\" should be \"which\" in \"Note that the shape is not checked, therefore the following would be valid code with will potentially yield incorrect results:\" at https://fortran-lang.org/learn/best_practices/arrays .\nReplace \"Finally, there are assumed-size arrays, which provide the least compile and runtime checking and can be found be found frequently in legacy code, they should be avoided in favour of assumed-shape or assumed-rank arrays.\" with \"Finally, there are assumed-size arrays, which provide the least compile-time and run-time checking and can be found be found frequently in legacy code. They should be avoided in favour of assumed-shape or assumed-rank arrays.\"\nReplace the first comma in \"Note that size returns the total size of all dimensions, to obtain the shape of a specific dimension add it as second argument to the function.\" with \"--\" to avoid a run-on sentence.\n\"annotated\" not \"annoted\" at https://fortran-lang.org/learn/best_practices/arrays .\nThe code examples use argument intent, but is there a place where that is explicitly suggested and justified?\nFor \"Allocatable arrays can be passed to optional dummy arguments, if they are unallocated the argument will not be present.\" replace the comma with -- or break into two sentences to avoid a run-on at https://fortran-lang.org/learn/best_practices/allocatable_arrays . Same comment for the comma after \"array\" in \"Finally, allocations do not initialize the array, the content of the uninitialized array is most likely just the bytes of whatever was previously at the respective address.\"\nFor \"Alternatively, status=\"replace\" can be used to overwrite an existing file, it is highly recommended to first check for the existence of a file before deciding on the status to use. \" a new sentence should start with \"it\" to avoid a run-on at https://fortran-lang.org/learn/best_practices/file_io .\nReplace \"are\" with \"is\" in \"A useful IO feature are scratch files.\"\nReplace \"integratable_function\" with \"integrable_function\" at https://fortran-lang.org/learn/best_practices/callbacks .\nReplace \"Exporting the abstract interface allows to create procedure pointers with the correct signature and also to extend the callback further like shown here\" with \"Exporting the abstract interface allows you to create procedure pointers with the correct signature and also to extend the callback further as shown here\"\nWhy use Roman numerals instead of the usual Arabic digits in https://fortran-lang.org/learn/best_practices/type_casting ?",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-05 13:07:08+00:00",
+                    "text": "Thanks! Do you want to send a PR to fix many of these typos? That would be the most effective."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-05 13:53:40+00:00",
+                    "text": "Thanks for the feedback. I agree that it will be most effective to get those fixed by sending a PR or even just post a patch here."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-05 16:17:58+00:00",
+                    "text": "A naming convention I suggest is that local variables that shadow optional variables have similar names, possibly appending \"_\". For example,\nsubroutine sub(a,b)\nreal, intent(in) :: a\nreal, intent(in), optional :: b\nreal :: b_\nif (present(b)) then\n   b_ = b\nelse\n   b_ = default_value\nend if\n! remaining code uses b_, not b\nend subroutine sub"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-05 18:17:32+00:00",
+                    "text": "I submitted my first ever pull request to address the spelling and grammar issues."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-05 20:34:23+00:00",
+                    "text": "It may not hurt to state the obvious -- a \"best practice\" is to use free source form. Free source form code should use the .f90 suffix, not .f95 or .f03 etc., because .f90 stands for free source form, not for compliance to the Fortran 90 standard. I believe @certik supports .f for free source form, but since 99% of .f Fortran code uses fixed source form, I think that causes confusion."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-05 20:45:24+00:00",
+                    "text": "Discovered another typo: in the sentence \"The creation of dynamic sized arrays is discussed in the allocatable arrays arrays.\" the last word should be something like \"section\" at https://fortran-lang.org/learn/best_practices/arrays . I made this change in my forked repo. Should I submit another PR, or will the current PR automatically have the latest forked repo?"
+                }
+            ]
+        },
+        {
+            "number": 312,
+            "user": "awvwgk",
+            "date": "2021-09-05 09:53:48+00:00",
+            "title": "Fortran Best Practice: Element-wise Operations",
+            "text": "The chapter Element-wise Operations needs some work.\n\nmore explanation between code examples\nbetter examples for usage of elemental\ndrawbacks of elemental procedures",
+            "comments": []
+        },
+        {
+            "number": 311,
+            "user": "awvwgk",
+            "date": "2021-09-05 09:50:57+00:00",
+            "title": "Fortran Best Practice: Multidimensional Arrays",
+            "text": "The chapter Multidimensional Arrays should explain performance implications by the choice of indexing.",
+            "comments": []
+        },
+        {
+            "number": 310,
+            "user": "awvwgk",
+            "date": "2021-09-05 09:49:24+00:00",
+            "title": "Fortran Best Practice: File Input/Output",
+            "text": "The chapter about File Input/Output needs some work.\n\nclearer recommendation on best practice\nbetter explanation of the modifiers used with open, close, ...\nseparate discussion of inquire",
+            "comments": []
+        },
+        {
+            "number": 309,
+            "user": "awvwgk",
+            "date": "2021-09-05 09:47:36+00:00",
+            "title": "Fortran Best Practice: Type Casting in Callbacks",
+            "text": "The chapter Type Casting in Callbacks needs some work.\n\nNo links to external gists or pastebin entries, the document must be self-contained\nGenerally more text actually explaining what is going on in the sections\nBetter flow of explanation rather than multiple example",
+            "comments": [
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-06 21:05:31+00:00",
+                    "text": "The chapter starts by saying\n\"There are essentially five different ways to do type casting, each with its own advantages and disadvantages.\nThe methods I, II and V can be used both in C and Fortran. The methods III and IV are only available in Fortran. The method VI is obsolete and should not be used.\"\nIf you are going to refer to items by number, you should provide a numbered list. What are the 6 methods? Looking at the headings, I see 7:\n\nWork Arrays\nGeneral Structure\nPrivate Module Variables\nNested functions\nUsing type(c_ptr) Pointer\ntransfer() Intrinsic Function\nObject Oriented Approach"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-07 06:17:17+00:00",
+                    "text": "Best is to rewrite the whole chapter and focus on a few of the available approaches which we find are best practice. At least we should remove the obsolete methods from this chapter."
+                }
+            ]
+        },
+        {
             "number": 308,
             "user": "scivision",
             "date": "2021-08-30 17:39:16+00:00",
@@ -86,6 +529,26 @@
                     "user": "certik",
                     "date": "2021-09-01 00:12:34+00:00",
                     "text": "@AlexisPerry thank you for submitting the Flang updates."
+                },
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-09-01 15:05:51+00:00",
+                    "text": "@AlexisPerry thank you for submitting the Flang updates.\n\nMy pleasure :-)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-01 15:15:53+00:00",
+                    "text": "Thank you all, I'll go ahead and merge."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-01 15:34:38+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-09-01 15:34:57+00:00",
+                    "text": "The preview build for this PR has now been deleted."
                 }
             ]
         },
@@ -177,7 +640,33 @@
             "date": "2021-08-01 09:29:45+00:00",
             "title": "Run failed: Comment on the pull request and push the PR preview to the gh-pages branch - master",
             "text": "Every time I comment on a pull request such as: #295, I get an email with the above title and a link to:\nhttps://github.com/fortran-lang/fortran-lang.org/actions/runs/1086966949\nIt seems something in the CI is broken.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-06 00:27:05+00:00",
+                    "text": "I keep getting these emails after every (?) comment I post in this repository. Here is an example:\n\nFirst such email is from July 31, 2021. Last one is from a couple minutes ago. So far I got 14 of them.\nCC @milancurcic, @awvwgk, @LKedward. Do any of you also get these emails?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-06 00:33:54+00:00",
+                    "text": "So far I believe I got only 2, but I may have only written 2 comments. Let's see if I get one for this comment."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-06 00:35:00+00:00",
+                    "text": "Yes, I just got another one. This started with the merging of #297."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-06 04:11:45+00:00",
+                    "text": "I dread to post another comment, as I will get another email. Thanks @milancurcic for confirming. Yes, it looks like #297 caused it, so that should help in figuring out a fix."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-06 18:27:19+00:00",
+                    "text": "Do any of you also get these emails?\n\nNo, I reduced my GitHub notification emails to the absolute minimum and I'm still getting like ~50 a day. Failing job emails are like 100% noise in my inbox.\nThe issue is that the two-stage workflow for building the build preview will trigger on every comment event in this repository. The first stage will skip if the required phrase is not part of the comment body. But apparently the second stage will always trigger regardless. It either has to check the comment body as well and skip, only get triggered on successful first stage or be able to fail gracefully.\nThis check stops workflows from running in the first stage:\n\n  \n    \n      fortran-lang.org/.github/workflows/buildPRPreview.yml\n    \n    \n         Line 22\n      in\n      66ed1d4\n    \n    \n    \n    \n\n        \n          \n           if: github.event.issue.pull_request && contains(github.event.comment.body,'#build_preview') \n        \n    \n  \n\n\nWhile the event used here seems to always evaluate to a true value\n\n  \n    \n      fortran-lang.org/.github/workflows/commentAndPushPRPreview.yml\n    \n    \n        Lines 24 to 26\n      in\n      66ed1d4\n    \n    \n    \n    \n\n        \n          \n               if: > \n        \n\n        \n          \n                 ${{ github.event.workflow_run.event == 'issue_comment' && \n        \n\n        \n          \n                 github.event.workflow_run.conclusion == 'success' }}"
+                }
+            ]
         },
         {
             "number": 297,
@@ -348,6 +837,31 @@
                     "user": "urbanjost",
                     "date": "2021-07-21 01:16:37+00:00",
                     "text": "Actually, I moved the fpm plugin to plugins.  The link above still works, but I deleted that repository a while ago, and last I remember that means it will actually vanish at some point. I had several things including the platform-independent plugin I wanted to try (particularly useful on MSWIndows which does not typically have the man(1) command unless installed via Cygwin or some form of Linux) and wanted to make a Fortran version of txt2man and so on, and was thinking that putting a group of the man-pages by category out each month on Fortran Discourse or Learn (or ...?) for  group comment/editing might be useful; have been planning on some time of migration to fortran-lang for something like a year and never quite had the time.  If what I have is a useful seed I am open to ideas on how to leverage it for this purpose. The way I have it now lets me just edit plain text and automatically convert it to the M_intrinsics module for use by the plugin and actual man-pages via txt2man(1) which are things I want and have set up (in a very singular way) as a push-button operation, including extracting and building all the example programs in the man pages and I did not want to loose that, but I think having at least the intrinsic descriptions sans vendor extensions (or explicitly marking them as such) is worth pursing and some of this shouldl be usable for that purpose."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-09-05 21:45:41+00:00",
+                    "text": "Is this something I could help with? We need all this information online in a nice modern-looking format with syntax highlighting, links, maybe even diagrams if necessary. So, for that we'd have to abandon the man format. I could take a crack at converting it to markdown.\nNote: FortranWiki and also the Gfortran docs are both GPL (GFDL) I believe. Is that something we want to avoid? Otherwise, we could incorporate some of that as well."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-09-05 21:49:43+00:00",
+                    "text": "Oh I see now that @urbanjost's content is already GFDL since it is already based on those pages."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-06 00:17:50+00:00",
+                    "text": "This is absolutely worth pursuing.\nRegarding the license, I strongly recommend using BSD or MIT for the documentation also. The GFDL has number of issues:\n\nhttps://en.wikipedia.org/wiki/GNU_Free_Documentation_License#Criticism.\nhttps://wiki.debian.org/DFSGLicenses#GNU_Free_Documentation_License_.28GFDL.29\n\nI would like to be able to include such documentation either with LFortran, or (even better) with our (future) VSCode extension where you point your cursor at an intrinsic, hit a button, and it will load documentation for it (locally, so that it can work offline)."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-09-07 04:46:44+00:00",
+                    "text": "The two main approaches would appear to be to make the documentation as nice as possible on the fortran-lang site and then see how to use it from a CLI environment, or to make it useable in a CLI environment and then place it as best as you can on fortran-lang.\nIn this case the approach was primarily the second.  The man-page format is a good one regardless for describing intrinsics, but not the best for providing a description of Fortran in general. But the structure of a man-page is good for describing procedures so\nthis was treated as a special case. Some of the considerations were\nEach vendor supplies a browser-based www description of their intrinsics, but with the descriptions often conflated with their own extensions and/or not including functions they have not implemented yet. So there is room for a complete standard-based description of intrinsics on the web, but there are the mentioned alternatives, and they do include descriptions of extensions, which can be valuable even at the cost of portability.\nThe standard itself is the ultimate description, but is not easily available in a CLI environment and is written to be definitive at the cost of being clear and concise and it is a bit unclear on whether even the last draft can be reused without licensing issues.\nAll of the above rarely contain completely functioning example code.\nmanpages are still in extensive use and still heavily used by C developers, as well as by many other languages.\nSo since the route I took making M_intrinsics and the associated files deserves some explanation, here is some background:\nmanpages are already integrated into a good number of CLI tools; such as vim(1). For example, if editing Fortran code you can place your cursor on a word and hit a capital K and you will be taken to a man-page for that word.\n*roff is still the language used to create a man-page (why on earth the man(1) command does not also support HTML is beyond me).\nAn ideal description could be included as block text in program comments, produce readable output for Ford and Doxygen, be used to generate a man page, be easily converted to HTML, be a simple flat-text or simple markup language that virtually anyone can write without learning *roff or LaTex and be accessible in any Fortran environment, and require little or no additional software installed to be used, and support whatever documentation standard emerges for describing fpm packages and stdlib.\nThe closest to flat text of any markup language is that provided by txt2man, so that man-pages literally look like flat text.  That format is relatively compatible with Ford/Doxygen just be adding a few comments.  So the prep(1) preprocessor allows you to create plain blocks of text that can be written to a file for processing via txt2man(1). Simultaneously it can convert the text to Fortran comments to document the code, and the comments can be massaged to work with Ford/Doxygen (prep(1) still needs some work along those lines).  Although not of the best quality, man-pages can be converted easily to HTML (and many other formats) and served on web servers via several commonly available packages. man-pages can be used on all GNU/Linux and Unix platforms as well as CygWIn.  Since info(1) can read man-pages and automatically produce cross-links to references like sin(1), and the HTML pages generated from man-pages can be used lynx/links/w3m in other CLI environments or by any browser\nthat covers a lot of group.\nThe intrinsic man-pages can then be written as txt2man input files for easy maintenance and then converted to manpages and bundled.  For environments without man(1) or info(1) (note mingw64 contains info(1) but not man(1). Not sure if info(1) can read man-pages if man(1) is not on the platform, but that was the original hope).\nIn addition, since txt2man(1) markup is a matter of context and indenting and whitespace and not special characters it can be used as flat text for a simple utility to display the text on any platform. Along those lines, to create such a utility that requires no other files the markdown files are converted to a format accessible from a Fortran program automatically -- (see the M_intrinsics module, available as an fpm(1) module).  An fpm(1) plugin utility (originally designed to be called directly by fpm(1), actually)  called fpm-man(1) can then be used to easily access the man-pages from ANY Fortran environment, albeit not (currently) with hyperlinks or color).  As long as a certain convention is followed that program can also extract the demo programs in the man-pages.\nSo:\n\nthe documents can be written in a nearly flat-text style.\nThis style can easily be learned and  included in Fortran code using a preprocessor. prep(1) already supports this, and it seems it would be easy to add to fypp(1) as well.\nthe documents can automatically be converted to man-pages; which is still the closest to a standard procedure and command description utility GNU/Linux and Unix has, and the current runner-up is info(1) which can display man-pages\ntools such as vim(1) hook into man-pages\nalmost any GNU/Linux box or Unix box can automatically convert man-pages to HTML or PDF, albeit not of create quality; and HTML is the closest to a lingua-franca that I know of.\na program has been created to allow for displaying the flat-text versions in any Fortran environment, and incorporates an a plug-in to fpm(1).\n\n\nSo the main goals decided on where\nThere is a stronger need for documentation being available on a per-intrinsic basis in CLI environments than as a web document, but there is room for both.\nThere should be a basic CLI interface available in any environment that depends on little or no infrastructure that hooks into fpm(1) as a plug-in.\nThe man-page format is a good one for intrinsics that many people are familiar with even outside of the context of the man(1) command itself.\nAnd of course, this format was already built into my own build process as a way to document my code (essentially everything I write has text blocks in them for documentation purposes (sometimes HTML or LaTex, but mostly txt2man input) that is run through prep(1) or it's big brothers, and I wanted to minimize the effort it would take me!"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-09-07 05:23:22+00:00",
+                    "text": "So I have my own programming environment, but this would let you roughly simulate it on a GNU/Linux box.\nAssuming you have a directory called  \"github\" off your home directory and that the default directory $HOME/.local/ for your fpm(1) prefix is OK and that you have the directory $HOME/.local/pdq in your path, you can create a file anywhere with a Fortran\ncode in it that optionally goes through the prep(1) pre-processor if ending in the \".ff\" suffix that has a manpage in it and uses your favorite fpm(1) packages  (as arbitrarily listed in the script, which would need customized) you can just say \"ff filename.ff\" and you\nhave comments in your code, and a txt2man(1) input file in $HOME/github/man that a simple script processes and creates a manpage and HTML document from.  So your code is documented, you have a manpage for the code, and an HTML version of the manpage built, and your code is built and installed in the test directory in your search path using your favorite fpm(1) dependencies.\nThis was the shortest I could find quickly. So I can write a program with a simple manpage in it as a plain text block, make calls to most POSIX routines via ISO_C_BINDING interfaces, and call a command-line argument parser and build and install my program in my path using fpm(1) like all of that was a standard part of Fortran with a single command. At some point I would like\nus to add something like that via an fpm(1) plugin where stdlib supplies a lot of functions like that, but we need to standardize on how to call different preprocessors,  use fpm(1) as a package that has an API to the backend engine, and so on.  The \"ff\" script shown here is a kluge that needs customized by each user but is just for demonstration purposes. I know it is all possible because I have something similiar (ccall(1)) that I have used for years like it; and I can write a little utility in Fortran faster than I can in python or bash using it.\nprogram demo_system_gethostname\nuse  M_kracken, only : kracken, lget\nuse M_system, only : system_gethostname\nimplicit none\ncharacter(len=:),allocatable :: name\ninteger                      :: ierr\n   call kracken('hostname','-help .F. -version .F.')\n   call help_usage(lget('hostname_help'))\n   call help_version(lget('hostname_version'))\n   call system_gethostname(name,ierr)\n   write(*,'(a)')name\ncontains\n$BLOCK HELP -file _hostname.1.man\nNAME\n    _hostname(1f) - [FUNIX] display hostname\n    (LICENSE:PD)\nSYNTAX\n    _hostname [ -help|-version]\nDESCRIPTION\n    Calls system_gethostname(3f), which calls get_hostname(3c) to determine\n    the current host name.\nOPTIONS\n       --help     display this help and exit\n       --version  output version information and exit\nEXAMPLE\n   Sample execution:\n\n    >_hostname\n    >buzz\n$BLOCK END\n$!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n$BLOCK VERSION\nPRODUCT:        GPF (General Purpose Fortran) utilities and examples\nPROGRAM:        _hostname(1f)\nDESCRIPTION:    print hostname\nVERSION:        1.0, 2016-12-01\nAUTHOR:         John S. Urban\nREPORTING BUGS: http://www.urbanjost.altervista.org/\nHOME PAGE:      http://www.urbanjost.altervista.org/index.html\nLICENSE:        Public Domain. This is free software: you are free to change and redistribute it.\n                There is NO WARRANTY, to the extent permitted by law.\n$BLOCK END\nend program demo_system_gethostname\n#!/bin/bash \n#@(#) given a source file for a program build it with preprocessing via prep(1) default list of packages and install\n\n###############################################################################\nexport FF_DIR=$HOME/github/ff_cache\nexport PREFIX=$HOME/.local\nexport BINDIR=pdq\nexport PREP_DOCUMENT_DIR=${PREP_DOCUMENT_DIR:-$HOME/github}\n#export PREP_COMMENT_STYLE=ford\n###############################################################################\nSHORT(){\ncase \"${1}\" in\n *.f90) SHORTNAME=$(basename $1 .f90) ;;\n *.ff)  SHORTNAME=$(basename $1 .ff)  ;;\n *.FF)  SHORTNAME=$(basename $1 .FF)  ;;\n *.F90) SHORTNAME=$(basename $1 .F90) ;;\n *.c)   SHORTNAME=$(basename $1 .c)   ;;\n *)     SHORTNAME=$(basename $1) ;;\nesac\n}\n###############################################################################\nNEWTOML(){\ncat >$FF_DIR/fpm.toml <<EOF\n# TOML file for fpm as described at https://github.com/fortran-lang/fpm/blob/master/manifest-reference.md\nname = \"fpm_cache\"\nversion = \"0.1.0\"\nlicense = \"MIT\"\nauthor = \"John S. Urban\"\nmaintainer = \"urbanjost@comcast.net\"\ncopyright = \"2020 John S. Urban\"\ndescription = \"compiled by fpm(1)\"\ncategories = [\"General Purpose Fortran\"]\nkeywords = [\"fortran\", \"fpm\" ]\nhomepage = \"https://github.com/urbanjost\"\n\n[install]\n#library=\"false\"\nlibrary=false\n\n# this is used because changing the package name causes a rebuild of dependencies\n# and editing or replacement of the build/cache.toml file\n[[executable]]\nname=\"$SHORTNAME\"\nsource-dir=\"app\"\nmain=\"$MAIN\"\n\n[dependencies]\nM_args        =  {  git  =  \"https://github.com/urbanjost/M_args.git\"        }\nM_CLI2        =  {  git  =  \"https://github.com/urbanjost/M_CLI2.git\"        }\nM_CLI         =  {  git  =  \"https://github.com/urbanjost/M_CLI.git\"         }\nM_kracken95   =  {  git  =  \"https://github.com/urbanjost/M_kracken95.git\"   }\nM_kracken     =  {  git  =  \"https://github.com/urbanjost/M_kracken.git\"     }\n\nM_draw        =  {  git  =  \"https://github.com/urbanjost/M_draw.git\"        }\nM_history     =  {  git  =  \"https://github.com/urbanjost/M_history.git\"     }\n#M_intrinsics  =  {  git  =  \"https://github.com/urbanjost/M_intrinsics.git\"  }\nM_io          =  {  git  =  \"https://github.com/urbanjost/M_io.git\"          }\nM_LA          =  {  git  =  \"https://github.com/urbanjost/M_LA.git\"          }\nM_list        =  {  git  =  \"https://github.com/urbanjost/M_list.git\"        }\nM_msg         =  {  git  =  \"https://github.com/urbanjost/M_msg.git\"         }\nM_process     =  {  git  =  \"https://github.com/urbanjost/M_process.git\"     }\nM_sort        =  {  git  =  \"https://github.com/urbanjost/M_sort.git\"        }\nM_strings     =  {  git  =  \"https://github.com/urbanjost/M_strings.git\"     }\nM_system      =  {  git  =  \"https://github.com/urbanjost/M_system.git\"      }\nM_time        =  {  git  =  \"https://github.com/urbanjost/M_time.git\"        }\n\n#M_messages    =  {  git  =  \"https://github.com/urbanjost/M_messages.git\"    }\n#M_stopwatch   =  {  git  =  \"https://github.com/urbanjost/M_stopwatch.git\"   }\n#M_random      =  {  git  =  \"https://github.com/urbanjost/M_random.git\"      }\n#M_math        =  {  git  =  \"https://github.com/urbanjost/M_math.git\"        }\n#M_regex       =  {  git  =  \"https://github.com/urbanjost/M_regex.git\"       }\nEOF\n}\n################################################################################\nDISPLAY(){\ncat <<EOF\n================================================================================\n   NAME       $NAME\n   SHORTNAME  $SHORTNAME\n   MAIN       $MAIN\n   TOML       $(grep $SHORTNAME $FF_DIR/fpm.toml|xargs)\n   INSTALL    fpm install $OPTS --prefix $PREFIX --bindir $BINDIR --verbose\n   OPTS       $OPTS\n================================================================================\ntree $FF_DIR\n#read PAWS\nEOF\n}\n################################################################################\nDISPLAY(){\ncat <<EOF\n================================================================================\n   NAME       $NAME\n   INSTALL    fpm install $OPTS --prefix $PREFIX --bindir $BINDIR --verbose\n================================================================================\ntree $FF_DIR\n#read PAWS\nEOF\n}\n################################################################################\nNAMES=''\nOPTS=''\nfor NAME in $*\ndo\nif [ -e $NAME ] \nthen\n   NAMES=\"$NAME $NAMES\"\nelse\n   OPTS=\"$OPTS $NAME\"\nfi\n################################################################################\ndone\ncase \"$OPTS\" in\n*-profile*);;\n*) OPTS=\"$OPTS --profile release\" ;;\nesac\n################################################################################\nfor NAME in $NAMES\ndo\n   SHORT $NAME\n   if [ ! -d $FF_DIR ]\n   then\n      fpm new -app $FF_DIR\n      rm $FF_DIR/app/main.f90\n   fi\n   case \"$NAME\" in\n   *.ff)  MAIN=$SHORTNAME.f90;prep -D TESTPRG90 -i $NAME -o $FF_DIR/app/$MAIN;;\n   *.FF)  MAIN=$SHORTNAME.F90;prep -D TESTPRG90 -i $NAME -o $FF_DIR/app/$MAIN -system;;\n   *.F90) MAIN=$SHORTNAME.F90;cp $NAME $FF_DIR/app/$MAIN;;\n   *.f90) MAIN=$SHORTNAME.f90;cp $NAME $FF_DIR/app/$MAIN;;\n   *.c)   MAIN=$SHORTNAME.c;cp $NAME $FF_DIR/app/$MAIN;;\n   esac\n   if  test ! -f \"$FF_DIR/app/$MAIN\"\n   then\n      echo file \"<ERROR> $FF_DIR/app/$MAIN is not a file\"\n   fi\n   if  test ! -s \"$FF_DIR/app/$MAIN\"\n   then\n      echo file \"<ERROR> $FF_DIR/app/$MAIN has no length\"\n   fi\n   NEWTOML\n   DISPLAY\n   (\n      cd $FF_DIR\n      fpm install $OPTS --prefix $PREFIX --bindir $BINDIR --verbose\n      rm $FF_DIR/app/$MAIN\n      rm -f $FF_DIR/app/*\n   )\ndone\n################################################################################\nexit\n################################################################################"
                 }
             ]
         },
@@ -1444,6 +1958,41 @@
                     "user": "milancurcic",
                     "date": "2021-06-28 22:39:18+00:00",
                     "text": "Thank you @brianconcannon2, I just added you as a reviewer."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-04 13:13:18+00:00",
+                    "text": "This patch has become stale for quite some time now. Since we already put quite some effort into it I would like to move it forward.\nPicking this project up again requires quite some time and energy and I only see two minor comments to address so far. Generally I think for a huge patch like this it would be useful to provide comments in Files Changed preferably together with a suggestion. Also, we don't need a complete review of the whole minibook, reviewing a chapter at a time should be sufficient to get this project moving again."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-04 15:46:23+00:00",
+                    "text": "If we are all more or less ok with how it looks, then I suggest we simply merge it and be done with it.\nThen we can start sending many subsequent PRs to fix up little things that we find."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-09-04 16:01:43+00:00",
+                    "text": "I agree, it would take a long time to review and edit such a large PR. Case in point, I still haven't reviewed it. Let's just merge it and improve with smaller PRs, as @certik suggested."
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-09-04 17:16:49+00:00",
+                    "text": "I agree with @certik and @milancurcic ,\nonce online, it will be easier to review it (and by more people once announced on the Discourse), and I think we will gain a new motivation for that task, knowing it's online!"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-05 09:34:22+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-09-05 09:34:43+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-05 09:34:53+00:00",
+                    "text": "Alright, than I'll go ahead and merge this PR. Thanks everybody for the effort put into this project."
                 }
             ]
         },
@@ -2117,6 +2666,16 @@
                     "user": "vmagnin",
                     "date": "2021-04-22 12:40:10+00:00",
                     "text": "This Curlie directory (the historical DMOZ reborn) list a few pages with stuff related to Fortran history:\nhttps://www.curlie.org/en/Computers/Programming/Languages/Fortran/History\nAnd especially this page:\nhttp://www.softwarepreservation.org/projects/FORTRAN/"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-29 11:47:35+00:00",
+                    "text": "Related discussion at Fortran Discourse: History of Fortran (Fortran II source code)"
+                },
+                {
+                    "user": "vmagnin",
+                    "date": "2021-09-29 16:43:36+00:00",
+                    "text": "Another discussion:\nhttps://fortran-lang.discourse.group/t/john-backus-1924-2007-fortrans-father/873\nAnd there could be historical things in https://fortran-lang.discourse.group/t/anecdotal-fortran/704\nand https://fortran-lang.discourse.group/t/boz-constants-but-why-z/981"
                 }
             ]
         },
@@ -3462,6 +4021,11 @@
                     "user": "arjenmarkus",
                     "date": "2021-06-21 11:49:26+00:00",
                     "text": "Re 4: yes, that is true, it should be 4.0_dp. I prefer to be explicit about\nthe \"real\" character, so that 4/3 * pi * radius**3 or the like does not\ngive surprising results.\n\nRe size: I prefer the longer version, because then I do not have to look up\nwhat the dimensions were - and to avoid misreading them ;).\n\nBut I can live with the short version too. Picking nits is a wonderful\npastime, but it is also nice to actually produce things.\n\nOp ma 21 jun. 2021 om 13:43 schreef Ond\u0159ej \u010cert\u00edk ***@***.***\n\u2026\n:\n Btw, using 4.0 would give wrong answers, you want to use 4.0_dp. I prefer\n 4, because it is shorter, but I am fine with either.\n\n Yes, we can do do i = 2, size(u)-1, although it's longer, so for cases\n like this, I usually prefer to use the variable N as it is shorter.\n\n \u2014\n You are receiving this because you were mentioned.\n Reply to this email directly, view it on GitHub\n <#174 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR6PRHZF7GBV5DYWKH3TT4QU5ANCNFSM4UMBJH2Q>\n ."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-09-05 14:31:43+00:00",
+                    "text": "I really like the https://www.python.org one, where they have a 5 very short examples.\nTheir \"launch interactive shell\" is also amazing.... maybe one day with LFortran we could have that too!"
                 }
             ]
         },

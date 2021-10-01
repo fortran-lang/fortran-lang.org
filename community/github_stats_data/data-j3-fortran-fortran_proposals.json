@@ -2,6 +2,157 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 232,
+            "user": "Beliavsky",
+            "date": "2021-09-29 15:58:30+00:00",
+            "title": "Format similar to f0.d but with a leading zero",
+            "text": "I wish there were a format similar to f0.d for real numbers, maybe z0.d or fz0.d, that printed a leading zero for abs(x) < 1, so that\nwrite (*,\"(*(1x,z0.2))\") 0.34,-0.34\ngave\n0.34 -0.34\ninstead of\n.34 -.34\nI think it is generally recommended to use a leading zero to increase legibility and avoid errors where the decimal point is not noticed. I often use the f0.d format, but if z0.d existed, I would always use it instead. The z0.d format sometimes produces longer output, but most people who need small output files are not storing their results as plain text.",
+            "comments": []
+        },
+        {
+            "number": 231,
+            "user": "abensonca",
+            "date": "2021-09-27 20:33:05+00:00",
+            "title": "Finalization of class arrays; interpretation of standards",
+            "text": "I'm working (with much help from Paul Thomas) on adding finalization on intrinsic assignment to gfortran. There are a few instances where I'm unclear on precisely what is required by the standard, so would be very grateful for any insight any one here can offer.\nThis example considers finalization of a class array:\nmodule testmode\n  implicit none\n\n  character(4) :: scope = \"MAIN\"\n\n  logical, parameter :: instrument = .false.\n\n  type :: simple\n    character(4) :: scope\n    integer :: ind\n  contains\n    final :: destructor1, destructor2\n  end type simple\n\n  type, extends(simple) :: complicated\n    real :: rind\n  contains\n    final :: destructor3, destructor4\n  end type complicated\n\n  integer :: check_scalar\n  integer :: check_array(4)\n  real :: check_real\n  real :: check_rarray(4)\n  integer :: final_count = 0\n\ncontains\n\n  subroutine destructor1(self)\n    type(simple), intent(inout) :: self\n    print *, \"destructor1(\", self%scope, \") \", self%ind\n  end subroutine destructor1\n\n  subroutine destructor2(self)\n    type(simple), intent(inout) :: self(:)\n    print *, \"destructor2(\", self(1)%scope, \") \", self%ind\n  end subroutine destructor2\n\n  subroutine destructor3(self)\n    type(complicated), intent(inout) :: self\n    print *, \"destructor3(\", self%scope, \") \", self%rind\n  end subroutine destructor3\n\n  subroutine destructor4(self)\n    type(complicated), intent(inout) :: self(:)\n    if (size(self, 1) .gt. 0) then\n      print *, \"destructor4(\", self(1)%scope, \") \", size(self%rind), self%rind\n    else\n      print *, \"destructor4\"\n    end if\n  end subroutine destructor4\n\n  function constructor1(ind) result(res)\n    type(simple), allocatable :: res\n    integer, intent(in) :: ind\n    scope = \"CTR1\"\n    allocate (res, source = simple (\"SOUR\", ind))\n    res%scope = scope\n  end function constructor1\n\n  function constructor2(ind, rind) result(res)\n    class(simple), allocatable :: res(:)\n    integer, intent(in) :: ind(:)\n    real, intent(in), optional :: rind(:)\n    type(complicated), allocatable :: src(:)\n    integer :: sz\n    integer :: i\n    scope = \"CTR2\"\n    if (present (rind)) then\n      sz = min (size (ind, 1), size (rind, 1))\n      src  = [(complicated (\"SOUR\", ind(i), rind(i)), i = 1, sz)]\n      allocate (res, source = src)\n      src%scope = \"SRC \"\n      res%scope=scope\n    else\n      sz = size (ind, 1)\n      allocate (res, source = [(simple (scope, ind(i)), i = 1, sz)])\n    end if\n  end function constructor2\nend module testmode\n\nprogram test_final\n  use testmode\n  implicit none\n\n  class(simple), allocatable :: MyClassArray(:)\n\n! *****************\n! Class assignments\n! *****************\n\n  allocate (MyClassArray, source = [complicated(scope, 1, 2.0),complicated(scope, 3, 4.0)])\n  print *, \"[3] ...until here. Both call the rank-1 finalizer for the extended &\n            type but ifort calls the rank-0 finalizer for the parent type, while &\n            gfortran uses the rank-1 finalizer.\"\n  deallocate (MyClassArray)\nend program test_final\n\nWith gfortran (including the patches for finalization on intrinsic assignment that I'm working on), this results in:\n [3] ...until here. Both call the rank-1 finalizer for the extended type but ifort calls the rank-0 finalizer for the parent type, while gfortran uses the rank-1 finalizer.\n destructor4(MAIN)            2   2.00000000       4.00000000    \n destructor2(MAIN)            1           3\n\nwhich shows that, when deallocating 'MyClassArray', the rank-1 finalizer for the extended type 'complicated' is called, and then the rank-1 finalizer for the parent type 'simple' is called.\nBut, under ifort I get:\n [3] ...until here. Both call the rank-1 finalizer for the extended type but ifo\n rt calls the rank-0 finalizer for the parent type, while gfortran uses the rank\n -1 finalizer.\n destructor4(MAIN)            2   2.000000       4.000000    \n destructor1(MAIN)            1\n destructor1(MAIN)            3\n\nshowing that the rank-1 finalizer is called for the extended type, but then the scalar finalizer of the parent type is called twice, once for each element in the array.\nifort's behavior seems incorrect here (based on my reading of the F2018 standards), but I'd be interested to hear anyone's opinion on this.\nThanks,\nAndrew",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-27 21:35:32+00:00",
+                    "text": "Hi @abensonca thanks for your work on gfortran and for asking here. Is your question the same as #146, or different?"
+                },
+                {
+                    "user": "abensonca",
+                    "date": "2021-09-27 21:43:22+00:00",
+                    "text": "Hi @certik - I read through #146 and I don't think my question here is the same issue. In this case I'm not concerned about the order of the finalization. Instead my concern is whether it is ever correct to call a non elemental scalar finalizer subroutine on elements of a rank-1 derived-type array? The Intel compiler is doing this - it calls a rank-1 finalizer on the extended type of the array, but then calls a (non-elemental) scalar finalizer on the parent type of each element of the array. This seems wrong to me."
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2021-09-27 22:06:11+00:00",
+                    "text": "I think Intel's behavior is incorrect as well.  The process described in paragraph 7.5.6.2 (3) essentially recurses to (1), and I'm not aware of any other place in the standard that speaks to this.\nI compiled your example with the NAG 7.0 compiler and it behaves like you've described for gfortran."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-09-27 22:17:43+00:00",
+                    "text": "@abensonca (repeating what I wrote to you on Discourse) - the answer is that no, a non-ELEMENTAL final subroutine with a scalar argument should not be called elementally, and so ifort is broken.  (And an ELEMENTAL final subroutine should be called only when there's no other final subroutine with a matching rank.)\nThis applies at each level of typing, so if a parent type has (say) a rank-1 final subroutine, and an extension of that derived type has only an ELEMENTAL final subroutine, then a vector of the extended type will be finalized by calling the extended type's final subroutine for each element, and then the parent's final procedure will be called (once) for the parent component of the vector."
+                },
+                {
+                    "user": "abensonca",
+                    "date": "2021-09-27 22:27:39+00:00",
+                    "text": "Thanks @nncarlson and @klausler for your help on this."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-09-28 16:38:02+00:00",
+                    "text": "@abensonca wrote Sep 27, 2021 4:33 PM EDT:\n\nifort's behavior seems incorrect here (based on my reading of the F2018 standards), but I'd be interested to hear anyone's opinion on this.\n\nFor whatever it's worth and I'm open to being proved wrong on this: I think Intel Fortran's finalization process toward the code in the original post vis-a-vis the standard is entirely acceptable.\nNote the standard is (purposefully I think) not prescriptive when it comes to the finalization process, there is a desired end state of a finalized entity in the standard even as it is not clearly spelled out.  Nonetheless the standard effectively permits the processors multiple pathways to arrive at that end state.  Comparison of those pathways, which is what the original post attempts, is not particularly meaningful in this context, at least as the standard is currently written.\nSection 7.5.6.2 The finalization process in 18-007r1 document toward the 2018 standard by and large gives a lot of leeway to the processor and there are no numbered rules or constraints in this section enforcing the program or processor behavior.\nTaking into consideration the first paragraph in section 7.5.6.2 and the numbered bullets therein in conjunction with section 7.5.7 on type extension, a fair argument can be made the finalization process in the following code is analogous to the one in the original post:\nmodule m\n   type :: a_t\n   contains\n      final :: f_a_r0\n   end type\n   type :: b_t\n      type(a_t) :: a\n   contains\n      final :: f_b_r0, f_b_r1\n   end type \ncontains\n   subroutine f_a_r0( a )\n      type(a_t), intent(inout) :: a\n      print *, \"finalizer rank-0 a_t\"\n   end subroutine \n   subroutine f_b_r0( b )\n      type(b_t), intent(inout) :: b\n      print *, \"finalizer rank-0 b_t\"\n   end subroutine \n   subroutine f_b_r1( b )\n      type(b_t), intent(inout) :: b(:)\n      print *, \"finalizer rank-1 b_t\"\n   end subroutine \nend module\n   use m\n   block\n      type(b_t) :: foo(3)\n   end block\nend \nAnd for this, a standard-conforming processor can be expected to yield the following program behavior:\n\nC:\\Temp>ifort /standard-semantics f.f90\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.3.0 Build 20210609_000000\nCopyright (C) 1985-2021 Intel Corporation.  All rights reserved.\nMicrosoft (R) Incremental Linker Version 14.29.30038.1\nCopyright (C) Microsoft Corporation.  All rights reserved.\n-out:f.exe\n-subsystem:console\nf.obj\nC:\\Temp>f.exe\nfinalizer rank-1 b_t\nfinalizer rank-0 a_t\nfinalizer rank-0 a_t\nfinalizer rank-0 a_t\n\nas does Intel Fortran and NAG Fortran (though not gfortran**).\nOstensibly the 2 processors in this case simply follow the steps in section 7.5.6.2 and there is no argument to be made about any processor nonconformance with the simple code here.  The key sentences in the standard are \"If the entity being finalized is an array, each finalizable component of each element of that entity is finalized separately\" followed by \"If the entity is of extended type and the parent type is finalizable, the parent component is finalized\"\nAnd what Intel Fortran does with the code in the original post is consistent with this and I think it is conformant with the standard.\n** gfortran has gaps when it comes to finalization of nonallocatable but finalizable objects, the code here is an example of this.\n@abensonca, you may be interested in including this case in your work."
+                },
+                {
+                    "user": "abensonca",
+                    "date": "2021-09-28 16:41:23+00:00",
+                    "text": "@FortranFan That does seem like a reasonable interpretation of the standard. And thanks for pointing out the limitation of gfortran with finalizing non-allocatable objects - I'll add this to my test cases and see if it's possible to fix this behavior."
+                }
+            ]
+        },
+        {
+            "number": 230,
+            "user": "ivan-pi",
+            "date": "2021-09-24 11:55:32+00:00",
+            "title": "Proposal web-page generation (meta)",
+            "text": "Looking at some recent (self-hosted) proposals to the C++ standard library, e.g. P1935R0 A C++ Approach to Physical Units, there appears to be a template available to generate a nicely styled webpage.\nDoes the current proposal format allow something like to be done already? Perhaps if proposals were written in Markdown or Restructured Text, a tool could be built that would 1) output a simply txt file proposal as expected by the committee, and 2) generate a HTML webpage.\nDisadvantages:\n\ninvolves more tools, making the process more complicated\ncould introduce bias, with proposals that are \"pretty\"-formatted receiving more attention (or vice versa)\n\nAdvantages:\n\ndocument layout (headings, sections, etc.) help guide the eye\nhyper-links actually work\nformatted code snippets\npossible to include images, diagrams and other content which can be displayed by a browser",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-24 13:38:08+00:00",
+                    "text": "Great idea indeed. Then we can setup a CI in this repository that accepts Markdown + some metadata, there are several options, here is one alternative:\n\nhttps://gitlab.com/lfortran/web/www.lfortran.org/-/raw/8e9b73fe1ae12ae1d1b01ac4ecddd9f0149c3999/content/blog/lfortran-mvp.md\n\nYou can see the metadata at the top. Then we process it and report any errors. If the tool \"accepts\" it, then it can exactly generate the txt proposal to be uploaded at: https://j3-fortran.org/doc/meeting in the expected format. And it can also then process it and generate a nice html proposal for easy reading."
+                }
+            ]
+        },
+        {
+            "number": 229,
+            "user": "dalon-work",
+            "date": "2021-09-22 10:43:44+00:00",
+            "title": "Add keyword to support inlining across modules",
+            "text": "The idea is pretty simple: Allow marking public module functions/subroutines with a keyword such as 'inline' or 'export'. This requires the compiler to place the implementation, and not just the interface of the subroutine in the binary module file. Modules that use this 'inlined' module will be able to see the implementation of the subroutine and potentially inline it. The decision to inline or not is left up to the compiler.\nThis would replace many uses of #include for performance reasons, and would have the greatest benefits for small functions where the function call overhead is comparable to the actual work of the function.\nThis would give us the benefits of modules, while still allowing an important optimization that fortran currently misses, and removing a preprocessor peril.\nYou could argue that Link-Time Optimization has already made this idea obsolete, but I'm not convinced LTO has become ubiquitous?\nThoughts?",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-09-22 14:54:26+00:00",
+                    "text": "On this theme, LFortran currently places all implementations in the mod file, precisely so that they can be inlined later on. I strongly suspect inlinging at link time is too late, I think the best way is to inline at the \"Fortran level\". I don't know yet however if it is sustainable to include all implementations in the mod file, or whether we should only include those that the user selects using the \"inline\" keyword (alternatively the compiler could always include just those functions that are candidates for inlining, skipping large functions). But I will know the answer once we can compile large production codes, probably in a year or so."
+                }
+            ]
+        },
+        {
+            "number": 228,
+            "user": "Beliavsky",
+            "date": "2021-09-10 15:53:13+00:00",
+            "title": "Make passing an intent(in) argument to a procedure with unspecified intent obsolescent",
+            "text": "Compilers do not warn you if you pass an intent(in) argument as an argument with unspecified intent to another procedure. This allows you to inadvertently write code where an intent(in) argument changes its value within a procedure, for example\nmodule m\nimplicit none\ncontains\nsubroutine foo(i)\ninteger, intent(in) :: i\ncall increment(i)\nend subroutine foo\n\nsubroutine increment(i)\ninteger :: i\n! integer, intent(in out) :: i ! will not compile if this line uncommented\ni = i+1\nend subroutine increment\nend module m\n\nprogram main\nuse m, only: foo\nimplicit none\ninteger :: i\ni = 3\ncall foo(i)\nprint*,i ! gives output 4\nend program main \n\nI suggest that passing an intent(in) variable to a procedure as an argument that is not intent(in) be made obsolescent, so that compilers will warn about this. The user could add intents where needed, make copies of intent(in) arguments passed to procedures without intents, or ignore or turn off the warning. There is much modern Fortran code with intents that calls Fortran 77 code without intents, so making it illegal will not be feasible for a long time.\nFor pure and elemental procedures, the language is strict. A pure procedure can only call procedures that are declared pure or elemental. It is not enough that those procedures satisfy the properties of pure procedures. I am suggesting that the requirements for intent(in) be similarly strengthened. This idea has been discussed on Fortran Discourse.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-09-10 22:37:10+00:00",
+                    "text": "There is a distinction to be made between procedures with explicit interfaces and no INTENT vs. procedures with implicit interfaces.  The \"Fortran 77 code without intents\" that you mention are procedures with implicit interfaces, not procedures with explicit interfaces and no INTENT."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-11 17:48:57+00:00",
+                    "text": "As @klausler said, I always call F77 code by writing an explicit interface and specify intent. Then I think there is no problem and even old code will work with the above proposed warning on."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-09-20 17:06:52+00:00",
+                    "text": "If it was up to me Fortran would:\n\nrequire intent to be specified for all dummy arguments\nnot allow routines without explicit interfaces (i.e., all routines must be in modules or have an interface specified)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-09-20 18:48:50+00:00",
+                    "text": "Thanks @jacobwilliams. Added both into https://gitlab.com/lfortran/lfortran/-/issues/450. I think this can be fixed by a compiler simply giving an error. I bet a lot of people would enable such a mode even by default. (Obviously one could turn it off.)"
+                }
+            ]
+        },
+        {
+            "number": 227,
+            "user": "klausler",
+            "date": "2021-09-09 21:02:34+00:00",
+            "title": "Minor: missing constraint on END INTERFACE generic-spec (R1504)",
+            "text": "(I found the thing that I had thought was an omitted constraint in the standard, so never mind.)",
+            "comments": []
+        },
+        {
+            "number": 226,
+            "user": "sblionel",
+            "date": "2021-09-03 18:29:50+00:00",
+            "title": "Deprecate D edit descriptor",
+            "text": "The D format edit descriptor is a relic of the original (1957) FORTRAN, where DOUBLE PRECISION was a distinct datatype from REAL. It no longer serves a useful purpose, and was not extended when variants of the E descriptor (Ew.dEe, EN, ES) were added, so there is already an asymmetry. The various E edit descriptors can be used for all REAL kinds.\nI propose adding the D edit descriptor to the Obsolescent list for 202Y. This would not affect the use of D as an exponent letter in literal constants or in formatted input.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2021-09-07 17:02:01+00:00",
+                    "text": "All of the six Fortran compilers to which I have access emit 0.10D+09 for PRINT '(D10.2)', 1.0D8.  Other output forms would be conforming (0.10E+09, 0.10+009) but that's what you get today.\nQ format output editing is a thing in XLF, and it's just like D except for the letter that comes out before the exponent.  You don't have to worry about deprecating it (obviously) but maybe it exists because some users like to see visual cues of precision in the output of some programs.\nWhile you're at this, consider also deprecating or deleting 0.10+009 (with no E or D) as a conforming option for the output of (Ew.d) (no Ee).  I can't find an implementation that emits it, and it may be an truly dead aspect of the language."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-09-07 17:19:02+00:00",
+                    "text": "No, 0.10+009 would not be standard-conforming. The standard specifies omitting the exponent letter only if the decimal exponent is between 100 and 999. This could not be deprecated, unless you wanted to introduce an incompatible change in behavior (such as filling the field with asterisks.) It's also not a syntax term that could be deprecated. But see also https://j3-fortran.org/doc/year/21/21-172.txt\n(Intel Fortran currently has a bug where it will emit .10+009 for that value with an E0.2E3 format, and similar any time w=0. I reported it.)\nQ as an edit descriptor has different meanings across compilers. In the DEC-heritage compilers it is used during input and transmits the number of remaining characters in the record to the next list item."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-09-07 17:42:35+00:00",
+                    "text": "Please refer to table 13.1 in Fortran 2018; the part for \"Dw.d\" allows \"D+zz\", \"E+zz\", or \"+0zz\" when ABS(exp)<=99.  At least in my PDF."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-09-07 17:58:19+00:00",
+                    "text": "Ah, right - somehow I overlooked that. I haven't ever seen an implementation choose that."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-09-08 23:47:44+00:00",
+                    "text": "I suppose it would be feasible to remove that alternate form from the standard - we have changed behaviors before. It wouldn't invalidate any existing programs, but compilers claiming to support the new standard simply wouldn't emit that form (not that I think any do now.)"
+                }
+            ]
+        },
+        {
             "number": 225,
             "user": "FortranFan",
             "date": "2021-08-26 03:47:41+00:00",
@@ -209,6 +360,11 @@
                     "user": "klausler",
                     "date": "2021-08-19 17:40:27+00:00",
                     "text": "module mySizeModule\n contains\n  pure integer function mySize(x)\n    class(*), dimension(..), intent(in), optional :: x\n    mySize = -1\n    if (present(x)) mySize = size(x)\n  end function\nend module\n\nuse mySizeModule\ninteger, allocatable :: a(:), b(:)\nallocate(a(10))\nprint *, mySize(a), mySize(b)\nend"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-09-01 16:04:46+00:00",
+                    "text": "Since one person has objected and no one has supported this idea, and since it has been shown how a generic function can be written to produce the requested behavior, I am closing the issue and withdrawing my proposal."
                 }
             ]
         },
@@ -228,6 +384,11 @@
                     "user": "FortranFan",
                     "date": "2021-07-31 19:49:37+00:00",
                     "text": "@jacobwilliams wrote July 31, 2021 11:58 AM EDT:\n\nI don't understand quite how this differs from #90. By \"eliminate implicit typing\" I mean that any variables not explicitly declared (or declared by implicit double precision (a-h), etc. in any context would be a syntax error. Is that not what this is?\n\nThis proposal differs in the sense it tries to be very specific and it strives to state what exactly is meant, and what particular aspect(s) in the Fortran standard will be addressed for improvement.\nSure the original post in this thread does not get into the fully detailed mode but that is intentional; ultimately, such effort will be completed by the Fortran standards committee no matter what.\nNonetheless the words in this original post here are an attempt with a \"sharpened pencil\" beyond \"one-liners\", intended both to convey scope and benefits better and to allay concerns."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-09-20 16:56:17+00:00",
+                    "text": "Ah, I see what you are saying now (based on your comments here. What you are calling \"implicit mapping\" here, I was calling \"implicit typing\" in #90. I never proposed getting rid of the implicit statements (I don't think that's a good idea and will never happen anyway). So, this is the same thing I was proposing."
                 }
             ]
         },
@@ -259,7 +420,13 @@
             "date": "2021-07-14 12:01:43+00:00",
             "title": "Add INTRINSIC module nature to the index.",
             "text": "This is a proposal of a minor edition to the index, which I am aware is nonnormative material (but very useful).\nAll references are to N2184, although the same issue exists in the current standard.\nINTRINSIC is an attribute, a statement, and a module-nature (see R1410).\nAt the moment, both the INTRINSIC attribute and the INTRINSIC statement have entries in the index, but the INTRINSIC module-nature does not appear in the index at all.\nThe only other module-nature allowed, \"NON_INTRINSIC\", has an entry in the index, pointing to the page that contains R1410.  The same is true for \"module-nature (R1410)\".\nI think that, for consistency and completeness, there should be an \"INTRINSIC module nature\" entry in the index, pointing to R1410 (with the page number in boldface).",
-            "comments": []
+            "comments": [
+                {
+                    "user": "sblionel",
+                    "date": "2021-09-03 18:45:43+00:00",
+                    "text": "To close this out - email sent to @jme52  back in July:\nHi Jos\u00e9,\nI had a discussion on this with Malcolm Cohen, the standard's editor. He is not in favor of indexing \"intrinsic module\" as it appears almost 500 places in the standard. He proposed instead that he would index:\nINTRINSIC module nature\nNON_INTRINSIC module nature\nwhich I think would accomplish what you want."
+                }
+            ]
         },
         {
             "number": 214,
@@ -5493,6 +5660,11 @@
                     "user": "klausler",
                     "date": "2021-08-27 17:27:22+00:00",
                     "text": "Settle on the semantics, then pick the symbol.  You have lots of options there (incl. \u201c..\u201d which would look pretty intuitive IMO, e.g. `complicatedArray(indices(:)) = .. + 1.0`)."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-09-02 21:56:41+00:00",
+                    "text": "Some further thought about the use of a special symbol (say .. here) to represent the entire previous value of the left-hand side of an assignment-stmt is leading me to think that it would be a worthwhile feature to consider.\n\nIt handles the original important use case of +=, as x = .. + y.\nIt works for any operator, including division, concatenation, logicals, and user-defined dyadics, without ambiguity.\nIt allows reversed operations (subtract from, divide into, prepend).\nIt works as well for operations that are not operators, including subscripts (ints(:) = permute(..)), function reference actual arguments, and even designators.\nIt allows for multiple occurrences of the left-hand side variable on the right-hand side.\nIt could/should be defined to work for left-hand side variables that ASSOCIATE can't handle (viz., vector-valued subscripts & coindexed variables).\nIt looks (to me) less likely than += to imply atomicity to the naive reader.\nIt would allow for the use of parentheses to control rounding and perhaps prevent the use of FMA (x = (.. * y) + z)."
                 }
             ]
         },
@@ -6461,6 +6633,11 @@
                     "user": "urbanjost",
                     "date": "2020-11-03 01:45:11+00:00",
                     "text": "When I think of all the capabilities available in READ() including list-directed and implied DO constructs if there were some equivalent of a \"here\" document in Fortran it woud allow for inputting small arrays but also text blocks without having to use continuation characters and quotes as well.\ninteger :: a(3,4) <<< read(*,*)(a(i,j),i=1,3,j=1,4)\n   1  2   3   4\n   5  6   7   8\n   9  10  11  12\n>>>\n\ncharacter(len=:),allocatable :: text(:) <<< read(*,'(a)')text\n   This is the help text\n   for my\n   program\n>>>\n\nAlmost no new syntax, useful for small arrays but maybe more so for text; would be really nice to have some kind of block comment too, maybe just\n<<<\n   a block of\n   text\n>>>"
+                },
+                {
+                    "user": "elecprog",
+                    "date": "2021-09-13 07:10:39+00:00",
+                    "text": "Maybe we could take some inspiration from the syntax introduced in Julia v1.7 (see NEWS.md).\nA first thing to note in Julia's case, [1, 2, 3] is a (column) vector (in Fortran terms dimension(3)) and [1 2 3] is a row vector (in Fortran terms dimension(1, 3)).\nA ; concatenates in the column direction, i.e. [1; 2; 3] == [1, 2, 3]. Since v1.7 this idea is extended to repeated semicolons concatenating in the next dimension, thus [1;; 2;; 3] == [1 2 3] (the row is the second dimension), etc.\nJulia does not allow mixing of commas and semicolons, but it does allow spaces and semicolons, giving for example: [1 2 3; 4 5 6] == [[1 2 3]; [4 5 6]] thus the matrix shorthand is nothing but the concatenation of two row vectors along the column (= first) direction. Another way to write the exact same matrix would be [1; 4;; 2; 5;; 3; 6] == [[1, 4] [2, 5] [3, 6]] where we write the matrix as the horizontal concatenation of three column vectors (which evidently is also how the memory layout of Fortran thinks about matrices).\nWhich is also another motivation of the automatic flattening as this is also how it's written in mathematics (using newlines for concatenation in the column direction instead of semicolons \ud83d\ude09)\nFortran already has a concatenation operator // which could extend to /// etc. But I do not yet know how if feel about [1 2 // 3 4] == [1 // 3 /// 2 // 4]."
                 }
             ]
         },
@@ -7211,6 +7388,11 @@
                     "user": "certik",
                     "date": "2019-12-16 21:20:54+00:00",
                     "text": "@Libavius the above quote has fortran-modern after ```. The issue with just fortran is that GitHub colors it incorrectly, because it doesn't understand this proposed syntax, as it is not a standard Fortran syntax yet."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-09-22 01:59:29+00:00",
+                    "text": "A thought I've been carrying once the work toward fpm commenced and how well fpm has been received is the notion of a formal language construct that itself can demarcate a package (or an assembly).  Especially how it can help make it viable for objects to be consumed across MODULEs readily within such a construct but not externally.\nSuch a formal construct (say a package) can open up the notion of an \"internal\" entity that is USE'able within that construct but not externally to it.  This can help greatly relative to the current limitations of PUBLIC/PRIVATE visibility of entities in MODULEs.\nThus one can include some of the characteristics that namespaces tend to offer (such as in C++ and those \"inspired\" by it). But not be constrained by that concept which is now in common parlance in much of computer science literature but which is not without limitations.\nThat is, the facility that ultimately comes about in Fortran can be \"Fortranesque\" when it comes to serving the practical needs of practitioners and not carry the \"baggage\" of familiarity and resultant expectations with namespaces."
                 }
             ]
         },
