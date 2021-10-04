@@ -32,7 +32,7 @@ For some insightful thoughts on kind parameters see
 It is recommended to have a central module to define kind parameters and include
 them with use as necessary. An example for such a module is given with
 
-```
+```fortran
 !> Numerical storage size parameters for real and integer values
 module kind_parameter
    implicit none

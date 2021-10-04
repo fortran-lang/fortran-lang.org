@@ -56,9 +56,9 @@ three array using a matrix-vector operation:
 
 ```fortran
 subroutine matmul312(amat, bvec, cmat)
-  real(dp), contiguous, intent(in) :: amat(:, :, :)
+  real(dp), contiguous, intent(in), target :: amat(:, :, :)
   real(dp), intent(in) :: bvec(:)
-  real(dp), contiguous, intent(out) :: cmat(:, :)
+  real(dp), contiguous, intent(out), target :: cmat(:, :)
   real(dp), pointer :: aptr(:, :)
   real(dp), pointer :: cptr(:)
 
