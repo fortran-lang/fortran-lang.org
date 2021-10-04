@@ -934,29 +934,29 @@ a literal like here</p>
 <p>It is recommended to have a central module to define kind parameters and include
 them with use as necessary. An example for such a module is given with</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!&gt; Numerical storage size parameters for real and integer values
-module kind_parameter
-   implicit none
-   public
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">!&gt; Numerical storage size parameters for real and integer values</span><span class="w">
+</span><span class="k">module</span><span class="w"> </span><span class="n">kind_parameter</span><span class="w">
+   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+   </span><span class="k">public</span><span class="w">
 
-   !&gt; Single precision real numbers, 6 digits, range 10⁻³⁷ to 10³⁷-1; 32 bits
-   integer, parameter :: sp = selected_real_kind(6, 37)
-   !&gt; Double precision real numbers, 15 digits, range 10⁻³⁰⁷ to 10³⁰⁷-1; 64 bits
-   integer, parameter :: dp = selected_real_kind(15, 307)
-   !&gt; Quadruple precision real numbers, 33 digits, range 10⁻⁴⁹³¹ to 10⁴⁹³¹-1; 128 bits
-   integer, parameter :: qp = selected_real_kind(33, 4931)
+   </span><span class="c1">!&gt; Single precision real numbers, 6 digits, range 10⁻³⁷ to 10³⁷-1; 32 bits</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_real_kind</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">37</span><span class="p">)</span><span class="w">
+   </span><span class="c1">!&gt; Double precision real numbers, 15 digits, range 10⁻³⁰⁷ to 10³⁰⁷-1; 64 bits</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_real_kind</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">307</span><span class="p">)</span><span class="w">
+   </span><span class="c1">!&gt; Quadruple precision real numbers, 33 digits, range 10⁻⁴⁹³¹ to 10⁴⁹³¹-1; 128 bits</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">qp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_real_kind</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="mi">4931</span><span class="p">)</span><span class="w">
 
-   !&gt; Char length for integers, range -2⁷ to 2⁷-1; 8 bits
-   integer, parameter :: i1 = selected_int_kind(2)
-   !&gt; Short length for integers, range -2¹⁵ to 2¹⁵-1; 16 bits
-   integer, parameter :: i2 = selected_int_kind(4)
-   !&gt; Length of default integers, range -2³¹ to 2³¹-1; 32 bits
-   integer, parameter :: i4 = selected_int_kind(9)
-   !&gt; Long length for integers, range -2⁶³ to 2⁶³-1; 64 bits
-   integer, parameter :: i8 = selected_int_kind(18)
+   </span><span class="c1">!&gt; Char length for integers, range -2⁷ to 2⁷-1; 8 bits</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_int_kind</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">
+   </span><span class="c1">!&gt; Short length for integers, range -2¹⁵ to 2¹⁵-1; 16 bits</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_int_kind</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">
+   </span><span class="c1">!&gt; Length of default integers, range -2³¹ to 2³¹-1; 32 bits</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_int_kind</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="w">
+   </span><span class="c1">!&gt; Long length for integers, range -2⁶³ to 2⁶³-1; 64 bits</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">selected_int_kind</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span><span class="w">
 
-end module kind_parameter
-</code></pre></div></div>
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">kind_parameter</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Floating point constants should always be declared including a kind parameter suffix:</p>
 

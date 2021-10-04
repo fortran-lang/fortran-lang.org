@@ -921,38 +921,38 @@ to avoid name clashes when used as dependency in other projects.</p>
 
 <p>An example for such a module file is given here</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!&gt; Interface to TOML processing library.
-!&gt;
-!&gt; ...
-module fpm_toml
-  use fpm_error, only : error_t, fatal_error, file_not_found_error
-  use fpm_strings, only : string_t
-  use tomlf, only : toml_table, toml_array, toml_key, toml_stat, get_value, &amp;
-    &amp; set_value, toml_parse, toml_error, new_table, add_table, add_array, &amp;
-    &amp; toml_serializer, len
-  implicit none
-  private
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">!&gt; Interface to TOML processing library.</span><span class="w">
+</span><span class="c1">!&gt;</span><span class="w">
+</span><span class="c1">!&gt; ...</span><span class="w">
+</span><span class="k">module</span><span class="w"> </span><span class="n">fpm_toml</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">fpm_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">error_t</span><span class="p">,</span><span class="w"> </span><span class="n">fatal_error</span><span class="p">,</span><span class="w"> </span><span class="n">file_not_found_error</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">fpm_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">tomlf</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">toml_table</span><span class="p">,</span><span class="w"> </span><span class="n">toml_array</span><span class="p">,</span><span class="w"> </span><span class="n">toml_key</span><span class="p">,</span><span class="w"> </span><span class="n">toml_stat</span><span class="p">,</span><span class="w"> </span><span class="n">get_value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+    </span><span class="p">&amp;</span><span class="w"> </span><span class="n">set_value</span><span class="p">,</span><span class="w"> </span><span class="n">toml_parse</span><span class="p">,</span><span class="w"> </span><span class="n">toml_error</span><span class="p">,</span><span class="w"> </span><span class="n">new_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_array</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+    </span><span class="p">&amp;</span><span class="w"> </span><span class="n">toml_serializer</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
 
-  public :: read_package_file
-  public :: toml_table, toml_array, toml_key, toml_stat, get_value, set_value
-  public :: new_table, add_table, add_array, len
-  public :: toml_error, toml_serializer, toml_parse
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">read_package_file</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">toml_table</span><span class="p">,</span><span class="w"> </span><span class="n">toml_array</span><span class="p">,</span><span class="w"> </span><span class="n">toml_key</span><span class="p">,</span><span class="w"> </span><span class="n">toml_stat</span><span class="p">,</span><span class="w"> </span><span class="n">get_value</span><span class="p">,</span><span class="w"> </span><span class="n">set_value</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">new_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_array</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">toml_error</span><span class="p">,</span><span class="w"> </span><span class="n">toml_serializer</span><span class="p">,</span><span class="w"> </span><span class="n">toml_parse</span><span class="w">
 
-contains
+</span><span class="k">contains</span><span class="w">
 
-  !&gt; Process the configuration file to a TOML data structure
-  subroutine read_package_file(table, manifest, error)
-    !&gt; TOML data structure
-    type(toml_table), allocatable, intent(out) :: table
-    !&gt; Name of the package configuration file
-    character(len=*), intent(in) :: manifest
-    !&gt; Error status of the operation
-    type(error_t), allocatable, intent(out) :: error
-    ! ...
-  end subroutine read_package_file
+  </span><span class="c1">!&gt; Process the configuration file to a TOML data structure</span><span class="w">
+  </span><span class="k">subroutine</span><span class="w"> </span><span class="n">read_package_file</span><span class="p">(</span><span class="n">table</span><span class="p">,</span><span class="w"> </span><span class="n">manifest</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span><span class="w">
+    </span><span class="c1">!&gt; TOML data structure</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="n">toml_table</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">table</span><span class="w">
+    </span><span class="c1">!&gt; Name of the package configuration file</span><span class="w">
+    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">manifest</span><span class="w">
+    </span><span class="c1">!&gt; Error status of the operation</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="n">error_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">error</span><span class="w">
+    </span><span class="c1">! ...</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">read_package_file</span><span class="w">
 
-end module fpm_toml
-</code></pre></div></div>
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">fpm_toml</span><span class="w">
+</span></code></pre></div></div>
 
 <p>There are a few things in this example module to highlight. First, every module
 starts with comments documenting the purpose and content of the module.
