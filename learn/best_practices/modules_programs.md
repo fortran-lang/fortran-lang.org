@@ -12,7 +12,7 @@ to avoid name clashes when used as dependency in other projects.
 
 An example for such a module file is given here
 
-```
+```fortran
 !> Interface to TOML processing library.
 !>
 !> ...
