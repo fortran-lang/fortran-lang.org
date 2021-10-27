@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: November 2021"
 category: newsletter
-author: Sebastian Ehlert
+authors: Sebastian Ehlert, Alexis Perry-Holby
 ---
 
 Welcome to the October 2021 edition of the monthly Fortran newsletter.
@@ -144,6 +144,69 @@ environment in which new open source Fortran projects are created and published 
 
 Recent development updates:
 
+* Runtime
+    * Front-end and runtime support for CALL EXIT and ABORT
+    * Fix formatted real input regression w/ spaces
+    * Add runtime interface for GET_ENVIRONMENT_VARIABLE
+    * More work on SYSTEM_CLOCK runtime API and implementation
+    * Implement GET_ENVIRONMENT_VARIABLE(LENGTH)
+* OpenMP
+    * Added OpenMP 5.0 specification based semantic checks for sections construct and test case for simd construct
+    * Added test case for OpenMP 5.0 specification based semantic checks for parallel sections construct
+    * Added OpenMP 5.0 specification based semantic checks for CRITICAL construct name resolution
+    * Checks for THREADPRIVATE and DECLARE TARGET Directives
+    * Initial parsing/sema for append_args clause for 'declare variant'
+* FIR
+    * Add typeparams to fir.array_update, fir.array_fetch and fir.array_merge_store operations. Add optional slice operands to fir.array_merge_store op.
+    * Updated various ops - fir.extract_value, fir.insert_value, fir.allocmem, fir.alloca, fir.field_index, fir.freemem, fir.store
+    * Move the parsers, printers and builders from the TableGen file to the .cpp file
+    * Update fir.alloca op - Add pinned attributes and specific builders
+    * Add ops: fir.char_convert and fir.array_modify
+    * Add passes: external name interop, affine promotion, affine demotion, character conversion, abstract result conversion, cfg conversion
+    * Add fir.convert canonicalization patterns
+    * Add the DoLoopHelper
+    * Add IfBuilder and utility functions
+    * Add FIRBuilder utility functions
+    * Add character utility functions in FIRBuilder
+    * Add Character helper
+    * Add utility function to FIRBuilder and MutableBox
+    * Add substring to fir.slice operation
+    * Avoid slice with substr in fir.array_load, fir.array_coor and fir.array_merge_store
+* Driver
+    * Error if uuidgen is not installed
+    * Fix erroneous `&`
+    * Add actions that execute despite semantic errors
+* flang-omp-report 
+    * replace std::vector's with llvm::SmallVector
+    * Switch from std::string to StringRef (where possible)
+    * replace std::map with llvm::DenseMap
+* Make builtin types more easily accessible; use them
+* Fix test regression from SQRT folding
+* Fold FINDLOC, MAXLOC, MINLOC, LGE/LGT/LLE/LLT, BTEST intrinsic functions
+* Take into account SubprogramDetails in GetInterfaceSymbol
+* Add debug dump method to evaluate::Expr and semantics::Symbol
+* Add a wrapper for Fortran main program
+* Improve runtime interface with C99 complex
+* Better error recovery for missing THEN in ELSE IF
+* Define IEEE_SCALB, IEEE_NEXT_AFTER, IEEE_NEXT_DOWN, IEEE_NEXT_UP
+* Catch mismatched parentheses in prescanner
+* Error checking for IBCLR/IBSET and ISHFT/SHIFT[ALR]
+* Document behavior for nonspecified/ambiguous cases
+* Add two negative tests for needExternalNameMangling
+* Expunge bogus semantic check for ELEMENTAL without dummies
+* Admit NULL() in generic procedure resolution cases
+* Fix bogus folding error for ISHFT(x, negative)
+* Emit unformatted headers & footers even with RECL=
+* Enforce rest of semantic constraint C919
+* Extension to distinguish specific procedures
+* Support NAMELIST input of short arrays
+* Fix generic resolution case
+* Speed common runtime cases of DOT_PRODUCT & MATMUL
+* Fix crash on empty formatted external READs
+* Extension: allow tabs in output format strings
+* Fix DOT_PRODUCT for logical
+* Fix NAMELIST input bug with multiple subscript triplets
+* Support legacy usage of 'A' edit descriptors for integer & real
 
 Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
