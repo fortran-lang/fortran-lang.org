@@ -16,6 +16,8 @@ Fortran news from the previous month.
 
 This month we've had several updates to the website:
 
+* [#345](https://github.com/fortran-lang/fortran-lang.org/pull/345):
+  Fix title in learning resources
 * [#341](https://github.com/fortran-lang/fortran-lang.org/pull/341):
   Add Cantera to package index
 * [#329](https://github.com/fortran-lang/fortran-lang.org/pull/329):
@@ -113,6 +115,8 @@ Here's what's new in fpm:
 
 ### Work in progress
 
+* [#598](https://github.com/fortran-lang/fpm/pull/598) (WIP):
+  Update README.md compiler, archiver, & link flags
 * [#569](https://github.com/fortran-lang/fpm/pull/569) (WIP):
   Add workflow for continuous delivery
 * [#539](https://github.com/fortran-lang/fpm/pull/539) (WIP):
