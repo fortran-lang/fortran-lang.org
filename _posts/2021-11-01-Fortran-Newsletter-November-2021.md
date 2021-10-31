@@ -2,10 +2,10 @@
 layout: post
 title: "Fortran newsletter: November 2021"
 category: newsletter
-authors: Sebastian Ehlert, Alexis Perry-Holby
+authors: Sebastian Ehlert, Alexis Perry-Holby, Milan Curcic
 ---
 
-Welcome to the October 2021 edition of the monthly Fortran newsletter.
+Welcome to the November 2021 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.
 
@@ -219,7 +219,19 @@ you are interested. We will help you get up to speed.
 
 ## Events
 
-* We had our 17th Fortran Monthly call on September 19.
+* We have adopted two new Fortran-lang guidelines:
+  - [Governance document](https://github.com/fortran-lang/.github/blob/main/GOVERNANCE.md) that describes how Fortran-lang projects are managed
+  - [Administration, moderation, and editing guide](https://fortran-lang.discourse.group/t/welcome-to-discourse/7#administration-moderation-and-editing-3) for Fortran Discourse
+  Both documents are part of an effort to increase transparency between Fortran-lang administrators and the rest of the community.
+* The US Fortran Standards Committee (J3) held the meeting 225 October 18-27, 2021.
+  The meeting was virtual and on Mondays and Wednesdays only.
+  Discussions focused on resolving any outstanding issues to the Fortran 202X features.
+  Here are the links to the meeting [agenda](https://j3-fortran.org/doc/year/21/agenda225.txt),
+  [minutes](https://j3-fortran.org/doc/year/21/minutes225.txt),
+  and [papers](https://j3-fortran.org/doc/meeting/225).
+  See also the [Fortran-lang and LFortran liaison report to J3](https://j3-fortran.org/doc/year/21/21-206.txt)
+  submitted by Ondřej Čertík and Milan Curcic.
+* We had our 19th Fortran Monthly call on October 19.
   You can watch the recording below:
   <iframe width="560" height="315" src="https://www.youtube.com/embed/4gOoEzMEh6g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
