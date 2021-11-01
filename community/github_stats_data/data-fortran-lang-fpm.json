@@ -2,6 +2,163 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 598,
+            "user": "rouson",
+            "date": "2021-10-29 23:14:49+00:00",
+            "title": "Update README.md compiler, archiver, & link flags",
+            "text": "This PR completes and updates the README.md description of the above fpm flags to match the description given by fpm build --help.",
+            "comments": []
+        },
+        {
+            "number": 597,
+            "user": "awvwgk",
+            "date": "2021-10-21 19:38:51+00:00",
+            "title": "Add LFortran optimization flag to release profile",
+            "text": "Looks like I didn't add the --fast option for LFortran in the release profile. This patch adds optimization for LFortran.",
+            "comments": []
+        },
+        {
+            "number": 596,
+            "user": "certik",
+            "date": "2021-10-18 23:42:54+00:00",
+            "title": "Fortran Language Server for VSCode",
+            "text": "Is there one already?\nI would like the language server to provide all methods and variables (derived types, etc.) in a given module in the Outline section in the left. It should be fast (immediate). The C++ language server updates quite slowly, and I think Fortran can be made instantaneous because the language is simpler.\nThe language server should work with fpm to correctly and automatically resolve all project files and dependencies (!) and when use pres F12, it would find the definition in any file (whether project file or dependency) and open it. Thanks to fpm, this should just work and be 100% robust.\nIn terms of compiler support to get this working, what exactly is needed? If somebody has experience with the language server protocol, please get in touch.\nThis is a long term project, but I think it is important to get started, getting it working perhaps on single file projects and then go from there.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-10-18 23:49:21+00:00",
+                    "text": "Here's the one I use, I think it's popular: https://github.com/hansec/fortran-language-server"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-10-19 00:02:33+00:00",
+                    "text": "Nice! How accurate is it? Is it able to find definitions in other files and in dependencies? I think that is what fpm could provide.\nI tried to install the extension: https://marketplace.visualstudio.com/items?itemName=hansec.fortran-ls in VSCode, but it does not to anything, I can't get it to work. I'll report it to them."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-10-19 01:26:25+00:00",
+                    "text": "I don't know how accurate it is, I only used that extension for Fortran. I'm a basic user of it and use only autocomplete and hover-on definitions. They work and are good enough for me, from other source files too. I didn't customize the extension in any way.\nYou need to pip install fortran-language-server --user first, maybe that's the problem."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-10-19 02:00:56+00:00",
+                    "text": "I mainly use vs code. The existing fortran-language-server is written based on python, which can provide me with good code hints and definition jumps, provide all methods and variables (derived types, etc.) in a given module in the Outline section in the left.\nThere are at least three vs code plugins for Fortran worth paying attention to:\n\nModern Fortran (Last updated: 2021/7/29)\nFortran Language Server (Last updated: 2020/10/15)\nFortran IntelliSense (Last updated: 2020/4/8) (need Modern Fortran and Fortran Language Server)\n\n\n\nIn addition, Intel Visual Fortran can only be used in Visual Studio before. Intel OneAPI has recently begun to support the use of OneAPI in VS Code, but currently more support for C and C++, Fortran may not be planned."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-10-19 04:48:10+00:00",
+                    "text": "Thanks for that @zoziha. I tried to install the Python pip install fortran-language-server, with and without --user. The problem is probably on my side, but at the same time things should just work and they don't for me. :("
+                }
+            ]
+        },
+        {
+            "number": 595,
+            "user": "zoziha",
+            "date": "2021-10-15 15:27:11+00:00",
+            "title": "List names without suffix (mainly for Windows).",
+            "text": "List names without suffix (mainly for Windows, very small update): suffix=.false.\n\nDescription\nIn Windows, the previous fpm program running fpm test --list (same as fpm run --example --list) will have the suffix:\n Matched names:\ncli-test.exe   fpm-test.exe   help-test.exe  new-test.exe\nWhen I want to query and test cli-test, I hope it is cli-test instead of cli-test.exe, so that I can just copy and paste, such as:\nfpm test cli-test instead of fpm test cli-test.exe.\nCurrent effect\n Matched names:\ncli-test       fpm-test       help-test      new-test  \nBecause this is an update for Windows, another way is to add a current system judgment here, is it worth it?",
+            "comments": []
+        },
+        {
+            "number": 593,
+            "user": "khaors",
+            "date": "2021-10-11 17:24:46+00:00",
+            "title": "Testing Failing with gfortran in Windows",
+            "text": "Description\nHello. I cloned the repository and compiled successfully fpm with gfortran 10.3 in Windows. When I tried fpm test I got the following error:\nfpm test\n + gfortran -c test\\fpm_test\\test_module_dependencies.f90  -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fcheck=bounds -fcheck=array-temps -fbacktrace -fcoarray=single -J build\\gfortran_2A42023B310FA28D -Ibuild\\gfortran_2A42023B310FA28D -o build\\gfortran_2A42023B310FA28D\\fpm\\test_fpm_test_test_module_dependencies.f90.o\ntest\\fpm_test\\test_module_dependencies.f90:3:9:\n\n    3 |     use testsuite, only : new_unittest, unittest_t, error_t, test_failed\n      |         1\nFatal Error: Cannot open module file 'testsuite.mod' for reading at (1): No such file or directory\ncompilation terminated.\n<ERROR> Compilation failed for object \" test_fpm_test_test_module_dependencies.f90.o \"\n<ERROR>stopping due to failed compilation\nSTOP 1\n\n\nExpected Behaviour\nIn previous opportunities fpm test worked without problem.\nVersion of fpm\n0.4.0 alpha\nPlatform and Architecture\nWindows\nAdditional Information\nNo response",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-10-12 01:09:01+00:00",
+                    "text": "Hello @khaors, thanks for reporting. I was able to replicate the issue, once. I deleted the build directory, now I can't replicate the issue anymore."
+                },
+                {
+                    "user": "khaors",
+                    "date": "2021-10-13 01:47:30+00:00",
+                    "text": "@brocolis Thank you very much for your help. I deleted the build directory and now the bug is not present anymore."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-10-13 08:04:29+00:00",
+                    "text": "Possible duplicate of #463"
+                }
+            ]
+        },
+        {
+            "number": 592,
+            "user": "bitli",
+            "date": "2021-10-07 19:21:59+00:00",
+            "title": "Support for cross compilation and alternate tool chains",
+            "text": "Description\nI built a gcc 10 tools chain to cross compile from WSL2 to ARM (raspberry pi). That works fine with simple projects, using the option --compiler arm-linux-gnueabihf-gfortran , having the alternate tool chain in the path.\nHowever there is a bunch of other tools involved, like ld, ar, gcc which all have arm-linux-gnueabihf- as a prefix, but fpm still use the default command line.\nSome hack are possible (like soft linking ar to arm-linux-gnueabihf-ar) but they are inconvenient and dangerous at best. This is especially visible when cross-compiling fpm, so far I was not able to persuade fpm to compile the c file properly.\nExcept of that problem, for simple programs ,this works fine and allow to develop both the native and cross compile version from the same source.\nPossible Solution\nA way to specify a prefix (possibly with a path) for all tools would solve the immediate problem.\nSome thinking on how to customize the build environment outside of the project description is likely needed.\nAdditional Information\nNo response",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-07 19:30:09+00:00",
+                    "text": "The latest commit allows to use\nFPM_FC=arm-linux-gnueabihf-gfortran \\\nFPM_CC=arm-linux-gnueabihf-gcc \\\nFPM_AR=arm-linux-gnueabihf-ar \\\nfpm build\n\nto select the toolchain or alternatively via command-line\nfpm build \\\n--compiler arm-linux-gnueabihf-gfortran \\\n--c-compiler arm-linux-gnueabihf-gcc \\\n--archiver arm-linux-gnueabihf-ar\n\nWe don't invoke ld directly, only through one of the compiler wrapper, so this might just work."
+                },
+                {
+                    "user": "bitli",
+                    "date": "2021-10-07 20:06:42+00:00",
+                    "text": "It works like a charm, sorry, I didn't see that ! Thank you for the prompt answer."
+                }
+            ]
+        },
+        {
+            "number": 591,
+            "user": "bitli",
+            "date": "2021-10-06 15:46:31+00:00",
+            "title": "External libraries not correctly added to ifort link on windows",
+            "text": "Description\nExternal libraries not correctly added to ifort link on windows\nAbstract\nAlthough I have the option link = \"portaudio_x64\"in the [build] section, the Link command does not include it.  A (possibly related) issue is that fpm uses .a as an extension for libraries on Windows, instead of .lib, this is an issue to work in a multi language environment.\nTool versions\n\n\nfpm 0.4a on Windows-10 64 bits\n\n\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on IA-32, Version 2021.4.0 Build 20210910_000000:\n\n\nThe commands are executed in the intel command line environment:\n  : initializing oneAPI environment...\n  initializing Visual Studio command-line environment...\n  Visual Studio version 16.11.3 environment configured.\n  Visual Studio environment initialized for: 'x64'\n  ...\n\nLocation of library\ndir ..\\portaudio\\build\\msvc\\x64\\Debug\\portaudio_x64*\n\n2021-10-03  16:49           569\u00a0856 portaudio_x64.dll\n2021-10-03  16:49             8\u00a0730 portaudio_x64.exp\n2021-10-03  16:49            15\u00a0114 portaudio_x64.lib\n2021-10-03  16:49         1\u00a0904\u00a0640 portaudio_x64.pdb\n\ntoml\nname = \"ftn_portaudio\"\nversion = \"0.1.0\"\n\n[build]\nauto-executables = true\nauto-examples = true\nlink = \"portaudio_x64\"\n\nEnvironment (not sure which one is required)\nset LIB=..\\portaudio\\build\\msvc\\x64\\Debug;%LIB%\nset LIBPATH=..\\portaudio\\build\\msvc\\x64\\Debug;%LIBPATH%\nset LIBRARY_PATH=..\\portaudio\\build\\msvc\\x64\\Debug;%LIBRARY_PATH%\n\nfpm command and result\nfpm build --compiler ifort\n\nResult in error (no executable produced), see workaround in next section\n U:\\SoftwareDev\\PortAudio\\ftn_portaudio> fpm build --compiler ifort\n\n\n\n + mkdir build\\dependencies\n + mkdir build\\ifort_782887A201FCE169\\ftn_portaudio\n + ifort -c .\\.\\src\\portaudio.f90  /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /traceback /module:build\\ifort_782887A201FCE169\\ftn_portaudio /Ibuild\\ifort_782887A201FCE169\\ftn_portaudio  -o build\\ifort_782887A201FCE169\\ftn_portaudio\\src_portaudio.f90.o\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.4.0 Build 20210910_000000\nCopyright (C) 1985-2021 Intel Corporation.  All rights reserved.\n\n + lib /OUT:build\\ifort_782887A201FCE169\\ftn_portaudio\\libftn_portaudio.a @build\\ifort_782887A201FCE169\\ftn_portaudio\\libftn_portaudio.a.resp\nMicrosoft (R) Library Manager Version 14.29.30133.0\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\nbuild/ifort_782887A201FCE169/ftn_portaudio/src_portaudio.f90.o\n + ifort -c example\\paex_sine.f90  /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /traceback /module:build\\ifort_782887A201FCE169\\ftn_portaudio /Ibuild\\ifort_782887A201FCE169\\ftn_portaudio  -o build\\ifort_782887A201FCE169\\ftn_portaudio\\example_paex_sine.f90.o\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.4.0 Build 20210910_000000\nCopyright (C) 1985-2021 Intel Corporation.  All rights reserved.\n\nexample\\paex_sine.f90(53): remark #7712: This variable has not been used.   [I]\n    integer :: i, count, default_api, device\n---------------^\nexample\\paex_sine.f90(170): remark #7712: This variable has not been used.   [INPUTBUFFER]\n    function patestCallback(inputBuffer, outputBuffer, frameCount, timeInfo, statusFlags, user_data) bind(C)\n----------------------------^\nexample\\paex_sine.f90(170): remark #7712: This variable has not been used.   [TIMEINFO]\n    function patestCallback(inputBuffer, outputBuffer, frameCount, timeInfo, statusFlags, user_data) bind(C)\n-------------------------------------------------------------------^\nexample\\paex_sine.f90(170): remark #7712: This variable has not been used.   [STATUSFLAGS]\n    function patestCallback(inputBuffer, outputBuffer, frameCount, timeInfo, statusFlags, user_data) bind(C)\n-----------------------------------------------------------------------------^\n + mkdir build\\ifort_782887A201FCE169\\example\\\n + ifort  /warn:all /check:all /error-limit:1 /Od /Z7 /assume:byterecl /traceback /module:build\\ifort_782887A201FCE169\\ftn_portaudio /Ibuild\\ifort_782887A201FCE169\\ftn_portaudio  build\\ifort_782887A201FCE169\\ftn_portaudio\\example_paex_sine.f90.o build\\ifort_782887A201FCE169\\ftn_portaudio\\libftn_portaudio.a -lportaudio_x64 -o build\\ifort_782887A201FCE169\\example\\paex_sine.exe\nIntel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.4.0 Build 20210910_000000\nCopyright (C) 1985-2021 Intel Corporation.  All rights reserved.\n\nMicrosoft (R) Incremental Linker Version 14.29.30133.0\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\n-out:build\\ifort_782887A201FCE169\\example\\paex_sine.exe\n-debug\n-pdb:build\\ifort_782887A201FCE169\\example\\paex_sine.pdb\n-subsystem:console\n-incremental:no\nbuild\\ifort_782887A201FCE169\\ftn_portaudio\\example_paex_sine.f90.o\nbuild\\ifort_782887A201FCE169\\ftn_portaudio\\libftn_portaudio.a\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_Initialize referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_GetHostApiCount referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_GetDefaultHostApi referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_GetDefaultOutputDevice referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_GetDeviceInfo referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_OpenStream referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_SetStreamFinishedCallback referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_StartStream referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_Sleep referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_StopStream referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_CloseStream referenced in function MAIN__\nexample_paex_sine.f90.o : error LNK2019: unresolved external symbol Pa_Terminate referenced in function MAIN__\nbuild\\ifort_782887A201FCE169\\example\\paex_sine.exe : fatal error LNK1120: 12 unresolved externals\n<ERROR> Compilation failed for object \" paex_sine.exe \"\n<ERROR>stopping due to failed compilation\nSTOP 1\n\nWork around (with correct executable produced)\nUsing link file:\n-out:build\\ifort_782887A201FCE169\\example\\paex_sine.exe\n-debug\n-pdb:build\\ifort_782887A201FCE169\\example\\paex_sine.pdb\n-subsystem:console\n-incremental:no\nbuild\\ifort_782887A201FCE169\\ftn_portaudio\\example_paex_sine.f90.o\nbuild\\ifort_782887A201FCE169\\ftn_portaudio\\libftn_portaudio.a\nU:\\SoftwareDev\\PortAudio\\portaudio\\build\\msvc\\x64\\Debug\\portaudio_x64.lib\n\nExecute\nu:\\SoftwareDev\\PortAudio\\ftn_portaudio>link @r.lnk\n\nconsole log:\n Microsoft (R) Incremental Linker Version 14.29.30133.0\n Copyright (C) Microsoft Corporation.  All rights reserved.\n\n -out:build\\ifort_782887A201FCE169\\example\\paex_sine.exe\n -debug\n -pdb:build\\ifort_782887A201FCE169\\example\\paex_sine.pdb\n -subsystem:console\n  -incremental:no\n build\\ifort_782887A201FCE169\\ftn_portaudio\\example_paex_sine.f90.o\n build\\ifort_782887A201FCE169\\ftn_portaudio\\libftn_portaudio.a\n U:\\SoftwareDev\\PortAudio\\portaudio\\build\\msvc\\x64\\Debug\\portaudio_x64.lib\n\nAdding the dll library path, the linked program workds Pa_SetStreamFinishedCallback\n set PATH=U:\\SoftwareDev\\PortAudio\\portaudio\\build\\msvc\\x64\\Debug;%PATH%\n build\\ifort_782887A201FCE169\\example\\paex_sine.exe\n\nExpected Behaviour\nThe linker should either find the library or complain that the library was on find on the appropriate path\nVersion of fpm\n0.4.0, alpha - Windows binaries from the site\nPlatform and Architecture\nWindos 10 64 bits\nAdditional Information\nIf useful, I can provide the project for testing",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-16 17:19:12+00:00",
+                    "text": "Carlos @brocolis, is this also resolved with #590?\nSeems to be the case, closing this issue as resolved."
+                }
+            ]
+        },
+        {
+            "number": 590,
+            "user": "brocolis",
+            "date": "2021-10-06 01:29:15+00:00",
+            "title": "Change link command on Windows with `ifort` or `ifx`",
+            "text": "This PR fixes #589",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-10-06 01:44:29+00:00",
+                    "text": "It seems that this special case also applies to LFortran on Windows with MSVC. This PR needs more work."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-10-06 07:44:05+00:00",
+                    "text": "Thanks Carlos @brocolis! What's the naming convention for *.lib files? Do they always start with lib like on Linux or is it different?"
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-10-06 11:46:52+00:00",
+                    "text": "What's the naming convention for *.lib files? Do they always start with lib like on Linux or is it different?\n\nThey don't always start with lib, it is different, it is usually name.lib, for example kernel32.lib, shell32.lib, etc."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-10-13 11:38:24+00:00",
+                    "text": "It seems that this special case also applies to LFortran on Windows with MSVC. This PR needs more work.\n\nThis is a separate issue. It requires changes in LFortran."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-13 20:06:40+00:00",
+                    "text": "It seems that this special case also applies to LFortran on Windows with MSVC. This PR needs more work.\n\nThis is a separate issue. It requires changes in LFortran.\n\nMaybe LFortran's command line interface could attempt to do a normalization before passing anything through to MSVC's or GCC's linker. This way we don't have to pull any stunts in fpm to check whether the compiler wrapper is currently targeting MSVC or GCC. Not sure how pass-through arguments are currently handled in LFortran, in GCC we have -Wl, to pass arguments to the linker without affecting the compiler wrapper."
+                }
+            ]
+        },
+        {
+            "number": 587,
+            "user": "wiremoons",
+            "date": "2021-10-03 08:26:14+00:00",
+            "title": "Bootstrapping instructions version update",
+            "text": "Updated the 'Bootstrapping instructions' section to instruct on how to install version '0.4.0' instead of past version '0.3.0'.",
+            "comments": []
+        },
+        {
             "number": 585,
             "user": "urbanjost",
             "date": "2021-09-28 14:15:20+00:00",
@@ -135,7 +292,7 @@
             "user": "awvwgk",
             "date": "2021-09-20 21:48:02+00:00",
             "title": "Enable multiple build output directories",
-            "text": "This patch implements the possibility to have multiple build output directories depending on the compile flags of the respective target. This will currently only be realized for C objects, since they do not use the compile arguments of any profile.\n\nremove output_directory from model and replace it with build_prefix the build prefix is generated from the toolchain (Fortran compiler currently)\noutput name, directory and file path are saved in target\nobject targets can have different module output directories depending on the compile arguments\nall object targets can access all module output directories via include flags (could be refined by providing only access to the required directories from the module interdependencies later)\nall output directories are created in the backend\nexecutables will include --link-flag and libraries they link against in the build hash\n\nTo discuss (possibly for a follow-up patch):\n\nshould executable target include the (all) link arguments in the build hash? Which arguments, only the libs or also the objects?\nshould the archive include the object files in the build hash?\n\nTo do:\n\nfix installation of module files\n\nCloses #422",
+            "text": "This patch implements the possibility to have multiple build output directories depending on the compile flags of the respective target. This will currently only be realized for C objects, since they do not use the compile arguments of any profile.\n\nremove output_directory from model and replace it with build_prefix the build prefix is generated from the toolchain (Fortran compiler currently)\noutput name, directory and file path are saved in target\nobject targets can have different module output directories depending on the compile arguments\nall object targets can access all module output directories via include flags (could be refined by providing only access to the required directories from the module interdependencies later)\nall output directories are created in the backend\nexecutables will include libraries they link against in the build hash\nfix installation of module files\n\nTo discuss (possibly for a follow-up patch):\n\nshould executable target include the (all) link arguments in the build hash? Which arguments, only the libs or also the objects?\nshould the archive include the object files in the build hash?\n\nTo do:\n\nfix installation of module files\n\nCloses #422",
             "comments": [
                 {
                     "user": "LKedward",
@@ -156,6 +313,11 @@
                     "user": "awvwgk",
                     "date": "2021-09-27 12:17:57+00:00",
                     "text": "Please don't merge yet, I still have to look into collecting all module files from the output directory for fpm install."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-06 19:52:29+00:00",
+                    "text": "Will try to finish it this week. Only thing missing is a function that can return the path to all module files from the projects. This should be possible by iterating over the targets and combine the provided module file basenames with the output directory and than copy the complete list in the install command."
                 }
             ]
         },
@@ -222,6 +384,11 @@
                     "user": "urbanjost",
                     "date": "2021-09-16 02:59:15+00:00",
                     "text": "That has been nagging me for a while, and the solution I would like to see is that the build directory include a platform name as\nwell, which has worked for me for a long time. In my own case my build scripts create a directory combining the system type with the compiler. The first issue is there is no purely \"fortranic\" way to get a system type, as even the C uname(3c) function is not available on all platforms. It was very common for me where my build scripts grew up to have my code in a directory that was NFS mounted to a number of different platforms and I wanted to be able to build on all of them simultaneously but I had not seen people complaining about that, and git(1) lets you easily create a separate copy for each build if you want, so it had not come up till now. The info returned by COMPILER_VERSION(3f) and/or  COMPILER_OPTIONS(3f) contains some system type info with some compilers and not with others so it is not a good choice.\nFor the problem you show I have using a kluge where I add \"--flag -D Solaris\" so you get a unique build. I was making a wrapper script for the compiler so I got unique build directory names that way too but that did not seem like a good way to go.\nIn my scripts by default the system type is determined by a command called \"system_type\" on each platform (that just calls uname(1) on the machines I run on now), but it does allow you to specify an environment variable instead. Don't want to overuse environment variables but maybe that is justified in this case.\nWe could try to harden up the routine that determines system type as well in fpm(1) now and use that as well. An environment variable like FPM_SYSTEM_TYPE might the way to go, but by default use what fpm(1) does now and improve on it as time passes.  I would probably suggest both be used; the default being to add what the routine calculates, but since it is guessing have a failsafe in that the variable can be used when that fails.\nI have been doing something similiar when on nodes that are the same type but have different versions of a compiler installed, or are allowing different versions to be used via the modules(1) command as well.\nAnd of course deleting the build directory, or making a clone via \"git clone\" for a build work now; and another long-term option might be to allow you to specify the name of the build directory which also solves a problem where I might be another user who has read permission to a package but not write permission.  So if I am the other user I have to make a complete copy of the package to build it because I do not have write permission to the build directory.  git(1) is not required for fpm use, so doing a clone that way is not always possible either, and takes time and filespace.\nNote since fpm(1) already determines system type every time it runs, albeit a bit simplistically, that speed is probably not a major issue.  Maybe a compromise needs made to use an extension or conditional code, as calling uname(3c) would work on most platforms."
+                },
+                {
+                    "user": "bitli",
+                    "date": "2021-10-07 06:34:27+00:00",
+                    "text": "Do we not have the same issue if we use a cross compiler ? I am currently trying to create a cross compile environment to the Raspberry PI (I know, far away of the supercomputer you guys are used to :- ) . Ideally I would like to be able to compile the same source for the local machine (during most of the development) and sometime for the target (for test or release). I did not yet try it.\nAnyhow, this is a case where detecting the current OS is not good enough to select the proper tools and rules: On the one hand we have to use the rules of the current OS (for file path for example), on the other hand we have to use the rules of the target environment (for library names and extension) and finally the rule of the specific tool (name and options of the cross compiler and linker).\nI wonder if a concept of build environment  (separate from the specification of the project and local to the builder) is not needed to support these cases."
                 }
             ]
         },
@@ -1281,6 +1448,66 @@
                     "user": "bcornille",
                     "date": "2021-07-26 14:20:21+00:00",
                     "text": "What is the rationale for only supporting a single library target in a project?"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-10-26 04:02:40+00:00",
+                    "text": "I too am curious about the rationale for only supporting a single library target.  @awvwgk is item 2 in your comment the answer?  Setting up separate projects for this purpose seems like heavy lift -- especially if \"separate project\" means separate repositories, which then means separate documentation, separate unit tests, separate CI tests, etc.  Furthermore, does the statement \"all libraries can be reused individually\" imply that there are no dependencies between libraries?  If there are dependencies between the various libraries that a project builds, then it makes sense to keep them in one project. Even when there are no dependencies, it can make sense to keep them together if each serves a common purposes, e.g., each supports one interface in a different way."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-26 08:33:27+00:00",
+                    "text": "It is a deliberate design decision, think of it as a way to limit the complexity of a project and also the required knowledge when using a project as dependency.\nIs there a specific case you want to realize with fpm requiring the creation of a mono-repository with multiple projects?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-10-26 09:20:38+00:00",
+                    "text": "... which then means separate documentation, separate unit tests, separate CI tests, etc.\n\nI think this is a good thing. If anything I want more modularity with regards to testing and documentation to make clear the compartmentalisation of functionality and interfaces between different libraries.\nI find this makes writing tests easier for developers and reading documentation easier for users compared to when dealing with large mono-repos.\n\nFurthermore, does the statement \"all libraries can be reused individually\" imply that there are no dependencies between libraries?\n\nNot at all, rather I think it comes back to modularity again. If A depends on B unidirectionally, then B can still be reused without need for A.\nAs Sebastian has stated above, I'm not aware that fpm actually restricts any of the use cases described above.\nI too would be interested to hear more about a specific use case where fpm is currently not well-suited."
+                },
+                {
+                    "user": "bcornille",
+                    "date": "2021-10-26 12:40:54+00:00",
+                    "text": "I work on a project that has several orthogonal libraries that exist in the same repository. There is also a small hierarchy of interdependency. This way we have testing for each library independently. We build applications that depend on all libraries and some utilities that depend on subsets. Splitting the libraries into separate repositories would increase maintenance burden since each is on the smaller side and there are a few. The other option of combining everything into one library violates the principle of separate concerns.\nSince fpm is opinionated in this way it precludes consideration for adoption. Even if our setup is viewed as bad practice, it is not going to change. In my opinion, if it is not a severe technical limitation, this is a unnecessary stance for fpm to take and is unsymmetric with it's support for multiple apps in one project."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-10-26 20:29:42+00:00",
+                    "text": "I'm working with collaborators on a possible successor to OpenCoarrays, which is written primarily in C.  The successor will be written as much as possible in Fortran and is already using fpm to build.  Having multiple libraries that support one interface is one of the central aims of OpenCoarrays and its successor.  The unified interface is what makes the different libraries swappable so parallel Fortran 2018 source code can be compiled into an object file once and then linked or relinked to any one of several backends, e.g., one that supports communication via MPI, another that supports communication via OpenSHMEM, etc.  Splitting OpenCoarrays into separate projects would violate the basic purpose of the OpenCoarrays project in addition to adding all the previously mentioned burdens of maintaining separate repositories with multiple copies of the very same CI tests, documentation, Wiki, etc."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-26 20:43:19+00:00",
+                    "text": "Thanks for the insights, those sound like valid use cases. Let's discuss how we can make this possible (cc @fortran-lang/fpm).\n\nLet's explore how we could make this possible in the package manifest.\nProposal\n1. Special syntax for a single executable:\nThe executable array of tables with a single executable is currently given as:\nname = \"lib\"\n\n[[executable]]\nname = \"lib\"\nsource-dir = \"app\"\nA possible equivalent syntax for a project with a single executable with the same name as the project could be:\nname = \"lib\"\n\n[executable]\nsource-dir = \"app\"\n2. New syntax for multiple libraries\nThe current syntax for the library table:\nname = \"lib\"\n\n[library]\nsource-dir = \"src\"\nThis could also be expressed as an array with a single table using the project name:\nname = \"lib\"\n\n[[library]]\nname = \"lib\"\nsource-dir = \"src\"\nWith this change we can keep the current package manifest syntax and easily make multiple libraries available."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-10-27 02:57:45+00:00",
+                    "text": "@awvwgk thanks for considering this.  I'm a minimalist so I generally put everything in default locations and most of my fpm manifests are 5-10 lines.   Therefore I'm not very familiar with any of the syntax above and have no opinion other than that backward compatibility is one of the main reasons Fortran has survived ~64 years.  Learning from that lesson, I think doing something that preserves the current package manifest syntax is a great thing."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-27 10:56:09+00:00",
+                    "text": "The other issue is handling project with multiple libraries.\nFor now we could require explicit declaration of all libraries in a project, the directory trees of two libraries must not overlap, i.e. a library source-dir cannot be a subdirectory of another library source-dir.\nFor projects with a dependency providing multiple libraries we can start by assuming all will be made available by default. Than we need additional syntax to narrow the available libraries (suggestions?)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-10-27 14:26:12+00:00",
+                    "text": "How does Cargo do it? Can somebody investigate and post a summary? If they don't need it, then maybe we don't need it either. Although I am not against.\nI noticed that for example the Rust compiler has a bunch of independent Cargo libraries that compose it:\nhttps://github.com/rust-lang/rust/tree/master/compiler\nEach directory there is a Cargo package. If you click on one, you see how they specify the dependencies between these packages: https://github.com/rust-lang/rust/blob/a8f6e614f86be429b5862f30e023063f619aeed2/compiler/rustc_borrowck/Cargo.toml\nIs that the best possible design? I don't have an opinion yet."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-27 15:30:03+00:00",
+                    "text": "The strategy with the Rust compiler and Cargo seems to be having multiple project in subdirectories and declare dependencies using relative paths. We can already do this with fpm, if there is at least one meta-package in the project root, which depends on all subpackages in the project. However, we don't have a way to access an fpm project which is not specified in the project root (yet). Depending on the meta-package would make all subpackages available.\nThis seems like a possible approach for this setup and is already possible now. Is this a viable setup and should we focus on improving fpm in this direction?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-10-27 20:03:16+00:00",
+                    "text": "This seems like a possible approach for this setup and is already possible now. Is this a viable setup\n\nFrom Cargo's experience I would say it's definitely viable.\n\nand should we focus on improving fpm in this direction?\n\nGiven how close we are, it seems it would be worth it to finish it to make it work.\nHowever, is there some other design that is better? The only other design I can think of is to produce multiple libraries per package, as discussed in this issue.\nHow much would that complicate the fpm design to allow multiple libraries? If it is a big complication, perhaps we don't need it and we can just use the Rust's approach."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-28 07:17:54+00:00",
+                    "text": "From Cargo's experience I would say it's definitely viable.\n\nWe have discarded constraints present in Cargo in the past, e.g. having the link field restricted to a single library. Also, in this case the workaround would have been to declare multiple local subpackages which each link against one library and depend on each other in the order of the link line. Not sure if this approach is used in any Rust project, but I found the idea impractical.\nLocal subpackages seem to be Cargo's way to work around deliberate restrictions of the package manifest. The question is whether this way is convenient enough in practice for our users."
                 }
             ]
         },
@@ -4186,6 +4413,11 @@
                     "user": "awvwgk",
                     "date": "2021-09-03 22:58:53+00:00",
                     "text": "The fpm package could have only an optional dependency on git, since git is not required for the most basic functionality. Of course we than need to provide an accurate error message from fpm in case we can't use git."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-06 20:12:14+00:00",
+                    "text": "I opened msys2/MINGW-packages#9727 to make git an optional dependency for fpm in the MSYS2 package."
                 }
             ]
         },
@@ -5374,6 +5606,16 @@
                     "user": "certik",
                     "date": "2021-07-28 12:24:46+00:00",
                     "text": "FWIW, I'm still in favor of adding -ffree-format (or its equivalent) to the default compiler flags, with an option available in the fpm.toml file to turn it off.\n\nI am also in favour of this proposal.\n\nLet's do it."
+                },
+                {
+                    "user": "zaikunzhang",
+                    "date": "2021-10-16 14:50:40+00:00",
+                    "text": "I support this proposal  (reclaiming .f file extension for modern Fortran free form) as strongly as I can.\n.f is obviously the ideal extension. Imagine that we are in 2040. What will be the first impression that a normal person gets from .f90? If we believe and hope that Fortran will continue to be actively used 20 years later, the best time to reclaim .f is now."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-16 17:08:01+00:00",
+                    "text": "Please checkout #577 (comment) where I described how to add an option for disabling implicit typing in fpm. The same logic can be applied for always using free-form. I think the free-form makes a straight-forward feature for a first contribution to fpm and I'm happy to guide anyone interested through the process of implementing it."
                 }
             ]
         },
@@ -6388,6 +6630,16 @@
                     "user": "certik",
                     "date": "2020-12-23 00:30:48+00:00",
                     "text": "Yes, fpm.lock like Cargo.lock."
+                },
+                {
+                    "user": "Carltoffel",
+                    "date": "2021-09-30 10:34:23+00:00",
+                    "text": "Will the fpm.lock go into the main directory (like with cargo) so it can be easily included in git? (for reproducible builds)\nEdit: Otherwise the file would be excluded by default because of the automatically (re-)created .gitignore inside the build directory (see #525)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-09-30 12:33:00+00:00",
+                    "text": "The cache.toml is purposely put in the build directory to avoid checking it into version control, as the format might change in the future. The final lock file will be in the project root once we decided on a suitable format."
                 }
             ]
         },
@@ -8048,6 +8300,11 @@
                     "user": "urbanjost",
                     "date": "2020-11-25 19:51:14+00:00",
                     "text": "I like the neural-fortran idea better; but you just reminded me of some elaborate make(1) files I inherited that were all set up for the Intel compiler except these lines that called \"gfortran -fsyntax-only ...\" with the output module files thrown into a scratch directory and then erased and a bunch of other oddities. It took a moment looking at the subsequent lines to see he was compiling the code with syntax checking with gfortran only and forcing -ffixed-form (or whatever the option is) and if it failed the syntax check he was assuming it was free-form. A dangerous game but apparently it worked the way he wanted. We took it out and renamed the files and changed a few other parts that had .ftn and such built into them. Not recommending anyone use that method!  He had been moving a large amount of F77 code to free-format and apparently got tired of renaming the files and making related changes, I think.  Several compilers allow for directives in the source files to specify fixed versus free format at least down to the level of a single procedure. When changing old large multi-procedure files that is particularly handy (versus splitting them all apart of having to rewrite them all, and so on). If you are grabbing fixed-format codes and merging them into modules that is initially very useful. If would be nice when free-format was introduced if that had been an attribute you could specify at the beginning of a procedure definition, like\nfreeformat elemental pure function MYPROC(...\n\nbut specifying a code syntax attribute and function attributes together would probably not appeal to everyone."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-10-17 20:29:32+00:00",
+                    "text": "For a package that is intended to be designed for use by others I think I prefer the user being required to do the preprocessing themselves and only present .f|.f90 files to fpm unless fpm bundles a \"standard\" preprocessor(s).\n\nI guess this is the right approach for small to medium size libraries, that only aim to provide Fortran procedures. Still we cannot exclude the use of a preprocessor for purposes like conditional compilation depending upon platform, compiler version, or other uses (compile-time selection of precision, using a different back-end library).\nI think with fpm we would also like to enable Fortran users to exchange templates and macros."
                 }
             ]
         },
@@ -14648,6 +14905,36 @@
                     "user": "ivan-pi",
                     "date": "2020-12-29 14:02:43+00:00",
                     "text": "I am also quite satisfied by what can be done with fypp (even if the syntax is quite verbose). However, I am not sure if Ondrej's suggestion to have a Fortran / C++ version of fypp is feasible. At least some elements of the fypp preprocessor language are tightly coupled to Python, e.g. one can call Python functions directly.\nCertainly, fpm is an excellent place to experiment with new preprocessing constructs. As long as the intermediate (standard-conforming) \".f90\" files are recoverable one can use it portably across compilers. On a personal level however, I will rather direct my efforts in other areas first."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-10-17 18:20:27+00:00",
+                    "text": "Could a plugin based approach like suggested in #211  also be used to implement support of various preprocessors (this issue, #308,  #469)?\nA list of Fortran preprocessors can be found at the Fortran Wiki. My feeling is that overall the opinions are too divided to settle on any single one of them.\nThe cpp/fpp preprocessors which are currently the de-facto standard are too limited for some tasks, but still used heavily in practice. The younger \"tech-savvy\" Fortran users prefer fypp as a more complete solution. On the other hand, in recent discussions at Discourse several users expressed their irritation about having to install Python to use fypp.\nPreprocessor plugins could be offered as fpm dependency packages. Then everyone could just use the preprocessor he likes best.\nThe Intel Fortran compiler offers something similar with the -fpp-name compiler flag. This allows user to supply their own custom preprocessors, by using a command like this (I haven't tested it):\nifort -fpp-name=fypp -Qoption,fpp,\"--line-length=132\" [..]\n\nwhere the quoted text are the options passed to fypp. The -D (define) and -I (include directory) options are forwarded automatically. The compiler then spawns a sub-command with the following signature:\nfypp [[-D<define>]..] [[-I<include>]..] --line-length=132 [..]\n\nOutput from the preprocessor goes to stdout and is captured for any further processing.\nI know @certik has suggested in a few places we embed a preprocessor with fpm, but I was wondering lately whether an extensible plugin model fits the diversity of Fortran preprocessing needs better. One negative aspect of this approach, is that instead of joining forces to build a single reliable preprocessor that covers most needs, we'd essentially remain with the current pool of (flawed) tools (no offense meant to Fortran preprocessor developers)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-10-17 18:43:21+00:00",
+                    "text": "We should implement a general preprocessing stage in fpm, this would allow native support of custom preprocessor as well. This requires a separate target processing stage before the source parsing to ensure we correctly generate the preprocessed source files as build artifacts. Otherwise our module dependencies might be inaccurate.\nThere is some demand on this beyond supporting fypp or other custom preprocessors. I recently talked with @robertrueger for supporting the FTL with fpm, there we have to deal with module names that are generated by the C preprocessor and therefore it currently can't be integrated with fpm.\nHaving a fypp-like preprocessor implemented in a compiled language is a secondary concern IMO, first we have to ensure that fpm is ready to use any preprocessor."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-10-17 20:57:28+00:00",
+                    "text": "I agree with the need for a general preprocessing stage. The recent post by @urbanjost at Discourse also supports a preprocessing stage which is agnostic to the actual tool used for the source transformation.\nA few comments about preprocessing were left in #191. The two options discussed briefly were:\n\nShould preprocessor invocation be tied to the source file extension (e.g. .F or .F90 will use the built in cpp/fpp preprocessor, .fypp gets preprocessed by fypp)?\nShould preprocessor usage be mutually exclusive?  (one preprocessor per project)\n\nMy own answer to both questions would be no; support of different file extensions and their meaning varies greatly between compilers (see #250). I can imagine cases where different preprocessors could be useful for different purposes.\nWhat are the other dimensions/design questions that need to be considered?\n\nIn #250 (comment) separation between \"built-in\" and \"external\" preprocessors was suggested.\nShould it be possible to chain preprocessors? (this doesn't work if the preprocessors share tokens)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-10-18 03:55:38+00:00",
+                    "text": "I agree not to tie it to the extension. Also, I saw one code at github that uses both fypp and the c preprocessor, so no to the second question as well.\nThe only issue is with location information and good error messages. I figured out that you can separate the preprocessor but you need to provide mappings, which are just a few 1D arrays that designate intervals in the original and preprocessed code, and you can have a few interval types.\nThe question then becomes, if fpm does the preprocessing, how can it communicate to the compiler so that the compiler returns good error messages? The #line directives is a good start, but the mapping above is better. We should hand over such mapping to compilers that support it (e.g., I am happy to accept such mapping in LFortran), and then the compiler can give good error messages.\nAlternatively, the compiler can hand over the error messages to fpm for fpm to display, after remapping it itself. I don't know how much of this stuff fpm should be doing. It seems this is best left to the compiler to display error messages."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-10-18 10:02:54+00:00",
+                    "text": "Are you still able to find the code that uses both fypp and the built-in preprocessor? Maybe @aradi can comment on this? I kind of doubt there is something the C preprocessor can do that can't be achieved with fypp. But I can imagine some convoluted use of preprocessing preprocessor directives... My second guess would be a scientific code which grows organically over years/decades, and the developers don't have the resources (or need) to go back and refactor it to use a newer preprocessor.\nI had not thought about the error issue so far. I kind of like the first idea, of passing the interval mapping to the compiler (maybe a scratch file is more suitable for large files). If the response to the LFortran prototype is good we can start lobbying other compilers to include a similar mechanism (or submit patches). Maybe we can brainstorm further in a issue at the LFortran repo?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-10-18 18:15:11+00:00",
+                    "text": "Sure, here is one example that uses both fypp and cpp: https://github.com/cp2k/dbcsr/blob/cfa17ba0f1c7c9c2ba83f5fa4358f2c9728aaa73/src/acc/dbcsr_acc_hostmem.F#L137\nWe should brainstorm how the compiler and fpm should cooperate. It's not just the preprocessor, but also the overall structure of the project and how exactly to compile it.\nCurrently fpm calls the compiler on a file by file basis. A better way is to give the compiler a list of files + compiler flags for each file. For small and medium size projects, the compiler can keep all code in memory and then provide a language server for an IDE, and then only recompile what was changed in the most efficient manner possible. Fpm is best to keep track of what files with what options (and which C preprocessor defines, to tie it to the present issue...), and to change these, for example the user selects a Release mode that can trigger a different C preprocessor option, or the user enables an optional dependency. Fpm should handle all that.\nThe actual compilation, on the other hand, fpm should only handle it if the compiler does not want to do it. But if the compiler wants to do it, fpm should just hand the information over.\nRegarding preprocessing. A character changes in an IDE (e.g., VSCode). The file must be preprocessed and then the compiler must recompile and give code suggestions or type information back to the IDE.\nIt makes a lot of sense if the compiler (language server) just handles both, and fpm is only involved if the user explicitly calls it to change some configuration about the project. Thinking about it further, it seems the language server must handle both fpm and the compiler. If fpm handles preprocessing, the language server can first call fpm to preprocess, and hand over the code mapping to the compiler to take it from there. Compiler gives back info, typically with correct location information (using the mapping from fpm), say where to find the definition of a given symbol. The user must communicate with the language server somehow, I would imagine simply by calling fpm in the terminal, and the language server just must be notified somehow; if a cpp option changes, then syntax highlighting must change for the new enabled/disabled ifdef branches etc.; as well as location information of symbols change etc."
                 }
             ]
         },
