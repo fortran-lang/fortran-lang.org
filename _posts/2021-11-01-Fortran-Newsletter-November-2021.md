@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: November 2021"
 category: newsletter
-authors: Sebastian Ehlert, Alexis Perry-Holby, Milan Curcic
+authors: Sebastian Ehlert, Alexis Perry-Holby, Milan Curcic, Ondřej Čertík
 ---
 
 Welcome to the November 2021 edition of the monthly Fortran newsletter.
