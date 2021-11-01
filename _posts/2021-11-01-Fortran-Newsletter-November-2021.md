@@ -215,7 +215,12 @@ Recent development updates:
 Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
 ### LFortran
-
+* 155 Merge Requests merged in October 2021
+* AST to ASR transformation simplified and unified
+* Many new intrinsics added
+* Rust style error messages, add first warnings and style suggestions
+* Fixed bugs in location information
+* C preprocessor added
 
 We are looking for new contributors. Please do not hesitate to contact us if
 you are interested. We will help you get up to speed.
