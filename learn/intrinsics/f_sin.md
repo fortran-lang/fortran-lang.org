@@ -43,7 +43,7 @@ Sample program:
     end program sample_sin
 ```
 
-## HAVERSINE FORMULA
+### HAVERSINE FORMULA
 
 From the article on "Haversine formula" in Wikipedia:
 

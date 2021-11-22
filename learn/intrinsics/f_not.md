@@ -3,8 +3,7 @@ layout: book
 title: not
 permalink: /learn/intrinsics/f_not
 ---
-### NAME
-
+### NAME 
 **not**(3f) - \[BIT MANIPULATION\] Logical negation
 
 ### SYNTAX

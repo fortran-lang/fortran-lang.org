@@ -28,7 +28,7 @@ converted to the real component. If X is complex then Y must not be
 present. If Y is present it is converted to the imaginary component. If
 Y is not present then the imaginary component is set to 0.0.
 
-## CMPLX AND DOUBLE PRECISION
+### CMPLX AND DOUBLE PRECISION
 
 The Fortran 90 language defines **CMPLX**() as always returning a result
 that is type **COMPLEX**(KIND=KIND(0.0)).

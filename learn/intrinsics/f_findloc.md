@@ -75,7 +75,7 @@ where
 
 is the shape of *ARRAY*.
 
-## RESULT VALUE
+### RESULT VALUE
 
   - **Case (i):**
     The result of FINDLOC (*ARRAY*, *VALUE*) is a rank-one array whose

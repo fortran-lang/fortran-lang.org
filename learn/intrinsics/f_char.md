@@ -17,7 +17,7 @@ result = **char**(i \[, kind\])
 **char**(i \[, kind\]) returns the character represented by the integer
 I.
 
-## ARGUMENTS
+### ARGUMENTS
 
   - **I**
     The type shall be INTEGER.
