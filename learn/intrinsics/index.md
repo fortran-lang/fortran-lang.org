@@ -29,10 +29,10 @@ on the documents. For contribution guidelines see
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | page                                                                             | license | description                                                  |
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY CONSTRUNCTION       | [merge](MERGE)                                       | (MIT)   | Merge variables                                              |
-| ARRAY CONSTRUNCTION       | [pack](PACK)                                         | (GFDL)  | Pack an array into an array of rank one                      |
-| ARRAY CONSTRUNCTION       | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
-| ARRAY CONSTRUNCTION       | [unpack](UNPACK)                                     | (GFDL)  | Store the elements of a vector in an array of higher rank    |
+| ARRAY CONSTRUCTION        | [merge](MERGE)                                       | (MIT)   | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [pack](PACK)                                         | (GFDL)  | Pack an array into an array of rank one                      |
+| ARRAY CONSTRUCTION        | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
+| ARRAY CONSTRUCTION        | [unpack](UNPACK)                                     | (GFDL)  | Store the elements of a vector in an array of higher rank    |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | ARRAY INQUIRY             | [allocated](ALLOCATED)                               | (GFDL)  | Status of an allocatable entity                              |
 | ARRAY INQUIRY             | [is\_contiguous](IS_CONTIGUOUS)                      | (GFDL)  | test if object is contiguous                                 |
@@ -237,12 +237,12 @@ on the documents. For contribution guidelines see
 | SYSTEM ENVIRONMENT        | [get\_environment\_variable](GET_ENVIRONMENT_VARIABLE)| (MIT)   | Get an environmental variable                               |
 | SYSTEM ENVIRONMENT        | [system\_clock](SYSTEM_CLOCK)                        | (GFDL)  | Return numeric data from a real-time clock.                  |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| TRANSFORMATIONAL FUNCTION | [cshift](CSHIFT)                                     | (GFDL)  | Circular shift elements of an array                          |
-| TRANSFORMATIONAL FUNCTION | [dot\_product](DOT_PRODUCT)                          | (GFDL)  | Dot product function                                         |
-| TRANSFORMATIONAL FUNCTION | [eoshift](EOSHIFT)                                   | (GFDL)  | End-off shift elements of an array                           |
-| TRANSFORMATIONAL FUNCTION | [matmul](MATMUL)                                     | (GFDL)  | matrix multiplication                                        |
-| TRANSFORMATIONAL FUNCTION | [null](NULL)                                         | (GFDL)  | Function that returns a disassociated pointer                |
-| TRANSFORMATIONAL FUNCTION | [parity](PARITY)                                     | (GFDL)  | Reduction with exclusive OR                                  |
+| TRANSFORMATIONAL          | [cshift](CSHIFT)                                     | (GFDL)  | Circular shift elements of an array                          |
+| TRANSFORMATIONAL          | [dot\_product](DOT_PRODUCT)                          | (GFDL)  | Dot product function                                         |
+| TRANSFORMATIONAL          | [eoshift](EOSHIFT)                                   | (GFDL)  | End-off shift elements of an array                           |
+| TRANSFORMATIONAL          | [matmul](MATMUL)                                     | (GFDL)  | matrix multiplication                                        |
+| TRANSFORMATIONAL          | [null](NULL)                                         | (GFDL)  | Function that returns a disassociated pointer                |
+| TRANSFORMATIONAL          | [parity](PARITY)                                     | (GFDL)  | Reduction with exclusive OR                                  |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | TBD                       | [associated](ASSOCIATED)                             | (GFDL)  | Status of a pointer or pointer/target pair                   |
 | TBD                       | [extends\_type\_of](EXTENDS_TYPE_OF)                 | (GFDL)  | determine if the dynamic type of A is an extension of the dynamic type of MOLD.          |
