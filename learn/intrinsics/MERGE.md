@@ -28,7 +28,7 @@ divide by zero being generated; as 1.0/x may be evaluated for all values
 of x before the mask is used to select which value to retain:
 
 ```fortran
-      y = merge( 1.0/x, 0.0, x /= 0.0 )
+      y = merge( 1.0\/x, 0.0, x \/= 0.0 )
 ```
 
 Note the compiler is also free to short-circuit or to generate an
@@ -40,7 +40,7 @@ construct:
 
 ```fortran
       where(x .ne. 0.0)
-         y = 1.0/x
+         y = 1.0\/x
       elsewhere
          y = 0.0
       endwhere
@@ -49,7 +49,7 @@ construct:
 instead of the more obscure
 
 ```fortran
-      merge(1.0/merge(x,1.0,x /= 0.0), 0.0, x/= 0.0)
+      merge(1.0\/merge(x,1.0,x \/= 0.0), 0.0, x \/= 0.0)
 ```
 
 ### ARGUMENTS
@@ -153,4 +153,4 @@ Fortran 95 and later
 
 Elemental procedure\|Elemental function
 
-#### @urbanjost
+##### @urbanjost

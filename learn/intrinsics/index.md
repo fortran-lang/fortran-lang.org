@@ -22,17 +22,17 @@ discussions in Fortran Discourse) these documents will hopefully be a
 valuable asset for Fortran programmers.
 
 This is a community-driven resource and everyone is encouraged to improve
-on the documents.
+on the documents. For contribution guidelines see 
+[MINIBOOKS](https://github.com/fortran-lang/fortran-lang.org/blob/master/MINIBOOKS.md).
 
 
-## ARRAY CONSTRUCTION
-| ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| page                                                 | license | description                                                  |
-| ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| [merge](MERGE)                                       | (MIT)   | Merge variables                                              |
-| [pack](PACK)                                         | (GFDL)  | Pack an array into an array of rank one                      |
-| [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
-| [unpack](UNPACK)                                     | (GFDL)  | Store the elements of a vector in an array of higher rank    |
+| -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| page                                                                             | license | description                                                  |
+| -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| ARRAY CONSTRUNCTION       | [merge](MERGE)                                       | (MIT)   | Merge variables                                              |
+| ARRAY CONSTRUNCTION       | [pack](PACK)                                         | (GFDL)  | Pack an array into an array of rank one                      |
+| ARRAY CONSTRUNCTION       | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
+| ARRAY CONSTRUNCTION       | [unpack](UNPACK)                                     | (GFDL)  | Store the elements of a vector in an array of higher rank    |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | ARRAY INQUIRY             | [allocated](ALLOCATED)                               | (GFDL)  | Status of an allocatable entity                              |
 | ARRAY INQUIRY             | [is\_contiguous](IS_CONTIGUOUS)                      | (GFDL)  | test if object is contiguous                                 |
@@ -275,3 +275,6 @@ or back-cover texts).
 
 If you contribute new material you thereby agree to release it under
 the MIT license.
+
+
+###### Written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
