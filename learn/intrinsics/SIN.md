@@ -6,7 +6,6 @@ permalink: /learn/intrinsics/SIN
 ### NAME
 
 **sin**(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
-(MIT)
 
 ### SYNTAX
 

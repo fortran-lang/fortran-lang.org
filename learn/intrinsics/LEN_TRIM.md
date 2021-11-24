@@ -6,7 +6,6 @@ permalink: /learn/intrinsics/LEN_TRIM
 ### NAME
 
 **len\_trim**(3f) - \[CHARACTER\] Length of a character entity without trailing blank characters
-(MIT)
 
 ### SYNTAX
 

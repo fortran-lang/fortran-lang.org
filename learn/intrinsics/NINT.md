@@ -6,7 +6,6 @@ permalink: /learn/intrinsics/NINT
 ### NAME
 
 **nint**(3f) - \[NUMERIC:TYPE\] Nearest whole number
-(MIT)
 
 ### SYNTAX
 

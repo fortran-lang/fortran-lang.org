@@ -27,7 +27,7 @@ on the documents. For contribution guidelines see
 
 
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| page                                                                             | license | description                                                  |
+| page                      |                                                      | license | description                                                  |
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | ARRAY CONSTRUCTION        | [merge](MERGE)                                       | (MIT)   | Merge variables                                              |
 | ARRAY CONSTRUCTION        | [pack](PACK)                                         | (GFDL)  | Pack an array into an array of rank one                      |

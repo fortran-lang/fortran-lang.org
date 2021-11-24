@@ -6,7 +6,6 @@ permalink: /learn/intrinsics/MERGE
 ### NAME
 
 **merge**(3f) - \[ARRAY CONSTRUCTION\] Merge variables
-(MIT)
 
 ### SYNTAX
 

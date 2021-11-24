@@ -5,7 +5,6 @@ permalink: /learn/intrinsics/NOT
 ---
 ### NAME 
 **not**(3f) - \[BIT MANIPULATION\] Logical negation
-(MIT)
 
 ### SYNTAX
 
