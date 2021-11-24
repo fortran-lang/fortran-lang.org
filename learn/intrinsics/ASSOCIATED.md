@@ -3,37 +3,37 @@ layout: book
 title: associated
 permalink: /learn/intrinsics/ASSOCIATED
 ---
-### NAME
+#### NAME
 
-**associated**(3f) - \[\] Status of a pointer or pointer/target pair
+__associated__(3f) - \[\] Status of a pointer or pointer/target pair
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **associated**(pointer \[, target\])
+result = __associated__(pointer \[, target\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**associated**(pointer \[, target\]) determines the status of the
+__associated__(pointer \[, target\]) determines the status of the
 pointer POINTER or if POINTER is associated with the target TARGET.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **POINTER**
+  - __POINTER__
     POINTER shall have the POINTER attribute and it can be of any type.
 
-  - **TARGET**
+  - __TARGET__
     (Optional) TARGET shall be a pointer or a target. It must have the
     same type, kind type parameter, and array rank as POINTER.
 
 The association status of neither POINTER nor TARGET shall be undefined.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-**associated**(pointer) returns a scalar value of type **logical**(4).
+__associated__(pointer) returns a scalar value of type __logical__(4).
 There are several cases:
 
-1.  When the optional TARGET is not present then **associated**(pointer)
+1.  When the optional TARGET is not present then __associated__(pointer)
     is true if POINTER is associated with a target; otherwise, it
     returns false.
 
@@ -64,7 +64,7 @@ There are several cases:
     POINTER occupy the same storage units in array element order. The
     result is false, if either TARGET or POINTER is disassociated.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -81,14 +81,14 @@ Sample program:
     end program demo_associated
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function
 
-### SEE ALSO
+#### SEE ALSO
 
-**null**(3)
+__null__(3)

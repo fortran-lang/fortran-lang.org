@@ -3,12 +3,12 @@ layout: book
 title: adjustr
 permalink: /learn/intrinsics/ADJUSTR
 ---
-### NAME
+#### NAME
 
-**adjustr**(3f) - \[CHARACTER\] Right-adjust a string
+__adjustr__(3f) - \[CHARACTER\] Right-adjust a string
 (MIT)
 
-### SYNTAX
+#### SYNTAX
 
 ```fortran
     result = adjustr*(string)
@@ -16,23 +16,23 @@ permalink: /learn/intrinsics/ADJUSTR
      character(len=len(string))  :: result
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**adjustr**(STRING) will right adjust a string by removing trailing
+__adjustr__(STRING) will right adjust a string by removing trailing
 spaces. Spaces are inserted at the start of the string as needed.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **STRING**
+  - __STRING__
     the type shall be CHARACTER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type CHARACTER and of the same kind as STRING
 where trailing spaces are removed and the same number of spaces are
 inserted at the start of STRING.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -77,24 +77,24 @@ Results:
    [12345678901234567890123456789012345678901234567890]
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __nonelemental:__
+    __repeat__(3), __trim__(3)
 
-#### @urbanjost
+##### @urbanjost

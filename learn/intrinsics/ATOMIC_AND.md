@@ -3,18 +3,18 @@ layout: book
 title: atomic_and
 permalink: /learn/intrinsics/ATOMIC_AND
 ---
-### NAME
+#### NAME
 
-**atomic\_and**(3f) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation
+__atomic\_and__(3f) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **atomic\_and**(atom, value \[, stat\])
+call __atomic\_and__(atom, value \[, stat\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**atomic\_and**(atom, value) atomically defines ATOM with the bitwise
+__atomic\_and__(atom, value) atomically defines ATOM with the bitwise
 AND between the values of ATOM and VALUE. When STAT is present and the
 invocation was successful, it is assigned the value 0. If it is present
 and the invocation has failed, it is assigned a positive value; in
@@ -22,20 +22,20 @@ particular, for a coindexed ATOM, if the remote image has stopped, it is
 assigned the value of iso\_fortran\_env's stat\_stopped\_image and if
 the remote image has failed, the value stat\_failed\_image.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ATOM**
+  - __ATOM__
     Scalar coarray or coindexed variable of integer type with
     atomic\_int\_kind kind.
 
-  - **VALUE**
+  - __VALUE__
     Scalar of the same type as ATOM. If the kind is different, the value
     is converted to the kind of ATOM.
 
-  - **STAT**
+  - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -48,16 +48,16 @@ Sample program:
    end program demo_atomic_and
 ```
 
-### STANDARD
+#### STANDARD
 
 TS 18508 or later
 
-### CLASS
+#### CLASS
 
 Atomic subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**atomic\_define**(3), **atomic\_fetch\_and**(3),
-**iso\_fortran\_env**(3), **atomic\_add**(3), **atomic\_or**(3),
-**atomic\_xor**(3)
+__atomic\_define__(3), __atomic\_fetch\_and__(3),
+__iso\_fortran\_env__(3), __atomic\_add__(3), __atomic\_or__(3),
+__atomic\_xor__(3)

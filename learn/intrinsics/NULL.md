@@ -3,16 +3,16 @@ layout: book
 title: null
 permalink: /learn/intrinsics/NULL
 ---
-### NAME
+#### NAME
 
-**null**(3f) - \[TRANSFORMATIONAL FUNCTION\] Function that returns a disassociated pointer
+__null__(3f) - \[TRANSFORMATIONAL FUNCTION\] Function that returns a disassociated pointer
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-ptr =\> **null**(\[mold\])
+ptr =\> __null__(\[mold\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns a disassociated pointer.
 
@@ -22,17 +22,17 @@ returned, otherwise the type is determined by context.
 In \[\[Fortran 95\]\], MOLD is optional. Please note that \[\[Fortran
 2003\]\] includes cases where it is required.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **MOLD**
+  - __MOLD__
     (Optional) shall be a pointer of any association status and of any
     type.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 A disassociated pointer.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -40,14 +40,14 @@ Sample program:
     real, pointer, dimension(:) :: vec => null ()
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function
 
-### SEE ALSO
+#### SEE ALSO
 
-**associated**(3)
+__associated__(3)

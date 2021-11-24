@@ -3,33 +3,33 @@ layout: book
 title: lbound
 permalink: /learn/intrinsics/LBOUND
 ---
-### NAME
+#### NAME
 
-**lbound**(3f) - \[ARRAY INQUIRY\] Lower dimension bounds of an array
+__lbound__(3f) - \[ARRAY INQUIRY\] Lower dimension bounds of an array
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **lbound**(array \[, dim \[, kind\]\])
+result = __lbound__(array \[, dim \[, kind\]\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns the lower bounds of an array, or a single lower bound along the
 DIM dimension.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ARRAY**
+  - __ARRAY__
     Shall be an array, of any type.
 
-  - **DIM**
+  - __DIM__
     (Optional) Shall be a scalar INTEGER.
 
-  - **KIND**
+  - __KIND__
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind. If DIM is absent, the
@@ -39,7 +39,7 @@ that dimension. If ARRAY is an expression rather than a whole array or
 array structure component, or if it has a zero extent along the relevant
 dimension, the lower bound is taken to be 1.
 
-### EXAMPLE
+#### EXAMPLE
 
 Note that in my opinion this function should not be used on assumed-size
 arrays or in any function without an explicit interface. Errors can
@@ -104,14 +104,14 @@ Sample program
 >    ESUB: LOWER=           1 UPPER=          21 SIZE=          21
 > ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function
 
-### SEE ALSO
+#### SEE ALSO
 
-**ubound**(3), **co\_lbound**(3)
+__ubound__(3), __co\_lbound__(3)

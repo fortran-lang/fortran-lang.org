@@ -3,30 +3,30 @@ layout: book
 title: maxexponent
 permalink: /learn/intrinsics/MAXEXPONENT
 ---
-### NAME
+#### NAME
 
-**maxexponent**(3f) - \[NUMERIC MODEL\] Maximum exponent of a real kind
+__maxexponent__(3f) - \[NUMERIC MODEL\] Maximum exponent of a real kind
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **maxexponent**(x)
+result = __maxexponent__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**maxexponent**(x) returns the maximum exponent in the model of the type
+__maxexponent__(x) returns the maximum exponent in the model of the type
 of X.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     Shall be of type REAL.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of the default integer kind.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -41,10 +41,10 @@ Sample program:
     end program demo_maxexponent
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function

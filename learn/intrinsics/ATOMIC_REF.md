@@ -3,18 +3,18 @@ layout: book
 title: atomic_ref
 permalink: /learn/intrinsics/ATOMIC_REF
 ---
-### NAME
+#### NAME
 
-**atomic\_ref**(3f) - \[ATOMIC\] Obtaining the value of a variable atomically
+__atomic\_ref__(3f) - \[ATOMIC\] Obtaining the value of a variable atomically
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **atomic\_ref**(value, atom \[, stat\])
+call __atomic\_ref__(value, atom \[, stat\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**atomic\_ref**(VALUE, ATOM ) atomically assigns the value of the
+__atomic\_ref__(VALUE, ATOM ) atomically assigns the value of the
 variable ATOM to VALUE. When STAT is present and the invocation was
 successful, it is assigned the value 0. If it is present and the
 invocation has failed, it is assigned a positive value; in particular,
@@ -22,21 +22,21 @@ for a coindexed ATOM, if the remote image has stopped, it is assigned
 the value of iso\_fortran\_env's STAT\_STOPPED\_IMAGE and if the remote
 image has failed, the value STAT\_FAILED\_IMAGE.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **VALUE**
+  - __VALUE__
     Scalar of the same type as ATOM. If the kind is different, the value
     is converted to the kind of ATOM.
 
-  - **ATOM**
+  - __ATOM__
     Scalar coarray or coindexed variable of either integer type with
     atomic\_int\_kind kind or logical type with atomic\_logical\_kind
     kind.
 
-  - **STAT**
+  - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -55,16 +55,16 @@ Sample program:
    end program demo_atomic_ref
 ````
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later; with STAT, TS 18508 or later
 
-### CLASS
+#### CLASS
 
 Atomic subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**atomic\_define**(3), **atomic\_cas**(3), **iso\_fortran\_env**(3),
-**atomic\_fetch\_add**(3), **atomic\_fetch\_and**(3),
-**atomic\_fetch\_or**(3), **atomic\_fetch\_xor**(3)
+__atomic\_define__(3), __atomic\_cas__(3), __iso\_fortran\_env__(3),
+__atomic\_fetch\_add__(3), __atomic\_fetch\_and__(3),
+__atomic\_fetch\_or__(3), __atomic\_fetch\_xor__(3)

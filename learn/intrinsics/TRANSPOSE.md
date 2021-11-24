@@ -3,31 +3,31 @@ layout: book
 title: transpose
 permalink: /learn/intrinsics/TRANSPOSE
 ---
-### NAME
+#### NAME
 
-**transpose**(3f) - \[ARRAY MANIPULATION\] Transpose an array of rank two
+__transpose__(3f) - \[ARRAY MANIPULATION\] Transpose an array of rank two
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **transpose**(matrix)
+result = __transpose__(matrix)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Transpose an array of rank two. Element (i, j) of the result has the
-value **matrix**(j, i), for all i, j.
+value __matrix__(j, i), for all i, j.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **MATRIX**
+  - __MATRIX__
     Shall be an array of any type and have a rank of two.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The result has the same type as MATRIX, and has shape \[ m, n \] if
 MATRIX has shape \[ n, m \].
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -79,10 +79,10 @@ Results:
     > [     5,    50, -1055 ]
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function

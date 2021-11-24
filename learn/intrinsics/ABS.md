@@ -3,11 +3,11 @@ layout: book
 title: abs
 permalink: /learn/intrinsics/ABS
 ---
-### NAME
+#### NAME
 
-**abs**(3f) - \[NUMERIC\] Absolute value
+__abs__(3f) - \[NUMERIC\] Absolute value
 
-### SYNTAX
+#### SYNTAX
 ```fortran
    result = ABS(A)
 
@@ -16,29 +16,29 @@ permalink: /learn/intrinsics/ABS
     TYPE(kind=KIND)            :: result
 
     where TYPE may be REAL, INTEGER, or COMPLEX
-    and KIND may be any supported KIND for the 
+    and KIND may be any supported KIND for the
     associated TYPE.
 ```
-### DESCRIPTION
+#### DESCRIPTION
 
-**abs**(A) computes the absolute value of numeric argument A.
+__abs__(A) computes the absolute value of numeric argument A.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     the type of the argument shall be an INTEGER, REAL, or COMPLEX
-    scalar or array with **INTENT**(IN).
+    scalar or array with __INTENT__(IN).
 
-### RETURN VALUE
+#### RETURN VALUE
 
 If A is of type INTEGER or REAL, the value of the result is |A| and of
 the same type and kind as the input argument.
 
 if A is COMPLEX with value (X, Y), the result is a REAL equal to a
-processor-dependent approximation to **SQRT**(X\*\*2 + Y\*\*2) computed
+processor-dependent approximation to __SQRT__(X\*\*2 + Y\*\*2) computed
 without undue overflow or underflow.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -73,12 +73,12 @@ Results:
     abs is ELEMENTAL: 10 20 0 1 3 100
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-#### @urbanjost
+##### @urbanjost

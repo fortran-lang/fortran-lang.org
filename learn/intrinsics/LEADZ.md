@@ -3,30 +3,30 @@ layout: book
 title: leadz
 permalink: /learn/intrinsics/LEADZ
 ---
-### NAME
+#### NAME
 
-**leadz**(3f) - \[BIT INQUIRY\] Number of leading zero bits of an integer
+__leadz__(3f) - \[BIT INQUIRY\] Number of leading zero bits of an integer
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **leadz**(i)
+result = __leadz__(i)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 LEADZ returns the number of leading zero bits of an integer.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     Shall be of type INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The type of the return value is the same as a default INTEGER. If all
-the bits of I are zero, the result value is **bit\_size**(i).
+the bits of I are zero, the result value is __bit\_size__(i).
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -120,14 +120,14 @@ Results:
     FOR VALUE 01111111111111111111111111111111 OR 2147483647
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**bit\_size**(3), **popcnt**(3), **poppar**(3), **trailz**(3)
+__bit\_size__(3), __popcnt__(3), __poppar__(3), __trailz__(3)

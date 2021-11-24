@@ -3,30 +3,30 @@ layout: book
 title: aimag
 permalink: /learn/intrinsics/AIMAG
 ---
-### NAME
+#### NAME
 
-**aimag**(3f) - \[NUMERIC:TYPE\] Imaginary part of complex number
+__aimag__(3f) - \[NUMERIC:TYPE\] Imaginary part of complex number
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **AIMAG**(Z)
+result = __aimag__(Z)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**AIMAG**(Z) yields the imaginary part of complex argument Z.
+__aimag__(Z) yields the imaginary part of complex argument Z.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **Z**
+  - __Z__
     The type of the argument shall be COMPLEX.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type REAL with the kind type parameter of the
 argument.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -51,20 +51,18 @@ Sample program:
 Results:
 
 ```
-      2.000000       4.00000000000000
+  2.000000       4.00000000000000
+
+ (1.000000,2.000000) (0.5000000,1.000000) (2.000000,4.000000)
+ (-11.00000,-2.000000)
+
+       2.000000       1.000000       4.000000      -2.000000
 ```
 
-> (1.000000,2.000000) (0.5000000,1.000000) (2.000000,4.000000)
-> (**-11.00000**,**-2.000000**)
->
-> ```
->       2.000000       1.000000       4.000000      -2.000000
-> ```
-
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental function

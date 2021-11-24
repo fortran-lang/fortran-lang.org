@@ -3,42 +3,42 @@ layout: book
 title: maskr
 permalink: /learn/intrinsics/MASKR
 ---
-### NAME
+#### NAME
 
-**maskr**(3f) - \[\] Right justified mask
+__maskr__(3f) - \[\] Right justified mask
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **maskr**(i\[, kind\])
+result = __maskr__(i\[, kind\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**maskr**(i\[, kind\]) has its rightmost I bits set to 1, and the
+__maskr__(i\[, kind\]) has its rightmost I bits set to 1, and the
 remaining bits set to 0.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     Shall be of type INTEGER.
 
-  - **KIND**
+  - __KIND__
     Shall be a scalar constant expression of type INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER. If KIND is present, it specifies
 the kind value of the return type; otherwise, it is of the default
 integer kind.
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**maskl**(3)
+__maskl__(3)

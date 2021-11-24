@@ -3,18 +3,18 @@ layout: book
 title: achar
 permalink: /learn/intrinsics/ACHAR
 ---
-### NAME
+#### NAME
 
-**achar**(3f) - \[CHARACTER\] returns a character in a specified position in the ASCII collating sequence
+__achar__(3f) - \[CHARACTER\] returns a character in a specified position in the ASCII collating sequence
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **ACHAR**(I \[, KIND\])
+result = __ACHAR__(I \[, KIND\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**achar**(I) returns the character located at position I in the ASCII
+__achar__(I) returns the character located at position I in the ASCII
 collating sequence.
 
 The ADEs (ASCII Decimal Equivalents) for ASCII are
@@ -40,22 +40,22 @@ The ADEs (ASCII Decimal Equivalents) for ASCII are
     *-------*-------*-------*-------*-------*-------*-------*-------*
 ```
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     the type shall be INTEGER.
 
-  - **KIND**
+  - __KIND__
     (optional) an INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type CHARACTER with a length of one. If the KIND
 argument is present, the return value is of the specified kind and of
 the default kind otherwise.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -82,29 +82,29 @@ Results:
    `abcdefghijklmnopqrstuvwxyz{|}~
 ```
 
-### NOTE
+#### NOTE
 
 see \[\[ichar\]\] for a discussion of converting between numerical
 values and formatted string representations.
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later, with KIND argument Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**char**(3), **iachar**(3), **ichar**(3)
+__char__(3), __iachar__(3), __ichar__(3)
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __nonelemental:__
+    __repeat__(3), __trim__(3)

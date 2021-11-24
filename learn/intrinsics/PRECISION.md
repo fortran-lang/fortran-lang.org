@@ -3,30 +3,30 @@ layout: book
 title: precision
 permalink: /learn/intrinsics/PRECISION
 ---
-### NAME
+#### NAME
 
-**precision**(3f) - \[NUMERIC MODEL\] Decimal precision of a real kind
+__precision__(3f) - \[NUMERIC MODEL\] Decimal precision of a real kind
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **precision**(x)
+result = __precision__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**precision**(x) returns the decimal precision in the model of the type
+__precision__(x) returns the decimal precision in the model of the type
 of X.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     Shall be of type REAL or COMPLEX.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of the default integer kind.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -41,14 +41,14 @@ Sample program:
     end program demo_precision
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function
 
-### SEE ALSO
+#### SEE ALSO
 
-**selected\_real\_kind**(3), **range**(3)
+__selected\_real\_kind__(3), __range__(3)

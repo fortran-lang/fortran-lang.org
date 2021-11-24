@@ -3,18 +3,18 @@ layout: book
 title: atan2
 permalink: /learn/intrinsics/ATAN2
 ---
-### NAME
+#### NAME
 
-**atan2**(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
+__atan2__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **atan2**(y, x)
+result = __atan2__(y, x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**atan2**(y, x) computes the arctangent of the complex number
+__atan2__(y, x) computes the arctangent of the complex number
 
 ```
       X + i Y.
@@ -25,29 +25,29 @@ coordinates and allows to determine the angle in the correct quadrant.
 To convert from Cartesian Coordinates (x,y) to polar coordinates
 
 (r,theta): $$ \\begin{aligned} r &= \\sqrt{x\*\*2 + y\*\*2} \\\\ \\theta
-&= \\tan\*\*{**-1**}(y / x) \\end{aligned} $$
+&= \\tan\*\*{__-1__}(y / x) \\end{aligned} $$
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **Y**
-    The type shall be **REAL**.
+  - __Y__
+    The type shall be __REAL__.
 
-  - **X**
-    The type and kind type parameter shall be the same as **Y**. If **Y** is
-    zero, then **X** must be nonzero.
+  - __X__
+    The type and kind type parameter shall be the same as __Y__. If __Y__ is
+    zero, then __X__ must be nonzero.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-The return value has the same type and kind type parameter as **Y**. It is
-the principal value of the complex number **(X + i, Y)**. If X is nonzero,
-then it lies in the range **-PI \<= atan(x) \<= PI**. The sign is
-positive if **Y** is positive. If **Y** is zero, then the return value is zero
-if **X** is strictly positive, **PI** if **X** is negative and **Y** is positive zero
-(or the processor does not handle signed zeros), and **-PI** if **X** is
-negative and **Y** is negative zero. Finally, if **X** is zero, then the
-magnitude of the result is **PI/2**.
+The return value has the same type and kind type parameter as __Y__. It is
+the principal value of the complex number __(X + i, Y)__. If X is nonzero,
+then it lies in the range __-PI \<= atan(x) \<= PI__. The sign is
+positive if __Y__ is positive. If __Y__ is zero, then the return value is zero
+if __X__ is strictly positive, __PI__ if __X__ is negative and __Y__ is positive zero
+(or the processor does not handle signed zeros), and __-PI__ if __X__ is
+negative and __Y__ is negative zero. Finally, if __X__ is zero, then the
+magnitude of the result is __PI/2__.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -59,10 +59,10 @@ real(4) :: x = 1.e0_4, y = 0.5e0_4
 end program demo_atan2
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function

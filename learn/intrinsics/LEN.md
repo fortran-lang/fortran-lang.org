@@ -3,45 +3,45 @@ layout: book
 title: len
 permalink: /learn/intrinsics/LEN
 ---
-### NAME
+#### NAME
 
-**len**(3f) - \[CHARACTER\] Length of a character entity
+__len__(3f) - \[CHARACTER\] Length of a character entity
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-l = **len**(string \[, kind\])
+l = __len__(string \[, kind\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns the length of a character string. If STRING is an array, the
 length of an element of STRING is returned. Note that STRING need not be
 defined when this intrinsic is invoked, since only the length, not the
 content, of STRING is needed.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **STRING**
-    Shall be a scalar or array of type CHARACTER, with **intent**(in)
+  - __STRING__
+    Shall be a scalar or array of type CHARACTER, with __intent__(in)
 
-  - **KIND**
+  - __KIND__
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later, with KIND argument - Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program
 
@@ -55,14 +55,14 @@ Sample program
      end program demo_len
 ```
 
-### SEE ALSO
+#### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

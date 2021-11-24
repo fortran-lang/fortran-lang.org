@@ -3,47 +3,47 @@ layout: book
 title: mvbits
 permalink: /learn/intrinsics/MVBITS
 ---
-### NAME
+#### NAME
 
-**mvbits**(3f) - \[BIT MANIPULATION\] Move bits from one integer to another
+__mvbits__(3f) - \[BIT MANIPULATION\] Move bits from one integer to another
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **mvbits**(from, frompos, len, to, topos)
+call __mvbits__(from, frompos, len, to, topos)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Moves LEN bits from positions FROMPOS through frompos+len-1 of FROM to
 positions TOPOS through topos+len-1 of TO. The portion of argument TO
 not affected by the movement of bits is unchanged. The values of
-frompos+len-1 and topos+len-1 must be less than **bit\_size**(from).
+frompos+len-1 and topos+len-1 must be less than __bit\_size__(from).
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **FROM**
+  - __FROM__
     The type shall be INTEGER.
 
-  - **FROMPOS**
+  - __FROMPOS__
     The type shall be INTEGER.
 
-  - **LEN**
+  - __LEN__
     The type shall be INTEGER.
 
-  - **TO**
+  - __TO__
     The type shall be INTEGER, of the same kind as FROM.
 
-  - **TOPOS**
+  - __TOPOS__
     The type shall be INTEGER.
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**ibclr**(3), **ibset**(3), **ibits**(3), **iand**(3), **ior**(3)
+__ibclr__(3), __ibset__(3), __ibits__(3), __iand__(3), __ior__(3)

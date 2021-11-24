@@ -3,33 +3,33 @@ layout: book
 title: sign
 permalink: /learn/intrinsics/SIGN
 ---
-### NAME
+#### NAME
 
-**sign**(3f) - \[NUMERIC\] Sign copying function
+__sign__(3f) - \[NUMERIC\] Sign copying function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **sign**(a, b)
+result = __sign__(a, b)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**sign**(a,b) returns the value of A with the sign of B.
+__sign__(a,b) returns the value of A with the sign of B.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     Shall be of type INTEGER or REAL
 
-  - **B**
+  - __B__
     Shall be of the same type and kind as A
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The kind of the return value is that of A and B. If B \>= 0 then the
-result is **abs**(a), else it is -**abs**(a).
+result is __abs__(a), else it is -__abs__(a).
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -46,10 +46,10 @@ Sample program:
     end program demo_sign
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\\|Elemental function

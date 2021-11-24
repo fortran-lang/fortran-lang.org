@@ -3,30 +3,30 @@ layout: book
 title: exponent
 permalink: /learn/intrinsics/EXPONENT
 ---
-### NAME
+#### NAME
 
-**exponent**(3f) - \[MODEL\_COMPONENTS\] Exponent function
+__exponent__(3f) - \[MODEL\_COMPONENTS\] Exponent function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **exponent**(x)
+result = __exponent__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**exponent**(x) returns the value of the exponent part of X. If X is
+__exponent__(x) returns the value of the exponent part of X. If X is
 zero the value returned is zero.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type shall be REAL.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type default INTEGER.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -41,10 +41,10 @@ Sample program:
     end program demo_exponent
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function

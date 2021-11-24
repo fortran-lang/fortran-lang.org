@@ -180,53 +180,53 @@ Version filling the role of the Document, thus licensing distribution
 and modification of the Modified Version to whoever possesses a copy
 of it.  In addition, you must do these things in the Modified Version:
 
-* **A**. Use in the Title Page (and on the covers, if any) a title distinct
+* __A__. Use in the Title Page (and on the covers, if any) a title distinct
    from that of the Document, and from those of previous versions
    (which should, if there were any, be listed in the History section
    of the Document).  You may use the same title as a previous version
    if the original publisher of that version gives permission.
-* **B**. List on the Title Page, as authors, one or more persons or entities
+* __B__. List on the Title Page, as authors, one or more persons or entities
    responsible for authorship of the modifications in the Modified
    Version, together with at least five of the principal authors of the
    Document (all of its principal authors, if it has fewer than five),
    unless they release you from this requirement.
-* **C**. State on the Title page the name of the publisher of the
+* __C__. State on the Title page the name of the publisher of the
    Modified Version, as the publisher.
-* **D**. Preserve all the copyright notices of the Document.
-* **E**. Add an appropriate copyright notice for your modifications
+* __D__. Preserve all the copyright notices of the Document.
+* __E__. Add an appropriate copyright notice for your modifications
    adjacent to the other copyright notices.
-* **F**. Include, immediately after the copyright notices, a license notice
+* __F__. Include, immediately after the copyright notices, a license notice
    giving the public permission to use the Modified Version under the
    terms of this License, in the form shown in the Addendum below.
-* **G**. Preserve in that license notice the full lists of Invariant Sections
+* __G__. Preserve in that license notice the full lists of Invariant Sections
    and required Cover Texts given in the Document's license notice.
-* **H**. Include an unaltered copy of this License.
-* **I**. Preserve the section Entitled "History", Preserve its Title, and add
+* __H__. Include an unaltered copy of this License.
+* __I__. Preserve the section Entitled "History", Preserve its Title, and add
    to it an item stating at least the title, year, new authors, and
    publisher of the Modified Version as given on the Title Page.  If
    there is no section Entitled "History" in the Document, create one
    stating the title, year, authors, and publisher of the Document as
    given on its Title Page, then add an item describing the Modified
    Version as stated in the previous sentence.
-* **J**. Preserve the network location, if any, given in the Document for
+* __J__. Preserve the network location, if any, given in the Document for
    public access to a Transparent copy of the Document, and likewise
    the network locations given in the Document for previous versions
    it was based on.  These may be placed in the "History" section.
    You may omit a network location for a work that was published at
    least four years before the Document itself, or if the original
    publisher of the version it refers to gives permission.
-* **K**. For any section Entitled "Acknowledgements" or "Dedications",
+* __K__. For any section Entitled "Acknowledgements" or "Dedications",
    Preserve the Title of the section, and preserve in the section all
    the substance and tone of each of the contributor acknowledgements
    and/or dedications given therein.
-* **L**. Preserve all the Invariant Sections of the Document,
+* __L__. Preserve all the Invariant Sections of the Document,
    unaltered in their text and in their titles.  Section numbers
    or the equivalent are not considered part of the section titles.
-* **M**. Delete any section Entitled "Endorsements".  Such a section
+* __M__. Delete any section Entitled "Endorsements".  Such a section
    may not be included in the Modified Version.
-* **N**. Do not retitle any existing section to be Entitled "Endorsements"
+* __N__. Do not retitle any existing section to be Entitled "Endorsements"
    or to conflict in title with any Invariant Section.
-* **O**. Preserve any Warranty Disclaimers.
+* __O__. Preserve any Warranty Disclaimers.
 
 If the Modified Version includes new front-matter sections or
 appendices that qualify as Secondary Sections and contain no material

@@ -3,16 +3,16 @@ layout: book
 title: verify
 permalink: /learn/intrinsics/VERIFY
 ---
-### NAME
+#### NAME
 
-**verify**(3f) - \[CHARACTER\] Scan a string for the absence of a set of characters
+__verify__(3f) - \[CHARACTER\] Scan a string for the absence of a set of characters
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **verify**(string, set\[, back \[, kind\]\])
+result = __verify__(string, set\[, back \[, kind\]\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Verifies that all the characters in STRING belong to the set of
 characters in SET.
@@ -22,27 +22,27 @@ position of the leftmost character of STRING that is not in SET. If BACK
 equals TRUE, the rightmost position is returned. If all characters of
 STRING are found in SET, the result is zero.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **STRING**
+  - __STRING__
     Shall be of type CHARACTER.
 
-  - **SET**
+  - __SET__
     Shall be of type CHARACTER.
 
-  - **BACK**
+  - __BACK__
     (Optional) shall be of type LOGICAL.
 
-  - **KIND**
+  - __KIND__
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -106,22 +106,22 @@ Results:
     32-af43d passed
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

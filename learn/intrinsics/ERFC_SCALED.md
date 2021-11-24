@@ -3,33 +3,33 @@ layout: book
 title: erfc_scaled
 permalink: /learn/intrinsics/ERFC_SCALED
 ---
-### NAME
+#### NAME
 
-**erfc\_scaled**(3f) - \[MATHEMATICS\] Error function
+__erfc\_scaled__(3f) - \[MATHEMATICS\] Error function
 (GFDL)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**erfc\_scaled**(x) computes the exponentially-scaled complementary
+__erfc\_scaled__(x) computes the exponentially-scaled complementary
 error function of X:
 
 $$ e\*\*{x\*\*2} \\frac{2}{\\sqrt{\\pi}} \\int\_{x}\*\*{\\infty}
-e\*\*{**-t**\*\*2} dt. $$
+e\*\*{__-t__\*\*2} dt. $$
 
-### SYNTAX
+#### SYNTAX
 
-result = **erfc\_scaled**(x)
+result = __erfc\_scaled__(x)
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type shall be REAL.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type REAL and of the same kind as X.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -42,10 +42,10 @@ Sample program:
    end program demo_erfc_scaled
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental function

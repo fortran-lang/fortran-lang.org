@@ -3,28 +3,28 @@ layout: book
 title: selected_int_kind
 permalink: /learn/intrinsics/SELECTED_INT_KIND
 ---
-### NAME
+#### NAME
 
-**selected\_int\_kind**(3f) - \[KIND\] Choose integer kind
+__selected\_int\_kind__(3f) - \[KIND\] Choose integer kind
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **selected\_int\_kind**(r)
+result = __selected\_int\_kind__(r)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**selected\_int\_kind**(r) return the kind value of the smallest integer
-type that can represent all values ranging from **-10**\*\*R (exclusive)
+__selected\_int\_kind__(r) return the kind value of the smallest integer
+type that can represent all values ranging from __-10__\*\*R (exclusive)
 to 10\*\*R (exclusive). If there is no integer kind that accommodates
-this range, selected\_int\_kind returns **-1**.
+this range, selected\_int\_kind returns __-1__.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **R**
+  - __R__
     Shall be a scalar and of type INTEGER.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -44,10 +44,10 @@ Sample program:
    end program demo_selected_int_kind
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function

@@ -3,33 +3,33 @@ layout: book
 title: ubound
 permalink: /learn/intrinsics/UBOUND
 ---
-### NAME
+#### NAME
 
-**ubound**(3f) - \[ARRAY INQUIRY\] Upper dimension bounds of an array
+__ubound__(3f) - \[ARRAY INQUIRY\] Upper dimension bounds of an array
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **ubound**(array \[, dim \[, kind\]\])
+result = __ubound__(array \[, dim \[, kind\]\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns the upper bounds of an array, or a single upper bound along the
 DIM dimension.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ARRAY**
+  - __ARRAY__
     Shall be an array, of any type.
 
-  - **DIM**
+  - __DIM__
     (Optional) Shall be a scalar INTEGER.
 
-  - **KIND**
+  - __KIND__
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind. If DIM is absent, the
@@ -40,7 +40,7 @@ array structure component, or if it has a zero extent along the relevant
 dimension, the upper bound is taken to be the number of elements along
 the relevant dimension.
 
-### EXAMPLE
+#### EXAMPLE
 
 Note that in my opinion this function should not be used on assumed-size
 arrays or in any function without an explicit interface. Errors can
@@ -101,15 +101,15 @@ Sample program
 >   ESUB: LOWER=           1 UPPER=          21 SIZE=          21
 > ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later, with KIND argument Fortran 2003
 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function
 
-### SEE ALSO
+#### SEE ALSO
 
-**lbound**(3), **co\_ubound**(3), **co\_lbound**(3)
+__lbound__(3), __co\_ubound__(3), __co\_lbound__(3)

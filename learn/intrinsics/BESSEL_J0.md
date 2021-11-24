@@ -3,31 +3,31 @@ layout: book
 title: bessel_j0
 permalink: /learn/intrinsics/BESSEL_J0
 ---
-### NAME
+#### NAME
 
-**bessel\_j0**(3f) - \[MATHEMATICS\] Bessel function of the first kind of order 0
+__bessel\_j0__(3f) - \[MATHEMATICS\] Bessel function of the first kind of order 0
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **bessel\_j0**(x)
+result = __bessel\_j0__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**bessel\_j0**(x) computes the \[\[Bessel function\]\] of the first kind
+__bessel\_j0__(x) computes the \[\[Bessel function\]\] of the first kind
 of order 0 of X.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type shall be REAL.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-The return value is of type REAL and lies in the range **-0.4027** \<=
-**Bessel**(0,x) \<= 1. It has the same kind as X.
+The return value is of type REAL and lies in the range __-0.4027__ \<=
+__Bessel__(0,x) \<= 1. It has the same kind as X.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -41,15 +41,15 @@ Sample program:
    end program demo_besj0
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**bessel\_j1**(3), **bessel\_jn**(3), **bessel\_y0**(3),
-**bessel\_y1**(3), **bessel\_yn**(3)
+__bessel\_j1__(3), __bessel\_jn__(3), __bessel\_y0__(3),
+__bessel\_y1__(3), __bessel\_yn__(3)

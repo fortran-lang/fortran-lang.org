@@ -3,32 +3,32 @@ layout: book
 title: repeat
 permalink: /learn/intrinsics/REPEAT
 ---
-### NAME
+#### NAME
 
-**repeat**(3f) - \[CHARACTER\] Repeated string concatenation
+__repeat__(3f) - \[CHARACTER\] Repeated string concatenation
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **repeat**(string, ncopies)
+result = __repeat__(string, ncopies)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Concatenates NCOPIES copies of a string.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **STRING**
+  - __STRING__
     Shall be scalar and of type CHARACTER.
 
-  - **NCOPIES**
+  - __NCOPIES__
     Shall be scalar and of type INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 A new scalar of type CHARACTER built up from NCOPIES copies of STRING.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -39,22 +39,22 @@ Sample program:
     end program demo_repeat
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function
 
-### SEE ALSO
+#### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

@@ -3,12 +3,12 @@ layout: book
 title: get_command
 permalink: /learn/intrinsics/GET_COMMAND
 ---
-### NAME
+#### NAME
 
-**get\_command**(3f) - \[SYSTEM ENVIRONMENT\] Get the entire command line
+__get\_command__(3f) - \[SYSTEM ENVIRONMENT\] Get the entire command line
 (MIT)
 
-### SYNTAX
+#### SYNTAX
 
 
 ```fortran
@@ -18,7 +18,7 @@ permalink: /learn/intrinsics/GET_COMMAND
     integer,intent(out),optional :: status
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Retrieve the entire command line that was used to invoke the program.
 
@@ -29,24 +29,24 @@ off by turning off globbing or quoting the command line arguments with
 quote characters and/or changing the default field separators, but this
 should rarely be necessary.
 
-### RETURNS
+#### RETURNS
 
-  - **COMMAND**
+  - __COMMAND__
     (Optional) shall be of type CHARACTER and of default kind. If
     COMMAND is present, stores the entire command line that was used to
     invoke the program in COMMAND.
 
-  - **LENGTH**
+  - __LENGTH__
     (Optional) Shall be of type INTEGER and of default kind. If LENGTH
     is present, it is assigned the length of the command line.
 
-  - **STATUS**
+  - __STATUS__
     (Optional) Shall be of type INTEGER and of default kind. If STATUS
-    is present, it is assigned 0 upon success of the command, **-1** if
+    is present, it is assigned 0 upon success of the command, __-1__ if
     COMMAND is too short to store the command line, or a positive value
     in case of an error.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -82,16 +82,16 @@ Sample execution:
      OUTPUT:./test_get_command arguments  *><`~[]!{}?"'| on the   command   line
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**get\_command\_argument**(3), **command\_argument\_count**(3)
+__get\_command\_argument__(3), __command\_argument\_count__(3)
 
-#### @urbanjost
+##### @urbanjost

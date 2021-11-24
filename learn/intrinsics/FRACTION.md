@@ -3,32 +3,32 @@ layout: book
 title: fraction
 permalink: /learn/intrinsics/FRACTION
 ---
-### NAME
+#### NAME
 
-**fraction**(3f) - \[MODEL\_COMPONENTS\] Fractional part of the model representation
+__fraction__(3f) - \[MODEL\_COMPONENTS\] Fractional part of the model representation
 (GFDL)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**fraction**(x) returns the fractional part of the model representation
+__fraction__(x) returns the fractional part of the model representation
 of X.
 
-### SYNTAX
+#### SYNTAX
 
-y = **fraction**(x)
+y = __fraction__(x)
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type of the argument shall be a REAL.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of the same type and kind as the argument. The
 fractional part of the model representation of X is returned; it is x \*
-**radix**(x)\*\*(**-exponent**(x)).
+__radix__(x)\*\*(__-exponent__(x)).
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -41,10 +41,10 @@ Sample program:
     end program demo_fraction
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function

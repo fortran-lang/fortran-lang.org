@@ -3,29 +3,29 @@ layout: book
 title: dble
 permalink: /learn/intrinsics/DBLE
 ---
-### NAME
+#### NAME
 
-**dble**(3f) - \[NUMERIC:TYPE\] Double conversion function
+__dble__(3f) - \[NUMERIC:TYPE\] Double conversion function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **DBLE**(A)
+result = __DBLE__(A)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**DBLE**(A) Converts A to double precision real type.
+__DBLE__(A) Converts A to double precision real type.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     The type shall be INTEGER, REAL, or COMPLEX.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type DOUBLEPRECISION.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -39,14 +39,14 @@ Sample program:
     end program demo_dble
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**float**(3), **real**(3)
+__float__(3), __real__(3)

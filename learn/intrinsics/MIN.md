@@ -3,33 +3,33 @@ layout: book
 title: min
 permalink: /learn/intrinsics/MIN
 ---
-### NAME
+#### NAME
 
-**min**(3f) - \[NUMERIC\] Minimum value of an argument list
+__min__(3f) - \[NUMERIC\] Minimum value of an argument list
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **min**(a1, a2 \[, a3, \`\`\`\])
+result = __min__(a1, a2 \[, a3, \`\`\`\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns the argument with the smallest (most negative) value.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A1**
+  - __A1__
     The type shall be INTEGER or REAL.
 
-  - **A2, A3, \`\`\`**
+  - __A2, A3, \`\`\`__
     An expression of the same type and kind as A1.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value corresponds to the minimum value among the arguments,
 and has the same type and kind as the first argument.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program
 
@@ -46,14 +46,14 @@ Results:
       -100.0000000
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**max**(3), **minloc**(3), **minval**(3)
+__max__(3), __minloc__(3), __minval__(3)

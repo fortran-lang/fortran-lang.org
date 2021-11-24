@@ -3,29 +3,29 @@ layout: book
 title: exp
 permalink: /learn/intrinsics/EXP
 ---
-### NAME
+#### NAME
 
-**exp**(3f) - \[MATHEMATICS\] Exponential function
+__exp__(3f) - \[MATHEMATICS\] Exponential function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **exp**(x)
+result = __exp__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**exp**(x) computes the base "e" exponential of X.
+__exp__(x) computes the base "e" exponential of X.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type shall be REAL or COMPLEX.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value has same type and kind as X.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -37,10 +37,10 @@ Sample program:
     end program demo_exp
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 \[\[Elemental procedure\|Elemental function\]\]

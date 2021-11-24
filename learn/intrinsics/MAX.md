@@ -3,28 +3,28 @@ layout: book
 title: max
 permalink: /learn/intrinsics/MAX
 ---
-### NAME
+#### NAME
 
-**max**(3f) - \[NUMERIC\] Maximum value of an argument list
+__max__(3f) - \[NUMERIC\] Maximum value of an argument list
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **max**(a1, a2 \[, a3 \[, \`\`\`\]\])
+result = __max__(a1, a2 \[, a3 \[, \`\`\`\]\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns the argument with the largest (most positive) value.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A1**
+  - __A1__
     The type shall be INTEGER or REAL.
 
-  - **A2,A3,\`\`\`**
+  - __A2,A3,\`\`\`__
     An expression of the same type and kind as A1.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value corresponds to the maximum value among the arguments,
 and has the same type and kind as the first argument.
@@ -35,10 +35,10 @@ that all the arrays must be of the same size, and the returned value
 will be an array that is the result as if multiple calls were made with
 all scalar values with a single element of each array used in each call.
 If called with all arrays the returned array is the same as if multiple
-calls were made with **max**(arr1(1),arr2(1), \`\`\`) to
-**max**(arr1(N),arr2(N)).
+calls were made with __max__(arr1(1),arr2(1), \`\`\`) to
+__max__(arr1(N),arr2(N)).
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program
 
@@ -111,13 +111,13 @@ Results:
     scalars and array:   40.000000  40.000000  40.000000  40.000000
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
-Elemental procedure\|Elemental function 
-### SEE ALSO
+Elemental procedure\|Elemental function
+#### SEE ALSO
 
-**maxloc**(3), **maxval**(3), **min**(3)
+__maxloc__(3), __maxval__(3), __min__(3)

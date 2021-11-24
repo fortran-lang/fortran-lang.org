@@ -3,42 +3,42 @@ layout: book
 title: same_type_as
 permalink: /learn/intrinsics/SAME_TYPE_AS
 ---
-### NAME
+#### NAME
 
-**same\_type\_as**(3f) - \[\] Query dynamic types for equality
+__same\_type\_as__(3f) - \[\] Query dynamic types for equality
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **same\_type\_as**(a, b)
+result = __same\_type\_as__(a, b)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Query dynamic types for equality.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     Shall be an object of extensible declared type or unlimited
     polymorphic.
 
-  - **B**
+  - __B__
     Shall be an object of extensible declared type or unlimited
     polymorphic.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is a scalar of type default logical. It is true if and
 only if the dynamic type of A is the same as the dynamic type of B.
 
-### STANDARD
+#### STANDARD
 
 Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function
 
-### SEE ALSO
+#### SEE ALSO
 
-**extends\_type\_of**(3)
+__extends\_type\_of__(3)

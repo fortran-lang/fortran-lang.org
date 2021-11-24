@@ -3,16 +3,16 @@ layout: book
 title: co_reduce
 permalink: /learn/intrinsics/CO_REDUCE
 ---
-### NAME
+#### NAME
 
-**co\_reduce**(3f) - \[COLLECTIVE\] Reduction of values on the current set of images
+__co\_reduce__(3f) - \[COLLECTIVE\] Reduction of values on the current set of images
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **co\_reduce**(a, operation, \[, result\_image, stat, errmsg\])
+call __co\_reduce__(a, operation, \[, result\_image, stat, errmsg\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 co\_reduce determines element-wise the reduction of the value of A on
 all images of the current team. The pure function passed as OPERATION is
@@ -27,16 +27,16 @@ assigned the value zero. If the execution failed, STAT gets assigned a
 nonzero value and, if present, ERRMSG gets assigned a value describing
 the occurred error.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
-    is an **intent**(inout) argument and shall be nonpolymorphic. If it
+  - __A__
+    is an __intent__(inout) argument and shall be nonpolymorphic. If it
     is allocatable, it shall be allocated; if it is a pointer, it shall
     be associated. A shall have the same type and type parameters on all
     images of the team; if it is an array, it shall have the same shape
     on all images.
 
-  - **OPERATION**
+  - __OPERATION__
     pure function with two scalar nonallocatable arguments, which shall
     be nonpolymorphic and have the same type and type parameters as A.
     The function shall return a nonallocatable scalar of the same type
@@ -44,7 +44,7 @@ the occurred error.
     images and with regards to the arguments mathematically commutative
     and associative. Note that OPERATION may not be an elemental
 
-      - **function, unless it is an intrinsic function.**
+      - __function, unless it is an intrinsic function.__
         result\_image
 
     <!-- end list -->
@@ -53,13 +53,13 @@ the occurred error.
         have the same the same value on all images and refer to an image
         of the current team.
 
-  - **STAT**
+  - __STAT__
     (optional) a scalar integer variable
 
-  - **ERRMSG**
+  - __ERRMSG__
     (optional) a scalar character variable
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -81,21 +81,21 @@ Sample program:
    end program demo_co_reduce
 ```
 
-### NOTE
+#### NOTE
 
 While the rules permit in principle an intrinsic function, none of the
 intrinsics in the standard fulfill the criteria of having a specific
 function, which takes two arguments of the same type and returning that
 type as a result.
 
-### STANDARD
+#### STANDARD
 
 TS 18508 or later
 
-### CLASS
+#### CLASS
 
 Collective subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**co\_min**(3), **co\_max**(3), **co\_sum**(3), **co\_broadcast**(3)
+__co\_min__(3), __co\_max__(3), __co\_sum__(3), __co\_broadcast__(3)

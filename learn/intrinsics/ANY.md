@@ -3,46 +3,46 @@ layout: book
 title: any
 permalink: /learn/intrinsics/ANY
 ---
-### NAME
+#### NAME
 
-**any**(3f) - \[ARRAY REDUCTION\] determines if any of the values in the logical array are true.
+__any__(3f) - \[ARRAY REDUCTION\] determines if any of the values in the logical array are true.
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **any**(mask \[, dim\])
+result = __any__(mask \[, dim\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**ANY**(MASK \[, DIM\]) determines if any of the values in the logical
+__ANY__(MASK \[, DIM\]) determines if any of the values in the logical
 array MASK along dimension DIM are .TRUE..
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **MASK**
+  - __MASK__
     the type of the argument shall be LOGICAL and it shall not be
     scalar.
 
-  - **DIM**
+  - __DIM__
     (optional) DIM shall be a scalar integer with a value that lies
     between one and the rank of MASK.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-**ANY**(MASK) returns a scalar value of type LOGICAL where the kind type
+__ANY__(MASK) returns a scalar value of type LOGICAL where the kind type
 parameter is the same as the kind type parameter of MASK. If DIM is
-present, then **ANY**(MASK, DIM) returns an array with the rank of MASK
+present, then __ANY__(MASK, DIM) returns an array with the rank of MASK
 minus 1. The shape is determined from the shape of MASK where the DIM
 dimension is elided.
 
-1.  **ANY**(MASK) is true if any element of MASK is true; otherwise, it
+1.  __ANY__(MASK) is true if any element of MASK is true; otherwise, it
     is false. It also is false if MASK has zero size.
 
-2.  If the rank of MASK is one, then **ANY**(MASK, DIM) is equivalent to
-    **ANY**(MASK). If the rank is greater than one, then **ANY**(MASK,
+2.  If the rank of MASK is one, then __ANY__(MASK, DIM) is equivalent to
+    __ANY__(MASK). If the rank is greater than one, then __ANY__(MASK,
     DIM) is determined by applying ANY to the array sections.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -65,10 +65,10 @@ Sample program:
     end program demo_any
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function

@@ -3,21 +3,21 @@ layout: book
 title: get_command_argument
 permalink: /learn/intrinsics/GET_COMMAND_ARGUMENT
 ---
-### NAME
+#### NAME
 
-**get\_command\_argument**(3f) - \[SYSTEM ENVIRONMENT\] Get command line arguments
+__get\_command\_argument__(3f) - \[SYSTEM ENVIRONMENT\] Get command line arguments
 (MIT)
 
-### SYNTAX
+#### SYNTAX
 ```fortran
-     call get_command_argument**(number [, value, length, status])
+     call get_command_argument__(number [, value, length, status])
      integer,intent(in)                    :: number
      character(len=*),intent(out),optional :: value
      integer,intent(out),optional          :: length
      integer,intent(out),optional          :: status
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Retrieve the NUMBER-th argument that was passed on the command line when
 the containing program was invoked.
@@ -27,16 +27,16 @@ in practice the arguments are split on whitespace unless the arguments
 are quoted and IFS values (Internal Field Separators) used by common
 shells are ignored.
 
-### OPTIONS
+#### OPTIONS
 
-  - **NUMBER**
-    Shall be a scalar of type **integer**(4), NUMBER \>= 0. If NUMBER =
+  - __NUMBER__
+    Shall be a scalar of type __integer__(4), NUMBER \>= 0. If NUMBER =
     0, VALUE is set to the name of the program (on systems that support
     this feature).
 
-### RETURNS
+#### RETURNS
 
-  - **VALUE**
+  - __VALUE__
     Shall be a scalar of type CHARACTER and of default kind. After
     get\_command\_argument returns, the VALUE argument holds the
     NUMBER-th command line argument. If VALUE can not hold the argument,
@@ -44,17 +44,17 @@ shells are ignored.
     NUMBER arguments specified at the command line, VALUE will be filled
     with blanks.
 
-  - **LENGTH**
-    (Optional) Shall be a scalar of type **integer**(4). The LENGTH
+  - __LENGTH__
+    (Optional) Shall be a scalar of type __integer__(4). The LENGTH
     argument contains the length of the NUMBER-th command line argument.
 
-  - **STATUS**
-    (Optional) Shall be a scalar of type **integer**(4). If the argument
+  - __STATUS__
+    (Optional) Shall be a scalar of type __integer__(4). If the argument
     retrieval fails, STATUS is a positive number; if VALUE contains a
-    truncated command line argument, STATUS is **-1**; and otherwise the
+    truncated command line argument, STATUS is __-1__; and otherwise the
     STATUS is zero.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -110,16 +110,16 @@ Sample output:
    >005 00000 00018 [  leading]
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**get\_command**(3), **command\_argument\_count**(3)
+__get\_command__(3), __command\_argument\_count__(3)
 
-#### @urbanjost
+##### @urbanjost

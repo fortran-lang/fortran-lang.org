@@ -3,14 +3,14 @@ layout: book
 title: execute_command_line
 permalink: /learn/intrinsics/EXECUTE_COMMAND_LINE
 ---
-### NAME
+#### NAME
 
-**execute\_command\_line**(3f) - \[SYSTEM ENVIRONMENT\] Execute a shell command
+__execute\_command\_line__(3f) - \[SYSTEM ENVIRONMENT\] Execute a shell command
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-subroutine **execute\_command\_line**(command, wait, exitstat, cmdstat,
+subroutine __execute\_command\_line__(command, wait, exitstat, cmdstat,
 cmdmsg)
 
 ```
@@ -21,10 +21,10 @@ cmdmsg)
     character(len=*),intent(out),optional :: cmdmsg
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
 The COMMAND argument is passed to the shell and executed. (The shell is
-generally **sh**(1) on Unix systems, and cmd.exe on Windows.) If WAIT is
+generally __sh__(1) on Unix systems, and cmd.exe on Windows.) If WAIT is
 present and has the value .FALSE., the execution of the command is
 asynchronous if the system supports it; otherwise, the command is
 executed synchronously.
@@ -43,42 +43,42 @@ When the command is executed synchronously, EXECUTE\_COMMAND\_LINE
 returns after the command line has completed execution. Otherwise,
 EXECUTE\_COMMAND\_LINE returns without waiting.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **COMMAND**
+  - __COMMAND__
     a default CHARACTER scalar containing the command line to be
     executed. The interpretation is programming-environment dependent.
 
-  - **WAIT**
+  - __WAIT__
     (Optional) a default LOGICAL scalar. If WAIT is present with the
     value .false., and the processor supports asynchronous execution of
     the command, the command is executed asynchronously; otherwise it is
     executed synchronously.
 
-  - **EXITSTAT**
-    (Optional) an INTEGER of the default kind with **intent**(INOUT). If
+  - __EXITSTAT__
+    (Optional) an INTEGER of the default kind with __intent__(INOUT). If
     the command is executed synchronously, it is assigned the value of
     the processor-dependent exit status. Otherwise, the value of
     EXITSTAT is unchanged.
 
-  - **CMDSTAT**
-    (Optional) an INTEGER of default kind with **intent**(INOUT). If an
+  - __CMDSTAT__
+    (Optional) an INTEGER of default kind with __intent__(INOUT). If an
     error condition occurs and CMDSTAT is not present, error termination
     of execution of the image is initiated.
 
-    It is assigned the value **-1** if the processor does not support
+    It is assigned the value __-1__ if the processor does not support
     command line execution, a processor-dependent positive value if an
-    error condition occurs, or the value **-2** if no error condition
+    error condition occurs, or the value __-2__ if no error condition
     occurs but WAIT is present with the value false and the processor
     does not support asynchronous execution. Otherwise it is assigned
     the value 0.
 
-  - **CMDMSG**
+  - __CMDMSG__
     (Optional) a CHARACTER scalar of the default kind. It is an INTENT
     (INOUT) argument.If an error condition occurs, it is assigned a
     processor-dependent explanatory message.Otherwise, it is unchanged.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -95,7 +95,7 @@ Sample program:
    end program demo_exec
 ```
 
-### NOTE
+#### NOTE
 
 Because this intrinsic is making a system call, it is very system
 dependent. Its behavior with respect to signaling is processor
@@ -104,10 +104,10 @@ SIGQUIT signals will be ignored, and the SIGCHLD will be blocked. As
 such, if the parent process is terminated, the child process might not
 be terminated alongside.
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Subroutine

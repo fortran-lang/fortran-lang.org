@@ -3,36 +3,36 @@ layout: book
 title: mod
 permalink: /learn/intrinsics/MOD
 ---
-### NAME
+#### NAME
 
-**mod**(3f) - \[NUMERIC\] Remainder function
+__mod__(3f) - \[NUMERIC\] Remainder function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **mod**(a, p)
+result = __mod__(a, p)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**mod**(a,p) computes the remainder of the division of A by P.
+__mod__(a,p) computes the remainder of the division of A by P.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     Shall be a scalar of type INTEGER or REAL.
 
-  - **P**
+  - __P__
     Shall be a scalar of the same type and kind as A and not equal to
     zero.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is the result of a - (int(a/p) \* p). The type and kind
 of the return value is the same as that of the arguments. The returned
 value has the same sign as A and a magnitude less than the magnitude of
 P.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -56,14 +56,14 @@ Sample program:
    end program demo_mod
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**modulo**(3)
+__modulo__(3)

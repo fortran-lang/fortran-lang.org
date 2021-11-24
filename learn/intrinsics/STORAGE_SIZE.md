@@ -3,35 +3,35 @@ layout: book
 title: storage_size
 permalink: /learn/intrinsics/STORAGE_SIZE
 ---
-### NAME
+#### NAME
 
-**storage\_size**(3f) - \[BIT INQUIRY\] Storage size in bits
+__storage\_size__(3f) - \[BIT INQUIRY\] Storage size in bits
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **storage\_size**(a \[, kind\])
+result = __storage\_size__(a \[, kind\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns the storage size of argument A in bits.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     Shall be a scalar or array of any type.
 
-  - **KIND**
+  - __KIND__
     (Optional) shall be a scalar integer constant expression.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The result is a scalar integer with the kind type parameter specified by
 KIND (or default integer type if KIND is missing). The result value is
 the size expressed in bits for an element of an array that has the
 dynamic type and type parameters of A.
 
-### EXAMPLES
+#### EXAMPLES
 
 Sample program
 
@@ -46,14 +46,14 @@ Sample program
     end program demo_storage_size
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function
 
-### SEE ALSO
+#### SEE ALSO
 
-**c\_sizeof**(3)
+__c\_sizeof__(3)

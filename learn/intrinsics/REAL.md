@@ -3,43 +3,43 @@ layout: book
 title: real
 permalink: /learn/intrinsics/REAL
 ---
-### NAME
+#### NAME
 
-**real**(3f) - \[NUMERIC:TYPE\] Convert to real type
+__real__(3f) - \[NUMERIC:TYPE\] Convert to real type
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **real**(x \[, kind\])
+result = __real__(x \[, kind\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**real**(x \[, kind\]) converts its argument X to a real type.
+__real__(x \[, kind\]) converts its argument X to a real type.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     Shall be INTEGER, REAL, or COMPLEX.
 
-  - **KIND**
+  - __KIND__
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 These functions return a REAL variable or array under the following
 rules:
 
-1.  **real**(x) is converted to a default real type if X is an integer
+1.  __real__(x) is converted to a default real type if X is an integer
     or real variable.
 
-2.  **real**(x) is converted to a real type with the kind type parameter
+2.  __real__(x) is converted to a real type with the kind type parameter
     of X if X is a complex variable.
 
-3.  **real**(x, kind) is converted to a real type with kind type
+3.  __real__(x, kind) is converted to a real type with kind type
     parameter KIND if X is a complex, integer, or real variable.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -66,14 +66,14 @@ Results:
    1.7976931348623157E+308   1.7976931348623157E+308   1.7976931348623157E+308
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**dble**(3), **float**(3)
+__dble__(3), __float__(3)

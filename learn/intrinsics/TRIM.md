@@ -3,30 +3,30 @@ layout: book
 title: trim
 permalink: /learn/intrinsics/TRIM
 ---
-### NAME
+#### NAME
 
-**trim**(3f) - \[CHARACTER\] Remove trailing blank characters of a string
+__trim__(3f) - \[CHARACTER\] Remove trailing blank characters of a string
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **trim**(string)
+result = __trim__(string)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Removes trailing blank characters of a string.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **STRING**
+  - __STRING__
     Shall be a scalar of type CHARACTER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 A scalar of type CHARACTER which length is that of STRING less the
 number of trailing blanks.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -38,22 +38,22 @@ Sample program:
     end program demo_trim
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function
 
-### SEE ALSO
+#### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

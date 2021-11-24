@@ -3,37 +3,37 @@ layout: book
 title: anint
 permalink: /learn/intrinsics/ANINT
 ---
-### NAME
+#### NAME
 
-**anint**(3f) - \[NUMERIC\] Nearest whole number
+__anint__(3f) - \[NUMERIC\] Nearest whole number
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **anint**(a \[, kind\])
+result = __anint__(a \[, kind\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**anint**(a \[, kind\]) rounds its argument to the nearest whole number.
+__anint__(a \[, kind\]) rounds its argument to the nearest whole number.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     the type of the argument shall be REAL.
 
-  - **KIND**
+  - __KIND__
     (optional) an INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type real with the kind type parameter of the
 argument if the optional KIND is absent; otherwise, the kind type
-parameter will be given by KIND. If A is greater than zero, **anint**(a)
-returns **aint**(x + 0.5). If A is less than or equal to zero then it
-returns **aint**(x - 0.5).
+parameter will be given by KIND. If A is greater than zero, __anint__(a)
+returns __aint__(x + 0.5). If A is less than or equal to zero then it
+returns __aint__(x - 0.5).
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -51,10 +51,10 @@ Sample program:
     end program demo_anint
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function

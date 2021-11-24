@@ -3,20 +3,20 @@ layout: book
 title: lle
 permalink: /learn/intrinsics/LLE
 ---
-### NAME
+#### NAME
 
-**lle**(3f) - \[CHARACTER\] Lexical less than or equal
+__lle__(3f) - \[CHARACTER\] Lexical less than or equal
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **lle**(STR\_A, STR\_B)
+result = __lle__(STR\_A, STR\_B)
 
-**character**(len=\*),intent(in) :: STR\_A, STR\_B or
-**character**(len=\*),intent(in) :: STR\_A, **STR\_B**(\*) logical ::
+__character__(len=\*),intent(in) :: STR\_A, STR\_B or
+__character__(len=\*),intent(in) :: STR\_A, __STR\_B__(\*) logical ::
 result
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Determines whether one string is lexically less than or equal to another
 string, where the two strings are interpreted as containing ASCII
@@ -30,12 +30,12 @@ differ from the corresponding intrinsic operators .ge., .gt., .le., and
 is not ASCII on some targets), whereas the former always use the ASCII
 ordering.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **STR\_A**
+  - __STR\_A__
     variable or array of default CHARACTER type.
 
-  - **STR\_B**
+  - __STR\_B__
     variable or array of default CHARACTER type.
 
 <!-- end list -->
@@ -45,13 +45,13 @@ ordering.
             same shape.
 ```
 
-### RETURN VALUE
+#### RETURN VALUE
 
-  - **RESULT**
+  - __RESULT__
     Returns .TRUE. if STR\_A \<= STR\_B, and .FALSE. otherwise, based on
     the ASCII ordering.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -87,24 +87,24 @@ Sample program:
 >    > T T
 > ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**lge**(3), **lgt**(3), **llt**(3)
+__lge__(3), __lgt__(3), __llt__(3)
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

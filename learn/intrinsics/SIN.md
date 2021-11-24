@@ -3,34 +3,34 @@ layout: book
 title: sin
 permalink: /learn/intrinsics/SIN
 ---
-### NAME
+#### NAME
 
-**sin**(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
+__sin__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
 
-### SYNTAX
+#### SYNTAX
 
-result = **sin**(x)
+result = __sin__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**sin**(3f) computes the sine of an angle given the size of the angle in
+__sin__(3f) computes the sine of an angle given the size of the angle in
 radians.
 
 The sine of an angle in a right-angled triangle is the ratio of the
 length of the side opposite the given angle divided by the length of the
 hypotenuse.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type shall be REAL or COMPLEX in radians.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-  - **RESULT**
+  - __RESULT__
     The return value has the same type and kind as X.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -42,7 +42,7 @@ Sample program:
     end program sample_sin
 ```
 
-### HAVERSINE FORMULA
+#### HAVERSINE FORMULA
 
 From the article on "Haversine formula" in Wikipedia:
 
@@ -68,61 +68,61 @@ which converted to floating-point values in degrees is:
           Latitude Longitude
 ```
 
->   - **BNA**
->     36.12, **-86.67**
+>   - __BNA__
+>     36.12, __-86.67__
 >
->   - **LAX**
->     33.94, **-118.40**
+>   - __LAX__
+>     33.94, __-118.40__
 
 And then use the haversine formula to roughly calculate the distance
 along the surface of the Earth between the locations:
 
-> Sample program:
->
-> ```
->     program demo_sin
->     implicit none
->     real :: d
->         d = haversine(36.12,-86.67, 33.94,-118.40) ! BNA to LAX
->         print '(A,F9.4,A)', 'distance: ',d,' km'
->     contains
->     function haversine(latA,lonA,latB,lonB) result (dist)
->     !
->     ! calculate great circle distance in kilometers
->     ! given latitude and longitude in degrees
->     !
->     real,intent(in) :: latA,lonA,latB,lonB
->     real :: a,c,dist,delta_lat,delta_lon,lat1,lat2
->     real,parameter :: radius = 6371 ! mean earth radius in kilometers,
->     ! recommended by the International Union of Geodesy and Geophysics
->     real, parameter :: deg_to_rad = atan(1.0)/45.0 ! generate constant pi/180
->        delta_lat = deg_to_rad*(latB-latA)
->        delta_lon = deg_to_rad*(lonB-lonA)
->        lat1 = deg_to_rad*(latA)
->        lat2 = deg_to_rad*(latB)
->        a = (sin(delta_lat/2))**2 + cos(lat1)*cos(lat2)*(sin(delta_lon/2))**2
->        c = 2*asin(sqrt(a))
->        dist = radius*c
->     end function haversine
->     end program demo_sin
-> ```
->
-> Results:
->
-> ```
->    distance: 2886.4446 km
-> ```
+ Sample program:
 
-### STANDARD
+```fortran
+     program demo_sin
+     implicit none
+     real :: d
+         d = haversine(36.12,-86.67, 33.94,-118.40) ! BNA to LAX
+         print '(A,F9.4,A)', 'distance: ',d,' km'
+     contains
+     function haversine(latA,lonA,latB,lonB) result (dist)
+     !
+     ! calculate great circle distance in kilometers
+     ! given latitude and longitude in degrees
+     !
+     real,intent(in) :: latA,lonA,latB,lonB
+     real :: a,c,dist,delta_lat,delta_lon,lat1,lat2
+     real,parameter :: radius = 6371 ! mean earth radius in kilometers,
+     ! recommended by the International Union of Geodesy and Geophysics
+     real, parameter :: deg_to_rad = atan(1.0)/45.0 ! generate constant pi/180
+        delta_lat = deg_to_rad*(latB-latA)
+        delta_lon = deg_to_rad*(lonB-lonA)
+        lat1 = deg_to_rad*(latA)
+        lat2 = deg_to_rad*(latB)
+        a = (sin(delta_lat/2))**2 + cos(lat1)*cos(lat2)*(sin(delta_lon/2))**2
+        c = 2*asin(sqrt(a))
+        dist = radius*c
+     end function haversine
+     end program demo_sin
+```
+
+Results:
+
+```text
+    distance: 2886.4446 km
+```
+
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**asin**(3), **cos**(3), **tan**(3)
+__asin__(3), __cos__(3), __tan__(3)
 
-#### @urbanjost
+##### @urbanjost

@@ -3,16 +3,16 @@ layout: book
 title: co_min
 permalink: /learn/intrinsics/CO_MIN
 ---
-### NAME
+#### NAME
 
-**co\_min**(3f) - \[COLLECTIVE\] Minimal value on the current set of images
+__co\_min__(3f) - \[COLLECTIVE\] Minimal value on the current set of images
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **co\_min**(a \[, result\_image, stat, errmsg\])
+call __co\_min__(a \[, result\_image, stat, errmsg\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 co\_min determines element-wise the minimal value of A on all images of
 the current team. If result\_image is present, the minimal values are
@@ -23,24 +23,24 @@ STAT is present, it is assigned the value zero. If the execution failed,
 STAT gets assigned a nonzero value and, if present, ERRMSG gets assigned
 a value describing the occurred error.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     shall be an integer, real or character variable, which has the same
     type and type parameters on all images of the team.
 
-  - **result\_image**
+  - __result\_image__
     (optional) a scalar integer expression; if present, it shall have
     the same the same value on all images and refer to an image of the
     current team.
 
-  - **STAT**
+  - __STAT__
     (optional) a scalar integer variable
 
-  - **ERRMSG**
+  - __ERRMSG__
     (optional) a scalar character variable
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -56,14 +56,14 @@ Sample program:
    end program demo_co_min
 ```
 
-### STANDARD
+#### STANDARD
 
 TS 18508 or later
 
-### CLASS
+#### CLASS
 
 Collective subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**co\_max**(3), **co\_sum**(3), **co\_reduce**(3), **co\_broadcast**(3)
+__co\_max__(3), __co\_sum__(3), __co\_reduce__(3), __co\_broadcast__(3)

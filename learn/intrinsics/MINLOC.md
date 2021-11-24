@@ -3,17 +3,17 @@ layout: book
 title: minloc
 permalink: /learn/intrinsics/MINLOC
 ---
-### NAME
+#### NAME
 
-**minloc**(3f) - \[ARRAY LOCATION\] Location of the minimum value within an array
+__minloc__(3f) - \[ARRAY LOCATION\] Location of the minimum value within an array
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **minloc**(array, dim \[, mask\]) result = **minloc**(array \[,
+result = __minloc__(array, dim \[, mask\]) result = __minloc__(array \[,
 mask\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Determines the location of the element in the array with the minimum
 value, or, if the DIM argument is supplied, determines the locations of
@@ -26,20 +26,20 @@ order. If the array has zero size, or all of the elements of MASK are
 supplied and all of the elements of MASK along a given row are zero, the
 result value for that row is zero.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ARRAY**
+  - __ARRAY__
     Shall be an array of type INTEGER, REAL, or CHARACTER.
 
-  - **DIM**
+  - __DIM__
     (Optional) Shall be a scalar of type INTEGER, with a value between
     one and the rank of ARRAY, inclusive. It may not be an optional
     dummy argument.
 
-  - **MASK**
+  - __MASK__
     Shall be an array of type LOGICAL, and conformable with ARRAY.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 If DIM is absent, the result is a rank-one array with a length equal to
 the rank of ARRAY. If DIM is present, the result is an array with a rank
@@ -48,7 +48,7 @@ ARRAY with the DIM dimension removed. If DIM is present and ARRAY has a
 rank of one, the result is a scalar. In all cases, the result is of
 default INTEGER type.
 
-### EXAMPLE
+#### EXAMPLE
 
 sample program:
 
@@ -72,28 +72,28 @@ sample program:
 
 Results:
 
->   - **1**
+>   - __1__
 >     3
 >
->   - **1**
+>   - __1__
 >     3 1 3 2
 >
->   - **3**
+>   - __3__
 >     5 4
 >
->   - **5**
+>   - __5__
 >     4 3
 >
->   - **7**
+>   - __7__
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function
 
-### SEE ALSO
+#### SEE ALSO
 
-**min**(3), **minval**(3)
+__min__(3), __minval__(3)

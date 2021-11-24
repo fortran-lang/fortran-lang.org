@@ -3,11 +3,11 @@ layout: book
 title: nint
 permalink: /learn/intrinsics/NINT
 ---
-### NAME
+#### NAME
 
-**nint**(3f) - \[NUMERIC:TYPE\] Nearest whole number
+__nint__(3f) - \[NUMERIC:TYPE\] Nearest whole number
 
-### SYNTAX
+#### SYNTAX
 
 
 ```fortran
@@ -16,38 +16,38 @@ permalink: /learn/intrinsics/NINT
      integer(kind=NN) :: ANSWER
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**NINT**(X) rounds its argument to the nearest whole number with its
+__NINT__(X) rounds its argument to the nearest whole number with its
 sign preserved.
 
 The user must ensure the value is a valid value for the range of the
 KIND returned. If the processor cannot represent the result in the kind
 specified, the result is undefined.
 
-If X is greater than zero, **NINT**(X) has the value **INT**(X+0.5).
+If X is greater than zero, __NINT__(X) has the value __INT__(X+0.5).
 
-If X is less than or equal to zero, **NINT**(X) has the value
-**INT**(a-0.5).
+If X is less than or equal to zero, __NINT__(X) has the value
+__INT__(a-0.5).
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type of the argument shall be REAL.
 
-  - **KIND**
+  - __KIND__
     (Optional) A constant INTEGER expression indicating the kind
     parameter of the result. Otherwise, the kind type parameter is that
     of default INTEGER type.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-  - **ANSWER**
+  - __ANSWER__
     The result is the integer nearest X, or if there are two integers
     equally near X, the result is whichever such integer has the greater
     magnitude.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -104,12 +104,12 @@ Results
      > -9223372036854775808
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later, with KIND argument - Fortran 90 and later
 
-### SEE ALSO
+#### SEE ALSO
 
-**ceiling**(3), **floor**(3)
+__ceiling__(3), __floor__(3)
 
-#### @urbanjost
+##### @urbanjost

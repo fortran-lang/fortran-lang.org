@@ -3,30 +3,30 @@ layout: book
 title: minexponent
 permalink: /learn/intrinsics/MINEXPONENT
 ---
-### NAME
+#### NAME
 
-**minexponent**(3f) - \[NUMERIC MODEL\] Minimum exponent of a real kind
+__minexponent__(3f) - \[NUMERIC MODEL\] Minimum exponent of a real kind
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **minexponent**(x)
+result = __minexponent__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**minexponent**(x) returns the minimum exponent in the model of the type
+__minexponent__(x) returns the minimum exponent in the model of the type
 of X.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     Shall be of type REAL.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of the default integer kind.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -40,10 +40,10 @@ Sample program:
     end program demo_minexponent
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Inquiry function

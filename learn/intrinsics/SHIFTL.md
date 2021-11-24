@@ -3,42 +3,42 @@ layout: book
 title: shiftl
 permalink: /learn/intrinsics/SHIFTL
 ---
-### NAME
+#### NAME
 
-**shiftl**(3f) - \[BIT MANIPULATION\] shift bits left
+__shiftl__(3f) - \[BIT MANIPULATION\] shift bits left
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **SHIFTL**(I, SHIFT)
+result = __SHIFTL__(I, SHIFT)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns a value corresponding to I with all of the bits shifted left by
 SHIFT places. If the absolute value of SHIFT is greater than
-**BIT\_SIZE**(I), the value is undefined. Bits shifted out from the left
+__BIT\_SIZE__(I), the value is undefined. Bits shifted out from the left
 end are lost, and bits shifted in from the right end are set to 0.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     The type shall be INTEGER.
 
-  - **SHIFT**
+  - __SHIFT__
     The type shall be INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of the same kind as I.
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**shifta**(3), **shiftr**(3)
+__shifta__(3), __shiftr__(3)

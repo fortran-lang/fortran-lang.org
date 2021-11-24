@@ -3,33 +3,33 @@ layout: book
 title: iand
 permalink: /learn/intrinsics/IAND
 ---
-### NAME
+#### NAME
 
-**iand**(3f) - \[BIT MANIPULATION\] Bitwise logical and
+__iand__(3f) - \[BIT MANIPULATION\] Bitwise logical and
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **iand**(i, j)
+result = __iand__(i, j)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Bitwise logical AND.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     The type shall be INTEGER.
 
-  - **J**
+  - __J__
     The type shall be INTEGER, of the same kind as I.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return type is INTEGER, of the same kind as the arguments. (If the
 argument kinds differ, it is of the same kind as the larger argument.)
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -42,15 +42,15 @@ Sample program:
     end program demo_iand
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**ior**(3), **ieor**(3), **ibits**(3), **ibset**(3), **ibclr**(3),
-**not**(3)
+__ior__(3), __ieor__(3), __ibits__(3), __ibset__(3), __ibclr__(3),
+__not__(3)

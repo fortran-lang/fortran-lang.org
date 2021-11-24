@@ -3,44 +3,44 @@ layout: book
 title: dshiftr
 permalink: /learn/intrinsics/DSHIFTR
 ---
-### NAME
+#### NAME
 
-**dshiftr**(3f) - \[BIT MANIPULATION\] combines bits of arguments I and J
+__dshiftr__(3f) - \[BIT MANIPULATION\] combines bits of arguments I and J
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **DSHIFTL**(I, J, SHIFT)
+result = __DSHIFTL__(I, J, SHIFT)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**DSHIFTR**(I, J, SHIFT) combines bits of I and J. The leftmost SHIFT
+__DSHIFTR__(I, J, SHIFT) combines bits of I and J. The leftmost SHIFT
 bits of the result are the rightmost SHIFT bits of I, and the remaining
 bits are the leftmost bits of J.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     Shall be of type INTEGER.
 
-  - **J**
+  - __J__
     Shall be of type INTEGER, and of the same kind as I.
 
-  - **SHIFT**
+  - __SHIFT__
     Shall be of type INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value has same type and kind as I.
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**dshiftl**(3)
+__dshiftl__(3)

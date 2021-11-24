@@ -3,46 +3,46 @@ layout: book
 title: ichar
 permalink: /learn/intrinsics/ICHAR
 ---
-### NAME
+#### NAME
 
-**ichar**(3f) - \[CHARACTER\] Character-to-integer conversion function
+__ichar__(3f) - \[CHARACTER\] Character-to-integer conversion function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-elemental function **ichar**(c,kind)
+elemental function __ichar__(c,kind)
 
 ```
     character(len=1),intent(in) :: c
     integer,intent(in),optional :: kind
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**ICHAR**(C) returns the code for the character in the system's native
+__ICHAR__(C) returns the code for the character in the system's native
 character set. The correspondence between characters and their codes is
 not necessarily the same across different Fortran implementations. For
 example, a platform using EBCDIC would return different values than an
 ASCII platform.
 
-See **IACHAR**(3f) for specifically working with the ASCII character
+See __IACHAR__(3f) for specifically working with the ASCII character
 set.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **C**
-    Shall be a scalar CHARACTER, with **intent**(in)
+  - __C__
+    Shall be a scalar CHARACTER, with __intent__(in)
 
-  - **KIND**
+  - __KIND__
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -68,7 +68,7 @@ Sample program:
    end program demo_ichar
 ```
 
-### NOTE
+#### NOTE
 
 No intrinsic exists to convert between a numeric value and a formatted
 character string representation -- for instance, given the CHARACTER
@@ -92,24 +92,24 @@ I/O, as in the following example:
     end program read_val
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later, with KIND argument -Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
 \[\[achar\]\], \[\[char\]\], \[\[iachar\]\]
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

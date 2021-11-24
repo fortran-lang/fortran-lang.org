@@ -3,14 +3,14 @@ layout: book
 title: system_clock
 permalink: /learn/intrinsics/SYSTEM_CLOCK
 ---
-### NAME
+#### NAME
 
-**system\_clock**(3f) - \[SYSTEM ENVIRONMENT\] Return numeric data from a real-time clock.
+__system\_clock__(3f) - \[SYSTEM ENVIRONMENT\] Return numeric data from a real-time clock.
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-subroutine **system\_clock**(\[count, count\_rate, count\_max\])
+subroutine __system\_clock__(\[count, count\_rate, count\_max\])
 
 ```
    integer,intent(out),optional  :: count
@@ -20,7 +20,7 @@ subroutine **system\_clock**(\[count, count\_rate, count\_max\])
    integer,intent(out,optional   :: count_max
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
 system\_clock lets you measure durations of time with the precision of
 the smallest time increment generally available on a system by returning
@@ -35,34 +35,34 @@ count\_rate is system dependent and can vary depending on the kind of
 the arguments.
 
 If there is no clock, or querying the clock fails, COUNT is set to
-**-huge**(count), and count\_rate and count\_max are set to zero.
+__-huge__(count), and count\_rate and count\_max are set to zero.
 
 system\_clock is typically used to measure short time intervals (system
 clocks may be 24-hour clocks or measure processor clock ticks since
 boot, for example). It is most often used for measuring or tracking the
 time spent in code blocks in lieu of using profiling tools.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **COUNT**
+  - __COUNT__
     (optional) shall be an integer scalar. It is assigned a
     processor-dependent value based on the current value of the
-    processor clock, or **-HUGE** (COUNT) if there is no clock. The
+    processor clock, or __-HUGE__ (COUNT) if there is no clock. The
     processor-dependent value is incremented by one for each clock count
     until the value COUNT\_MAX is reached and is reset to zero at the
     next count. It lies in the range 0 to COUNT\_MAX if there is a
     clock.
 
-  - **COUNT\_RATE**
+  - __COUNT\_RATE__
     (optional) shall be an integer or real scalar. It is assigned a
     processor-dependent approximation to the number of processor clock
     counts per second, or zero if there is no clock.
 
-  - **COUNT\_MAX**
+  - __COUNT\_MAX__
     (optional) shall be an integer scalar. It is assigned the maximum
     value that COUNT can have, or zero if there is no clock.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -90,14 +90,14 @@ defines
       M = 24*3600*18.20648193-1 = 1573039.
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**date\_and\_time**(3), **cpu\_time**(3)
+__date\_and\_time__(3), __cpu\_time__(3)

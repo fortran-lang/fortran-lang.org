@@ -3,33 +3,33 @@ layout: book
 title: scale
 permalink: /learn/intrinsics/SCALE
 ---
-### NAME
+#### NAME
 
-**scale**(3f) - \[MODEL\_COMPONENTS\] Scale a real value
+__scale__(3f) - \[MODEL\_COMPONENTS\] Scale a real value
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **scale**(x, i)
+result = __scale__(x, i)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**scale**(x,i) returns x \* **radix**(x)\*\*i.
+__scale__(x,i) returns x \* __radix__(x)\*\*i.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type of the argument shall be a REAL.
 
-  - **I**
+  - __I__
     The type of the argument shall be a INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of the same type and kind as X. Its value is x \*
-**radix**(x)\*\*i.
+__radix__(x)\*\*i.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -48,14 +48,14 @@ Results:
     0.570043862      0.570043862
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**radix**(3)
+__radix__(3)

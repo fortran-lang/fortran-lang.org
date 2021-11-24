@@ -3,43 +3,43 @@ layout: book
 title: ibset
 permalink: /learn/intrinsics/IBSET
 ---
-### NAME
+#### NAME
 
-**ibset**(3f) - \[BIT MANIPULATION\] Set bit
+__ibset__(3f) - \[BIT MANIPULATION\] Set bit
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **ibset**(i, pos)
+result = __ibset__(i, pos)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 IBSET returns the value of I with the bit at position POS set to one.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     The type shall be INTEGER.
 
-  - **POS**
+  - __POS__
     The type shall be INTEGER. A value of zero refers to the least
-    significant bit. pos is an **INTENT**(IN) scalar or array of type
+    significant bit. pos is an __INTENT__(IN) scalar or array of type
     INTEGER. The value of pos must be within the range zero to
-    (BIT\_SIZE(i)**-1**).
+    (BIT\_SIZE(i)__-1__).
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type INTEGER and of the same kind as I.
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**btest**(3), **ibclr**(3), **ibits**(3), **iand**(3), **ior**(3),
-**ieor**(3), **mvbits**(3)
+__btest__(3), __ibclr__(3), __ibits__(3), __iand__(3), __ior__(3),
+__ieor__(3), __mvbits__(3)

@@ -3,24 +3,24 @@ layout: book
 title: merge
 permalink: /learn/intrinsics/MERGE
 ---
-### NAME
+#### NAME
 
-**merge**(3f) - \[ARRAY CONSTRUCTION\] Merge variables
+__merge__(3f) - \[ARRAY CONSTRUCTION\] Merge variables
 
-### SYNTAX
+#### SYNTAX
 
-result = **MERGE**(TSOURCE, FSOURCE, MASK)
+result = __MERGE__(TSOURCE, FSOURCE, MASK)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-The elemental function **MERGE**(3f) selects values from two arrays or
+The elemental function __MERGE__(3f) selects values from two arrays or
 scalars according to a logical mask. The result is equal to an element
 of TSOURCE where the corresponding element of MASK is .true., or an
 element of FSOURCE when it is .false. .
 
 Multi-dimensional arrays are supported.
 
-Note that argument expressions to **MERGE**(3f) are not required to be
+Note that argument expressions to __MERGE__(3f) are not required to be
 short-circuited so (as an example) if the array X contains zero values
 in the statement below the standard does not prevent floating point
 divide by zero being generated; as 1.0/x may be evaluated for all values
@@ -51,25 +51,25 @@ instead of the more obscure
       merge(1.0\/merge(x,1.0,x \/= 0.0), 0.0, x \/= 0.0)
 ```
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **TSOURCE**
+  - __TSOURCE__
     May be of any type, including user-defined.
 
-  - **FSOURCE**
+  - __FSOURCE__
     Shall be of the same type and type parameters as TSOURCE.
 
-  - **MASK**
+  - __MASK__
     Shall be of type LOGICAL.
 
 Note that (currently) CHARACTER values must be of the same length.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The result is of the same type and type parameters as TSOURCE. For any
 element the result is TSOURCE if MASK is true and FSOURCE otherwise.
 
-### EXAMPLES
+#### EXAMPLES
 
 The value of
 
@@ -77,7 +77,7 @@ The value of
      merge (1.0, 0.0, k > 0)
 ```
 
-is 1.0 for K=5 and 0.0 for K=**-2**.
+is 1.0 for K=5 and 0.0 for K=__-2__.
 
 ```fortran
    program demo_merge
@@ -144,12 +144,12 @@ is 1.0 for K=5 and 0.0 for K=**-2**.
 >       1   2   3
 > ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-##### @urbanjost
+###### @urbanjost

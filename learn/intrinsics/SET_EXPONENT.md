@@ -3,35 +3,35 @@ layout: book
 title: set_exponent
 permalink: /learn/intrinsics/SET_EXPONENT
 ---
-### NAME
+#### NAME
 
-**set\_exponent**(3f) - \[MODEL\_COMPONENTS\] Set the exponent of the model
+__set\_exponent__(3f) - \[MODEL\_COMPONENTS\] Set the exponent of the model
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **set\_exponent**(x, i)
+result = __set\_exponent__(x, i)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**set\_exponent**(x, i) returns the real number whose fractional part is
+__set\_exponent__(x, i) returns the real number whose fractional part is
 that of X and whose exponent part is I.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     Shall be of type REAL.
 
-  - **I**
+  - __I__
     Shall be of type INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of the same type and kind as X. The real number
 whose fractional part is that that of X and whose exponent part if I is
-returned; it is **fraction**(x) \* **radix**(x)\*\*i.
+returned; it is __fraction__(x) \* __radix__(x)\*\*i.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -44,10 +44,10 @@ Sample program:
     end program demo_setexp
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function

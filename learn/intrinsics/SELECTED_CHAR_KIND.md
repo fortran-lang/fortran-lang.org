@@ -3,29 +3,29 @@ layout: book
 title: selected_char_kind
 permalink: /learn/intrinsics/SELECTED_CHAR_KIND
 ---
-### NAME
+#### NAME
 
-**selected\_char\_kind**(3f) - \[KIND\] Choose character kind such as "Unicode"
+__selected\_char\_kind__(3f) - \[KIND\] Choose character kind such as "Unicode"
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **selected\_char\_kind**(name)
+result = __selected\_char\_kind__(name)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**selected\_char\_kind**(name) returns the kind value for the character
+__selected\_char\_kind__(name) returns the kind value for the character
 set named NAME, if a character set with such a name is supported, or
-**-1** otherwise. Currently, supported character sets include "ASCII"
+__-1__ otherwise. Currently, supported character sets include "ASCII"
 and "DEFAULT" (iwhich are equivalent), and "ISO\_10646" (Universal
 Character Set, UCS-4) which is commonly known as "Unicode".
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **NAME**
+  - __NAME__
     Shall be a scalar and of the default character type.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -51,10 +51,10 @@ Sample program:
    end program demo_selected_char_kind
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2003 and later
 
-### CLASS
+#### CLASS
 
 Transformational function

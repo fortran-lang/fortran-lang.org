@@ -3,14 +3,14 @@ layout: book
 title: index
 permalink: /learn/intrinsics/INDEX
 ---
-### NAME
+#### NAME
 
-**index**(3f) - \[CHARACTER\] Position of a substring within a string
+__index__(3f) - \[CHARACTER\] Position of a substring within a string
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-**index**(STRING, SUBSTRING \[, BACK \[, KIND\]\]) **result**(START)
+__index__(STRING, SUBSTRING \[, BACK \[, KIND\]\]) __result__(START)
 
 ```
      character(len=*),intent(in) :: STRING
@@ -20,35 +20,35 @@ permalink: /learn/intrinsics/INDEX
      integer(kind=KIND)          :: START
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Returns the position of the start of the leftmost or rightmost
 occurrence of string SUBSTRING in STRING, counting from one. If
 SUBSTRING is not present in STRING, zero is returned.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **STRING**
+  - __STRING__
     string to be searched
 
-  - **SUBSTRING**
+  - __SUBSTRING__
     string to attempt to locate in STRING
 
-  - **BACK**
+  - __BACK__
     If the BACK argument is present and true, the return value is the
     start of the rightmost occurrence rather than the leftmost.
 
-  - **KIND**
+  - __KIND__
     An INTEGER initialization expression indicating the kind parameter
     of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-  - **START**
+  - __START__
     The return value is of type INTEGER and of kind KIND. If KIND is
     absent, the return value is of default integer kind.
 
-### EXAMPLE
+#### EXAMPLE
 
 Example program
 
@@ -73,19 +73,19 @@ Expected Results:
    > T T T
 ```
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later, with KIND argument Fortran 2003
 and later
 
-### SEE ALSO
+#### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

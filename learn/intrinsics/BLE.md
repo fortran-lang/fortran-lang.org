@@ -3,39 +3,39 @@ layout: book
 title: ble
 permalink: /learn/intrinsics/BLE
 ---
-### NAME
+#### NAME
 
-**ble**(3f) - \[BIT COMPARE\] Bitwise less than or equal to
+__ble__(3f) - \[BIT COMPARE\] Bitwise less than or equal to
 (GFDL)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Determines whether an integer is bitwise less than or equal to another.
 
-### SYNTAX
+#### SYNTAX
 
-result = **ble**(i, j)
+result = __ble__(i, j)
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **I**
+  - __I__
     Shall be of INTEGER type.
 
-  - **J**
+  - __J__
     Shall be of INTEGER type, and of the same kind as I.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type LOGICAL and of the default kind.
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**bge**(3), **bgt**(3), **blt**(3)
+__bge__(3), __bgt__(3), __blt__(3)

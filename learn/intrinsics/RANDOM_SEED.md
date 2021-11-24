@@ -3,16 +3,16 @@ layout: book
 title: random_seed
 permalink: /learn/intrinsics/RANDOM_SEED
 ---
-### NAME
+#### NAME
 
-**random\_seed**(3f) - \[MATHEMATICS:RANDOM\] Initialize a pseudo-random number sequence
+__random\_seed__(3f) - \[MATHEMATICS:RANDOM\] Initialize a pseudo-random number sequence
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **random\_seed**(\[size, put, get\])
+call __random\_seed__(\[size, put, get\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Restarts or queries the state of the pseudorandom number generator used
 by random\_number.
@@ -20,24 +20,24 @@ by random\_number.
 If random\_seed is called without arguments, it is seeded with random
 data retrieved from the operating system.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **SIZE**
+  - __SIZE__
     (Optional) Shall be a scalar and of type default INTEGER, with
-    **intent**(out). It specifies the minimum size of the arrays used
+    __intent__(out). It specifies the minimum size of the arrays used
     with the PUT and GET arguments.
 
-  - **PUT**
+  - __PUT__
     (Optional) Shall be an array of type default INTEGER and rank one.
-    It is **intent**(in) and the size of the array must be larger than
+    It is __intent__(in) and the size of the array must be larger than
     or equal to the number returned by the SIZE argument.
 
-  - **GET**
+  - __GET__
     (Optional) Shall be an array of type default INTEGER and rank one.
-    It is **intent**(out) and the size of the array must be larger than
+    It is __intent__(out) and the size of the array must be larger than
     or equal to the number returned by the SIZE argument.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -54,14 +54,14 @@ Sample program:
    end program demo_random_seed
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**random\_number**(3)
+__random\_number__(3)

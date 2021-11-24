@@ -3,16 +3,16 @@ layout: book
 title: lgt
 permalink: /learn/intrinsics/LGT
 ---
-### NAME
+#### NAME
 
-**lgt**(3f) - \[CHARACTER\] Lexical greater than
+__lgt__(3f) - \[CHARACTER\] Lexical greater than
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **lgt**(string\_a, string\_b)
+result = __lgt__(string\_a, string\_b)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Determines whether one string is lexically greater than another string,
 where the two strings are interpreted as containing ASCII character
@@ -26,37 +26,37 @@ differ from the corresponding intrinsic operators .ge., .gt., .le., and
 is not ASCII on some targets), whereas the former always use the ASCII
 ordering.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **string\_a**
+  - __string\_a__
     Shall be of default CHARACTER type.
 
-  - **string\_b**
+  - __string\_b__
     Shall be of default CHARACTER type.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 Returns .true. if string\_a \> string\_b, and .false. otherwise, based
 on the ASCII ordering.
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**lge**(3), **lle**(3), **llt**(3)
+__lge__(3), __lle__(3), __llt__(3)
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - **Elemental:**
-    **adjustl**(3), **adjustr**(3), **index**(3), **len\_trim**(3),
-    **scan**(3), **verify**(3)
+  - __Elemental:__
+    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
+    __scan__(3), __verify__(3)
 
-  - **Nonelemental:**
-    **repeat**(3), **trim**(3)
+  - __Nonelemental:__
+    __repeat__(3), __trim__(3)

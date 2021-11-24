@@ -3,36 +3,36 @@ layout: book
 title: iany
 permalink: /learn/intrinsics/IANY
 ---
-### NAME
+#### NAME
 
-**iany**(3f) - \[BIT MANIPULATION\] Bitwise or of array elements
+__iany__(3f) - \[BIT MANIPULATION\] Bitwise or of array elements
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-  - result = **iany**(array\[, mask\])
+  - result = __iany__(array\[, mask\])
 
-  - result = **iany**(array, dim\[, mask\])
+  - result = __iany__(array, dim\[, mask\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Reduces with bitwise or (inclusive or) the elements of ARRAY along
 dimension DIM if the corresponding element in MASK is TRUE.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ARRAY**
+  - __ARRAY__
     Shall be an array of type INTEGER
 
-  - **DIM**
+  - __DIM__
     (Optional) shall be a scalar of type INTEGER with a value in the
     range from "1" to "n", where "n" equals the rank of ARRAY.
 
-  - **MASK**
+  - __MASK__
     (Optional) shall be of type LOGICAL and either be a scalar or an
     array of the same shape as ARRAY.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The result is of the same type as ARRAY.
 
@@ -41,7 +41,7 @@ is returned. Otherwise, an array of rank "n-1", where "n" equals the
 rank of ARRAY, and a shape similar to that of ARRAY with dimension DIM
 dropped is returned.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -63,14 +63,14 @@ Results:
    01101110
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Transformational function
 
-### SEE ALSO
+#### SEE ALSO
 
-**iparity**(3), **iall**(3), **ior**(3)
+__iparity__(3), __iall__(3), __ior__(3)

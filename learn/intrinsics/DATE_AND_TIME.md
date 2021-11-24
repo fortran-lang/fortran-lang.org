@@ -3,12 +3,12 @@ layout: book
 title: date_and_time
 permalink: /learn/intrinsics/DATE_AND_TIME
 ---
-### NAME
+#### NAME
 
-**date\_and\_time**(3f) - \[SYSTEM ENVIRONMENT\] gets current time
+__date\_and\_time__(3f) - \[SYSTEM ENVIRONMENT\] gets current time
 (MIT)
 
-### SYNTAX
+#### SYNTAX
 
 ```fortran
     subroutine date_and_time([date, time, zone, values])
@@ -18,48 +18,48 @@ permalink: /learn/intrinsics/DATE_AND_TIME
      integer,intent(out),optional :: values
 ```
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**DATE\_AND\_TIME**(date, time, zone, values) gets the corresponding
+__DATE\_AND\_TIME__(date, time, zone, values) gets the corresponding
 date and time information from the real-time system clock.
 
 Unavailable time and date CHARACTER parameters return blanks.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **DATE**
-    The type shall be **CHARACTER**(len=8) or larger, and of default
+  - __DATE__
+    The type shall be __CHARACTER__(len=8) or larger, and of default
     kind. DATE has the form ccyymmdd.
 
-  - **TIME**
-    The type shall be **CHARACTER**(len=10) or larger, and of default
+  - __TIME__
+    The type shall be __CHARACTER__(len=10) or larger, and of default
     kind. TIME has the form hhmmss.sss.
 
-  - **ZONE**
-    The type shall be **CHARACTER**(len=5) or larger, and of default
+  - __ZONE__
+    The type shall be __CHARACTER__(len=5) or larger, and of default
     kind. ZONE has form (+-)hhmm, representing the difference with
     respect to Coordinated Universal Time (UTC).
 
-  - **VALUES**
+  - __VALUES__
     An INTEGER array of eight elements. On return VALUES contains:
 
-      - **value**(1): - The year
+      - __value__(1): - The year
 
-      - **value**(2): - The month
+      - __value__(2): - The month
 
-      - **value**(3): - The day of the month
+      - __value__(3): - The day of the month
 
-      - **value**(4): - Time difference with UTC in minutes
+      - __value__(4): - Time difference with UTC in minutes
 
-      - **value**(5): - The hour of the day
+      - __value__(5): - The hour of the day
 
-      - **value**(6): - The minutes of the hour
+      - __value__(6): - The minutes of the hour
 
-      - **value**(7): - The seconds of the minute
+      - __value__(7): - The seconds of the minute
 
-      - **value**(8): - The milliseconds of the second
+      - __value__(8): - The milliseconds of the second
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -101,12 +101,12 @@ Results:
      779 - The milliseconds of the second
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### SEE ALSO
+#### SEE ALSO
 
-**cpu\_time**(3), **system\_clock**(3)
+__cpu\_time__(3), __system\_clock__(3)
 
-#### @urbanjost
+##### @urbanjost

@@ -3,18 +3,18 @@ layout: book
 title: eoshift
 permalink: /learn/intrinsics/EOSHIFT
 ---
-### NAME
+#### NAME
 
-**eoshift**(3f) - \[TRANSFORMATIONAL FUNCTION\] End-off shift elements of an array
+__eoshift__(3f) - \[TRANSFORMATIONAL FUNCTION\] End-off shift elements of an array
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **eoshift**(array, shift \[, boundary, dim\])
+result = __eoshift__(array, shift \[, boundary, dim\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**eoshift**(array, shift\[, boundary, dim\]) performs an end-off shift
+__eoshift__(array, shift\[, boundary, dim\]) performs an end-off shift
 on elements of ARRAY along the dimension of DIM. If DIM is omitted it is
 taken to be 1. DIM is a scalar of type INTEGER in the range of 1 \<= DIM
 \<= n where "n" is the rank of ARRAY. If the rank of ARRAY is one, then
@@ -31,27 +31,27 @@ present then the following are copied in depending on the type of ARRAY.
 >
 >   - Logical .false.
 >
->   - **Character**(LEN) LEN blanks
+>   - __Character__(LEN) LEN blanks
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ARRAY**
+  - __ARRAY__
     May be any type, not scalar.
 
-  - **SHIFT**
+  - __SHIFT__
     The type shall be INTEGER.
 
-  - **BOUNDARY**
+  - __BOUNDARY__
     Same type as ARRAY.
 
-  - **DIM**
+  - __DIM__
     The type shall be INTEGER.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 Returns an array of same type and rank as the ARRAY argument.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -71,10 +71,10 @@ Sample program:
     end program demo_eoshift
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function

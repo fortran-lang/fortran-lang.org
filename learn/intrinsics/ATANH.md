@@ -3,32 +3,32 @@ layout: book
 title: atanh
 permalink: /learn/intrinsics/ATANH
 ---
-### NAME
+#### NAME
 
-**atanh**(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic tangent function
+__atanh__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic tangent function
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **atanh**(x)
+result = __atanh__(x)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**atanh**(x) computes the inverse hyperbolic tangent of X.
+__atanh__(x) computes the inverse hyperbolic tangent of X.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **X**
+  - __X__
     The type shall be REAL or COMPLEX.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value has same type and kind as X. If X is complex, the
 imaginary part of the result is in radians and lies between
 
-**-PI**/2 \<= **AIMAG**(ATANH(X)) \<= PI/2.
+__-PI__/2 \<= __AIMAG__(ATANH(X)) \<= PI/2.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -40,14 +40,14 @@ Sample program:
     end program demo_atanh
 ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 2008 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-Inverse function: **tanh**(3)
+Inverse function: __tanh__(3)

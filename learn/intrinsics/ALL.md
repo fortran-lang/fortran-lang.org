@@ -3,47 +3,47 @@ layout: book
 title: all
 permalink: /learn/intrinsics/ALL
 ---
-### NAME
+#### NAME
 
-**all**(3f) - \[ARRAY REDUCTION\] determines if all the values are true
+__all__(3f) - \[ARRAY REDUCTION\] determines if all the values are true
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **ALL**(MASK \[, DIM\])
+result = __ALL__(MASK \[, DIM\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Logical conjunction of elements of MASK along dimension DIM.
 
-"**ALL**(MASK \[, DIM\])" determines if all the values are true in MASK
+"__ALL__(MASK \[, DIM\])" determines if all the values are true in MASK
 in the array along dimension DIM.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **MASK**
+  - __MASK__
     shall be a logical array. That is, the type of the argument shall be
     LOGICAL and it shall not be scalar.
 
-  - **DIM**
+  - __DIM__
     (optional) DIM shall be a scalar integer with a value that lies
     between one and the rank of MASK. The corresponding actual argument
     shall not be an optional dummy argument.
 
-### RETURN VALUE
+#### RETURN VALUE
 
-"**ALL**(MASK)" returns a scalar value of type LOGICAL where the kind
+"__ALL__(MASK)" returns a scalar value of type LOGICAL where the kind
 type parameter is the same as the kind type parameter of MASK. If DIM is
-present, then **ALL**(MASK, DIM) returns an array with the rank of MASK
+present, then __ALL__(MASK, DIM) returns an array with the rank of MASK
 minus 1. The shape is determined from the shape of MASK where the DIM
 dimension is elided.
 
-> 1.  **ALL**(MASK) is true if all elements of MASK are true. It also is
+> 1.  __ALL__(MASK) is true if all elements of MASK are true. It also is
 >     true if MASK has zero size; otherwise, it is false.
 >
-> 2.  If the rank of MASK is one, then **ALL**(MASK, DIM) is equivalent
->     to **ALL**(MASK). If the rank is greater than one, then
->     **ALL**(MASK, DIM) is determined by applying ALL to the array
+> 2.  If the rank of MASK is one, then __ALL__(MASK, DIM) is equivalent
+>     to __ALL__(MASK). If the rank is greater than one, then
+>     __ALL__(MASK, DIM) is determined by applying ALL to the array
 >     sections.
 >
 > 3.  Result Characteristics. The result is of type logical with the
@@ -69,7 +69,7 @@ dimension is elided.
 >                    sDIM-1 , :, sDIM+1 , . . . , sn )).
 > ```
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -120,10 +120,10 @@ Case (ii):
 >         [false, false].
 > ```
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function.

@@ -3,38 +3,38 @@ layout: book
 title: sngl
 permalink: /learn/intrinsics/SNGL
 ---
-### NAME
+#### NAME
 
-**sngl**(3f) - \[NUMERIC:TYPE\] Convert double precision real to default real
+__sngl__(3f) - \[NUMERIC:TYPE\] Convert double precision real to default real
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **sngl**(a)
+result = __sngl__(a)
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**sngl**(a) converts the double precision real A to a default real
+__sngl__(a) converts the double precision real A to a default real
 value. This is an archaic form of REAL that is specific to one type for
 A.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **A**
+  - __A__
     The type shall be a double precision REAL.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is of type default REAL.
 
-### STANDARD
+#### STANDARD
 
 FORTRAN 77 and later
 
-### CLASS
+#### CLASS
 
 Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**dble**(3)
+__dble__(3)

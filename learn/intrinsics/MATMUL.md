@@ -3,41 +3,41 @@ layout: book
 title: matmul
 permalink: /learn/intrinsics/MATMUL
 ---
-### NAME
+#### NAME
 
-**matmul**(3f) - \[TRANSFORMATIONAL FUNCTION\] matrix multiplication
+__matmul__(3f) - \[TRANSFORMATIONAL FUNCTION\] matrix multiplication
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **matmul**(matrix\_a, matrix\_b)
+result = __matmul__(matrix\_a, matrix\_b)
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Performs a matrix multiplication on numeric or logical arguments.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **matrix\_a**
+  - __matrix\_a__
     An array of INTEGER, REAL, COMPLEX, or LOGICAL type, with a rank of
     one or two.
 
-  - **matrix\_b**
+  - __matrix\_b__
     An array of INTEGER, REAL, or COMPLEX type if matrix\_a is of a
     numeric type; otherwise, an array of LOGICAL type. The rank shall be
     one or two, and the first (or only) dimension of matrix\_b shall be
     equal to the last (or only) dimension of matrix\_a.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The matrix product of matrix\_a and matrix\_b. The type and kind of the
 result follow the usual type and kind promotion rules, as for the \* or
 .and. operators.
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Transformational function

@@ -3,42 +3,42 @@ layout: book
 title: logical
 permalink: /learn/intrinsics/LOGICAL
 ---
-### NAME
+#### NAME
 
-**logical**(3f) - \[BIT MANIPULATION\] Converts one kind of LOGICAL variable to another
+__logical__(3f) - \[BIT MANIPULATION\] Converts one kind of LOGICAL variable to another
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-result = **logical**(l \[, kind\])
+result = __logical__(l \[, kind\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
 Converts one kind of LOGICAL variable to another.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **L**
+  - __L__
     The type shall be LOGICAL.
 
-  - **KIND**
+  - __KIND__
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+#### RETURN VALUE
 
 The return value is a LOGICAL value equal to L, with a kind
 corresponding to KIND, or of the default logical kind if KIND is not
 given.
 
-### STANDARD
+#### STANDARD
 
 Fortran 95 and later
 
-### CLASS
+#### CLASS
 
 Elemental procedure\|Elemental function
 
-### SEE ALSO
+#### SEE ALSO
 
-**int**(3), **real**(3), **cmplx**(3)
+__int__(3), __real__(3), __cmplx__(3)

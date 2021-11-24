@@ -3,18 +3,18 @@ layout: book
 title: atomic_fetch_add
 permalink: /learn/intrinsics/ATOMIC_FETCH_ADD
 ---
-### NAME
+#### NAME
 
-**atomic\_fetch\_add**(3f) - \[ATOMIC\] Atomic ADD operation with prior fetch
+__atomic\_fetch\_add__(3f) - \[ATOMIC\] Atomic ADD operation with prior fetch
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **atomic\_fetch\_add**(atom, value, old \[, stat\])
+call __atomic\_fetch\_add__(atom, value, old \[, stat\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**atomic\_fetch\_add**(atom, value, old) atomically stores the value of
+__atomic\_fetch\_add__(atom, value, old) atomically stores the value of
 ATOM in OLD and adds the value of VAR to the variable ATOM. When STAT is
 present and the invocation was successful, it is assigned the value 0.
 If it is present and the invocation has failed, it is assigned a
@@ -23,23 +23,23 @@ has stopped, it is assigned the value of iso\_fortran\_env's
 stat\_stopped\_image and if the remote image has failed, the value
 stat\_failed\_image.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ATOM**
+  - __ATOM__
     Scalar coarray or coindexed variable of integer type with
     atomic\_int\_kind kind. atomic\_logical\_kind kind.
 
-  - **VALUE**
+  - __VALUE__
     Scalar of the same type as ATOM. If the kind is different, the value
     is converted to the kind of ATOM.
 
-  - **OLD**
+  - __OLD__
     Scalar of the same type and kind as ATOM.
 
-  - **STAT**
+  - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -52,16 +52,16 @@ Sample program:
    end program demo_atomic_fetch_add
 ```
 
-### STANDARD
+#### STANDARD
 
 TS 18508 or later
 
-### CLASS
+#### CLASS
 
 Atomic subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**atomic\_define**(3), **atomic\_add**(3), **iso\_fortran\_env**(3),
-**atomic\_fetch\_and**(3), **atomic\_fetch\_or**(3),
-**atomic\_fetch\_xor**(3)
+__atomic\_define__(3), __atomic\_add__(3), __iso\_fortran\_env__(3),
+__atomic\_fetch\_and__(3), __atomic\_fetch\_or__(3),
+__atomic\_fetch\_xor__(3)

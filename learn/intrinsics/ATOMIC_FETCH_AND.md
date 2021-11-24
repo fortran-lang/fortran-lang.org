@@ -3,18 +3,18 @@ layout: book
 title: atomic_fetch_and
 permalink: /learn/intrinsics/ATOMIC_FETCH_AND
 ---
-### NAME
+#### NAME
 
-**atomic\_fetch\_and**(3f) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation with prior fetch
+__atomic\_fetch\_and__(3f) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation with prior fetch
 (GFDL)
 
-### SYNTAX
+#### SYNTAX
 
-call **atomic\_fetch\_and**(atom, value, old \[, stat\])
+call __atomic\_fetch\_and__(atom, value, old \[, stat\])
 
-### DESCRIPTION
+#### DESCRIPTION
 
-**atomic\_fetch\_and**(atom, value, old) atomically stores the value of
+__atomic\_fetch\_and__(atom, value, old) atomically stores the value of
 ATOM in OLD and defines ATOM with the bitwise AND between the values of
 ATOM and VALUE. When STAT is present and the invocation was successful,
 it is assigned the value 0. If it is present and the invocation has
@@ -23,23 +23,23 @@ ATOM, if the remote image has stopped, it is assigned the value of
 iso\_fortran\_env's stat\_stopped\_image and if the remote image has
 failed, the value stat\_failed\_image.
 
-### ARGUMENTS
+#### ARGUMENTS
 
-  - **ATOM**
+  - __ATOM__
     Scalar coarray or coindexed variable of integer type with
     atomic\_int\_kind kind.
 
-  - **VALUE**
+  - __VALUE__
     Scalar of the same type as ATOM. If the kind is different, the value
     is converted to the kind of ATOM.
 
-  - **OLD**
+  - __OLD__
     Scalar of the same type and kind as ATOM.
 
-  - **STAT**
+  - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+#### EXAMPLE
 
 Sample program:
 
@@ -52,16 +52,16 @@ Sample program:
    end program demo_atomic_fetch_and
 ```
 
-### STANDARD
+#### STANDARD
 
 TS 18508 or later
 
-### CLASS
+#### CLASS
 
 Atomic subroutine
 
-### SEE ALSO
+#### SEE ALSO
 
-**atomic\_define**(3), **atomic\_and**(3), **iso\_fortran\_env**(3),
-**atomic\_fetch\_add**(3), **atomic\_fetch\_or**(3),
-**atomic\_fetch\_xor**(3)
+__atomic\_define__(3), __atomic\_and__(3), __iso\_fortran\_env__(3),
+__atomic\_fetch\_add__(3), __atomic\_fetch\_or__(3),
+__atomic\_fetch\_xor__(3)
