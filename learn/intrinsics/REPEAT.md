@@ -3,20 +3,20 @@ layout: book
 title: repeat
 permalink: /learn/intrinsics/REPEAT
 ---
-#### NAME
+### NAME
 
 __repeat__(3f) - \[CHARACTER\] Repeated string concatenation
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __repeat__(string, ncopies)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Concatenates NCOPIES copies of a string.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __STRING__
     Shall be scalar and of type CHARACTER.
@@ -24,11 +24,11 @@ Concatenates NCOPIES copies of a string.
   - __NCOPIES__
     Shall be scalar and of type INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 A new scalar of type CHARACTER built up from NCOPIES copies of STRING.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -39,15 +39,15 @@ Sample program:
     end program demo_repeat
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

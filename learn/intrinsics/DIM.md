@@ -3,21 +3,21 @@ layout: book
 title: dim
 permalink: /learn/intrinsics/DIM
 ---
-#### NAME
+### NAME
 
 __dim__(3f) - \[NUMERIC\] Positive difference
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __DIM__(X, Y)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __DIM__(X,Y) returns the difference X-Y if the result is positive;
 otherwise returns zero.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be INTEGER or REAL
@@ -25,11 +25,11 @@ otherwise returns zero.
   - __Y__
     The type shall be the same type and kind as X.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER or REAL.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -47,10 +47,10 @@ Sample program:
     end program demo_dim
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function

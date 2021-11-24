@@ -3,16 +3,16 @@ layout: book
 title: ishft
 permalink: /learn/intrinsics/ISHFT
 ---
-#### NAME
+### NAME
 
 __ishft__(3f) - \[BIT MANIPULATION\] Shift bits
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __ishft__(i, shift)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 ISHFT returns a value corresponding to I with all of the bits shifted
 SHIFT places. A value of SHIFT greater than zero corresponds to a left
@@ -22,7 +22,7 @@ greater than __bit\_size__(i), the value is undefined. Bits shifted out
 from the left end or right end are lost; zeros are shifted in from the
 opposite end.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     The type shall be INTEGER.
@@ -30,18 +30,18 @@ opposite end.
   - __SHIFT__
     The type shall be INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of the same kind as I.
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __ishftc__(3)

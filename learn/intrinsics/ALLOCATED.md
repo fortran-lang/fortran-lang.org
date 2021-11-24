@@ -3,23 +3,23 @@ layout: book
 title: allocated
 permalink: /learn/intrinsics/ALLOCATED
 ---
-#### NAME
+### NAME
 
 __allocated__(3f) - \[ARRAY INQUIRY\] Status of an allocatable entity
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
   - result = __ALLOCATED__(ARRAY)
 
   - result = __ALLOCATED__(SCALAR)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __ALLOCATED__(ARRAY) and __ALLOCATED__(SCALAR) check the allocation
 status of ARRAY and SCALAR, respectively.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     the argument shall be an ALLOCATABLE array.
@@ -27,13 +27,13 @@ status of ARRAY and SCALAR, respectively.
   - __SCALAR__
     the argument shall be an ALLOCATABLE scalar.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is a scalar LOGICAL with the default logical kind type
 parameter. If the argument is allocated then the result is .true.;
 otherwise, it returns .false..
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -46,15 +46,15 @@ Sample program:
     end program demo_allocated
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later. Note, the scalar= keyword and allocatable
 scalar entities are available in Fortran 2003 and later.
 
-#### CLASS
+### CLASS
 
 Inquiry function
 
-#### SEE ALSO
+### SEE ALSO
 
 __move\_alloc__(3)

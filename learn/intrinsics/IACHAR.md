@@ -3,21 +3,21 @@ layout: book
 title: iachar
 permalink: /learn/intrinsics/IACHAR
 ---
-#### NAME
+### NAME
 
 __iachar__(3f) - \[CHARACTER\] Code in ASCII collating sequence
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __iachar__(c \[, kind\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __iachar__(c) returns the code for the ASCII character in the first
 character position of C.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __C__
     Shall be a scalar CHARACTER, with __intent__(in)
@@ -26,12 +26,12 @@ character position of C.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -61,20 +61,20 @@ Sample program:
    end program demo_iachar
 ```
 
-#### NOTE
+### NOTE
 
 See \[\[ichar\]\] for a discussion of converting between numerical
 values and formatted string representations.
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 \[\[achar\]\], \[\[char\]\], \[\[ichar\]\]
 

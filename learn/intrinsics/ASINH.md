@@ -3,31 +3,31 @@ layout: book
 title: asinh
 permalink: /learn/intrinsics/ASINH
 ---
-#### NAME
+### NAME
 
 __asinh__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic sine function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __asinh__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __asinh__(x) computes the inverse hyperbolic sine of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be REAL or COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of the same type and kind as X. If X is complex, the
 imaginary part of the result is in radians and lies between __-PI__/2
 \<= __AIMAG__(ASINH(X)) \<= PI/2.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -39,14 +39,14 @@ Sample program:
    end program demo_asinh
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Inverse function: __sinh__(3)

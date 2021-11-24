@@ -3,16 +3,16 @@ layout: book
 title: is_contiguous
 permalink: /learn/intrinsics/IS_CONTIGUOUS
 ---
-#### NAME
+### NAME
 
 __is\_contiguous__(3f) - \[ARRAY INQUIRY\] test if object is contiguous
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __is\_contiguous__(A)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 True if and only if an object is contiguous.
 
@@ -76,19 +76,19 @@ An object is not contiguous if it is an array subobject, and
 
 It is processor-dependent whether any other object is contiguous.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __A__
     may be of any type. It shall be an array. If it is a pointer it
     shall be associated.
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __Result__
     of type Default logical scalar. The result has the value true if A
     is contiguous, and false otherwise.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -107,10 +107,10 @@ Sample program:
    end program demo_is_contiguous
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 \[\[Inquiry function\]\]

@@ -3,16 +3,16 @@ layout: book
 title: llt
 permalink: /learn/intrinsics/LLT
 ---
-#### NAME
+### NAME
 
 __llt__(3f) - \[CHARACTER\] Lexical less than
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __llt__(string\_a, string\_b)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines whether one string is lexically less than another string,
 where the two strings are interpreted as containing ASCII character
@@ -26,7 +26,7 @@ differ from the corresponding intrinsic operators .ge., .gt., .le., and
 is not ASCII on some targets), whereas the former always use the ASCII
 ordering.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __string\_a__
     Shall be of default CHARACTER type.
@@ -34,20 +34,20 @@ ordering.
   - __string\_b__
     Shall be of default CHARACTER type.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 Returns .true. if string\_a \<= string\_b, and .false. otherwise, based
 on the ASCII ordering.
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __\[\[lge__(3), __\[\[lgt__(3), __\[\[lle__(3)
 

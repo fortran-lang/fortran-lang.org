@@ -3,30 +3,30 @@ layout: book
 title: rank
 permalink: /learn/intrinsics/RANK
 ---
-#### NAME
+### NAME
 
 __rank__(3f) - \[ARRAY INQUIRY\] Rank of a data object
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __rank__(a)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __rank__(a) returns the rank of a scalar or array data object.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __A__
     can be of any type
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of the default integer kind. For
 arrays, their rank is returned; for scalars zero is returned.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -47,10 +47,10 @@ Results:
 
 Expected output:
 
-#### STANDARD
+### STANDARD
 
 TS 29113
 
-#### CLASS
+### CLASS
 
 Inquiry function

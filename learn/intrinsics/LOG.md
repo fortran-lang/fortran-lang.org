@@ -3,33 +3,33 @@ layout: book
 title: log
 permalink: /learn/intrinsics/LOG
 ---
-#### NAME
+### NAME
 
 __log__(3f) - \[MATHEMATICS\] Logarithm function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __LOG__(X)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __LOG__(X) computes the natural logarithm of X, i.e. the logarithm to
 the base "e".
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be REAL or COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type REAL or COMPLEX. The kind type parameter is
 the same as X. If X is COMPLEX, the imaginary part OMEGA is in the range
 
 __-PI__ \< OMEGA \<= PI.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -43,10 +43,10 @@ Sample program:
    end program demo_log
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function

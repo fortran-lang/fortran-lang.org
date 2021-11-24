@@ -3,23 +3,23 @@ layout: book
 title: ibits
 permalink: /learn/intrinsics/IBITS
 ---
-#### NAME
+### NAME
 
 __ibits__(3f) - \[BIT MANIPULATION\] Bit extraction
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __ibits__(i, pos, len)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 IBITS extracts a field of length LEN from I, starting from bit position
 POS and extending left for LEN bits. The result is right-justified and
 the remaining bits are zeroed. The value of pos+len must be less than or
 equal to the value __bit\_size__(i).
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     The type shall be INTEGER.
@@ -31,19 +31,19 @@ equal to the value __bit\_size__(i).
   - __LEN__
     The type shall be INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of the same kind as I.
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __bit\_size__(3), __ibclr__(3), __ibset__(3), __iand__(3), __ior__(3),
 __ieor__(3)

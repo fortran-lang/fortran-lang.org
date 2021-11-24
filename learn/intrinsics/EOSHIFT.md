@@ -3,16 +3,16 @@ layout: book
 title: eoshift
 permalink: /learn/intrinsics/EOSHIFT
 ---
-#### NAME
+### NAME
 
 __eoshift__(3f) - \[TRANSFORMATIONAL FUNCTION\] End-off shift elements of an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __eoshift__(array, shift \[, boundary, dim\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __eoshift__(array, shift\[, boundary, dim\]) performs an end-off shift
 on elements of ARRAY along the dimension of DIM. If DIM is omitted it is
@@ -33,7 +33,7 @@ present then the following are copied in depending on the type of ARRAY.
 >
 >   - __Character__(LEN) LEN blanks
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     May be any type, not scalar.
@@ -47,11 +47,11 @@ present then the following are copied in depending on the type of ARRAY.
   - __DIM__
     The type shall be INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 Returns an array of same type and rank as the ARRAY argument.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -71,10 +71,10 @@ Sample program:
     end program demo_eoshift
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function

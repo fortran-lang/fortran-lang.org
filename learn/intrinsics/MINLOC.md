@@ -3,17 +3,17 @@ layout: book
 title: minloc
 permalink: /learn/intrinsics/MINLOC
 ---
-#### NAME
+### NAME
 
 __minloc__(3f) - \[ARRAY LOCATION\] Location of the minimum value within an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __minloc__(array, dim \[, mask\]) result = __minloc__(array \[,
 mask\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines the location of the element in the array with the minimum
 value, or, if the DIM argument is supplied, determines the locations of
@@ -26,7 +26,7 @@ order. If the array has zero size, or all of the elements of MASK are
 supplied and all of the elements of MASK along a given row are zero, the
 result value for that row is zero.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an array of type INTEGER, REAL, or CHARACTER.
@@ -39,7 +39,7 @@ result value for that row is zero.
   - __MASK__
     Shall be an array of type LOGICAL, and conformable with ARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 If DIM is absent, the result is a rank-one array with a length equal to
 the rank of ARRAY. If DIM is present, the result is an array with a rank
@@ -48,7 +48,7 @@ ARRAY with the DIM dimension removed. If DIM is present and ARRAY has a
 rank of one, the result is a scalar. In all cases, the result is of
 default INTEGER type.
 
-#### EXAMPLE
+### EXAMPLE
 
 sample program:
 
@@ -86,14 +86,14 @@ Results:
 >
 >   - __7__
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __min__(3), __minval__(3)

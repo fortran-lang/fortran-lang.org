@@ -3,17 +3,17 @@ layout: book
 title: minval
 permalink: /learn/intrinsics/MINVAL
 ---
-#### NAME
+### NAME
 
 __minval__(3f) - \[ARRAY REDUCTION\] Minimum value of an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __minval__(array, dim \[, mask\]) result = __minval__(array \[,
 mask\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines the minimum value of the elements in an array value, or, if
 the DIM argument is supplied, determines the minimum value along each
@@ -23,7 +23,7 @@ size, or all of the elements of MASK are .false., then the result is
 __huge__(array) if ARRAY is numeric, or a string of __char__(255)
 characters if ARRAY is of character type.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an array of type INTEGER, REAL, or CHARACTER.
@@ -36,7 +36,7 @@ characters if ARRAY is of character type.
   - __MASK__
     Shall be an array of type LOGICAL, and conformable with ARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 If DIM is absent, or if ARRAY has a rank of one, the result is a scalar.
 If DIM is present, the result is an array with a rank one less than the
@@ -44,7 +44,7 @@ rank of ARRAY, and a size corresponding to the size of ARRAY with the
 DIM dimension removed. In all cases, the result is of the same type and
 kind as ARRAY.
 
-#### EXAMPLE
+### EXAMPLE
 
 sample program:
 
@@ -70,14 +70,14 @@ results:
     > 1   10    11
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __min__(3), __minloc__(3)

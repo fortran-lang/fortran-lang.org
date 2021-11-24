@@ -3,30 +3,30 @@ layout: book
 title: compiler_version
 permalink: /learn/intrinsics/COMPILER_VERSION
 ---
-#### NAME
+### NAME
 
 __compiler\_version__(3f) - \[COMPILER INQUIRY\] Compiler version string
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 str = __compiler\_version__()
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __compiler\_version__(3f) returns a string containing the name and
 version of the compiler.
 
-#### ARGUMENTS
+### ARGUMENTS
 
 None.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is a default-kind string with system-dependent length.
 It contains the name of the compiler and its version number.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -53,14 +53,14 @@ Example results:
    -J /home/urbanjs/V600/lib/CYGWIN64_GFORTRAN
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008
 
-#### CLASS
+### CLASS
 
 Inquiry function of the module \[\[iso\_fortran\_env\]\]
 
-#### SEE ALSO
+### SEE ALSO
 
 __compiler\_options__(3), __iso\_fortran\_env__(7)

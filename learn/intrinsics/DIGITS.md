@@ -3,32 +3,32 @@ layout: book
 title: digits
 permalink: /learn/intrinsics/DIGITS
 ---
-#### NAME
+### NAME
 
 __digits__(3f) - \[NUMERIC MODEL\] Significant digits function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __digits__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __digits__(x) returns the number of significant digits of the internal
 model representation of X. For example, on a system using a 32-bit
 floating point representation, a default real number would likely return
 24.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type may be INTEGER or REAL.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -52,10 +52,10 @@ Typical Results:
     default doubleprecision:          53
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function

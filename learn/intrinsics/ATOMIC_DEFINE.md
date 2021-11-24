@@ -3,16 +3,16 @@ layout: book
 title: atomic_define
 permalink: /learn/intrinsics/ATOMIC_DEFINE
 ---
-#### NAME
+### NAME
 
 __atomic\_define__(3f) - \[ATOMIC\] Setting a variable atomically
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 call atomic\_define (atom, value \[, stat\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __atomic\_define__(atom, value) defines the variable ATOM with the value
 VALUE atomically. When STAT is present and the invocation was
@@ -22,7 +22,7 @@ for a coindexed ATOM, if the remote image has stopped, it is assigned
 the value of iso\_fortran\_env's stat\_stopped\_image and if the remote
 image has failed, the value stat\_failed\_image.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ATOM__
     Scalar coarray or coindexed variable of either integer type with
@@ -36,7 +36,7 @@ image has failed, the value stat\_failed\_image.
   - __STAT__
     (optional) Scalar default-kind integer variable.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -49,15 +49,15 @@ Sample program:
    end program demo_atomic_define
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later; with STAT, TS 18508 or later
 
-#### CLASS
+### CLASS
 
 Atomic subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __atomic\_ref__(3), __atomic\_cas__(3), __iso\_fortran\_env__(3),
 __atomic\_add__(3), __atomic\_and__(3), __atomic\_or__(3),

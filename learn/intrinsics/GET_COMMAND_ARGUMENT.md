@@ -3,12 +3,11 @@ layout: book
 title: get_command_argument
 permalink: /learn/intrinsics/GET_COMMAND_ARGUMENT
 ---
-#### NAME
+### NAME
 
 __get\_command\_argument__(3f) - \[SYSTEM ENVIRONMENT\] Get command line arguments
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 ```fortran
      call get_command_argument__(number [, value, length, status])
      integer,intent(in)                    :: number
@@ -17,7 +16,7 @@ __get\_command\_argument__(3f) - \[SYSTEM ENVIRONMENT\] Get command line argumen
      integer,intent(out),optional          :: status
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Retrieve the NUMBER-th argument that was passed on the command line when
 the containing program was invoked.
@@ -27,14 +26,14 @@ in practice the arguments are split on whitespace unless the arguments
 are quoted and IFS values (Internal Field Separators) used by common
 shells are ignored.
 
-#### OPTIONS
+### OPTIONS
 
   - __NUMBER__
     Shall be a scalar of type __integer__(4), NUMBER \>= 0. If NUMBER =
     0, VALUE is set to the name of the program (on systems that support
     this feature).
 
-#### RETURNS
+### RETURNS
 
   - __VALUE__
     Shall be a scalar of type CHARACTER and of default kind. After
@@ -54,7 +53,7 @@ shells are ignored.
     truncated command line argument, STATUS is __-1__; and otherwise the
     STATUS is zero.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -110,16 +109,16 @@ Sample output:
    >005 00000 00018 [  leading]
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __get\_command__(3), __command\_argument\_count__(3)
 
-##### @urbanjost
+#### @urbanjost

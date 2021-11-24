@@ -3,20 +3,20 @@ layout: book
 title: btest
 permalink: /learn/intrinsics/BTEST
 ---
-#### NAME
+### NAME
 
 __btest__(3f) - \[BIT MANIPULATION\] Bit test function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __btest__(i, pos)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __btest__(i,pos) returns logical .true. if the bit at POS in I is set.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     The type shall be INTEGER.
@@ -25,11 +25,11 @@ __btest__(i,pos) returns logical .true. if the bit at POS in I is set.
     The type shall be INTEGER. A value of zero refers to the least
     significant bit.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type LOGICAL
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -46,15 +46,15 @@ Sample program:
     end program demo_btest
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __ibclr__(3), __ibits__(3), __ibset__(3), __iand__(3), __ior__(3),
 __ieor__(3), __mvbits__(3)

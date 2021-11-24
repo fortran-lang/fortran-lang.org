@@ -3,12 +3,11 @@ layout: book
 title: cpu_time
 permalink: /learn/intrinsics/CPU_TIME
 ---
-#### NAME
+### NAME
 
 __cpu\_time__(3f) - \[SYSTEM ENVIRONMENT\] return CPU processor time in seconds
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 
 
 ```fortran
@@ -16,7 +15,7 @@ __cpu\_time__(3f) - \[SYSTEM ENVIRONMENT\] return CPU processor time in seconds
      real,intent(out) :: time
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns a REAL value representing the elapsed CPU time in seconds. This
 is useful for testing segments of code to determine execution time.
@@ -35,7 +34,7 @@ A processor for which a single result is inadequate (for example, a
 parallel processor) might choose to provide an additional version for
 which time is an array.
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __TIME__
     The type shall be REAL with __intent__(out). It is assigned a
@@ -48,7 +47,7 @@ which time is an array.
         sections of code, as in the example. This might or might not
         include system overhead time.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -66,16 +65,16 @@ Sample program:
     end program demo_cpu_time
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __system\_clock__(3), __date\_and\_time__(3)
 
-##### @urbanjost
+#### @urbanjost

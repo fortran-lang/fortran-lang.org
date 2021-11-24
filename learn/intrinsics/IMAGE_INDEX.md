@@ -3,20 +3,20 @@ layout: book
 title: image_index
 permalink: /learn/intrinsics/IMAGE_INDEX
 ---
-#### NAME
+### NAME
 
 __image\_index__(3f) - \[COLLECTIVE\] Cosubscript to image index conversion
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __image\_index__(coarray, sub)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns the image index belonging to a cosubscript.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __COARRAY__
     Coarray of any type.
@@ -25,13 +25,13 @@ Returns the image index belonging to a cosubscript.
     default integer rank-1 array of a size equal to the corank of
     COARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 Scalar default integer with the value of the image index which
 corresponds to the cosubscripts. For invalid cosubscripts the result is
 zero.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -44,14 +44,14 @@ Sample program:
    end demo image_index
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function.
 
-#### SEE ALSO
+### SEE ALSO
 
 __this\_image__(3), __num\_images__(3)

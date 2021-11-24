@@ -3,15 +3,15 @@ layout: book
 title: merge
 permalink: /learn/intrinsics/MERGE
 ---
-#### NAME
+### NAME
 
 __merge__(3f) - \[ARRAY CONSTRUCTION\] Merge variables
 
-#### SYNTAX
+### SYNTAX
 
 result = __MERGE__(TSOURCE, FSOURCE, MASK)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 The elemental function __MERGE__(3f) selects values from two arrays or
 scalars according to a logical mask. The result is equal to an element
@@ -51,7 +51,7 @@ instead of the more obscure
       merge(1.0\/merge(x,1.0,x \/= 0.0), 0.0, x \/= 0.0)
 ```
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __TSOURCE__
     May be of any type, including user-defined.
@@ -64,12 +64,12 @@ instead of the more obscure
 
 Note that (currently) CHARACTER values must be of the same length.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The result is of the same type and type parameters as TSOURCE. For any
 element the result is TSOURCE if MASK is true and FSOURCE otherwise.
 
-#### EXAMPLES
+### EXAMPLES
 
 The value of
 
@@ -144,12 +144,12 @@ is 1.0 for K=5 and 0.0 for K=__-2__.
 >       1   2   3
 > ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-###### @urbanjost
+##### @urbanjost

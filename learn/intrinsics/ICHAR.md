@@ -3,12 +3,12 @@ layout: book
 title: ichar
 permalink: /learn/intrinsics/ICHAR
 ---
-#### NAME
+### NAME
 
 __ichar__(3f) - \[CHARACTER\] Character-to-integer conversion function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 elemental function __ichar__(c,kind)
 
@@ -17,7 +17,7 @@ elemental function __ichar__(c,kind)
     integer,intent(in),optional :: kind
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __ICHAR__(C) returns the code for the character in the system's native
 character set. The correspondence between characters and their codes is
@@ -28,7 +28,7 @@ ASCII platform.
 See __IACHAR__(3f) for specifically working with the ASCII character
 set.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __C__
     Shall be a scalar CHARACTER, with __intent__(in)
@@ -37,12 +37,12 @@ set.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -68,7 +68,7 @@ Sample program:
    end program demo_ichar
 ```
 
-#### NOTE
+### NOTE
 
 No intrinsic exists to convert between a numeric value and a formatted
 character string representation -- for instance, given the CHARACTER
@@ -92,15 +92,15 @@ I/O, as in the following example:
     end program read_val
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later, with KIND argument -Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 \[\[achar\]\], \[\[char\]\], \[\[iachar\]\]
 

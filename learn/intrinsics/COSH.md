@@ -3,31 +3,31 @@ layout: book
 title: cosh
 permalink: /learn/intrinsics/COSH
 ---
-#### NAME
+### NAME
 
 __cosh__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic cosine function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 x = __cosh__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __cosh__(x) computes the hyperbolic cosine of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be REAL or COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value has same type and kind as X. If X is complex, the
 imaginary part of the result is in radians. If X is REAL, the return
 value has a lower bound of one, __cosh__(x) \>= 1.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -40,14 +40,14 @@ Sample program:
    end program demo_cosh
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later, for a complex argument - Fortran 2008 or later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Inverse function: __acosh__(3)

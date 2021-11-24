@@ -3,12 +3,11 @@ layout: book
 title: date_and_time
 permalink: /learn/intrinsics/DATE_AND_TIME
 ---
-#### NAME
+### NAME
 
 __date\_and\_time__(3f) - \[SYSTEM ENVIRONMENT\] gets current time
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 
 ```fortran
     subroutine date_and_time([date, time, zone, values])
@@ -18,14 +17,14 @@ __date\_and\_time__(3f) - \[SYSTEM ENVIRONMENT\] gets current time
      integer,intent(out),optional :: values
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __DATE\_AND\_TIME__(date, time, zone, values) gets the corresponding
 date and time information from the real-time system clock.
 
 Unavailable time and date CHARACTER parameters return blanks.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __DATE__
     The type shall be __CHARACTER__(len=8) or larger, and of default
@@ -59,7 +58,7 @@ Unavailable time and date CHARACTER parameters return blanks.
 
       - __value__(8): - The milliseconds of the second
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -101,12 +100,12 @@ Results:
      779 - The milliseconds of the second
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### SEE ALSO
+### SEE ALSO
 
 __cpu\_time__(3), __system\_clock__(3)
 
-##### @urbanjost
+#### @urbanjost

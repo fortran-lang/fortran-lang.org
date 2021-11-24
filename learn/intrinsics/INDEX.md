@@ -3,12 +3,12 @@ layout: book
 title: index
 permalink: /learn/intrinsics/INDEX
 ---
-#### NAME
+### NAME
 
 __index__(3f) - \[CHARACTER\] Position of a substring within a string
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 __index__(STRING, SUBSTRING \[, BACK \[, KIND\]\]) __result__(START)
 
@@ -20,13 +20,13 @@ __index__(STRING, SUBSTRING \[, BACK \[, KIND\]\]) __result__(START)
      integer(kind=KIND)          :: START
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns the position of the start of the leftmost or rightmost
 occurrence of string SUBSTRING in STRING, counting from one. If
 SUBSTRING is not present in STRING, zero is returned.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __STRING__
     string to be searched
@@ -42,13 +42,13 @@ SUBSTRING is not present in STRING, zero is returned.
     An INTEGER initialization expression indicating the kind parameter
     of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __START__
     The return value is of type INTEGER and of kind KIND. If KIND is
     absent, the return value is of default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Example program
 
@@ -73,12 +73,12 @@ Expected Results:
    > T T T
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later, with KIND argument Fortran 2003
 and later
 
-#### SEE ALSO
+### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

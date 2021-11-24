@@ -3,18 +3,17 @@ layout: book
 title: asin
 permalink: /learn/intrinsics/ASIN
 ---
-#### NAME
+### NAME
 
 __asin__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Arcsine function
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 
 ```fortran
 result = asin(X)
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __asin__(x) computes the arcsine of its argument X.
 
@@ -22,20 +21,20 @@ The arcsine is the inverse function of the sine function. It is commonly
 used in trigonometry when trying to find the angle when the lengths of
 the hypotenuse and the opposite side of a right triangle are known.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be either REAL and a magnitude that is less than or
     equal to one; or be COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __RESULT__
     The return value is of the same type and kind as X. The real part of
     the result is in radians and lies in the range __-PI__/2 \<=
     __asin__(x) \<= PI/2.
 
-#### EXAMPLE
+### EXAMPLE
 
 The arcsine will allow you to find the measure of a right angle when you
 know the ratio of the side opposite the angle to the hypotenuse.
@@ -86,16 +85,16 @@ Written as a percent this is 2.5 %.
 > Baltimore and Ohio. Note curves increase the frictional drag on a
 > train reducing the allowable grade.
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later, for a complex argument Fortran 2008 or later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Inverse function: __sin__(3)
 
-##### @urbanjost
+#### @urbanjost

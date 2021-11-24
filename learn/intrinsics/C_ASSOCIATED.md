@@ -3,22 +3,22 @@ layout: book
 title: c_associated
 permalink: /learn/intrinsics/C_ASSOCIATED
 ---
-#### NAME
+### NAME
 
 __c\_associated__(3f) - \[ISO\_C\_BINDING\] Status of a C pointer
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __c\_associated__(c\_prt\_1\[, c\_ptr\_2\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __c\_associated__(c\_prt\_1\[, c\_ptr\_2\]) determines the status of the
 C pointer c\_ptr\_1 or if c\_ptr\_1 is associated with the target
 c\_ptr\_2.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __c\_ptr\_1__
     Scalar of the type c\_ptr or c\_funptr.
@@ -26,13 +26,13 @@ c\_ptr\_2.
   - __c\_ptr\_2__
     (Optional) Scalar of the same type as c\_ptr\_1.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type LOGICAL; it is .false. if either c\_ptr\_1
 is a C NULL pointer or if c\_ptr1 and c\_ptr\_2 point to different
 addresses.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -50,14 +50,14 @@ Sample program:
     end program demo_c_associated
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function
 
-#### SEE ALSO
+### SEE ALSO
 
 __c\_loc__(3), __c\_funloc__(3), __iso\_c\_binding__(3)

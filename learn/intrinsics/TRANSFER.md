@@ -3,16 +3,16 @@ layout: book
 title: transfer
 permalink: /learn/intrinsics/TRANSFER
 ---
-#### NAME
+### NAME
 
 __transfer__(3f) - \[BIT MANIPULATION\] Transfer bit patterns
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __transfer__(source, mold\[, size\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Interprets the bitwise representation of SOURCE in memory as if it is
 the representation of a variable or array of the same type and type
@@ -21,7 +21,7 @@ parameters as MOLD.
 This is approximately equivalent to the C concept of \*casting\* one
 type to another.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __SOURCE__
     Shall be a scalar or an array of any type.
@@ -32,7 +32,7 @@ type to another.
   - __SIZE__
     (Optional) shall be a scalar of type INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The result has the same type as MOLD, with the bit level representation
 of SOURCE. If SIZE is present, the result is a one-dimensional array of
@@ -51,7 +51,7 @@ undefined, and subsequent operations on the result cannot be guaranteed
 to produce sensible behavior. For example, it is possible to create
 LOGICAL variables for which VAR and .not. var both appear to be true.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -63,7 +63,7 @@ Sample program:
     end program demo_transfer
 ```
 
-#### COMMENTS
+### COMMENTS
 
 \[\[Joe Krahn\]\]: Fortran uses \*\*molding\*\* rather than
 \*\*casting\*\*.
@@ -85,10 +85,10 @@ can vary by compiler or compile options. In many cases, an EQUIVALENCE
 would be far more effective, but Fortran Standards committees seem
 oblivious to the benefits of EQUIVALENCEs when used sparingly.
 
-#### STANDARD
+### STANDARD
 
 Fortran 90 and later
 
-#### CLASS
+### CLASS
 
 Transformational function

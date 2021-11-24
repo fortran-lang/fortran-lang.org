@@ -3,11 +3,11 @@ layout: book
 title: nint
 permalink: /learn/intrinsics/NINT
 ---
-#### NAME
+### NAME
 
 __nint__(3f) - \[NUMERIC:TYPE\] Nearest whole number
 
-#### SYNTAX
+### SYNTAX
 
 
 ```fortran
@@ -16,7 +16,7 @@ __nint__(3f) - \[NUMERIC:TYPE\] Nearest whole number
      integer(kind=NN) :: ANSWER
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __NINT__(X) rounds its argument to the nearest whole number with its
 sign preserved.
@@ -30,7 +30,7 @@ If X is greater than zero, __NINT__(X) has the value __INT__(X+0.5).
 If X is less than or equal to zero, __NINT__(X) has the value
 __INT__(a-0.5).
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type of the argument shall be REAL.
@@ -40,14 +40,14 @@ __INT__(a-0.5).
     parameter of the result. Otherwise, the kind type parameter is that
     of default INTEGER type.
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __ANSWER__
     The result is the integer nearest X, or if there are two integers
     equally near X, the result is whichever such integer has the greater
     magnitude.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -104,12 +104,12 @@ Results
      > -9223372036854775808
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later, with KIND argument - Fortran 90 and later
 
-#### SEE ALSO
+### SEE ALSO
 
 __ceiling__(3), __floor__(3)
 
-##### @urbanjost
+#### @urbanjost

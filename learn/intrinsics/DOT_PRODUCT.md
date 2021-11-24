@@ -3,16 +3,16 @@ layout: book
 title: dot_product
 permalink: /learn/intrinsics/DOT_PRODUCT
 ---
-#### NAME
+### NAME
 
 __dot\_product__(3f) - \[TRANSFORMATIONAL FUNCTION\] Dot product function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __dot\_product__(vector\_a, vector\_b)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __dot\_product__(vector\_a, vector\_b) computes the dot product
 multiplication of two vectors vector\_a and vector\_b. The two vectors
@@ -22,7 +22,7 @@ __sum__(vector\_a\*vector\_b). If the vectors are COMPLEX, the result is
 __sum__(conjg(vector\_a)\*vector\_b). If the vectors are LOGICAL, the
 result is __any__(vector\_a .and. vector\_b).
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __vector\_a__
     The type shall be numeric or LOGICAL, rank 1.
@@ -32,13 +32,13 @@ result is __any__(vector\_a .and. vector\_b).
     if vector\_a is of type LOGICAL. vector\_b shall be a rank-one
     array.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 If the arguments are numeric, the return value is a scalar of numeric
 type, INTEGER, REAL, or COMPLEX. If the arguments are LOGICAL, the
 return value is .true. or .false..
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -56,10 +56,10 @@ Sample program:
     end program demo_dot_prod
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function

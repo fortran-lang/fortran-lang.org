@@ -3,16 +3,16 @@ layout: book
 title: verify
 permalink: /learn/intrinsics/VERIFY
 ---
-#### NAME
+### NAME
 
 __verify__(3f) - \[CHARACTER\] Scan a string for the absence of a set of characters
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __verify__(string, set\[, back \[, kind\]\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Verifies that all the characters in STRING belong to the set of
 characters in SET.
@@ -22,7 +22,7 @@ position of the leftmost character of STRING that is not in SET. If BACK
 equals TRUE, the rightmost position is returned. If all characters of
 STRING are found in SET, the result is zero.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __STRING__
     Shall be of type CHARACTER.
@@ -37,12 +37,12 @@ STRING are found in SET, the result is zero.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -106,15 +106,15 @@ Results:
     32-af43d passed
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

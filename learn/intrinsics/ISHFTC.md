@@ -3,16 +3,16 @@ layout: book
 title: ishftc
 permalink: /learn/intrinsics/ISHFTC
 ---
-#### NAME
+### NAME
 
 __ishftc__(3f) - \[BIT MANIPULATION\] Shift bits circularly
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __ishftc__(i, shift \[, size\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 ISHFTC returns a value corresponding to I with the rightmost SIZE bits
 shifted circularly SHIFT places; that is, bits shifted out one end are
@@ -22,7 +22,7 @@ and a value less than zero corresponds to a right shift. The absolute
 value of SHIFT must be less than SIZE. If the SIZE argument is omitted,
 it is taken to be equivalent to __bit\_size__(i).
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     The type shall be INTEGER.
@@ -34,18 +34,18 @@ it is taken to be equivalent to __bit\_size__(i).
     (Optional) The type shall be INTEGER; the value must be greater than
     zero and less than or equal to __bit\_size__(i).
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of the same kind as I.
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __ishft__(3)

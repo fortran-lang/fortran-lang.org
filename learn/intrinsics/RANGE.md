@@ -3,30 +3,30 @@ layout: book
 title: range
 permalink: /learn/intrinsics/RANGE
 ---
-#### NAME
+### NAME
 
 __range__(3f) - \[NUMERIC MODEL\] Decimal exponent range of a real kind
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __range__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __range__(x) returns the decimal exponent range in the model of the type
 of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     Shall be of type REAL or COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of the default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -40,14 +40,14 @@ Sample program:
     end program demo_range
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function
 
-#### SEE ALSO
+### SEE ALSO
 
 __selected\_real\_kind__(3), __precision__(3)

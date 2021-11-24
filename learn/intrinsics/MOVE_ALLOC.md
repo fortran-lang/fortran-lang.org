@@ -3,21 +3,21 @@ layout: book
 title: move_alloc
 permalink: /learn/intrinsics/MOVE_ALLOC
 ---
-#### NAME
+### NAME
 
 __move\_alloc__(3f) - \[\] Move allocation from one object to another
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 call __move\_alloc__(src, dest)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __move\_alloc__(src, dest) moves the allocation from SRC to DEST. SRC
 will become deallocated in the process.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __SRC__
     ALLOCATABLE, __intent__(inout), may be of any type and kind.
@@ -26,7 +26,7 @@ will become deallocated in the process.
     ALLOCATABLE, __intent__(out), shall be of the same type, kind and
     rank as SRC.
 
-#### EXAMPLE
+### EXAMPLE
 
 Basic Sample program to allocate a bigger grid
 
@@ -61,14 +61,14 @@ Basic Sample program to allocate a bigger grid
 
 > end program demo\_move\_alloc
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Pure subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __allocated__(3)

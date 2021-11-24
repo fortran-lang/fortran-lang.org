@@ -3,12 +3,11 @@ layout: book
 title: count
 permalink: /learn/intrinsics/COUNT
 ---
-#### NAME
+### NAME
 
 __command\_argument\_count__(3f) - \[SYSTEM ENVIRONMENT\] Get number of command line arguments
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 
 
 ```fortran
@@ -16,22 +15,22 @@ __command\_argument\_count__(3f) - \[SYSTEM ENVIRONMENT\] Get number of command 
      integer :: result
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 command\_argument\_count returns the number of arguments passed on the
 command line when the containing program was invoked.
 
-#### ARGUMENTS
+### ARGUMENTS
 
 None
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __RESULT__
     The return value is of type default integer. It is the number of
     arguments passed on the command line when the program was invoked.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -57,16 +56,16 @@ Sample output:
        1
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function
 
-#### SEE ALSO
+### SEE ALSO
 
 __get\_command__(3), __get\_command\_argument__(3)
 
-##### @urbanjost
+#### @urbanjost

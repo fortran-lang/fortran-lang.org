@@ -3,17 +3,17 @@ layout: book
 title: maxloc
 permalink: /learn/intrinsics/MAXLOC
 ---
-#### NAME
+### NAME
 
 __maxloc__(3f) - \[ARRAY LOCATION\] Location of the maximum value within an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __maxloc__(array, dim \[, mask\]) result = __maxloc__(array \[,
 mask\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines the location of the element in the array with the maximum
 value, or, if the DIM argument is supplied, determines the locations of
@@ -26,7 +26,7 @@ order. If the array has zero size, or all of the elements of MASK are
 supplied and all of the elements of MASK along a given row are zero, the
 result value for that row is zero.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an array of type INTEGER, REAL, or CHARACTER.
@@ -39,7 +39,7 @@ result value for that row is zero.
   - __MASK__
     Shall be an array of type LOGICAL, and conformable with ARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 If DIM is absent, the result is a rank-one array with a length equal to
 the rank of ARRAY. If DIM is present, the result is an array with a rank
@@ -52,7 +52,7 @@ The value returned is reference to the offset from the beginning of the
 array, not neccessarily the subscript value if the array subscripts do
 not start with one.
 
-#### EXAMPLE
+### EXAMPLE
 
 sample program:
 
@@ -92,14 +92,14 @@ expected output:
 >   - __5__
 >     5 5 __-3__ 47 __-2__ 48 __-1__ 49 0 50 1 49 2 48 3 47 4
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __max__(3), __maxval__(3)

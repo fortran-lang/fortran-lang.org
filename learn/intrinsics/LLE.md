@@ -3,12 +3,12 @@ layout: book
 title: lle
 permalink: /learn/intrinsics/LLE
 ---
-#### NAME
+### NAME
 
 __lle__(3f) - \[CHARACTER\] Lexical less than or equal
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __lle__(STR\_A, STR\_B)
 
@@ -16,7 +16,7 @@ __character__(len=\*),intent(in) :: STR\_A, STR\_B or
 __character__(len=\*),intent(in) :: STR\_A, __STR\_B__(\*) logical ::
 result
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines whether one string is lexically less than or equal to another
 string, where the two strings are interpreted as containing ASCII
@@ -30,7 +30,7 @@ differ from the corresponding intrinsic operators .ge., .gt., .le., and
 is not ASCII on some targets), whereas the former always use the ASCII
 ordering.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __STR\_A__
     variable or array of default CHARACTER type.
@@ -45,13 +45,13 @@ ordering.
             same shape.
 ```
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __RESULT__
     Returns .TRUE. if STR\_A \<= STR\_B, and .FALSE. otherwise, based on
     the ASCII ordering.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -87,15 +87,15 @@ Sample program:
 >    > T T
 > ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __lge__(3), __lgt__(3), __llt__(3)
 

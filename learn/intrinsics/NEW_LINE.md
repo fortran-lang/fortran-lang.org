@@ -3,30 +3,30 @@ layout: book
 title: new_line
 permalink: /learn/intrinsics/NEW_LINE
 ---
-#### NAME
+### NAME
 
 __new\_line__(3f) - \[CHARACTER\] New line character
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __new\_line__(c)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __new\_line__(c) returns the new-line character.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __C__
     \- The argument shall be a scalar or array of the type CHARACTER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 Returns a CHARACTER scalar of length one with the new-line character of
 the same kind as parameter C.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -37,10 +37,10 @@ Sample program:
     end program demo_new_line
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function

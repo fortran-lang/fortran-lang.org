@@ -3,16 +3,16 @@ layout: book
 title: co_sum
 permalink: /learn/intrinsics/CO_SUM
 ---
-#### NAME
+### NAME
 
 __co\_sum__(3f) - \[COLLECTIVE\] Sum of values on the current set of images
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 call __co\_sum__(a \[, result\_image, stat, errmsg\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 co\_sum sums up the values of each element of A on all images of the
 current team. If result\_image is present, the summed-up values are
@@ -23,7 +23,7 @@ STAT is present, it is assigned the value zero. If the execution failed,
 STAT gets assigned a nonzero value and, if present, ERRMSG gets assigned
 a value describing the occurred error.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __A__
     shall be an integer, real or complex variable, which has the same
@@ -40,7 +40,7 @@ a value describing the occurred error.
   - __ERRMSG__
     (optional) a scalar character variable
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -57,14 +57,14 @@ Sample program:
    end program demo_co_sum
 ```
 
-#### STANDARD
+### STANDARD
 
 TS 18508 or later
 
-#### CLASS
+### CLASS
 
 Collective subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __co\_max__(3), __co\_min__(3), __co\_reduce__(3), __co\_broadcast__(3)

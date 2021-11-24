@@ -3,12 +3,11 @@ layout: book
 title: get_environment
 permalink: /learn/intrinsics/GET_ENVIRONMENT
 ---
-#### NAME
+### NAME
 
 __get\_environment\_variable__(3f) - \[SYSTEM ENVIRONMENT\] Get an environmental variable
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 ```fortran
   call get_environment_variable(NAME, VALUE, LENGTH, STATUS, TRIM_NAME)
    character(len=*),intent(in) :: NAME character(len=*),intent(out),optional :: VALUE
@@ -16,7 +15,7 @@ __get\_environment\_variable__(3f) - \[SYSTEM ENVIRONMENT\] Get an environmental
    integer,intent(out),optional :: STATUS
    logical,intent(out),optional :: TRIM\_NAME
 ```
-#### DESCRIPTION
+### DESCRIPTION
 
 Get the VALUE of the environmental variable NAME.
 
@@ -24,12 +23,12 @@ Note that __get\_environment\_variable__(3f) need not be thread-safe. It
 is the responsibility of the user to ensure that the environment is not
 being updated concurrently.
 
-#### OPTIONS
+### OPTIONS
 
   - __NAME__
     (Optional) Shall be a scalar of type CHARACTER and of default kind.
 
-#### RETURN VALUE
+### RETURN VALUE
 
   - __VALUE__
     (Optional) Shall be a scalar of type CHARACTER and of default kind.
@@ -55,7 +54,7 @@ being updated concurrently.
     NAME are significant; otherwise they are not part of the environment
     variable name.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -90,12 +89,12 @@ Typical Results:
    HOME="/home/urbanjs"
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Subroutine
 
-##### @urbanjost
+#### @urbanjost

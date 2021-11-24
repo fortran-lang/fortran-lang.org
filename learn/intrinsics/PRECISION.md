@@ -3,30 +3,30 @@ layout: book
 title: precision
 permalink: /learn/intrinsics/PRECISION
 ---
-#### NAME
+### NAME
 
 __precision__(3f) - \[NUMERIC MODEL\] Decimal precision of a real kind
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __precision__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __precision__(x) returns the decimal precision in the model of the type
 of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     Shall be of type REAL or COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of the default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -41,14 +41,14 @@ Sample program:
     end program demo_precision
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function
 
-#### SEE ALSO
+### SEE ALSO
 
 __selected\_real\_kind__(3), __range__(3)

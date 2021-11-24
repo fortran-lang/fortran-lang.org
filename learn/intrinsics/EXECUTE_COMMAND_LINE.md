@@ -3,12 +3,12 @@ layout: book
 title: execute_command_line
 permalink: /learn/intrinsics/EXECUTE_COMMAND_LINE
 ---
-#### NAME
+### NAME
 
 __execute\_command\_line__(3f) - \[SYSTEM ENVIRONMENT\] Execute a shell command
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 subroutine __execute\_command\_line__(command, wait, exitstat, cmdstat,
 cmdmsg)
@@ -21,7 +21,7 @@ cmdmsg)
     character(len=*),intent(out),optional :: cmdmsg
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 The COMMAND argument is passed to the shell and executed. (The shell is
 generally __sh__(1) on Unix systems, and cmd.exe on Windows.) If WAIT is
@@ -43,7 +43,7 @@ When the command is executed synchronously, EXECUTE\_COMMAND\_LINE
 returns after the command line has completed execution. Otherwise,
 EXECUTE\_COMMAND\_LINE returns without waiting.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __COMMAND__
     a default CHARACTER scalar containing the command line to be
@@ -78,7 +78,7 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
     (INOUT) argument.If an error condition occurs, it is assigned a
     processor-dependent explanatory message.Otherwise, it is unchanged.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -95,7 +95,7 @@ Sample program:
    end program demo_exec
 ```
 
-#### NOTE
+### NOTE
 
 Because this intrinsic is making a system call, it is very system
 dependent. Its behavior with respect to signaling is processor
@@ -104,10 +104,10 @@ SIGQUIT signals will be ignored, and the SIGCHLD will be blocked. As
 such, if the parent process is terminated, the child process might not
 be terminated alongside.
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Subroutine

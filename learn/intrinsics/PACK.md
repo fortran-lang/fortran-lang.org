@@ -3,16 +3,16 @@ layout: book
 title: pack
 permalink: /learn/intrinsics/PACK
 ---
-#### NAME
+### NAME
 
 __pack__(3f) - \[ARRAY CONSTRUCTION\] Pack an array into an array of rank one
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __pack__(array, mask\[,vector\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Stores the elements of ARRAY in an array of rank one.
 
@@ -20,7 +20,7 @@ The beginning of the resulting array is made up of elements whose MASK
 equals TRUE. Afterwards, positions are filled with elements taken from
 VECTOR.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an array of any type.
@@ -36,13 +36,13 @@ VECTOR.
     scalar, the number of elements in VECTOR shall be equal to or
     greater than the number of elements in ARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The result is an array of rank one and the same type as that of ARRAY.
 If VECTOR is present, the result size is that of VECTOR, the number of
 TRUE values in MASK otherwise.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -86,14 +86,14 @@ Results:
 >   - __bat__
 >     cat
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __unpack__(3)

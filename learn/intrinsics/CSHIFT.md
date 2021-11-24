@@ -3,16 +3,16 @@ layout: book
 title: cshift
 permalink: /learn/intrinsics/CSHIFT
 ---
-#### NAME
+### NAME
 
 __cshift__(3f) - \[TRANSFORMATIONAL FUNCTION\] Circular shift elements of an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __cshift__(array, shift \[, dim\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __cshift__(array, shift \[, dim\]) performs a circular shift on elements
 of ARRAY along the dimension of DIM. If DIM is omitted it is taken to be
@@ -23,7 +23,7 @@ one, then all complete rank one sections of ARRAY along the given
 dimension are shifted. Elements shifted out one end of each rank one
 section are shifted back in the other end.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an array of any type.
@@ -34,11 +34,11 @@ section are shifted back in the other end.
   - __DIM__
     The type shall be INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 Returns an array of same type and rank as the ARRAY argument.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -58,10 +58,10 @@ Sample program:
     end program demo_cshift
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function

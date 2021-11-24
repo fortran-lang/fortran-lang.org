@@ -3,30 +3,30 @@ layout: book
 title: bessel_y1
 permalink: /learn/intrinsics/BESSEL_Y1
 ---
-#### NAME
+### NAME
 
 __bessel\_y1__(3f) - \[MATHEMATICS\] Bessel function of the second kind of order 1
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __bessel\_y1__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __bessel\_y1__(x) computes the \[\[Bessel function\]\] of the second
 kind of order 1 of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be REAL.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is REAL. It has the same kind as X.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -40,15 +40,15 @@ Sample program:
    end program demo_besy1
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __bessel\_j0__(3), __bessel\_j1__(3), __bessel\_jn__(3),
 __bessel\_y0__(3), __bessel\_yn__(3)

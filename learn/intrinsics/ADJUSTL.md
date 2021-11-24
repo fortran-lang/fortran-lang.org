@@ -3,12 +3,11 @@ layout: book
 title: adjustl
 permalink: /learn/intrinsics/ADJUSTL
 ---
-#### NAME
+### NAME
 
 __adjustl__(3f) - \[CHARACTER\] Left-adjust a string
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 
 
 ```fortran
@@ -17,23 +16,23 @@ __adjustl__(3f) - \[CHARACTER\] Left-adjust a string
      character(len=len(string))  :: result
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __adjustl__(STRING) will left adjust a string by removing leading
 spaces. Spaces are inserted at the end of the string as needed.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __STRING__
     the type shall be CHARACTER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type CHARACTER and of the same kind as STRING
 where leading spaces are removed and the same number of spaces are
 inserted on the end of STRING.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -63,15 +62,15 @@ Results:
    [allocatable string       ]
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
@@ -83,4 +82,4 @@ of arguments, and search for certain arguments:
   - __nonelemental:__
     __repeat__(3), __trim__(3)
 
-##### @urbanjost
+#### @urbanjost

@@ -3,30 +3,30 @@ layout: book
 title: log10
 permalink: /learn/intrinsics/LOG10
 ---
-#### NAME
+### NAME
 
 __log10__(3f) - \[MATHEMATICS\] Base 10 logarithm function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __LOG10__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __LOG10__(X) computes the base 10 logarithm of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be REAL.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type REAL or COMPLEX. The kind type parameter is
 the same as X.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -40,10 +40,10 @@ Sample program:
     end program demo_log10
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function

@@ -3,21 +3,21 @@ layout: book
 title: extends_type_of
 permalink: /learn/intrinsics/EXTENDS_TYPE_OF
 ---
-#### NAME
+### NAME
 
 __extends\_type\_of__(3f) - \[\] determine if the dynamic type of A is an extension of the dynamic type of MOLD.
 (GFDL)
 
-#### SYNOPSIS
+### SYNOPSIS
 
 RESULT=EXTENDS\_TYPE\_OF (*A*, *MOLD*)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __extends\_type\_of__(3f) is TRUE if and only if the dynamic type of *A*
 is an extension of the dynamic type of *MOLD*.
 
-#### OPTIONS
+### OPTIONS
 
   - __*A__*
     shall be an object of extensible type. If it is a pointer, it shall
@@ -27,7 +27,7 @@ is an extension of the dynamic type of *MOLD*.
     shall be an object of extensible type. If it is a pointer, it shall
     not have an undefined association status.
 
-#### RESULTS
+### RESULTS
 
   - __RESULT__
     Default logical scalar.
@@ -44,8 +44,8 @@ is an extension of the dynamic type of *MOLD*.
     The dynamic type of a disassociated pointer or unallocated
     allocatable variable is its declared type.
 
-#### EXAMPLE
+### EXAMPLE
 
-#### CLASS
+### CLASS
 
 Inquiry function.

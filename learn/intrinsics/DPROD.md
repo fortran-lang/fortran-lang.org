@@ -3,16 +3,16 @@ layout: book
 title: dprod
 permalink: /learn/intrinsics/DPROD
 ---
-#### NAME
+### NAME
 
 __dprod__(3f) - \[NUMERIC\] Double product function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __dprod__(x, y)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __DPROD__(X,Y) produces a higher DOUBLEPRECISION product of default REAL
 numbers X and Y.
@@ -31,7 +31,7 @@ converted to double precision.
 The setting of compiler options specifying REAL size can affect this
 function.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     Must be of default __REAL__(kind=kind(0.0)) type
@@ -39,11 +39,11 @@ function.
   - __Y__
     Must have the same type and kind parameters as X
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type __real__(kind=kind(0.0d0)).
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -76,10 +76,10 @@ Sample program:
     end program demo_dprod
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function

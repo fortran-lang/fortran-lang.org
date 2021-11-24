@@ -3,23 +3,23 @@ layout: book
 title: shiftr
 permalink: /learn/intrinsics/SHIFTR
 ---
-#### NAME
+### NAME
 
 __shiftr__(3f) - \[BIT MANIPULATION\] shift bits right
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __SHIFTR__(I, SHIFT)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns a value corresponding to I with all of the bits shifted right by
 SHIFT places. If the absolute value of SHIFT is greater than
 __BIT\_SIZE__(I), the value is undefined. Bits shifted out from the
 right end are lost, and bits shifted in from the left end are set to 0.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     The type shall be INTEGER.
@@ -27,18 +27,18 @@ right end are lost, and bits shifted in from the left end are set to 0.
   - __SHIFT__
     The type shall be INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of the same kind as I.
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __shifta__(3), __shiftl__(3)

@@ -3,16 +3,16 @@ layout: book
 title: lge
 permalink: /learn/intrinsics/LGE
 ---
-#### NAME
+### NAME
 
 __lge__(3f) - \[CHARACTER\] Lexical greater than or equal
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __lge__(string\_a, string\_b)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines whether one string is lexically greater than or equal to
 another string, where the two strings are interpreted as containing
@@ -26,7 +26,7 @@ differ from the corresponding intrinsic operators .ge., .gt., .le., and
 is not ASCII on some targets), whereas the former always use the ASCII
 ordering.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __string\_a__
     Shall be of default CHARACTER type.
@@ -34,20 +34,20 @@ ordering.
   - __string\_b__
     Shall be of default CHARACTER type.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 Returns .true. if string\_a \>= string\_b, and .false. otherwise, based
 on the ASCII ordering.
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __\[\[lgt__(3), __\[\[lle__(3), __\[\[llt__(3)
 

@@ -3,21 +3,21 @@ layout: book
 title: bge
 permalink: /learn/intrinsics/BGE
 ---
-#### NAME
+### NAME
 
 __bge__(3f) - \[BIT COMPARE\] Bitwise greater than or equal to
 (GFDL)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines whether an integer is a bitwise greater than or equal to
 another.
 
-#### SYNTAX
+### SYNTAX
 
 result = __bge__(i, j)
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     Shall be of INTEGER type.
@@ -25,18 +25,18 @@ result = __bge__(i, j)
   - __J__
     Shall be of INTEGER type, and of the same kind as I.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type LOGICAL and of the default kind.
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __bgt__(3), __ble__(3), __blt__(3)

@@ -3,26 +3,26 @@ layout: book
 title: c_sizeof
 permalink: /learn/intrinsics/C_SIZEOF
 ---
-#### NAME
+### NAME
 
 __c\_sizeof__(3f) - \[ISO\_C\_BINDING\] Size in bytes of an expression
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 n = __c\_sizeof__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __c\_sizeof__(x) calculates the number of bytes of storage the
 expression X occupies.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The argument shall be an interoperable data entity.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type integer and of the system-dependent kind
 c\_size\_t (from the \[\[iso\_c\_binding\]\] module). Its value is the
@@ -32,7 +32,7 @@ returned. If the argument is of a derived type with POINTER or
 ALLOCATABLE components, the return value does not account for the sizes
 of the data pointed to by these components.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -48,14 +48,14 @@ Sample program:
 The example will print .true. unless you are using a platform where
 default REAL variables are unusually padded.
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008
 
-#### CLASS
+### CLASS
 
 Intrinsic function
 
-#### SEE ALSO
+### SEE ALSO
 
 __storage\_size__(3)

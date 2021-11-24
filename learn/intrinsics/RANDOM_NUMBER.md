@@ -3,26 +3,26 @@ layout: book
 title: random_number
 permalink: /learn/intrinsics/RANDOM_NUMBER
 ---
-#### NAME
+### NAME
 
 __random\_number__(3f) - \[MATHEMATICS:RANDOM\] Pseudo-random number
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 __random\_number__(harvest)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns a single pseudorandom number or an array of pseudorandom numbers
 from the uniform distribution over the range 0 \<= x \< 1.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __HARVEST__
     Shall be a scalar or an array of type REAL.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -83,14 +83,14 @@ Sample output:
    >10 10000196
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __random\_seed__(3)

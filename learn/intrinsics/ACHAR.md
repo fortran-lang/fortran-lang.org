@@ -3,16 +3,16 @@ layout: book
 title: achar
 permalink: /learn/intrinsics/ACHAR
 ---
-#### NAME
+### NAME
 
 __achar__(3f) - \[CHARACTER\] returns a character in a specified position in the ASCII collating sequence
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __ACHAR__(I \[, KIND\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __achar__(I) returns the character located at position I in the ASCII
 collating sequence.
@@ -40,7 +40,7 @@ The ADEs (ASCII Decimal Equivalents) for ASCII are
     *-------*-------*-------*-------*-------*-------*-------*-------*
 ```
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     the type shall be INTEGER.
@@ -49,13 +49,13 @@ The ADEs (ASCII Decimal Equivalents) for ASCII are
     (optional) an INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type CHARACTER with a length of one. If the KIND
 argument is present, the return value is of the specified kind and of
 the default kind otherwise.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -82,20 +82,20 @@ Results:
    `abcdefghijklmnopqrstuvwxyz{|}~
 ```
 
-#### NOTE
+### NOTE
 
 see \[\[ichar\]\] for a discussion of converting between numerical
 values and formatted string representations.
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later, with KIND argument Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __char__(3), __iachar__(3), __ichar__(3)
 

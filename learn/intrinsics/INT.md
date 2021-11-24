@@ -3,20 +3,20 @@ layout: book
 title: int
 permalink: /learn/intrinsics/INT
 ---
-#### NAME
+### NAME
 
 __int__(3f) - \[NUMERIC:TYPE\] Convert to integer type
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __int__(a \[, kind))
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Convert to integer type
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __A__
     Shall be of type INTEGER, REAL, or COMPLEX.
@@ -25,7 +25,7 @@ Convert to integer type
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 These functions return a INTEGER variable or array under the following
 rules:
@@ -38,7 +38,7 @@ rules:
 >
 > 3.  If A is of type COMPLEX, rule 2 is applied to the real part of A.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -52,10 +52,10 @@ Sample program:
     end program demo_int
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function

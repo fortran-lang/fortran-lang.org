@@ -3,12 +3,12 @@ layout: book
 title: acosh
 permalink: /learn/intrinsics/ACOSH
 ---
-#### NAME
+### NAME
 
 __acosh__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic cosine function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __acosh__(x)
 
@@ -16,23 +16,23 @@ result = __acosh__(x)
     [real|complex](kind=*),elemental :: x
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __ACOSH__(X) computes the inverse hyperbolic cosine of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     the type shall be REAL or COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value has the same type and kind as X. If X is complex, the
 imaginary part of the result is in radians and lies between
 
 > 0 \<= __AIMAG__(__ACOSH__(X)) \<= PI.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -44,14 +44,14 @@ Sample program:
     end program demo_acosh
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Inverse function: __cosh__(3)

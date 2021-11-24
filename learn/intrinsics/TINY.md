@@ -3,30 +3,30 @@ layout: book
 title: tiny
 permalink: /learn/intrinsics/TINY
 ---
-#### NAME
+### NAME
 
 __tiny__(3f) - \[NUMERIC MODEL\] Smallest positive number of a real kind
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __tiny__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __tiny__(x) returns the smallest positive (non zero) number in the model
 of the type of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     Shall be of type REAL.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of the same type and kind as X
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -38,10 +38,10 @@ Sample program:
     end program demo_huge_tiny
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function

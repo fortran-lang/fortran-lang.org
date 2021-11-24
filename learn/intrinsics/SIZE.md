@@ -3,21 +3,21 @@ layout: book
 title: size
 permalink: /learn/intrinsics/SIZE
 ---
-#### NAME
+### NAME
 
 __size__(3f) - \[ARRAY INQUIRY\] Determine the size of an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __size__(array\[, dim \[, kind\]\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determine the extent of ARRAY along a specified dimension DIM, or the
 total number of elements in ARRAY if DIM is absent.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an array of any type. If ARRAY is a pointer it must be
@@ -31,12 +31,12 @@ total number of elements in ARRAY if DIM is absent.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -183,14 +183,14 @@ Expected results:
     LBOUND(arr,DIM=2):           1
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function
 
-#### SEE ALSO
+### SEE ALSO
 
 __shape__(3), __reshape__(3)

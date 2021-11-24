@@ -3,16 +3,16 @@ layout: book
 title: scan
 permalink: /learn/intrinsics/SCAN
 ---
-#### NAME
+### NAME
 
 __scan__(3f) - \[CHARACTER\] Scan a string for the presence of a set of characters
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __scan__(string, set\[, back \[, kind\]\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Scans a STRING for any of the characters in a SET of characters.
 
@@ -21,7 +21,7 @@ position of the leftmost character of STRING that is in SET. If BACK
 equals TRUE, the rightmost position is returned. If no character of SET
 is found in STRING, the result is zero.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __STRING__
     Shall be of type CHARACTER.
@@ -36,12 +36,12 @@ is found in STRING, the result is zero.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -54,15 +54,15 @@ Sample program:
     end program demo_scan
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

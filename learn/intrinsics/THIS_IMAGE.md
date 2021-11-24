@@ -3,21 +3,21 @@ layout: book
 title: this_image
 permalink: /learn/intrinsics/THIS_IMAGE
 ---
-#### NAME
+### NAME
 
 __this\_image__(3f) - \[COLLECTIVE\] Cosubscript index of this image
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __this\_image__() result = __this\_image__(distance) result =
 __this\_image__(coarray \[, dim\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns the cosubscript for this image.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __DISTANCE__
     (optional, __intent__(in)) Nonnegative scalar integer (not permitted
@@ -30,7 +30,7 @@ Returns the cosubscript for this image.
     default integer scalar (optional). If present, DIM shall be between
     one and the corank of COARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 Default integer. If COARRAY is not present, it is scalar; if DISTANCE is
 not present or has value 0, its value is the image index on the invoking
@@ -44,7 +44,7 @@ cosubscripts for COARRAY specifying the invoking image. If DIM is
 present, a scalar is returned, with the value of the DIM element of
 __this\_image__(coarray).
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -67,15 +67,15 @@ Sample program:
    error stop "something is rotten here"
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later. With DISTANCE argument, TS 18508
 or later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __num\_images__(3), __image\_index__(3)

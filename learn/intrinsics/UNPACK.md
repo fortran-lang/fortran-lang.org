@@ -3,20 +3,20 @@ layout: book
 title: unpack
 permalink: /learn/intrinsics/UNPACK
 ---
-#### NAME
+### NAME
 
 __unpack__(3f) - \[ARRAY CONSTRUCTION\] Store the elements of a vector in an array of higher rank
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __unpack__(vector, mask, field)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Store the elements of VECTOR in an array of higher rank.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __VECTOR__
     Shall be an array of any type and rank one. It shall have at least
@@ -28,12 +28,12 @@ Store the elements of VECTOR in an array of higher rank.
   - __FIELD__
     Shall be of the same type as VECTOR and have the same shape as MASK.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The resulting array corresponds to FIELD with TRUE elements of MASK
 replaced by values from VECTOR in array element order.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -49,14 +49,14 @@ Sample program:
     end program demo_unpack
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __pack__(3), __spread__(3)

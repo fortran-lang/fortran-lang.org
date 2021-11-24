@@ -3,22 +3,22 @@ layout: book
 title: reshape
 permalink: /learn/intrinsics/RESHAPE
 ---
-#### NAME
+### NAME
 
 __reshape__(3f) - \[ARRAY RESHAPE\] Function to reshape an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __reshape__(source, shape\[, pad, order\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Reshapes array SOURCE to correspond to SHAPE. If necessary, the new
 array may be padded with elements from PAD or permuted as defined by
 ORDER.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __SOURCE__
     an array of any type.
@@ -36,11 +36,11 @@ ORDER.
     the size of SHAPE. If ORDER is absent, the natural ordering shall be
     assumed.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The result is an array of shape SHAPE with the same type as SOURCE.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -61,14 +61,14 @@ Results
 >
 >   - __2__
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __shape__(3)

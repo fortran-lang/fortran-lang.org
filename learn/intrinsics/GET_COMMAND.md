@@ -3,12 +3,11 @@ layout: book
 title: get_command
 permalink: /learn/intrinsics/GET_COMMAND
 ---
-#### NAME
+### NAME
 
 __get\_command__(3f) - \[SYSTEM ENVIRONMENT\] Get the entire command line
-(MIT)
 
-#### SYNTAX
+### SYNTAX
 
 
 ```fortran
@@ -18,7 +17,7 @@ __get\_command__(3f) - \[SYSTEM ENVIRONMENT\] Get the entire command line
     integer,intent(out),optional :: status
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Retrieve the entire command line that was used to invoke the program.
 
@@ -29,7 +28,7 @@ off by turning off globbing or quoting the command line arguments with
 quote characters and/or changing the default field separators, but this
 should rarely be necessary.
 
-#### RETURNS
+### RETURNS
 
   - __COMMAND__
     (Optional) shall be of type CHARACTER and of default kind. If
@@ -46,7 +45,7 @@ should rarely be necessary.
     COMMAND is too short to store the command line, or a positive value
     in case of an error.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -82,16 +81,16 @@ Sample execution:
      OUTPUT:./test_get_command arguments  *><`~[]!{}?"'| on the   command   line
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __get\_command\_argument__(3), __command\_argument\_count__(3)
 
-##### @urbanjost
+#### @urbanjost

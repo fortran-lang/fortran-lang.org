@@ -3,16 +3,16 @@ layout: book
 title: cmplx
 permalink: /learn/intrinsics/CMPLX
 ---
-#### NAME
+### NAME
 
 __cmplx__(3f) - \[NUMERIC:TYPE\] Complex conversion function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __cmplx__(x \[, y \[, kind\]\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 To convert numeric variables to complex, use the CMPLX function.
 Constants can be used to define a complex variable using the syntax
@@ -28,7 +28,7 @@ converted to the real component. If X is complex then Y must not be
 present. If Y is present it is converted to the imaginary component. If
 Y is not present then the imaginary component is set to 0.0.
 
-#### CMPLX AND DOUBLE PRECISION
+### CMPLX AND DOUBLE PRECISION
 
 The Fortran 90 language defines __CMPLX__() as always returning a result
 that is type __COMPLEX__(KIND=KIND(0.0)).
@@ -96,7 +96,7 @@ The following are examples of complex part designators:
        x%im = 0.0             !-- Sets the imaginary part of X to zero
 ```
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type may be INTEGER, REAL, or COMPLEX.
@@ -109,13 +109,13 @@ The following are examples of complex part designators:
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of COMPLEX type, with a kind equal to KIND if it is
 specified. If KIND is not specified, the result is of the default
 COMPLEX kind, regardless of the kinds of X and Y.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -146,7 +146,7 @@ Typical Results:
     Z8 defined with constants= (1.2345678901234567,1.2345678901234567)
 ```
 
-#### SEE ALSO
+### SEE ALSO
 
   - __aimag__(3f) - Imaginary part of complex number
 
@@ -156,10 +156,10 @@ Typical Results:
 
   - __real__(3f) - Convert to real type
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function

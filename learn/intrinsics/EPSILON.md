@@ -3,29 +3,29 @@ layout: book
 title: epsilon
 permalink: /learn/intrinsics/EPSILON
 ---
-#### NAME
+### NAME
 
 __epsilon__(3f) - \[NUMERIC MODEL\] Epsilon function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __epsilon__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __epsilon__(x) returns a nearly negligible number relative to 1.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be REAL.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of same type as the argument.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -39,10 +39,10 @@ Sample program:
     end program demo_epsilon
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function

@@ -3,18 +3,18 @@ layout: book
 title: maxval
 permalink: /learn/intrinsics/MAXVAL
 ---
-#### NAME
+### NAME
 
 __maxval__(3f) - \[ARRAY REDUCTION\] determines the maximum value in an array or row
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __maxval__(array, dim \[, mask\])
 
 result = __maxval__(array \[, mask\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Determines the maximum value of the elements in an array value, or, if
 the DIM argument is supplied, determines the maximum value along each
@@ -24,7 +24,7 @@ size, or all of the elements of MASK are .false., then the result is the
 most negative number of the type and kind of ARRAY if ARRAY is numeric,
 or a string of nulls if ARRAY is of character type.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an array of type INTEGER, REAL, or CHARACTER.
@@ -38,7 +38,7 @@ or a string of nulls if ARRAY is of character type.
     (Optional) Shall be an array of type LOGICAL, and conformable with
     ARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 If DIM is absent, or if ARRAY has a rank of one, the result is a scalar.
 If DIM is present, the result is an array with a rank one less than the
@@ -46,7 +46,7 @@ rank of ARRAY, and a size corresponding to the size of ARRAY with the
 DIM dimension removed. In all cases, the result is of the same type and
 kind as ARRAY.
 
-#### EXAMPLE
+### EXAMPLE
 
 sample program:
 
@@ -75,18 +75,18 @@ Results:
    22
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 __max__(3), __maxloc__(3)
 
-#### CATEGORY
+### CATEGORY
 
 intrinsics

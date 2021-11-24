@@ -3,30 +3,30 @@ layout: book
 title: sqrt
 permalink: /learn/intrinsics/SQRT
 ---
-#### NAME
+### NAME
 
 __sqrt__(3f) - \[MATHEMATICS\] Square-root function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __sqrt__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __sqrt__(x) computes the square root of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     The type shall be REAL or COMPLEX.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type REAL or COMPLEX. The kind type parameter is
 the same as X.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -42,10 +42,10 @@ Sample program:
     end program demo_sqrt
 ```
 
-#### STANDARD
+### STANDARD
 
 FORTRAN 77 and later
 
-#### CLASS
+### CLASS
 
 Elemental function

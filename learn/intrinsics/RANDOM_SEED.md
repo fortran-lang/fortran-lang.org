@@ -3,16 +3,16 @@ layout: book
 title: random_seed
 permalink: /learn/intrinsics/RANDOM_SEED
 ---
-#### NAME
+### NAME
 
 __random\_seed__(3f) - \[MATHEMATICS:RANDOM\] Initialize a pseudo-random number sequence
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 call __random\_seed__(\[size, put, get\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Restarts or queries the state of the pseudorandom number generator used
 by random\_number.
@@ -20,7 +20,7 @@ by random\_number.
 If random\_seed is called without arguments, it is seeded with random
 data retrieved from the operating system.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __SIZE__
     (Optional) Shall be a scalar and of type default INTEGER, with
@@ -37,7 +37,7 @@ data retrieved from the operating system.
     It is __intent__(out) and the size of the array must be larger than
     or equal to the number returned by the SIZE argument.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -54,14 +54,14 @@ Sample program:
    end program demo_random_seed
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __random\_number__(3)

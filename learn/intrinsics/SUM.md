@@ -3,12 +3,12 @@ layout: book
 title: sum
 permalink: /learn/intrinsics/SUM
 ---
-#### NAME
+### NAME
 
 __sum__(3f) - \[ARRAY REDUCTION\] sum the elements of an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 Calling sequence:
 
@@ -17,12 +17,12 @@ Calling sequence:
    result = sum(array, dim[, mask])
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Adds the elements of ARRAY along dimension DIM if the corresponding
 element in MASK is TRUE.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __array__
     Shall be an array of type INTEGER, REAL or COMPLEX.
@@ -35,7 +35,7 @@ element in MASK is TRUE.
     (Optional) shall be of type LOGICAL and either be a scalar or an
     array of the same shape as ARRAY.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The result is of the same type as ARRAY.
 
@@ -44,7 +44,7 @@ is returned. Otherwise, an array of rank n-1, where n equals the rank of
 ARRAY, and a shape similar to that of ARRAY with dimension DIM dropped
 is returned.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -86,14 +86,14 @@ Results:
     Sum of elements in c when corresponding elements in b>0 =   30.0000000
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Transformational function
 
-#### SEE ALSO
+### SEE ALSO
 
 intrinsics

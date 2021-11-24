@@ -3,30 +3,30 @@ layout: book
 title: huge
 permalink: /learn/intrinsics/HUGE
 ---
-#### NAME
+### NAME
 
 __huge__(3f) - \[NUMERIC MODEL\] Largest number of a kind
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __huge__(x)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __huge__(x) returns the largest number that is not an infinity in the
 model of the type of X.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __X__
     Shall be of type REAL or INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of the same type and kind as X
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -92,10 +92,10 @@ Sample program:
 
     14     1054752768 -2147483648   78364164096. F wrong for j and k and w
 ```
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function

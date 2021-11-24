@@ -3,11 +3,11 @@ layout: book
 title: len_trim
 permalink: /learn/intrinsics/LEN_TRIM
 ---
-#### NAME
+### NAME
 
 __len\_trim__(3f) - \[CHARACTER\] Length of a character entity without trailing blank characters
 
-#### SYNTAX
+### SYNTAX
 
 ```fortran
    result = len_trim(string [, kind])
@@ -15,11 +15,11 @@ __len\_trim__(3f) - \[CHARACTER\] Length of a character entity without trailing 
     integer,intent(in) :: kind
 ```
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns the length of a character string, ignoring any trailing blanks.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __STRING__
     Shall be a scalar of type CHARACTER, with __intent__(in)
@@ -28,12 +28,12 @@ Returns the length of a character string, ignoring any trailing blanks.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program
 
@@ -68,16 +68,16 @@ Results:
     SUM TRIMMED LENGTH=          38
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later, with KIND argument - Fortran 2003
 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
@@ -89,4 +89,4 @@ of arguments, and search for certain arguments:
   - __Nonelemental:__
     __repeat__(3), __trim__(3)
 
-##### @urbanjost
+#### @urbanjost

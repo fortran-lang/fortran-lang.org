@@ -3,17 +3,17 @@ layout: book
 title: findloc
 permalink: /learn/intrinsics/FINDLOC
 ---
-#### NAME
+### NAME
 
 __findloc__(3f) - \[\] Location of first element of ARRAY identified by MASK along dimension DIM having a value
 (GFDL)
 
-#### SYNOPSIS
+### SYNOPSIS
 
 FINDLOC (*ARRAY*, *VALUE*, DIM \[, *MASK*, *KIND*, *BACK*\]) or FINDLOC
 (*ARRAY*, *VALUE* \[, *MASK*, *KIND*, *BACK*\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Location of the first element of *ARRAY* identified by *MASK* along
 dimension DIM having a value equal to *VALUE*.
@@ -31,7 +31,7 @@ dimension DIM having a value equal to *VALUE*.
 > whose subscripts are returned is the last such element, taken in array
 > element order.
 
-#### OPTIONS
+### OPTIONS
 
   - __*ARRAY__*
     shall be an array of intrinsic type.
@@ -55,7 +55,7 @@ dimension DIM having a value equal to *VALUE*.
   - __*BACK__*
     (optional) shall be a logical scalar.
 
-#### RESULT
+### RESULT
 
 Result Characteristics. Integer. If *KIND* is present, the kind type
 parameter is that specified by the value of *KIND*; otherwise the kind
@@ -75,7 +75,7 @@ where
 
 is the shape of *ARRAY*.
 
-#### RESULT VALUE
+### RESULT VALUE
 
   - __Case (i):__
     The result of FINDLOC (*ARRAY*, *VALUE*) is a rank-one array whose
@@ -124,7 +124,7 @@ is the shape of *ARRAY*.
 >                                  sdim+1 ,``` , sn )]).
 > ````
 
-#### EXAMPLE
+### EXAMPLE
 
   - __Case (i):__
     The value of
@@ -200,6 +200,6 @@ is the shape of *ARRAY*.
 > has the value \[2, 1\]. This is independent of the declared lower
 > bounds for B.
 
-#### CLASS
+### CLASS
 
 Transformational function.

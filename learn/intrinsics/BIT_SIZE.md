@@ -3,30 +3,30 @@ layout: book
 title: bit_size
 permalink: /learn/intrinsics/BIT_SIZE
 ---
-#### NAME
+### NAME
 
 __bit\_size__(3f) - \[BIT INQUIRY\] Bit size inquiry function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __bit\_size__(i)
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __bit\_size__(i) returns the number of bits (integer precision plus sign
 bit) represented by the type of I.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __I__
     The type shall be INTEGER.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER of the same type as I.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -60,10 +60,10 @@ Expected output:
     > 64
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function

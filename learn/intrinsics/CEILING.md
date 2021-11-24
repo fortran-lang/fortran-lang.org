@@ -3,20 +3,20 @@ layout: book
 title: ceiling
 permalink: /learn/intrinsics/CEILING
 ---
-#### NAME
+### NAME
 
 __ceiling__(3f) - \[NUMERIC\] Integer ceiling function
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __ceiling__(a \[, kind\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __ceiling__(a) returns the least integer greater than or equal to A.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __A__
     The type shall be REAL.
@@ -25,12 +25,12 @@ __ceiling__(a) returns the least integer greater than or equal to A.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type __integer__(kind) if KIND is present and a
 default-kind INTEGER otherwise.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -44,14 +44,14 @@ Sample program:
     end program demo_ceiling
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 95 and later
 
-#### CLASS
+### CLASS
 
 Elemental procedure\|Elemental function
 
-#### SEE ALSO
+### SEE ALSO
 
 __floor__(3), __nint__(3)

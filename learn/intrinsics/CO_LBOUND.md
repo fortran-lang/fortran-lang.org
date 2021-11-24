@@ -3,21 +3,21 @@ layout: book
 title: co_lbound
 permalink: /learn/intrinsics/CO_LBOUND
 ---
-#### NAME
+### NAME
 
 __co\_lbound__(3f) - \[COLLECTIVE\] Lower codimension bounds of an array
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 result = __CO\_LBOUND__(coarray \[, dim \[, kind\]\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 Returns the lower bounds of a coarray, or a single lower cobound along
 the DIM codimension.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __ARRAY__
     Shall be an coarray, of any type.
@@ -29,7 +29,7 @@ the DIM codimension.
     (Optional) An INTEGER initialization expression indicating the kind
     parameter of the result.
 
-#### RETURN VALUE
+### RETURN VALUE
 
 The return value is of type INTEGER and of kind KIND. If KIND is absent,
 the return value is of default integer kind. If DIM is absent, the
@@ -37,14 +37,14 @@ result is an array of the lower cobounds of COARRAY. If DIM is present,
 the result is a scalar corresponding to the lower cobound of the array
 along that codimension.
 
-#### STANDARD
+### STANDARD
 
 Fortran 2008 and later
 
-#### CLASS
+### CLASS
 
 Inquiry function
 
-#### SEE ALSO
+### SEE ALSO
 
 __co\_ubound__(3), __lbound__(3)

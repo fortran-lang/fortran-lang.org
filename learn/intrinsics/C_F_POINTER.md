@@ -3,21 +3,21 @@ layout: book
 title: c_f_pointer
 permalink: /learn/intrinsics/C_F_POINTER
 ---
-#### NAME
+### NAME
 
 __c\_f\_pointer__(3f) - \[ISO\_C\_BINDING\] Convert C into Fortran pointer
 (GFDL)
 
-#### SYNTAX
+### SYNTAX
 
 call __c\_f\_pointer__(cptr, fptr\[, shape\])
 
-#### DESCRIPTION
+### DESCRIPTION
 
 __c\_f\_pointer__(cptr, fptr\[, shape\]) Assign the target, the C
 pointer, CPTR to the Fortran pointer FPTR and specify its shape.
 
-#### ARGUMENTS
+### ARGUMENTS
 
   - __CPTR__
     scalar of the type c\_ptr. It is __intent__(in).
@@ -30,7 +30,7 @@ pointer, CPTR to the Fortran pointer FPTR and specify its shape.
     shall be present if and only if FPTR is an array. The size must be
     equal to the rank of FPTR.
 
-#### EXAMPLE
+### EXAMPLE
 
 Sample program:
 
@@ -51,14 +51,14 @@ Sample program:
     end program demo_c_f_pointer
 ```
 
-#### STANDARD
+### STANDARD
 
 Fortran 2003 and later
 
-#### CLASS
+### CLASS
 
 Subroutine
 
-#### SEE ALSO
+### SEE ALSO
 
 __c\_loc__(3), __c\_f\_procpointer__(3), __iso\_c\_binding__(3)
