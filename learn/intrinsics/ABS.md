@@ -94,4 +94,3 @@ Results:
 FORTRAN 77 and later
 
 ###### fortran-lang intrinsic descriptions
-</details>
