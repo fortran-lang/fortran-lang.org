@@ -77,4 +77,4 @@ Subroutine
 
 __system\_clock__(3), __date\_and\_time__(3)
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions

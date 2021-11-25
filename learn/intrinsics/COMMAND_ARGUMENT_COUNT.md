@@ -68,4 +68,4 @@ Inquiry function
 
 __get\_command__(3), __get\_command\_argument__(3)
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions

@@ -108,4 +108,4 @@ Fortran 95 and later
 
 __cpu\_time__(3), __system\_clock__(3)
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions

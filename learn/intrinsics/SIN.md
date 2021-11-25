@@ -125,4 +125,4 @@ Elemental function
 
 __asin__(3), __cos__(3), __tan__(3)
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions

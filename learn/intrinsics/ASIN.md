@@ -97,4 +97,4 @@ Elemental procedure\|Elemental function
 
 Inverse function: __sin__(3)
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions

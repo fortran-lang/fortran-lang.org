@@ -57,4 +57,4 @@ Elemental function
 __iand__(3), __ior__(3), __ieor__(3), __ibits__(3), __ibset__(3),
 __ibclr__(3)
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions

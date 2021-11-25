@@ -97,4 +97,4 @@ Fortran 2003 and later
 
 Subroutine
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions

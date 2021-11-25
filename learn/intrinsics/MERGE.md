@@ -152,4 +152,4 @@ Fortran 95 and later
 
 Elemental procedure\|Elemental function
 
-##### @urbanjost
+####### fortran-lang intrinsic descriptions

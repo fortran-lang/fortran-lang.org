@@ -105,7 +105,7 @@ on the documents. For contribution guidelines see
 | BIT MANIPULATION          | [shiftr](SHIFTR)                                     | (GFDL)  | shift bits right                                             |
 | BIT MANIPULATION          | [transfer](TRANSFER)                                 | (GFDL)  | Transfer bit patterns                                        |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| CHARACTER                 | [achar](ACHAR)                                       | (GFDL)  | returns a character in a specified position in the ASCII collating sequence              |
+| CHARACTER                 | [achar](ACHAR)                                       | (MIT)   | returns a character in a specified position in the ASCII collating sequence              |
 | CHARACTER                 | [adjustl](ADJUSTL)                                   | (MIT)   | Left-adjust a string                                         |
 | CHARACTER                 | [adjustr](ADJUSTR)                                   | (MIT)   | Right-adjust a string                                        |
 | CHARACTER                 | [char](CHAR)                                         | (GFDL)  | Character conversion function                                |

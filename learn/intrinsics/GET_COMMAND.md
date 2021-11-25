@@ -93,4 +93,4 @@ Subroutine
 
 __get\_command\_argument__(3), __command\_argument\_count__(3)
 
-#### @urbanjost
+###### fortran-lang intrinsic descriptions
