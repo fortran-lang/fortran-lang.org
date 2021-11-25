@@ -12,10 +12,10 @@ __achar__(3f) - \[CHARACTER\] returns a character in a specified position in the
 result = __achar__(i \[, kind\])
 
    character(len=1),elemental :: achar
-   integer(kind=NN),intent(in) :: i
-   integer(kind=NN),intent(in),optional :: kind
+   integer(kind=KIND),intent(in) :: i
+   integer(kind=KIND),intent(in),optional :: kind
 
-where NN may be any supported KIND value or INTEGER types.
+where KIND may be any supported kind value for INTEGER types.
 
 ### DESCRIPTION
 
