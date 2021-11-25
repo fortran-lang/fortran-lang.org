@@ -23,21 +23,28 @@ __abs__(3f) - \[NUMERIC\] Absolute value
 
 __abs__(A) computes the absolute value of numeric argument A.
 
+In mathematics, the absolute value or modulus of a real number x,
+denoted |x|, is the positive magnitude of x without regard to its sign.
+
+The absolute value of a number may be thought of as its distance from
+zero, which is the definition used by abs(1) when dealing with COMPLEX
+values (see below).
+
 ### ARGUMENTS
 
   - __A__
     the type of the argument shall be an INTEGER, REAL, or COMPLEX
-    scalar or array with __INTENT__(IN).
+    scalar or array.
 
 ### RETURN VALUE
+
 
 If A is of type INTEGER or REAL, the value of the result is |A| and of
 the same type and kind as the input argument.
 
-(Take particular note)
-if A is COMPLEX with value (X, Y), the result is a REAL equal to a
-processor-dependent approximation to __SQRT__(X\*\*2 + Y\*\*2) computed
-without undue overflow or underflow.
+(Take particular note) if A is COMPLEX with value (X, Y), the result is
+a REAL equal to a processor-dependent approximation to __SQRT__(X\*\*2 +
+Y\*\*2) computed without undue overflow or underflow.
 
 ### EXAMPLE
 
@@ -87,3 +94,4 @@ Results:
 FORTRAN 77 and later
 
 ###### fortran-lang intrinsic descriptions
+</details>
