@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Fortran Programming Language">
-    <title>get_environment - Fortran Programming Language</title>
+    <title>real - Fortran Programming Language</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <link href="/pr/347/assets/css/main.css" rel="stylesheet">
     <link href="/pr/347/assets/css/syntax.css" rel="stylesheet">
-    <link rel="canonical" href="https://fortran-lang.org/learn/intrinsics/GET_ENVIRONMENT" />
+    <link rel="canonical" href="https://fortran-lang.org/learn/intrinsics/_real_" />
     <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
     <link rel="stylesheet" href="/pr/347/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
@@ -638,7 +638,7 @@
 
     <div class="newsletter col-right">
 
-      <h1>get_environment</h1>
+      <h1>real</h1>
 
       <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
         <i></i>
@@ -647,101 +647,83 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>get_environment_variable</strong>(3) - [SYSTEM ENVIRONMENT] Get an environmental variable</p>
+<p><strong>real</strong>(3) - [NUMERIC:TYPE] Convert to real type
+(GFDL)</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">call</span><span class="w"> </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="n">NAME</span><span class="p">,</span><span class="w"> </span><span class="k">VALUE</span><span class="p">,</span><span class="w"> </span><span class="n">LENGTH</span><span class="p">,</span><span class="w"> </span><span class="n">STATUS</span><span class="p">,</span><span class="w"> </span><span class="n">TRIM_NAME</span><span class="p">)</span><span class="w">
-   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">NAME</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">VALUE</span><span class="w">
-   </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">LENGTH</span><span class="w">
-   </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">STATUS</span><span class="w">
-   </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">TRIM</span><span class="err">\_</span><span class="n">NAME</span><span class="w">
-</span></code></pre></div></div>
+
+<p>result = <strong>real</strong>(x [, kind])</p>
+
 <h2 id="description"><strong>Description</strong></h2>
 
-<p>Get the VALUE of the environmental variable NAME.</p>
+<p><strong>real</strong>(x [, kind]) converts its argument X to a real type.</p>
 
-<p>Note that <strong>get_environment_variable</strong>(3) need not be thread-safe. It
-is the responsibility of the user to ensure that the environment is not
-being updated concurrently.</p>
-
-<h2 id="options"><strong>Options</strong></h2>
+<h2 id="arguments"><strong>Arguments</strong></h2>
 
 <ul>
-  <li><strong>NAME</strong>
-(Optional) Shall be a scalar of type CHARACTER and of default kind.</li>
+  <li>
+    <p><strong>X</strong>
+Shall be <em>integer</em>, <em>real</em>, or <em>complex</em>.</p>
+  </li>
+  <li>
+    <p><strong>KIND</strong>
+(Optional) An <em>integer</em> initialization expression indicating the kind
+parameter of the result.</p>
+  </li>
 </ul>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<ul>
+<p>These functions return a <em>real</em> variable or array under the following
+rules:</p>
+
+<ol>
   <li>
-    <p><strong>VALUE</strong>
-(Optional) Shall be a scalar of type CHARACTER and of default kind.
-The value of NAME is stored in VALUE. If VALUE is not large enough
-to hold the data, it is truncated. If NAME is not set, VALUE will be
-filled with blanks.</p>
+    <p><strong>real</strong>(x) is converted to a default real type if X is an integer
+or real variable.</p>
   </li>
   <li>
-    <p><strong>LENGTH</strong>
-(Optional) Shall be a scalar of type <em>integer</em> and of default kind.
-Argument LENGTH contains the length needed for storing the
-environment variable NAME or zero if it is not present.</p>
+    <p><strong>real</strong>(x) is converted to a real type with the kind type parameter
+of X if X is a complex variable.</p>
   </li>
   <li>
-    <p><strong>STATUS</strong>
-(Optional) Shall be a scalar of type <em>integer</em> and of default kind.
-STATUS is <strong>-1</strong> if VALUE is present but too short for the
-environment variable; it is 1 if the environment variable does not
-exist and 2 if the processor does not support environment variables;
-in all other cases STATUS is zero.</p>
+    <p><strong>real</strong>(x, kind) is converted to a real type with kind type
+parameter KIND if X is a complex, integer, or real variable.</p>
   </li>
-  <li>
-    <p><strong>TRIM_NAME</strong>
-(Optional) Shall be a scalar of type <em>logical</em> and of default kind. If
-TRIM_NAME is present with the value .FALSE., the trailing blanks in
-NAME are significant; otherwise they are not part of the environment
-variable name.</p>
-  </li>
-</ul>
+</ol>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
 <p>Sample program:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">   </span><span class="k">program</span><span class="w"> </span><span class="n">demo_getenv</span><span class="w">
-   </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">var</span><span class="w">
-   </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">homedir</span><span class="w">
-   </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">howbig</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="w">
-     </span><span class="n">var</span><span class="o">=</span><span class="s1">'HOME'</span><span class="w">
-     </span><span class="c1">! get length required to hold value</span><span class="w">
-     </span><span class="k">call</span><span class="w"> </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="o">=</span><span class="n">howbig</span><span class="p">,</span><span class="n">status</span><span class="o">=</span><span class="n">stat</span><span class="p">)</span><span class="w">
-     </span><span class="k">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="w">
-     </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">
-        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"HOME is not defined in the environment. Strange```"</span><span class="w">
-     </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">
-        </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"This processor doesn't support environment variables. Boooh!"</span><span class="w">
-     </span><span class="k">case</span><span class="w"> </span><span class="n">default</span><span class="w">
-        </span><span class="c1">! make string to hold value of sufficient size</span><span class="w">
-        </span><span class="k">allocate</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">howbig</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">homedir</span><span class="p">)</span><span class="w">
-        </span><span class="c1">! get value</span><span class="w">
-        </span><span class="k">call</span><span class="w"> </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="w"> </span><span class="n">homedir</span><span class="p">)</span><span class="w">
-        </span><span class="c1">! print environment variable name value</span><span class="w">
-        </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a,"=""",a,"""")'</span><span class="p">)</span><span class="n">var</span><span class="p">,</span><span class="nb">trim</span><span class="p">(</span><span class="n">homedir</span><span class="p">)</span><span class="w">
-     </span><span class="k">end</span><span class="w"> </span><span class="k">select</span><span class="w">
-   </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_getenv</span><span class="w">
-</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   program demo_real
+      use,intrinsic :: iso_fortran_env, only : dp=&gt;real64
+      implicit none
+      complex              :: zr = (1.0, 2.0)
+      doubleprecision      :: xd=huge(3.0d0)
+      complex(kind=dp) :: zd=cmplx(4.0e0_dp,5.0e0_dp,kind=dp)
 
-<p>Typical Results:</p>
+      print *, real(zr), aimag(zr)
+      print *, dble(zd), aimag(zd)
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   HOME="/home/urbanjs"
+      write(*,*)xd,real(xd,kind=kind(0.0d0)),dble(xd)
+   end program demo_real
+</code></pre></div></div>
+
+<p>Results:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   1.00000000       2.00000000
+   4.0000000000000000        5.0000000000000000
+   1.7976931348623157E+308   1.7976931348623157E+308   1.7976931348623157E+308
 </code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>
 
-<p>Fortran 2003 and later</p>
+<p>FORTRAN 77 and later</p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<h2 id="see-also"><strong>See Also</strong></h2>
+
+<p><strong>dble</strong>(3), <strong>float</strong>(3)</p>
 
 
       <div class="container-flex">
