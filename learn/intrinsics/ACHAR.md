@@ -9,31 +9,32 @@ __achar__(3f) - \[CHARACTER\] returns a character in a specified position in the
 
 ### SYNTAX
 
-result = __achar__(i \[, kind\])
+    result = achar(i [, kind])
 
-   character(len=1),elemental :: achar
-   integer(kind=KIND),intent(in) :: i
-   integer(kind=KIND),intent(in),optional :: kind
+     character(len=1),elemental :: achar
+     integer(kind=KIND),intent(in) :: i
+     integer(kind=KIND),intent(in),optional :: kind
 
 where KIND may be any supported kind value for INTEGER types.
 
 ### DESCRIPTION
 
-__achar__(I) returns the character located at position I in the ASCII
-collating sequence.
+__achar__(I) returns the character located at position I (often called the 
+_ADE_ or ASCII Decimal Equivalent) in the ASCII collating sequence.
 
-The achar(3f) function is often used for generating in-band escape
+The __achar(3f)__ function is often used for generating in-band escape
 sequences to control terminal attributes.
 ```fortran
    write(*,'(*(a))')achar(27),'[2J'
 ```
-would clear the screen on an ANSI-compatible terminal display, for
+will clear the screen on an ANSI-compatible terminal display, for
 example.
 
 ### ARGUMENTS
 
   - __I__
-    the type shall be INTEGER.
+    the INTEGER value to convert to an ASCII character, therefore in
+    the range 0 to 127.
 
   - __KIND__
     (optional) an INTEGER initialization expression indicating the kind
@@ -51,7 +52,9 @@ Sample program:
 
 ```fortran
 program demo_achar
+use,intrinsic::iso_fortran_env,only:int8,int16,int32,int64 
 implicit none
+integer,kind=int8) :: byte
 integer :: i
    i=65
    write(*,'("decimal     =",i0)')i
@@ -126,22 +129,16 @@ The ADEs (ASCII Decimal Equivalents) for ASCII are
 
 FORTRAN 77 and later, with KIND argument Fortran 2003 and later
 
-### CLASS
-
-Elemental function
-
 ### SEE ALSO
 
-__char__(3), __iachar__(3), __ichar__(3)
+[__char__(3)](CHAR.md),
+[__iachar__(3)](IACHAR.md),
+[__ichar__(3)](ICHAR.md)
 
-Functions that perform operations on character strings, return lengths
-of arguments, and search for certain arguments:
+### RESOURCES
 
-  - __elemental:__
-    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
-    __scan__(3), __verify__(3)
+- [ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
+- [M_attr module](https://github.com/urbanjost/M_attr) for controlling ANSI-compatible terminals
 
-  - __nonelemental:__
-    __repeat__(3), __trim__(3)
 
 ###### fortran-lang intrinsic descriptions

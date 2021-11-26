@@ -10,15 +10,17 @@ __acosh__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic cosine function
 
 ### SYNTAX
 
-result = __acosh__(x)
-
 ```
-    [real|complex](kind=*),elemental :: x
+  result = acosh(x)
+   TYPE(kind=KIND),elemental :: cosh
+   TYPE(kind=KIND,intent(in) :: x
 ```
+where TYPE may be REAL or COMPLEX and KIND may be any KIND supported
+by the associated type.
 
 ### DESCRIPTION
 
-__ACOSH__(X) computes the inverse hyperbolic cosine of X.
+__ACOSH__(X) computes the inverse hyperbolic cosine of X in radians.
 
 ### ARGUMENTS
 
@@ -27,8 +29,10 @@ __ACOSH__(X) computes the inverse hyperbolic cosine of X.
 
 ### RETURN VALUE
 
-The return value has the same type and kind as X. If X is complex, the
-imaginary part of the result is in radians and lies between
+The return value has the same type and kind as X.
+
+If X is complex, the imaginary part of the result is in radians and
+lies between
 
 > 0 \<= __AIMAG__(__ACOSH__(X)) \<= PI.
 
@@ -36,21 +40,17 @@ imaginary part of the result is in radians and lies between
 
 Sample program:
 
-```
-    program demo_acosh
-    implicit none
-    real(8), dimension(3) :: x = [ 1.0, 2.0, 3.0 ]
-      write (*,*) acosh(x)
-    end program demo_acosh
+```fortran
+program demo_acosh
+implicit none
+real(8), dimension(3) :: x = [ 1.0, 2.0, 3.0 ]
+   write (*,*) acosh(x)
+end program demo_acosh
 ```
 
 ### STANDARD
 
 Fortran 2008 and later
-
-### CLASS
-
-Elemental function
 
 ### SEE ALSO
 
