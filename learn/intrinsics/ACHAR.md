@@ -9,6 +9,7 @@ __achar__(3) - \[CHARACTER\] returns a character in a specified position in the 
 
 ## __Syntax__
 ```fortran
+  result = achar(i)
     character(len=1) elemental function :: achar(i,kind=KIND)
     integer(kind=KIND),intent(in) :: i
     integer(kind=KIND),intent(in),optional :: kind

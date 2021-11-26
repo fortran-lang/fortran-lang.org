@@ -10,8 +10,9 @@ __abs__(3) - \[NUMERIC\] Absolute value
 ## __Syntax__
 
 ```fortran
-    TYPE(kind=KIND) elemental function abs(a)
-    TYPE(kind=KIND),intent(in) :: a
+  result = abs(x)
+   TYPE(kind=KIND) elemental function abs(a)
+   TYPE(kind=KIND),intent(in) :: a
 ```
 where TYPE may be _real_, _integer_, or _complex_
 and KIND may be any supported KIND for the
