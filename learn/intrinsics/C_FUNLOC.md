@@ -3,30 +3,30 @@ layout: book
 title: c_funloc
 permalink: /learn/intrinsics/C_FUNLOC
 ---
-### NAME
+## __Name__
 
-__c\_funloc__(3f) - \[ISO\_C\_BINDING\] Obtain the C address of a procedure
+__c\_funloc__(3) - \[ISO\_C\_BINDING\] Obtain the C address of a procedure
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __c\_funloc__(x)
 
-### DESCRIPTION
+## __Description__
 
 __c\_funloc__(x) determines the C address of the argument.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
     Interoperable function or pointer to such function.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type c\_funptr and contains the C address of the
 argument.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -57,15 +57,11 @@ Sample program:
     end program demo_c_funloc
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2003 and later
 
-### CLASS
-
-Inquiry function
-
-### SEE ALSO
+## __See Also__
 
 __c\_associated__(3), __c\_loc__(3), __c\_f\_pointer__(3),
 __c\_f\_procpointer__(3), __iso\_c\_binding__(3)

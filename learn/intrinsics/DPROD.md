@@ -3,18 +3,18 @@ layout: book
 title: dprod
 permalink: /learn/intrinsics/DPROD
 ---
-### NAME
+## __Name__
 
-__dprod__(3f) - \[NUMERIC\] Double product function
+__dprod__(3) - \[NUMERIC\] Double product function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __dprod__(x, y)
 
-### DESCRIPTION
+## __Description__
 
-__DPROD__(X,Y) produces a higher DOUBLEPRECISION product of default REAL
+__DPROD__(X,Y) produces a higher DOUBLEPRECISION product of default _real_
 numbers X and Y.
 
 The result has a value equal to a processor-dependent approximation to
@@ -28,22 +28,22 @@ converted to double precision.
   - __Y__
     shall be default real.
 
-The setting of compiler options specifying REAL size can affect this
+The setting of compiler options specifying _real_ size can affect this
 function.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Must be of default __REAL__(kind=kind(0.0)) type
+    Must be of default ___real___(kind=kind(0.0)) type
 
   - __Y__
     Must have the same type and kind parameters as X
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type __real__(kind=kind(0.0d0)).
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -76,10 +76,6 @@ Sample program:
     end program demo_dprod
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

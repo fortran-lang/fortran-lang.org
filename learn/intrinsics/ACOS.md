@@ -3,36 +3,40 @@ layout: book
 title: acos
 permalink: /learn/intrinsics/ACOS
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__acos__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine function
+__acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
-result = __ACOS__(X)
 
+```fortran
+   result = acos(x)
+    real(kind=KIND),elemental  :: acos
+    real(kind=KIND),intent(in) :: x
 ```
-    real(kind=*),elemental :: x
-```
+    where KIND may be any supported KIND for the
+    type _real_.
 
-### DESCRIPTION
+## __Description__
 
 __acos__(X) computes the arccosine of X (inverse of __cos__(x)).
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL with a magnitude that is less than one.
+    The type shall be _real_ with a magnitude that is less than one.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of the same type and kind as X. The real part of the
 result is in radians and lies in the range
 
 > 0 \<= __ACOS__(X) \<= PI.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -59,14 +63,10 @@ Results:
     for reference PI= 3.14159265358979323846264338327950288419716939937510
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later; for a complex argument - Fortran 2008 and later
 
-### CLASS
+## __See Also__
 
-Elemental function
-
-### SEE ALSO
-
-Inverse function: __cos__(3)
+Inverse function: [__cos__(3](COS))

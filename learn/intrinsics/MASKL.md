@@ -3,44 +3,40 @@ layout: book
 title: maskl
 permalink: /learn/intrinsics/MASKL
 ---
-### NAME
+## __Name__
 
-__maskl__(3f) - \[\] Left justified mask
+__maskl__(3) - \[\] Left justified mask
 (GFDL)
 
-### SYNOPSIS
+## __Synopsis__
 
 result = __maskl__(i\[, *kind*\])
 
-### DESCRIPTION
+## __Description__
 
 __maskl__(i\[, *kind*\]) has its leftmost I bits set to 1, and the
 remaining bits set to 0.
 
-### SYNTAX
+## __Syntax__
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    Shall be of type INTEGER.
+    Shall be of type _integer_.
 
   - __KIND__
-    Shall be a scalar constant expression of type INTEGER.
+    Shall be a scalar constant expression of type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type INTEGER. If KIND is present, it specifies
+The return value is of type _integer_. If KIND is present, it specifies
 the *kind* value of the return type; otherwise, it is of the default
 integer *kind*.
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __maskr__(3)

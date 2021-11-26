@@ -3,12 +3,12 @@ layout: book
 title: ior
 permalink: /learn/intrinsics/IOR
 ---
-### NAME
+## __Name__
 
-__ior__(3f) - \[BIT MANIPULATION\] Bitwise logical inclusive or
+__ior__(3) - \[BIT MANIPULATION\] Bitwise logical inclusive or
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __ior__(i, j)
 
@@ -17,24 +17,24 @@ result = __ior__(i, j)
     integer,intent(in) :: j
 ```
 
-### DESCRIPTION
+## __Description__
 
 IOR returns the bit-wise Boolean inclusive-OR of I and J.
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    an INTEGER scalar or array.
+    an _integer_ scalar or array.
 
   - __J__
-    INTEGER scalar or array, of the same kind as I.
+    _integer_ scalar or array, of the same kind as I.
 
-### RETURN VALUE
+## __Returns__
 
-The return type is INTEGER, of the same kind as the arguments. (If the
+The return type is _integer_, of the same kind as the arguments. (If the
 argument kinds differ, it is of the same kind as the larger argument.)
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -57,15 +57,11 @@ Results:
          61 00111101
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __ieor__(3), __iand__(3), __ibits__(3), __ibset__(3), __ibclr__(3),
 __not__(3)

@@ -3,34 +3,34 @@ layout: book
 title: floor
 permalink: /learn/intrinsics/FLOOR
 ---
-### NAME
+## __Name__
 
-__floor__(3f) - \[NUMERIC\] Integer floor function
+__floor__(3) - \[NUMERIC\] Integer floor function
 (GFDL)
 
-### DESCRIPTION
+## __Description__
 
 __floor__(a) returns the greatest integer less than or equal to X.
 
-### SYNTAX
+## __Syntax__
 
 result = __floor__(a \[, kind\])
 
-### ARGUMENTS
+## __Arguments__
 
   - __A__
-    The type shall be REAL.
+    The type shall be _real_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type __integer__(kind) if KIND is present and of
-default-kind INTEGER otherwise.
+default-kind _integer_ otherwise.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -44,14 +44,10 @@ Sample program:
     end program demo_floor
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __ceiling__(3), __nint__(3)

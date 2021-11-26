@@ -3,34 +3,34 @@ layout: book
 title: char
 permalink: /learn/intrinsics/CHAR
 ---
-### NAME
+## __Name__
 
-__char__(3f) - \[CHARACTER\] Character conversion function
+__char__(3) - \[CHARACTER\] Character conversion function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __char__(i \[, kind\])
 
-### DESCRIPTION
+## __Description__
 
 __char__(i \[, kind\]) returns the character represented by the integer
 I.
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    The type shall be INTEGER.
+    The type shall be _integer_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type __character__(1)
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -44,20 +44,16 @@ Sample program:
     end program demo_char
 ```
 
-### NOTE
+## __Note__
 
 See \[\[ichar\]\] for a discussion of converting between numerical
 values and formatted string representations.
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 \[\[achar\]\], \[\[iachar\]\], \[\[ichar\]\]
 

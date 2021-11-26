@@ -3,16 +3,16 @@ layout: book
 title: event_query
 permalink: /learn/intrinsics/EVENT_QUERY
 ---
-### NAME
+## __Name__
 
-__event\_query__(3f) - \[COLLECTIVE\] Query whether a coarray event has occurred
+__event\_query__(3) - \[COLLECTIVE\] Query whether a coarray event has occurred
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 call __EVENT\_QUERY__(EVENT, COUNT \[, STAT\])
 
-### DESCRIPTION
+## __Description__
 
 EVENT\_QUERY assigns the number of events to COUNT which have been
 posted to the EVENT variable and not yet been removed by calling
@@ -20,7 +20,7 @@ EVENT\_WAIT. When STAT is present and the invocation was successful, it
 is assigned the value 0. If it is present and the invocation has failed,
 it is assigned a positive value and COUNT is assigned the value __-1__.
 
-### ARGUMENTS
+## __Arguments__
 
   - __EVENT__
     (intent(in)) Scalar of type event\_type, defined in
@@ -33,7 +33,7 @@ it is assigned a positive value and COUNT is assigned the value __-1__.
   - __STAT__
     (OPTIONAL) Scalar default-kind integer variable.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -52,10 +52,6 @@ Sample program:
    end program demo_event_query
 ```
 
-### STANDARD
+## __Standard__
 
 TS 18508 or later
-
-### CLASS
-
-Subroutine

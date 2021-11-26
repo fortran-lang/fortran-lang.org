@@ -3,36 +3,37 @@ layout: book
 title: all
 permalink: /learn/intrinsics/ALL
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__all__(3f) - \[ARRAY REDUCTION\] determines if all the values are true
+__all__(3) - \[ARRAY REDUCTION\] determines if all the values are true
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __ALL__(MASK \[, DIM\])
 
-### DESCRIPTION
+## __Description__
 
 Logical conjunction of elements of MASK along dimension DIM.
 
 "__ALL__(MASK \[, DIM\])" determines if all the values are true in MASK
 in the array along dimension DIM.
 
-### ARGUMENTS
+## __Arguments__
 
   - __MASK__
     shall be a logical array. That is, the type of the argument shall be
-    LOGICAL and it shall not be scalar.
+    _logical_ and it shall not be scalar.
 
   - __DIM__
     (optional) DIM shall be a scalar integer with a value that lies
     between one and the rank of MASK. The corresponding actual argument
     shall not be an optional dummy argument.
 
-### RETURN VALUE
+## __Returns__
 
-"__ALL__(MASK)" returns a scalar value of type LOGICAL where the kind
+"__ALL__(MASK)" returns a scalar value of type _logical_ where the kind
 type parameter is the same as the kind type parameter of MASK. If DIM is
 present, then __ALL__(MASK, DIM) returns an array with the rank of MASK
 minus 1. The shape is determined from the shape of MASK where the DIM
@@ -69,7 +70,7 @@ dimension is elided.
 >                    sDIM-1 , :, sDIM+1 , . . . , sn )).
 > ```
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -120,10 +121,6 @@ Case (ii):
 >         [false, false].
 > ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
-
-### CLASS
-
-Transformational function.

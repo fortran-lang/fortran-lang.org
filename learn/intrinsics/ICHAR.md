@@ -3,12 +3,12 @@ layout: book
 title: ichar
 permalink: /learn/intrinsics/ICHAR
 ---
-### NAME
+## __Name__
 
-__ichar__(3f) - \[CHARACTER\] Character-to-integer conversion function
+__ichar__(3) - \[CHARACTER\] Character-to-integer conversion function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 elemental function __ichar__(c,kind)
 
@@ -17,7 +17,7 @@ elemental function __ichar__(c,kind)
     integer,intent(in),optional :: kind
 ```
 
-### DESCRIPTION
+## __Description__
 
 __ICHAR__(C) returns the code for the character in the system's native
 character set. The correspondence between characters and their codes is
@@ -25,24 +25,24 @@ not necessarily the same across different Fortran implementations. For
 example, a platform using EBCDIC would return different values than an
 ASCII platform.
 
-See __IACHAR__(3f) for specifically working with the ASCII character
+See __IACHAR__(3) for specifically working with the ASCII character
 set.
 
-### ARGUMENTS
+## __Arguments__
 
   - __C__
     Shall be a scalar CHARACTER, with __intent__(in)
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type INTEGER and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -68,11 +68,11 @@ Sample program:
    end program demo_ichar
 ```
 
-### NOTE
+## __Note__
 
 No intrinsic exists to convert between a numeric value and a formatted
 character string representation -- for instance, given the CHARACTER
-value '154', obtaining an INTEGER or REAL value with the value 154, or
+value '154', obtaining an _integer_ or _real_ value with the value 154, or
 vice versa. Instead, this functionality is provided by internal-file
 I/O, as in the following example:
 
@@ -92,15 +92,11 @@ I/O, as in the following example:
     end program read_val
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later, with KIND argument -Fortran 2003 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 \[\[achar\]\], \[\[char\]\], \[\[iachar\]\]
 

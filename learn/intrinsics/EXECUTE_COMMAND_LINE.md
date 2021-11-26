@@ -3,12 +3,12 @@ layout: book
 title: execute_command_line
 permalink: /learn/intrinsics/EXECUTE_COMMAND_LINE
 ---
-### NAME
+## __Name__
 
-__execute\_command\_line__(3f) - \[SYSTEM ENVIRONMENT\] Execute a shell command
+__execute\_command\_line__(3) - \[SYSTEM ENVIRONMENT\] Execute a shell command
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 subroutine __execute\_command\_line__(command, wait, exitstat, cmdstat,
 cmdmsg)
@@ -21,7 +21,7 @@ cmdmsg)
     character(len=*),intent(out),optional :: cmdmsg
 ```
 
-### DESCRIPTION
+## __Description__
 
 The COMMAND argument is passed to the shell and executed. (The shell is
 generally __sh__(1) on Unix systems, and cmd.exe on Windows.) If WAIT is
@@ -43,26 +43,26 @@ When the command is executed synchronously, EXECUTE\_COMMAND\_LINE
 returns after the command line has completed execution. Otherwise,
 EXECUTE\_COMMAND\_LINE returns without waiting.
 
-### ARGUMENTS
+## __Arguments__
 
   - __COMMAND__
     a default CHARACTER scalar containing the command line to be
     executed. The interpretation is programming-environment dependent.
 
   - __WAIT__
-    (Optional) a default LOGICAL scalar. If WAIT is present with the
+    (Optional) a default _logical_ scalar. If WAIT is present with the
     value .false., and the processor supports asynchronous execution of
     the command, the command is executed asynchronously; otherwise it is
     executed synchronously.
 
   - __EXITSTAT__
-    (Optional) an INTEGER of the default kind with __intent__(INOUT). If
+    (Optional) an _integer_ of the default kind with __intent__(INOUT). If
     the command is executed synchronously, it is assigned the value of
     the processor-dependent exit status. Otherwise, the value of
     EXITSTAT is unchanged.
 
   - __CMDSTAT__
-    (Optional) an INTEGER of default kind with __intent__(INOUT). If an
+    (Optional) an _integer_ of default kind with __intent__(INOUT). If an
     error condition occurs and CMDSTAT is not present, error termination
     of execution of the image is initiated.
 
@@ -78,7 +78,7 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
     (INOUT) argument.If an error condition occurs, it is assigned a
     processor-dependent explanatory message.Otherwise, it is unchanged.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -95,7 +95,7 @@ Sample program:
    end program demo_exec
 ```
 
-### NOTE
+## __Note__
 
 Because this intrinsic is making a system call, it is very system
 dependent. Its behavior with respect to signaling is processor
@@ -104,10 +104,6 @@ SIGQUIT signals will be ignored, and the SIGCHLD will be blocked. As
 such, if the parent process is terminated, the child process might not
 be terminated alongside.
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
-
-### CLASS
-
-Subroutine

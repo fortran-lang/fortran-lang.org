@@ -3,29 +3,29 @@ layout: book
 title: sinh
 permalink: /learn/intrinsics/SINH
 ---
-### NAME
+## __Name__
 
-__sinh__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic sine function
+__sinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic sine function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __sinh__(x)
 
-### DESCRIPTION
+## __Description__
 
 __sinh__(x) computes the hyperbolic sine of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL or COMPLEX.
+    The type shall be _real_ or _complex_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value has same type and kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -38,14 +38,10 @@ Sample program:
    end program demo_sinh
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later, for a complex argument Fortran 2008 or later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __asinh__(3)

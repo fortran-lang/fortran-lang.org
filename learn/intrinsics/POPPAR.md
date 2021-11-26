@@ -3,32 +3,32 @@ layout: book
 title: poppar
 permalink: /learn/intrinsics/POPPAR
 ---
-### NAME
+## __Name__
 
-__poppar__(3f) - \[BIT INQUIRY\] Parity of the number of bits set
+__poppar__(3) - \[BIT INQUIRY\] Parity of the number of bits set
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __poppar__(i)
 
-### DESCRIPTION
+## __Description__
 
 Returns the parity of an integer's binary representation (i.e., the
 parity of the number of bits set).
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    Shall be of type INTEGER.
+    Shall be of type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type 'integer' and of the default integer kind.
 It is equal to 0 if I has an even number of bits set and 1 if an odd
 number of bits are set.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -45,14 +45,10 @@ Sample program:
    end program demo_popcnt
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __popcnt__(3), __leadz__(3), __trailz__(3)

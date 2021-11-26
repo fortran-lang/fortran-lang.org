@@ -3,17 +3,17 @@ layout: book
 title: minloc
 permalink: /learn/intrinsics/MINLOC
 ---
-### NAME
+## __Name__
 
-__minloc__(3f) - \[ARRAY LOCATION\] Location of the minimum value within an array
+__minloc__(3) - \[ARRAY LOCATION\] Location of the minimum value within an array
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __minloc__(array, dim \[, mask\]) result = __minloc__(array \[,
 mask\])
 
-### DESCRIPTION
+## __Description__
 
 Determines the location of the element in the array with the minimum
 value, or, if the DIM argument is supplied, determines the locations of
@@ -26,29 +26,29 @@ order. If the array has zero size, or all of the elements of MASK are
 supplied and all of the elements of MASK along a given row are zero, the
 result value for that row is zero.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type INTEGER, REAL, or CHARACTER.
+    Shall be an array of type _integer_, _real_, or CHARACTER.
 
   - __DIM__
-    (Optional) Shall be a scalar of type INTEGER, with a value between
+    (Optional) Shall be a scalar of type _integer_, with a value between
     one and the rank of ARRAY, inclusive. It may not be an optional
     dummy argument.
 
   - __MASK__
-    Shall be an array of type LOGICAL, and conformable with ARRAY.
+    Shall be an array of type _logical_, and conformable with ARRAY.
 
-### RETURN VALUE
+## __Returns__
 
 If DIM is absent, the result is a rank-one array with a length equal to
 the rank of ARRAY. If DIM is present, the result is an array with a rank
 one less than the rank of ARRAY, and a size corresponding to the size of
 ARRAY with the DIM dimension removed. If DIM is present and ARRAY has a
 rank of one, the result is a scalar. In all cases, the result is of
-default INTEGER type.
+default _integer_ type.
 
-### EXAMPLE
+## __Examples__
 
 sample program:
 
@@ -86,14 +86,10 @@ Results:
 >
 >   - __7__
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __min__(3), __minval__(3)

@@ -3,33 +3,34 @@ layout: book
 title: any
 permalink: /learn/intrinsics/ANY
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__any__(3f) - \[ARRAY REDUCTION\] determines if any of the values in the logical array are true.
+__any__(3) - \[ARRAY REDUCTION\] determines if any of the values in the logical array are true.
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __any__(mask \[, dim\])
 
-### DESCRIPTION
+## __Description__
 
 __ANY__(MASK \[, DIM\]) determines if any of the values in the logical
 array MASK along dimension DIM are .TRUE..
 
-### ARGUMENTS
+## __Arguments__
 
   - __MASK__
-    the type of the argument shall be LOGICAL and it shall not be
+    the type of the argument shall be _logical_ and it shall not be
     scalar.
 
   - __DIM__
     (optional) DIM shall be a scalar integer with a value that lies
     between one and the rank of MASK.
 
-### RETURN VALUE
+## __Returns__
 
-__ANY__(MASK) returns a scalar value of type LOGICAL where the kind type
+__ANY__(MASK) returns a scalar value of type _logical_ where the kind type
 parameter is the same as the kind type parameter of MASK. If DIM is
 present, then __ANY__(MASK, DIM) returns an array with the rank of MASK
 minus 1. The shape is determined from the shape of MASK where the DIM
@@ -42,7 +43,7 @@ dimension is elided.
     __ANY__(MASK). If the rank is greater than one, then __ANY__(MASK,
     DIM) is determined by applying ANY to the array sections.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -65,10 +66,6 @@ Sample program:
     end program demo_any
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
-
-### CLASS
-
-Transformational function

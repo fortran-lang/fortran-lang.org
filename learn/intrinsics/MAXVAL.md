@@ -3,18 +3,18 @@ layout: book
 title: maxval
 permalink: /learn/intrinsics/MAXVAL
 ---
-### NAME
+## __Name__
 
-__maxval__(3f) - \[ARRAY REDUCTION\] determines the maximum value in an array or row
+__maxval__(3) - \[ARRAY REDUCTION\] determines the maximum value in an array or row
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __maxval__(array, dim \[, mask\])
 
 result = __maxval__(array \[, mask\])
 
-### DESCRIPTION
+## __Description__
 
 Determines the maximum value of the elements in an array value, or, if
 the DIM argument is supplied, determines the maximum value along each
@@ -24,21 +24,21 @@ size, or all of the elements of MASK are .false., then the result is the
 most negative number of the type and kind of ARRAY if ARRAY is numeric,
 or a string of nulls if ARRAY is of character type.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type INTEGER, REAL, or CHARACTER.
+    Shall be an array of type _integer_, _real_, or CHARACTER.
 
   - __DIM__
-    (Optional) Shall be a scalar of type INTEGER, with a value between
+    (Optional) Shall be a scalar of type _integer_, with a value between
     one and the rank of ARRAY, inclusive. It may not be an optional
     dummy argument.
 
   - __MASK__
-    (Optional) Shall be an array of type LOGICAL, and conformable with
+    (Optional) Shall be an array of type _logical_, and conformable with
     ARRAY.
 
-### RETURN VALUE
+## __Returns__
 
 If DIM is absent, or if ARRAY has a rank of one, the result is a scalar.
 If DIM is present, the result is an array with a rank one less than the
@@ -46,7 +46,7 @@ rank of ARRAY, and a size corresponding to the size of ARRAY with the
 DIM dimension removed. In all cases, the result is of the same type and
 kind as ARRAY.
 
-### EXAMPLE
+## __Examples__
 
 sample program:
 
@@ -75,18 +75,14 @@ Results:
    22
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __max__(3), __maxloc__(3)
 
-### CATEGORY
+## __Category__
 
 intrinsics

@@ -3,32 +3,32 @@ layout: book
 title: present
 permalink: /learn/intrinsics/PRESENT
 ---
-### NAME
+## __Name__
 
-__present__(3f) - \[\] Determine whether an optional dummy argument is specified
+__present__(3) - \[\] Determine whether an optional dummy argument is specified
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __present__(a)
 
-### DESCRIPTION
+## __Description__
 
 Determines whether an optional dummy argument is present.
 
-### ARGUMENTS
+## __Arguments__
 
   - __A__
     May be of any type and may be a pointer, scalar or array value, or a
     dummy procedure. It shall be the name of an optional dummy argument
     accessible within the current subroutine or function.
 
-### RETURN VALUE
+## __Returns__
 
 Returns either TRUE if the optional argument A is present, or FALSE
 otherwise.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -44,10 +44,6 @@ Sample program:
     end program demo_present
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
-
-### CLASS
-
-Inquiry function

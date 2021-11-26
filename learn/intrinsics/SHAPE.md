@@ -3,38 +3,38 @@ layout: book
 title: shape
 permalink: /learn/intrinsics/SHAPE
 ---
-### NAME
+## __Name__
 
-__shape__(3f) - \[ARRAY INQUIRY\] Determine the shape of an array
+__shape__(3) - \[ARRAY INQUIRY\] Determine the shape of an array
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __shape__(source\[, kind\])
 
-### DESCRIPTION
+## __Description__
 
 Determines the shape of an array.
 
-### ARGUMENTS
+## __Arguments__
 
   - __SOURCE__
     Shall be an array or scalar of any type. If SOURCE is a pointer it
     must be associated and allocatable arrays must be allocated.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-An INTEGER array of rank one with as many elements as SOURCE has
+An _integer_ array of rank one with as many elements as SOURCE has
 dimensions. The elements of the resulting array correspond to the extend
 of SOURCE along the respective dimensions. If SOURCE is a scalar, the
 result is the rank one array of size zero. If KIND is absent, the return
 value has the default integer kind otherwise the specified kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -47,14 +47,10 @@ Sample program:
    end program demo_shape
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later; with KIND argument Fortran 2003 and later
 
-### CLASS
-
-Inquiry function
-
-### SEE ALSO
+## __See Also__
 
 __reshape__(3), __size__(3)

@@ -3,29 +3,29 @@ layout: book
 title: tan
 permalink: /learn/intrinsics/TAN
 ---
-### NAME
+## __Name__
 
-__tan__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Tangent function
+__tan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Tangent function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __tan__(x)
 
-### DESCRIPTION
+## __Description__
 
 __tan__(x) computes the tangent of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL or COMPLEX.
+    The type shall be _real_ or _complex_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value has the same type and kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -39,14 +39,10 @@ Sample program:
    end program demo_tan
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later. For a complex argument, Fortran 2008 or later.
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __atan__(3), __cos__(3), __sin__(3)

@@ -3,40 +3,40 @@ layout: book
 title: size
 permalink: /learn/intrinsics/SIZE
 ---
-### NAME
+## __Name__
 
-__size__(3f) - \[ARRAY INQUIRY\] Determine the size of an array
+__size__(3) - \[ARRAY INQUIRY\] Determine the size of an array
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __size__(array\[, dim \[, kind\]\])
 
-### DESCRIPTION
+## __Description__
 
 Determine the extent of ARRAY along a specified dimension DIM, or the
 total number of elements in ARRAY if DIM is absent.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ARRAY__
     Shall be an array of any type. If ARRAY is a pointer it must be
     associated and allocatable arrays must be allocated.
 
   - __DIM__
-    (Optional) shall be a scalar of type INTEGER and its value shall be
+    (Optional) shall be a scalar of type _integer_ and its value shall be
     in the range from 1 to n, where n equals the rank of ARRAY.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type INTEGER and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -111,14 +111,14 @@ Sample program:
        !
     end subroutine interfaced
     !!
-    ! NOTE: If NOINTERFACE(3f) had an assumed-shape argument with :
+    ! NOTE: If NOINTERFACE(3) had an assumed-shape argument with :
     !       for dimensions it could only be properly called with
     !       an explicit interface
     !!
     subroutine nointerface(arr)
     integer,intent(in) :: arr(3,*)
        write(*,*)'nointerface'
-     ! SHAPE(3f) CANNOT BE USED ON AN ASSUMED SIZE ARRAY
+     ! SHAPE(3) CANNOT BE USED ON AN ASSUMED SIZE ARRAY
      !!write(*,*)'SHAPE(arr)       :',shape(arr)
      !!write(*,*)'SIZE(arr)        :',size(arr)
        write(*,*)'SIZE(arr,DIM=1)  :',size(arr,dim=1)
@@ -183,14 +183,10 @@ Expected results:
     LBOUND(arr,DIM=2):           1
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-### CLASS
-
-Inquiry function
-
-### SEE ALSO
+## __See Also__
 
 __shape__(3), __reshape__(3)

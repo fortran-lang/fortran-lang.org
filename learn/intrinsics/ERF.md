@@ -3,32 +3,32 @@ layout: book
 title: erf
 permalink: /learn/intrinsics/ERF
 ---
-### NAME
+## __Name__
 
-__erf__(3f) - \[MATHEMATICS\] Error function
+__erf__(3) - \[MATHEMATICS\] Error function
 (GFDL)
 
-### DESCRIPTION
+## __Description__
 
 __erf__(x) computes the error function of X, defined as $$
 \\text{erf}(x) = \\frac{2}{\\sqrt{\\pi}} \\int\_0\*\*x
 e\*\*{__-t__\*\*2} dt. $$
 
-### SYNTAX
+## __Syntax__
 
 result = __erf__(x)
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL.
+    The type shall be _real_.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type REAL, of the same kind as X and lies in the
+The return value is of type _real_, of the same kind as X and lies in the
 range __-1__ \<= __erf__(x) \<= 1 .
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -42,10 +42,6 @@ Sample program:
     end program demo_erf
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

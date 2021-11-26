@@ -3,31 +3,31 @@ layout: book
 title: trailz
 permalink: /learn/intrinsics/TRAILZ
 ---
-### NAME
+## __Name__
 
-__trailz__(3f) - \[BIT INQUIRY\] Number of trailing zero bits of an integer
+__trailz__(3) - \[BIT INQUIRY\] Number of trailing zero bits of an integer
 
-### SYNTAX
+## __Syntax__
 ```fortran
    result = trailz(i) integer :: result
    integer(kind=NNN),intent(in) :: i
 ```
 
-### DESCRIPTION
+## __Description__
 
-TRAILZ returns the number of trailing zero bits of an INTEGER value
+TRAILZ returns the number of trailing zero bits of an _integer_ value
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    Shall be of type INTEGER.
+    Shall be of type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
-The type of the return value is the default INTEGER. If all the bits of
+The type of the return value is the default _integer_. If all the bits of
 I are zero, the result value is __bit\_size__(I).
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -105,16 +105,12 @@ Results:
     huge 0111111111111111111111111111111111111111111111111111111111111111
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __bit\_size__(3), __popcnt__(3), __poppar__(3), __leadz__(3)
 
-###### fortran-lang intrinsic descriptions
+##### fortran-lang intrinsic descriptions

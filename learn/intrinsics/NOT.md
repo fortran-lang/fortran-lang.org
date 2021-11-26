@@ -3,27 +3,27 @@ layout: book
 title: not
 permalink: /learn/intrinsics/NOT
 ---
-### NAME
-__not__(3f) - \[BIT MANIPULATION\] Logical negation
+## __Name__
+__not__(3) - \[BIT MANIPULATION\] Logical negation
 
-### SYNTAX
+## __Syntax__
 
 result = __not__(i)
 
-### DESCRIPTION
+## __Description__
 
 NOT returns the bitwise Boolean inverse of I.
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    The type shall be INTEGER.
+    The type shall be _integer_.
 
-### RETURN VALUE
+## __Returns__
 
-The return type is INTEGER, of the same kind as the argument.
+The return type is _integer_, of the same kind as the argument.
 
-### EXAMPLE
+## __Examples__
 
 Sample program
 
@@ -44,17 +44,13 @@ Results:
    11111111111111111100101001010010 -13742
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __iand__(3), __ior__(3), __ieor__(3), __ibits__(3), __ibset__(3),
 __ibclr__(3)
 
-###### fortran-lang intrinsic descriptions
+##### fortran-lang intrinsic descriptions

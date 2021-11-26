@@ -3,30 +3,30 @@ layout: book
 title: bessel_y0
 permalink: /learn/intrinsics/BESSEL_Y0
 ---
-### NAME
+## __Name__
 
-__bessel\_y0__(3f) - \[MATHEMATICS\] Bessel function of the second kind of order 0
+__bessel\_y0__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 0
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __bessel\_y0__(x)
 
-### DESCRIPTION
+## __Description__
 
 __bessel\_y0__(x) computes the \[\[Bessel function\]\] of the second
 kind of order 0 of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL.
+    The type shall be _real_.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type REAL. It has the same kind as X.
+The return value is of type _real_. It has the same kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -40,15 +40,11 @@ Sample program:
    end program demo_besy0
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __bessel\_j0__(3), __bessel\_j1__(3), __bessel\_jn__(3),
 __bessel\_y1__(3), __bessel\_yn__(3)

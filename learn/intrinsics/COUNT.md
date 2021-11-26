@@ -3,42 +3,42 @@ layout: book
 title: count
 permalink: /learn/intrinsics/COUNT
 ---
-### NAME
+## __Name__
 
-__count__(3f) - \[ARRAY REDUCTION\] Count function
+__count__(3) - \[ARRAY REDUCTION\] Count function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __count__(mask \[, dim, kind\])
 
-### DESCRIPTION
+## __Description__
 
 Counts the number of .true. elements in a logical MASK, or, if the DIM
 argument is supplied, counts the number of elements along each row of
 the array in the DIM direction. If the array has zero size, or all of
 the elements of MASK are false, then the result is 0.
 
-### ARGUMENTS
+## __Arguments__
 
   - __MASK__
-    The type shall be LOGICAL.
+    The type shall be _logical_.
 
   - __DIM__
-    (Optional) The type shall be INTEGER.
+    (Optional) The type shall be _integer_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type INTEGER and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind KIND. If KIND is absent,
 the return value is of default integer kind. If DIM is present, the
 result is an array with a rank one less than the rank of ARRAY, and a
 size corresponding to the shape of ARRAY with the DIM dimension removed.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -84,11 +84,7 @@ Sample program:
      > 1  2
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later, with KIND argument - Fortran 2003
 and later
-
-### CLASS
-
-Transformational function

@@ -3,26 +3,24 @@ layout: book
 title: achar
 permalink: /learn/intrinsics/ACHAR
 ---
-### NAME
+## __Name__
 
-__achar__(3f) - \[CHARACTER\] returns a character in a specified position in the ASCII collating sequence
+__achar__(3) - \[CHARACTER\] returns a character in a specified position in the ASCII collating sequence
 
-### SYNTAX
+## __Syntax__
+```fortran
+    character(len=1) elemental function :: achar(i,kind=KIND)
+    integer(kind=KIND),intent(in) :: i
+    integer(kind=KIND),intent(in),optional :: kind
+```
+where KIND may be any supported kind value for _integer_ types.
 
-    result = achar(i [, kind])
+## __Description__
 
-     character(len=1),elemental :: achar
-     integer(kind=KIND),intent(in) :: i
-     integer(kind=KIND),intent(in),optional :: kind
-
-where KIND may be any supported kind value for INTEGER types.
-
-### DESCRIPTION
-
-__achar__(I) returns the character located at position I (often called the 
+__achar(I)__ returns the character located at position I (often called the 
 _ADE_ or ASCII Decimal Equivalent) in the ASCII collating sequence.
 
-The __achar(3f)__ function is often used for generating in-band escape
+The __achar(3)__ function is often used for generating in-band escape
 sequences to control terminal attributes.
 ```fortran
    write(*,'(*(a))')achar(27),'[2J'
@@ -30,23 +28,23 @@ sequences to control terminal attributes.
 will clear the screen on an ANSI-compatible terminal display, for
 example.
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    the INTEGER value to convert to an ASCII character, therefore in
+    the _integer_ value to convert to an ASCII character, therefore in
     the range 0 to 127.
 
   - __KIND__
-    (optional) an INTEGER initialization expression indicating the kind
+    (optional) an _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type CHARACTER with a length of one. If the KIND
 argument is present, the return value is of the specified kind and of
 the default kind otherwise.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -97,9 +95,9 @@ Results:
    
    120 x 121 y 122 z 123 { 124 | 125 } 126 ~
 ```
-### NOTE
+## __Note__
 
-see \[\[ichar\]\] for a discussion of converting between numerical
+see __[ichar(3)](ICHAR)__ for a discussion of converting between numerical
 values and formatted string representations.
 
 The ADEs (ASCII Decimal Equivalents) for ASCII are
@@ -125,20 +123,20 @@ The ADEs (ASCII Decimal Equivalents) for ASCII are
     *-------*-------*-------*-------*-------*-------*-------*-------*
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later, with KIND argument Fortran 2003 and later
 
-### SEE ALSO
+## __See Also__
 
-[__char__(3)](CHAR.md),
-[__iachar__(3)](IACHAR.md),
-[__ichar__(3)](ICHAR.md)
+[__char__(3)](CHAR),
+[__iachar__(3)](IACHAR),
+[__ichar__(3)](ICHAR)
 
-### RESOURCES
+## __Resources__
 
 - [ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
 - [M_attr module](https://github.com/urbanjost/M_attr) for controlling ANSI-compatible terminals
 
 
-###### fortran-lang intrinsic descriptions
+##### fortran-lang intrinsic descriptions

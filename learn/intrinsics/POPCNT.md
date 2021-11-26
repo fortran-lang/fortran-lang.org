@@ -3,30 +3,30 @@ layout: book
 title: popcnt
 permalink: /learn/intrinsics/POPCNT
 ---
-### NAME
+## __Name__
 
-__popcnt__(3f) - \[BIT INQUIRY\] Number of bits set
+__popcnt__(3) - \[BIT INQUIRY\] Number of bits set
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __popcnt__(i)
 
-### DESCRIPTION
+## __Description__
 
 Returns the number of bits set in the binary representation of an
 integer.
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    Shall be of type INTEGER.
+    Shall be of type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type 'integer' and of the default integer kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -58,13 +58,10 @@ Sample output:
 
       - __63__
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental function
-### SEE ALSO
+## __See Also__
 
 __poppar__(3), __leadz__(3), __trailz__(3)

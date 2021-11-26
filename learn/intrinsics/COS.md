@@ -3,31 +3,31 @@ layout: book
 title: cos
 permalink: /learn/intrinsics/COS
 ---
-### NAME
+## __Name__
 
-__cos__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Cosine function
+__cos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Cosine function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __cos__(x)
 
-### DESCRIPTION
+## __Description__
 
 __cos__(x) computes the cosine of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL or COMPLEX.
+    The type shall be _real_ or _complex_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of the same type and kind as X. The real part of the
-result is in radians. If X is of the type REAL, the return value lies in
+result is in radians. If X is of the type _real_, the return value lies in
 the range __-1__ \<= __cos__(x) \<= 1.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -57,14 +57,10 @@ Expected output:
    COS(-2000*PI)=   1.0000000000000000
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __acos__(3), __sin__(3), __tan__(3)

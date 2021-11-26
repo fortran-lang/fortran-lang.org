@@ -3,11 +3,12 @@ layout: book
 title: adjustr
 permalink: /learn/intrinsics/ADJUSTR
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__adjustr__(3f) - \[CHARACTER\] Right-adjust a string
+__adjustr__(3) - \[CHARACTER\] Right-adjust a string
 
-### SYNTAX
+## __Syntax__
 
 ```fortran
     result = adjustr(string)
@@ -15,23 +16,23 @@ __adjustr__(3f) - \[CHARACTER\] Right-adjust a string
      character(len=len(string))  :: result
 ```
 
-### DESCRIPTION
+## __Description__
 
 __adjustr__(STRING) will right adjust a string by removing trailing
 spaces. Spaces are inserted at the start of the string as needed.
 
-### ARGUMENTS
+## __Arguments__
 
   - __STRING__
     the type shall be CHARACTER.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type CHARACTER and of the same kind as STRING
 where trailing spaces are removed and the same number of spaces are
 inserted at the start of STRING.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -74,24 +75,12 @@ Results:
    [                                     sample string]
    [12345678901234567890123456789012345678901234567890]
 ```
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
+## __See Also__
 
-Elemental function
+    [__adjustl__(3)](ADJUSTL)
 
-### SEE ALSO
-
-Functions that perform operations on character strings, return lengths
-of arguments, and search for certain arguments:
-
-  - __elemental:__
-    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
-    __scan__(3), __verify__(3)
-
-  - __nonelemental:__
-    __repeat__(3), __trim__(3)
-
-###### fortran-lang intrinsic descriptions
+##### fortran-lang intrinsic descriptions

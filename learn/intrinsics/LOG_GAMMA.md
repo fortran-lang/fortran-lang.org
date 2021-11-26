@@ -3,30 +3,30 @@ layout: book
 title: log_gamma
 permalink: /learn/intrinsics/LOG_GAMMA
 ---
-### NAME
+## __Name__
 
-__log\_gamma__(3f) - \[MATHEMATICS\] Logarithm of the Gamma function
+__log\_gamma__(3) - \[MATHEMATICS\] Logarithm of the Gamma function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 x = __log\_gamma__(x)
 
-### DESCRIPTION
+## __Description__
 
 __log\_gamma__(x) computes the natural logarithm of the absolute value
 of the \[\[Gamma function\]\].
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type REAL and neither zero nor a negative integer.
+    Shall be of type _real_ and neither zero nor a negative integer.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type REAL of the same kind as X.
+The return value is of type _real_ of the same kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -38,14 +38,10 @@ Sample program:
    end program demo_log_gamma
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 Gamma function: __gamma__(3)

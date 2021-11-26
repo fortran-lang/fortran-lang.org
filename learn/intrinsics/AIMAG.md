@@ -3,30 +3,34 @@ layout: book
 title: aimag
 permalink: /learn/intrinsics/AIMAG
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__aimag__(3f) - \[NUMERIC:TYPE\] Imaginary part of complex number
+__aimag__(3) - \[NUMERIC:TYPE\] Imaginary part of complex number
 (GFDL)
 
-### SYNTAX
+## __Syntax__
+```fortran
+    result = aimag(z)
+    complex(kind=KIND),elemental :: aimag
+    complex(kind=KIND),intent(in) :: z
+```
 
-result = __aimag__(Z)
-
-### DESCRIPTION
+## __Description__
 
 __aimag__(Z) yields the imaginary part of complex argument Z.
 
-### ARGUMENTS
+## __Arguments__
 
   - __Z__
-    The type of the argument shall be COMPLEX.
+    The type of the argument shall be _complex_.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type REAL with the kind type parameter of the
+The return value is of type _real_ with the kind type parameter of the
 argument.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -59,10 +63,6 @@ Results:
        2.000000       1.000000       4.000000      -2.000000
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
-
-### CLASS
-
-Elemental function

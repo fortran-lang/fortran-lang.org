@@ -3,17 +3,17 @@ layout: book
 title: maxloc
 permalink: /learn/intrinsics/MAXLOC
 ---
-### NAME
+## __Name__
 
-__maxloc__(3f) - \[ARRAY LOCATION\] Location of the maximum value within an array
+__maxloc__(3) - \[ARRAY LOCATION\] Location of the maximum value within an array
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __maxloc__(array, dim \[, mask\]) result = __maxloc__(array \[,
 mask\])
 
-### DESCRIPTION
+## __Description__
 
 Determines the location of the element in the array with the maximum
 value, or, if the DIM argument is supplied, determines the locations of
@@ -26,33 +26,33 @@ order. If the array has zero size, or all of the elements of MASK are
 supplied and all of the elements of MASK along a given row are zero, the
 result value for that row is zero.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type INTEGER, REAL, or CHARACTER.
+    Shall be an array of type _integer_, _real_, or CHARACTER.
 
   - __DIM__
-    (Optional) Shall be a scalar of type INTEGER, with a value between
+    (Optional) Shall be a scalar of type _integer_, with a value between
     one and the rank of ARRAY, inclusive. It may not be an optional
     dummy argument.
 
   - __MASK__
-    Shall be an array of type LOGICAL, and conformable with ARRAY.
+    Shall be an array of type _logical_, and conformable with ARRAY.
 
-### RETURN VALUE
+## __Returns__
 
 If DIM is absent, the result is a rank-one array with a length equal to
 the rank of ARRAY. If DIM is present, the result is an array with a rank
 one less than the rank of ARRAY, and a size corresponding to the size of
 ARRAY with the DIM dimension removed. If DIM is present and ARRAY has a
 rank of one, the result is a scalar. In all cases, the result is of
-default INTEGER type.
+default _integer_ type.
 
 The value returned is reference to the offset from the beginning of the
 array, not neccessarily the subscript value if the array subscripts do
 not start with one.
 
-### EXAMPLE
+## __Examples__
 
 sample program:
 
@@ -69,10 +69,10 @@ sample program:
     write(*,*) maxloc(ints)
     write(*,*) maxloc(ints,dim=1)
     write(*,*) maxloc(ints,dim=2)
-    ! when array bounds do not start with one remember MAXLOC(3f) returns the
+    ! when array bounds do not start with one remember MAXLOC(3) returns the
     ! offset relative to the lower bound-1 of the location of the maximum
     ! value, not the subscript of the maximum value. When the lower bound of
-    ! the array is one, these values are the same. In other words, MAXLOC(3f)
+    ! the array is one, these values are the same. In other words, MAXLOC(3)
     ! returns the subscript of the value assuming the first subscript of the
     ! array is one no matter what the lower bound of the subscript actually
     ! is.
@@ -92,14 +92,10 @@ expected output:
 >   - __5__
 >     5 5 __-3__ 47 __-2__ 48 __-1__ 49 0 50 1 49 2 48 3 47 4
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __max__(3), __maxval__(3)

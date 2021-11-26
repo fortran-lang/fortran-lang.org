@@ -3,44 +3,44 @@ layout: book
 title: reshape
 permalink: /learn/intrinsics/RESHAPE
 ---
-### NAME
+## __Name__
 
-__reshape__(3f) - \[ARRAY RESHAPE\] Function to reshape an array
+__reshape__(3) - \[ARRAY RESHAPE\] Function to reshape an array
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __reshape__(source, shape\[, pad, order\])
 
-### DESCRIPTION
+## __Description__
 
 Reshapes array SOURCE to correspond to SHAPE. If necessary, the new
 array may be padded with elements from PAD or permuted as defined by
 ORDER.
 
-### ARGUMENTS
+## __Arguments__
 
   - __SOURCE__
     an array of any type.
 
   - __SHAPE__
-    an array of rank one and type INTEGER. Its values must be positive
+    an array of rank one and type _integer_. Its values must be positive
     or zero.
 
   - __PAD__
     (Optional) an array of the same type as SOURCE.
 
   - __ORDER__
-    (Optional) an array of type INTEGER and the same shape as SHAPE. Its
+    (Optional) an array of type _integer_ and the same shape as SHAPE. Its
     values shall be a permutation of the numbers from 1 to n, where n is
     the size of SHAPE. If ORDER is absent, the natural ordering shall be
     assumed.
 
-### RETURN VALUE
+## __Returns__
 
 The result is an array of shape SHAPE with the same type as SOURCE.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -61,14 +61,10 @@ Results
 >
 >   - __2__
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __shape__(3)

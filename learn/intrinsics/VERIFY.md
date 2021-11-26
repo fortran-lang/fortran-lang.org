@@ -3,16 +3,16 @@ layout: book
 title: verify
 permalink: /learn/intrinsics/VERIFY
 ---
-### NAME
+## __Name__
 
-__verify__(3f) - \[CHARACTER\] Scan a string for the absence of a set of characters
+__verify__(3) - \[CHARACTER\] Scan a string for the absence of a set of characters
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __verify__(string, set\[, back \[, kind\]\])
 
-### DESCRIPTION
+## __Description__
 
 Verifies that all the characters in STRING belong to the set of
 characters in SET.
@@ -22,7 +22,7 @@ position of the leftmost character of STRING that is not in SET. If BACK
 equals TRUE, the rightmost position is returned. If all characters of
 STRING are found in SET, the result is zero.
 
-### ARGUMENTS
+## __Arguments__
 
   - __STRING__
     Shall be of type CHARACTER.
@@ -31,18 +31,18 @@ STRING are found in SET, the result is zero.
     Shall be of type CHARACTER.
 
   - __BACK__
-    (Optional) shall be of type LOGICAL.
+    (Optional) shall be of type _logical_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type INTEGER and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -106,15 +106,11 @@ Results:
     32-af43d passed
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

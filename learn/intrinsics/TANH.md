@@ -3,35 +3,35 @@ layout: book
 title: tanh
 permalink: /learn/intrinsics/TANH
 ---
-### NAME
+## __Name__
 
-__tanh__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic tangent function
+__tanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic tangent function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 x = __tanh__(x)
 
-### DESCRIPTION
+## __Description__
 
 __tanh__(X) computes the hyperbolic tangent of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL or COMPLEX.
+    The type shall be _real_ or _complex_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value has same type and kind as X. If X is complex, the
-imaginary part of the result is in radians. If X is REAL, the return
+imaginary part of the result is in radians. If X is _real_, the return
 value lies in the range
 
 ```
       -1 <= tanh(x) <= 1.
 ```
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -44,14 +44,10 @@ Sample program:
    end program demo_tanh
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later, for a complex argument Fortran 2008 or later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __atanh__(3)

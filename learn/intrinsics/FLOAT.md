@@ -3,29 +3,29 @@ layout: book
 title: float
 permalink: /learn/intrinsics/FLOAT
 ---
-### NAME
+## __Name__
 
-__float__(3f) - \[NUMERIC:TYPE\] Convert integer to default real
+__float__(3) - \[NUMERIC:TYPE\] Convert integer to default real
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __float__(a)
 
-### DESCRIPTION
+## __Description__
 
 __float__(a) converts the integer A to a default real value.
 
-### ARGUMENTS
+## __Arguments__
 
   - __A__
-    The type shall be INTEGER.
+    The type shall be _integer_.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type default REAL.
+The return value is of type default _real_.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -37,14 +37,10 @@ Sample program:
     end program demo_float
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __dble__(3), __real__(3)

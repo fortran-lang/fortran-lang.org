@@ -1,39 +1,39 @@
 ---
 layout: book
 title: selected_real_kind
-permalink: /learn/intrinsics/SELECTED_REAL_KIND
+permalink: /learn/intrinsics/SELECTED__real__KIND
 ---
-### NAME
+## __Name__
 
-__selected\_real\_kind__(3f) - \[KIND\] Choose real kind
+__selected\_real\_kind__(3) - \[KIND\] Choose real kind
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __selected\_real\_kind__(\[p, r, radix\])
 
-### DESCRIPTION
+## __Description__
 
 __selected\_real\_kind__(p, r, radix) return the kind value of a real
 data type with decimal precision of at least P digits, exponent range of
 at least R, and with a radix of RADIX.
 
-### ARGUMENTS
+## __Arguments__
 
   - __P__
-    (Optional) shall be a scalar and of type INTEGER.
+    (Optional) shall be a scalar and of type _integer_.
 
   - __R__
-    (Optional) shall be a scalar and of type INTEGER.
+    (Optional) shall be a scalar and of type _integer_.
 
   - __RADIX__
-    (Optional) shall be a scalar and of type INTEGER.
+    (Optional) shall be a scalar and of type _integer_.
 
 Before \[\[Fortran 2008\]\], at least one of the arguments R or P shall
 be present; since \[\[Fortran 2008\]\], they are assumed to be zero if
 absent.
 
-### RETURN VALUE
+## __Returns__
 
 selected\_real\_kind returns the value of the kind type parameter of a
 real data type with decimal precision of at least P digits, a decimal
@@ -57,7 +57,7 @@ matches the criteria, the result is
 
       - __-5__ if there is no real type with the given RADIX
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -77,14 +77,10 @@ Sample program:
    end program demo_selected_real_kind
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later; with RADIX - Fortran 2008 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __precision__(3), __range__(3), __radix__(3)

@@ -3,28 +3,28 @@ layout: book
 title: max
 permalink: /learn/intrinsics/MAX
 ---
-### NAME
+## __Name__
 
-__max__(3f) - \[NUMERIC\] Maximum value of an argument list
+__max__(3) - \[NUMERIC\] Maximum value of an argument list
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __max__(a1, a2 \[, a3 \[, \`\`\`\]\])
 
-### DESCRIPTION
+## __Description__
 
 Returns the argument with the largest (most positive) value.
 
-### ARGUMENTS
+## __Arguments__
 
   - __A1__
-    The type shall be INTEGER or REAL.
+    The type shall be _integer_ or _real_.
 
   - __A2,A3,\`\`\`__
     An expression of the same type and kind as A1.
 
-### RETURN VALUE
+## __Returns__
 
 The return value corresponds to the maximum value among the arguments,
 and has the same type and kind as the first argument.
@@ -38,7 +38,7 @@ If called with all arrays the returned array is the same as if multiple
 calls were made with __max__(arr1(1),arr2(1), \`\`\`) to
 __max__(arr1(N),arr2(N)).
 
-### EXAMPLE
+## __Examples__
 
 Sample program
 
@@ -55,13 +55,13 @@ Sample program
        write(*,*)'scalars:',max(10.0,11.0,30.0,-100.0)
 
        !!
-       !! this is all max(3f) could do before it became an elemental
+       !! this is all max(3) could do before it became an elemental
        !! function and is the most intuitive
        !! except that it can take an arbitrary number of options,
        !! which is not common in Fortran without
        !! declaring a lot of optional parameters.
        !!
-       !! That is it unless you want to use the elemental features of max(3f)!
+       !! That is it unless you want to use the elemental features of max(3)!
 
        !! Error: Intrinsic    max    at (1) must have at least two arguments
        !!write(*,*)max(arr1)
@@ -69,7 +69,7 @@ Sample program
        !! [(max(arr1(i)),i=1,size(arr1))]
        !! so it is trying to take the max of a single value.
        !! To find the largest element of an array
-       !! call maxloc(3f) or maxval(3f).
+       !! call maxloc(3) or maxval(3).
 
        !! Error: Different shape for arguments 'a1' and 'a2' for intrinsic
        !! 'max' at (1) on dimension 1 (4 and 5)
@@ -111,13 +111,10 @@ Results:
     scalars and array:   40.000000  40.000000  40.000000  40.000000
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-### SEE ALSO
+## __See Also__
 
 __maxloc__(3), __maxval__(3), __min__(3)

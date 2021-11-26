@@ -3,38 +3,38 @@ layout: book
 title: spread
 permalink: /learn/intrinsics/SPREAD
 ---
-### NAME
+## __Name__
 
-__spread__(3f) - \[ARRAY CONSTRUCTION\] Add a dimension to an array
+__spread__(3) - \[ARRAY CONSTRUCTION\] Add a dimension to an array
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __spread__(source, dim, ncopies)
 
-### DESCRIPTION
+## __Description__
 
 Replicates a SOURCE array NCOPIES times along a specified dimension DIM.
 
-### ARGUMENTS
+## __Arguments__
 
   - __SOURCE__
     Shall be a scalar or an array of any type and a rank less than
     seven.
 
   - __DIM__
-    Shall be a scalar of type INTEGER with a value in the range from 1
+    Shall be a scalar of type _integer_ with a value in the range from 1
     to n+1, where n equals the rank of SOURCE.
 
   - __NCOPIES__
-    Shall be a scalar of type INTEGER.
+    Shall be a scalar of type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
 The result is an array of the same type as SOURCE and has rank n+1 where
 n equals the rank of SOURCE.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -103,14 +103,10 @@ Sample program:
      end program example_spread
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __unpack__(3)

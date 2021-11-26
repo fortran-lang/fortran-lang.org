@@ -3,16 +3,17 @@ layout: book
 title: atomic_fetch_xor
 permalink: /learn/intrinsics/ATOMIC_FETCH_XOR
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__atomic\_fetch\_xor__(3f) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise XOR operation with prior fetch
+__atomic\_fetch\_xor__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise XOR operation with prior fetch
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 call atomic\_fetch\_xor (atom, value, old \[, stat\])
 
-### DESCRIPTION
+## __Description__
 
 __atomic\_fetch\_xor__(atom, value, old) atomically stores the value of
 ATOM in OLD and defines ATOM with the bitwise XOR between the values of
@@ -23,7 +24,7 @@ ATOM, if the remote image has stopped, it is assigned the value of
 iso\_fortran\_env's stat\_stopped\_image and if the remote image has
 failed, the value stat\_failed\_image.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ATOM__
     Scalar coarray or coindexed variable of integer type with
@@ -39,7 +40,7 @@ failed, the value stat\_failed\_image.
   - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -52,15 +53,11 @@ Sample program:
    end program demo_atomic_fetch_xor
 ```
 
-### STANDARD
+## __Standard__
 
 TS 18508 or later
 
-### CLASS
-
-Atomic subroutine
-
-### SEE ALSO
+## __See Also__
 
 __atomic\_define__(3), __atomic\_xor__(3), __iso\_fortran\_env__(3),
 __atomic\_fetch\_add__(3), __atomic\_fetch\_and__(3),

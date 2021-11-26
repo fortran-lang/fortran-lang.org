@@ -3,36 +3,36 @@ layout: book
 title: product
 permalink: /learn/intrinsics/PRODUCT
 ---
-### NAME
+## __Name__
 
-__product__(3f) - \[ARRAY REDUCTION\] Product of array elements
+__product__(3) - \[ARRAY REDUCTION\] Product of array elements
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
   - result = __product__(array\[, mask\])
 
   - result = __product__(array, dim\[, mask\])
 
-### DESCRIPTION
+## __Description__
 
 Multiplies the elements of ARRAY along dimension DIM if the
 corresponding element in MASK is TRUE.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type INTEGER, REAL or COMPLEX.
+    Shall be an array of type _integer_, _real_ or _complex_.
 
   - __DIM__
-    (Optional) shall be a scalar of type INTEGER with a value in the
+    (Optional) shall be a scalar of type _integer_ with a value in the
     range from 1 to n, where n equals the rank of ARRAY.
 
   - __MASK__
-    (Optional) shall be of type LOGICAL and either be a scalar or an
+    (Optional) shall be of type _logical_ and either be a scalar or an
     array of the same shape as ARRAY.
 
-### RETURN VALUE
+## __Returns__
 
 The result is of the same type as ARRAY.
 
@@ -41,7 +41,7 @@ returned. Otherwise, an array of rank n-1, where n equals the rank of
 ARRAY, and a shape similar to that of ARRAY with dimension DIM dropped
 is returned.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -54,15 +54,11 @@ Sample program:
     end program demo_product
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __sum__(3), note that an element by element multiplication is done
 directly using the star character.

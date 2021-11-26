@@ -3,30 +3,31 @@ layout: book
 title: atan
 permalink: /learn/intrinsics/ATAN
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__atan__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
+__atan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
   - result = __atan__(x)
 
   - result = __atan__(y, x)
 
-### DESCRIPTION
+## __Description__
 
 __atan__(x) computes the arctangent of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL or COMPLEX; if Y is present, X shall be REAL.
+    The type shall be _real_ or _complex_; if Y is present, X shall be _real_.
 
   - __Y__
     Shall be of the same type and kind as X.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of the same type and kind as X. If Y is present, the
 result is identical to __atan2__(y,x). Otherwise, it the arc tangent of
@@ -34,7 +35,7 @@ X, where the real part of the result is in radians and lies in the range
 
 __-PI__/2 \<= __atan__(x) \<= PI/2.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -48,15 +49,11 @@ Sample program:
    end program demo_atan
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later; for a complex argument and for two
 arguments Fortran 2008 or later
 
-### CLASS
+## __See Also__
 
-Elemental function
-
-### SEE ALSO
-
-__atan2__(3), __tan__(3)
+[__atan2__(3)](ATAN2), [__tan__(3)](TAN)

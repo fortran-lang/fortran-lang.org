@@ -3,12 +3,12 @@ layout: book
 title: system_clock
 permalink: /learn/intrinsics/SYSTEM_CLOCK
 ---
-### NAME
+## __Name__
 
-__system\_clock__(3f) - \[SYSTEM ENVIRONMENT\] Return numeric data from a real-time clock.
+__system\_clock__(3) - \[SYSTEM ENVIRONMENT\] Return numeric data from a real-time clock.
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 subroutine __system\_clock__(\[count, count\_rate, count\_max\])
 
@@ -20,7 +20,7 @@ subroutine __system\_clock__(\[count, count\_rate, count\_max\])
    integer,intent(out,optional   :: count_max
 ```
 
-### DESCRIPTION
+## __Description__
 
 system\_clock lets you measure durations of time with the precision of
 the smallest time increment generally available on a system by returning
@@ -42,7 +42,7 @@ clocks may be 24-hour clocks or measure processor clock ticks since
 boot, for example). It is most often used for measuring or tracking the
 time spent in code blocks in lieu of using profiling tools.
 
-### ARGUMENTS
+## __Arguments__
 
   - __COUNT__
     (optional) shall be an integer scalar. It is assigned a
@@ -62,7 +62,7 @@ time spent in code blocks in lieu of using profiling tools.
     (optional) shall be an integer scalar. It is assigned the maximum
     value that COUNT can have, or zero if there is no clock.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -90,14 +90,10 @@ defines
       M = 24*3600*18.20648193-1 = 1573039.
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Subroutine
-
-### SEE ALSO
+## __See Also__
 
 __date\_and\_time__(3), __cpu\_time__(3)

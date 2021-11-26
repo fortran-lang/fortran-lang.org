@@ -3,16 +3,17 @@ layout: book
 title: atomic_fetch_add
 permalink: /learn/intrinsics/ATOMIC_FETCH_ADD
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__atomic\_fetch\_add__(3f) - \[ATOMIC\] Atomic ADD operation with prior fetch
+__atomic\_fetch\_add__(3) - \[ATOMIC\] Atomic ADD operation with prior fetch
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 call __atomic\_fetch\_add__(atom, value, old \[, stat\])
 
-### DESCRIPTION
+## __Description__
 
 __atomic\_fetch\_add__(atom, value, old) atomically stores the value of
 ATOM in OLD and adds the value of VAR to the variable ATOM. When STAT is
@@ -23,7 +24,7 @@ has stopped, it is assigned the value of iso\_fortran\_env's
 stat\_stopped\_image and if the remote image has failed, the value
 stat\_failed\_image.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ATOM__
     Scalar coarray or coindexed variable of integer type with
@@ -39,7 +40,7 @@ stat\_failed\_image.
   - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -52,15 +53,11 @@ Sample program:
    end program demo_atomic_fetch_add
 ```
 
-### STANDARD
+## __Standard__
 
 TS 18508 or later
 
-### CLASS
-
-Atomic subroutine
-
-### SEE ALSO
+## __See Also__
 
 __atomic\_define__(3), __atomic\_add__(3), __iso\_fortran\_env__(3),
 __atomic\_fetch\_and__(3), __atomic\_fetch\_or__(3),

@@ -3,15 +3,16 @@ layout: book
 title: atomic_add
 permalink: /learn/intrinsics/ATOMIC_ADD
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__atomic\_add__(3f) - \[ATOMIC\] Atomic ADD operation (GFDL)
+__atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 call atomic\_add (atom, value \[, stat\])
 
-### DESCRIPTION
+## __Description__
 
 __atomic\_add__(atom, value) atomically adds the value of VAR to the
 variable ATOM. When STAT is present and the invocation was successful,
@@ -21,7 +22,7 @@ ATOM, if the remote image has stopped, it is assigned the value of
 iso\_fortran\_env's stat\_stopped\_image and if the remote image has
 failed, the value stat\_failed\_image.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ATOM__
     Scalar coarray or coindexed variable of integer type with
@@ -34,7 +35,7 @@ failed, the value stat\_failed\_image.
   - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -47,16 +48,15 @@ Sample program:
    end program demo_atomic_add
 ```
 
-### STANDARD
+## __Standard__
 
 TS 18508 or later
 
-### CLASS
+## __See Also__
 
-Atomic subroutine
-
-### SEE ALSO
-
-__atomic\_define__(3), __atomic\_fetch\_add__(3),
-__iso\_fortran\_env__(3), __atomic\_and__(3), __atomic\_or__(3),
-__atomic\_xor__(3)
+[__atomic\_define__(3)](ATOMIC_DEFINE),
+[__atomic\_fetch\_add__(3)](ATOMIC_FETCH),
+[__atomic\_and__(3)](ATOMIC_AND),
+[__atomic\_or__(3)](ATOMIC_OR),
+[__atomic\_xor__(3)](ATOMIC_XOR)
+__iso\_fortran\_env__(3),

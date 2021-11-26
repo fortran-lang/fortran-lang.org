@@ -1,33 +1,33 @@
 ---
 layout: book
 title: real
-permalink: /learn/intrinsics/REAL
+permalink: /learn/intrinsics/_real_
 ---
-### NAME
+## __Name__
 
-__real__(3f) - \[NUMERIC:TYPE\] Convert to real type
+__real__(3) - \[NUMERIC:TYPE\] Convert to real type
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __real__(x \[, kind\])
 
-### DESCRIPTION
+## __Description__
 
 __real__(x \[, kind\]) converts its argument X to a real type.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be INTEGER, REAL, or COMPLEX.
+    Shall be _integer_, _real_, or _complex_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-These functions return a REAL variable or array under the following
+These functions return a _real_ variable or array under the following
 rules:
 
 1.  __real__(x) is converted to a default real type if X is an integer
@@ -39,7 +39,7 @@ rules:
 3.  __real__(x, kind) is converted to a real type with kind type
     parameter KIND if X is a complex, integer, or real variable.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -66,14 +66,10 @@ Results:
    1.7976931348623157E+308   1.7976931348623157E+308   1.7976931348623157E+308
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __dble__(3), __float__(3)

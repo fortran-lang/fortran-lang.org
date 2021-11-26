@@ -3,31 +3,31 @@ layout: book
 title: bessel_j1
 permalink: /learn/intrinsics/BESSEL_J1
 ---
-### NAME
+## __Name__
 
-__bessel\_j1__(3f) - \[MATHEMATICS\] Bessel function of the first kind of order 1
+__bessel\_j1__(3) - \[MATHEMATICS\] Bessel function of the first kind of order 1
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __bessel\_j1__(x)
 
-### DESCRIPTION
+## __Description__
 
 __bessel\_j1__(x) computes the \[\[Bessel function\]\] of the first kind
 of order 1 of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL.
+    The type shall be _real_.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type REAL and lies in the range __-0.5818__ \<=
+The return value is of type _real_ and lies in the range __-0.5818__ \<=
 __Bessel__(0,x) \<= 0.5818 . It has the same kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -41,15 +41,11 @@ Sample program:
    end program demo_besj1
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __bessel\_j0__(3), __bessel\_jn__(3), __bessel\_y0__(3),
 __bessel\_y1__(3), __bessel\_yn__(3)

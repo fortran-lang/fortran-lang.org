@@ -27,9 +27,9 @@ on the documents. For contribution guidelines see
 
 
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| page                      |                                                      | license | description                                                  |
+| category                  | page                                                 | license | description                                                  |
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY CONSTRUCTION        | [merge](MERGE)                                       | (MIT)   | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge](MERGE)                                       |         | Merge variables                                              |
 | ARRAY CONSTRUCTION        | [pack](PACK)                                         | (GFDL)  | Pack an array into an array of rank one                      |
 | ARRAY CONSTRUCTION        | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
 | ARRAY CONSTRUCTION        | [unpack](UNPACK)                                     | (GFDL)  | Store the elements of a vector in an array of higher rank    |
@@ -80,7 +80,7 @@ on the documents. For contribution guidelines see
 | BIT INQUIRY               | [popcnt](POPCNT)                                     | (GFDL)  | Number of bits set                                           |
 | BIT INQUIRY               | [poppar](POPPAR)                                     | (GFDL)  | Parity of the number of bits set                             |
 | BIT INQUIRY               | [storage\_size](STORAGE_SIZE)                        | (GFDL)  | Storage size in bits                                         |
-| BIT INQUIRY               | [trailz](TRAILZ)                                     | (MIT)   | Number of trailing zero bits of an integer                   |
+| BIT INQUIRY               | [trailz](TRAILZ)                                     |         | Number of trailing zero bits of an integer                   |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | BIT MANIPULATION          | [btest](BTEST)                                       | (GFDL)  | Bit test function                                            |
 | BIT MANIPULATION          | [dshiftl](DSHIFTL)                                   | (GFDL)  | combines bits of arguments I and J                           |
@@ -96,24 +96,24 @@ on the documents. For contribution guidelines see
 | BIT MANIPULATION          | [iparity](IPARITY)                                   | (GFDL)  | Bitwise exclusive or of array elements                       |
 | BIT MANIPULATION          | [ishft](ISHFT)                                       | (GFDL)  | Shift bits                                                   |
 | BIT MANIPULATION          | [ishftc](ISHFTC)                                     | (GFDL)  | Shift bits circularly                                        |
-| BIT MANIPULATION          | [logical](LOGICAL)                                   | (GFDL)  | Converts one kind of LOGICAL variable to another             |
+| BIT MANIPULATION          | [logical](LOGICAL)                                   | (GFDL)  | Converts one kind of _logical_ variable to another             |
 | BIT MANIPULATION          | [merge\_bits](MERGE_BITS)                            | (GFDL)  | Merge of bits under mask                                     |
 | BIT MANIPULATION          | [mvbits](MVBITS)                                     | (GFDL)  | Move bits from one integer to another                        |
-| BIT MANIPULATION          | [not](NOT)                                           | (MIT)   | Logical negation                                             |
+| BIT MANIPULATION          | [not](NOT)                                           |         | Logical negation                                             |
 | BIT MANIPULATION          | [shifta](SHIFTA)                                     | (GFDL)  | shift bits right with fill                                   |
 | BIT MANIPULATION          | [shiftl](SHIFTL)                                     | (GFDL)  | shift bits left                                              |
 | BIT MANIPULATION          | [shiftr](SHIFTR)                                     | (GFDL)  | shift bits right                                             |
 | BIT MANIPULATION          | [transfer](TRANSFER)                                 | (GFDL)  | Transfer bit patterns                                        |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| CHARACTER                 | [achar](ACHAR)                                       | (MIT)   | returns a character in a specified position in the ASCII collating sequence              |
-| CHARACTER                 | [adjustl](ADJUSTL)                                   | (MIT)   | Left-adjust a string                                         |
-| CHARACTER                 | [adjustr](ADJUSTR)                                   | (MIT)   | Right-adjust a string                                        |
+| CHARACTER                 | [achar](ACHAR)                                       |         | returns a character in a specified position in the ASCII collating sequence              |
+| CHARACTER                 | [adjustl](ADJUSTL)                                   |         | Left-adjust a string                                         |
+| CHARACTER                 | [adjustr](ADJUSTR)                                   |         | Right-adjust a string                                        |
 | CHARACTER                 | [char](CHAR)                                         | (GFDL)  | Character conversion function                                |
 | CHARACTER                 | [iachar](IACHAR)                                     | (GFDL)  | Code in ASCII collating sequence                             |
 | CHARACTER                 | [ichar](ICHAR)                                       | (GFDL)  | Character-to-integer conversion function                     |
 | CHARACTER                 | [index](INDEX)                                       | (GFDL)  | Position of a substring within a string                      |
 | CHARACTER                 | [len](LEN)                                           | (GFDL)  | Length of a character entity                                 |
-| CHARACTER                 | [len\_trim](LEN_TRIM)                                | (MIT)   | Length of a character entity without trailing blank characters |
+| CHARACTER                 | [len\_trim](LEN_TRIM)                                |         | Length of a character entity without trailing blank characters |
 | CHARACTER                 | [lge](LGE)                                           | (GFDL)  | Lexical greater than or equal                                |
 | CHARACTER                 | [lgt](LGT)                                           | (GFDL)  | Lexical greater than                                         |
 | CHARACTER                 | [lle](LLE)                                           | (GFDL)  | Lexical less than or equal                                   |
@@ -157,14 +157,14 @@ on the documents. For contribution guidelines see
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | MATHEMATICS:TRIGONOMETRIC | [acos](ACOS)                                         | (GFDL)  | arccosine function                                           |
 | MATHEMATICS:TRIGONOMETRIC | [acosh](ACOSH)                                       | (GFDL)  | Inverse hyperbolic cosine function                           |
-| MATHEMATICS:TRIGONOMETRIC | [asin](ASIN)                                         | (MIT)   | Arcsine function                                             |
+| MATHEMATICS:TRIGONOMETRIC | [asin](ASIN)                                         |         | Arcsine function                                             |
 | MATHEMATICS:TRIGONOMETRIC | [asinh](ASINH)                                       | (GFDL)  | Inverse hyperbolic sine function                             |
 | MATHEMATICS:TRIGONOMETRIC | [atan](ATAN)                                         | (GFDL)  | Arctangent function                                          |
 | MATHEMATICS:TRIGONOMETRIC | [atan2](ATAN2)                                       | (GFDL)  | Arctangent function                                          |
 | MATHEMATICS:TRIGONOMETRIC | [atanh](ATANH)                                       | (GFDL)  | Inverse hyperbolic tangent function                          |
 | MATHEMATICS:TRIGONOMETRIC | [cos](COS)                                           | (GFDL)  | Cosine function                                              |
 | MATHEMATICS:TRIGONOMETRIC | [cosh](COSH)                                         | (GFDL)  | Hyperbolic cosine function                                   |
-| MATHEMATICS:TRIGONOMETRIC | [sin](SIN)                                           | (MIT)   | Sine function                                                |
+| MATHEMATICS:TRIGONOMETRIC | [sin](SIN)                                           |         | Sine function                                                |
 | MATHEMATICS:TRIGONOMETRIC | [sinh](SINH)                                         | (GFDL)  | Hyperbolic sine function                                     |
 | MATHEMATICS:TRIGONOMETRIC | [tan](TAN)                                           | (GFDL)  | Tangent function                                             |
 | MATHEMATICS:TRIGONOMETRIC | [tanh](TANH)                                         | (GFDL)  | Hyperbolic tangent function                                  |
@@ -210,11 +210,11 @@ on the documents. For contribution guidelines see
 | NUMERIC:TYPE              | [dble](DBLE)                                         | (GFDL)  | Double conversion function                                   |
 | NUMERIC:TYPE              | [float](FLOAT)                                       | (GFDL)  | Convert integer to default real                              |
 | NUMERIC:TYPE              | [int](INT)                                           | (GFDL)  | Convert to integer type                                      |
-| NUMERIC:TYPE              | [nint](NINT)                                         | (MIT)   | Nearest whole number                                         |
-| NUMERIC:TYPE              | [real](REAL)                                         | (GFDL)  | Convert to real type                                         |
+| NUMERIC:TYPE              | [nint](NINT)                                         |         | Nearest whole number                                         |
+| NUMERIC:TYPE              | [real](_real_)                                         | (GFDL)  | Convert to real type                                         |
 | NUMERIC:TYPE              | [sngl](SNGL)                                         | (GFDL)  | Convert double precision real to default real                |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| NUMERIC                   | [abs](ABS)                                           | (MIT)   | Absolute value                                               |
+| NUMERIC                   | [abs](ABS)                                           |         | Absolute value                                               |
 | NUMERIC                   | [aint](AINT)                                         | (GFDL)  | Truncate to a whole number                                   |
 | NUMERIC                   | [anint](ANINT)                                       | (GFDL)  | Nearest whole number                                         |
 | NUMERIC                   | [ceiling](CEILING)                                   | (GFDL)  | Integer ceiling function                                     |
@@ -228,13 +228,13 @@ on the documents. For contribution guidelines see
 | NUMERIC                   | [modulo](MODULO)                                     | (GFDL)  | Modulo function                                              |
 | NUMERIC                   | [sign](SIGN)                                         | (GFDL)  | Sign copying function                                        |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| SYSTEM ENVIRONMENT        | [command\_argument\_count](COMMAND_ARGUMENT_COUNT)   | (MIT)   | Get number of command line arguments                         |
-| SYSTEM ENVIRONMENT        | [cpu\_time](CPU_TIME)                                | (MIT)   | return CPU processor time in seconds                         |
-| SYSTEM ENVIRONMENT        | [date\_and\_time](DATE_AND_TIME)                     | (MIT)   | gets current time                                            |
+| SYSTEM ENVIRONMENT        | [command\_argument\_count](COMMAND_ARGUMENT_COUNT)   |         | Get number of command line arguments                         |
+| SYSTEM ENVIRONMENT        | [cpu\_time](CPU_TIME)                                |         | return CPU processor time in seconds                         |
+| SYSTEM ENVIRONMENT        | [date\_and\_time](DATE_AND_TIME)                     |         | gets current time                                            |
 | SYSTEM ENVIRONMENT        | [execute\_command\_line](EXECUTE_COMMAND_LINE)       | (GFDL)  | Execute a shell command                                      |
-| SYSTEM ENVIRONMENT        | [get\_command](GET_COMMAND)                          | (MIT)   | Get the entire command line                                  |
-| SYSTEM ENVIRONMENT        | [get\_command\_argument](GET_COMMAND_ARGUMENT)       | (MIT)   | Get command line arguments                                   |
-| SYSTEM ENVIRONMENT        | [get\_environment\_variable](GET_ENVIRONMENT_VARIABLE)| (MIT)   | Get an environmental variable                               |
+| SYSTEM ENVIRONMENT        | [get\_command](GET_COMMAND)                          |         | Get the entire command line                                  |
+| SYSTEM ENVIRONMENT        | [get\_command\_argument](GET_COMMAND_ARGUMENT)       |         | Get command line arguments                                   |
+| SYSTEM ENVIRONMENT        | [get\_environment\_variable](GET_ENVIRONMENT_VARIABLE)|         | Get an environmental variable                               |
 | SYSTEM ENVIRONMENT        | [system\_clock](SYSTEM_CLOCK)                        | (GFDL)  | Return numeric data from a real-time clock.                  |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | TRANSFORMATIONAL          | [cshift](CSHIFT)                                     | (GFDL)  | Circular shift elements of an array                          |
@@ -276,5 +276,4 @@ or back-cover texts).
 If you contribute new material you thereby agree to release it under
 the MIT license.
 
-
-###### Written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+###### Written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) [kramdown](https://kramdown.gettalong.org/syntax.html)

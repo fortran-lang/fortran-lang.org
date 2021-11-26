@@ -3,39 +3,35 @@ layout: book
 title: blt
 permalink: /learn/intrinsics/BLT
 ---
-### NAME
+## __Name__
 
-__blt__(3f) - \[BIT COMPARE\] Bitwise less than
+__blt__(3) - \[BIT COMPARE\] Bitwise less than
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __blt__(i, j)
 
-### DESCRIPTION
+## __Description__
 
 Determines whether an integer is bitwise less than another.
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    Shall be of INTEGER type.
+    Shall be of _integer_ type.
 
   - __J__
-    Shall be of INTEGER type, and of the same kind as I.
+    Shall be of _integer_ type, and of the same kind as I.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type LOGICAL and of the default kind.
+The return value is of type _logical_ and of the default kind.
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __bge__(3), __bgt__(3), __ble__(3)

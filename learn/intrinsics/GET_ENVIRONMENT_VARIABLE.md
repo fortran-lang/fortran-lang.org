@@ -3,11 +3,11 @@ layout: book
 title: get_environment
 permalink: /learn/intrinsics/GET_ENVIRONMENT
 ---
-### NAME
+## __Name__
 
-__get\_environment\_variable__(3f) - \[SYSTEM ENVIRONMENT\] Get an environmental variable
+__get\_environment\_variable__(3) - \[SYSTEM ENVIRONMENT\] Get an environmental variable
 
-### SYNTAX
+## __Syntax__
 ```fortran
   call get_environment_variable(NAME, VALUE, LENGTH, STATUS, TRIM_NAME)
    character(len=*),intent(in) :: NAME character(len=*),intent(out),optional :: VALUE
@@ -15,20 +15,20 @@ __get\_environment\_variable__(3f) - \[SYSTEM ENVIRONMENT\] Get an environmental
    integer,intent(out),optional :: STATUS
    logical,intent(out),optional :: TRIM\_NAME
 ```
-### DESCRIPTION
+## __Description__
 
 Get the VALUE of the environmental variable NAME.
 
-Note that __get\_environment\_variable__(3f) need not be thread-safe. It
+Note that __get\_environment\_variable__(3) need not be thread-safe. It
 is the responsibility of the user to ensure that the environment is not
 being updated concurrently.
 
-### OPTIONS
+## __Options__
 
   - __NAME__
     (Optional) Shall be a scalar of type CHARACTER and of default kind.
 
-### RETURN VALUE
+## __Returns__
 
   - __VALUE__
     (Optional) Shall be a scalar of type CHARACTER and of default kind.
@@ -37,24 +37,24 @@ being updated concurrently.
     filled with blanks.
 
   - __LENGTH__
-    (Optional) Shall be a scalar of type INTEGER and of default kind.
+    (Optional) Shall be a scalar of type _integer_ and of default kind.
     Argument LENGTH contains the length needed for storing the
     environment variable NAME or zero if it is not present.
 
   - __STATUS__
-    (Optional) Shall be a scalar of type INTEGER and of default kind.
+    (Optional) Shall be a scalar of type _integer_ and of default kind.
     STATUS is __-1__ if VALUE is present but too short for the
     environment variable; it is 1 if the environment variable does not
     exist and 2 if the processor does not support environment variables;
     in all other cases STATUS is zero.
 
   - __TRIM\_NAME__
-    (Optional) Shall be a scalar of type LOGICAL and of default kind. If
+    (Optional) Shall be a scalar of type _logical_ and of default kind. If
     TRIM\_NAME is present with the value .FALSE., the trailing blanks in
     NAME are significant; otherwise they are not part of the environment
     variable name.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -89,12 +89,8 @@ Typical Results:
    HOME="/home/urbanjs"
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2003 and later
-
-### CLASS
-
-Subroutine
 
 ###### fortran-lang intrinsic descriptions

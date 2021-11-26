@@ -3,16 +3,16 @@ layout: book
 title: cmplx
 permalink: /learn/intrinsics/CMPLX
 ---
-### NAME
+## __Name__
 
-__cmplx__(3f) - \[NUMERIC:TYPE\] Complex conversion function
+__cmplx__(3) - \[NUMERIC:TYPE\] Complex conversion function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __cmplx__(x \[, y \[, kind\]\])
 
-### DESCRIPTION
+## __Description__
 
 To convert numeric variables to complex, use the CMPLX function.
 Constants can be used to define a complex variable using the syntax
@@ -28,10 +28,10 @@ converted to the real component. If X is complex then Y must not be
 present. If Y is present it is converted to the imaginary component. If
 Y is not present then the imaginary component is set to 0.0.
 
-### CMPLX AND DOUBLE PRECISION
+## __CMPLX and double precision__
 
 The Fortran 90 language defines __CMPLX__() as always returning a result
-that is type __COMPLEX__(KIND=KIND(0.0)).
+that is type ___complex___(KIND=KIND(0.0)).
 
 This means \`__CMPLX__(D1,D2)', where \`D1' and \`D2' are
 DOUBLEPRECISION, is treated as:
@@ -53,14 +53,14 @@ argument used to specify the desired kind of complex result.
       integer,parameter :: dp=kind(0.0d0)
       complex(kind=dp) :: z8
       !
-      ! NO: result is just the precision of default REAL values
+      ! NO: result is just the precision of default _real_ values
       !     because KIND parameter is not specified
       !
       ! note this was stored with default real precision
       z8 = cmplx(1.2345678901234567d0, 1.2345678901234567d0)
       print *, 'NO, Z8=',z8,real(z8),aimag(z8)
       z8 = cmplx(1.2345678901234567e0_dp, 1.2345678901234567e0_dp)
-      ! again, note components are just REAL
+      ! again, note components are just _real_
       print *, 'NO, Z8=',z8,real(z8),aimag(z8)
       !
       ! YES
@@ -85,37 +85,37 @@ Where the designator is of complex type.
 
 So designator%RE designates the real part of a complex value,
 designator%IM designates the imaginary part of complex value. The type
-of a complex-part-designator is REAL, and its kind and shape are those
+of a complex-part-designator is _real_, and its kind and shape are those
 of the designator.
 
 The following are examples of complex part designators:
 
 ```
-       impedance%re           !-- Same value as REAL(impedance)
+       impedance%re           !-- Same value as _real_(impedance)
        fft%im                 !-- Same value as AIMAG(fft)
        x%im = 0.0             !-- Sets the imaginary part of X to zero
 ```
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type may be INTEGER, REAL, or COMPLEX.
+    The type may be _integer_, _real_, or _complex_.
 
   - __Y__
-    (Optional; only allowed if X is not COMPLEX.). May be INTEGER or
-    REAL.
+    (Optional; only allowed if X is not _complex_.). May be _integer_ or
+    _real_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of COMPLEX type, with a kind equal to KIND if it is
+The return value is of _complex_ type, with a kind equal to KIND if it is
 specified. If KIND is not specified, the result is of the default
-COMPLEX kind, regardless of the kinds of X and Y.
+_complex_ kind, regardless of the kinds of X and Y.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -131,7 +131,7 @@ Sample program:
       z8 = cmplx(1.2345678901234567d0, 1.2345678901234567d0,kind=dp)
       print *, 'Z8=',z8
       ! NOTE:
-      ! The following is intuitive and works without calling cmplx(3f)
+      ! The following is intuitive and works without calling cmplx(3)
       ! but does not work for variables just constants
       z8 = (1.2345678901234567d0 , 1.2345678901234567d0 )
       print *, 'Z8 defined with constants=',z8
@@ -146,20 +146,16 @@ Typical Results:
     Z8 defined with constants= (1.2345678901234567,1.2345678901234567)
 ```
 
-### SEE ALSO
+## __See Also__
 
-  - __aimag__(3f) - Imaginary part of complex number
+  - __aimag__(3) - Imaginary part of complex number
 
-  - __cmplx__(3f) - Complex conversion function
+  - __cmplx__(3) - Complex conversion function
 
-  - __conjg__(3f) - Complex conjugate function
+  - __conjg__(3) - Complex conjugate function
 
-  - __real__(3f) - Convert to real type
+  - __real__(3) - Convert to real type
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

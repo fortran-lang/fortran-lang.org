@@ -3,24 +3,24 @@ layout: book
 title: merge
 permalink: /learn/intrinsics/MERGE
 ---
-### NAME
+## __Name__
 
-__merge__(3f) - \[ARRAY CONSTRUCTION\] Merge variables
+__merge__(3) - \[ARRAY CONSTRUCTION\] Merge variables
 
-### SYNTAX
+## __Syntax__
 
 result = __MERGE__(TSOURCE, FSOURCE, MASK)
 
-### DESCRIPTION
+## __Description__
 
-The elemental function __MERGE__(3f) selects values from two arrays or
+The elemental function __MERGE__(3) selects values from two arrays or
 scalars according to a logical mask. The result is equal to an element
 of TSOURCE where the corresponding element of MASK is .true., or an
 element of FSOURCE when it is .false. .
 
 Multi-dimensional arrays are supported.
 
-Note that argument expressions to __MERGE__(3f) are not required to be
+Note that argument expressions to __MERGE__(3) are not required to be
 short-circuited so (as an example) if the array X contains zero values
 in the statement below the standard does not prevent floating point
 divide by zero being generated; as 1.0/x may be evaluated for all values
@@ -51,7 +51,7 @@ instead of the more obscure
       merge(1.0\/merge(x,1.0,x \/= 0.0), 0.0, x \/= 0.0)
 ```
 
-### ARGUMENTS
+## __Arguments__
 
   - __TSOURCE__
     May be of any type, including user-defined.
@@ -60,16 +60,16 @@ instead of the more obscure
     Shall be of the same type and type parameters as TSOURCE.
 
   - __MASK__
-    Shall be of type LOGICAL.
+    Shall be of type _logical_.
 
 Note that (currently) CHARACTER values must be of the same length.
 
-### RETURN VALUE
+## __Returns__
 
 The result is of the same type and type parameters as TSOURCE. For any
 element the result is TSOURCE if MASK is true and FSOURCE otherwise.
 
-### EXAMPLES
+## __Examples__
 
 The value of
 
@@ -144,12 +144,8 @@ is 1.0 for K=5 and 0.0 for K=__-2__.
 >       1   2   3
 > ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-####### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions

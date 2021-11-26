@@ -3,35 +3,35 @@ layout: book
 title: huge
 permalink: /learn/intrinsics/HUGE
 ---
-### NAME
+## __Name__
 
-__huge__(3f) - \[NUMERIC MODEL\] Largest number of a kind
+__huge__(3) - \[NUMERIC MODEL\] Largest number of a kind
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __huge__(x)
 
-### DESCRIPTION
+## __Description__
 
 __huge__(x) returns the largest number that is not an infinity in the
 model of the type of X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type REAL or INTEGER.
+    Shall be of type _real_ or _integer_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of the same type and kind as X
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
 ```
-    program demo_huge_tiny
+    program demo_huge
     ! or, "why I have my own NINT function"
     implicit none
     character(len=*),parameter :: f='(i2,1x,2(i11,1x),f14.0:,1x,l1,1x,a)'
@@ -55,7 +55,7 @@ Sample program:
             write(*,f) i, j, k, v, v.eq.w
          endif
       enddo
-    end program demo_huge_tiny
+    end program demo_huge
 ```
 
 ```
@@ -92,10 +92,6 @@ Sample program:
 
     14     1054752768 -2147483648   78364164096. F wrong for j and k and w
 ```
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
-
-### CLASS
-
-Inquiry function

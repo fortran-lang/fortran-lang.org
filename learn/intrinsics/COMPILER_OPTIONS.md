@@ -3,30 +3,30 @@ layout: book
 title: compiler_options
 permalink: /learn/intrinsics/COMPILER_OPTIONS
 ---
-### NAME
+## __Name__
 
-__compiler\_options__(3f) - \[COMPILER INQUIRY\] Options passed to the compiler
+__compiler\_options__(3) - \[COMPILER INQUIRY\] Options passed to the compiler
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 str = __compiler\_options__()
 
-### DESCRIPTION
+## __Description__
 
 compiler\_options returns a string with the options used for compiling.
 
-### ARGUMENTS
+## __Arguments__
 
 None.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is a default-kind string with system-dependent length.
 It contains the compiler flags used to compile the file, which called
 the compiler\_options intrinsic.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -53,14 +53,10 @@ Example results:
    -J /home/urbanjs/V600/lib/CYGWIN64_GFORTRAN
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008
 
-### CLASS
-
-Inquiry function of the module \[\[iso\_fortran\_env\]\]
-
-### SEE ALSO
+## __See Also__
 
 __compiler\_version__(3), __iso\_fortran\_env__(7)

@@ -3,34 +3,34 @@ layout: book
 title: is_iostat_eor
 permalink: /learn/intrinsics/IS_IOSTAT_EOR
 ---
-### NAME
+## __Name__
 
-__is\_iostat\_eor__(3f) - \[\] Test for end-of-record value
+__is\_iostat\_eor__(3) - \[\] Test for end-of-record value
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __is\_iostat\_eor__(i)
 
-### DESCRIPTION
+## __Description__
 
 is\_iostat\_eor tests whether an variable has the value of the I/O
 status "end of record". The function is equivalent to comparing the
 variable with the iostat\_eor parameter of the intrinsic module
 \[\[iso\_fortran\_env\]\].
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    Shall be of the type INTEGER.
+    Shall be of the type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
-Returns a LOGICAL of the default kind, which .true. if I has the value
+Returns a _logical_ of the default kind, which .true. if I has the value
 which indicates an end of file condition for iostat= specifiers, and is
 .false. otherwise.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -44,10 +44,6 @@ Sample program:
     end program demo_is_iostat_eor
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2003 and later
-
-### CLASS
-
-Elemental function

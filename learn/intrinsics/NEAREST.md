@@ -3,36 +3,36 @@ layout: book
 title: nearest
 permalink: /learn/intrinsics/NEAREST
 ---
-### NAME
+## __Name__
 
-__nearest__(3f) - \[MODEL\_COMPONENTS\] Nearest representable number
+__nearest__(3) - \[MODEL\_COMPONENTS\] Nearest representable number
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __nearest__(x, s)
 
-### DESCRIPTION
+## __Description__
 
 __nearest__(x, s) returns the processor-representable number nearest to
 X in the direction indicated by the sign of S.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type REAL.
+    Shall be of type _real_.
 
   - __S__
-    Shall be of type REAL and not equal to zero.
+    Shall be of type _real_ and not equal to zero.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of the same type as X. If S is positive, NEAREST
 returns the processor-representable number greater than X and nearest to
 it. If S is negative, NEAREST returns the processor-representable number
 smaller than X and nearest to it.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -46,10 +46,6 @@ Sample program:
    end program demo_nearest
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

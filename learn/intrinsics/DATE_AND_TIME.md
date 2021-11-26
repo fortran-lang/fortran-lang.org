@@ -3,11 +3,11 @@ layout: book
 title: date_and_time
 permalink: /learn/intrinsics/DATE_AND_TIME
 ---
-### NAME
+## __Name__
 
-__date\_and\_time__(3f) - \[SYSTEM ENVIRONMENT\] gets current time
+__date\_and\_time__(3) - \[SYSTEM ENVIRONMENT\] gets current time
 
-### SYNTAX
+## __Syntax__
 
 ```fortran
     subroutine date_and_time([date, time, zone, values])
@@ -17,14 +17,14 @@ __date\_and\_time__(3f) - \[SYSTEM ENVIRONMENT\] gets current time
      integer,intent(out),optional :: values
 ```
 
-### DESCRIPTION
+## __Description__
 
 __DATE\_AND\_TIME__(date, time, zone, values) gets the corresponding
 date and time information from the real-time system clock.
 
 Unavailable time and date CHARACTER parameters return blanks.
 
-### ARGUMENTS
+## __Arguments__
 
   - __DATE__
     The type shall be __CHARACTER__(len=8) or larger, and of default
@@ -40,7 +40,7 @@ Unavailable time and date CHARACTER parameters return blanks.
     respect to Coordinated Universal Time (UTC).
 
   - __VALUES__
-    An INTEGER array of eight elements. On return VALUES contains:
+    An _integer_ array of eight elements. On return VALUES contains:
 
       - __value__(1): - The year
 
@@ -58,7 +58,7 @@ Unavailable time and date CHARACTER parameters return blanks.
 
       - __value__(8): - The milliseconds of the second
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -100,12 +100,12 @@ Results:
      779 - The milliseconds of the second
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### SEE ALSO
+## __See Also__
 
 __cpu\_time__(3), __system\_clock__(3)
 
-###### fortran-lang intrinsic descriptions
+##### fortran-lang intrinsic descriptions

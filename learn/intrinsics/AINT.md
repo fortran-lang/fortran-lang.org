@@ -3,38 +3,39 @@ layout: book
 title: aint
 permalink: /learn/intrinsics/AINT
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__aint__(3f) - \[NUMERIC\] Truncate to a whole number
+__aint__(3) - \[NUMERIC\] Truncate to a whole number
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __AINT__(A \[, KIND\])
 
-### DESCRIPTION
+## __Description__
 
 __AINT__(A \[, KIND\]) truncates its argument to a whole number.
 
-### ARGUMENTS
+## __Arguments__
 
   - __A__
-    the type of the argument shall be REAL.
+    the type of the argument shall be _real_.
 
   - __KIND__
-    (optional) an INTEGER initialization expression indicating the kind
+    (optional) an _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type REAL with the kind type parameter of the
+The return value is of type _real_ with the kind type parameter of the
 argument if the optional KIND is absent; otherwise, the kind type
 parameter will be given by KIND. If the magnitude of X is less than one,
 __aint__(x) returns zero. If the magnitude is equal to or greater than
 one then it returns the largest whole number that does not exceed its
 magnitude. The sign is the same as the sign of X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -52,10 +53,6 @@ Sample program:
     end program demo_aint
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
-
-### CLASS
-
-Elemental function

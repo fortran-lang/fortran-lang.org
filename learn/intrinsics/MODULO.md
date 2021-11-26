@@ -3,42 +3,42 @@ layout: book
 title: modulo
 permalink: /learn/intrinsics/MODULO
 ---
-### NAME
+## __Name__
 
-__modulo__(3f) - \[NUMERIC\] Modulo function
+__modulo__(3) - \[NUMERIC\] Modulo function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __modulo__(a, p)
 
-### DESCRIPTION
+## __Description__
 
 __modulo__(a,p) computes the A modulo P.
 
-### ARGUMENTS
+## __Arguments__
 
   - __A__
-    Shall be a scalar of type INTEGER or REAL.
+    Shall be a scalar of type _integer_ or _real_.
 
   - __P__
     Shall be a scalar of the same type and kind as A. It shall not be
     zero.
 
-### RETURN VALUE
+## __Returns__
 
 The type and kind of the result are those of the arguments.
 
-  - If A and P are of type INTEGER: __modulo__(a,p) has the value of a -
+  - If A and P are of type _integer_: __modulo__(a,p) has the value of a -
     floor (__real__(a) / __real__(p)) \* p.
 
-  - If A and P are of type REAL: __modulo__(a,p) has the value of a -
+  - If A and P are of type _real_: __modulo__(a,p) has the value of a -
     floor (a / p) \* p.
 
 The returned value has the same sign as P and a magnitude less than the
 magnitude of P.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -56,14 +56,10 @@ Sample program:
    end program demo_modulo
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __mod__(3)

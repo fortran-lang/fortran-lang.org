@@ -3,30 +3,30 @@ layout: book
 title: radix
 permalink: /learn/intrinsics/RADIX
 ---
-### NAME
+## __Name__
 
-__radix__(3f) - \[NUMERIC MODEL\] Base of a model number
+__radix__(3) - \[NUMERIC MODEL\] Base of a model number
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __radix__(x)
 
-### DESCRIPTION
+## __Description__
 
 __radix__(x) returns the base of the model representing the entity X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type INTEGER or REAL
+    Shall be of type _integer_ or _real_
 
-### RETURN VALUE
+## __Returns__
 
-The return value is a scalar of type INTEGER and of the default integer
+The return value is a scalar of type _integer_ and of the default integer
 kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -38,14 +38,10 @@ Sample program:
     end program demo_radix
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Inquiry function
-
-### SEE ALSO
+## __See Also__
 
 __scale__(3), __selected\_real\_kind__(3)

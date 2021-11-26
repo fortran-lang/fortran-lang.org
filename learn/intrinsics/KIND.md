@@ -3,30 +3,30 @@ layout: book
 title: kind
 permalink: /learn/intrinsics/KIND
 ---
-### NAME
+## __Name__
 
-__kind__(3f) - \[KIND INQUIRY\] Kind of an entity
+__kind__(3) - \[KIND INQUIRY\] Kind of an entity
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 k = __kind__(x)
 
-### DESCRIPTION
+## __Description__
 
 __kind__(x) returns the kind value of the entity X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type LOGICAL, INTEGER, REAL, COMPLEX or CHARACTER.
+    Shall be of type _logical_, _integer_, _real_, _complex_ or CHARACTER.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is a scalar of type INTEGER and of the default integer
+The return value is a scalar of type _integer_ and of the default integer
 kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -41,10 +41,6 @@ Sample program:
     end program demo_kind
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
-
-### CLASS
-
-Inquiry function

@@ -3,45 +3,41 @@ layout: book
 title: len
 permalink: /learn/intrinsics/LEN
 ---
-### NAME
+## __Name__
 
-__len__(3f) - \[CHARACTER\] Length of a character entity
+__len__(3) - \[CHARACTER\] Length of a character entity
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 l = __len__(string \[, kind\])
 
-### DESCRIPTION
+## __Description__
 
 Returns the length of a character string. If STRING is an array, the
 length of an element of STRING is returned. Note that STRING need not be
 defined when this intrinsic is invoked, since only the length, not the
 content, of STRING is needed.
 
-### ARGUMENTS
+## __Arguments__
 
   - __STRING__
     Shall be a scalar or array of type CHARACTER, with __intent__(in)
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type INTEGER and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later, with KIND argument - Fortran 2003 and later
 
-### CLASS
-
-Inquiry function
-
-### EXAMPLE
+## __Examples__
 
 Sample program
 
@@ -55,7 +51,7 @@ Sample program
      end program demo_len
 ```
 
-### SEE ALSO
+## __See Also__
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

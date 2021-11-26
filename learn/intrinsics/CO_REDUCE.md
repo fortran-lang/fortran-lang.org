@@ -3,16 +3,16 @@ layout: book
 title: co_reduce
 permalink: /learn/intrinsics/CO_REDUCE
 ---
-### NAME
+## __Name__
 
-__co\_reduce__(3f) - \[COLLECTIVE\] Reduction of values on the current set of images
+__co\_reduce__(3) - \[COLLECTIVE\] Reduction of values on the current set of images
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 call __co\_reduce__(a, operation, \[, result\_image, stat, errmsg\])
 
-### DESCRIPTION
+## __Description__
 
 co\_reduce determines element-wise the reduction of the value of A on
 all images of the current team. The pure function passed as OPERATION is
@@ -27,7 +27,7 @@ assigned the value zero. If the execution failed, STAT gets assigned a
 nonzero value and, if present, ERRMSG gets assigned a value describing
 the occurred error.
 
-### ARGUMENTS
+## __Arguments__
 
   - __A__
     is an __intent__(inout) argument and shall be nonpolymorphic. If it
@@ -59,7 +59,7 @@ the occurred error.
   - __ERRMSG__
     (optional) a scalar character variable
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -81,21 +81,17 @@ Sample program:
    end program demo_co_reduce
 ```
 
-### NOTE
+## __Note__
 
 While the rules permit in principle an intrinsic function, none of the
 intrinsics in the standard fulfill the criteria of having a specific
 function, which takes two arguments of the same type and returning that
 type as a result.
 
-### STANDARD
+## __Standard__
 
 TS 18508 or later
 
-### CLASS
-
-Collective subroutine
-
-### SEE ALSO
+## __See Also__
 
 __co\_min__(3), __co\_max__(3), __co\_sum__(3), __co\_broadcast__(3)

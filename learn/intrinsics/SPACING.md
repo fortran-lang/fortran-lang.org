@@ -3,30 +3,30 @@ layout: book
 title: spacing
 permalink: /learn/intrinsics/SPACING
 ---
-### NAME
+## __Name__
 
-__spacing__(3f) - \[MODEL\_COMPONENTS\] Smallest distance between two numbers of a given type
+__spacing__(3) - \[MODEL\_COMPONENTS\] Smallest distance between two numbers of a given type
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __spacing__(x)
 
-### DESCRIPTION
+## __Description__
 
 Determines the distance between the argument X and the nearest adjacent
 number of the same type.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type REAL.
+    Shall be of type _real_.
 
-### RETURN VALUE
+## __Returns__
 
 The result is of the same type as the input argument X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -41,14 +41,10 @@ Sample program:
     end program demo_spacing
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __rrspacing__(3)

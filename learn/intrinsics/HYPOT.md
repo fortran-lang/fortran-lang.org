@@ -3,16 +3,16 @@ layout: book
 title: hypot
 permalink: /learn/intrinsics/HYPOT
 ---
-### NAME
+## __Name__
 
-__hypot__(3f) - \[MATHEMATICS\] Euclidean distance function
+__hypot__(3) - \[MATHEMATICS\] Euclidean distance function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __hypot__(x, y)
 
-### DESCRIPTION
+## __Description__
 
 __hypot__(x,y) is the Euclidean distance function. It is equal to
 
@@ -20,19 +20,19 @@ __hypot__(x,y) is the Euclidean distance function. It is equal to
       sqrt{X__2 + Y__2}, without undue underflow or overflow.
 ```
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL.
+    The type shall be _real_.
 
   - __Y__
     The type and kind type parameter shall be the same as X.
 
-### RETURN VALUE
+## __Returns__
 
 The return value has the same type and kind type parameter as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -44,10 +44,6 @@ Sample program:
     end program demo_hypot
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

@@ -3,16 +3,16 @@ layout: book
 title: scan
 permalink: /learn/intrinsics/SCAN
 ---
-### NAME
+## __Name__
 
-__scan__(3f) - \[CHARACTER\] Scan a string for the presence of a set of characters
+__scan__(3) - \[CHARACTER\] Scan a string for the presence of a set of characters
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __scan__(string, set\[, back \[, kind\]\])
 
-### DESCRIPTION
+## __Description__
 
 Scans a STRING for any of the characters in a SET of characters.
 
@@ -21,7 +21,7 @@ position of the leftmost character of STRING that is in SET. If BACK
 equals TRUE, the rightmost position is returned. If no character of SET
 is found in STRING, the result is zero.
 
-### ARGUMENTS
+## __Arguments__
 
   - __STRING__
     Shall be of type CHARACTER.
@@ -30,18 +30,18 @@ is found in STRING, the result is zero.
     Shall be of type CHARACTER.
 
   - __BACK__
-    (Optional) shall be of type LOGICAL.
+    (Optional) shall be of type _logical_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type INTEGER and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind KIND. If KIND is absent,
 the return value is of default integer kind.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -54,15 +54,11 @@ Sample program:
     end program demo_scan
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

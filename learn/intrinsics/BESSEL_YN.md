@@ -3,18 +3,18 @@ layout: book
 title: bessel_yn
 permalink: /learn/intrinsics/BESSEL_YN
 ---
-### NAME
+## __Name__
 
-__bessel\_yn__(3f) - \[MATHEMATICS\] Bessel function of the second kind
+__bessel\_yn__(3) - \[MATHEMATICS\] Bessel function of the second kind
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
   - result = __bessel\_yn__(n, x)
 
   - result = __bessel\_yn__(n1, n2, x)
 
-### DESCRIPTION
+## __Description__
 
 __bessel\_yn__(n, x) computes the \[\[Bessel function\]\] of the second
 kind of order N of X. If N and X are arrays, their ranks and shapes
@@ -23,26 +23,26 @@ shall conform.
 __bessel\_yn__(n1, n2, x) returns an array with the \[\[Bessel
 function|Bessel functions\]\] of the first kind of the orders N1 to N2.
 
-### ARGUMENTS
+## __Arguments__
 
   - __N__
-    Shall be a scalar or an array of type INTEGER.
+    Shall be a scalar or an array of type _integer_.
 
   - __N1__
-    Shall be a non-negative scalar of type INTEGER.
+    Shall be a non-negative scalar of type _integer_.
 
   - __N2__
-    Shall be a non-negative scalar of type INTEGER.
+    Shall be a non-negative scalar of type _integer_.
 
   - __X__
-    Shall be a scalar or an array of type REAL; for __bessel\_yn__(n1,
+    Shall be a scalar or an array of type _real_; for __bessel\_yn__(n1,
     n2, x) it shall be scalar.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is REAL. It has the same kind as X.
+The return value is _real_. It has the same kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -56,16 +56,11 @@ Sample program:
    end program demo_besyn
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental function, except for the transformational function
-__bessel\_yn__(n1, n2, x)
-
-### SEE ALSO
+## __See Also__
 
 __bessel\_j0__(3), __bessel\_j1__(3), __bessel\_jn__(3),
 __bessel\_y0__(3), __bessel\_y1__(3)

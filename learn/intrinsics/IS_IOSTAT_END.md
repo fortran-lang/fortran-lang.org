@@ -3,12 +3,12 @@ layout: book
 title: is_iostat_end
 permalink: /learn/intrinsics/IS_IOSTAT_END
 ---
-### NAME
+## __Name__
 
-__is\_iostat\_end__(3f) - \[\] Test for end-of-file value
+__is\_iostat\_end__(3) - \[\] Test for end-of-file value
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 function __is\_iostat\_end__(i)
 
@@ -17,25 +17,25 @@ function __is\_iostat\_end__(i)
     integer,intent(in) :: i
 ```
 
-### DESCRIPTION
+## __Description__
 
 is\_iostat\_end tests whether an variable has the value of the I/O
 status "end of file". The function is equivalent to comparing the
 variable with the iostat\_end parameter of the intrinsic module
 \[\[iso\_fortran\_env\]\].
 
-### ARGUMENTS
+## __Arguments__
 
   - __I__
-    Shall be of the type INTEGER.
+    Shall be of the type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
-Returns a LOGICAL of the default kind, which .true. if I has the value
+Returns a _logical_ of the default kind, which .true. if I has the value
 which indicates an end of file condition for IOSTAT= specifiers, and is
 .false. otherwise.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -49,10 +49,6 @@ Sample program:
     end program demo_iostat
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2003 and later
-
-### CLASS
-
-Elemental function

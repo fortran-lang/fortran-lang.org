@@ -3,30 +3,30 @@ layout: book
 title: norm2
 permalink: /learn/intrinsics/NORM2
 ---
-### NAME
+## __Name__
 
-__norm2__(3f) - \[MATHEMATICS\] Euclidean vector norm
+__norm2__(3) - \[MATHEMATICS\] Euclidean vector norm
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __norm2__(array\[, dim\])
 
-### DESCRIPTION
+## __Description__
 
 Calculates the Euclidean vector norm (L\_2 norm) of ARRAY along
 dimension DIM.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type REAL.
+    Shall be an array of type _real_.
 
   - __DIM__
-    (Optional) shall be a scalar of type INTEGER with a value in the
+    (Optional) shall be a scalar of type _integer_ with a value in the
     range from 1 to n, where n equals the rank of ARRAY.
 
-### RETURN VALUE
+## __Returns__
 
 The result is of the same type as ARRAY.
 
@@ -35,7 +35,7 @@ the elements of ARRAY is returned. Otherwise, an array of rank n-1,
 where "n" equals the rank of ARRAY, and a shape similar to that of ARRAY
 with dimension DIM dropped is returned.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -47,14 +47,10 @@ Sample program:
    end program demo_norm2
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __product__(3), __sum__(3), __hypot__(3)

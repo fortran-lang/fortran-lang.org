@@ -3,16 +3,17 @@ layout: book
 title: atan2
 permalink: /learn/intrinsics/ATAN2
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__atan2__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
+__atan2__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __atan2__(y, x)
 
-### DESCRIPTION
+## __Description__
 
 __atan2__(y, x) computes the arctangent of the complex number
 
@@ -27,16 +28,16 @@ To convert from Cartesian Coordinates (x,y) to polar coordinates
 (r,theta): $$ \\begin{aligned} r &= \\sqrt{x\*\*2 + y\*\*2} \\\\ \\theta
 &= \\tan\*\*{__-1__}(y / x) \\end{aligned} $$
 
-### ARGUMENTS
+## __Arguments__
 
   - __Y__
-    The type shall be __REAL__.
+    The type shall be ___real___.
 
   - __X__
     The type and kind type parameter shall be the same as __Y__. If __Y__ is
     zero, then __X__ must be nonzero.
 
-### RETURN VALUE
+## __Returns__
 
 The return value has the same type and kind type parameter as __Y__. It is
 the principal value of the complex number __(X + i, Y)__. If X is nonzero,
@@ -47,7 +48,7 @@ if __X__ is strictly positive, __PI__ if __X__ is negative and __Y__ is positive
 negative and __Y__ is negative zero. Finally, if __X__ is zero, then the
 magnitude of the result is __PI/2__.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -59,10 +60,6 @@ real(4) :: x = 1.e0_4, y = 0.5e0_4
 end program demo_atan2
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

@@ -3,30 +3,30 @@ layout: book
 title: parity
 permalink: /learn/intrinsics/PARITY
 ---
-### NAME
+## __Name__
 
-__parity__(3f) - \[TRANSFORMATIONAL FUNCTION\] Reduction with exclusive __OR__()
+__parity__(3) - \[TRANSFORMATIONAL FUNCTION\] Reduction with exclusive __OR__()
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __parity__(mask\[, dim\])
 
-### DESCRIPTION
+## __Description__
 
 Calculates the parity (i.e. the reduction using .xor.) of MASK along
 dimension DIM.
 
-### ARGUMENTS
+## __Arguments__
 
   - __MASK__
-    Shall be an array of type LOGICAL.
+    Shall be an array of type _logical_.
 
   - __DIM__
-    (Optional) shall be a scalar of type INTEGER with a value in the
+    (Optional) shall be a scalar of type _integer_ with a value in the
     range from 1 to n, where n equals the rank of ARRAY.
 
-### RETURN VALUE
+## __Returns__
 
 The result is of the same type as MASK.
 
@@ -36,7 +36,7 @@ returned: .true. if an odd number of elements are .true. and
 where "n" equals the rank of MASK, and a shape similar to that of MASK
 with dimension DIM dropped is returned.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -48,10 +48,6 @@ Sample program:
    end program demo_parity
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
-
-### CLASS
-
-Transformational function

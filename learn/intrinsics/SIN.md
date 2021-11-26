@@ -3,34 +3,34 @@ layout: book
 title: sin
 permalink: /learn/intrinsics/SIN
 ---
-### NAME
+## __Name__
 
-__sin__(3f) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
+__sin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
 
-### SYNTAX
+## __Syntax__
 
 result = __sin__(x)
 
-### DESCRIPTION
+## __Description__
 
-__sin__(3f) computes the sine of an angle given the size of the angle in
+__sin__(3) computes the sine of an angle given the size of the angle in
 radians.
 
 The sine of an angle in a right-angled triangle is the ratio of the
 length of the side opposite the given angle divided by the length of the
 hypotenuse.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    The type shall be REAL or COMPLEX in radians.
+    The type shall be _real_ or _complex_ in radians.
 
-### RETURN VALUE
+## __Returns__
 
   - __RESULT__
     The return value has the same type and kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -42,7 +42,7 @@ Sample program:
     end program sample_sin
 ```
 
-### HAVERSINE FORMULA
+## __Haversine Formula__
 
 From the article on "Haversine formula" in Wikipedia:
 
@@ -113,16 +113,12 @@ Results:
     distance: 2886.4446 km
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __asin__(3), __cos__(3), __tan__(3)
 
-###### fortran-lang intrinsic descriptions
+##### fortran-lang intrinsic descriptions

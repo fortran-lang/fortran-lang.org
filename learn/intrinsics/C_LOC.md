@@ -3,20 +3,20 @@ layout: book
 title: c_loc
 permalink: /learn/intrinsics/C_LOC
 ---
-### NAME
+## __Name__
 
-__c\_loc__(3f) - \[ISO\_C\_BINDING\] Obtain the C address of an object
+__c\_loc__(3) - \[ISO\_C\_BINDING\] Obtain the C address of an object
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __c\_loc__(x)
 
-### DESCRIPTION
+## __Description__
 
 __c\_loc__(x) determines the C address of the argument.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
     Shall have either the POINTER or TARGET attribute. It shall not be a
@@ -24,12 +24,12 @@ __c\_loc__(x) determines the C address of the argument.
     type and kind type parameters, or be a scalar, nonpolymorphic
     variable with no length type parameters.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of type c\_ptr and contains the C address of the
 argument.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -44,15 +44,11 @@ Sample program:
    end subroutine association_test
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2003 and later
 
-### CLASS
-
-Inquiry function
-
-### SEE ALSO
+## __See Also__
 
 __c\_associated__(3), __c\_funloc__(3), __c\_f\_pointer__(3),
 __c\_f\_procpointer__(3), __iso\_c\_binding__(3)

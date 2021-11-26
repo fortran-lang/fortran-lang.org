@@ -3,21 +3,22 @@ layout: book
 title: associated
 permalink: /learn/intrinsics/ASSOCIATED
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__associated__(3f) - \[\] Status of a pointer or pointer/target pair
+__associated__(3) - \[\] Status of a pointer or pointer/target pair
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __associated__(pointer \[, target\])
 
-### DESCRIPTION
+## __Description__
 
 __associated__(pointer \[, target\]) determines the status of the
 pointer POINTER or if POINTER is associated with the target TARGET.
 
-### ARGUMENTS
+## __Arguments__
 
   - __POINTER__
     POINTER shall have the POINTER attribute and it can be of any type.
@@ -28,7 +29,7 @@ pointer POINTER or if POINTER is associated with the target TARGET.
 
 The association status of neither POINTER nor TARGET shall be undefined.
 
-### RETURN VALUE
+## __Returns__
 
 __associated__(pointer) returns a scalar value of type __logical__(4).
 There are several cases:
@@ -64,7 +65,7 @@ There are several cases:
     POINTER occupy the same storage units in array element order. The
     result is false, if either TARGET or POINTER is disassociated.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -81,14 +82,10 @@ Sample program:
     end program demo_associated
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
+## __See Also__
 
-Inquiry function
-
-### SEE ALSO
-
-__null__(3)
+[__null__(3)](NULL)

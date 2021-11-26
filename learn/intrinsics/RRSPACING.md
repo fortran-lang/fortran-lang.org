@@ -3,38 +3,34 @@ layout: book
 title: rrspacing
 permalink: /learn/intrinsics/RRSPACING
 ---
-### NAME
+## __Name__
 
-__rrspacing__(3f) - \[MODEL\_COMPONENTS\] Reciprocal of the relative spacing
+__rrspacing__(3) - \[MODEL\_COMPONENTS\] Reciprocal of the relative spacing
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __rrspacing__(x)
 
-### DESCRIPTION
+## __Description__
 
 __rrspacing__(x) returns the reciprocal of the relative spacing of model
 numbers near X.
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type REAL.
+    Shall be of type _real_.
 
-### RETURN VALUE
+## __Returns__
 
 The return value is of the same type and kind as X. The value returned
 is equal to __abs__(fraction(x)) \* __float__(radix(x))\*\*digits(x).
 
-### STANDARD
+## __Standard__
 
 Fortran 95 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __spacing__(3)

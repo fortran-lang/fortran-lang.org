@@ -3,42 +3,42 @@ layout: book
 title: int
 permalink: /learn/intrinsics/INT
 ---
-### NAME
+## __Name__
 
-__int__(3f) - \[NUMERIC:TYPE\] Convert to integer type
+__int__(3) - \[NUMERIC:TYPE\] Convert to integer type
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __int__(a \[, kind))
 
-### DESCRIPTION
+## __Description__
 
 Convert to integer type
 
-### ARGUMENTS
+## __Arguments__
 
   - __A__
-    Shall be of type INTEGER, REAL, or COMPLEX.
+    Shall be of type _integer_, _real_, or _complex_.
 
   - __KIND__
-    (Optional) An INTEGER initialization expression indicating the kind
+    (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
-### RETURN VALUE
+## __Returns__
 
-These functions return a INTEGER variable or array under the following
+These functions return a _integer_ variable or array under the following
 rules:
 
-> 1.  If A is of type INTEGER, __int__(a) = a
+> 1.  If A is of type _integer_, __int__(a) = a
 >
-> 2.  If A is of type REAL and |a| \< 1, __int__(a) equals 0. If |a| \>=
+> 2.  If A is of type _real_ and |a| \< 1, __int__(a) equals 0. If |a| \>=
 >     1, then __int__(a) equals the largest integer that does not exceed
 >     the range of A and whose sign is the same as the sign of A.
 >
-> 3.  If A is of type COMPLEX, rule 2 is applied to the real part of A.
+> 3.  If A is of type _complex_, rule 2 is applied to the real part of A.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -52,10 +52,6 @@ Sample program:
     end program demo_int
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

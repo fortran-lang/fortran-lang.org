@@ -3,16 +3,17 @@ layout: book
 title: atomic_cas
 permalink: /learn/intrinsics/ATOMIC_CAS
 ---
-### NAME
+-------------------------------------------------------------------------------
+## __Name__
 
-__atomic\_cas__(3f) - \[ATOMIC\] Atomic compare and swap
+__atomic\_cas__(3) - \[ATOMIC\] Atomic compare and swap
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 call atomic\_cas (atom, old, compare, new \[, stat\])
 
-### DESCRIPTION
+## __Description__
 
 atomic\_cas compares the variable ATOM with the value of COMPARE; if the
 value is the same, ATOM is set to the value of NEW. Additionally, OLD is
@@ -24,7 +25,7 @@ has stopped, it is assigned the value of iso\_fortran\_env's
 stat\_stopped\_image and if the remote image has failed, the value
 stat\_failed\_image.
 
-### ARGUMENTS
+## __Arguments__
 
   - __ATOM__
     Scalar coarray or coindexed variable of either integer type with
@@ -44,7 +45,7 @@ stat\_failed\_image.
   - __STAT__
     (optional) Scalar default-kind integer variable.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -57,14 +58,10 @@ Sample program:
    end program demo_atomic_cas
 ```
 
-### STANDARD
+## __Standard__
 
 TS 18508 or later
 
-### CLASS
-
-Atomic subroutine
-
-### SEE ALSO
+## __See Also__
 
 __atomic\_define__(3), __atomic\_ref__(3), __iso\_fortran\_env__(3)

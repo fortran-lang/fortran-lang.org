@@ -3,20 +3,20 @@ layout: book
 title: num_images
 permalink: /learn/intrinsics/NUM_IMAGES
 ---
-### NAME
+## __Name__
 
-__num\_images__(3f) - \[COLLECTIVE\] Number of images
+__num\_images__(3) - \[COLLECTIVE\] Number of images
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __num\_images__(distance, failed)
 
-### DESCRIPTION
+## __Description__
 
 Returns the number of images.
 
-### ARGUMENTS
+## __Arguments__
 
   - __DISTANCE__
     (optional, __intent__(in)) Nonnegative scalar integer
@@ -24,7 +24,7 @@ Returns the number of images.
   - __FAILED__
     (optional, __intent__(in)) Scalar logical expression
 
-### RETURN VALUE
+## __Returns__
 
 Scalar default-kind integer. If DISTANCE is not present or has value 0,
 the number of images in the current team is returned. For values smaller
@@ -36,7 +36,7 @@ not present the total number of images is returned; if it has the value
 .true., the number of failed images is returned, otherwise, the number
 of images which do have not the failed status.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -55,14 +55,10 @@ Sample program:
    end program demo_num_images
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later. With DISTANCE or FAILED argument, TS 18508 or later
 
-### CLASS
-
-Transformational function
-
-### SEE ALSO
+## __See Also__
 
 __this\_image__(3), __image\_index__(3)

@@ -3,12 +3,12 @@ layout: book
 title: gamma
 permalink: /learn/intrinsics/GAMMA
 ---
-### NAME
+## __Name__
 
-__gamma__(3f) - \[MATHEMATICS\] Gamma function
+__gamma__(3) - \[MATHEMATICS\] Gamma function
 (GFDL)
 
-### DESCRIPTION
+## __Description__
 
 __gamma__(x) computes Gamma of X. For positive, integer values of X the
 Gamma function simplifies to the factorial function
@@ -17,20 +17,20 @@ __Gamma__(x)=(x-1)\!.
 $$ \\__Gamma__(x) = \\int\_0\*\*\\infty
 t\*\*{x-1}{\\mathrm{e}}\*\*{__-t__}\\,{\\mathrm{d}}t $$
 
-### SYNTAX
+## __Syntax__
 
 x = __gamma__(x)
 
-### ARGUMENTS
+## __Arguments__
 
   - __X__
-    Shall be of type REAL and neither zero nor a negative integer.
+    Shall be of type _real_ and neither zero nor a negative integer.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type REAL of the same kind as X.
+The return value is of type _real_ of the same kind as X.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -42,14 +42,10 @@ Sample program:
    end program demo_gamma
 ```
 
-### STANDARD
+## __Standard__
 
 Fortran 2008 and later
 
-### CLASS
-
-Elemental function
-
-### SEE ALSO
+## __See Also__
 
 Logarithm of the Gamma function: __\[\[log\_gamma__(3)

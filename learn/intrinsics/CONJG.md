@@ -3,30 +3,30 @@ layout: book
 title: conjg
 permalink: /learn/intrinsics/CONJG
 ---
-### NAME
+## __Name__
 
-__conjg__(3f) - \[NUMERIC\] Complex conjugate function
+__conjg__(3) - \[NUMERIC\] Complex conjugate function
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 z = __conjg__(z)
 
-### DESCRIPTION
+## __Description__
 
 __conjg__(z) returns the conjugate of Z. If Z is (x, y) then the result
 is (x, __-y__)
 
-### ARGUMENTS
+## __Arguments__
 
   - __Z__
-    The type shall be COMPLEX.
+    The type shall be _complex_.
 
-### RETURN VALUE
+## __Returns__
 
-The return value is of type COMPLEX.
+The return value is of type _complex_.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -46,10 +46,6 @@ Sample program:
     end program demo_conjg
 ```
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
-
-### CLASS
-
-Elemental procedure\|Elemental function

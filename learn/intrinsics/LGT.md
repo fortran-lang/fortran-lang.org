@@ -3,16 +3,16 @@ layout: book
 title: lgt
 permalink: /learn/intrinsics/LGT
 ---
-### NAME
+## __Name__
 
-__lgt__(3f) - \[CHARACTER\] Lexical greater than
+__lgt__(3) - \[CHARACTER\] Lexical greater than
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __lgt__(string\_a, string\_b)
 
-### DESCRIPTION
+## __Description__
 
 Determines whether one string is lexically greater than another string,
 where the two strings are interpreted as containing ASCII character
@@ -26,7 +26,7 @@ differ from the corresponding intrinsic operators .ge., .gt., .le., and
 is not ASCII on some targets), whereas the former always use the ASCII
 ordering.
 
-### ARGUMENTS
+## __Arguments__
 
   - __string\_a__
     Shall be of default CHARACTER type.
@@ -34,20 +34,16 @@ ordering.
   - __string\_b__
     Shall be of default CHARACTER type.
 
-### RETURN VALUE
+## __Returns__
 
 Returns .true. if string\_a \> string\_b, and .false. otherwise, based
 on the ASCII ordering.
 
-### STANDARD
+## __Standard__
 
 FORTRAN 77 and later
 
-### CLASS
-
-Elemental procedure\|Elemental function
-
-### SEE ALSO
+## __See Also__
 
 __lge__(3), __lle__(3), __llt__(3)
 

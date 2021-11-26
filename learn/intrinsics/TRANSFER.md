@@ -3,16 +3,16 @@ layout: book
 title: transfer
 permalink: /learn/intrinsics/TRANSFER
 ---
-### NAME
+## __Name__
 
-__transfer__(3f) - \[BIT MANIPULATION\] Transfer bit patterns
+__transfer__(3) - \[BIT MANIPULATION\] Transfer bit patterns
 (GFDL)
 
-### SYNTAX
+## __Syntax__
 
 result = __transfer__(source, mold\[, size\])
 
-### DESCRIPTION
+## __Description__
 
 Interprets the bitwise representation of SOURCE in memory as if it is
 the representation of a variable or array of the same type and type
@@ -21,7 +21,7 @@ parameters as MOLD.
 This is approximately equivalent to the C concept of \*casting\* one
 type to another.
 
-### ARGUMENTS
+## __Arguments__
 
   - __SOURCE__
     Shall be a scalar or an array of any type.
@@ -30,9 +30,9 @@ type to another.
     Shall be a scalar or an array of any type.
 
   - __SIZE__
-    (Optional) shall be a scalar of type INTEGER.
+    (Optional) shall be a scalar of type _integer_.
 
-### RETURN VALUE
+## __Returns__
 
 The result has the same type as MOLD, with the bit level representation
 of SOURCE. If SIZE is present, the result is a one-dimensional array of
@@ -49,9 +49,9 @@ When the resulting bit representation does not correspond to a valid
 representation of a variable of the same type as MOLD, the results are
 undefined, and subsequent operations on the result cannot be guaranteed
 to produce sensible behavior. For example, it is possible to create
-LOGICAL variables for which VAR and .not. var both appear to be true.
+_logical_ variables for which VAR and .not. var both appear to be true.
 
-### EXAMPLE
+## __Examples__
 
 Sample program:
 
@@ -63,7 +63,7 @@ Sample program:
     end program demo_transfer
 ```
 
-### COMMENTS
+## __Comments__
 
 \[\[Joe Krahn\]\]: Fortran uses \*\*molding\*\* rather than
 \*\*casting\*\*.
@@ -85,10 +85,6 @@ can vary by compiler or compile options. In many cases, an EQUIVALENCE
 would be far more effective, but Fortran Standards committees seem
 oblivious to the benefits of EQUIVALENCEs when used sparingly.
 
-### STANDARD
+## __Standard__
 
 Fortran 90 and later
-
-### CLASS
-
-Transformational function
