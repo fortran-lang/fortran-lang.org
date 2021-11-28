@@ -10,24 +10,24 @@ __ior__(3) - \[BIT MANIPULATION\] Bitwise logical inclusive or
 
 ## __Syntax__
 
-result = __ior__(i, j)
+__result = ior(i, j)__
 
-```
+```fortran
     integer,intent(in) :: i
     integer,intent(in) :: j
 ```
 
 ## __Description__
 
-IOR returns the bit-wise Boolean inclusive-OR of I and J.
+__ior__ returns the bit-wise Boolean inclusive-__or__ of __i__ and __j__.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     an _integer_ scalar or array.
 
-  - __J__
-    _integer_ scalar or array, of the same kind as I.
+  - __j__
+    _integer_ scalar or array, of the same kind as __i__.
 
 ## __Returns__
 
@@ -63,5 +63,13 @@ Fortran 95 and later
 
 ## __See Also__
 
-__ieor__(3), __iand__(3), __ibits__(3), __ibset__(3), __ibclr__(3),
-__not__(3)
+[__ieor__(3)](IEOR), 
+[__ibclr__(3)](IBCLR),
+[__not__(3)](NOT),
+[__btest__(3)](BTEST),
+[__ibclr__(3)](IBCLR),
+[__ibits__(3)](IBITS),
+[__ibset__(3)](IBSET),
+[__iand__(3)](IAND),
+[__ieor__(3)](IEOR),
+[__mvbits__(3)](MVBITS)

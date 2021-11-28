@@ -117,4 +117,4 @@ Fortran 2003 and later
 
 __get\_command__(3), __command\_argument\_count__(3)
 
-##### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -73,4 +73,4 @@ Fortran 95 and later
 
 __system\_clock__(3), __date\_and\_time__(3)
 
-##### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

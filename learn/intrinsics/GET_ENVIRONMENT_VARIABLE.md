@@ -93,4 +93,4 @@ Typical Results:
 
 Fortran 2003 and later
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

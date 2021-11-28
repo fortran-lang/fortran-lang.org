@@ -68,6 +68,6 @@ Fortran 95 and later
 
 ## __See Also__
 
-    [__adjustr__(3)](ADJUSTR)
+[__adjustr__(3)](ADJUSTR)
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

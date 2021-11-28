@@ -10,7 +10,7 @@ __blt__(3) - \[BIT COMPARE\] Bitwise less than
 
 ## __Syntax__
 
-result = __blt__(i, j)
+    __result = blt(i, j)__
 
 ## __Description__
 
@@ -18,11 +18,11 @@ Determines whether an integer is bitwise less than another.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     Shall be of _integer_ type.
 
-  - __J__
-    Shall be of _integer_ type, and of the same kind as I.
+  - __j__
+    Shall be of _integer_ type, and of the same kind as __i__.
 
 ## __Returns__
 

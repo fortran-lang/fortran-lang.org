@@ -85,4 +85,4 @@ of arguments, and search for certain arguments:
   - __Nonelemental:__
     [__repeat__(3)](REPEAT), [__trim__(3)](TRIM)
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

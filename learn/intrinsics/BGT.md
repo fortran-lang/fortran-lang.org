@@ -10,7 +10,7 @@ __bgt__(3) - \[BIT COMPARE\] Bitwise greater than
 
 ## __Syntax__
 
-result = __bgt__(i, j)
+    __result = bgt(i, j)__
 
 ## __Description__
 
@@ -18,18 +18,18 @@ Determines whether an integer is bitwise greater than another.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     Shall be of _integer_ type or a BOZ literal constant.
 
-  - __J__
-    Shall be of _integer_ type, and of the same kind as I; or a BOZ
+  - __j__
+    Shall be of _integer_ type, and of the same kind as __i__; or a BOZ
     literal constant.
 
 ## __Returns__
 
 The return value is of type _logical_ and of the default kind. The result
-is true if the sequence of bits represented by I is greater than the
-sequence of bits represented by J, otherwise the result is false.
+is true if the sequence of bits represented by _i_ is greater than the
+sequence of bits represented by _j_, otherwise the result is false.
 
 ## __Standard__
 

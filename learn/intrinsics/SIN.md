@@ -121,4 +121,4 @@ FORTRAN 77 and later
 
 __asin__(3), __cos__(3), __tan__(3)
 
-##### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -10,18 +10,18 @@ __btest__(3) - \[BIT MANIPULATION\] Bit test function
 
 ## __Syntax__
 
-result = __btest__(i, pos)
+__result = btest(i, pos)__
 
 ## __Description__
 
-__btest__(i,pos) returns logical .true. if the bit at POS in I is set.
+__btest(i,pos)__ returns logical __.true.__ if the bit at __pos__ in __i__ is set.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     The type shall be _integer_.
 
-  - __POS__
+  - __pos__
     The type shall be _integer_. A value of zero refers to the least
     significant bit.
 
@@ -52,5 +52,13 @@ Fortran 95 and later
 
 ## __See Also__
 
-__ibclr__(3), __ibits__(3), __ibset__(3), __iand__(3), __ior__(3),
-__ieor__(3), __mvbits__(3)
+[__ieor__(3)](IEOR), 
+[__ibclr__(3)](IBCLR),
+[__not__(3)](NOT),
+[__ibclr__(3)](IBCLR),
+[__ibits__(3)](IBITS),
+[__ibset__(3)](IBSET),
+[__iand__(3)](IAND),
+[__ior__(3)](IOR),
+[__ieor__(3)](IEOR),
+[__mvbits__(3)](MVBITS)

@@ -15,15 +15,15 @@ another.
 
 ## __Syntax__
 
-result = __bge__(i, j)
+    __result = bge(i, j)__
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     Shall be of _integer_ type.
 
-  - __J__
-    Shall be of _integer_ type, and of the same kind as I.
+  - __j__
+    Shall be of _integer_ type, and of the same kind as __i__.
 
 ## __Returns__
 

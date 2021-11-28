@@ -10,12 +10,12 @@ __bit\_size__(3) - \[BIT INQUIRY\] Bit size inquiry function
 
 ## __Syntax__
 
-result = __bit\_size__(i)
+__result = bit\_size(i)__
 
 ## __Description__
 
 __bit\_size__(i) returns the number of bits (integer precision plus sign
-bit) represented by the type of I.
+bit) represented by the type of __i__.
 
 ## __Arguments__
 
@@ -24,7 +24,7 @@ bit) represented by the type of I.
 
 ## __Returns__
 
-The return value is of type _integer_ of the same type as I.
+The return value is of type _integer_ of the same type as __i__.
 
 ## __Examples__
 
@@ -53,11 +53,11 @@ end program demo_bit_size
 Expected output:
 
 ```
-    > 8
-    > 16
-    > 32
-    > 64
-    > 64
+   8
+   16
+   32
+   64
+   64
 ```
 
 ## __Standard__

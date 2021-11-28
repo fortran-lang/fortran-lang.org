@@ -81,6 +81,6 @@ Fortran 95 and later
 
 ## __See Also__
 
-    [__adjustl__(3)](ADJUSTL)
+[__adjustl__(3)](ADJUSTL)
 
-##### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

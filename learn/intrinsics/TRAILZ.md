@@ -113,4 +113,4 @@ Fortran 2008 and later
 
 __bit\_size__(3), __popcnt__(3), __poppar__(3), __leadz__(3)
 
-##### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -112,4 +112,4 @@ FORTRAN 77 and later, with KIND argument - Fortran 90 and later
 
 __ceiling__(3), __floor__(3)
 
-##### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -94,4 +94,4 @@ FORTRAN 77 and later, for a complex argument Fortran 2008 or later
 
 Inverse function: [__sin__(3)](SIN)
 
-##### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)
