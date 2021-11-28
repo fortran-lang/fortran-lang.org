@@ -12,12 +12,14 @@ __command\_argument\_count__(3) - \[SYSTEM ENVIRONMENT\] Get number of command l
 
 ```fortran
     result = command_argument_count()
-     integer :: result
+
+     integer function command_argument_count() result(count)
+     integer :: count
 ```
 
 ## __Description__
 
-command\_argument\_count returns the number of arguments passed on the
+__command\_argument\_count()__ returns the number of arguments passed on the
 command line when the containing program was invoked.
 
 ## __Arguments__
@@ -26,8 +28,8 @@ None
 
 ## __Returns__
 
-  - __RESULT__
-    The return value is of type default integer. It is the number of
+  - __count__
+    The return value is of type default _integer_. It is the number of
     arguments passed on the command line when the program was invoked.
 
 ## __Examples__
@@ -62,6 +64,7 @@ Fortran 2003 and later
 
 ## __See Also__
 
-__get\_command__(3), __get\_command\_argument__(3)
+[__get\_command__(3)](GET_COMMAND),
+[__get\_command\_argument__(3)](GET_COMMAND_ARGUMENT)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)

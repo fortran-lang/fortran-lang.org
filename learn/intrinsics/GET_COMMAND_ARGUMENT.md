@@ -9,7 +9,9 @@ __get\_command\_argument__(3) - \[SYSTEM ENVIRONMENT\] Get command line argument
 
 ## __Syntax__
 ```fortran
-     call get_command_argument__(number [, value, length, status])
+     call get_command_argument(number, value, length, status)
+
+     subroutine get_command_argument(number,value,length.status)
      integer,intent(in)                    :: number
      character(len=*),intent(out),optional :: value
      integer,intent(out),optional          :: length
@@ -18,7 +20,7 @@ __get\_command\_argument__(3) - \[SYSTEM ENVIRONMENT\] Get command line argument
 
 ## __Description__
 
-Retrieve the NUMBER-th argument that was passed on the command line when
+Retrieve the __number__-th argument that was passed on the command line when
 the containing program was invoked.
 
 There is not anything specifically stated about what an argument is but
@@ -28,30 +30,30 @@ shells are ignored.
 
 ## __Options__
 
-  - __NUMBER__
-    Shall be a scalar of type __integer__(4), NUMBER \>= 0. If NUMBER =
-    0, VALUE is set to the name of the program (on systems that support
+  - __number__
+    Shall be a scalar of type __integer__(4), __number \>= 0__. If __number =
+    0__, __value__ is set to the name of the program (on systems that support
     this feature).
 
 ## __Returns__
 
-  - __VALUE__
-    Shall be a scalar of type CHARACTER and of default kind. After
-    get\_command\_argument returns, the VALUE argument holds the
-    NUMBER-th command line argument. If VALUE can not hold the argument,
-    it is truncated to fit the length of VALUE. If there are less than
-    NUMBER arguments specified at the command line, VALUE will be filled
+  - __value__
+    Shall be a scalar of type _character_ and of default kind. After
+    get\_command\_argument returns, the __value__ argument holds the
+    __number__-th command line argument. If __value__ can not hold the argument,
+    it is truncated to fit the length of __value__. If there are less than
+    __number__ arguments specified at the command line, __value__ will be filled
     with blanks.
 
-  - __LENGTH__
-    (Optional) Shall be a scalar of type __integer__(4). The LENGTH
-    argument contains the length of the NUMBER-th command line argument.
+  - __length__
+    (Optional) Shall be a scalar of type _integer_. The __length__
+    argument contains the length of the __number__-th command line argument.
 
-  - __STATUS__
-    (Optional) Shall be a scalar of type __integer__(4). If the argument
-    retrieval fails, STATUS is a positive number; if VALUE contains a
-    truncated command line argument, STATUS is __-1__; and otherwise the
-    STATUS is zero.
+  - __status__
+    (Optional) Shall be a scalar of type _integer_. If the argument
+    retrieval fails, __status__ is a positive number; if __value__ contains a
+    truncated command line argument, __status__ is __-1__; and otherwise the
+    __status__ is zero.
 
 ## __Examples__
 
@@ -65,31 +67,43 @@ Sample program:
    integer                      :: count,i, longest, argument_length
    integer,allocatable          :: istat(:), ilen(:)
    character(len=:),allocatable :: arguments(:)
+     !
      ! get number of arguments
      count = command_argument_count()
      write(*,*)'The number of arguments is ',count
+     !
      ! simple usage
+     !
      call get_command_argument (0, progname, status=stat)
      if (stat == 0) then
         print *, "The program's name is " // trim (progname)
      endif
+     !
      ! showing how to make an array to hold any argument list
+     !
      ! find longest argument
+     !
      longest=0
      do i=0,count
         call get_command_argument(number=i,length=argument_length)
         longest=max(longest,argument_length)
      enddo
+     !
      ! allocate string array big enough to hold command line argument strings
      ! and related information
+     !
      allocate(character(len=longest) :: arguments(0:count))
      allocate(istat(0:count))
      allocate(ilen(0:count))
+     !
      ! read the arguments into the array
+     !
      do i=0,count
        call get_command_argument(i, arguments(i),status=istat(i),length=ilen(i))
      enddo
+     !
      ! show the results
+     !
      write (*,'(i3.3,1x,i0.5,1x,i0.5,1x,"[",a,"]")') &
      & (i,istat(i),ilen(i),arguments(i)(:ilen(i)),i=0,count)
    end program demo_get_command_argument
@@ -115,6 +129,7 @@ Fortran 2003 and later
 
 ## __See Also__
 
-__get\_command__(3), __command\_argument\_count__(3)
+[__get\_command__(3)](GET_COMMAND),
+[__command\_argument\_count__(3)](COMMAND_ARGUMENT_COUNT)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)

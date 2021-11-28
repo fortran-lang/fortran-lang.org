@@ -11,7 +11,9 @@ __get\_command__(3) - \[SYSTEM ENVIRONMENT\] Get the entire command line
 
 
 ```fortran
-   call get_command([command, length, status])
+   call get_command(command, length, status)
+
+    subroutine get_command(command,length,status)
     character(len=*),intent(out),optional :: command
     integer,intent(out),optional :: length
     integer,intent(out),optional :: status
@@ -30,19 +32,19 @@ should rarely be necessary.
 
 ## __Returns__
 
-  - __COMMAND__
-    (Optional) shall be of type CHARACTER and of default kind. If
-    COMMAND is present, stores the entire command line that was used to
-    invoke the program in COMMAND.
+  - __command__
+    Shall be of type _character_ and of default kind. If
+    __command__ is present, stores the entire command line that was used to
+    invoke the program in __command__.
 
-  - __LENGTH__
-    (Optional) Shall be of type _integer_ and of default kind. If LENGTH
+  - __length__
+    Shall be of type _integer_ and of default kind. If __length__
     is present, it is assigned the length of the command line.
 
-  - __STATUS__
-    (Optional) Shall be of type _integer_ and of default kind. If STATUS
+  - __status__
+    Shall be of type _integer_ and of default kind. If __status__
     is present, it is assigned 0 upon success of the command, __-1__ if
-    COMMAND is too short to store the command line, or a positive value
+    __command__ is too short to store the command line, or a positive value
     in case of an error.
 
 ## __Examples__
@@ -87,6 +89,7 @@ Fortran 2003 and later
 
 ## __See Also__
 
-__get\_command\_argument__(3), __command\_argument\_count__(3)
+[__get\_command\_argument__(3)](GET_COMMAND_ARGUMENT),
+[__command\_argument\_count__(3)](COMMAND_ARGUMENT_COUNT)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)
