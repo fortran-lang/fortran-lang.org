@@ -21,11 +21,10 @@ result = hypot(x, y)
 __hypot(x,y)__ is referred to as the Euclidean distance function. It is equal to
 __sqrt(x**2 + y**2)__, without undue underflow or overflow.
 
-In mathematics, the Euclidean distance between two points in Euclidean
+In mathematics, the _Euclidean distance_ between two points in Euclidean
 space is the length of a line segment between two points.
  
 __hypot(x,y)__ returns the distance between the point __<x,y>__ and the origin.
-
 
 ## __Arguments__
 
@@ -39,8 +38,8 @@ __hypot(x,y)__ returns the distance between the point __<x,y>__ and the origin.
 
 The return value has the same type and kind type parameter as __x__.
 
-The positive magnitude of the distance of the point __<x,y>__ from the
-origin __<0.0,0.0>__ is returned.
+The result is the positive magnitude of the distance of the point __<x,y>__ from the
+origin __<0.0,0.0>__ .
 
 ## __Examples__
 
@@ -56,8 +55,8 @@ real(kind=real32),allocatable :: xs(:), ys(:)
 integer :: i
 character(len=*),parameter :: f='(a,/,SP,*(3x,g0,1x,g0:,/))'
 
-   x = 1.e0_real64
-   y = 0.5e0_real64
+   x = 1.e0_real32
+   y = 0.5e0_real32
 
    write(*,*)
    write(*,'(*(g0))')'point <',x,',',y,'> is ',hypot(x,y)
@@ -75,7 +74,7 @@ character(len=*),parameter :: f='(a,/,SP,*(3x,g0,1x,g0:,/))'
 end program demo_hypot
 ```
 Results:
-```
+```text
    point <1.00000000,0.500000000> is 1.11803401
    units away from the origin
    
