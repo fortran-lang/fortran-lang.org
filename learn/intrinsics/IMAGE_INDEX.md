@@ -35,7 +35,7 @@ zero.
 
 Sample program:
 
-```
+```fortran
    program demo image_index
    implicit none
    integer :: array[2,-1:4,8,*]

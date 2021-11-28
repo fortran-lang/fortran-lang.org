@@ -55,7 +55,7 @@ _logical_ variables for which VAR and .not. var both appear to be true.
 
 Sample program:
 
-```
+```fortran
     program demo_transfer
     implicit none
       integer :: x = 2143289344

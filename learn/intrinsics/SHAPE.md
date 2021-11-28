@@ -38,7 +38,7 @@ value has the default integer kind otherwise the specified kind.
 
 Sample program:
 
-```
+```fortran
    program demo_shape
    implicit none
      integer, dimension(-1:1, -1:2) :: a

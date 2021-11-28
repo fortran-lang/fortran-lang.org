@@ -45,7 +45,7 @@ dropped is returned.
 
 Sample program:
 
-```
+```fortran
    program demo_iany
    use, intrinsic :: iso_fortran_env, only : integer_kinds, &
    & int8, int16, int32, int64

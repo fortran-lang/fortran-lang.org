@@ -9,7 +9,7 @@ __achar__(3) - \[CHARACTER\] returns a character in a specified position in the 
 
 ## __Syntax__
 ```fortran
-  result = achar(i)
+  result = achar(i,kind=KIND)
     character(len=1) elemental function :: achar(i,kind=KIND)
     integer(kind=KIND),intent(in) :: i
     integer(kind=KIND),intent(in),optional :: kind
@@ -18,7 +18,7 @@ where KIND may be any supported kind value for _integer_ types.
 
 ## __Description__
 
-__achar(I)__ returns the character located at position I (often called the 
+__achar(I)__ returns the character located at position I (commonly called the 
 _ADE_ or ASCII Decimal Equivalent) in the ASCII collating sequence.
 
 The __achar(3)__ function is often used for generating in-band escape
@@ -32,8 +32,8 @@ example.
 ## __Arguments__
 
   - __I__
-    the _integer_ value to convert to an ASCII character, therefore in
-    the range 0 to 127.
+    the _integer_ value to convert to an ASCII character, in the range
+    0 to 127.
 
   - __KIND__
     (optional) an _integer_ initialization expression indicating the kind
@@ -97,9 +97,6 @@ Results:
    120 x 121 y 122 z 123 { 124 | 125 } 126 ~
 ```
 ## __Note__
-
-see __[ichar(3)](ICHAR)__ for a discussion of converting between numerical
-values and formatted string representations.
 
 The ADEs (ASCII Decimal Equivalents) for ASCII are
 

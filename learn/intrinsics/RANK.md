@@ -30,7 +30,7 @@ arrays, their rank is returned; for scalars zero is returned.
 
 Sample program:
 
-```
+```fortran
    program demo_rank
    implicit none
      integer :: a

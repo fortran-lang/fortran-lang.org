@@ -39,7 +39,7 @@ which indicates an end of file condition for IOSTAT= specifiers, and is
 
 Sample program:
 
-```
+```fortran
     program demo_iostat
       implicit none
       integer :: stat, i

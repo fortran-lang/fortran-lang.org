@@ -34,7 +34,7 @@ pointer, CPTR to the Fortran pointer FPTR and specify its shape.
 
 Sample program:
 
-```
+```fortran
     program demo_c_f_pointer
     use iso_c_binding
     implicit none

@@ -34,7 +34,7 @@ default-kind _integer_ otherwise.
 
 Sample program:
 
-```
+```fortran
     program demo_ceiling
     implicit none
     real :: x = 63.29

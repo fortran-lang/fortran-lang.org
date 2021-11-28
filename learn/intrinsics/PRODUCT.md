@@ -45,7 +45,7 @@ is returned.
 
 Sample program:
 
-```
+```fortran
     program demo_product
     implicit none
       integer :: x(5) = [ 1, 2, 3, 4 ,5 ]

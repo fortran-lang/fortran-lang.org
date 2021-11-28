@@ -44,7 +44,7 @@ The result is an array of shape SHAPE with the same type as SOURCE.
 
 Sample program:
 
-```
+```fortran
     program demo_reshape
     implicit none
     integer :: i

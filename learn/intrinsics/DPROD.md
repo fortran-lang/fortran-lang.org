@@ -47,7 +47,7 @@ The return value is of type __real__(kind=kind(0.0d0)).
 
 Sample program:
 
-```
+```fortran
     program demo_dprod
     use, intrinsic :: iso_fortran_env, only : real_kinds, &
     & real32, real64, real128

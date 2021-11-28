@@ -28,7 +28,7 @@ this range, selected\_int\_kind returns __-1__.
 
 Sample program:
 
-```
+```fortran
    program demo_selected_int_kind
    implicit none
      integer,parameter :: k5 = selected_int_kind(5)

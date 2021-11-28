@@ -11,11 +11,11 @@ __any__(3) - \[ARRAY REDUCTION\] determines if any of the values in the logical 
 
 ## __Syntax__
 
-result = __any__(mask \[, dim\])
+result = __any(mask \[, dim\])__
 
 ## __Description__
 
-__ANY__(MASK \[, DIM\]) determines if any of the values in the logical
+__any(MASK \[, DIM\])__ determines if any of the values in the logical
 array MASK along dimension DIM are .TRUE..
 
 ## __Arguments__
@@ -30,40 +30,40 @@ array MASK along dimension DIM are .TRUE..
 
 ## __Returns__
 
-__ANY__(MASK) returns a scalar value of type _logical_ where the kind type
+__any(MASK)__ returns a scalar value of type _logical_ where the kind type
 parameter is the same as the kind type parameter of MASK. If DIM is
-present, then __ANY__(MASK, DIM) returns an array with the rank of MASK
+present, then __any(MASK, DIM)__ returns an array with the rank of MASK
 minus 1. The shape is determined from the shape of MASK where the DIM
 dimension is elided.
 
-1.  __ANY__(MASK) is true if any element of MASK is true; otherwise, it
+1.  __any(MASK)__ is true if any element of MASK is true; otherwise, it
     is false. It also is false if MASK has zero size.
 
-2.  If the rank of MASK is one, then __ANY__(MASK, DIM) is equivalent to
-    __ANY__(MASK). If the rank is greater than one, then __ANY__(MASK,
-    DIM) is determined by applying ANY to the array sections.
+2.  If the rank of MASK is one, then __any(MASK, DIM)__ is equivalent to
+    __any(MASK)__. If the rank is greater than one, then __any(MASK,
+    DIM)__ is determined by applying __any()__ to the array sections.
 
 ## __Examples__
 
 Sample program:
 
-```
-    program demo_any
-    implicit none
-    logical l
-       l = any([.true., .true., .true.])
-       print *, l
-       call section
-       contains
-         subroutine section
-         integer a(2,3), b(2,3)
-           a = 1
-           b = 1
-           b(2,2) = 2
-           print *, any(a .eq. b, 1)
-           print *, any(a .eq. b, 2)
-         end subroutine section
-    end program demo_any
+```fortran
+program demo_any
+implicit none
+logical l
+   l = any([.true., .true., .true.])
+   print *, l
+   call section
+   contains
+     subroutine section
+     integer a(2,3), b(2,3)
+       a = 1
+       b = 1
+       b(2,2) = 2
+       print *, any(a .eq. b, 1)
+       print *, any(a .eq. b, 2)
+     end subroutine section
+end program demo_any
 ```
 
 ## __Standard__

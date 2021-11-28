@@ -16,7 +16,7 @@ result = asin(X)
 
 ## __Description__
 
-__asin__(x) computes the arcsine of its argument X.
+__asin(X)__ computes the arcsine of its argument __X__.
 
 The arcsine is the inverse function of the sine function. It is commonly
 used in trigonometry when trying to find the angle when the lengths of
@@ -31,9 +31,9 @@ the hypotenuse and the opposite side of a right triangle are known.
 ## __Returns__
 
   - __RESULT__
-    The return value is of the same type and kind as X. The real part of
-    the result is in radians and lies in the range __-PI__/2 \<=
-    __asin__(x) \<= PI/2.
+    The return value is of the same type and kind as __X__. The real part of
+    the result is in radians and lies in the range __-PI/2 \<=
+    asin(X) \<= PI/2__.
 
 ## __Examples__
 
@@ -44,27 +44,27 @@ So if you knew that a train track rose 1.25 vertical miles on a track
 that was 50 miles long, you could determine the average angle of incline
 of the track using the arcsine. Given
 
+     sin(theta) = 1.25 miles/50 miles (opposite/hypotenuse)
+
 ```fortran
-    sin(theta) = 1.25 miles/50 miles (opposite/hypotenuse)
+program demo_asin
+use, intrinsic :: iso_fortran_env, only : dp=>real64
+implicit none
+! value to convert degrees to radians
+real(kind=dp),parameter :: D2R=acos(-1.0_dp)/180.0_dp
+real(kind=dp)           :: angle, rise, run
+  ! given sine(theta) = 1.25 miles/50 miles (opposite/hypotenuse)
+  ! then taking the arcsine of both sides of the equality yields
+  ! theta = arcsine(1.25 miles/50 miles) ie. arcsine(opposite/hypotenuse)
+  rise=1.250_dp
+  run=50.00_dp
+  angle = asin(rise/run)
+  write(*,*)'angle of incline(radians) = ', angle
+  angle = angle/D2R
+  write(*,*)'angle of incline(degrees) = ', angle
 
-    program demo_asin
-    use, intrinsic :: iso_fortran_env, only : dp=>real64
-    implicit none
-    ! value to convert degrees to radians
-    real(kind=dp),parameter :: D2R=acos(-1.0_dp)/180.0_dp
-    real(kind=dp)           :: angle, rise, run
-      ! given sine(theta) = 1.25 miles/50 miles (opposite/hypotenuse)
-      ! then taking the arcsine of both sides of the equality yields
-      ! theta = arcsine(1.25 miles/50 miles) ie. arcsine(opposite/hypotenuse)
-      rise=1.250_dp
-      run=50.00_dp
-      angle = asin(rise/run)
-      write(*,*)'angle of incline(radians) = ', angle
-      angle = angle/D2R
-      write(*,*)'angle of incline(degrees) = ', angle
-
-      write(*,*)'percent grade=',rise/run*100.0_dp
-    end program demo_asin
+  write(*,*)'percent grade=',rise/run*100.0_dp
+end program demo_asin
 ```
 
 Results:

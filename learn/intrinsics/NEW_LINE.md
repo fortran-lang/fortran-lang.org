@@ -30,7 +30,7 @@ the same kind as parameter C.
 
 Sample program:
 
-```
+```fortran
     program demo_new_line
       implicit none
       write(*,'(A)') 'This is record 1.'//NEW_LINE('A')//'This is record 2.'

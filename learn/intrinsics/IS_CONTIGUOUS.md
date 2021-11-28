@@ -92,7 +92,7 @@ It is processor-dependent whether any other object is contiguous.
 
 Sample program:
 
-```
+```fortran
    program demo_is_contiguous
    implicit none
    intrinsic is_contiguous

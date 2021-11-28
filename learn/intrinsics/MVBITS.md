@@ -10,14 +10,14 @@ __mvbits__(3) - \[BIT MANIPULATION\] Move bits from one integer to another
 
 ## __Syntax__
 
-call __mvbits__(from, frompos, len, to, topos)
+call __mvbits(from, frompos, len, to, topos)__
 
 ## __Description__
 
-Moves LEN bits from positions FROMPOS through frompos+len-1 of FROM to
-positions TOPOS through topos+len-1 of TO. The portion of argument TO
+Moves __LEN__ bits from positions __FROMPOS__ through __FROMPOS+LEN-1__ of __FROM__ to
+positions __TOPOS__ through __TOPOS+LEN-1__ of __TO__. The portion of argument __TO__
 not affected by the movement of bits is unchanged. The values of
-frompos+len-1 and topos+len-1 must be less than __bit\_size__(from).
+__FROMPOS+LEN-1__ and __TOPOS+LEN-1__ must be less than __bit\_size__(from).
 
 ## __Arguments__
 
@@ -31,7 +31,7 @@ frompos+len-1 and topos+len-1 must be less than __bit\_size__(from).
     The type shall be _integer_.
 
   - __TO__
-    The type shall be _integer_, of the same kind as FROM.
+    The type shall be _integer_, of the same kind as __FROM__.
 
   - __TOPOS__
     The type shall be _integer_.

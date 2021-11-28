@@ -119,7 +119,7 @@ on the documents. For contribution guidelines see
 | CHARACTER                 | [lle](LLE)                                           | (GFDL)  | Lexical less than or equal                                   |
 | CHARACTER                 | [llt](LLT)                                           | (GFDL)  | Lexical less than                                            |
 | CHARACTER                 | [new\_line](NEW_LINE)                                | (GFDL)  | New line character                                           |
-| CHARACTER                 | [repeat](REPEAT)                                     | (GFDL)  | Repeated string concatenation                                |
+| CHARACTER                 | [repeat](REPEAT)                                     |         | Repeated string concatenation                                |
 | CHARACTER                 | [scan](SCAN)                                         | (GFDL)  | Scan a string for the presence of a set of characters        |
 | CHARACTER                 | [trim](TRIM)                                         | (GFDL)  | Remove trailing blank characters of a string                 |
 | CHARACTER                 | [verify](VERIFY)                                     | (GFDL)  | Scan a string for the absence of a set of characters         |

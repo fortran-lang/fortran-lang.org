@@ -33,7 +33,7 @@ argument.
 
 Sample program:
 
-```
+```fortran
    subroutine association_test(a,b)
    use iso_c_binding, only: c_associated, c_loc, c_ptr
    implicit none

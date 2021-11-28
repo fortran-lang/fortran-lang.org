@@ -31,7 +31,7 @@ MATRIX has shape \[ n, m \].
 
 Sample program:
 
-```
+```fortran
     program demo_transpose
     implicit none
     integer,save :: xx(3,5)= reshape([&

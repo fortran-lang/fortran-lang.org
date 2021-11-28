@@ -35,7 +35,7 @@ dynamic type and type parameters of A.
 
 Sample program
 
-```
+```fortran
     program demo_storage_size
     implicit none
        write(*,*)'size of integer ',storage_size(0)

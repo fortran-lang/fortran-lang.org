@@ -44,7 +44,7 @@ a value describing the occurred error.
 
 Sample program:
 
-```
+```fortran
    program demo_co_max
    implicit none
    integer :: val

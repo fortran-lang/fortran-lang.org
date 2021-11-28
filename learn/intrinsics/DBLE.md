@@ -29,7 +29,7 @@ The return value is of type DOUBLEPRECISION.
 
 Sample program:
 
-```
+```fortran
     program demo_dble
     implicit none
     real    :: x = 2.18

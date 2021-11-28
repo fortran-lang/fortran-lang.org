@@ -40,7 +40,7 @@ with dimension DIM dropped is returned.
 
 Sample program:
 
-```
+```fortran
    program demo_parity
    implicit none
      logical :: x(2) = [ .true., .false. ]

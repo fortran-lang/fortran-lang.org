@@ -33,7 +33,7 @@ argument kinds differ, it is of the same kind as the larger argument.)
 
 Sample program:
 
-```
+```fortran
     program demo_iand
     implicit none
       integer :: a, b

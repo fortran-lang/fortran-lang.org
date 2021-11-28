@@ -30,7 +30,7 @@ The result is of the same type as the input argument X.
 
 Sample program:
 
-```
+```fortran
     program demo_spacing
     implicit none
       integer, parameter :: sgl = selected_real_kind(p=6, r=37)

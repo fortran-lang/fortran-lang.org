@@ -11,13 +11,13 @@ __allocated__(3) - \[ARRAY INQUIRY\] Status of an allocatable entity
 
 ## __Syntax__
 
-  - result = __ALLOCATED__(ARRAY)
+  - result = __allocated__(ARRAY)
 
-  - result = __ALLOCATED__(SCALAR)
+  - result = __allocated__(SCALAR)
 
 ## __Description__
 
-__ALLOCATED__(ARRAY) and __ALLOCATED__(SCALAR) check the allocation
+__allocated(ARRAY)__ and __allocated(SCALAR)__ check the allocation
 status of ARRAY and SCALAR, respectively.
 
 ## __Arguments__
@@ -38,13 +38,13 @@ otherwise, it returns .false..
 
 Sample program:
 
-```
-    program demo_allocated
-    implicit none
-    integer :: i = 4
-    real(4), allocatable :: x(:)
-       if (allocated(x) .eqv. .false.) allocate(x(i))
-    end program demo_allocated
+```fortran
+program demo_allocated
+implicit none
+integer :: i = 4
+real(4), allocatable :: x(:)
+   if (allocated(x) .eqv. .false.) allocate(x(i))
+end program demo_allocated
 ```
 
 ## __Standard__

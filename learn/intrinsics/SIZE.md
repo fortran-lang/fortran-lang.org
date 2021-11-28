@@ -40,7 +40,7 @@ the return value is of default integer kind.
 
 Sample program:
 
-```
+```fortran
     program demo_size
     implicit none
     integer :: i, j

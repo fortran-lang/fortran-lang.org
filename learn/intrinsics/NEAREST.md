@@ -36,7 +36,7 @@ smaller than X and nearest to it.
 
 Sample program:
 
-```
+```fortran
    program demo_nearest
    implicit none
      real :: x, y

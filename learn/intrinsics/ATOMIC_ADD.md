@@ -39,13 +39,13 @@ failed, the value stat\_failed\_image.
 
 Sample program:
 
-```
-   program demo_atomic_add
-   use iso_fortran_env
-   implicit none
-   integer(atomic_int_kind) :: atom[*]
-      call atomic_add (atom[1], this_image())
-   end program demo_atomic_add
+```fortran
+program demo_atomic_add
+use iso_fortran_env
+implicit none
+integer(atomic_int_kind) :: atom[*]
+   call atomic_add (atom[1], this_image())
+end program demo_atomic_add
 ```
 
 ## __Standard__

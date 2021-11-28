@@ -34,7 +34,7 @@ The return value is of type _real_ of the same kind as X.
 
 Sample program:
 
-```
+```fortran
    program demo_gamma
    implicit none
      real :: x = 1.0

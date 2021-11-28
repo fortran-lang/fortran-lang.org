@@ -30,7 +30,7 @@ kind.
 
 Sample program:
 
-```
+```fortran
     program demo_radix
     implicit none
       print *, "The radix for the default integer kind is", radix(0)

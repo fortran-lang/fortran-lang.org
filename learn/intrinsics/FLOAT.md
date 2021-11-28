@@ -29,7 +29,7 @@ The return value is of type default _real_.
 
 Sample program:
 
-```
+```fortran
     program demo_float
     implicit none
         integer :: i = 1

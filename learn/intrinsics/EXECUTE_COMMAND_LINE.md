@@ -82,7 +82,7 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
 
 Sample program:
 
-```
+```fortran
    program demo_exec
    implicit none
      integer :: i

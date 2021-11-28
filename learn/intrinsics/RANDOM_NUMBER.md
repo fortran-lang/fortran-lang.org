@@ -26,7 +26,7 @@ from the uniform distribution over the range 0 \<= x \< 1.
 
 Sample program:
 
-````
+```fortran
    program demo_random_number
    use, intrinsic :: iso_fortran_env, only : dp=>real64
    implicit none
@@ -66,7 +66,7 @@ Sample program:
       enddo
       write(*,'(i0,1x,i0)')(i,count(i),i=1,size(count))
    end program demo_random_number
-````
+```
 
 Sample output:
 

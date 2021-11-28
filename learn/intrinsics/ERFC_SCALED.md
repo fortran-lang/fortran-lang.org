@@ -33,7 +33,7 @@ The return value is of type _real_ and of the same kind as X.
 
 Sample program:
 
-```
+```fortran
    program demo_erfc_scaled
    implicit none
    real(kind(0.0d0)) :: x = 0.17d0

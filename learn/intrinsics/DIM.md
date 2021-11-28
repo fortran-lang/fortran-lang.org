@@ -33,7 +33,7 @@ The return value is of type _integer_ or _real_.
 
 Sample program:
 
-```
+```fortran
     program demo_dim
     use, intrinsic :: iso_fortran_env, only : real_kinds, &
     & real32, real64, real128

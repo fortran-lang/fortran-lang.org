@@ -42,7 +42,7 @@ return value is .true. or .false..
 
 Sample program:
 
-```
+```fortran
     program demo_dot_prod
     implicit none
         integer, dimension(3) :: a, b

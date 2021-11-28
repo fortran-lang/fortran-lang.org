@@ -30,7 +30,7 @@ argument.
 
 Sample program:
 
-```
+```fortran
     ! program demo_c_funloc and module
     module x
     use iso_c_binding

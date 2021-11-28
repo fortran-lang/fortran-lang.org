@@ -33,7 +33,7 @@ __radix__(x)\*\*i.
 
 Sample program:
 
-```
+```fortran
     program demo_scale
     implicit none
       real :: x = 178.1387e-4

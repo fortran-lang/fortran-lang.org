@@ -29,7 +29,7 @@ Character Set, UCS-4) which is commonly known as "Unicode".
 
 Sample program:
 
-```
+```fortran
    program demo_selected_char_kind
      use iso_fortran_env
      implicit none

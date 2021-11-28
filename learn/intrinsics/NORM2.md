@@ -39,7 +39,7 @@ with dimension DIM dropped is returned.
 
 Sample program:
 
-```
+```fortran
    program demo_norm2
    implicit none
      real :: x(5) = [ real :: 1, 2, 3, 4, 5 ]

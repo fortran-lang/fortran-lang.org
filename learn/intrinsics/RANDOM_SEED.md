@@ -41,7 +41,7 @@ data retrieved from the operating system.
 
 Sample program:
 
-```
+```fortran
    program demo_random_seed
      implicit none
      integer, allocatable :: seed(:)

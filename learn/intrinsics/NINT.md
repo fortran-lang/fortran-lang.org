@@ -51,7 +51,7 @@ __INT__(a-0.5).
 
 Sample program:
 
-````fortran
+```fortran
     program demo_nint
     implicit none
     integer,parameter :: dp=kind(0.0d0)
@@ -85,7 +85,7 @@ Sample program:
     endblock ISSUES
 
     end program demo_nint
-````
+```
 
 Results
 

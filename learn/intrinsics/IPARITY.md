@@ -45,7 +45,7 @@ dropped is returned.
 
 Sample program:
 
-```
+```fortran
    program demo_iparity
    implicit none
      integer, dimension(2) :: a

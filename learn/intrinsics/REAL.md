@@ -43,7 +43,7 @@ rules:
 
 Sample program:
 
-```
+```fortran
    program demo_real
       use,intrinsic :: iso_fortran_env, only : dp=>real64
       implicit none

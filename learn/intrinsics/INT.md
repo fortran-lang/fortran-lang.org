@@ -42,7 +42,7 @@ rules:
 
 Sample program:
 
-```
+```fortran
     program demo_int
     implicit none
       integer :: i = 42

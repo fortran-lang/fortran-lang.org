@@ -62,7 +62,7 @@ Unavailable time and date CHARACTER parameters return blanks.
 
 Sample program:
 
-```
+```fortran
     program demo_time_and_date
     implicit none
     character(len=8)     :: date

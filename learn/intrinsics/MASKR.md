@@ -10,11 +10,11 @@ __maskr__(3) - \[\] Right justified mask
 
 ## __Syntax__
 
-result = __maskr__(i\[, kind\])
+result = __maskr(i\[, kind\])__
 
 ## __Description__
 
-__maskr__(i\[, kind\]) has its rightmost I bits set to 1, and the
+__maskr(i\[, kind\])__ has its rightmost I bits set to 1, and the
 remaining bits set to 0.
 
 ## __Arguments__

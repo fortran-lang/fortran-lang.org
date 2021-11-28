@@ -61,7 +61,7 @@ matches the criteria, the result is
 
 Sample program:
 
-```
+```fortran
    program demo_selected_real_kind
    implicit none
      integer,parameter :: p6 = selected_real_kind(6)

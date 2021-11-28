@@ -30,7 +30,7 @@ The return value is of the same type and kind as X
 
 Sample program:
 
-```
+```fortran
     program demo_huge
     ! or, "why I have my own NINT function"
     implicit none

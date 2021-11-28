@@ -32,7 +32,7 @@ The return value is of type _integer_.
 
 Sample program:
 
-```
+```fortran
     program demo_digits
     implicit none
         integer :: i = 12345

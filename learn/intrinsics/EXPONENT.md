@@ -30,7 +30,7 @@ The return value is of type default _integer_.
 
 Sample program:
 
-```
+```fortran
     program demo_exponent
     implicit none
       real :: x = 1.0

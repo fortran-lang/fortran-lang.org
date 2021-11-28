@@ -29,7 +29,7 @@ The return value has same type and kind as X.
 
 Sample program:
 
-```
+```fortran
    program demo_sinh
    use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
    implicit none

@@ -30,7 +30,7 @@ will become deallocated in the process.
 
 Basic Sample program to allocate a bigger grid
 
-```
+```fortran
    program demo_move_alloc
    implicit none
    ! Example to allocate a bigger GRID

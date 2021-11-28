@@ -10,12 +10,12 @@ __maskl__(3) - \[\] Left justified mask
 
 ## __Synopsis__
 
-result = __maskl__(i\[, *kind*\])
+result = __maskl(i\[, kind\]__)
 
 ## __Description__
 
-__maskl__(i\[, *kind*\]) has its leftmost I bits set to 1, and the
-remaining bits set to 0.
+__maskl(i\[, *kind*\])__ has its leftmost __I__ bits set to __1__, and the
+remaining bits set to __0__.
 
 ## __Syntax__
 
@@ -29,7 +29,7 @@ remaining bits set to 0.
 
 ## __Returns__
 
-The return value is of type _integer_. If KIND is present, it specifies
+The return value is of type _integer_. If __KIND__ is present, it specifies
 the *kind* value of the return type; otherwise, it is of the default
 integer *kind*.
 

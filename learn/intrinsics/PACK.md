@@ -46,7 +46,7 @@ TRUE values in MASK otherwise.
 
 Sample program:
 
-```
+```fortran
     program demo_pack
     implicit none
     call test1()

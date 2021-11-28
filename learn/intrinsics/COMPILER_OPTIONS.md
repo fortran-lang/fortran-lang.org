@@ -30,7 +30,7 @@ the compiler\_options intrinsic.
 
 Sample program:
 
-```
+```fortran
    program demo_compiler_version
    use, intrinsic :: iso_fortran_env, only : compiler_version, compiler_options
    implicit none

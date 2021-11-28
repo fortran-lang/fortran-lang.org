@@ -30,7 +30,7 @@ kind.
 
 Sample program:
 
-```
+```fortran
     program demo_kind
     implicit none
       integer,parameter :: kc = kind(' ')

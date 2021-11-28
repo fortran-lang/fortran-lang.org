@@ -18,19 +18,19 @@ __adjustr__(3) - \[CHARACTER\] Right-adjust a string
 
 ## __Description__
 
-__adjustr__(STRING) will right adjust a string by removing trailing
+__adjustr(STRING)__ will right-adjust a string by removing trailing
 spaces. Spaces are inserted at the start of the string as needed.
 
 ## __Arguments__
 
   - __STRING__
-    the type shall be CHARACTER.
+    the type shall be _character_.
 
 ## __Returns__
 
-The return value is of type CHARACTER and of the same kind as STRING
+The return value is of type _character_ and of the same kind as __STRING__
 where trailing spaces are removed and the same number of spaces are
-inserted at the start of STRING.
+inserted at the start of __STRING__.
 
 ## __Examples__
 

@@ -29,7 +29,7 @@ The return value is of same type as the argument.
 
 Sample program:
 
-```
+```fortran
     program demo_epsilon
     implicit none
         real :: x = 3.143

@@ -55,7 +55,7 @@ Returns an array of same type and rank as the ARRAY argument.
 
 Sample program:
 
-```
+```fortran
     program demo_eoshift
     implicit none
         integer, dimension(3,3) :: a

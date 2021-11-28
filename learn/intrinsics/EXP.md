@@ -29,7 +29,7 @@ The return value has same type and kind as X.
 
 Sample program:
 
-```
+```fortran
     program demo_exp
     implicit none
       real :: x = 1.0

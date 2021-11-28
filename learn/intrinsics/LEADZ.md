@@ -30,7 +30,7 @@ the bits of I are zero, the result value is __bit\_size__(i).
 
 Sample program:
 
-```
+```fortran
     program demo_leadz
     implicit none
     integer :: value, i

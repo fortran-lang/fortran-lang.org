@@ -36,7 +36,7 @@ of the data pointed to by these components.
 
 Sample program:
 
-```
+```fortran
    program demo_c_sizeof
    use iso_c_binding
    implicit none

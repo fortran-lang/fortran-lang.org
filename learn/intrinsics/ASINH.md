@@ -25,19 +25,19 @@ __asinh__(x) computes the inverse hyperbolic sine of X.
 ## __Returns__
 
 The return value is of the same type and kind as X. If X is complex, the
-imaginary part of the result is in radians and lies between __-PI__/2
-\<= __AIMAG__(ASINH(X)) \<= PI/2.
+imaginary part of the result is in radians and lies between __-PI/2
+\<= aimag(asinh(X)) \<= PI/2__.
 
 ## __Examples__
 
 Sample program:
 
-```
-   program demo_asinh
-   implicit none
-   real(8), dimension(3) :: x = [ -1.0, 0.0, 1.0 ]
-      write (*,*) asinh(x)
-   end program demo_asinh
+```fortran
+program demo_asinh
+implicit none
+real(8), dimension(3) :: x = [ -1.0, 0.0, 1.0 ]
+    write (*,*) asinh(x)
+end program demo_asinh
 ```
 
 ## __Standard__

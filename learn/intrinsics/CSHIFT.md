@@ -42,7 +42,7 @@ Returns an array of same type and rank as the ARRAY argument.
 
 Sample program:
 
-```
+```fortran
     program demo_cshift
     implicit none
     integer, dimension(3,3) :: a

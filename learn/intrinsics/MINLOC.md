@@ -10,41 +10,40 @@ __minloc__(3) - \[ARRAY LOCATION\] Location of the minimum value within an array
 
 ## __Syntax__
 
-result = __minloc__(array, dim \[, mask\]) result = __minloc__(array \[,
-mask\])
+    result = __minloc(array, dim \[, mask\]) result = minloc(array \[, mask\])__
 
 ## __Description__
 
 Determines the location of the element in the array with the minimum
-value, or, if the DIM argument is supplied, determines the locations of
-the minimum element along each row of the array in the DIM direction. If
-MASK is present, only the elements for which MASK is .true. are
+value, or, if the __DIM__ argument is supplied, determines the locations of
+the minimum element along each row of the array in the __DIM__ direction. If
+__MASK__ is present, only the elements for which __MASK__ is __.true.__ are
 considered. If more than one element in the array has the minimum value,
 the location returned is that of the first such element in array element
-order. If the array has zero size, or all of the elements of MASK are
-.false., then the result is an array of zeroes. Similarly, if DIM is
-supplied and all of the elements of MASK along a given row are zero, the
+order. If the array has zero size, or all of the elements of __MASK__ are
+.false., then the result is an array of zeroes. Similarly, if __DIM__ is
+supplied and all of the elements of __MASK__ along a given row are zero, the
 result value for that row is zero.
 
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type _integer_, _real_, or CHARACTER.
+    Shall be an array of type _integer_, _real_, or _character_.
 
   - __DIM__
     (Optional) Shall be a scalar of type _integer_, with a value between
-    one and the rank of ARRAY, inclusive. It may not be an optional
+    one and the rank of __ARRAY__, inclusive. It may not be an optional
     dummy argument.
 
   - __MASK__
-    Shall be an array of type _logical_, and conformable with ARRAY.
+    Shall be an array of type _logical_, and conformable with __ARRAY__.
 
 ## __Returns__
 
-If DIM is absent, the result is a rank-one array with a length equal to
-the rank of ARRAY. If DIM is present, the result is an array with a rank
-one less than the rank of ARRAY, and a size corresponding to the size of
-ARRAY with the DIM dimension removed. If DIM is present and ARRAY has a
+If __DIM__ is absent, the result is a rank-one array with a length equal to
+the rank of __ARRAY__. If __DIM__ is present, the result is an array with a rank
+one less than the rank of __ARRAY__, and a size corresponding to the size of
+__ARRAY__ with the __DIM__ dimension removed. If __DIM__ is present and __ARRAY__ has a
 rank of one, the result is a scalar. In all cases, the result is of
 default _integer_ type.
 
@@ -52,7 +51,7 @@ default _integer_ type.
 
 sample program:
 
-```
+```fortran
     program demo_minloc
     implicit none
     integer,save :: ints(3,5)= reshape([&
@@ -71,25 +70,25 @@ sample program:
 ```
 
 Results:
+```
+   - __1__
+     3
 
->   - __1__
->     3
->
->   - __1__
->     3 1 3 2
->
->   - __3__
->     5 4
->
->   - __5__
->     4 3
->
->   - __7__
+   - __1__
+     3 1 3 2
 
+   - __3__
+     5 4
+
+   - __5__
+     4 3
+
+   - __7__
+```
 ## __Standard__
 
 Fortran 95 and later
 
 ## __See Also__
 
-__min__(3), __minval__(3)
+__min__(3)](MIN), __minval__(3)](MINVAL)

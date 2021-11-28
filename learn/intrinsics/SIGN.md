@@ -33,7 +33,7 @@ result is __abs__(a), else it is -__abs__(a).
 
 Sample program:
 
-```
+```fortran
     program demo_sign
     implicit none
       print *, sign(-12,1)

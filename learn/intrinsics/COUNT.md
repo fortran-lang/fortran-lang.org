@@ -42,7 +42,7 @@ size corresponding to the shape of ARRAY with the DIM dimension removed.
 
 Sample program:
 
-```
+```fortran
    program demo_count
    implicit none
    integer, dimension(2,3) :: a, b
@@ -65,9 +65,9 @@ Sample program:
       print *
       print '(3i3)', count(mymask, 2)
    end program demo_count
-
+```
    Expected Results:
-
+```
      > 1  3  5
      > 2  4  6
      >

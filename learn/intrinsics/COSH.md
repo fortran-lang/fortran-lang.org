@@ -9,8 +9,16 @@ __cosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic cosine function
 (GFDL)
 
 ## __Syntax__
+```fortran
+    result = __cosh__(x)
 
-x = __cosh__(x)
+     TYPE(kind=KIND) elemental function cosh(x) result(value)
+     TYPE(kind=KIND),intent(in) :: x
+     TYPE(kind=KIND)            :: value
+```
+where TYPE may be _real_ or _complex_ and KIND may be any 
+supported kind for the associated type. The returned __value__
+will be the same type and kind as the input value __x__.
 
 ## __Description__
 
@@ -31,13 +39,13 @@ value has a lower bound of one, __cosh__(x) \>= 1.
 
 Sample program:
 
-```
-   program demo_cosh
-   use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
-   implicit none
-   real(kind=real64) :: x = 1.0_real64
-      x = cosh(x)
-   end program demo_cosh
+```fortran
+program demo_cosh
+use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
+implicit none
+real(kind=real64) :: x = 1.0_real64
+    x = cosh(x)
+end program demo_cosh
 ```
 
 ## __Standard__

@@ -33,7 +33,7 @@ and has the same type and kind as the first argument.
 
 Sample program
 
-```
+```fortran
     program demo_min
     implicit none
     write(*,*)min(10.0,11.0,30.0,-100.0)

@@ -49,7 +49,7 @@ FORTRAN 77.
 So Fortran 90 extends the __CMPLX__() intrinsic by adding an extra
 argument used to specify the desired kind of complex result.
 
-```
+```fortran
       integer,parameter :: dp=kind(0.0d0)
       complex(kind=dp) :: z8
       !
@@ -119,7 +119,7 @@ _complex_ kind, regardless of the kinds of X and Y.
 
 Sample program:
 
-```
+```fortran
    program demo_aimag
    implicit none
    integer,parameter :: dp=kind(0.0d0)

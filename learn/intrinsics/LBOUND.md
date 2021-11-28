@@ -47,7 +47,7 @@ occur if there is no interface defined.
 
 Sample program
 
-```
+```fortran
    ! program demo_lbound
    module m_bounds
    implicit none

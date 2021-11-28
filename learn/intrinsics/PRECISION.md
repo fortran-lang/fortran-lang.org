@@ -30,7 +30,7 @@ The return value is of type _integer_ and of the default integer kind.
 
 Sample program:
 
-```
+```fortran
     program demo_precision
     implicit none
       real(kind=4) :: x(2)

@@ -32,7 +32,7 @@ number of bits are set.
 
 Sample program:
 
-```
+```fortran
    program demo_popcnt
    use, intrinsic :: iso_fortran_env, only : integer_kinds, &
    & int8, int16, int32, int64

@@ -10,7 +10,7 @@ __bge__(3) - \[BIT COMPARE\] Bitwise greater than or equal to
 
 ## __Description__
 
-Determines whether an integer is a bitwise greater than or equal to
+Determines whether an integer is bitwise greater than or equal to
 another.
 
 ## __Syntax__

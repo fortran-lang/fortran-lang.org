@@ -38,7 +38,7 @@ argument kinds differ, it is of the same kind as the larger argument.)
 
 Sample program:
 
-```
+```fortran
    program demo_ior
    implicit none
    integer :: i, j, k

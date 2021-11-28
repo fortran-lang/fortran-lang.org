@@ -35,7 +35,7 @@ returned; it is __fraction__(x) \* __radix__(x)\*\*i.
 
 Sample program:
 
-```
+```fortran
     program demo_setexp
     implicit none
       real :: x = 178.1387e-4

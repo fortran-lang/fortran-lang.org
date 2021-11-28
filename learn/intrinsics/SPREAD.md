@@ -38,7 +38,7 @@ n equals the rank of SOURCE.
 
 Sample program:
 
-```
+```fortran
     program demo_spread
     implicit none
       integer :: a = 1, b(2) = [ 1, 2 ]

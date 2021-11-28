@@ -11,11 +11,11 @@ __atan2__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
 
 ## __Syntax__
 
-result = __atan2__(y, x)
+result = __atan2(Y, X)__
 
 ## __Description__
 
-__atan2__(y, x) computes the arctangent of the complex number
+__atan2(Y, X)__ computes the arctangent of the complex number
 
 ```
       X + i Y.
@@ -23,7 +23,7 @@ __atan2__(y, x) computes the arctangent of the complex number
 
 This function can be used to transform from Cartesian into polar
 coordinates and allows to determine the angle in the correct quadrant.
-To convert from Cartesian Coordinates (x,y) to polar coordinates
+To convert from Cartesian Coordinates __(X,Y)__ to polar coordinates
 
 (r,theta): $$ \\begin{aligned} r &= \\sqrt{x\*\*2 + y\*\*2} \\\\ \\theta
 &= \\tan\*\*{__-1__}(y / x) \\end{aligned} $$
@@ -52,7 +52,7 @@ magnitude of the result is __PI/2__.
 
 Sample program:
 
-```
+```fortran
 program demo_atan2
 implicit none
 real(4) :: x = 1.e0_4, y = 0.5e0_4

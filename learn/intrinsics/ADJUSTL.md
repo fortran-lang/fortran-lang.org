@@ -19,42 +19,41 @@ __adjustl__(3) - \[CHARACTER\] Left-adjust a string
 
 ## __Description__
 
-__adjustl__(STRING) will left adjust a string by removing leading
+__adjustl(STRING)__ will left-adjust a string by removing leading
 spaces. Spaces are inserted at the end of the string as needed.
 
 ## __Arguments__
 
   - __STRING__
-    the type shall be CHARACTER.
+    the type shall be _character_.
 
 ## __Returns__
 
-The return value is of type CHARACTER and of the same kind as STRING
+The return value is of type _character_ and of the same kind as __STRING__
 where leading spaces are removed and the same number of spaces are
-inserted on the end of STRING.
+inserted on the end of __STRING__.
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-    program demo_adjustl
-    implicit none
-    character(len=20) :: str = '   sample string'
-    character(len=:),allocatable :: astr
-       !
-       ! basic use
-       str = adjustl(str)
-       write(*,'("[",a,"]")') str, trim(str)
-       !
-       ! an allocatable string stays the same length
-       ! and is not trimmed.
-       astr='    allocatable string   '
-       write(*,'("[",a,"]")') adjustl(astr)
-       !
-    end program demo_adjustl
+program demo_adjustl
+implicit none
+character(len=20) :: str = '   sample string'
+character(len=:),allocatable :: astr
+    !
+    ! basic use
+    str = adjustl(str)
+    write(*,'("[",a,"]")') str, trim(str)
+    !
+    ! an allocatable string stays the same length
+    ! and is not trimmed.
+    astr='    allocatable string   '
+    write(*,'("[",a,"]")') adjustl(astr)
+    !
+end program demo_adjustl
 ```
-
 Results:
 
 ```
@@ -69,6 +68,6 @@ Fortran 95 and later
 
 ## __See Also__
 
-    __adjustr__(3)(ADJUSTR)
+    [__adjustr__(3)](ADJUSTR)
 
 ###### fortran-lang intrinsic descriptions

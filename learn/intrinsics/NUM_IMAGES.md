@@ -40,7 +40,7 @@ of images which do have not the failed status.
 
 Sample program:
 
-```
+```fortran
    program demo_num_images
    implicit none
    integer :: value[*]

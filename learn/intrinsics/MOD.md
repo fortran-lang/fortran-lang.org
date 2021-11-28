@@ -36,7 +36,7 @@ P.
 
 Sample program:
 
-```
+```fortran
    program demo_mod
    implicit none
      print *, mod(17,3)           ! yields 2

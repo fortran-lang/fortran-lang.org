@@ -11,11 +11,11 @@ __atanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic tangent function
 
 ## __Syntax__
 
-result = __atanh__(x)
+result = __atanh(X)__
 
 ## __Description__
 
-__atanh__(x) computes the inverse hyperbolic tangent of X.
+__atanh(X)__ computes the inverse hyperbolic tangent of __X__.
 
 ## __Arguments__
 
@@ -24,21 +24,21 @@ __atanh__(x) computes the inverse hyperbolic tangent of X.
 
 ## __Returns__
 
-The return value has same type and kind as X. If X is complex, the
+The return value has same type and kind as __X__. If __X__ is complex, the
 imaginary part of the result is in radians and lies between
 
-__-PI__/2 \<= __AIMAG__(ATANH(X)) \<= PI/2.
+__-PI/2 \<= aimag(atanh(X)) \<= PI/2__
 
 ## __Examples__
 
 Sample program:
 
-```
-    program demo_atanh
-    implicit none
-    real, dimension(3) :: x = [ -1.0, 0.0, 1.0 ]
-       write (*,*) atanh(x)
-    end program demo_atanh
+```fortran
+program demo_atanh
+implicit none
+real, dimension(3) :: x = [ -1.0, 0.0, 1.0 ]
+   write (*,*) atanh(x)
+end program demo_atanh
 ```
 
 ## __Standard__

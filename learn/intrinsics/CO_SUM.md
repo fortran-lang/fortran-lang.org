@@ -44,7 +44,7 @@ a value describing the occurred error.
 
 Sample program:
 
-```
+```fortran
    program demo_co_sum
    implicit none
    integer :: val

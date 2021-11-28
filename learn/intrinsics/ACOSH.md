@@ -15,13 +15,12 @@ __acosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic cosine function
    TYPE(kind=KIND),elemental :: acosh
    TYPE(kind=KIND,intent(in) :: x
 ```
-
 where TYPE may be _real_ or _complex_ and KIND may be any KIND supported
 by the associated type.
 
 ## __Description__
 
-__ACOSH__(X) computes the inverse hyperbolic cosine of X in radians.
+__acosh(X)__ computes the inverse hyperbolic cosine of __X__ in radians.
 
 ## __Arguments__
 
@@ -30,12 +29,12 @@ __ACOSH__(X) computes the inverse hyperbolic cosine of X in radians.
 
 ## __Returns__
 
-The return value has the same type and kind as X.
+The return value has the same type and kind as __X__.
 
-If X is _complex_, the imaginary part of the result is in radians and
+If __X__ is _complex_, the imaginary part of the result is in radians and
 lies between
 
-> 0 \<= __AIMAG__(__ACOSH__(X)) \<= PI.
+> __0 \<= aimag(acosh(x)) \<= PI__
 
 ## __Examples__
 

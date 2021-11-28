@@ -59,7 +59,7 @@ Sample program:
 
 Demonstrate Fortran 90 SUM function with MASK option
 
-```
+```fortran
    program demo_sum
    ! John Mahaffy  2/16/96
    implicit none

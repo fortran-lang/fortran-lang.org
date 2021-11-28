@@ -36,7 +36,7 @@ The return value has the same type and kind type parameter as X.
 
 Sample program:
 
-```
+```fortran
     program demo_hypot
     implicit none
       real(4) :: x = 1.e0_4, y = 0.5e0_4

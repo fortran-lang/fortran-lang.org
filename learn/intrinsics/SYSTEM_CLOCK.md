@@ -66,7 +66,7 @@ time spent in code blocks in lieu of using profiling tools.
 
 Sample program:
 
-```
+```fortran
       program demo_system_clock
       implicit none
         integer :: count, count_rate, count_max

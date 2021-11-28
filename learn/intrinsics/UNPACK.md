@@ -37,7 +37,7 @@ replaced by values from VECTOR in array element order.
 
 Sample program:
 
-```
+```fortran
     program demo_unpack
     implicit none
       integer :: vector(2)  = [1,1]

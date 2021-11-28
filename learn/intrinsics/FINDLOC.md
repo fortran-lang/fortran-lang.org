@@ -118,11 +118,11 @@ is the shape of *ARRAY*.
 >
 > of the result is equal to
 >
-> ````
+> ```
 >                  findloc (array (s1, s2, ```, sdim-1, :, sdim+1, ..., sn ), &
 >                  value, dim=1 [, mask = mask (s1, s2, ```, sdim-1, :,
 >                                  sdim+1 ,``` , sn )]).
-> ````
+> ```
 
 ## __Examples__
 

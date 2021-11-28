@@ -33,7 +33,7 @@ __-PI__ \< OMEGA \<= PI.
 
 Sample program:
 
-```
+```fortran
    program demo_log
    implicit none
      real(kind(0.0d0)) :: x = 2.71828182845904518d0

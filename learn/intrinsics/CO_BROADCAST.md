@@ -42,7 +42,7 @@ value describing the occurred error.
 
 Sample program:
 
-```
+```fortran
    program demo_co_broadcast
    implicit none
    integer :: val(3)

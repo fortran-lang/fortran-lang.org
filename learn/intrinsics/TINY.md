@@ -30,7 +30,7 @@ The return value is of the same type and kind as X
 
 Sample program:
 
-```
+```fortran
     program demo_tiny
     implicit none
       print *, huge(0), huge(0.0), huge(0.0d0)

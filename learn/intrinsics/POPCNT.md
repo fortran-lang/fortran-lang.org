@@ -30,7 +30,7 @@ The return value is of type 'integer' and of the default integer kind.
 
 Sample program:
 
-```
+```fortran
    program demo_popcnt
    use, intrinsic :: iso_fortran_env, only : integer_kinds, &
    & int8, int16, int32, int64

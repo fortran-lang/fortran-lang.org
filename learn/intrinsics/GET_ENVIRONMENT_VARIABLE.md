@@ -58,7 +58,7 @@ being updated concurrently.
 
 Sample program:
 
-````fortran
+```fortran
    program demo_getenv
    implicit none
    character(len=:),allocatable :: var
@@ -81,7 +81,7 @@ Sample program:
         write (*,'(a,"=""",a,"""")')var,trim(homedir)
      end select
    end program demo_getenv
-````
+```
 
 Typical Results:
 

@@ -48,7 +48,7 @@ kind as ARRAY.
 
 sample program:
 
-```
+```fortran
     program demo_minval
     implicit none
     integer,save :: ints(3,5)= reshape([&

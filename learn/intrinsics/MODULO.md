@@ -42,7 +42,7 @@ magnitude of P.
 
 Sample program:
 
-```
+```fortran
    program demo_modulo
    implicit none
      print *, modulo(17,3)        ! yields 2

@@ -32,7 +32,7 @@ __radix__(x)\*\*(__-exponent__(x)).
 
 Sample program:
 
-```
+```fortran
     program demo_fraction
     implicit none
       real :: x

@@ -29,7 +29,7 @@ pointer CPTR to the Fortran procedure pointer FPTR.
 
 Sample program:
 
-```
+```fortran
     program demo_c_f_procpointer
     use iso_c_binding
     implicit none

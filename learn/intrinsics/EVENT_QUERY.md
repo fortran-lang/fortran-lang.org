@@ -37,7 +37,7 @@ it is assigned a positive value and COUNT is assigned the value __-1__.
 
 Sample program:
 
-```
+```fortran
    program demo_event_query
      use iso_fortran_env
      implicit none

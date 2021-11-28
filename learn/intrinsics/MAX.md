@@ -10,7 +10,7 @@ __max__(3) - \[NUMERIC\] Maximum value of an argument list
 
 ## __Syntax__
 
-result = __max__(a1, a2 \[, a3 \[, \`\`\`\]\])
+result = __max(a1, a2 \[, a3 \[, \`\`\`\]\])__
 
 ## __Description__
 
@@ -42,7 +42,7 @@ __max__(arr1(N),arr2(N)).
 
 Sample program
 
-```
+```fortran
     program demo_max
     implicit none
     real :: arr1(4)= [10.0,11.0,30.0,-100.0]
@@ -117,4 +117,4 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__maxloc__(3), __maxval__(3), __min__(3)
+[__maxloc__(3)](MAXLOC), [__maxval__(3)](MAXVAL), [__min__(3)](MIN)

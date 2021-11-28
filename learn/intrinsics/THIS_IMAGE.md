@@ -48,7 +48,7 @@ __this\_image__(coarray).
 
 Sample program:
 
-```
+```fortran
    program demo_this_image
    implicit none
    integer :: value[*]
