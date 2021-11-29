@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: December 2021"
 category: newsletter
-author: Milan Curcic, Sebastian Ehlert
+author: Milan Curcic, Sebastian Ehlert, Alexis Perry-Holby
 ---
 
 Welcome to the December 2021 edition of the monthly Fortran newsletter.
@@ -159,7 +159,54 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
-TODO @AlexisPerry
+Recent development updates:
+
+* OpenMP
+    * Use the ultimate symbol in a call to the IsPointer function
+    * Add parsing/sema/serialization for 'bind' clause.
+* FIR
+    * Add base of the FIR to LLVM IR pass
+    * Add various FIR to LLVM IR conversion patterns:
+        * fir.unreachable
+        * fir.insert_on_range
+        * fir.zero_bits
+        * fir.select and fir.select_rank
+        * fir.extract_value and fir.insert_value
+        * types - fir.box, fir.logical, fir.char, fir.ptr
+        * fir.box_rank, fir.box_addr, fir.box_dims, fir.box_elesize
+        * fir.convert
+        * fir.call
+        * fir.store and fir.load
+    * Add substr information to fircg.ext_embox and fircg.ext_rebox operations
+    * Use notifyMatchFailure in fir.zero_bits conversion
+    * Restrict array type on fir.insert_on_range
+    * Add test for FIR types conversion
+    * Use contralized values for indexing box
+    * Add complex operations conversion from FIR LLVM IR
+    * Add TargetRewrite pass and TargetRewrite: Rewrite COMPLEX values
+* Runtime
+    * Read environment variables directly
+* flang-omp-report
+    * Removed unnecessary comments in flang-omp-report plugin tests
+    * Remove the loop workarounds for nowait clause
+    * Add flang-omp-report summarising script
+* Checks for pointers to intrinsic functions
+* Fold SPREAD
+* Improve error message for misuse of NULL(mold) as data statement constant
+* Fix crash on "call system_clock(count_max=j)"
+* Fix combined folding of FINDLOC/MAXLOC/MINLOC
+* Implement GET_ENVIRONMENT_VARIABLE(VALUE)
+* Remove builder that takes SSA value instead of Attribute on ExtractValueOp, InsetValueOp, and InsertOnRangeOp
+* Remove getModel<Fortran::ISO::CFI_dim_t> in DescriptorModel.h
+* Set the addendum when establishing pointer section in descriptor
+* Fix error in characteristics check at procedure pointer assignment
+* Initial parsing/sema for 'align' clause
+* Don't reference non-invariant symbols in shape expressions
+* Make subscript list argument a nullable pointer
+* Distinguish error/warning cases for bad jumps into constructs
+* Fix folding of EPSILON()
+
+Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
 ### LFortran
 
