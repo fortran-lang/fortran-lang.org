@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: December 2021"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Sebastian Ehlert
 ---
 
 Welcome to the December 2021 edition of the monthly Fortran newsletter.
