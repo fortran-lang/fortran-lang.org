@@ -9,8 +9,9 @@ __scale__(3) - \[MODEL\_COMPONENTS\] Scale a real value
 (GFDL)
 
 ## __Syntax__
-
-result = __scale__(x, i)
+```fortran
+result = scale(x, i)
+```
 
 ## __Description__
 

@@ -9,27 +9,28 @@ __same\_type\_as__(3) - \[\] Query dynamic types for equality
 (GFDL)
 
 ## __Syntax__
-
-result = __same\_type\_as__(a, b)
-
+```fortran
+result = same_type_as(a, b)
+     
+```
 ## __Description__
 
 Query dynamic types for equality.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     Shall be an object of extensible declared type or unlimited
     polymorphic.
 
-  - __B__
+  - __b__
     Shall be an object of extensible declared type or unlimited
     polymorphic.
 
 ## __Returns__
 
 The return value is a scalar of type default logical. It is true if and
-only if the dynamic type of A is the same as the dynamic type of B.
+only if the dynamic type of __a__ is the same as the dynamic type of __b__.
 
 ## __Standard__
 
@@ -37,4 +38,4 @@ Fortran 2003 and later
 
 ## __See Also__
 
-__extends\_type\_of__(3)
+[__extends\_type\_of__(3)](EXTENDS_TYPE_OF)

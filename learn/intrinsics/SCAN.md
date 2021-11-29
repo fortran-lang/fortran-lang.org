@@ -9,8 +9,9 @@ __scan__(3) - \[CHARACTER\] Scan a string for the presence of a set of character
 (GFDL)
 
 ## __Syntax__
-
-result = __scan__(string, set\[, back \[, kind\]\])
+```fortran
+result = scan(string, set[, back [, kind]])
+```
 
 ## __Description__
 

@@ -9,17 +9,15 @@ __system\_clock__(3) - \[SYSTEM ENVIRONMENT\] Return numeric data from a real-ti
 (GFDL)
 
 ## __Syntax__
+```fortran
+subroutine system_clock(count, count_rate, count_max)
 
-subroutine __system\_clock__(\[count, count\_rate, count\_max\])
-
-```
    integer,intent(out),optional  :: count
    integer,intent(out),optional  :: count_rate
       or
    real,intent(out),optional     :: count_rate
    integer,intent(out,optional   :: count_max
 ```
-
 ## __Description__
 
 system\_clock lets you measure durations of time with the precision of
@@ -65,23 +63,20 @@ time spent in code blocks in lieu of using profiling tools.
 ## __Examples__
 
 Sample program:
-
 ```fortran
-      program demo_system_clock
-      implicit none
-        integer :: count, count_rate, count_max
-        call system_clock(count, count_rate, count_max)
-        write(*,*) count, count_rate, count_max
-      end program demo_system_clock
+program demo_system_clock
+implicit none
+integer :: count, count_rate, count_max
+   call system_clock(count, count_rate, count_max)
+   write(*,*) count, count_rate, count_max
+end program demo_system_clock
 ```
-
 If the processor clock is a 24-hour clock that registers time at
 approximately 18.20648193 ticks per second, at 11:30 A.M. the reference
 
 ```
       CALL SYSTEM_CLOCK (COUNT = C, COUNT_RATE = R, COUNT_MAX = M)
 ```
-
 defines
 
 ```
@@ -89,11 +84,11 @@ defines
       R = 18.20648193, and
       M = 24*3600*18.20648193-1 = 1573039.
 ```
-
 ## __Standard__
 
 Fortran 95 and later
 
 ## __See Also__
 
-__date\_and\_time__(3), __cpu\_time__(3)
+[__date\_and\_time__(3)](DATE_AND_TIME),
+[__cpu\_time__(3)](CPU_TIME)
