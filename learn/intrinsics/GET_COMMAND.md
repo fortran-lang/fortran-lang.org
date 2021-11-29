@@ -23,12 +23,12 @@ __get\_command__(3) - \[SYSTEM ENVIRONMENT\] Get the entire command line
 
 Retrieve the entire command line that was used to invoke the program.
 
-Note that what is typed on the command line is often processed by a
-shell. The shell often processes special characters and white space
-before passing it to the program. The processing can typically be turned
-off by turning off globbing or quoting the command line arguments with
-quote characters and/or changing the default field separators, but this
-should rarely be necessary.
+Note that what is typed on the command line is often processed by
+a shell. The shell typically processes special characters and white
+space before passing it to the program. The processing can typically be
+turned off by turning off globbing or quoting the command line arguments
+and/or changing the default field separators, but this should rarely
+be necessary.
 
 ## __Returns__
 
@@ -52,25 +52,25 @@ should rarely be necessary.
 Sample program:
 
 ```fortran
-   program demo_get_command
-   implicit none
-   integer                      :: COMMAND_LINE_LENGTH
-   character(len=:),allocatable :: COMMAND_LINE
-      ! get command line length
-      call get_command(length=COMMAND_LINE_LENGTH)
-      ! allocate string big enough to hold command line
-      allocate(character(len=COMMAND_LINE_LENGTH) :: COMMAND_LINE)
-      ! get command line as a string
-      call get_command(command=COMMAND_LINE)
-      ! trim leading spaces just in case
-      COMMAND_LINE=adjustl(COMMAND_LINE)
-      write(*,'("OUTPUT:",a)')COMMAND_LINE
-   end program demo_get_command
+program demo_get_command
+implicit none
+integer                      :: COMMAND_LINE_LENGTH
+character(len=:),allocatable :: COMMAND_LINE
+   ! get command line length
+   call get_command(length=COMMAND_LINE_LENGTH)
+   ! allocate string big enough to hold command line
+   allocate(character(len=COMMAND_LINE_LENGTH) :: COMMAND_LINE)
+   ! get command line as a string
+   call get_command(command=COMMAND_LINE)
+   ! trim leading spaces just in case
+   COMMAND_LINE=adjustl(COMMAND_LINE)
+   write(*,'("OUTPUT:",a)')COMMAND_LINE
+end program demo_get_command
 ```
 
 Sample execution:
 
-```
+```bash
      # note that shell expansion removes some of the whitespace
      # without quotes
      ./test_get_command  arguments    on the    command   line to   echo

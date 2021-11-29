@@ -45,23 +45,23 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
 
 ## __Arguments__
 
-  - __COMMAND__
+  - __command__
     a default CHARACTER scalar containing the command line to be
     executed. The interpretation is programming-environment dependent.
 
-  - __WAIT__
+  - __wait__
     (Optional) a default _logical_ scalar. If WAIT is present with the
     value .false., and the processor supports asynchronous execution of
     the command, the command is executed asynchronously; otherwise it is
     executed synchronously.
 
-  - __EXITSTAT__
+  - __exitstat__
     (Optional) an _integer_ of the default kind with __intent__(INOUT). If
     the command is executed synchronously, it is assigned the value of
     the processor-dependent exit status. Otherwise, the value of
     EXITSTAT is unchanged.
 
-  - __CMDSTAT__
+  - __cmdstat__
     (Optional) an _integer_ of default kind with __intent__(INOUT). If an
     error condition occurs and CMDSTAT is not present, error termination
     of execution of the image is initiated.
@@ -73,7 +73,7 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
     does not support asynchronous execution. Otherwise it is assigned
     the value 0.
 
-  - __CMDMSG__
+  - __cmdmsg__
     (Optional) a CHARACTER scalar of the default kind. It is an INTENT
     (INOUT) argument.If an error condition occurs, it is assigned a
     processor-dependent explanatory message.Otherwise, it is unchanged.
@@ -83,16 +83,16 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
 Sample program:
 
 ```fortran
-   program demo_exec
-   implicit none
-     integer :: i
+program demo_exec
+implicit none
+   integer :: i
 
-     call execute_command_line("external_prog.exe", exitstat=i)
-     print *, "Exit status of external_prog.exe was ", i
+   call execute_command_line("external_prog.exe", exitstat=i)
+   print *, "Exit status of external_prog.exe was ", i
 
-     call execute_command_line("reindex_files.exe", wait=.false.)
-     print *, "Now reindexing files in the background"
-   end program demo_exec
+   call execute_command_line("reindex_files.exe", wait=.false.)
+   print *, "Now reindexing files in the background"
+end program demo_exec
 ```
 
 ## __Note__

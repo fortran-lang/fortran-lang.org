@@ -197,7 +197,7 @@ on the documents. For contribution guidelines see
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | NUMERIC MODEL             | [digits](DIGITS)                                     | (GFDL)  | Significant digits function                                  |
 | NUMERIC MODEL             | [epsilon](EPSILON)                                   | (GFDL)  | Epsilon function                                             |
-| NUMERIC MODEL             | [huge](HUGE)                                         | (GFDL)  | Largest number of a kind                                     |
+| NUMERIC MODEL             | [huge](HUGE)                                         |         | Largest number of a kind                                     |
 | NUMERIC MODEL             | [maxexponent](MAXEXPONENT)                           | (GFDL)  | Maximum exponent of a real kind                              |
 | NUMERIC MODEL             | [minexponent](MINEXPONENT)                           | (GFDL)  | Minimum exponent of a real kind                              |
 | NUMERIC MODEL             | [precision](PRECISION)                               | (GFDL)  | Decimal precision of a real kind                             |

@@ -47,4 +47,19 @@ Fortran 95 and later
 
 ## __See Also__
 
-__selected\_real\_kind__(3), __range__(3)
+[digits(3)](DIGITS),
+[epsilon(3)](EPSILON),
+[exponent(3)](EXPONENT),
+[fraction(3)](FRACTION),
+[huge(3)](HUGE),
+[maxexponent(3)](MAXEXPONENT),
+[minexponent(3)](MINEXPONENT),
+[nearest(3)](NEAREST),
+[radix(3)](RADIX),
+[range(3)](RANGE),
+[rrspacing(3)](RRSPACING),
+[scale(3)](SCALE),
+[set_exponent(3)](SET_EXPONENT),
+[spacing(3)](SPACING),
+[tiny(3)](TINY)
+

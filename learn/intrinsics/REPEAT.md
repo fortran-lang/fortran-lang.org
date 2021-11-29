@@ -11,6 +11,7 @@ __repeat__(3) - \[CHARACTER\] Repeated string concatenation
 ## __Syntax__
 ```fortran
 result = repeat(string, ncopies)
+
    character(len=len(string)*ncopies) :: repeat
    character(len=*),intent(in)        :: string
    integer,intent(in)                 :: ncopies
@@ -18,19 +19,21 @@ result = repeat(string, ncopies)
 
 ## __Description__
 
-Concatenates __NCOPIES__ copies of a string.
+Concatenates __ncopies__ copies of a string.
 
 ## __Arguments__
 
-  - __STRING__
+  - __string__
+    The input string to repeatedly generate.
     Shall be scalar and of type _character_.
 
-  - __NCOPIES__
-    Shall be scalar and of type _integer_ greater than or equal to zero (0).
+  - __ncopies__
+    Number of copies to make of _string_, greater than or equal to zero (0).
+    Shall be scalar and of type _integer_.
 
 ## __Returns__
 
-A new scalar of type _character_ built up from __NCOPIES__ copies of __STRING__.
+A new scalar of type _character_ built up from __ncopies__ copies of __string__.
 
 ## __Examples__
 
@@ -65,8 +68,13 @@ Fortran 95 and later
 Functions that perform operations on character strings:
 
   - __Elemental:__
-    __adjustl__(3), __adjustr__(3), __index__(3), __len\_trim__(3),
-    __scan__(3), __verify__(3)
+    [__adjustl__(3)](ADJUSTL),
+    [__adjustr__(3)](ADJUSTR),
+    [__index__(3)](INDEX),
+    [__len\_trim__(3)](LEN_TRIM),
+    [__scan__(3)](SCAN),
+    [__verify__(3)](VERIFY)
 
   - __Non-elemental:__
-    __repeat__(3), __trim__(3)
+    [__repeat__(3)](REPEAT),
+    [__trim__(3)](TRIM)
