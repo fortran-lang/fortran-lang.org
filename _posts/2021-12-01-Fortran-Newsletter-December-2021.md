@@ -130,7 +130,7 @@ Here's what's new in fpm:
 ### Work in progress
 
 * [#622](https://github.com/fortran-lang/fpm/pull/622) (WIP):
-  (WIP) Cleanup the backend output
+  Cleanup the backend output
 * [#608](https://github.com/fortran-lang/fpm/pull/608) (WIP):
   --env switch lets you specify the prefix of the compiler-related environment variables
 * [#539](https://github.com/fortran-lang/fpm/pull/539) (WIP):
