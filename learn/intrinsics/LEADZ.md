@@ -9,9 +9,9 @@ __leadz__(3) - \[BIT INQUIRY\] Number of leading zero bits of an integer
 (GFDL)
 
 ## __Syntax__
-
-result = __leadz__(i)
-
+```fortran
+result = leadz(i)
+```
 ## __Description__
 
 LEADZ returns the number of leading zero bits of an integer.

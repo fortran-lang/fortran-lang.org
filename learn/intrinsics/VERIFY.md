@@ -14,26 +14,26 @@ result = __verify__(string, set\[, back \[, kind\]\])
 
 ## __Description__
 
-Verifies that all the characters in STRING belong to the set of
-characters in SET.
+Verifies that all the characters in __string__ belong to the set of
+characters in __set__.
 
-If BACK is either absent or equals FALSE, this function returns the
-position of the leftmost character of STRING that is not in SET. If BACK
-equals TRUE, the rightmost position is returned. If all characters of
-STRING are found in SET, the result is zero.
+If __back__ is either absent or equals __false__, this function returns the
+position of the leftmost character of __string__ that is not in __set__. If __back__
+equals __true__, the rightmost position is returned. If all characters of
+__string__ are found in __set__, the result is zero.
 
 ## __Arguments__
 
-  - __STRING__
-    Shall be of type CHARACTER.
+  - __string__
+    Shall be of type _character_.
 
-  - __SET__
-    Shall be of type CHARACTER.
+  - __set__
+    Shall be of type _character_.
 
-  - __BACK__
+  - __back__
     (Optional) shall be of type _logical_.
 
-  - __KIND__
+  - __kind__
     (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
@@ -47,21 +47,21 @@ the return value is of default integer kind.
 Sample program:
 
 ```fortran
-    program demo_verify
-    implicit none
-    character(len=12):: c1='Howdy There!'
-    character(len=6) :: c2(2)=["Howdy ","there!"]
-    character(len=2) :: c3(2)=["de","gh"]
+program demo_verify
+implicit none
+character(len=12):: c1='Howdy There!'
+character(len=6) :: c2(2)=["Howdy ","there!"]
+character(len=2) :: c3(2)=["de","gh"]
     !=======================================================
     !! LOCATION OF FIRST NONBLANK CHARACTER
     write(*,*)'nonblank ',verify('  Hello World! ', ' ')
     !! SAME AS LEN_TRIM()
     write(*,*)'length ',verify('  Hello World!    ', ' ', back = .true.)
     !! ARRAYS
-    write(*,*) verify(c1,'de')                  ! writes 1
-    write(*,*) verify(c2,c3)                    ! writes 1 1
-    write(*,*) verify(c1,'de',back=.true.)      ! writes 12
-    write(*,*) verify(c2,c3,[.true.,.false.]) ! writes 6 1
+    write(*,*) verify(c1,'de')                   ! writes 1
+    write(*,*) verify(c2,c3)                     ! writes 1 1
+    write(*,*) verify(c1,'de',back=.true.)       ! writes 12
+    write(*,*) verify(c2,c3,[.true.,.false.])    ! writes 6 1
     !=======================================================
     write(*,*) verify("fortran", "ao")           ! 1, found 'f'
     write(*,*) verify("fortran", "fo")           ! 3, found 'r'
@@ -71,27 +71,25 @@ Sample program:
     !=======================================================
     !! CHECK IF STRING IS OF FORM NN-HHHHH
     check : block
-    logical                    :: lout
-    character(len=*),parameter :: int='0123456789'
-    character(len=*),parameter :: hex='abcdef0123456789'
-    character(len=80)          :: chars
-
-    chars='32-af43d'
-    lout=.true.
-    lout = lout.and.(verify(chars(1:2), int) == 0)
-    lout = lout.and.(verify(chars(3:3), '-') == 0)
-    lout = lout.and.(verify(chars(4:8), hex) == 0)
-    if(lout)then
-       write(*,*)trim(chars),' passed'
-    endif
-
+       logical                    :: lout
+       character(len=*),parameter :: int='0123456789'
+       character(len=*),parameter :: hex='abcdef0123456789'
+       character(len=80)          :: chars
+   
+       chars='32-af43d'
+       lout=.true.
+       lout = lout.and.(verify(chars(1:2), int) == 0)
+       lout = lout.and.(verify(chars(3:3), '-') == 0)
+       lout = lout.and.(verify(chars(4:8), hex) == 0)
+       if(lout)then
+          write(*,*)trim(chars),' passed'
+       endif
     endblock check
-    end program demo_verify
+end program demo_verify
 ```
-
 Results:
 
-```
+```text
     nonblank            3
     length           14
               1
@@ -108,7 +106,7 @@ Results:
 
 ## __Standard__
 
-Fortran 95 and later, with KIND argument - Fortran 2003 and later
+Fortran 95 and later, with __kind__ argument - Fortran 2003 and later
 
 ## __See Also__
 
@@ -116,8 +114,13 @@ Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
   - __Elemental:__
-    [__adjustl__(3)](ADJUSTL), [__adjustr__(3)](ADJUSTR), [__index__(3)](INDEX), [__len\_trim__(3)](LEN_TRIM),
-    [__scan__(3)](SCAN), [__verify__(3)](VERIFY)
+    [__adjustl__(3)](ADJUSTL),
+    [__adjustr__(3)](ADJUSTR),
+    [__index__(3)](INDEX),
+    [__len\_trim__(3)](LEN_TRIM),
+    [__scan__(3)](SCAN), 
+    [__verify__(3)](VERIFY)
 
   - __Nonelemental:__
-    [__repeat__(3)](REPEAT), [__trim__(3)](TRIM)
+    [__repeat__(3)](REPEAT), 
+    [__trim__(3)](TRIM)

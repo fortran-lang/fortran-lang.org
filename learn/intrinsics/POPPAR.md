@@ -19,14 +19,15 @@ parity of the number of bits set).
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     Shall be of type _integer_.
 
 ## __Returns__
 
-The return value is of type 'integer' and of the default integer kind.
-It is equal to 0 if I has an even number of bits set and 1 if an odd
+The return value is equal to 0 if __i__ has an even number of bits set and 1 if an odd
 number of bits are set.
+
+It is of type _integer_ and of the default _integer_ kind.
 
 ## __Examples__
 
@@ -51,4 +52,6 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__popcnt__(3), __leadz__(3), __trailz__(3)
+[__popcnt__(3)](POPCNT),
+[__leadz__(3)](LEADZ),
+[__trailz__(3)](TRAILZ)
