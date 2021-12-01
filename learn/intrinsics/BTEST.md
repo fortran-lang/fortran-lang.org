@@ -5,12 +5,17 @@ permalink: /learn/intrinsics/BTEST
 ---
 ## __Name__
 
-__btest__(3) - \[BIT MANIPULATION\] Bit test function
-(GFDL)
+__btest__(3) - \[BIT MANIPULATION\] Tests a bit of an _integer_ value.
 
 ## __Syntax__
+```fortran
+   result = btest(i, pos)
 
-__result = btest(i, pos)__
+    integer(kind=KIND) elemental function btest(i,pos)
+    integer,intent(in)  :: i
+    logical,intent(out) :: pos
+```
+ where __KIND__ is any _integer_ kind supported by the programming environment.
 
 ## __Description__
 
@@ -22,12 +27,15 @@ __btest(i,pos)__ returns logical __.true.__ if the bit at __pos__ in __i__ is se
     The type shall be _integer_.
 
   - __pos__
-    The type shall be _integer_. A value of zero refers to the least
-    significant bit.
+    The bit position to query. it must be a valid position for the
+    value __i__; ie.  __0 <= pos <= bit_size(i)__ .
+
+    A value of zero refers to the least significant bit.
 
 ## __Returns__
-
-The return value is of type _logical_
+    The result is a _logical_ that has the value __.true.__ if bit
+    position __pos__ of __i__ has the value __1__ and the value
+    __.false.__ if bit __pos__ of __i__ has the value __0__.
 
 ## __Examples__
 
@@ -36,23 +44,70 @@ Sample program:
 ```fortran
 program demo_btest
 implicit none
-integer :: i = 32768 + 1024 + 64
-integer :: pos
+integer :: i, j, pos, a(2,2)
 logical :: bool
-    do pos=0,16
+character(len=*),parameter :: g='(*(g0))'
+
+     i = 32768 + 1024 + 64
+    write(*,'(a,i0,"=>",b32.32,/)')'Looking at the integer: ',i,i
+
+    ! looking one bit at a time from LOW BIT TO HIGH BIT
+    write(*,g)'from bit 0 to bit ',bit_size(i),'==>'
+    do pos=0,bit_size(i)-1
         bool = btest(i, pos)
-        print *, pos, bool
+        write(*,'(l1)',advance='no')bool
     enddo
+    write(*,*)
+
+    ! a binary format the hard way. 
+    ! Note going from bit_size(i) to zero.
+    write(*,*)
+    write(*,g)'so for ',i,' with a bit size of ',bit_size(i)
+    write(*,'(b32.32)')i
+    write(*,g)merge('^','_',[(btest(i,j),j=bit_size(i)-1,0,-1)])
+
+    ! elemental:
+    !
+    a(1,:)=[ 1, 2 ]
+    a(2,:)=[ 3, 4 ]
+    write(*,*)
+    write(*,'(a,/,*(i2,1x,i2,/))')'given the array a ...',a
+    ! the second bit of all the values in a
+    write(*,'(a,/,*(l2,1x,l2,/))')'the value of btest (a, 2)',btest(a,2)
+    ! bits 1,2,3,4 of the value 2
+    write(*,'(a,/,*(l2,1x,l2,/))')'the value of btest (2, a)',btest(2,a)
 end program demo_btest
 ```
+Results
+```text
+Looking at the integer: 33856=>00000000000000001000010001000000
 
+from bit 0 to bit 32==>
+FFFFFFTFFFTFFFFTFFFFFFFFFFFFFFFF
+
+so for 33856 with a bit size of 32
+00000000000000001000010001000000
+________________^____^___^______
+given the array a ...
+ 1  3
+ 2  4
+
+the value of btest (a, 2)
+ F  F
+ F  T
+
+the value of btest (2, a)
+ T  F
+ F  F
+
+```
 ## __Standard__
 
 Fortran 95 and later
 
 ## __See Also__
 
-[__ieor__(3)](IEOR), 
+[__ieor__(3)](IEOR),
 [__ibclr__(3)](IBCLR),
 [__not__(3)](NOT),
 [__ibclr__(3)](IBCLR),

@@ -9,30 +9,31 @@ __spread__(3) - \[ARRAY CONSTRUCTION\] Add a dimension to an array
 (GFDL)
 
 ## __Syntax__
-
-result = __spread__(source, dim, ncopies)
+```fortran
+result = spread(source, dim, ncopies)
+```
 
 ## __Description__
 
-Replicates a SOURCE array NCOPIES times along a specified dimension DIM.
+Replicates a __source__ array __ncopies__ times along a specified dimension __dim__.
 
 ## __Arguments__
 
-  - __SOURCE__
+  - __source__
     Shall be a scalar or an array of any type and a rank less than
     seven.
 
-  - __DIM__
+  - __dim__
     Shall be a scalar of type _integer_ with a value in the range from 1
-    to n+1, where n equals the rank of SOURCE.
+    to n+1, where n equals the rank of __source__.
 
-  - __NCOPIES__
+  - __ncopies__
     Shall be a scalar of type _integer_.
 
 ## __Returns__
 
-The result is an array of the same type as SOURCE and has rank n+1 where
-n equals the rank of SOURCE.
+The result is an array of the same type as __source__ and has rank n+1 where
+n equals the rank of __source__.
 
 ## __Examples__
 
@@ -109,4 +110,9 @@ Fortran 95 and later
 
 ## __See Also__
 
-__unpack__(3)
+[__pack__(3)](PACK),
+[__unpack__(3)](UNPACK),
+[__merge__(3)](MERGE),
+[__pack__(3)](PACK),
+[__unpack__(3)](UNPACK)   
+

@@ -30,7 +30,7 @@ on the documents. For contribution guidelines see
 | category                  | page                                                 | license | description                                                  |
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | ARRAY CONSTRUCTION        | [merge](MERGE)                                       |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [pack](PACK)                                         | (GFDL)  | Pack an array into an array of rank one                      |
+| ARRAY CONSTRUCTION        | [pack](PACK)                                         |         | Pack an array into an array of rank one                      |
 | ARRAY CONSTRUCTION        | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
 | ARRAY CONSTRUCTION        | [unpack](UNPACK)                                     | (GFDL)  | Store the elements of a vector in an array of higher rank    |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
@@ -82,7 +82,7 @@ on the documents. For contribution guidelines see
 | BIT INQUIRY               | [storage\_size](STORAGE_SIZE)                        | (GFDL)  | Storage size in bits                                         |
 | BIT INQUIRY               | [trailz](TRAILZ)                                     |         | Number of trailing zero bits of an integer                   |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| BIT MANIPULATION          | [btest](BTEST)                                       | (GFDL)  | Bit test function                                            |
+| BIT MANIPULATION          | [btest](BTEST)                                       |         | Bit test function                                            |
 | BIT MANIPULATION          | [dshiftl](DSHIFTL)                                   | (GFDL)  | combines bits of arguments I and J                           |
 | BIT MANIPULATION          | [dshiftr](DSHIFTR)                                   | (GFDL)  | combines bits of arguments I and J                           |
 | BIT MANIPULATION          | [iall](IALL)                                         | (GFDL)  | Bitwise and of array elements                                |
@@ -185,7 +185,7 @@ on the documents. For contribution guidelines see
 | MATHEMATICS               | [log10](LOG10)                                       | (GFDL)  | Base 10 logarithm function                                   |
 | MATHEMATICS               | [log\_gamma](LOG_GAMMA)                              | (GFDL)  | Logarithm of the Gamma function                              |
 | MATHEMATICS               | [norm2](NORM2)                                       | (GFDL)  | Euclidean vector norm                                        |
-| MATHEMATICS               | [sqrt](SQRT)                                         | (GFDL)  | Square-root function                                         |
+| MATHEMATICS               | [sqrt](SQRT)                                         |         | Square-root function                                         |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | MODEL\_COMPONENTS         | [exponent](EXPONENT)                                 | (GFDL)  | Exponent function                                            |
 | MODEL\_COMPONENTS         | [fraction](FRACTION)                                 | (GFDL)  | Fractional part of the model representation                  |

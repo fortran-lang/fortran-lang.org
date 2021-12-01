@@ -9,29 +9,29 @@ __unpack__(3) - \[ARRAY CONSTRUCTION\] Store the elements of a vector in an arra
 (GFDL)
 
 ## __Syntax__
-
-result = __unpack__(vector, mask, field)
-
+```fortran
+result = unpack(vector, mask, field)
+```
 ## __Description__
 
-Store the elements of VECTOR in an array of higher rank.
+Store the elements of __vector__ in an array of higher rank.
 
 ## __Arguments__
 
-  - __VECTOR__
+  - __vector__
     Shall be an array of any type and rank one. It shall have at least
-    as many elements as MASK has TRUE values.
+    as many elements as __mask__ has __.true.__ values.
 
-  - __MASK__
+  - __mask__
     Shall be an array of type _logical_.
 
-  - __FIELD__
-    Shall be of the same type as VECTOR and have the same shape as MASK.
+  - __field__
+    Shall be of the same type as __vector__ and have the same shape as __mask__.
 
 ## __Returns__
 
-The resulting array corresponds to FIELD with TRUE elements of MASK
-replaced by values from VECTOR in array element order.
+The resulting array corresponds to __field__ with __.true.__ elements of __mask__
+replaced by values from __vector__ in array element order.
 
 ## __Examples__
 
@@ -48,11 +48,14 @@ Sample program:
       unity = unpack(vector, reshape(mask, [2,2]), field)
     end program demo_unpack
 ```
-
 ## __Standard__
 
 Fortran 95 and later
 
 ## __See Also__
 
-__pack__(3), __spread__(3)
+[__pack__(3)](PACK),
+[__merge__(3)](MERGE),
+[__pack__(3)](PACK),
+[__spread__(3)](SPREAD),
+[__unpack__(3)](UNPACK)   

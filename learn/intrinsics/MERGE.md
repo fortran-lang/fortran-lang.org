@@ -8,19 +8,20 @@ permalink: /learn/intrinsics/MERGE
 __merge__(3) - \[ARRAY CONSTRUCTION\] Merge variables
 
 ## __Syntax__
-
-result = __MERGE__(TSOURCE, FSOURCE, MASK)
+```fortran
+result = merge(tsource, fsource, mask)
+```
 
 ## __Description__
 
-The elemental function __MERGE__(3) selects values from two arrays or
+The elemental function __merge__(3) selects values from two arrays or
 scalars according to a logical mask. The result is equal to an element
-of __TSOURCE__ where the corresponding element of __MASK__ is __.true.__, or an
-element of __FSOURCE__ when it is .false. .
+of __tsource__ where the corresponding element of __mask__ is __.true.__, or an
+element of __fsource__ when it is .false. .
 
 Multi-dimensional arrays are supported.
 
-Note that argument expressions to __MERGE__(3) are not required to be
+Note that argument expressions to __merge__(3) are not required to be
 short-circuited so (as an example) if the array X contains zero values
 in the statement below the standard does not prevent floating point
 divide by zero being generated; as 1.0/x may be evaluated for all values
@@ -34,7 +35,7 @@ Note the compiler is also free to short-circuit or to generate an
 infinity so this may work in many programming environments but is not
 recommended.
 
-For cases like this one may instead use masked assignment via the __WHERE__
+For cases like this one may instead use masked assignment via the __where__
 construct:
 
 ```fortran
@@ -53,21 +54,21 @@ instead of the more obscure
 
 ## __Arguments__
 
-  - __TSOURCE__
+  - __tsource__
     May be of any type, including user-defined.
 
-  - __FSOURCE__
-    Shall be of the same type and type parameters as __TSOURCE__.
+  - __fsource__
+    Shall be of the same type and type parameters as __tsource__.
 
-  - __MASK__
+  - __mask__
     Shall be of type _logical_.
 
-Note that (currently) _CHARACter_ values must be of the same length.
+Note that (currently) _character_ values must be of the same length.
 
 ## __Returns__
 
-The result is of the same type and type parameters as __TSOURCE__. For any
-element the result is __TSOURCE__ if __MASK__ is true and __FSOURCE__ otherwise.
+The result is of the same type and type parameters as __tsource__. For any
+element the result is __tsource__ if __mask__ is true and __fsource__ otherwise.
 
 ## __Examples__
 
@@ -148,5 +149,13 @@ Expected Results:
 ## __Standard__
 
 Fortran 95 and later
+
+## __See Also__
+
+[__pack__(3)](PACK),
+[__unpack__(3)](UNPACK),
+[__pack__(3)](PACK),
+[__spread__(3)](SPREAD),
+[__unpack__(3)](UNPACK)   
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)
