@@ -210,7 +210,17 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 
 ### LFortran
 
-TODO @certik
+* 32 Merge Requests merged in November 2021
+* Support for same name interface and subroutine/function
+* Compile-time evaluation for bit intrinsics
+* Implement the `repeat` and `shape` intrinsics
+* Variadic support for `min` and `max` intrinsics
+* Implement the scalar `random_number` function
+* Fixes and improved error message for `read` and `write` statements
+* Support the `final`, `intrinsic`, and `private` attributes
+* Implement the `ieee_arithmetic` intrinsic module
+* Support for the `abstract` class
+* Support for `assignment(=)` on `use` statement
 
 We are looking for new contributors. Please do not hesitate to contact us if
 you are interested. We will help you get up to speed.
