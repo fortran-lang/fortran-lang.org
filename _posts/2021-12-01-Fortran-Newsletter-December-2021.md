@@ -108,6 +108,8 @@ Please try it out and let us know how it works, if there are any issues, or if t
 
 Here's what's new in fpm:
 
+* [v0.5.0](https://github.com/fortran-lang/fpm/releases/tag/v0.5.0):
+  Alpha release update
 * [#598](https://github.com/fortran-lang/fpm/pull/598):
   Update README.md compiler, archiver, & link flags
 * [#569](https://github.com/fortran-lang/fpm/pull/569):
@@ -124,7 +126,7 @@ Here's what's new in fpm:
   Add: workflow to make installer on push and release
 * [#614](https://github.com/fortran-lang/fpm/pull/614):
   Bump version to 0.5.0
-* [#7](https://github.com/fortran-lang/setup-fpm/pull/7) (`setup-fpm`):
+* [setup-fpm#7](https://github.com/fortran-lang/setup-fpm/pull/7):
   Fix Latest Option
 
 ### Work in progress
