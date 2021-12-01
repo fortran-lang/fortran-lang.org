@@ -696,19 +696,19 @@ parameter KIND if X is a complex, integer, or real variable.</p>
 
 <p>Sample program:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   program demo_real
-      use,intrinsic :: iso_fortran_env, only : dp=&gt;real64
-      implicit none
-      complex              :: zr = (1.0, 2.0)
-      doubleprecision      :: xd=huge(3.0d0)
-      complex(kind=dp) :: zd=cmplx(4.0e0_dp,5.0e0_dp,kind=dp)
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">   </span><span class="k">program</span><span class="w"> </span><span class="n">demo_real</span><span class="w">
+      </span><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="o">=&gt;</span><span class="n">real64</span><span class="w">
+      </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+      </span><span class="kt">complex</span><span class="w">              </span><span class="p">::</span><span class="w"> </span><span class="n">zr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span><span class="w">
+      </span><span class="kt">doubleprecision</span><span class="w">      </span><span class="p">::</span><span class="w"> </span><span class="n">xd</span><span class="o">=</span><span class="nb">huge</span><span class="p">(</span><span class="mf">3.0d0</span><span class="p">)</span><span class="w">
+      </span><span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">zd</span><span class="o">=</span><span class="nb">cmplx</span><span class="p">(</span><span class="mf">4.0e0_dp</span><span class="p">,</span><span class="mf">5.0e0_dp</span><span class="p">,</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">
 
-      print *, real(zr), aimag(zr)
-      print *, dble(zd), aimag(zd)
+      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">zr</span><span class="p">),</span><span class="w"> </span><span class="nb">aimag</span><span class="p">(</span><span class="n">zr</span><span class="p">)</span><span class="w">
+      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">dble</span><span class="p">(</span><span class="n">zd</span><span class="p">),</span><span class="w"> </span><span class="nb">aimag</span><span class="p">(</span><span class="n">zd</span><span class="p">)</span><span class="w">
 
-      write(*,*)xd,real(xd,kind=kind(0.0d0)),dble(xd)
-   end program demo_real
-</code></pre></div></div>
+      </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">xd</span><span class="p">,</span><span class="kt">real</span><span class="p">(</span><span class="n">xd</span><span class="p">,</span><span class="nb">kind</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)),</span><span class="nb">dble</span><span class="p">(</span><span class="n">xd</span><span class="p">)</span><span class="w">
+   </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_real</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Results:</p>
 
