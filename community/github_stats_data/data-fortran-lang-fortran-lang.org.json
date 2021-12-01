@@ -2,6 +2,138 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 349,
+            "user": "milancurcic",
+            "date": "2021-11-27 18:20:59+00:00",
+            "title": "Newsletter draft for December 2021",
+            "text": "Here's the draft. Please add any events that I missed.\n\n Update PR data on Nov 30\n Update contributors data on Nov 30\n Flang update from @AlexisPerry\n LFortran update from @certik\n\nThank you!",
+            "comments": [
+                {
+                    "user": "AlexisPerry",
+                    "date": "2021-11-29 18:13:43+00:00",
+                    "text": "PR created for Flang updates: milancurcic#2"
+                }
+            ]
+        },
+        {
+            "number": 348,
+            "user": "milancurcic",
+            "date": "2021-11-27 17:43:09+00:00",
+            "title": "Fix typo in author field",
+            "text": "There was a typo in the \"author\" field which caused the authors list not to be rendered in the November newsletter, as pointed out by @certik here.",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-11-27 17:43:29+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-11-27 17:45:09+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/348/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-11-27 17:47:17+00:00",
+                    "text": "It works, I'll merge."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-11-27 17:47:29+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-11-27 17:47:47+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 347,
+            "user": "urbanjost",
+            "date": "2021-11-24 02:00:57+00:00",
+            "title": "Fortran Intrinsics",
+            "text": "Fortran Intrinsics descriptions have been discussed as an addition to fortran-lang.org.  Herein is a skeleton for the descriptions as a series of MINIBOOK entries.\nPreview available at https://fortran-lang.org/pr/347/",
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2021-11-24 02:14:28+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-11-24 02:18:19+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/347/"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-24 02:30:09+00:00",
+                    "text": "Nice! This looks awesome. Did you write all that? I am asking to ensure we don't run into copyright issues.\nI noticed sometimes the formatting needs improvements, e.g. here:\nhttps://fortran-lang.org/pr/347/learn/intrinsics/ATAN2\nthe part -PI <= atan(x) <= PI. is inconsistently bold. But we can fix that after merging."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-24 03:22:52+00:00",
+                    "text": "I started off writing my own for each intrinsic but at one point to have a starting point for each I filled it in with the pages from the Fortran Wiki, which are under the GFDL, which as I understand it allows for them to be modified and reproduced like this. Many have been changed so much \"modified\" is an understatement. Ones I know I wrote from scratch I marked at MIT. Many more are from scratch but I didn't have anything marking a lot of them as such so to be conservative I marked them as GFDL as they might have started from the Wiki versions. Since all descriptions of the intrinsics in some way depend on the standard definition of Fortran I have puzzled over exactly how anyone can produce Fortran documentation that describes Fortran without issues with the copyright of the standard. The intent here is that the community as a whole can write new ones for each GFPL-licensed minibook and generate an MIT-only based collection. Each of the vendors has produced a description of the intrinsics, often identical or nearly identical to the descriptions in the Fortran standard, which bolstered my interpretation, but I could be wrong. There is a section in the introduction that is also the second index item that I meant as explanation. Otherwise, it would have to be torn down to just an index and volunteers could be asked to write descriptions (from memory?). Perhaps a vendor has an easier time as they are describing their implementation (?). I started each one as plain text and used some simple scripts to initially make them markdown, and will go through and correct the results (have already been doing this) but learning some of the vagaries of this version of markdown partly by looking at the results (and already have been rewriting some of the results) but there are quite a few unexpected ones such as a / needing escaped and such that can be easily corrected; but already spent too much time on this if it cannot proceed so wanted to present what I have so far and see if we can all agree on going forward, or coming up with an alternate plan. Since you are working on LFortran I was thinking you might have some quick answers on exactly how you can document your results if they are based on the Fortran Standard. I thought the text in the Intro explained the pedigree, but perhaps not well enough."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-24 03:24:00+00:00",
+                    "text": "For some reason the links in the text are not working, but worked on the fork I made I was trying this with."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-24 03:35:30+00:00",
+                    "text": "@urbanjost thanks for the feedback. I wish FortranWiki was licensed under MIT or some of the permissive Creative Commons licenses (I can't remember which one it is).\nI think the best way forward is to simply note for each part where it is taken from. If you wrote it, then it would be MIT, which is the default, so you don't have to mark it. If it comes from FortranWiki, then credit them and mark GDFL (hopefully it doesn't mean we have to license the whole website under GDFL?). And stuff that came from the standard, let's reference that it came from the standard.\nThat should allow us to move forward.\nI would love to reuse all this for LFortran eventually, so that the compiler can point to the definition, say for error messages, as well as bundle the documentation in some way so that things are available locally, so that it works without internet access. Perhaps we can integrate with VSCode somehow, I don't know yet.\nYes, it would be nice to figure out how to handle the GDFL parts as well as parts copied from the standard, so that we are legally on a solid ground. I don't have the answer right now, but I think the above approach should allow us to get moving, and we can figure out the answer as we go."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-24 04:15:46+00:00",
+                    "text": "It was written as part of fpm, and later as the fpm-man plugin. The original intent was to make it available from the command line.\nSo that part might be easy. I can try converting back to text and then to Fortran statements and see how it looks. I just installed pandoc, which it says reads github markdown and can output ASCII text.  If that works it would take a minor rework to make it automated to turn this into a fpm-man replacement.\nThe Fortran standard says you can reproduce parts of it by permission, with a possible fee. That might be the ultimate permission or the ultimate roadblock.\nI used to use a nice error message utility called explain. Every code included a message routine that took a product name and an error code.  If you hit an error an external library was called and given the two codes. It then produced the message using a message catalog.  This allowed for easy multi-lingual capabilities as you could have a message catalog for any supported language, or even add local info to the messages, which were kept in ASCII. It had a terse and verbose mode. When called from programs the default was terse, when called manually the default was verbose.  So if you got a message like\nf90 #554 - improper something-or-other\nyou could then enter \"explain f90 544\" and get a full description of the error.  You could also turn off warnings or change their severity level, so if you turned on all the warnings the compiler (or other product) generated, and then realized every line was telling you  \"f90 #300 FORTRAN Statements must be all uppercase\" or \"f90 #200 Variable names are limited to six characters\" you could turn those off with an environment variable.  Except for occasional problems with the environment variable that was used to give a list of directories to search for the catalogs it was great.\nFor security reasons some programs cleared the environment table on startup, which caused the programs to not find the catalogs, and once one of the developers accidently let his personal message catalog get sent to a customer and during a demo in front of the corporate executives of the customer an error produced a barage of profanity; which made quite a few people laugh but outraged some other rather important ones.  Other than that it was great."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-24 04:24:44+00:00",
+                    "text": "Haha, great story. Yes, indeed we need translations and explanations for each error in LFortran, along the lines you wrote. Rust does something similar."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-24 09:41:50+00:00",
+                    "text": "Thanks, great work. I have one stylistic remark, could we get away from the all caps keywords and headers?"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-24 11:08:11+00:00",
+                    "text": "Went to #|### to de-emphasize the headers, but the man-style is being used (which requires the all-cap headers) not only because it is a good style many are familiar with but because I am hoping these pages can be automatically rendered into flat text for use in providing data for a simple in-line tool that can be written in Fortran (ie. that the data can be used for fpm-man) and to create actual manpages.  Experimenting with pandoc(1) for that and it looks very feasible. Perhaps getting triple use out of the descriptions via an automated process is asking for too much, as it limits you to the ASCII character set for the most part, making representing more complex mathematics and probably some other things too much;  but hoping to get this in place not just for the intrinsics but for the stdlib procedures too, where part of the process of providing a routine in stdlib would be to create a description here as well.  At least on my screen going to a smaller size helped, I think.   Maybe should have stuck with HTML but the Markdown seemed like the write way to go, as it has a lower entry barrier so a lot more people would feel comfortable generating the documention, I think."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-24 13:57:28+00:00",
+                    "text": "pandoc worked reasonably well considering I do not know what all the switches do yet.\nIf you change the name of the directory where the source markdown is on a Linux or Cygwin or WSL\nenvironment and have pandoc installed it makes reasonable man-pages automatically, maybe (text needs a little tweeking, perhaps). I find that enticing, but a program like fman/fpm-man could provide similar functionality and not require following the man-page syntax nor the existence of man(1) for that matter.\n#!/bin/bash\n#@(#) use pandoc(1) to create man-pages.\nheader(){\ncat <<EOF\n.\" Text automatically generated by panman.sh\n.TH \"$SHORTNAME\" \"3\" \"$(date +'%B %d, %Y')\" \"\" \"\" \" \"\n.\" -----------------------------------------------------------------\n.\" * set default formatting\n.\" disable hyphenation\n.nh\n.\" disable justification (adjust text to left margin only)\n.ad l\n.\" -----------------------------------------------------------------\nEOF\n}\ncd $HOME/github/FORK/fortran-lang.org/learn/intrinsics\nmkdir -p /tmp/man/man3\nfor NAME in *.md\ndo\n   SHORTNAME=$(basename $NAME .md)\n   SHORTNAME=${SHORTNAME,,}\n   echo \"NAME: $NAME to $SHORTNAME\"\n   (\n      header\n      sed -n -e '\\%^### NAME%,${ p }'  $NAME|\n         pandoc -f gfm -t man --columns=72 \n   )>/tmp/man/man3/$SHORTNAME.3fortran\n   gzip --force /tmp/man/man3/$SHORTNAME.3fortran\ndone\ncd /tmp/man\nmandb -c .\nenv MANWIDTH=256 man --manpath=/tmp/man -k .|col -b\nenv MANWIDTH=80  man --manpath=/tmp/man --regex '.*'|col -b\nexit"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-26 22:49:57+00:00",
+                    "text": "Thanks, let's update the #build_preview."
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2021-11-26 22:54:15+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/347/"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-26 22:58:49+00:00",
+                    "text": "Ugh, our static side generator doesn't seem to scale well, 1m 11s for the current default build, with the new minibook we are at  3m 43s. We can still stand this build time, but that might not stay sustainable in the long run for more learning resources. Not relevant for this PR but something to keep in mind for the future."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-27 04:33:04+00:00",
+                    "text": "I have good experience with Hugo. Very fast builds."
+                }
+            ]
+        },
+        {
             "number": 346,
             "user": "Beliavsky",
             "date": "2021-10-28 13:02:55+00:00",
@@ -57,7 +189,7 @@
             "user": "awvwgk",
             "date": "2021-10-25 08:21:23+00:00",
             "title": "Monthly newsletter for November 2021",
-            "text": "It is again time to organize our monthly newsletter.\n\n updates for repositories (fpm, stdlib, webpage)\n link to monthly call\n updates for contributor data (@LKedward)\n Flang updates (@AlexisPerry)\n LFortran updates (@certik)\n\nPlease comment here, leave suggestions via code review or open a PR against my fork. All contributions are welcome.",
+            "text": "It is again time to organize our monthly newsletter.\n\n updates for repositories (fpm, stdlib, webpage)\n link to monthly call\n updates for contributor data (@LKedward)\n Flang updates (@AlexisPerry)\n LFortran updates (@certik)\n\nPlease comment here, leave suggestions via code review or open a PR against my fork. All contributions are welcome.\n\nNote: updated scripts for contributor data are available here: https://gitlab.com/certik/github_stats/-/merge_requests/1",
             "comments": [
                 {
                     "user": "AlexisPerry",
@@ -73,6 +205,21 @@
                     "user": "certik",
                     "date": "2021-10-31 14:07:58+00:00",
                     "text": "I'll try to get it done today."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-01 03:39:00+00:00",
+                    "text": "I just added LFortran's updates above."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-01 10:53:03+00:00",
+                    "text": "Thanks everybody, I'm going ahead and merge."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-01 18:53:00+00:00",
+                    "text": "Thanks for merging. Not sure what is going on, but the \"authors\" part does not show here:\nhttps://fortran-lang.org/newsletter/2021/11/01/Fortran-Newsletter-November-2021/\nI wonder if we mistyped something, but I don't see anything wrong with the Markdown."
                 }
             ]
         },
@@ -2467,6 +2614,11 @@
                     "user": "vmagnin",
                     "date": "2021-10-11 12:01:12+00:00",
                     "text": "The two images (black hole & ocean) cited in my Discourse post are under CC license and the code sources of those models are open."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-11-10 13:33:16+00:00",
+                    "text": "tweet with animation by J\u00e9r\u00f4me Boudet\n\"Lattice-Boltzmann method is a rewarding flow simulation approach. You can create a solver in a few hundreds of #Fortran lines, play with the numerical methods, and do some nice looking animations. Here, the 2D flow past a square cylinder at Re=1000, with pitchwise periodicity.\""
                 }
             ]
         },
