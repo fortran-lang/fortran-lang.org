@@ -129,3 +129,5 @@ Fortran 95 and later
 [__ior__(3)](IOR),
 [__ieor__(3)](IEOR),
 [__mvbits__(3)](MVBITS)
+
+###### fortran-lang intrinsic descriptions (@urbanjost)

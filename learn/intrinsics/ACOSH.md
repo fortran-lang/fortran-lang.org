@@ -55,3 +55,5 @@ Fortran 2008 and later
 ## __See Also__
 
 Inverse function: [__cosh__(3)](COSH)
+
+###### fortran-lang intrinsic descriptions (@urbanjost)

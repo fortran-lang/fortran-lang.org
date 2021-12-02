@@ -105,3 +105,5 @@ Fortran 95 and later
 [__pack__(3)](PACK),
 [__spread__(3)](SPREAD),
 [__unpack__(3)](UNPACK)   
+
+###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -25,10 +25,13 @@ This is a community-driven resource and everyone is encouraged to improve
 on the documents. For contribution guidelines see 
 [MINIBOOKS](https://github.com/fortran-lang/fortran-lang.org/blob/master/MINIBOOKS.md).
 
-
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | category                  | page                                                 | license | description                                                  |
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE.md)                                       |         | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE)                                       |         | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge](./MERGE.md)                                       |         | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge](./MERGE)                                       |         | Merge variables                                              |
 | ARRAY CONSTRUCTION        | [merge](MERGE)                                       |         | Merge variables                                              |
 | ARRAY CONSTRUCTION        | [pack](PACK)                                         |         | Pack an array into an array of rank one                      |
 | ARRAY CONSTRUCTION        | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |

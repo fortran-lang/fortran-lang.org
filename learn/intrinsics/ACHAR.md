@@ -42,9 +42,9 @@ example.
 
 ## __Returns__
 
-The return value is of type CHARACTER with a length of one. If the KIND
-argument is present, the return value is of the specified kind and of
-the default kind otherwise.
+The return value is the requested character of type _character_ with a
+length of one. If the KIND argument is present, the return value is of
+the specified kind and of the default kind otherwise.
 
 ## __Examples__
 
