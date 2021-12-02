@@ -99,7 +99,7 @@ on the documents. For contribution guidelines see
 | BIT MANIPULATION          | [iparity](IPARITY)                                   | (GFDL)  | Bitwise exclusive or of array elements                       |
 | BIT MANIPULATION          | [ishft](ISHFT)                                       | (GFDL)  | Shift bits                                                   |
 | BIT MANIPULATION          | [ishftc](ISHFTC)                                     | (GFDL)  | Shift bits circularly                                        |
-| BIT MANIPULATION          | [logical](LOGICAL)                                   | (GFDL)  | Converts one kind of _logical_ variable to another             |
+| BIT MANIPULATION          | [logical](LOGICAL)                                   | (GFDL)  | Converts one kind of _logical_ variable to another           |
 | BIT MANIPULATION          | [merge\_bits](MERGE_BITS)                            | (GFDL)  | Merge of bits under mask                                     |
 | BIT MANIPULATION          | [mvbits](MVBITS)                                     | (GFDL)  | Move bits from one integer to another                        |
 | BIT MANIPULATION          | [not](NOT)                                           |         | Logical negation                                             |
