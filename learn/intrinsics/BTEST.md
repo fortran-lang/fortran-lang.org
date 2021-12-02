@@ -49,7 +49,7 @@ logical :: bool
 character(len=*),parameter :: g='(*(g0))'
 
      i = 32768 + 1024 + 64
-    write(*,'(a,i0,"=>",b32.32,/)')'Looking at the integer: ',i,i
+    write(*,'(a,i0,"=>",b32.32,/)')'Looking at the integer: ',i
 
     ! looking one bit at a time from LOW BIT TO HIGH BIT
     write(*,g)'from bit 0 to bit ',bit_size(i),'==>'
@@ -65,6 +65,10 @@ character(len=*),parameter :: g='(*(g0))'
     write(*,g)'so for ',i,' with a bit size of ',bit_size(i)
     write(*,'(b32.32)')i
     write(*,g)merge('^','_',[(btest(i,j),j=bit_size(i)-1,0,-1)])
+    write(*,*)
+    write(*,g)'and for ',-i,' with a bit size of ',bit_size(i)
+    write(*,'(b32.32)')-i
+    write(*,g)merge('^','_',[(btest(-i,j),j=bit_size(i)-1,0,-1)])
 
     ! elemental:
     !
@@ -80,14 +84,23 @@ end program demo_btest
 ```
 Results
 ```text
-Looking at the integer: 33856=>00000000000000001000010001000000
+Looking at the integer: 33856=>11111111111111110111101111000000
 
+00000000000000001000010001000000
+11111111111111110111101111000000
+1000010001000000
+11111111111111110111101111000000
 from bit 0 to bit 32==>
 FFFFFFTFFFTFFFFTFFFFFFFFFFFFFFFF
-
+ 
 so for 33856 with a bit size of 32
 00000000000000001000010001000000
 ________________^____^___^______
+ 
+and for -33856 with a bit size of 32
+11111111111111110111101111000000
+^^^^^^^^^^^^^^^^_^^^^_^^^^______
+ 
 given the array a ...
  1  3
  2  4
@@ -99,7 +112,6 @@ the value of btest (a, 2)
 the value of btest (2, a)
  T  F
  F  F
-
 ```
 ## __Standard__
 
