@@ -1,7 +1,7 @@
 ---
 layout: book
 title: selected_real_kind
-permalink: /learn/intrinsics/SELECTED__real__KIND
+permalink: /learn/intrinsics/SELECTED_REAL_KIND
 ---
 ## __Name__
 

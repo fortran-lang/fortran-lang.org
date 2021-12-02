@@ -1,6 +1,6 @@
 ---
 layout: book
-title: null
+title: BUG_NULL
 permalink: /learn/intrinsics/NULL
 ---
 ## __Name__
@@ -9,22 +9,23 @@ __null__(3) - \[TRANSFORMATIONAL FUNCTION\] Function that returns a disassociate
 (GFDL)
 
 ## __Syntax__
+```fortran
+ptr => null(mold)
 
-ptr =\> __null__(\[mold\])
+```
 
 ## __Description__
 
 Returns a disassociated pointer.
 
-If MOLD is present, a disassociated pointer of the same type is
+If __mold__ is present, a disassociated pointer of the same type is
 returned, otherwise the type is determined by context.
 
-In \[\[Fortran 95\]\], MOLD is optional. Please note that \[\[Fortran
-2003\]\] includes cases where it is required.
+In _Fortran 95_, __mold__ is optional. Please note that _Fortran 2003_ includes cases where it is required.
 
 ## __Arguments__
 
-  - __MOLD__
+  - __mold__
     (Optional) shall be a pointer of any association status and of any
     type.
 
@@ -36,8 +37,10 @@ A disassociated pointer.
 
 Sample program:
 
-```
-    real, pointer, dimension(:) :: vec => null ()
+```fortran
+program demo_null
+real, pointer, dimension(:) :: vec => null ()
+end program demo_null
 ```
 
 ## __Standard__

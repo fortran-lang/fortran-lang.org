@@ -3,7 +3,6 @@ layout: book
 title: atomic_fetch_and
 permalink: /learn/intrinsics/ATOMIC_FETCH_AND
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __atomic\_fetch\_and__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation with prior fetch

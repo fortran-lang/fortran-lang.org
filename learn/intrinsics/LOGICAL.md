@@ -1,7 +1,7 @@
 ---
 layout: book
 title: logical
-permalink: /learn/intrinsics/_logical_
+permalink: /learn/intrinsics/LOGICAL
 ---
 ## __Name__
 

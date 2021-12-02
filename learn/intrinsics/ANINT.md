@@ -3,7 +3,6 @@ layout: book
 title: anint
 permalink: /learn/intrinsics/ANINT
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __anint__(3) - \[NUMERIC\] Nearest whole number

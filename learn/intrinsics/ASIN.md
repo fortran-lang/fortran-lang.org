@@ -3,7 +3,6 @@ layout: book
 title: asin
 permalink: /learn/intrinsics/ASIN
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __asin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arcsine function

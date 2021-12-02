@@ -3,7 +3,6 @@ layout: book
 title: adjustr
 permalink: /learn/intrinsics/ADJUSTR
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __adjustr__(3) - \[CHARACTER\] Right-adjust a string

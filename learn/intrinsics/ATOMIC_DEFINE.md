@@ -3,7 +3,6 @@ layout: book
 title: atomic_define
 permalink: /learn/intrinsics/ATOMIC_DEFINE
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __atomic\_define__(3) - \[ATOMIC\] Setting a variable atomically

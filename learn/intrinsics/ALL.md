@@ -3,7 +3,6 @@ layout: book
 title: all
 permalink: /learn/intrinsics/ALL
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __all__(3) - \[ARRAY REDUCTION\] determines if all the values are true

@@ -3,7 +3,6 @@ layout: book
 title: atomic_fetch_or
 permalink: /learn/intrinsics/ATOMIC_FETCH_OR
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __atomic\_fetch\_or__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation with prior fetch

@@ -3,7 +3,6 @@ layout: book
 title: atan
 permalink: /learn/intrinsics/ATAN
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __atan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function

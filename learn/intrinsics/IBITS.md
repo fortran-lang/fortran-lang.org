@@ -1,5 +1,4 @@
 ---
----
 layout: book
 title: ibits
 permalink: /learn/intrinsics/IBITS

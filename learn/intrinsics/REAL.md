@@ -1,7 +1,7 @@
 ---
 layout: book
 title: real
-permalink: /learn/intrinsics/_real_
+permalink: /learn/intrinsics/REAL
 ---
 ## __Name__
 

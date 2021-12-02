@@ -1,7 +1,7 @@
 ---
 layout: book
 title: command_argument_count
-permalink: /learn/intrinsics/COUNT
+permalink: /learn/intrinsics/COMMAND_ARGUMENT_COUNT
 ---
 ## __Name__
 

@@ -3,7 +3,6 @@ layout: book
 title: atomic_cas
 permalink: /learn/intrinsics/ATOMIC_CAS
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __atomic\_cas__(3) - \[ATOMIC\] Atomic compare and swap

@@ -3,7 +3,6 @@ layout: book
 title: atomic_fetch_add
 permalink: /learn/intrinsics/ATOMIC_FETCH_ADD
 ---
--------------------------------------------------------------------------------
 ## __Name__
 
 __atomic\_fetch\_add__(3) - \[ATOMIC\] Atomic ADD operation with prior fetch
