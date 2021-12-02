@@ -1,7 +1,7 @@
 ---
 layout: book
 title: get_environment
-permalink: /learn/intrinsics/GET_ENVIRONMENT
+permalink: /learn/intrinsics/GET_ENVIRONMENT_VARIABLE
 ---
 ## __Name__
 
