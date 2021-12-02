@@ -264,7 +264,7 @@ The above table and the documents themselves indication the license under which
 the document falls.
 
 Many of the documents presented here are modified versions of man-pages from the
-[Fortan Wiki](https://fortranwiki.org) 
+[Fortran Wiki](https://fortranwiki.org) 
 and as such are available under the terms of the GNU
 Free Documentation License [(GFDL)](GNU_Free_Documentation_License.md)
 with no invariant sections, front-cover texts, or back-cover texts.

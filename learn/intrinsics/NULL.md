@@ -1,6 +1,6 @@
 ---
 layout: book
-title: BUG_NULL
+title: nul l
 permalink: /learn/intrinsics/NULL
 ---
 ## __Name__
