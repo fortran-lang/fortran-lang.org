@@ -210,12 +210,14 @@ on the documents. For contribution guidelines see
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | NUMERIC:TYPE              | [aimag](AIMAG)                                       | (GFDL)  | Imaginary part of complex number                             |
 | NUMERIC:TYPE              | [cmplx](CMPLX)                                       | (GFDL)  | Complex conversion function                                  |
-| NUMERIC:TYPE              | [dble](DBLE)                                         | (GFDL)  | Double conversion function                                   |
-| NUMERIC:TYPE              | [float](FLOAT)                                       | (GFDL)  | Convert integer to default real                              |
-| NUMERIC:TYPE              | [int](INT)                                           | (GFDL)  | Convert to integer type                                      |
+| NUMERIC:TYPE              | [int](INT)                                           |         | Convert to integer type                                      |
 | NUMERIC:TYPE              | [nint](NINT)                                         |         | Nearest whole number                                         |
-| NUMERIC:TYPE              | [real](_real_)                                         | (GFDL)  | Convert to real type                                         |
+| NUMERIC:TYPE              | [real](REAL)                                         | (GFDL)  | Convert to real type                                         |
+<!--
+| NUMERIC:TYPE              | [float](FLOAT)                                       | (GFDL)  | Convert integer to default real                              |
+| NUMERIC:TYPE              | [dble](DBLE)                                         | (GFDL)  | Double conversion function                                   |
 | NUMERIC:TYPE              | [sngl](SNGL)                                         | (GFDL)  | Convert double precision real to default real                |
+-->
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | NUMERIC                   | [abs](ABS)                                           |         | Absolute value                                               |
 | NUMERIC                   | [aint](AINT)                                         | (GFDL)  | Truncate to a whole number                                   |

@@ -74,7 +74,7 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
     the value 0.
 
   - __cmdmsg__
-    (Optional) a CHARACTER scalar of the default kind. It is an INTENT
+    (Optional) a _character_ scalar of the default kind. It is an INTENT
     (INOUT) argument.If an error condition occurs, it is assigned a
     processor-dependent explanatory message.Otherwise, it is unchanged.
 
