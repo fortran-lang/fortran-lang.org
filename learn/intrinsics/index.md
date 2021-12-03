@@ -208,7 +208,7 @@ on the documents. For contribution guidelines see
 | TBD                       | [associated](ASSOCIATED)                             | (GFDL)  | Status of a pointer or pointer/target pair                   |
 | TBD                       | [extends\_type\_of](EXTENDS_TYPE_OF)                 | (GFDL)  | determine if the dynamic type of A is an extension of the dynamic type of MOLD.          |
 | TBD                       | [findloc](FINDLOC)                                   | (GFDL)  | Location of first element of ARRAY identified by MASK along dimension DIM having a value |
-| TBD                       | [is\_iostat\_end](IS_IOSTAT_END)                     | (GFDL)  | Test for end-of-file value                                   |
+| TBD                       | [is\_iostat\_end](IS_IOSTAT_END)                     |         | Test for end-of-file value                                   |
 | TBD                       | [is\_iostat\_eor](IS_IOSTAT_EOR)                     | (GFDL)  | Test for end-of-record value                                 |
 | TBD                       | [maskl](MASKL)                                       | (GFDL)  | Left justified mask                                          |
 | TBD                       | [maskr](MASKR)                                       | (GFDL)  | Right justified mask                                         |
