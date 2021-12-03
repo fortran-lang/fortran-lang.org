@@ -62,3 +62,5 @@ end program demo_iostat
 ## __Standard__
 
 Fortran 2003 and later
+
+###### fortran-lang intrinsic descriptions (@urbanjost)

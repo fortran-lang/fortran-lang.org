@@ -60,40 +60,6 @@ on the documents. For contribution guidelines see
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | ARRAY RESHAPE             | [reshape](RESHAPE)                                   | (GFDL)  | Function to reshape an array                                 |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| BIT COMPARE               | [bge](BGE)                                           | (GFDL)  | Bitwise greater than or equal to                             |
-| BIT COMPARE               | [bgt](BGT)                                           | (GFDL)  | Bitwise greater than                                         |
-| BIT COMPARE               | [ble](BLE)                                           | (GFDL)  | Bitwise less than or equal to                                |
-| BIT COMPARE               | [blt](BLT)                                           | (GFDL)  | Bitwise less than                                            |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| BIT INQUIRY               | [bit\_size](BIT_SIZE)                                | (GFDL)  | Bit size inquiry function                                    |
-| BIT INQUIRY               | [leadz](LEADZ)                                       | (GFDL)  | Number of leading zero bits of an integer                    |
-| BIT INQUIRY               | [popcnt](POPCNT)                                     | (GFDL)  | Number of bits set                                           |
-| BIT INQUIRY               | [poppar](POPPAR)                                     | (GFDL)  | Parity of the number of bits set                             |
-| BIT INQUIRY               | [storage\_size](STORAGE_SIZE)                        | (GFDL)  | Storage size in bits                                         |
-| BIT INQUIRY               | [trailz](TRAILZ)                                     |         | Number of trailing zero bits of an integer                   |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| BIT MANIPULATION          | [btest](BTEST)                                       |         | Bit test function                                            |
-| BIT MANIPULATION          | [dshiftl](DSHIFTL)                                   | (GFDL)  | combines bits of arguments I and J                           |
-| BIT MANIPULATION          | [dshiftr](DSHIFTR)                                   | (GFDL)  | combines bits of arguments I and J                           |
-| BIT MANIPULATION          | [iall](IALL)                                         | (GFDL)  | Bitwise and of array elements                                |
-| BIT MANIPULATION          | [iand](IAND)                                         | (GFDL)  | Bitwise logical and                                          |
-| BIT MANIPULATION          | [iany](IANY)                                         | (GFDL)  | Bitwise or of array elements                                 |
-| BIT MANIPULATION          | [ibclr](IBCLR)                                       | (GFDL)  | Clear bit                                                    |
-| BIT MANIPULATION          | [ibits](IBITS)                                       | (GFDL)  | Bit extraction                                               |
-| BIT MANIPULATION          | [ibset](IBSET)                                       | (GFDL)  | Set bit                                                      |
-| BIT MANIPULATION          | [ieor](IEOR)                                         | (GFDL)  | Bitwise logical exclusive or                                 |
-| BIT MANIPULATION          | [ior](IOR)                                           | (GFDL)  | Bitwise logical inclusive or                                 |
-| BIT MANIPULATION          | [iparity](IPARITY)                                   | (GFDL)  | Bitwise exclusive or of array elements                       |
-| BIT MANIPULATION          | [ishft](ISHFT)                                       | (GFDL)  | Shift bits                                                   |
-| BIT MANIPULATION          | [ishftc](ISHFTC)                                     | (GFDL)  | Shift bits circularly                                        |
-| BIT MANIPULATION          | [logical](LOGICAL)                                   | (GFDL)  | Converts one kind of _logical_ variable to another           |
-| BIT MANIPULATION          | [merge\_bits](MERGE_BITS)                            | (GFDL)  | Merge of bits under mask                                     |
-| BIT MANIPULATION          | [mvbits](MVBITS)                                     | (GFDL)  | Move bits from one integer to another                        |
-| BIT MANIPULATION          | [not](NOT)                                           |         | Logical negation                                             |
-| BIT MANIPULATION          | [shifta](SHIFTA)                                     | (GFDL)  | shift bits right with fill                                   |
-| BIT MANIPULATION          | [shiftl](SHIFTL)                                     | (GFDL)  | shift bits left                                              |
-| BIT MANIPULATION          | [shiftr](SHIFTR)                                     | (GFDL)  | shift bits right                                             |
-| BIT MANIPULATION          | [transfer](TRANSFER)                                 | (GFDL)  | Transfer bit patterns                                        |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | CHARACTER                 | [achar](ACHAR)                                       |         | returns a character in a specified position in the ASCII collating sequence              |
 | CHARACTER                 | [adjustl](ADJUSTL)                                   |         | Left-adjust a string                                         |
@@ -216,6 +182,49 @@ on the documents. For contribution guidelines see
 | TBD                       | [present](PRESENT)                                   | (GFDL)  | Determine whether an optional dummy argument is specified    |
 | TBD                       | [same\_type\_as](SAME_TYPE_AS)                       | (GFDL)  | Query dynamic types for equality                             |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+
+  bit-level inquiry and manipulation
+
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| BIT COMPARE               | [bge](BGE)                                           | (GFDL)  | Bitwise greater than or equal to                             |
+| BIT COMPARE               | [bgt](BGT)                                           | (GFDL)  | Bitwise greater than                                         |
+| BIT COMPARE               | [ble](BLE)                                           | (GFDL)  | Bitwise less than or equal to                                |
+| BIT COMPARE               | [blt](BLT)                                           | (GFDL)  | Bitwise less than                                            |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| BIT INQUIRY               | [bit\_size](BIT_SIZE)                                | (GFDL)  | Bit size inquiry function                                    |
+| BIT INQUIRY               | [leadz](LEADZ)                                       | (GFDL)  | Number of leading zero bits of an integer                    |
+| BIT INQUIRY               | [popcnt](POPCNT)                                     | (GFDL)  | Number of bits set                                           |
+| BIT INQUIRY               | [poppar](POPPAR)                                     | (GFDL)  | Parity of the number of bits set                             |
+| BIT INQUIRY               | [storage\_size](STORAGE_SIZE)                        | (GFDL)  | Storage size in bits                                         |
+| BIT INQUIRY               | [trailz](TRAILZ)                                     |         | Number of trailing zero bits of an integer                   |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| BIT MANIPULATION          | [btest](BTEST)                                       |         | Bit test function                                            |
+| BIT MANIPULATION          | [dshiftl](DSHIFTL)                                   | (GFDL)  | combines bits of arguments I and J                           |
+| BIT MANIPULATION          | [dshiftr](DSHIFTR)                                   | (GFDL)  | combines bits of arguments I and J                           |
+| BIT MANIPULATION          | [iall](IALL)                                         | (GFDL)  | Bitwise and of array elements                                |
+| BIT MANIPULATION          | [iand](IAND)                                         | (GFDL)  | Bitwise logical and                                          |
+| BIT MANIPULATION          | [iany](IANY)                                         | (GFDL)  | Bitwise or of array elements                                 |
+| BIT MANIPULATION          | [ibclr](IBCLR)                                       | (GFDL)  | Clear bit                                                    |
+| BIT MANIPULATION          | [ibits](IBITS)                                       | (GFDL)  | Bit extraction                                               |
+| BIT MANIPULATION          | [ibset](IBSET)                                       | (GFDL)  | Set bit                                                      |
+| BIT MANIPULATION          | [ieor](IEOR)                                         | (GFDL)  | Bitwise logical exclusive or                                 |
+| BIT MANIPULATION          | [ior](IOR)                                           | (GFDL)  | Bitwise logical inclusive or                                 |
+| BIT MANIPULATION          | [iparity](IPARITY)                                   | (GFDL)  | Bitwise exclusive or of array elements                       |
+| BIT MANIPULATION          | [ishft](ISHFT)                                       | (GFDL)  | Shift bits                                                   |
+| BIT MANIPULATION          | [ishftc](ISHFTC)                                     | (GFDL)  | Shift bits circularly                                        |
+| BIT MANIPULATION          | [logical](LOGICAL)                                   | (GFDL)  | Converts one kind of _logical_ variable to another           |
+| BIT MANIPULATION          | [merge\_bits](MERGE_BITS)                            | (GFDL)  | Merge of bits under mask                                     |
+| BIT MANIPULATION          | [mvbits](MVBITS)                                     | (GFDL)  | Move bits from one integer to another                        |
+| BIT MANIPULATION          | [not](NOT)                                           |         | Logical negation                                             |
+| BIT MANIPULATION          | [shifta](SHIFTA)                                     | (GFDL)  | shift bits right with fill                                   |
+| BIT MANIPULATION          | [shiftl](SHIFTL)                                     | (GFDL)  | shift bits left                                              |
+| BIT MANIPULATION          | [shiftr](SHIFTR)                                     | (GFDL)  | shift bits right                                             |
+| BIT MANIPULATION          | [transfer](TRANSFER)                                 | (GFDL)  | Transfer bit patterns                                        |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+
+  These routines support controlling and querying the current numeric model.
+
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | MODEL\_COMPONENTS         | [exponent](EXPONENT)                                 | (GFDL)  | Exponent function                                            |
 | MODEL\_COMPONENTS         | [fraction](FRACTION)                                 | (GFDL)  | Fractional part of the model representation                  |
 | MODEL\_COMPONENTS         | [nearest](NEAREST)                                   | (GFDL)  | Nearest representable number                                 |
@@ -233,6 +242,10 @@ on the documents. For contribution guidelines see
 | NUMERIC MODEL             | [radix](RADIX)                                       | (GFDL)  | Base of a model number                                       |
 | NUMERIC MODEL             | [range](RANGE)                                       | (GFDL)  | Decimal exponent range of a real kind                        |
 | NUMERIC MODEL             | [tiny](TINY)                                         | (GFDL)  | Smallest positive number of a real kind                      |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+
+  These routines support parallel programming using co_arrays and co_indexed arrays.
+
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | COLLECTIVE                | [co\_broadcast](CO_BROADCAST)                        | (GFDL)  | Copy a value to all images the current set of images         |
 | COLLECTIVE                | [co\_lbound](CO_LBOUND)                              | (GFDL)  | Lower codimension bounds of an array                         |
