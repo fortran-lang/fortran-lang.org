@@ -22,15 +22,19 @@ Convert to integer type by truncating towards zero.
 ## __Arguments__
 
   - __a__
-    Shall be of type _integer_, _real_, or _complex_.
+    Shall be of type _integer_, _real_, or _complex_ or a BOZ-literal-constant.
 
   - __kind__
     An _integer_ initialization expression indicating the kind
     parameter of the result.
 
+    If not present the returned type is that of default integer type.
+
 ## __Returns__
 
 returns an _integer_ variable or array applying the following rules:
+
+ __Case__:
 
  1.  If __a__ is of type _integer_, __int__(a) = a
 
@@ -39,6 +43,14 @@ returns an _integer_ variable or array applying the following rules:
      __a__ and whose sign is the same as the sign of __a__.
 
  3.  If __a__ is of type _complex_, rule 2 is applied to the _real_ part of __a__.
+
+ 4.  If _a_ is a boz-literal constant, it is treated as an _integer_
+     with the _kind_ specified.
+
+     The interpretation of a bit sequence whose most significant bit is
+     __1__ is processor dependent.
+
+The result is undefined if it cannot be represented in the specified integer type.
 
 ## __Examples__
 
@@ -70,6 +82,10 @@ real :: x=-10.5, y=10.5
    ! using a larger kind
    print *, int(x,kind=int64),x
 
+   print *, int(B"111111111111111111111111111111111111111111111111111111111111111",kind=int64)
+   print *, int(O"777777777777777777777",kind=int64)
+   print *, int(Z"7FFFFFFFFFFFFFFF",kind=int64)
+
 end program demo_int
 ```
   Results:
@@ -80,6 +96,9 @@ end program demo_int
          -10         -10         -10          10          10          10
  -2147483648  2.1474847E+09
             2147484672  2.1474847E+09
+   9223372036854775807
+   9223372036854775807
+   9223372036854775807
 ```
 ## __Standard__
 
