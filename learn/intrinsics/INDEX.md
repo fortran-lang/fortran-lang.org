@@ -66,13 +66,10 @@ Example program
       index(str,'This').eq.0
    end program demo_index
 ```
-
 Expected Results:
-
+```text
+   T T T
 ```
-   > T T T
-```
-
 ## __Standard__
 
 FORTRAN 77 and later, with KIND argument Fortran 2003

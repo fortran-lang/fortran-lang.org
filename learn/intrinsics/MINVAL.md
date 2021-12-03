@@ -64,10 +64,10 @@ sample program:
 
 results:
 
-```
-    > 1
-    > 1    2     3     4     5
-    > 1   10    11
+```text
+ 1
+ 1    2     3     4     5
+ 1   10    11
 ```
 
 ## __Standard__

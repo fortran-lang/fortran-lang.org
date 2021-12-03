@@ -90,18 +90,18 @@ Sample program:
 Results
 
 ```
-     > 1 5 -5
-     > Range limits for typical KINDS:
-     > 1 127
-     > 2 32767
-     > 4 2147483647
-     > 8 9223372036854775807
-     > Any KIND big enough? ICHECK=          -1
-     > These are all wrong answers for   1.234566949990144E+019
-     > 0
-     > 0
-     > -2147483648
-     > -9223372036854775808
+   1 5 -5
+   Range limits for typical KINDS:
+   1 127
+   2 32767
+   4 2147483647
+   8 9223372036854775807
+   Any KIND big enough? ICHECK=          -1
+   These are all wrong answers for   1.234566949990144E+019
+   0
+   0
+   -2147483648
+   -9223372036854775808
 ```
 
 ## __Standard__

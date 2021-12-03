@@ -92,14 +92,14 @@ Sample program
   !end program demo_ubound
 ```
 
-> Expected output
->
-> ```
->   MAIN: LOWER=         -10 UPPER=          10 SIZE=          21
->   CSUB: LOWER=         -10 UPPER=          10 SIZE=          21
->   MSUB: LOWER=           1 UPPER=          21 SIZE=          21
->   ESUB: LOWER=           1 UPPER=          21 SIZE=          21
-> ```
+Expected output
+ 
+```text
+  MAIN: LOWER=         -10 UPPER=          10 SIZE=          21
+  CSUB: LOWER=         -10 UPPER=          10 SIZE=          21
+  MSUB: LOWER=           1 UPPER=          21 SIZE=          21
+  ESUB: LOWER=           1 UPPER=          21 SIZE=          21
+```
 
 ## __Standard__
 
@@ -108,4 +108,6 @@ and later
 
 ## __See Also__
 
-__lbound__(3), __co\_ubound__(3), __co\_lbound__(3)
+[__lbound__(3)](LBOUND),
+[__co\_ubound__(3)](CO_UBOUND),
+[__co\_lbound__(3)(CO_LBOUND)]

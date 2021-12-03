@@ -18,61 +18,61 @@ True if and only if an object is contiguous.
 
 An object is contiguous if it is
 
->   - __(1)__
->     an object with the CONTIGUOUS attribute,
->
->   - __(2)__
->     a nonpointer whole array that is not assumed-shape,
->
->   - __(3)__
->     an assumed-shape array that is argument associated with an array
->     that is contiguous,
->
->   - __(4)__
->     an array allocated by an ALLOCATE statement,
->
->   - __(5)__
->     a pointer associated with a contiguous target, or
->
->   - __(6)__
->     a nonzero-sized array section provided that
->
->       - __(a)__
->         its base object is contiguous,
->
->       - __(b)__
->         it does not have a vector subscript,
->
->       - __(c)__
->         the elements of the section, in array element order, are a
->         subset of the base object elements that are consecutive in
->         array element order,
->
->       - __(d)__
->         if the array is of type character and a substring-range
->         appears, the substring-range specifies all of the characters
->         of the parent-string,
->
->       - __(e)__
->         only its final part-ref has nonzero rank, and
->
->       - __(f)__
->         it is not the real or imaginary part of an array of type
->         complex.
+   - __(1)__
+     an object with the CONTIGUOUS attribute,
+
+   - __(2)__
+     a nonpointer whole array that is not assumed-shape,
+
+   - __(3)__
+     an assumed-shape array that is argument associated with an array
+     that is contiguous,
+
+   - __(4)__
+     an array allocated by an ALLOCATE statement,
+
+   - __(5)__
+     a pointer associated with a contiguous target, or
+
+   - __(6)__
+     a nonzero-sized array section provided that
+
+       - __(a)__
+         its base object is contiguous,
+
+       - __(b)__
+         it does not have a vector subscript,
+
+       - __(c)__
+         the elements of the section, in array element order, are a
+         subset of the base object elements that are consecutive in
+         array element order,
+
+       - __(d)__
+         if the array is of type character and a substring-range
+         appears, the substring-range specifies all of the characters
+         of the parent-string,
+
+       - __(e)__
+         only its final part-ref has nonzero rank, and
+
+       - __(f)__
+         it is not the real or imaginary part of an array of type
+         complex.
 
 An object is not contiguous if it is an array subobject, and
 
->   - the object has two or more elements,
->
->   - the elements of the object in array element order are not
->     consecutive in the elements of the base object,
->
->   - the object is not of type character with length zero, and
->
->   - the object is not of a derived type that has no ultimate
->     components other than zero-sized arrays and
->
->   - characters with length zero.
+   - the object has two or more elements,
+
+   - the elements of the object in array element order are not
+     consecutive in the elements of the base object,
+
+   - the object is not of type character with length zero, and
+
+   - the object is not of a derived type that has no ultimate
+     components other than zero-sized arrays and
+
+   - characters with length zero.
 
 It is processor-dependent whether any other object is contiguous.
 

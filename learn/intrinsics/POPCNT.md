@@ -42,22 +42,16 @@ Sample program:
      print *, popcnt(huge(0_int32)), poppar(huge(0_int32))
      print *, popcnt(huge(0_int64)), poppar(huge(0_int64))
    end program demo_popcnt
-```
-
 Sample output:
 
->   - __7__
-
-  - __31__
-
-      - __7__
-
-  - __15__
-
-      - __31__
-
-      - __63__
-
+```
+        7           1
+       31           1
+        7           1
+       15           1
+       31           1
+       63           1
+```
 ## __Standard__
 
 Fortran 2008 and later

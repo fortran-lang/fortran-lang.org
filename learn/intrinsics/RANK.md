@@ -39,14 +39,10 @@ Sample program:
      print *, rank(a), rank(b), rank(c)
    end program demo_rank
 ```
-
-Results:
-
->   - __0__
->     2 3
-
 Expected output:
-
+```text
+   0           2           3
+```
 ## __Standard__
 
 TS 29113

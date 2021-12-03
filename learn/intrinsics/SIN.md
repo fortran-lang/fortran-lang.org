@@ -57,7 +57,7 @@ Airport (BNA) in TN, USA, and the Los Angeles International Airport
 (LAX) in CA, USA you would start with their latitude and longitude,
 commonly given as
 
-```
+```text
      BNA: N 36 degrees 7.2',   W 86 degrees 40.2'
      LAX: N 33 degrees 56.4',  W 118 degrees 24.0'
 ```
@@ -65,14 +65,14 @@ commonly given as
 which converted to floating-point values in degrees is:
 
 ```
-          Latitude Longitude
-```
+      Latitude Longitude
 
->   - __BNA__
->     36.12, __-86.67__
->
->   - __LAX__
->     33.94, __-118.40__
+   - __BNA__
+     36.12, __-86.67__
+
+   - __LAX__
+     33.94, __-118.40__
+```
 
 And then use the haversine formula to roughly calculate the distance
 along the surface of the Earth between the locations:

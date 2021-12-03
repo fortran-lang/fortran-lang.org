@@ -67,23 +67,21 @@ end program demo_asin
 ```
 
 Results:
-
 ```
     angle of incline(radians) =    2.5002604899361139E-002
     angle of incline(degrees) =    1.4325437375665075
     percent grade=   2.5000000000000000
 ```
-
 The percentage grade is the slope, written as a percent. To calculate
 the slope you divide the rise by the run. In the example the rise is
 1.25 mile over a run of 50 miles so the slope is 1.25/50 = 0.025.
 Written as a percent this is 2.5 %.
 
-> for the US, two and 1/2 percent is generally thought of as the upper
-> limit. This means a rise of 2.5 feet when going 100 feet forward. In
-> the US this was the maximum grade on the first major US railroad, the
-> Baltimore and Ohio. Note curves increase the frictional drag on a
-> train reducing the allowable grade.
+For the US, two and 1/2 percent is generally thought of as the upper
+limit. This means a rise of 2.5 feet when going 100 feet forward. In
+the US this was the maximum grade on the first major US railroad, the
+Baltimore and Ohio. Note curves increase the frictional drag on a
+train reducing the allowable grade.
 
 ## __Standard__
 

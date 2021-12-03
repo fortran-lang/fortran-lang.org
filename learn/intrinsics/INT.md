@@ -30,13 +30,13 @@ Convert to integer type
 These functions return a _integer_ variable or array under the following
 rules:
 
-> 1.  If A is of type _integer_, __int__(a) = a
->
-> 2.  If A is of type _real_ and |a| \< 1, __int__(a) equals 0. If |a| \>=
->     1, then __int__(a) equals the largest integer that does not exceed
->     the range of A and whose sign is the same as the sign of A.
->
-> 3.  If A is of type _complex_, rule 2 is applied to the real part of A.
+ 1.  If A is of type _integer_, __int__(a) = a
+
+ 2.  If A is of type _real_ and |a| \< 1, __int__(a) equals 0. If |a| \>=
+     1, then __int__(a) equals the largest integer that does not exceed
+     the range of A and whose sign is the same as the sign of A.
+
+ 3.  If A is of type _complex_, rule 2 is applied to the real part of A.
 
 ## __Examples__
 

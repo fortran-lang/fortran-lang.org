@@ -27,11 +27,11 @@ present then the following are copied in depending on the type of ARRAY.
 
 \*Array Type\* - \*Boundary Value\*
 
->   - Numeric 0 of the type and kind of ARRAY
->
->   - Logical .false.
->
->   - __Character__(LEN) LEN blanks
+   - Numeric 0 of the type and kind of ARRAY
+
+   - Logical .false.
+
+   - __Character__(LEN) LEN blanks
 
 ## __Arguments__
 

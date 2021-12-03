@@ -45,26 +45,24 @@ The result is an array of shape SHAPE with the same type as SOURCE.
 Sample program:
 
 ```fortran
-    program demo_reshape
-    implicit none
-    integer :: i
-    integer, dimension(4) :: x=[(i,i=10,40,10)]
-      ! X is originally a vector with four elements
-      write(*,*) shape(x)                     ! prints "4"
-      write(*,*) shape(reshape(x, [2, 2]))    ! prints "2 2"
-    end program demo_reshape
+program demo_reshape
+implicit none
+integer :: i
+integer, dimension(4) :: x=[(i,i=10,40,10)]
+    ! X is originally a vector with four elements
+    write(*,*) shape(x)                     ! prints "4"
+    write(*,*) shape(reshape(x, [2, 2]))    ! prints "2 2"
+end program demo_reshape
 ```
-
 Results
-
-> 4
->
->   - __2__
-
+```text
+   4
+   2 2
+```
 ## __Standard__
 
 Fortran 95 and later
 
 ## __See Also__
 
-__shape__(3)
+[__shape__(3)](SHAPE)

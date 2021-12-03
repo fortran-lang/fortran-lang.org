@@ -67,21 +67,21 @@ Sample program:
    end program demo_count
 ```
    Expected Results:
-```
-     > 1  3  5
-     > 2  4  6
-     >
-     > 0  3  5
-     > 7  4  8
-     >
-     > T  F  F
-     > T  F  T
-     >
-     > 3
-     >
-     > 2  0  1
-     >
-     > 1  2
+```text
+  1  3  5
+  2  4  6
+ 
+  0  3  5
+  7  4  8
+ 
+  T  F  F
+  T  F  T
+ 
+  3
+ 
+  2  0  1
+ 
+  1  2
 ```
 
 ## __Standard__

@@ -38,12 +38,8 @@ ordering.
   - __STR\_B__
     variable or array of default CHARACTER type.
 
-<!-- end list -->
-
-```
-            if STR_A and STR_B are both arrays they must be of the
-            same shape.
-```
+    if STR_A and STR_B are both arrays they must be of the
+    same shape.
 
 ## __Returns__
 
@@ -72,20 +68,20 @@ Sample program:
    end program demo_lle
 ```
 
-> Results:
->
-> ```
->    > !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ
->    > [\]^_`abcdefghijklmnopqrstuvwxyz{|}~
->    > F
->    > T
->    > T
->    > T
->    > F
->    > T F
->    > F T
->    > T T
-> ```
+Results:
+
+```text
+  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ
+  [\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+  F
+  T
+  T
+  T
+  F
+  T F
+  F T
+  T T
+```
 
 ## __Standard__
 

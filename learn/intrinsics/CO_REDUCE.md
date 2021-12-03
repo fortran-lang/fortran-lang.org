@@ -47,8 +47,6 @@ the occurred error.
       - __function, unless it is an intrinsic function.__
         result\_image
 
-    <!-- end list -->
-
       - (optional) a scalar integer expression; if present, it shall
         have the same the same value on all images and refer to an image
         of the current team.
