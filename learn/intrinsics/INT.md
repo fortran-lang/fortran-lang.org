@@ -46,6 +46,7 @@ Sample program:
 
 ```fortran
 program demo_int
+use,intrinsic :: iso_fortran_env, only : int8, int16, int32, int64
 implicit none
 integer :: i = 42 
 complex :: z = (-3.7, 1.0)
@@ -66,16 +67,19 @@ real :: x=-10.5, y=10.5
    ! be detected by the program. 
    x=real(huge(0))+1000.0
    print *, int(x),x
+   ! using a larger kind
+   print *, int(x,kind=int64),x
 
 end program demo_int
 ```
   Results:
 ```text
-            -10  10
-             42
-             -3         -3
-            -10  -10   -10    10     10     10
-    -2147483648   2.14748467E+09
+         -10          10
+          42
+          -3                    -3
+         -10         -10         -10          10          10          10
+ -2147483648  2.1474847E+09
+            2147484672  2.1474847E+09
 ```
 ## __Standard__
 
