@@ -11,8 +11,9 @@ __int__(3) - \[NUMERIC:TYPE\] Convert to integer type by truncating towards zero
 ```fortran
 result = int(a, kind)
 
- integer(kind=KIND) elemental function int(a)
+ integer(kind=KIND) elemental function int(a,kind)
  TYPE(kind=KIND),intent(in),optional :: a
+ integer,optional :: kind
 ```
 ## __Description__
 
