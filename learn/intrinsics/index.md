@@ -28,10 +28,10 @@ on the documents. For contribution guidelines see
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | category                  | page                                                 | license | description                                                  |
 | -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE.md)                                       |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE)                                       |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [merge](./MERGE.md)                                       |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [merge](./MERGE)                                       |         | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE.md)  |         | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE)     |         | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge](./MERGE.md)                                  |         | Merge variables                                              |
+| ARRAY CONSTRUCTION        | [merge](./MERGE)                                     |         | Merge variables                                              |
 | ARRAY CONSTRUCTION        | [merge](MERGE)                                       |         | Merge variables                                              |
 | ARRAY CONSTRUCTION        | [pack](PACK)                                         |         | Pack an array into an array of rank one                      |
 | ARRAY CONSTRUCTION        | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
@@ -59,19 +59,6 @@ on the documents. For contribution guidelines see
 | ARRAY REDUCTION           | [sum](SUM)                                           | (GFDL)  | sum the elements of an array                                 |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | ARRAY RESHAPE             | [reshape](RESHAPE)                                   | (GFDL)  | Function to reshape an array                                 |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ATOMIC:BIT MANIPULATION   | [atomic\_and](ATOMIC_AND)                            | (GFDL)  | Atomic bitwise AND operation                                 |
-| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_and](ATOMIC_FETCH_AND)               | (GFDL)  | Atomic bitwise AND operation with prior fetch                |
-| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_or](ATOMIC_FETCH_OR)                 | (GFDL)  | Atomic bitwise OR operation with prior fetch                 |
-| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_xor](ATOMIC_FETCH_XOR)               | (GFDL)  | Atomic bitwise XOR operation with prior fetch                |
-| ATOMIC:BIT MANIPULATION   | [atomic\_or](ATOMIC_OR)                              | (GFDL)  | Atomic bitwise OR operation                                  |
-| ATOMIC:BIT MANIPULATION   | [atomic\_xor](ATOMIC_XOR)                            | (GFDL)  | Atomic bitwise OR operation                                  |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ATOMIC                    | [atomic\_add](ATOMIC_ADD)                            | (GFDL)  | Atomic ADD operation                                         |
-| ATOMIC                    | [atomic\_cas](ATOMIC_CAS)                            | (GFDL)  | Atomic compare and swap                                      |
-| ATOMIC                    | [atomic\_define](ATOMIC_DEFINE)                      | (GFDL)  | Setting a variable atomically                                |
-| ATOMIC                    | [atomic\_fetch\_add](ATOMIC_FETCH_ADD)               | (GFDL)  | Atomic ADD operation with prior fetch                        |
-| ATOMIC                    | [atomic\_ref](ATOMIC_REF)                            | (GFDL)  | Obtaining the value of a variable atomically                 |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | BIT COMPARE               | [bge](BGE)                                           | (GFDL)  | Bitwise greater than or equal to                             |
 | BIT COMPARE               | [bgt](BGT)                                           | (GFDL)  | Bitwise greater than                                         |
@@ -126,19 +113,6 @@ on the documents. For contribution guidelines see
 | CHARACTER                 | [scan](SCAN)                                         | (GFDL)  | Scan a string for the presence of a set of characters        |
 | CHARACTER                 | [trim](TRIM)                                         | (GFDL)  | Remove trailing blank characters of a string                 |
 | CHARACTER                 | [verify](VERIFY)                                     | (GFDL)  | Scan a string for the absence of a set of characters         |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| COLLECTIVE                | [co\_broadcast](CO_BROADCAST)                        | (GFDL)  | Copy a value to all images the current set of images         |
-| COLLECTIVE                | [co\_lbound](CO_LBOUND)                              | (GFDL)  | Lower codimension bounds of an array                         |
-| COLLECTIVE                | [co\_max](CO_MAX)                                    | (GFDL)  | Maximal value on the current set of images                   |
-| COLLECTIVE                | [co\_min](CO_MIN)                                    | (GFDL)  | Minimal value on the current set of images                   |
-| COLLECTIVE                | [co\_reduce](CO_REDUCE)                              | (GFDL)  | Reduction of values on the current set of images             |
-| COLLECTIVE                | [co\_sum](CO_SUM)                                    | (GFDL)  | Sum of values on the current set of images                   |
-| COLLECTIVE                | [co\_ubound](CO_UBOUND)                              | (GFDL)  | Upper codimension bounds of an array                         |
-| COLLECTIVE                | [event\_query](EVENT_QUERY)                          | (GFDL)  | Query whether a coarray event has occurred                   |
-| COLLECTIVE                | [image\_index](IMAGE_INDEX)                          | (GFDL)  | Cosubscript to image index conversion                        |
-| COLLECTIVE                | [num\_images](NUM_IMAGES)                            | (GFDL)  | Number of images                                             |
-| COLLECTIVE                | [this\_image](THIS_IMAGE)                            | (GFDL)  | Cosubscript index of this image                              |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | COMPILER INQUIRY          | [compiler\_options](COMPILER_OPTIONS)                | (GFDL)  | Options passed to the compiler                               |
 | COMPILER INQUIRY          | [compiler\_version](COMPILER_VERSION)                | (GFDL)  | Compiler version string                                      |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
@@ -189,24 +163,6 @@ on the documents. For contribution guidelines see
 | MATHEMATICS               | [log\_gamma](LOG_GAMMA)                              | (GFDL)  | Logarithm of the Gamma function                              |
 | MATHEMATICS               | [norm2](NORM2)                                       | (GFDL)  | Euclidean vector norm                                        |
 | MATHEMATICS               | [sqrt](SQRT)                                         |         | Square-root function                                         |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| MODEL\_COMPONENTS         | [exponent](EXPONENT)                                 | (GFDL)  | Exponent function                                            |
-| MODEL\_COMPONENTS         | [fraction](FRACTION)                                 | (GFDL)  | Fractional part of the model representation                  |
-| MODEL\_COMPONENTS         | [nearest](NEAREST)                                   | (GFDL)  | Nearest representable number                                 |
-| MODEL\_COMPONENTS         | [rrspacing](RRSPACING)                               | (GFDL)  | Reciprocal of the relative spacing                           |
-| MODEL\_COMPONENTS         | [scale](SCALE)                                       | (GFDL)  | Scale a real value                                           |
-| MODEL\_COMPONENTS         | [set\_exponent](SET_EXPONENT)                        | (GFDL)  | Set the exponent of the model                                |
-| MODEL\_COMPONENTS         | [spacing](SPACING)                                   | (GFDL)  | Smallest distance between two numbers of a given type        |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| NUMERIC MODEL             | [digits](DIGITS)                                     | (GFDL)  | Significant digits function                                  |
-| NUMERIC MODEL             | [epsilon](EPSILON)                                   | (GFDL)  | Epsilon function                                             |
-| NUMERIC MODEL             | [huge](HUGE)                                         |         | Largest number of a kind                                     |
-| NUMERIC MODEL             | [maxexponent](MAXEXPONENT)                           | (GFDL)  | Maximum exponent of a real kind                              |
-| NUMERIC MODEL             | [minexponent](MINEXPONENT)                           | (GFDL)  | Minimum exponent of a real kind                              |
-| NUMERIC MODEL             | [precision](PRECISION)                               | (GFDL)  | Decimal precision of a real kind                             |
-| NUMERIC MODEL             | [radix](RADIX)                                       | (GFDL)  | Base of a model number                                       |
-| NUMERIC MODEL             | [range](RANGE)                                       | (GFDL)  | Decimal exponent range of a real kind                        |
-| NUMERIC MODEL             | [tiny](TINY)                                         | (GFDL)  | Smallest positive number of a real kind                      |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 | NUMERIC:TYPE              | [aimag](AIMAG)                                       | (GFDL)  | Imaginary part of complex number                             |
 | NUMERIC:TYPE              | [cmplx](CMPLX)                                       | (GFDL)  | Complex conversion function                                  |
@@ -259,6 +215,49 @@ on the documents. For contribution guidelines see
 | TBD                       | [move\_alloc](MOVE_ALLOC)                            | (GFDL)  | Move allocation from one object to another                   |
 | TBD                       | [present](PRESENT)                                   | (GFDL)  | Determine whether an optional dummy argument is specified    |
 | TBD                       | [same\_type\_as](SAME_TYPE_AS)                       | (GFDL)  | Query dynamic types for equality                             |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| MODEL\_COMPONENTS         | [exponent](EXPONENT)                                 | (GFDL)  | Exponent function                                            |
+| MODEL\_COMPONENTS         | [fraction](FRACTION)                                 | (GFDL)  | Fractional part of the model representation                  |
+| MODEL\_COMPONENTS         | [nearest](NEAREST)                                   | (GFDL)  | Nearest representable number                                 |
+| MODEL\_COMPONENTS         | [rrspacing](RRSPACING)                               | (GFDL)  | Reciprocal of the relative spacing                           |
+| MODEL\_COMPONENTS         | [scale](SCALE)                                       | (GFDL)  | Scale a real value                                           |
+| MODEL\_COMPONENTS         | [set\_exponent](SET_EXPONENT)                        | (GFDL)  | Set the exponent of the model                                |
+| MODEL\_COMPONENTS         | [spacing](SPACING)                                   | (GFDL)  | Smallest distance between two numbers of a given type        |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| NUMERIC MODEL             | [digits](DIGITS)                                     | (GFDL)  | Significant digits function                                  |
+| NUMERIC MODEL             | [epsilon](EPSILON)                                   | (GFDL)  | Epsilon function                                             |
+| NUMERIC MODEL             | [huge](HUGE)                                         |         | Largest number of a kind                                     |
+| NUMERIC MODEL             | [maxexponent](MAXEXPONENT)                           | (GFDL)  | Maximum exponent of a real kind                              |
+| NUMERIC MODEL             | [minexponent](MINEXPONENT)                           | (GFDL)  | Minimum exponent of a real kind                              |
+| NUMERIC MODEL             | [precision](PRECISION)                               | (GFDL)  | Decimal precision of a real kind                             |
+| NUMERIC MODEL             | [radix](RADIX)                                       | (GFDL)  | Base of a model number                                       |
+| NUMERIC MODEL             | [range](RANGE)                                       | (GFDL)  | Decimal exponent range of a real kind                        |
+| NUMERIC MODEL             | [tiny](TINY)                                         | (GFDL)  | Smallest positive number of a real kind                      |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| COLLECTIVE                | [co\_broadcast](CO_BROADCAST)                        | (GFDL)  | Copy a value to all images the current set of images         |
+| COLLECTIVE                | [co\_lbound](CO_LBOUND)                              | (GFDL)  | Lower codimension bounds of an array                         |
+| COLLECTIVE                | [co\_max](CO_MAX)                                    | (GFDL)  | Maximal value on the current set of images                   |
+| COLLECTIVE                | [co\_min](CO_MIN)                                    | (GFDL)  | Minimal value on the current set of images                   |
+| COLLECTIVE                | [co\_reduce](CO_REDUCE)                              | (GFDL)  | Reduction of values on the current set of images             |
+| COLLECTIVE                | [co\_sum](CO_SUM)                                    | (GFDL)  | Sum of values on the current set of images                   |
+| COLLECTIVE                | [co\_ubound](CO_UBOUND)                              | (GFDL)  | Upper codimension bounds of an array                         |
+| COLLECTIVE                | [event\_query](EVENT_QUERY)                          | (GFDL)  | Query whether a coarray event has occurred                   |
+| COLLECTIVE                | [image\_index](IMAGE_INDEX)                          | (GFDL)  | Cosubscript to image index conversion                        |
+| COLLECTIVE                | [num\_images](NUM_IMAGES)                            | (GFDL)  | Number of images                                             |
+| COLLECTIVE                | [this\_image](THIS_IMAGE)                            | (GFDL)  | Cosubscript index of this image                              |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| ATOMIC:BIT MANIPULATION   | [atomic\_and](ATOMIC_AND)                            | (GFDL)  | Atomic bitwise AND operation                                 |
+| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_and](ATOMIC_FETCH_AND)               | (GFDL)  | Atomic bitwise AND operation with prior fetch                |
+| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_or](ATOMIC_FETCH_OR)                 | (GFDL)  | Atomic bitwise OR operation with prior fetch                 |
+| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_xor](ATOMIC_FETCH_XOR)               | (GFDL)  | Atomic bitwise XOR operation with prior fetch                |
+| ATOMIC:BIT MANIPULATION   | [atomic\_or](ATOMIC_OR)                              | (GFDL)  | Atomic bitwise OR operation                                  |
+| ATOMIC:BIT MANIPULATION   | [atomic\_xor](ATOMIC_XOR)                            | (GFDL)  | Atomic bitwise OR operation                                  |
+| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+| ATOMIC                    | [atomic\_add](ATOMIC_ADD)                            | (GFDL)  | Atomic ADD operation                                         |
+| ATOMIC                    | [atomic\_cas](ATOMIC_CAS)                            | (GFDL)  | Atomic compare and swap                                      |
+| ATOMIC                    | [atomic\_define](ATOMIC_DEFINE)                      | (GFDL)  | Setting a variable atomically                                |
+| ATOMIC                    | [atomic\_fetch\_add](ATOMIC_FETCH_ADD)               | (GFDL)  | Atomic ADD operation with prior fetch                        |
+| ATOMIC                    | [atomic\_ref](ATOMIC_REF)                            | (GFDL)  | Obtaining the value of a variable atomically                 |
 | ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 
 ## Text Content Copyrights

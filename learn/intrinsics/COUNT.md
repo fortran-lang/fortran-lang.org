@@ -83,7 +83,6 @@ Sample program:
  
   1  2
 ```
-
 ## __Standard__
 
 Fortran 95 and later, with KIND argument - Fortran 2003
