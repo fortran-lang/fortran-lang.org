@@ -9,34 +9,35 @@ __modulo__(3) - \[NUMERIC\] Modulo function
 (GFDL)
 
 ## __Syntax__
+```fortran
+result = modulo(a, p)
 
-result = __modulo__(a, p)
-
+```
 ## __Description__
 
-__modulo__(a,p) computes the A modulo P.
+__modulo__(a,p) computes the __a__ modulo __p__.
 
 ## __Arguments__
 
-  - __A__
-    Shall be a scalar of type _integer_ or _real_.
+  - __a__
+    : Shall be a scalar of type _integer_ or _real_.
 
-  - __P__
-    Shall be a scalar of the same type and kind as A. It shall not be
-    zero.
+  - __p__
+    : Shall be a scalar of the same type and kind as __a__. It shall not be
+      zero.
 
 ## __Returns__
 
 The type and kind of the result are those of the arguments.
 
-  - If A and P are of type _integer_: __modulo__(a,p) has the value of a -
-    floor (__real__(a) / __real__(p)) \* p.
+  - If __a__ and __p__ are of type _integer_: __modulo(a,p)__ has the value of __a -
+    floor (real(a) / real(p)) \* p__.
 
-  - If A and P are of type _real_: __modulo__(a,p) has the value of a -
-    floor (a / p) \* p.
+  - If __a__ and __p__ are of type _real_: __modulo(a,p)__ has the value of __a -
+    floor (a / p) \* p__.
 
-The returned value has the same sign as P and a magnitude less than the
-magnitude of P.
+The returned value has the same sign as __p__ and a magnitude less than the
+magnitude of __p__.
 
 ## __Examples__
 

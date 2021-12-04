@@ -10,13 +10,14 @@ __abs__(3) - \[NUMERIC\] Absolute value
 ## __Syntax__
 
 ```fortran
-  result = abs(x)
+  result = abs(a)
+
    TYPE(kind=KIND) elemental function abs(a)
    TYPE(kind=KIND),intent(in) :: a
 ```
 where TYPE may be _real_, _integer_, or _complex_
-and KIND may be any supported KIND for the
-associated TYPE.
+and KIND may be any supported kind for the
+associated type.
 
 ## __Description__
 
@@ -31,18 +32,18 @@ values (_see below_).
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     the type of the argument shall be an _integer_, _real_, or _complex_
     scalar or array.
 
 ## __Returns__
 
-If __A__ is of type _integer_ or _real_, the value of the result is __|A|__ and of
+If __a__ is of type _integer_ or _real_, the value of the result is __|a|__ and of
 the same type and kind as the input argument.
 
-(Take particular note) if __A__ is _complex_ with value __(X, Y)__, the result is
+(Take particular note) if __a__ is _complex_ with value __(x, y)__, the result is
 a _real_ equal to a processor-dependent approximation to
-__sqrt(X\*\*2 + Y\*\*2)__
+__sqrt(x\*\*2 + y\*\*2)__
 computed without undue overflow or underflow.
 
 ## __Examples__

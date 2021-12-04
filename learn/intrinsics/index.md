@@ -5,8 +5,7 @@ permalink: /learn/intrinsics
 ---
 This is a collection of extended descriptions of the Fortran intrinsics
 based on the reference document
-[Current F2018 Working Document as of April 2018](http://isotc.iso.org/livelink/livelink?func=ll&objId=19442438&objAction=Open)
-
+"[Current F2018 Working Document as of April 2018](http://isotc.iso.org/livelink/livelink?func=ll&objId=19442438&objAction=Open)"
 with an emphasis on including a complete working example program that
 describes common use cases. Vendor-specific extensions are not included.
 
@@ -22,265 +21,299 @@ discussions in Fortran Discourse) these documents will hopefully be a
 valuable asset for Fortran programmers.
 
 This is a community-driven resource and everyone is encouraged to improve
-on the documents. For contribution guidelines see 
+on the documents. For contribution guidelines see
 [MINIBOOKS](https://github.com/fortran-lang/fortran-lang.org/blob/master/MINIBOOKS.md).
 
-| -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| category                  | page                                                 | license | description                                                  |
-| -------------------------------------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE.md)  |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [merge]({{site.baseurl}}/learn/intrinsics/MERGE)     |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [merge](./MERGE.md)                                  |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [merge](./MERGE)                                     |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [merge](MERGE)                                       |         | Merge variables                                              |
-| ARRAY CONSTRUCTION        | [pack](PACK)                                         |         | Pack an array into an array of rank one                      |
-| ARRAY CONSTRUCTION        | [spread](SPREAD)                                     | (GFDL)  | Add a dimension to an array                                  |
-| ARRAY CONSTRUCTION        | [unpack](UNPACK)                                     | (GFDL)  | Store the elements of a vector in an array of higher rank    |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY INQUIRY             | [allocated](ALLOCATED)                               | (GFDL)  | Status of an allocatable entity                              |
-| ARRAY INQUIRY             | [is\_contiguous](IS_CONTIGUOUS)                      | (GFDL)  | test if object is contiguous                                 |
-| ARRAY INQUIRY             | [lbound](LBOUND)                                     | (GFDL)  | Lower dimension bounds of an array                           |
-| ARRAY INQUIRY             | [rank](RANK)                                         | (GFDL)  | Rank of a data object                                        |
-| ARRAY INQUIRY             | [shape](SHAPE)                                       | (GFDL)  | Determine the shape of an array                              |
-| ARRAY INQUIRY             | [size](SIZE)                                         | (GFDL)  | Determine the size of an array                               |
-| ARRAY INQUIRY             | [ubound](UBOUND)                                     | (GFDL)  | Upper dimension bounds of an array                           |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY LOCATION            | [maxloc](MAXLOC)                                     | (GFDL)  | Location of the maximum value within an array                |
-| ARRAY LOCATION            | [minloc](MINLOC)                                     | (GFDL)  | Location of the minimum value within an array                |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY MANIPULATION        | [transpose](TRANSPOSE)                               | (GFDL)  | Transpose an array of rank two                               |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY REDUCTION           | [all](ALL)                                           | (GFDL)  | determines if all the values are true                        |
-| ARRAY REDUCTION           | [any](ANY)                                           | (GFDL)  | determines if any of the values in the logical array are true. |
-| ARRAY REDUCTION           | [count](COUNT)                                       | (GFDL)  | Count function                                               |
-| ARRAY REDUCTION           | [maxval](MAXVAL)                                     | (GFDL)  | determines the maximum value in an array or row              |
-| ARRAY REDUCTION           | [minval](MINVAL)                                     | (GFDL)  | Minimum value of an array                                    |
-| ARRAY REDUCTION           | [product](PRODUCT)                                   | (GFDL)  | Product of array elements                                    |
-| ARRAY REDUCTION           | [sum](SUM)                                           | (GFDL)  | sum the elements of an array                                 |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ARRAY RESHAPE             | [reshape](RESHAPE)                                   | (GFDL)  | Function to reshape an array                                 |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| CHARACTER                 | [achar](ACHAR)                                       |         | returns a character in a specified position in the ASCII collating sequence              |
-| CHARACTER                 | [adjustl](ADJUSTL)                                   |         | Left-adjust a string                                         |
-| CHARACTER                 | [adjustr](ADJUSTR)                                   |         | Right-adjust a string                                        |
-| CHARACTER                 | [char](CHAR)                                         | (GFDL)  | Character conversion function                                |
-| CHARACTER                 | [iachar](IACHAR)                                     | (GFDL)  | Code in ASCII collating sequence                             |
-| CHARACTER                 | [ichar](ICHAR)                                       | (GFDL)  | Character-to-integer conversion function                     |
-| CHARACTER                 | [index](INDEX)                                       | (GFDL)  | Position of a substring within a string                      |
-| CHARACTER                 | [len](LEN)                                           | (GFDL)  | Length of a character entity                                 |
-| CHARACTER                 | [len\_trim](LEN_TRIM)                                |         | Length of a character entity without trailing blank characters |
-| CHARACTER                 | [lge](LGE)                                           | (GFDL)  | Lexical greater than or equal                                |
-| CHARACTER                 | [lgt](LGT)                                           | (GFDL)  | Lexical greater than                                         |
-| CHARACTER                 | [lle](LLE)                                           | (GFDL)  | Lexical less than or equal                                   |
-| CHARACTER                 | [llt](LLT)                                           | (GFDL)  | Lexical less than                                            |
-| CHARACTER                 | [new\_line](NEW_LINE)                                | (GFDL)  | New line character                                           |
-| CHARACTER                 | [repeat](REPEAT)                                     |         | Repeated string concatenation                                |
-| CHARACTER                 | [scan](SCAN)                                         | (GFDL)  | Scan a string for the presence of a set of characters        |
-| CHARACTER                 | [trim](TRIM)                                         | (GFDL)  | Remove trailing blank characters of a string                 |
-| CHARACTER                 | [verify](VERIFY)                                     | (GFDL)  | Scan a string for the absence of a set of characters         |
-| COMPILER INQUIRY          | [compiler\_options](COMPILER_OPTIONS)                | (GFDL)  | Options passed to the compiler                               |
-| COMPILER INQUIRY          | [compiler\_version](COMPILER_VERSION)                | (GFDL)  | Compiler version string                                      |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ISO\_C\_BINDING           | [c\_associated](C_ASSOCIATED)                        | (GFDL)  | Status of a C pointer                                        |
-| ISO\_C\_BINDING           | [c\_f\_pointer](C_F_POINTER)                         | (GFDL)  | Convert C into Fortran pointer                               |
-| ISO\_C\_BINDING           | [c\_f\_procpointer](C_F_PROCPOINTER)                 | (GFDL)  | Convert C into Fortran procedure pointer                     |
-| ISO\_C\_BINDING           | [c\_funloc](C_FUNLOC)                                | (GFDL)  | Obtain the C address of a procedure                          |
-| ISO\_C\_BINDING           | [c\_loc](C_LOC)                                      | (GFDL)  | Obtain the C address of an object                            |
-| ISO\_C\_BINDING           | [c\_sizeof](C_SIZEOF)                                | (GFDL)  | Size in bytes of an expression                               |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| KIND INQUIRY              | [kind](KIND)                                         | (GFDL)  | Kind of an entity                                            |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| KIND                      | [selected\_char\_kind](SELECTED_CHAR_KIND)           | (GFDL)  | Choose character kind such as "Unicode"                      |
-| KIND                      | [selected\_int\_kind](SELECTED_INT_KIND)             | (GFDL)  | Choose integer kind                                          |
-| KIND                      | [selected\_real\_kind](SELECTED_REAL_KIND)           | (GFDL)  | Choose real kind                                             |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| MATHEMATICS:RANDOM        | [random\_number](RANDOM_NUMBER)                      | (GFDL)  | Pseudo-random number                                         |
-| MATHEMATICS:RANDOM        | [random\_seed](RANDOM_SEED)                          | (GFDL)  | Initialize a pseudo-random number sequence                   |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| MATHEMATICS:TRIGONOMETRIC | [acos](ACOS)                                         | (GFDL)  | arccosine function                                           |
-| MATHEMATICS:TRIGONOMETRIC | [acosh](ACOSH)                                       | (GFDL)  | Inverse hyperbolic cosine function                           |
-| MATHEMATICS:TRIGONOMETRIC | [asin](ASIN)                                         |         | Arcsine function                                             |
-| MATHEMATICS:TRIGONOMETRIC | [asinh](ASINH)                                       | (GFDL)  | Inverse hyperbolic sine function                             |
-| MATHEMATICS:TRIGONOMETRIC | [atan](ATAN)                                         | (GFDL)  | Arctangent function                                          |
-| MATHEMATICS:TRIGONOMETRIC | [atan2](ATAN2)                                       | (GFDL)  | Arctangent function                                          |
-| MATHEMATICS:TRIGONOMETRIC | [atanh](ATANH)                                       | (GFDL)  | Inverse hyperbolic tangent function                          |
-| MATHEMATICS:TRIGONOMETRIC | [cos](COS)                                           | (GFDL)  | Cosine function                                              |
-| MATHEMATICS:TRIGONOMETRIC | [cosh](COSH)                                         | (GFDL)  | Hyperbolic cosine function                                   |
-| MATHEMATICS:TRIGONOMETRIC | [sin](SIN)                                           |         | Sine function                                                |
-| MATHEMATICS:TRIGONOMETRIC | [sinh](SINH)                                         | (GFDL)  | Hyperbolic sine function                                     |
-| MATHEMATICS:TRIGONOMETRIC | [tan](TAN)                                           | (GFDL)  | Tangent function                                             |
-| MATHEMATICS:TRIGONOMETRIC | [tanh](TANH)                                         | (GFDL)  | Hyperbolic tangent function                                  |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| MATHEMATICS               | [bessel\_j0](BESSEL_J0)                              | (GFDL)  | Bessel function of the first kind of order 0                 |
-| MATHEMATICS               | [bessel\_j1](BESSEL_J1)                              | (GFDL)  | Bessel function of the first kind of order 1                 |
-| MATHEMATICS               | [bessel\_jn](BESSEL_JN)                              | (GFDL)  | Bessel function of the first kind                            |
-| MATHEMATICS               | [bessel\_y0](BESSEL_Y0)                              | (GFDL)  | Bessel function of the second kind of order 0                |
-| MATHEMATICS               | [bessel\_y1](BESSEL_Y1)                              | (GFDL)  | Bessel function of the second kind of order 1                |
-| MATHEMATICS               | [bessel\_yn](BESSEL_YN)                              | (GFDL)  | Bessel function of the second kind                           |
-| MATHEMATICS               | [erf](ERF)                                           | (GFDL)  | Error function                                               |
-| MATHEMATICS               | [er](ERFC)                                           | (GFDL)  | Complementary error function                                 |
-| MATHEMATICS               | [er\_scaled](ERFC_SCALED)                            | (GFDL)  | Error function                                               |
-| MATHEMATICS               | [exp](EXP)                                           | (GFDL)  | Exponential function                                         |
-| MATHEMATICS               | [gamma](GAMMA)                                       | (GFDL)  | Gamma function                                               |
-| MATHEMATICS               | [hypot](HYPOT)                                       | (GFDL)  | Euclidean distance function                                  |
-| MATHEMATICS               | [log](LOG)                                           | (GFDL)  | Logarithm function                                           |
-| MATHEMATICS               | [log10](LOG10)                                       | (GFDL)  | Base 10 logarithm function                                   |
-| MATHEMATICS               | [log\_gamma](LOG_GAMMA)                              | (GFDL)  | Logarithm of the Gamma function                              |
-| MATHEMATICS               | [norm2](NORM2)                                       | (GFDL)  | Euclidean vector norm                                        |
-| MATHEMATICS               | [sqrt](SQRT)                                         |         | Square-root function                                         |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| NUMERIC:TYPE              | [aimag](AIMAG)                                       | (GFDL)  | Imaginary part of complex number                             |
-| NUMERIC:TYPE              | [cmplx](CMPLX)                                       | (GFDL)  | Complex conversion function                                  |
-| NUMERIC:TYPE              | [int](INT)                                           |         | Convert to integer type                                      |
-| NUMERIC:TYPE              | [nint](NINT)                                         |         | Nearest whole number                                         |
-| NUMERIC:TYPE              | [real](REAL)                                         | (GFDL)  | Convert to real type                                         |
-<!--
-| NUMERIC:TYPE              | [float](FLOAT)                                       | (GFDL)  | Convert integer to default real                              |
-| NUMERIC:TYPE              | [dble](DBLE)                                         | (GFDL)  | Double conversion function                                   |
-| NUMERIC:TYPE              | [sngl](SNGL)                                         | (GFDL)  | Convert double precision real to default real                |
--->
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| NUMERIC                   | [abs](ABS)                                           |         | Absolute value                                               |
-| NUMERIC                   | [aint](AINT)                                         | (GFDL)  | Truncate to a whole number                                   |
-| NUMERIC                   | [anint](ANINT)                                       | (GFDL)  | Nearest whole number                                         |
-| NUMERIC                   | [ceiling](CEILING)                                   | (GFDL)  | Integer ceiling function                                     |
-| NUMERIC                   | [conjg](CONJG)                                       | (GFDL)  | Complex conjugate function                                   |
-| NUMERIC                   | [dim](DIM)                                           | (GFDL)  | Positive difference                                          |
-| NUMERIC                   | [dprod](DPROD)                                       | (GFDL)  | Double product function                                      |
-| NUMERIC                   | [floor](FLOOR)                                       | (GFDL)  | Integer floor function                                       |
-| NUMERIC                   | [max](MAX)                                           | (GFDL)  | Maximum value of an argument list                            |
-| NUMERIC                   | [min](MIN)                                           | (GFDL)  | Minimum value of an argument list                            |
-| NUMERIC                   | [mod](MOD)                                           | (GFDL)  | Remainder function                                           |
-| NUMERIC                   | [modulo](MODULO)                                     | (GFDL)  | Modulo function                                              |
-| NUMERIC                   | [sign](SIGN)                                         | (GFDL)  | Sign copying function                                        |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| SYSTEM ENVIRONMENT        | [command\_argument\_count](COMMAND_ARGUMENT_COUNT)   |         | Get number of command line arguments                         |
-| SYSTEM ENVIRONMENT        | [cpu\_time](CPU_TIME)                                |         | return CPU processor time in seconds                         |
-| SYSTEM ENVIRONMENT        | [date\_and\_time](DATE_AND_TIME)                     |         | gets current time                                            |
-| SYSTEM ENVIRONMENT        | [execute\_command\_line](EXECUTE_COMMAND_LINE)       | (GFDL)  | Execute a shell command                                      |
-| SYSTEM ENVIRONMENT        | [get\_command](GET_COMMAND)                          |         | Get the entire command line                                  |
-| SYSTEM ENVIRONMENT        | [get\_command\_argument](GET_COMMAND_ARGUMENT)       |         | Get command line arguments                                   |
-| SYSTEM ENVIRONMENT        | [get\_environment\_variable](GET_ENVIRONMENT_VARIABLE)|         | Get an environmental variable                               |
-| SYSTEM ENVIRONMENT        | [system\_clock](SYSTEM_CLOCK)                        | (GFDL)  | Return numeric data from a real-time clock.                  |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| TRANSFORMATIONAL          | [cshift](CSHIFT)                                     | (GFDL)  | Circular shift elements of an array                          |
-| TRANSFORMATIONAL          | [dot\_product](DOT_PRODUCT)                          | (GFDL)  | Dot product function                                         |
-| TRANSFORMATIONAL          | [eoshift](EOSHIFT)                                   | (GFDL)  | End-off shift elements of an array                           |
-| TRANSFORMATIONAL          | [matmul](MATMUL)                                     | (GFDL)  | matrix multiplication                                        |
-| TRANSFORMATIONAL          | [null](NULL)                                         | (GFDL)  | Function that returns a disassociated pointer                |
-| TRANSFORMATIONAL          | [parity](PARITY)                                     | (GFDL)  | Reduction with exclusive OR                                  |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| TBD                       | [associated](ASSOCIATED)                             | (GFDL)  | Status of a pointer or pointer/target pair                   |
-| TBD                       | [extends\_type\_of](EXTENDS_TYPE_OF)                 | (GFDL)  | determine if the dynamic type of A is an extension of the dynamic type of MOLD.          |
-| TBD                       | [findloc](FINDLOC)                                   | (GFDL)  | Location of first element of ARRAY identified by MASK along dimension DIM having a value |
-| TBD                       | [is\_iostat\_end](IS_IOSTAT_END)                     |         | Test for end-of-file value                                   |
-| TBD                       | [is\_iostat\_eor](IS_IOSTAT_EOR)                     | (GFDL)  | Test for end-of-record value                                 |
-| TBD                       | [maskl](MASKL)                                       | (GFDL)  | Left justified mask                                          |
-| TBD                       | [maskr](MASKR)                                       | (GFDL)  | Right justified mask                                         |
-| TBD                       | [move\_alloc](MOVE_ALLOC)                            | (GFDL)  | Move allocation from one object to another                   |
-| TBD                       | [present](PRESENT)                                   | (GFDL)  | Determine whether an optional dummy argument is specified    |
-| TBD                       | [same\_type\_as](SAME_TYPE_AS)                       | (GFDL)  | Query dynamic types for equality                             |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
 
-  bit-level inquiry and manipulation
+## General Intrinsics
 
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| BIT COMPARE               | [bge](BGE)                                           | (GFDL)  | Bitwise greater than or equal to                             |
-| BIT COMPARE               | [bgt](BGT)                                           | (GFDL)  | Bitwise greater than                                         |
-| BIT COMPARE               | [ble](BLE)                                           | (GFDL)  | Bitwise less than or equal to                                |
-| BIT COMPARE               | [blt](BLT)                                           | (GFDL)  | Bitwise less than                                            |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| BIT INQUIRY               | [bit\_size](BIT_SIZE)                                | (GFDL)  | Bit size inquiry function                                    |
-| BIT INQUIRY               | [leadz](LEADZ)                                       | (GFDL)  | Number of leading zero bits of an integer                    |
-| BIT INQUIRY               | [popcnt](POPCNT)                                     | (GFDL)  | Number of bits set                                           |
-| BIT INQUIRY               | [poppar](POPPAR)                                     | (GFDL)  | Parity of the number of bits set                             |
-| BIT INQUIRY               | [storage\_size](STORAGE_SIZE)                        | (GFDL)  | Storage size in bits                                         |
-| BIT INQUIRY               | [trailz](TRAILZ)                                     |         | Number of trailing zero bits of an integer                   |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| BIT MANIPULATION          | [btest](BTEST)                                       |         | Bit test function                                            |
-| BIT MANIPULATION          | [dshiftl](DSHIFTL)                                   | (GFDL)  | combines bits of arguments I and J                           |
-| BIT MANIPULATION          | [dshiftr](DSHIFTR)                                   | (GFDL)  | combines bits of arguments I and J                           |
-| BIT MANIPULATION          | [iall](IALL)                                         | (GFDL)  | Bitwise and of array elements                                |
-| BIT MANIPULATION          | [iand](IAND)                                         | (GFDL)  | Bitwise logical and                                          |
-| BIT MANIPULATION          | [iany](IANY)                                         | (GFDL)  | Bitwise or of array elements                                 |
-| BIT MANIPULATION          | [ibclr](IBCLR)                                       | (GFDL)  | Clear bit                                                    |
-| BIT MANIPULATION          | [ibits](IBITS)                                       | (GFDL)  | Bit extraction                                               |
-| BIT MANIPULATION          | [ibset](IBSET)                                       | (GFDL)  | Set bit                                                      |
-| BIT MANIPULATION          | [ieor](IEOR)                                         | (GFDL)  | Bitwise logical exclusive or                                 |
-| BIT MANIPULATION          | [ior](IOR)                                           | (GFDL)  | Bitwise logical inclusive or                                 |
-| BIT MANIPULATION          | [iparity](IPARITY)                                   | (GFDL)  | Bitwise exclusive or of array elements                       |
-| BIT MANIPULATION          | [ishft](ISHFT)                                       | (GFDL)  | Shift bits                                                   |
-| BIT MANIPULATION          | [ishftc](ISHFTC)                                     | (GFDL)  | Shift bits circularly                                        |
-| BIT MANIPULATION          | [logical](LOGICAL)                                   | (GFDL)  | Converts one kind of _logical_ variable to another           |
-| BIT MANIPULATION          | [merge\_bits](MERGE_BITS)                            | (GFDL)  | Merge of bits under mask                                     |
-| BIT MANIPULATION          | [mvbits](MVBITS)                                     | (GFDL)  | Move bits from one integer to another                        |
-| BIT MANIPULATION          | [not](NOT)                                           |         | Logical negation                                             |
-| BIT MANIPULATION          | [shifta](SHIFTA)                                     | (GFDL)  | shift bits right with fill                                   |
-| BIT MANIPULATION          | [shiftl](SHIFTL)                                     | (GFDL)  | shift bits left                                              |
-| BIT MANIPULATION          | [shiftr](SHIFTR)                                     | (GFDL)  | shift bits right                                             |
-| BIT MANIPULATION          | [transfer](TRANSFER)                                 | (GFDL)  | Transfer bit patterns                                        |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| category                   ||||| page                                                             || description                                                      |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *ARRAY:CONSTRUCTION*       ||||| [__merge__](/learn/intrinsics/MERGE)                             || &#9679; Merge variables                                          |
+| *ARRAY:CONSTRUCTION*       ||||| [__pack__](/learn/intrinsics/PACK)                               || &#9679; Pack an array into an array of rank one                  |
+| *ARRAY:CONSTRUCTION*       ||||| [__spread__](/learn/intrinsics/SPREAD)                           || &#9679; Add a dimension to an array                              |
+| *ARRAY:CONSTRUCTION*       ||||| [__unpack__](/learn/intrinsics/UNPACK)                           || &#9679; Store the elements of a vector in an array of higher rank|
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *ARRAY:INQUIRY*            ||||| [__allocated__](/learn/intrinsics/ALLOCATED)                     || &#9679; Status of an allocatable entity                          |
+| *ARRAY:INQUIRY*            ||||| [__is\_contiguous__](/learn/intrinsics/IS_CONTIGUOUS)            || &#9679; Test if object is contiguous                             |
+| *ARRAY:INQUIRY*            ||||| [__lbound__](/learn/intrinsics/LBOUND)                           || &#9679; Lower dimension bounds of an array                       |
+| *ARRAY:INQUIRY*            ||||| [__rank__](/learn/intrinsics/RANK)                               || &#9679; Rank of a data object                                    |
+| *ARRAY:INQUIRY*            ||||| [__shape__](/learn/intrinsics/SHAPE)                             || &#9679; Determine the shape of an array                          |
+| *ARRAY:INQUIRY*            ||||| [__size__](/learn/intrinsics/SIZE)                               || &#9679; Determine the size of an array                           |
+| *ARRAY:INQUIRY*            ||||| [__ubound__](/learn/intrinsics/UBOUND)                           || &#9679; Upper dimension bounds of an array                       |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *ARRAY:LOCATION*           ||||| [__maxloc__](/learn/intrinsics/MAXLOC)                           || &#9679; Location of the maximum value within an array            |
+| *ARRAY:LOCATION*           ||||| [__minloc__](/learn/intrinsics/MINLOC)                           || &#9679; Location of the minimum value within an array            |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *ARRAY:MANIPULATION*       ||||| [__transpose__](/learn/intrinsics/TRANSPOSE)                     || &#9679; Transpose an array of rank two                           |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *ARRAY:REDUCTION*          ||||| [__all__](/learn/intrinsics/ALL)                                 || &#9679; Determines if all the values are true                    |
+| *ARRAY:REDUCTION*          ||||| [__any__](/learn/intrinsics/ANY)                                 || &#9679; Determines if any of the values in the logical array are true. |
+| *ARRAY:REDUCTION*          ||||| [__count__](/learn/intrinsics/COUNT)                             || &#9679; Count function                                           |
+| *ARRAY:REDUCTION*          ||||| [__maxval__](/learn/intrinsics/MAXVAL)                           || &#9679; Determines the maximum value in an array or row          |
+| *ARRAY:REDUCTION*          ||||| [__minval__](/learn/intrinsics/MINVAL)                           || &#9679; Minimum value of an array                                |
+| *ARRAY:REDUCTION*          ||||| [__product__](/learn/intrinsics/PRODUCT)                         || &#9679; Product of array elements                                |
+| *ARRAY:REDUCTION*          ||||| [__sum__](/learn/intrinsics/SUM)                                 || &#9679; Sum the elements of an array                             |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *ARRAY:RESHAPE*            ||||| [__reshape__](/learn/intrinsics/RESHAPE)                         || &#9679; Function to reshape an array                             |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *MATH:RANDOM*              ||||| [__random\_number__](/learn/intrinsics/RANDOM_NUMBER)            || &#9679; Pseudo-random number                                     |
+| *MATH:RANDOM*              ||||| [__random\_seed__](/learn/intrinsics/RANDOM_SEED)                || &#9679; Initialize a pseudo-random number sequence               |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *MATH:TRIG*                ||||| [__acos__](/learn/intrinsics/ACOS)                               || &#9679; Arccosine function                                       |
+| *MATH:TRIG*                ||||| [__acosh__](/learn/intrinsics/ACOSH)                             || &#9679; Inverse hyperbolic cosine function                       |
+| *MATH:TRIG*                ||||| [__asin__](/learn/intrinsics/ASIN)                               || &#9679; Arcsine function                                         |
+| *MATH:TRIG*                ||||| [__asinh__](/learn/intrinsics/ASINH)                             || &#9679; Inverse hyperbolic sine function                         |
+| *MATH:TRIG*                ||||| [__atan__](/learn/intrinsics/ATAN)                               || &#9679; Arctangent function                                      |
+| *MATH:TRIG*                ||||| [__atan2__](/learn/intrinsics/ATAN2)                             || &#9679; Arctangent function                                      |
+| *MATH:TRIG*                ||||| [__atanh__](/learn/intrinsics/ATANH)                             || &#9679; Inverse hyperbolic tangent function                      |
+| *MATH:TRIG*                ||||| [__cos__](/learn/intrinsics/COS)                                 || &#9679; Cosine function                                          |
+| *MATH:TRIG*                ||||| [__cosh__](/learn/intrinsics/COSH)                               || &#9679; Hyperbolic cosine function                               |
+| *MATH:TRIG*                ||||| [__sin__](/learn/intrinsics/SIN)                                 || &#9679; Sine function                                            |
+| *MATH:TRIG*                ||||| [__sinh__](/learn/intrinsics/SINH)                               || &#9679; Hyperbolic sine function                                 |
+| *MATH:TRIG*                ||||| [__tan__](/learn/intrinsics/TAN)                                 || &#9679; Tangent function                                         |
+| *MATH:TRIG*                ||||| [__tanh__](/learn/intrinsics/TANH)                               || &#9679; Hyperbolic tangent function                              |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *MATH*                     ||||| [__bessel\_j0__](/learn/intrinsics/BESSEL_J0)                    || &#9679; Bessel function of the first kind of order 0             |
+| *MATH*                     ||||| [__bessel\_j1__](/learn/intrinsics/BESSEL_J1)                    || &#9679; Bessel function of the first kind of order 1             |
+| *MATH*                     ||||| [__bessel\_jn__](/learn/intrinsics/BESSEL_JN)                    || &#9679; Bessel function of the first kind                        |
+| *MATH*                     ||||| [__bessel\_y0__](/learn/intrinsics/BESSEL_Y0)                    || &#9679; Bessel function of the second kind of order 0            |
+| *MATH*                     ||||| [__bessel\_y1__](/learn/intrinsics/BESSEL_Y1)                    || &#9679; Bessel function of the second kind of order 1            |
+| *MATH*                     ||||| [__bessel\_yn__](/learn/intrinsics/BESSEL_YN)                    || &#9679; Bessel function of the second kind                       |
+| *MATH*                     ||||| [__erf__](/learn/intrinsics/ERF)                                 || &#9679; Error function                                           |
+| *MATH*                     ||||| [__er__](/learn/intrinsics/ERFC)                                 || &#9679; Complementary error function                             |
+| *MATH*                     ||||| [__er\_scaled__](/learn/intrinsics/ERFC_SCALED)                  || &#9679; Error function                                           |
+| *MATH*                     ||||| [__exp__](/learn/intrinsics/EXP)                                 || &#9679; Exponential function                                     |
+| *MATH*                     ||||| [__gamma__](/learn/intrinsics/GAMMA)                             || &#9679; Gamma function                                           |
+| *MATH*                     ||||| [__hypot__](/learn/intrinsics/HYPOT)                             || &#9679; Euclidean distance function                              |
+| *MATH*                     ||||| [__log__](/learn/intrinsics/LOG)                                 || &#9679; Logarithm function                                       |
+| *MATH*                     ||||| [__log10__](/learn/intrinsics/LOG10)                             || &#9679; Base 10 logarithm function                               |
+| *MATH*                     ||||| [__log\_gamma__](/learn/intrinsics/LOG_GAMMA)                    || &#9679; Logarithm of the Gamma function                          |
+| *MATH*                     ||||| [__norm2__](/learn/intrinsics/NORM2)                             || &#9679; Euclidean vector norm                                    |
+| *MATH*                     ||||| [__sqrt__](/learn/intrinsics/SQRT)                               || &#9679; Square-root function                                     |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *NUMERIC:TYPE*             ||||| [__aimag__](/learn/intrinsics/AIMAG)                             || &#9679; Imaginary part of complex number                         |
+| *NUMERIC:TYPE*             ||||| [__cmplx__](/learn/intrinsics/CMPLX)                             || &#9679; Complex conversion function                              |
+| *NUMERIC:TYPE*             ||||| [__int__](/learn/intrinsics/INT)                                 || &#9679; Convert to integer type                                  |
+| *NUMERIC:TYPE*             ||||| [__nint__](/learn/intrinsics/NINT)                               || &#9679; Nearest whole number                                     |
+| *NUMERIC:TYPE*             ||||| [__real__](/learn/intrinsics/REAL)                               || &#9679; Convert to real type                                     |
+| *NUMERIC:TYPE*             ||||| [__float__](/learn/intrinsics/FLOAT)                             || &#9679; Convert integer to default real                          |
+| *NUMERIC:TYPE*             ||||| [__dble__](/learn/intrinsics/DBLE)                               || &#9679; Double conversion function                               |
+| *NUMERIC:TYPE*             ||||| [__sngl__](/learn/intrinsics/SNGL)                               || &#9679; Convert double precision real to default real            |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *NUMERIC*                  ||||| [__abs__](/learn/intrinsics/ABS)                                 || &#9679; Absolute value                                           |
+| *NUMERIC*                  ||||| [__aint__](/learn/intrinsics/AINT)                               || &#9679; Truncate to a whole number                               |
+| *NUMERIC*                  ||||| [__anint__](/learn/intrinsics/ANINT)                             || &#9679; Nearest whole number                                     |
+| *NUMERIC*                  ||||| [__ceiling__](/learn/intrinsics/CEILING)                         || &#9679; Integer ceiling function                                 |
+| *NUMERIC*                  ||||| [__conjg__](/learn/intrinsics/CONJG)                             || &#9679; Complex conjugate function                               |
+| *NUMERIC*                  ||||| [__dim__](/learn/intrinsics/DIM)                                 || &#9679; Positive difference                                      |
+| *NUMERIC*                  ||||| [__dprod__](/learn/intrinsics/DPROD)                             || &#9679; Double product function                                  |
+| *NUMERIC*                  ||||| [__floor__](/learn/intrinsics/FLOOR)                             || &#9679; Integer floor function                                   |
+| *NUMERIC*                  ||||| [__max__](/learn/intrinsics/MAX)                                 || &#9679; Maximum value of an argument list                        |
+| *NUMERIC*                  ||||| [__min__](/learn/intrinsics/MIN)                                 || &#9679; Minimum value of an argument list                        |
+| *NUMERIC*                  ||||| [__mod__](/learn/intrinsics/MOD)                                 || &#9679; Remainder function                                       |
+| *NUMERIC*                  ||||| [__modulo__](/learn/intrinsics/MODULO)                           || &#9679; Modulo function                                          |
+| *NUMERIC*                  ||||| [__sign__](/learn/intrinsics/SIGN)                               || &#9679; Sign copying function                                    |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *TRANSFORMATIONAL*         ||||| [__cshift__](/learn/intrinsics/CSHIFT)                           || &#9679; Circular shift elements of an array                      |
+| *TRANSFORMATIONAL*         ||||| [__dot\_product__](/learn/intrinsics/DOT_PRODUCT)                || &#9679; Dot product function                                     |
+| *TRANSFORMATIONAL*         ||||| [__eoshift__](/learn/intrinsics/EOSHIFT)                         || &#9679; End-off shift elements of an array                       |
+| *TRANSFORMATIONAL*         ||||| [__matmul__](/learn/intrinsics/MATMUL)                           || &#9679; Matrix multiplication                                    |
+| *TRANSFORMATIONAL*         ||||| [__null__](/learn/intrinsics/NULL)                               || &#9679; Function that returns a disassociated pointer            |
+| *TRANSFORMATIONAL*         ||||| [__parity__](/learn/intrinsics/PARITY)                           || &#9679; Reduction with exclusive OR                              |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *KIND:INQUIRY*             ||||| [__kind__](/learn/intrinsics/KIND)                               || &#9679; Kind of an entity                                        |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *KIND*                     ||||| [__selected\_char\_kind__](/learn/intrinsics/SELECTED_CHAR_KIND) || &#9679; Choose character kind such as "Unicode"                  |
+| *KIND*                     ||||| [__selected\_int\_kind__](/learn/intrinsics/SELECTED_INT_KIND)   || &#9679; Choose integer kind                                      |
+| *KIND*                     ||||| [__selected\_real\_kind__](/learn/intrinsics/SELECTED_REAL_KIND) || &#9679; Choose real kind                                         |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
+| *TBD*                      ||||| [__associated__](/learn/intrinsics/ASSOCIATED)                   || &#9679; Status of a pointer or pointer/target pair               |
+| *TBD*                      ||||| [__extends\_type\_of__](/learn/intrinsics/EXTENDS_TYPE_OF)       || &#9679; Determine if the dynamic type of A is an extension of the dynamic type of MOLD.|
+| *TBD*                      ||||| [__findloc__](/learn/intrinsics/FINDLOC)                         || &#9679; Locate first element of ARRAY identified by MASK along dimension DIM having a value|
+| *TBD*                      ||||| [__is\_iostat\_end__](/learn/intrinsics/IS_IOSTAT_END)           || &#9679; Test for end-of-file value                               |
+| *TBD*                      ||||| [__is\_iostat\_eor__](/learn/intrinsics/IS_IOSTAT_EOR)           || &#9679; Test for end-of-record value                             |
+| *TBD*                      ||||| [__maskl__](/learn/intrinsics/MASKL)                             || &#9679; Left justified mask                                      |
+| *TBD*                      ||||| [__maskr__](/learn/intrinsics/MASKR)                             || &#9679; Right justified mask                                     |
+| *TBD*                      ||||| [__move\_alloc__](/learn/intrinsics/MOVE_ALLOC)                  || &#9679; Move allocation from one object to another               |
+| *TBD*                      ||||| [__present__](/learn/intrinsics/PRESENT)                         || &#9679; Determine whether an optional dummy argument is specified|
+| *TBD*                      ||||| [__same\_type\_as__](/learn/intrinsics/SAME_TYPE_AS)             || &#9679; Query dynamic types for equality                         |
+|----------------------------|||||------------------------------------------------------------------||------------------------------------------------------------------|
 
-  These routines support controlling and querying the current numeric model.
+## Character 
+### basic procedures specifically for manipulating _character_ variables
 
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| MODEL\_COMPONENTS         | [exponent](EXPONENT)                                 | (GFDL)  | Exponent function                                            |
-| MODEL\_COMPONENTS         | [fraction](FRACTION)                                 | (GFDL)  | Fractional part of the model representation                  |
-| MODEL\_COMPONENTS         | [nearest](NEAREST)                                   | (GFDL)  | Nearest representable number                                 |
-| MODEL\_COMPONENTS         | [rrspacing](RRSPACING)                               | (GFDL)  | Reciprocal of the relative spacing                           |
-| MODEL\_COMPONENTS         | [scale](SCALE)                                       | (GFDL)  | Scale a real value                                           |
-| MODEL\_COMPONENTS         | [set\_exponent](SET_EXPONENT)                        | (GFDL)  | Set the exponent of the model                                |
-| MODEL\_COMPONENTS         | [spacing](SPACING)                                   | (GFDL)  | Smallest distance between two numbers of a given type        |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| NUMERIC MODEL             | [digits](DIGITS)                                     | (GFDL)  | Significant digits function                                  |
-| NUMERIC MODEL             | [epsilon](EPSILON)                                   | (GFDL)  | Epsilon function                                             |
-| NUMERIC MODEL             | [huge](HUGE)                                         |         | Largest number of a kind                                     |
-| NUMERIC MODEL             | [maxexponent](MAXEXPONENT)                           | (GFDL)  | Maximum exponent of a real kind                              |
-| NUMERIC MODEL             | [minexponent](MINEXPONENT)                           | (GFDL)  | Minimum exponent of a real kind                              |
-| NUMERIC MODEL             | [precision](PRECISION)                               | (GFDL)  | Decimal precision of a real kind                             |
-| NUMERIC MODEL             | [radix](RADIX)                                       | (GFDL)  | Base of a model number                                       |
-| NUMERIC MODEL             | [range](RANGE)                                       | (GFDL)  | Decimal exponent range of a real kind                        |
-| NUMERIC MODEL             | [tiny](TINY)                                         | (GFDL)  | Smallest positive number of a real kind                      |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| category                   ||||| page                                                                        || description                                                            |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *CHARACTER*                ||||| [__achar__](/learn/intrinsics/ACHAR)                                        || &#9679; Return a character in specified position in the ASCII sequence |
+| *CHARACTER*                ||||| [__adjustl__](/learn/intrinsics/ADJUSTL)                                    || &#9679; Left-adjust a string                                           |
+| *CHARACTER*                ||||| [__adjustr__](/learn/intrinsics/ADJUSTR)                                    || &#9679; Right-adjust a string                                          |
+| *CHARACTER*                ||||| [__char__](/learn/intrinsics/CHAR)                                          || &#9679; Character conversion function                                  |
+| *CHARACTER*                ||||| [__iachar__](/learn/intrinsics/IACHAR)                                      || &#9679; Code in ASCII collating sequence                               |
+| *CHARACTER*                ||||| [__ichar__](/learn/intrinsics/ICHAR)                                        || &#9679; Character-to-integer conversion function                       |
+| *CHARACTER*                ||||| [__index__](/learn/intrinsics/INDEX)                                        || &#9679; Position of a substring within a string                        |
+| *CHARACTER*                ||||| [__len__](/learn/intrinsics/LEN)                                            || &#9679; Length of a character entity                                   |
+| *CHARACTER*                ||||| [__len\_trim__](/learn/intrinsics/LEN_TRIM)                                 || &#9679; Length of a character entity without trailing blank characters |
+| *CHARACTER*                ||||| [__lge__](/learn/intrinsics/LGE)                                            || &#9679; Lexical greater than or equal                                  |
+| *CHARACTER*                ||||| [__lgt__](/learn/intrinsics/LGT)                                            || &#9679; Lexical greater than                                           |
+| *CHARACTER*                ||||| [__lle__](/learn/intrinsics/LLE)                                            || &#9679; Lexical less than or equal                                     |
+| *CHARACTER*                ||||| [__llt__](/learn/intrinsics/LLT)                                            || &#9679; Lexical less than                                              |
+| *CHARACTER*                ||||| [__new\_line__](/learn/intrinsics/NEW_LINE)                                 || &#9679; New line character                                             |
+| *CHARACTER*                ||||| [__repeat__](/learn/intrinsics/REPEAT)                                      || &#9679; Repeated string concatenation                                  |
+| *CHARACTER*                ||||| [__scan__](/learn/intrinsics/SCAN)                                          || &#9679; Scan a string for the presence of a set of characters          |
+| *CHARACTER*                ||||| [__trim__](/learn/intrinsics/TRIM)                                          || &#9679; Remove trailing blank characters of a string                   |
+| *CHARACTER*                ||||| [__verify__](/learn/intrinsics/VERIFY)                                      || &#9679; Scan a string for the absence of a set of characters           |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
 
-  These routines support parallel programming using co_arrays and co_indexed arrays.
+## System Environment
+### accessing external system information
 
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| COLLECTIVE                | [co\_broadcast](CO_BROADCAST)                        | (GFDL)  | Copy a value to all images the current set of images         |
-| COLLECTIVE                | [co\_lbound](CO_LBOUND)                              | (GFDL)  | Lower codimension bounds of an array                         |
-| COLLECTIVE                | [co\_max](CO_MAX)                                    | (GFDL)  | Maximal value on the current set of images                   |
-| COLLECTIVE                | [co\_min](CO_MIN)                                    | (GFDL)  | Minimal value on the current set of images                   |
-| COLLECTIVE                | [co\_reduce](CO_REDUCE)                              | (GFDL)  | Reduction of values on the current set of images             |
-| COLLECTIVE                | [co\_sum](CO_SUM)                                    | (GFDL)  | Sum of values on the current set of images                   |
-| COLLECTIVE                | [co\_ubound](CO_UBOUND)                              | (GFDL)  | Upper codimension bounds of an array                         |
-| COLLECTIVE                | [event\_query](EVENT_QUERY)                          | (GFDL)  | Query whether a coarray event has occurred                   |
-| COLLECTIVE                | [image\_index](IMAGE_INDEX)                          | (GFDL)  | Cosubscript to image index conversion                        |
-| COLLECTIVE                | [num\_images](NUM_IMAGES)                            | (GFDL)  | Number of images                                             |
-| COLLECTIVE                | [this\_image](THIS_IMAGE)                            | (GFDL)  | Cosubscript index of this image                              |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ATOMIC:BIT MANIPULATION   | [atomic\_and](ATOMIC_AND)                            | (GFDL)  | Atomic bitwise AND operation                                 |
-| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_and](ATOMIC_FETCH_AND)               | (GFDL)  | Atomic bitwise AND operation with prior fetch                |
-| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_or](ATOMIC_FETCH_OR)                 | (GFDL)  | Atomic bitwise OR operation with prior fetch                 |
-| ATOMIC:BIT MANIPULATION   | [atomic\_fetch\_xor](ATOMIC_FETCH_XOR)               | (GFDL)  | Atomic bitwise XOR operation with prior fetch                |
-| ATOMIC:BIT MANIPULATION   | [atomic\_or](ATOMIC_OR)                              | (GFDL)  | Atomic bitwise OR operation                                  |
-| ATOMIC:BIT MANIPULATION   | [atomic\_xor](ATOMIC_XOR)                            | (GFDL)  | Atomic bitwise OR operation                                  |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
-| ATOMIC                    | [atomic\_add](ATOMIC_ADD)                            | (GFDL)  | Atomic ADD operation                                         |
-| ATOMIC                    | [atomic\_cas](ATOMIC_CAS)                            | (GFDL)  | Atomic compare and swap                                      |
-| ATOMIC                    | [atomic\_define](ATOMIC_DEFINE)                      | (GFDL)  | Setting a variable atomically                                |
-| ATOMIC                    | [atomic\_fetch\_add](ATOMIC_FETCH_ADD)               | (GFDL)  | Atomic ADD operation with prior fetch                        |
-| ATOMIC                    | [atomic\_ref](ATOMIC_REF)                            | (GFDL)  | Obtaining the value of a variable atomically                 |
-| ------------------------- | ---------------------------------------------------- | ------  | ------------------------------------------------------------ |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| category                   ||||| page                                                                        || description                                                            |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *SYSTEM:ENVIRONMENT*       ||||| [__command\_argument\_count__](/learn/intrinsics/COMMAND_ARGUMENT_COUNT)    || &#9679; Get number of command line arguments                           |
+| *SYSTEM:ENVIRONMENT*       ||||| [__cpu\_time__](/learn/intrinsics/CPU_TIME)                                 || &#9679; Return CPU processor time in seconds                           |
+| *SYSTEM:ENVIRONMENT*       ||||| [__date\_and\_time__](/learn/intrinsics/DATE_AND_TIME)                      || &#9679; Gets current time                                              |
+| *SYSTEM:ENVIRONMENT*       ||||| [__execute\_command\_line__](/learn/intrinsics/EXECUTE_COMMAND_LINE)        || &#9679; Execute a shell command                                        |
+| *SYSTEM:ENVIRONMENT*       ||||| [__get\_command__](/learn/intrinsics/GET_COMMAND)                           || &#9679; Get the entire command line                                    |
+| *SYSTEM:ENVIRONMENT*       ||||| [__get\_command\_argument__](/learn/intrinsics/GET_COMMAND_ARGUMENT)        || &#9679; Get command line arguments                                     |
+| *SYSTEM:ENVIRONMENT*       ||||| [__get\_environment\_variable__](/learn/intrinsics/GET_ENVIRONMENT_VARIABLE)|| &#9679; Get an environmental variable                                  |
+| *SYSTEM:ENVIRONMENT*       ||||| [__system\_clock__](/learn/intrinsics/SYSTEM_CLOCK)                         || &#9679; Return numeric data from a real-time clock.                    |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+
+## C interface
+#### procedures useful for binding to C interfaces
+
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| category                   ||||| page                                                                        || description                                                            |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *ISO\_C\_BINDING*          ||||| [__c\_associated__](/learn/intrinsics/C_ASSOCIATED)                         || &#9679; Status of a C pointer                                          |
+| *ISO\_C\_BINDING*          ||||| [__c\_f\_pointer__](/learn/intrinsics/C_F_POINTER)                          || &#9679; Convert C into Fortran pointer                                 |
+| *ISO\_C\_BINDING*          ||||| [__c\_f\_procpointer__](/learn/intrinsics/C_F_PROCPOINTER)                  || &#9679; Convert C into Fortran procedure pointer                       |
+| *ISO\_C\_BINDING*          ||||| [__c\_funloc__](/learn/intrinsics/C_FUNLOC)                                 || &#9679; Obtain the C address of a procedure                            |
+| *ISO\_C\_BINDING*          ||||| [__c\_loc__](/learn/intrinsics/C_LOC)                                       || &#9679; Obtain the C address of an object                              |
+| *ISO\_C\_BINDING*          ||||| [__c\_sizeof__](/learn/intrinsics/C_SIZEOF)                                 || &#9679; Size in bytes of an expression                                 |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+
+## Compiler Information
+#### information about compiler and compiler options used for building
+
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| category                   ||||| page                                                                        || description                                                            |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *COMPILER:INQUIRY*         ||||| [__compiler\_options__](/learn/intrinsics/COMPILER_OPTIONS)                 || &#9679; Options passed to the compiler                                 |
+| *COMPILER:INQUIRY*         ||||| [__compiler\_version__](/learn/intrinsics/COMPILER_VERSION)                 || &#9679; Compiler version string                                        |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+
+## Bit-level
+#### bit-level inquiry and manipulation
+
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| category                   ||||| page                                                                        || description                                                            |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *BIT:COMPARE*              ||||| [__bge__](/learn/intrinsics/BGE)                                            || &#9679; Bitwise greater than or equal to                               |
+| *BIT:COMPARE*              ||||| [__bgt__](/learn/intrinsics/BGT)                                            || &#9679; Bitwise greater than                                           |
+| *BIT:COMPARE*              ||||| [__ble__](/learn/intrinsics/BLE)                                            || &#9679; Bitwise less than or equal to                                  |
+| *BIT:COMPARE*              ||||| [__blt__](/learn/intrinsics/BLT)                                            || &#9679; Bitwise less than                                              |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *BIT:INQUIRY*              ||||| [__bit\_size__](/learn/intrinsics/BIT_SIZE)                                 || &#9679; Bit size inquiry function                                      |
+| *BIT:INQUIRY*              ||||| [__leadz__](/learn/intrinsics/LEADZ)                                        || &#9679; Number of leading zero bits of an integer                      |
+| *BIT:INQUIRY*              ||||| [__popcnt__](/learn/intrinsics/POPCNT)                                      || &#9679; Number of bits set                                             |
+| *BIT:INQUIRY*              ||||| [__poppar__](/learn/intrinsics/POPPAR)                                      || &#9679; Parity of the number of bits set                               |
+| *BIT:INQUIRY*              ||||| [__storage\_size__](/learn/intrinsics/STORAGE_SIZE)                         || &#9679; Storage size in bits                                           |
+| *BIT:INQUIRY*              ||||| [__trailz__](/learn/intrinsics/TRAILZ)                                      || &#9679; Number of trailing zero bits of an integer                     |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *BIT:MANIPULATION*         ||||| [__btest__](/learn/intrinsics/BTEST)                                        || &#9679; Bit test function                                              |
+| *BIT:MANIPULATION*         ||||| [__dshiftl__](/learn/intrinsics/DSHIFTL)                                    || &#9679; Combines bits of arguments I and J                             |
+| *BIT:MANIPULATION*         ||||| [__dshiftr__](/learn/intrinsics/DSHIFTR)                                    || &#9679; Combines bits of arguments I and J                             |
+| *BIT:MANIPULATION*         ||||| [__iall__](/learn/intrinsics/IALL)                                          || &#9679; Bitwise and of array elements                                  |
+| *BIT:MANIPULATION*         ||||| [__iand__](/learn/intrinsics/IAND)                                          || &#9679; Bitwise logical and                                            |
+| *BIT:MANIPULATION*         ||||| [__iany__](/learn/intrinsics/IANY)                                          || &#9679; Bitwise or of array elements                                   |
+| *BIT:MANIPULATION*         ||||| [__ibclr__](/learn/intrinsics/IBCLR)                                        || &#9679; Clear bit                                                      |
+| *BIT:MANIPULATION*         ||||| [__ibits__](/learn/intrinsics/IBITS)                                        || &#9679; Bit extraction                                                 |
+| *BIT:MANIPULATION*         ||||| [__ibset__](/learn/intrinsics/IBSET)                                        || &#9679; Set bit                                                        |
+| *BIT:MANIPULATION*         ||||| [__ieor__](/learn/intrinsics/IEOR)                                          || &#9679; Bitwise logical exclusive or                                   |
+| *BIT:MANIPULATION*         ||||| [__ior__](/learn/intrinsics/IOR)                                            || &#9679; Bitwise logical inclusive or                                   |
+| *BIT:MANIPULATION*         ||||| [__iparity__](/learn/intrinsics/IPARITY)                                    || &#9679; Bitwise exclusive or of array elements                         |
+| *BIT:MANIPULATION*         ||||| [__ishft__](/learn/intrinsics/ISHFT)                                        || &#9679; Shift bits                                                     |
+| *BIT:MANIPULATION*         ||||| [__ishftc__](/learn/intrinsics/ISHFTC)                                      || &#9679; Shift bits circularly                                          |
+| *BIT:MANIPULATION*         ||||| [__logical__](/learn/intrinsics/LOGICAL)                                    || &#9679; Converts one kind of _logical_ variable to another             |
+| *BIT:MANIPULATION*         ||||| [__merge\_bits__](/learn/intrinsics/MERGE_BITS)                             || &#9679; Merge of bits under mask                                       |
+| *BIT:MANIPULATION*         ||||| [__mvbits__](/learn/intrinsics/MVBITS)                                      || &#9679; Move bits from one integer to another                          |
+| *BIT:MANIPULATION*         ||||| [__not__](/learn/intrinsics/NOT)                                            || &#9679; Logical negation                                               |
+| *BIT:MANIPULATION*         ||||| [__shifta__](/learn/intrinsics/SHIFTA)                                      || &#9679; Shift bits right with fill                                     |
+| *BIT:MANIPULATION*         ||||| [__shiftl__](/learn/intrinsics/SHIFTL)                                      || &#9679; Shift bits left                                                |
+| *BIT:MANIPULATION*         ||||| [__shiftr__](/learn/intrinsics/SHIFTR)                                      || &#9679; Shift bits right                                               |
+| *BIT:MANIPULATION*         ||||| [__transfer__](/learn/intrinsics/TRANSFER)                                  || &#9679; Transfer bit patterns                                          |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+
+## Numeric Model
+#### These routines support controlling and querying the current numeric model.
+
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| category                   ||||| page                                                                        || description                                                            |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *MODEL\_COMPONENTS*        ||||| [__exponent__](/learn/intrinsics/EXPONENT)                                  || &#9679; Exponent function                                              |
+| *MODEL\_COMPONENTS*        ||||| [__fraction__](/learn/intrinsics/FRACTION)                                  || &#9679; Fractional part of the model representation                    |
+| *MODEL\_COMPONENTS*        ||||| [__nearest__](/learn/intrinsics/NEAREST)                                    || &#9679; Nearest representable number                                   |
+| *MODEL\_COMPONENTS*        ||||| [__rrspacing__](/learn/intrinsics/RRSPACING)                                || &#9679; Reciprocal of the relative spacing                             |
+| *MODEL\_COMPONENTS*        ||||| [__scale__](/learn/intrinsics/SCALE)                                        || &#9679; Scale a real value                                             |
+| *MODEL\_COMPONENTS*        ||||| [__set\_exponent__](/learn/intrinsics/SET_EXPONENT)                         || &#9679; Set the exponent of the model                                  |
+| *MODEL\_COMPONENTS*        ||||| [__spacing__](/learn/intrinsics/SPACING)                                    || &#9679; Smallest distance between two numbers of a given type          |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *NUMERIC\_MODEL*           ||||| [__digits__](/learn/intrinsics/DIGITS)                                      || &#9679; Significant digits function                                    |
+| *NUMERIC\_MODEL*           ||||| [__epsilon__](/learn/intrinsics/EPSILON)                                    || &#9679; Epsilon function                                               |
+| *NUMERIC\_MODEL*           ||||| [__huge__](/learn/intrinsics/HUGE)                                          || &#9679; Largest number of a kind                                       |
+| *NUMERIC\_MODEL*           ||||| [__maxexponent__](/learn/intrinsics/MAXEXPONENT)                            || &#9679; Maximum exponent of a real kind                                |
+| *NUMERIC\_MODEL*           ||||| [__minexponent__](/learn/intrinsics/MINEXPONENT)                            || &#9679; Minimum exponent of a real kind                                |
+| *NUMERIC\_MODEL*           ||||| [__precision__](/learn/intrinsics/PRECISION)                                || &#9679; Decimal precision of a real kind                               |
+| *NUMERIC\_MODEL*           ||||| [__radix__](/learn/intrinsics/RADIX)                                        || &#9679; Base of a model number                                         |
+| *NUMERIC\_MODEL*           ||||| [__range__](/learn/intrinsics/RANGE)                                        || &#9679; Decimal exponent range of a real kind                          |
+| *NUMERIC\_MODEL*           ||||| [__tiny__](/learn/intrinsics/TINY)                                          || &#9679; Smallest positive number of a real kind                        |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+
+## Parallel Programming
+#### These routines support parallel programming using co_arrays and co_indexed arrays.
+
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| category                   ||||| page                                                                        || description                                                            |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *COLLECTIVE*               ||||| [__co\_broadcast__](/learn/intrinsics/CO_BROADCAST)                         || &#9679; Copy a value to all images the current set of images           |
+| *COLLECTIVE*               ||||| [__co\_lbound__](/learn/intrinsics/CO_LBOUND)                               || &#9679; Lower codimension bounds of an array                           |
+| *COLLECTIVE*               ||||| [__co\_max__](/learn/intrinsics/CO_MAX)                                     || &#9679; Maximal value on the current set of images                     |
+| *COLLECTIVE*               ||||| [__co\_min__](/learn/intrinsics/CO_MIN)                                     || &#9679; Minimal value on the current set of images                     |
+| *COLLECTIVE*               ||||| [__co\_reduce__](/learn/intrinsics/CO_REDUCE)                               || &#9679; Reduction of values on the current set of images               |
+| *COLLECTIVE*               ||||| [__co\_sum__](/learn/intrinsics/CO_SUM)                                     || &#9679; Sum of values on the current set of images                     |
+| *COLLECTIVE*               ||||| [__co\_ubound__](/learn/intrinsics/CO_UBOUND)                               || &#9679; Upper codimension bounds of an array                           |
+| *COLLECTIVE*               ||||| [__event\_query__](/learn/intrinsics/EVENT_QUERY)                           || &#9679; Query whether a coarray event has occurred                     |
+| *COLLECTIVE*               ||||| [__image\_index__](/learn/intrinsics/IMAGE_INDEX)                           || &#9679; Cosubscript to image index conversion                          |
+| *COLLECTIVE*               ||||| [__num\_images__](/learn/intrinsics/NUM_IMAGES)                             || &#9679; Number of images                                               |
+| *COLLECTIVE*               ||||| [__this\_image__](/learn/intrinsics/THIS_IMAGE)                             || &#9679; Cosubscript index of this image                                |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *ATOMIC:BIT\_MANIPULATION* ||||| [__atomic\_and__](/learn/intrinsics/ATOMIC_AND)                             || &#9679; Atomic bitwise AND operation                                   |
+| *ATOMIC:BIT\_MANIPULATION* ||||| [__atomic\_fetch\_and__](/learn/intrinsics/ATOMIC_FETCH_AND)                || &#9679; Atomic bitwise AND operation with prior fetch                  |
+| *ATOMIC:BIT\_MANIPULATION* ||||| [__atomic\_fetch\_or__](/learn/intrinsics/ATOMIC_FETCH_OR)                  || &#9679; Atomic bitwise OR operation with prior fetch                   |
+| *ATOMIC:BIT\_MANIPULATION* ||||| [__atomic\_fetch\_xor__](/learn/intrinsics/ATOMIC_FETCH_XOR)                || &#9679; Atomic bitwise XOR operation with prior fetch                  |
+| *ATOMIC:BIT\_MANIPULATION* ||||| [__atomic\_or__](/learn/intrinsics/ATOMIC_OR)                               || &#9679; Atomic bitwise OR operation                                    |
+| *ATOMIC:BIT\_MANIPULATION* ||||| [__atomic\_xor__](/learn/intrinsics/ATOMIC_XOR)                             || &#9679; Atomic bitwise OR operation                                    |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+| *ATOMIC*                   ||||| [__atomic\_add__](/learn/intrinsics/ATOMIC_ADD)                             || &#9679; Atomic ADD operation                                           |
+| *ATOMIC*                   ||||| [__atomic\_cas__](/learn/intrinsics/ATOMIC_CAS)                             || &#9679; Atomic compare and swap                                        |
+| *ATOMIC*                   ||||| [__atomic\_define__](/learn/intrinsics/ATOMIC_DEFINE)                       || &#9679; Setting a variable atomically                                  |
+| *ATOMIC*                   ||||| [__atomic\_fetch\_add__](/learn/intrinsics/ATOMIC_FETCH_ADD)                || &#9679; Atomic ADD operation with prior fetch                          |
+| *ATOMIC*                   ||||| [__atomic\_ref__](/learn/intrinsics/ATOMIC_REF)                             || &#9679; Obtaining the value of a variable atomically                   |
+|----------------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
 
 ## Text Content Copyrights
 The above table and the documents themselves indication the license under which
 the document falls.
 
 Many of the documents presented here are modified versions of man-pages from the
-[Fortran Wiki](https://fortranwiki.org) 
+[Fortran Wiki](https://fortranwiki.org)
 and as such are available under the terms of the GNU
-Free Documentation License [(GFDL)](GNU_Free_Documentation_License.md)
+Free Documentation License [      ](GNU_Free_Documentation_License.md)
 with no invariant sections, front-cover texts, or back-cover texts.
 
 
@@ -294,3 +327,209 @@ If you contribute new material you thereby agree to release it under
 the MIT license.
 
 ###### Written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) [kramdown](https://kramdown.gettalong.org/syntax.html)
+
+### BUG OR ISSUE
+Some work local, some work when installed perhaps because no <base> statement is used but this file is moved
+to a directory above all the other pages. b,d,f,g work locally, even though the intrinsics directory is not
+specified so basing must be done but not sure where; and .md suffix is looked for. So which ones work installed?
+
+A[merge]({{site.baseurl}}/learn/intrinsics/MERGE.md)
+C[merge](/learn/intrinsics/MERGE.md)
+E[merge](./MERGE.md)
+
+b[merge]({{site.baseurl}}/learn/intrinsics/MERGE)
+d[merge](/learn/intrinsics/MERGE)
+f[merge](./MERGE)
+g[merge](MERGE)
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
