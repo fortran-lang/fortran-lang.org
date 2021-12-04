@@ -19,7 +19,7 @@ LEADZ returns the number of leading zero bits of an integer.
 ## __Arguments__
 
   - __I__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
 ## __Returns__
 

@@ -25,13 +25,13 @@ __dim__ dimension.
 ## __Arguments__
 
   - __array__
-    Shall be an array, of any type.
+    : Shall be an array, of any type.
 
   - __dim__
-    Shall be a scalar _integer_.
+    : Shall be a scalar _integer_.
 
   - __kind__
-    An _integer_ initialization expression indicating the kind
+    : An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__

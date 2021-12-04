@@ -20,12 +20,12 @@ the base "e".
 ## __Arguments__
 
   - __x__
-    The type shall be _real_ or _complex_.
+    : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
 The return value is of type _real_ or _complex_. The kind type parameter is
-the same as __X__. If __X__ is _complex_, the imaginary part OMEGA is in the range
+the same as __x__. If __x__ is _complex_, the imaginary part OMEGA is in the range
 
 __-PI__ \< OMEGA \<= PI.
 

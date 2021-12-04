@@ -22,10 +22,10 @@ remaining bits set to __0__.
 ## __Arguments__
 
   - __I__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
   - __KIND__
-    Shall be a scalar constant expression of type _integer_.
+    : Shall be a scalar constant expression of type _integer_.
 
 ## __Returns__
 

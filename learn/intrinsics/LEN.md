@@ -28,10 +28,10 @@ content, of __string__ is needed.
 ## __Arguments__
 
   - __string__
-    Shall be a scalar or array of type CHARACTER, with __intent__(in)
+    : Shall be a scalar or array of type CHARACTER, with __intent__(in)
 
   - __kind__
-    n _integer_ initialization expression indicating the kind
+    : An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__

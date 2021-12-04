@@ -25,11 +25,11 @@ Returns the length of a character string, ignoring any trailing blanks.
 ## __Arguments__
 
   - __STRING__
-    The input string whose length is to be measured.
+    : The input string whose length is to be measured.
     Shall be a scalar of type __CHARACTER__
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__

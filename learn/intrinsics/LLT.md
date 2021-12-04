@@ -29,10 +29,10 @@ ordering.
 ## __Arguments__
 
   - __string\_a__
-    Shall be of default CHARACTER type.
+    : Shall be of default CHARACTER type.
 
   - __string\_b__
-    Shall be of default CHARACTER type.
+    : Shall be of default CHARACTER type.
 
 ## __Returns__
 

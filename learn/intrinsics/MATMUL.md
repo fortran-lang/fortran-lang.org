@@ -19,18 +19,18 @@ Performs a matrix multiplication on numeric or logical arguments.
 ## __Arguments__
 
   - __matrix\_a__
-    An array of _integer_, _real_, _complex_, or _logical_ type, with a rank of
+    : An array of _integer_, _real_, _complex_, or _logical_ type, with a rank of
     one or two.
 
   - __matrix\_b__
-    An array of _integer_, _real_, or _complex_ type if matrix\_a is of a
+    : An array of _integer_, _real_, or _complex_ type if __matrix\_a__ is of a
     numeric type; otherwise, an array of _logical_ type. The rank shall be
-    one or two, and the first (or only) dimension of matrix\_b shall be
-    equal to the last (or only) dimension of matrix\_a.
+    one or two, and the first (or only) dimension of __matrix\_b__ shall be
+    equal to the last (or only) dimension of __matrix\_a__.
 
 ## __Returns__
 
-The matrix product of matrix\_a and matrix\_b. The type and kind of the
+The matrix product of __matrix\_a__ and __matrix\_b__. The type and kind of the
 result follow the usual type and kind promotion rules, as for the \* or
 .and. operators.
 
