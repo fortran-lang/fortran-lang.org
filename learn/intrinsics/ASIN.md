@@ -10,12 +10,12 @@ __asin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arcsine function
 ## __Syntax__
 
 ```fortran
-result = asin(X)
+result = asin(x)
 ```
 
 ## __Description__
 
-__asin(X)__ computes the arcsine of its argument __X__.
+__asin(x)__ computes the arcsine of its argument __x__.
 
 The arcsine is the inverse function of the sine function. It is commonly
 used in trigonometry when trying to find the angle when the lengths of
@@ -23,14 +23,14 @@ the hypotenuse and the opposite side of a right triangle are known.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be either _real_ and a magnitude that is less than or
     equal to one; or be _complex_.
 
 ## __Returns__
 
   - __RESULT__
-    : The return value is of the same type and kind as __X__. The real part of
+    : The return value is of the same type and kind as __x__. The real part of
     the result is in radians and lies in the range __-PI/2 \<=
     asin(X) \<= PI/2__.
 

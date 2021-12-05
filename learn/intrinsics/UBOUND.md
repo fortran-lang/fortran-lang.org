@@ -9,8 +9,9 @@ __ubound__(3) - \[ARRAY INQUIRY\] Upper dimension bounds of an array
 (GFDL)
 
 ## __Syntax__
-
-result = __ubound__(array \[, dim \[, kind\]\])
+```fortran
+result = ubound(array, dim, kind)
+```
 
 ## __Description__
 
@@ -19,23 +20,23 @@ DIM dimension.
 
 ## __Arguments__
 
-  - __ARRAY__
+  - __array__
     : Shall be an array, of any type.
 
-  - __DIM__
+  - __dim__
     : (Optional) Shall be a scalar _integer_.
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind KIND. If KIND is absent,
-the return value is of default integer kind. If DIM is absent, the
-result is an array of the upper bounds of ARRAY. If DIM is present, the
+The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
+the return value is of default integer kind. If __dim__ is absent, the
+result is an array of the upper bounds of __array__. If __dim__ is present, the
 result is a scalar corresponding to the upper bound of the array along
-that dimension. If ARRAY is an expression rather than a whole array or
+that dimension. If __array__ is an expression rather than a whole array or
 array structure component, or if it has a zero extent along the relevant
 dimension, the upper bound is taken to be the number of elements along
 the relevant dimension.

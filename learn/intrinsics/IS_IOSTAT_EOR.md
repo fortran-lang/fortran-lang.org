@@ -17,7 +17,7 @@ result = __is\_iostat\_eor__(i)
 is\_iostat\_eor tests whether an variable has the value of the I/O
 status "end of record". The function is equivalent to comparing the
 variable with the iostat\_eor parameter of the intrinsic module
-\[\[iso\_fortran\_env\]\].
+__iso\_fortran\_env__.
 
 ## __Arguments__
 

@@ -14,33 +14,33 @@ result = __any(mask \[, dim\])__
 
 ## __Description__
 
-__any(MASK \[, DIM\])__ determines if any of the values in the logical
-array MASK along dimension DIM are .TRUE..
+__any(mask, dim)__ determines if any of the values in the logical
+array __mask__ along dimension __DIM__ are __.TRUE.__.
 
 ## __Arguments__
 
-  - __MASK__
+  - __mask__
     : the type of the argument shall be _logical_ and it shall not be
     scalar.
 
-  - __DIM__
-    : (optional) DIM shall be a scalar integer with a value that lies
-    between one and the rank of MASK.
+  - __dim__
+    : (optional) dim shall be a scalar integer with a value that lies
+    between one and the rank of mask.
 
 ## __Returns__
 
-__any(MASK)__ returns a scalar value of type _logical_ where the kind type
-parameter is the same as the kind type parameter of MASK. If DIM is
-present, then __any(MASK, DIM)__ returns an array with the rank of MASK
-minus 1. The shape is determined from the shape of MASK where the DIM
+__any(mask)__ returns a scalar value of type _logical_ where the kind type
+parameter is the same as the kind type parameter of __mask__. If __DIM__ is
+present, then __any(mask, dim)__ returns an array with the rank of __mask__
+minus 1. The shape is determined from the shape of __mask__ where the __DIM__
 dimension is elided.
 
-1.  __any(MASK)__ is true if any element of MASK is true; otherwise, it
-    is false. It also is false if MASK has zero size.
+1.  __any(mask)__ is true if any element of __mask__ is true; otherwise, it
+    is __.false.__. It also is false if __mask__ has zero size.
 
-2.  If the rank of MASK is one, then __any(MASK, DIM)__ is equivalent to
-    __any(MASK)__. If the rank is greater than one, then __any(MASK,
-    DIM)__ is determined by applying __any()__ to the array sections.
+2.  If the rank of __mask__ is one, then __any(mask, dim)__ is equivalent to
+    __any(mask)__. If the rank is greater than one, then __any(mask,
+    dim)__ is determined by applying __any()__ to the array sections.
 
 ## __Examples__
 

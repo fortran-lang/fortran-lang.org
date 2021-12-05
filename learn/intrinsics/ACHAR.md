@@ -19,7 +19,7 @@ where KIND may be any supported kind value for _integer_ types.
 
 ## __Description__
 
-__achar(I)__ returns the character located at position I (commonly called the
+__achar(i)__ returns the character located at position __i__ (commonly called the
 _ADE_ or ASCII Decimal Equivalent) in the ASCII collating sequence.
 
 The __achar(3)__ function is often used for generating in-band escape
@@ -32,18 +32,18 @@ example.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : the _integer_ value to convert to an ASCII character, in the range
     0 to 127.
 
-  - __KIND__
+  - __kind__
     : (optional) an _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
 The return value is the requested character of type _character_ with a
-length of one. If the KIND argument is present, the return value is of
+length of one. If the __kind__ argument is present, the return value is of
 the specified kind and of the default kind otherwise.
 
 ## __Examples__

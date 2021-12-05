@@ -29,8 +29,8 @@ at least R, and with a radix of RADIX.
   - __RADIX__
     : (Optional) shall be a scalar and of type _integer_.
 
-Before \[\[Fortran 2008\]\], at least one of the arguments R or P shall
-be present; since \[\[Fortran 2008\]\], they are assumed to be zero if
+Before __Fortran 2008__, at least one of the arguments R or P shall
+be present; since __Fortran 2008__, they are assumed to be zero if
 absent.
 
 ## __Returns__

@@ -10,29 +10,29 @@ __atan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
 
 ## __Syntax__
 
-  - result = __atan(X)__
+  - result = __atan(x)__
 
-  - result = __atan(Y, X)__
+  - result = __atan(y, x)__
 
 ## __Description__
 
-__atan(X)__ computes the arctangent of __X__.
+__atan(x)__ computes the arctangent of __x__.
 
 ## __Arguments__
 
-  - __X__
-    : The type shall be _real_ or _complex_; if Y is present, __X__ shall be _real_.
+  - __x__
+    : The type shall be _real_ or _complex_; if __y__ is present, __x__ shall be _real_.
 
-  - __Y__
-    : Shall be of the same type and kind as __X__.
+  - __y__
+    : Shall be of the same type and kind as __x__.
 
 ## __Returns__
 
-The return value is of the same type and kind as __X__. If __Y__ is present, the
-result is identical to __atan2(Y,X)__. Otherwise, it the arc tangent of
-__X__, where the real part of the result is in radians and lies in the range
+The return value is of the same type and kind as __x__. If __y__ is present, the
+result is identical to __atan2(y,x)__. Otherwise, it the arc tangent of
+__x__, where the real part of the result is in radians and lies in the range
 
-    __-PI/2 \<= atan(X) \<= PI/2__
+    __-PI/2 \<= atan(x) \<= PI/2__
 
 ## __Examples__
 

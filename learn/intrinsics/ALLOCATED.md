@@ -10,22 +10,22 @@ __allocated__(3) - \[ARRAY INQUIRY\] Status of an allocatable entity
 
 ## __Syntax__
 
-  - result = __allocated__(ARRAY)
+  - result = __allocated__(array)
 
-  - result = __allocated__(SCALAR)
+  - result = __allocated__(scalar)
 
 ## __Description__
 
-__allocated(ARRAY)__ and __allocated(SCALAR)__ check the allocation
-status of ARRAY and SCALAR, respectively.
+__allocated(array)__ and __allocated(scalar)__ check the allocation
+status of __array__ and __scalar__, respectively.
 
 ## __Arguments__
 
-  - __ARRAY__
-    : the argument shall be an ALLOCATABLE array.
+  - __array__
+    : the argument shall be an _allocatable_ array.
 
-  - __SCALAR__
-    : the argument shall be an ALLOCATABLE scalar.
+  - __scalar__
+    : the argument shall be an _allocatable_ scalar.
 
 ## __Returns__
 
@@ -42,7 +42,9 @@ program demo_allocated
 implicit none
 integer :: i = 4
 real(4), allocatable :: x(:)
+
    if (allocated(x) .eqv. .false.) allocate(x(i))
+
 end program demo_allocated
 ```
 

@@ -65,7 +65,7 @@ end program demo_transfer
 
 ## __Comments__
 
-\[\[Joe Krahn\]\]: Fortran uses \*\*molding\*\* rather than
+_Joe Krahn_: Fortran uses \*\*molding\*\* rather than
 \*\*casting\*\*.
 
 Casting, as in C, is an in-place reinterpretation. A cast is a device

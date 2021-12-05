@@ -45,7 +45,7 @@ end program demo_char
 
 ## __Note__
 
-See \[\[ichar\]\] for a discussion of converting between numerical
+See [__ichar(3)__](CHAR) for a discussion of converting between numerical
 values and formatted string representations.
 
 ## __Standard__
@@ -54,7 +54,9 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-\[\[achar\]\], \[\[iachar\]\], \[\[ichar\]\]
+[__achar(3)__](ACHAR),
+[__iachar(3)__](IACHAR),
+[__ichar(3)__](ICHAR)
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

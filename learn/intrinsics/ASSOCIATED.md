@@ -15,54 +15,54 @@ result = __associated(pointer \[, target\])__
 ## __Description__
 
 __associated(pointer \[, target\])__ determines the status of the
-pointer __POINTER__ or if __POINTER__ is associated with the target __TARGET__.
+pointer __pointer__ or if __pointer__ is associated with the target __target__.
 
 ## __Arguments__
 
-  - __POINTER__
-    : __POINTER__ shall have the __POINTER__ attribute and it can be of any type.
+  - __pointer__
+    : __pointer__ shall have the _pointer_ attribute and it can be of any type.
 
-  - __TARGET__
-    : (Optional) __TARGET__ shall be a pointer or a target. It must have the
-    same type, kind type parameter, and array rank as __POINTER__.
+  - __target__
+    : (Optional) __target__ shall be a pointer or a target. It must have the
+    same type, kind type parameter, and array rank as __pointer__.
 
-The association status of neither __POINTER__ nor __TARGET__ shall be undefined.
+The association status of neither __pointer__ nor __target__ shall be undefined.
 
 ## __Returns__
 
 __associated(pointer)__ returns a scalar value of type _logical_.
 There are several cases:
 
-1.  When the optional __TARGET__ is not present then __associated(pointer)__
-    is true if __POINTER__ is associated with a target; otherwise, it
+1.  When the optional __target__ is not present then __associated(pointer)__
+    is true if __pointer__ is associated with a target; otherwise, it
     returns false.
 
-2.  If __TARGET__ is present and a scalar target, the result is true if
-    __TARGET__ is not a zero-sized storage sequence and the target
-    associated with __POINTER__ occupies the same storage units. If __POINTER__
+2.  If __target__ is present and a scalar target, the result is true if
+    __target__ is not a zero-sized storage sequence and the target
+    associated with __pointer__ occupies the same storage units. If __pointer__
     is disassociated, the result is false.
 
-3.  If __TARGET__ is present and an array target, the result is true if
-    __TARGET__ and __POINTER__ have the same shape, are not zero-sized arrays,
+3.  If __target__ is present and an array target, the result is true if
+    __target__ and __pointer__ have the same shape, are not zero-sized arrays,
     are arrays whose elements are not zero-sized storage sequences, and
-    __TARGET__ and __POINTER__ occupy the same storage units in array element
+    __target__ and __pointer__ occupy the same storage units in array element
     order.
 
-    As in case 2, the result is false, if __POINTER__ is disassociated.
+    As in case 2, the result is false, if __pointer__ is disassociated.
 
-4.  If __TARGET__ is present and an scalar pointer, the result is true if
-    __TARGET__ is associated with __POINTER__, the target associated with __TARGET__
+4.  If __target__ is present and an scalar pointer, the result is true if
+    __target__ is associated with __pointer__, the target associated with __target__
     are not zero-sized storage sequences and occupy the same storage
     units.
 
-    The result is false, if either __TARGET__ or __POINTER__ is disassociated.
+    The result is __.false.__, if either __target__ or __pointer__ is disassociated.
 
-5.  If __TARGET__ is present and an array pointer, the result is true if
-    target associated with __POINTER__ and the target associated with __TARGET__
+5.  If __target__ is present and an array pointer, the result is true if
+    target associated with __pointer__ and the target associated with __target__
     have the same shape, are not zero-sized arrays, are arrays whose
-    elements are not zero-sized storage sequences, and __TARGET__ and
-    __POINTER__ occupy the same storage units in array element order. The
-    result is false, if either __TARGET__ or __POINTER__ is disassociated.
+    elements are not zero-sized storage sequences, and __target__ and
+    __pointer__ occupy the same storage units in array element order. The
+    result is false, if either __target__ or __pointer__ is disassociated.
 
 ## __Examples__
 

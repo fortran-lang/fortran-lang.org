@@ -64,7 +64,7 @@ end program demo_iachar
 
 ## __Note__
 
-See \[\[ichar\]\] for a discussion of converting between numerical
+See [__ichar(3)__](ICHAR) for a discussion of converting between numerical
 values and formatted string representations.
 
 ## __Standard__

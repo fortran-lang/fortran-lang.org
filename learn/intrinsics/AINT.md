@@ -10,15 +10,15 @@ __aint__(3) - \[NUMERIC\] Truncate to a whole number
 
 ## __Syntax__
 
-result = __aint__(A \[, KIND\])
+result = __aint__(x \[, KIND\])
 
 ## __Description__
 
-__aint(A \[, KIND\])__ truncates its argument to a whole number.
+__aint(x, kind)__ truncates its argument to a whole number.
 
 ## __Arguments__
 
-  - __A__
+  - __x__
     : the type of the argument shall be _real_.
 
   - __KIND__
@@ -28,11 +28,11 @@ __aint(A \[, KIND\])__ truncates its argument to a whole number.
 ## __Returns__
 
 The return value is of type _real_ with the kind type parameter of the
-argument if the optional __KIND__ is absent; otherwise, the kind type
-parameter will be given by __KIND__. If the magnitude of __X__ is less than one,
-__aint(X)__ returns zero. If the magnitude is equal to or greater than
+argument if the optional __kind__ is absent; otherwise, the kind type
+parameter will be given by __kind__. If the magnitude of __x__ is less than one,
+__aint(x)__ returns zero. If the magnitude is equal to or greater than
 one then it returns the largest whole number that does not exceed its
-magnitude. The sign is the same as the sign of __X__.
+magnitude. The sign is the same as the sign of __x__.
 
 ## __Examples__
 
