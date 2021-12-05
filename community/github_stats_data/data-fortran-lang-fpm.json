@@ -2,12 +2,522 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 625,
+            "user": "ivan-pi",
+            "date": "2021-11-27 23:33:55+00:00",
+            "title": "Automatic finalization of objects in main program scope",
+            "text": "After learning about the rules on automatic finalization and deallocation in the Discourse thread (https://fortran-lang.discourse.group/t/automatic-finalization-of-derived-types/2295/15), I was wondering if refactoring the main program to use a block or subroutine would be a good idea?\nThis is not a bug report, but closer to an enhancement I suppose.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-29 20:59:25+00:00",
+                    "text": "Seems like something easy to amend, if this is a problem. Feel free to open a pull request for proposing a patch."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-30 09:12:21+00:00",
+                    "text": "I think this is unnecessary and not necessarily advisable unless required to address a specific problem.   See my comments in the cited Discourse thread."
+                }
+            ]
+        },
+        {
+            "number": 623,
+            "user": "brocolis",
+            "date": "2021-11-25 05:22:57+00:00",
+            "title": "Lua scripting",
+            "text": "Now that fortran-lua by @interkosmos  has support for fpm, interkosmos/fortran-lua53@8298146, fpm could expose parts of fpm_model_t to Lua script, for customization of the build process.\nFor example, I would use this feature in\n-- This is fpm.lua in the package root directory\n\nfunction OnBuild()\n   -- pseudo-lua code\n\n   if fpm.compiler.name == \"gfortran\" and fpm.compiler.version > 9 then\n      fpm.compiler.add_flags(\"-fallow-argument-mismatch\")\n   end\n\n   -- OK, continue build process\n   return true\nend\nwhere\n\nOnBuild is a predefined function to be called by fpm after fpm_model_t is built, and before the actual build starts.\nfpm.compiler.name and fpm.compiler.version are read-only properties\nfpm.compiler.add_flags is a function called from Lua into fpm. Fpm can accept or reject writes to the model.\nreturn true - tells fpm everything is alright. return false to stop the build process.",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-28 00:29:41+00:00",
+                    "text": "I was thinking about something similar lately while reflecting upon #611. The TOML spec supports multi-line strings (see https://toml.io/en/v1.0.0#string), meaning that you could in principle include a script directly in the manifest.\nInstead of Lua, I was thinking of a pseudo-Fortran language, a variation of the \"simple programming language\" (spl) introduced in the book Fortran Tools for VAX/VMS and MS-DOS. The authors of that book wrote a compiler/interpreter for their pseudo-Fortran language in Fortran. Programs are executed by a language virtual machine (again written in Fortran).\nThe main difference of spl to Fortran is the language has reserved keywords (simplifies parsing), and only a subset of types is supported including real, integer, logical, and character (there is no \"kind\" specifier). There are a few other quirks on how I/O and strings are handled.\nI started working my way through the online book Crafting Interpreters to hopefully build the skill set needed to pursue such a project, but there's still a long journey ahead.\nGiven the maturity of Lua, and the fact it can be built/installed on any platform with a C compiler, fpm + Lua form a good combination. The biggest disadvantage I see for now is that not many Fortran programmers are familiar with Lua."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-28 00:53:05+00:00",
+                    "text": "This is kind of a fundamental question in the design of fpm, whether we want allow a turing complete language as a build script / package manifest (CMake, scons, waf, xmake, ...) or whether we want to restrict ourselves by using a limited DSL (meson) or a configuration language (cargo, stack). Turns out in practice even tools like cargo have a way to circumvent the self-imposed limitations of the package manifest language, either by adding logical selectors as keys or loading a build script written in a turing complete language.\nI personally like the way meson is going by offering a non-turing complete language for the build files, this reduces the complexity that you might have to deal with as user significantly, however you don't need a turing complete language to pull big stunts in your build files ;). Still, having guardrails that stop you from getting carried away helps a lot.\nWe are seeing this issue with fpm now, TOML alone is just too limited to express the complexity of some Fortran builds. I personally think that a build script in some other programming language (Fortran, Lua, Python, ...) is not the right step to take. However, adding some simple logical selectors in our package manifest to deal with different operating systems and compilers might be desirable, for this purpose we could use a Fortran-like expression parser to evaluate some logical conditions."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-28 01:37:52+00:00",
+                    "text": "In principle with Lua, you could have the scripts run in a sandbox, e.g. https://stackoverflow.com/questions/1224708/how-can-i-create-a-secure-lua-sandbox\nIf I understand correctly when you load a function you can control the environment the function runs in, restricting access to language features which are potentially unsafe.\nBut I see now this is a bigger design decision. I don't know enough about meson to say what are the advantages of the non-scriptable approach. What I do see with the scriptable build tools (CMake, scons, waf, xmake) is they quickly become a mess to deal with.\nIt would be good to understand what are the use cases where the manifest is too restricting. You've mentioned two, platform- and compiler-specific settings, optional library dependencies and preprocessors are two more areas."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-11-28 02:34:30+00:00",
+                    "text": "It seems that there is a cargo-make (a cargo plug-in) here, which can make some conditions for judging, maybe we can refer to:\nhttps://github.com/sagiegurari/cargo-make#conditions\n\ncargo-make: Rust task runner and build tool.\n\n[tasks.test-condition]\ncondition = { platforms = [\"windows\", \"linux\"], channels = [\"beta\", \"nightly\"] }\nscript = '''\necho \"condition was met\"\n'''\nAlthough it looks a bit cumbersome."
+                },
+                {
+                    "user": "brocolis",
+                    "date": "2021-11-28 04:24:35+00:00",
+                    "text": "OK. I understand your concerns and I agree this is an important design decision. I chose Lua because the language is simple, mature and designed to be embedded in other programs; we can easily remove parts of Lua standard library we don't need. Regarding the alternatives, I'm not familiar with SPL or DSL, and can't say if they are good or not. If they are good, it is OK for me. Anyway I am trying fpm with Lua and I think it is very nice. Here's a quick demo.\n\n  \n    \n    \n\n    fpm-lua.mp4\n    \n  \n\n  \n\n  \n\n\nAnd this fpm.lua\nprint(\"Hi guys, I'm a lua script ...\")\n\nprint(\"fpm.version: \",   fpm.version)\nprint(\"fpm.fc: \",        fpm.fc)\nprint(\"fpm.fcversion: \", fpm.fcversion)\nprint(\"fpm.fflags: \",    fpm.fflags)\n\nif fpm.fc == \"gfortran\" then\n    if string.find(fpm.fflags, \"-Wall\") then\n        print(\"-Wall enabled!\")\n    end\nelseif fpm.fc == \"lfortran\" then\n    print(\"Good choice\")    \nend\n\nif math.pi > 3.14 then\n    print(math.pi)\nelse\n    -- lol\nend\n\nprint(\"-----------------------------\")"
+                }
+            ]
+        },
+        {
+            "number": 622,
+            "user": "LKedward",
+            "date": "2021-11-23 10:36:10+00:00",
+            "title": "Cleanup the backend output",
+            "text": "Hide compiler output if not --verbose\n Show build progress as percentage\n Redirect compiler output to file\n Dump compiler output on error\n Cleanup 'plain' output (for non tty)\n Add comments to new modules\n Print compiler output for all built targets when --verbose\n Describe changes for reviewers\n Test on different environments\n\nFeel free to test it out - feedback welcome.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-27 19:01:58+00:00",
+                    "text": "I've now implemented everything I'd envisaged for this. Apologies for the size of the PR! Handling the isatty check and collecting compiler output made it a bit more involved.\nIn summary:\n\nCompiler output is now redirected to log files by default and not printed to the screen\n'Pretty' status messages are printed and an overall progress percentage\nIf the --verbose flag is passed, then pretty printing is disabled and the compiler output is printed to screen (including already-built targets during incremental builds)\nIf stdout is not connected to a terminal, then pretty printing is disabled\n\nThis PR bundles a small MIT licensed c code for properly checking isatty on Windows.\nI also had to update the bootstrap version in the CI and the gfortran version in the Windows runner.\nI've tested on Ubuntu, Windows command prompt and MSYS2 (Mintty) on Windows. Will need a volunteer to test on Mac."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-28 18:10:36+00:00",
+                    "text": "Everything has tested well.  I was going to suggest using the attr_update(3f) function in M_attr(3f) to add clearline, upline, and downline and moving the call to detect if plain or color mode to the fpm_command_line module so all routines could use colors, so the messages set up with  and  could use color but it looks like you took M_attr out.\nAs far as the interface goes, I would prefer that --verbose show all messages only when all targets are built, and only show messages from rebuilt files during an incremental build.  On a large project a rebuild of a single file with --verbose mode shows 27 000, lines, which is actually more verbose than the original :>.\nThe conditional --verbose mode output is of course not an issue with a project composed of one file, and really only gets horrible with the gfortran compiler and allocatable strings but to me that is a must-have.\nStill reviewing, and I think some other thoughts I have had (discussed in the previous canceled PRs) are not important enough to hold back this (IMO) major advancement  (having messages in the associated log files). Some utilties use repeated use of --verbose or a --verbose level  like --verbose [1,2,3...].  That would be easy to add transparently at the command line level."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-28 18:30:43+00:00",
+                    "text": "I tested on Apple M1. I rebuilt this PR, and then tried to run, it works, but \"build\" segfaults:\n$ build/gfortran_2A42023B310FA28D/app/fpm \nFortran Package Manager:\n \nUSAGE: fpm [ SUBCOMMAND [SUBCOMMAND_OPTIONS] ]|[--list|--help|--version]\n       where SUBCOMMAND is commonly new|build|run|test\n\n subcommand may be one of\n\n  build     Compile the package placing results in the \"build\" directory\n  help      Display help\n  list      Display this list of subcommand descriptions\n  new       Create a new Fortran package directory with sample files\n  run       Run the local package application programs\n  test      Run the test programs\n  update    Update and manage project dependencies\n  install   Install project\n\n Enter \"fpm --list\" for a brief list of subcommand options. Enter\n \"fpm --help\" or \"fpm SUBCOMMAND --help\" for detailed descriptions.\n\n\n\n$ build/gfortran_2A42023B310FA28D/app/fpm build\n\nProgram received signal SIGSEGV: Segmentation fault - invalid memory reference.\n\nBacktrace for this error:\n#0  0x104bd76f7\n#1  0x104bd671b\n#2  0x18dfc6c43\n#3  0x1048c2ac7\nzsh: segmentation fault  build/gfortran_2A42023B310FA28D/app/fpm build"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-28 18:32:12+00:00",
+                    "text": "In lldb I get:\n* thread #1, queue = 'com.apple.main-thread', stop reason = EXC_BAD_ACCESS (code=1, address=0xc)\n    frame #0: 0x000000010004300c fpm`__fpm_filesystem_MOD_mkdir at fpm_filesystem.F90:360:23\n   357 \t    logical :: echo_local\n   358 \t    \n   359 \t    if(present(echo))then\n-> 360 \t        echo_local=echo\n   361 \t     else\n   362 \t        echo_local=.true.\n   363 \t     end if\nTarget 0: (fpm) stopped.\n(lldb) bt\n* thread #1, queue = 'com.apple.main-thread', stop reason = EXC_BAD_ACCESS (code=1, address=0xc)\n  * frame #0: 0x000000010004300c fpm`__fpm_filesystem_MOD_mkdir at fpm_filesystem.F90:360:23\n    frame #1: 0x0000000100022ac8 fpm`__fpm_backend_MOD_build_package at fpm_backend.f90:68:34\n    frame #2: 0x000000010000da30 fpm`__fpm_MOD_cmd_build at fpm.f90:290:62\n    frame #3: 0x0000000100005180 fpm`MAIN__ at main.f90:67:28\n    frame #4: 0x000000010000565c fpm`main at main.f90:10:28\n    frame #5: 0x000000018df99430 libdyld.dylib`start + 4"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-28 19:16:07+00:00",
+                    "text": "Thanks for testing @urbanjost and for the feedback. Good point about --verbose, I think I'll change it back to only print output for those files that get built. Yes, I started using M_attr but I didn't find clearline or lineup or linedown in it (sorry I probably didn't read the documentation clearly!) and ended simplifying without it. Good point about being able to use color in other parts of fpm. Perhaps you could incorporate it in a future PR after this one?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-28 19:19:14+00:00",
+                    "text": "Thanks for testing @certik - could you try a clean build by first removing the build directory? (Sorry if you've already tried this). The backtrace is indicating a call from fpm_backend.f90 but this was renamed to fpm_backend.F90."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-28 19:28:38+00:00",
+                    "text": "That was it! This is a real bug in fpm, as it needs to be able to pick this up. But unrelated to this PR. Everything works now. And it works great, looks beautiful. Thank you for implementing this.\nWith --verbose it prints both the commands and their output. I would recommend to have a mode that does not print commands, but prints output, like the default \"cmake && make\" does. That way you can still see warnings and can easily see if things build \"cleanly\" or not.\nI tested that if there is an error, the error message is correctly printed."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-28 19:36:05+00:00",
+                    "text": "With some reservation, M_attr was initially limited to just color intentionally, but you can add any string you want via the attr_update so you would have to define a string like \"up\" or \"down\".  I did a color add PR before, I can redo it or part of\nit. That is partly why the string prefixes for a lot of the messages start with \"\" and \"\".\nI liked the ability to get all the messages too, and although not perfect I think showing them all when all targets are built would still be a good idea. There are several things getting all the messages as-built are appealing about, just not when I am working on one little routine! I also like that they are in the files so something like a plugin could let you review them on a per-file basis and compare output from various compilers and such so it would be nice to keep that capability.\nI was thinking about re-introducing at least part of the PR for color after something like this was in place, as there was potentially a lot of collision. Once this is in place I have no problem with that, accept I need to call your isatty at the top. M_attr just shows using the extensions, having a more general ISATTY in fpm is nice; I am thinking I need to add that to M_attr."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-28 19:47:22+00:00",
+                    "text": "PS;  I think ifort and gfortran always default to PAD='yes' but not sure, so might want to add that explicitly or getline(3f) will probably have a problem, as per the example in getline."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-30 14:27:04+00:00",
+                    "text": "somewhat ironically, I immediately miss being able to get all the messages on a built project. Is that something you were going to build back in?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-30 16:16:19+00:00",
+                    "text": "somewhat ironically, I immediately miss being able to get all the messages on a built project. Is that something you were going to build back in?\n\nI agree we should build this in but I'm not sure what the user interface would be right now (fpm log, fpm build --log?) and so I suggest leaving this for a future PR."
+                }
+            ]
+        },
+        {
+            "number": 621,
+            "user": "HaoZeke",
+            "date": "2021-11-22 21:15:44+00:00",
+            "title": "Skip slow tests",
+            "text": "Description\npytest has decorators which allow for a variety of conditional executions. It would be useful to have a way of marking slow tests, or other kinds of conditional test runs.\nPossible Solution\nTechnically each test can check environment variables (as noted by @certik), but it would be nicer to have this at the test runner level.\nAdditional Information\nN/A.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-11-23 00:19:26+00:00",
+                    "text": "The use case we have is generating data for plots into an article. Some of the convergence studies might take a longer time (say several minutes) and we would like the default \"fpm test\" to finish in a few seconds. One approach is to have \"slow tests\" that are not executed by default. We can then internally run the full convergence study in the slow test, and a faster version of the same study in the fast test (to ensure that the study works)."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-23 02:51:11+00:00",
+                    "text": "I tend to break my tests into a confidence test that is very quick but exercises a few key features, a collection of short tests that do coverage, and what I usually call benchmark tests that are long-running. When I have moved those to fpm I have been breaking them up by name with the globbing feature like \"run test 'bench_', run test 'general_' and run test confidence; and in one case I made the test program a program that takes parameters that select which directory to run and put the other test programs into directories and did not find any of those quite hit the mark, so I think I will take  a look at how pytest does it. Any other examples of models to try?  I was thinking about lists of tests or directories that you could give a name to in the fpm.toml file, and then do something like \"run test -type plot\" or \"run test -type benchmark\", and earlier I had a PR that allowed for a \"y/n\" reply to a prompt that no one else seemed to like so I didn't pursue it."
+                }
+            ]
+        },
+        {
+            "number": 619,
+            "user": "certik",
+            "date": "2021-11-21 17:22:44+00:00",
+            "title": "Change how output is presented",
+            "text": "Currently fpm's output is very verbose and it's hard to see what is going on. A bunch of commands (typically compiler invocations) are printed to stdout. Instead, let's do something like Rust's Cargo does:\n$ cargo build\n   Compiling libc v0.2.103\n   Compiling autocfg v1.0.1\n   Compiling proc-macro2 v1.0.26\n   Compiling unicode-xid v0.2.2\n   Compiling syn v1.0.72\n   Compiling pkg-config v0.3.19\n   Compiling cfg-if v1.0.0\n   Compiling serde_derive v1.0.130\n...\n   Compiling path_abs v0.5.1\n   Compiling encoding v0.2.33\n   Building [============>             ] 79/150: encoding, proc-macro-hack...\n\nOr the Julia's Pkg:\njulia> import Pkg\n\njulia> Pkg.add(\"SymEngine\")\n   Resolving package versions...\n   Installed RecipesBase \u2500\u2500\u2500 v1.1.2\n   Installed MPC_jll \u2500\u2500\u2500\u2500\u2500\u2500\u2500 v1.2.1+0\n   Installed SymEngine_jll \u2500 v0.6.0+1\n   Installed SymEngine \u2500\u2500\u2500\u2500\u2500 v0.8.6\n  Downloaded artifact: SymEngine\n  Downloaded artifact: MPC\n    Updating `~/.julia/environments/v1.6/Project.toml`\n  [123dc426] + SymEngine v0.8.6\n    Updating `~/.julia/environments/v1.6/Manifest.toml`\n  [3cdcf5f2] + RecipesBase v1.1.2\n  [123dc426] + SymEngine v0.8.6\n  [2ce0c516] + MPC_jll v1.2.1+0\n  [3428059b] + SymEngine_jll v0.6.0+1\n  [781609d7] + GMP_jll\n  [3a97d323] + MPFR_jll\nPrecompiling project...\n  6 dependencies successfully precompiled in 4 seconds (48 already precompiled)\n\nNote that Julia's Pkg prints all kinds of nice progress markers that all disappear when it is done, so the above output only captures the final result. I recommend you try the above commands yourself to see what I mean.\nThe final output of Cargo seems cleaner and it seems it contains all the information you need to know, which is which package got built and which version. We can also print which Fortran compiler was used (I am not sure).\nP.S I thought I already opened up an issue for exactly this, but I can't find it, so I opened a new one.",
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-21 19:12:38+00:00",
+                    "text": "I made an attempt at this a while back (see this post) but didn't get a chance to finish it off and the code was a little hectic. You can see the changes here. I might have some time to clean it up for a PR next weekend."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-21 20:21:06+00:00",
+                    "text": "Perfect! That's exactly what we need. If you had time to finish it that'd be great. The code looks minimal.\nA change like this I expect will require all kinds of testing and tweaking to ensure it works on all platforms (Windows) and that you can turn it off to redirect the output to a file, and so on. But I would recommend to simply get it merged into master, and then we'll fix all bugs as we go."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-21 23:22:49+00:00",
+                    "text": "Since a lot of the messages are still set up for it from previous runs at this (#502 and #505 in particular) note that a lot of the messages are set up with  and  prefixes (and others) to be used with M_attr, which is a small module that was designed to just be included into fpm(1) to allow for color mode, and that a (probably) simple one that should probably done first is to add the verbose mode into the  backend model, as there were concerns about it just being provided as a global state type.  M_attr was designed to add color in a manner that can be turned of except when writing to a tty device and to allow for extensions and customization without changing the code, but as a simplified version of M_escape that could just be added as file in the fpm distribution, although I suppose there is nothing wrong with using it as a dependency. The model that made most sense to me was that the command output for each command is written to a file in build and then copied back only if verbose mode is on or if an error occurs by default;  but can be examined with new options at any time after the build without rebuilding.\nThat seemed like an excellent model, providing logging and controlling verbosity at the same time, and allowing for options like not showing messages from dependencies, showing messages with a specific string and so on that can probably be prototyped with a plug-in  (but a dumb at TOML or NAMELIST of the machine info to the plugins would allow them to be far more powerful, which does not exist yet). One of the advantages of adding color with M_attr is the log files can still contain the strings like  and so easily re-displayed with and without color.  If/when the last PR I put in was accepted adding a verbose state was on my list but others can probably add that very quickly in less time, as what held me back was wanting to re-familiarize myself with the backend  as it has changed a lot since I last was altering it.\nM_attr\nYou can see how it was used in the quiet mode, as well as with help text in the referenced PRs and issues from the last two times; and the github repository explains some of the reasons to use this approach for color rather than directly using the escape sequences."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-21 23:38:51+00:00",
+                    "text": "PS;  although their is an ncurses library for WIndow, i was playing with a plugin that used ncurses that displayed the source files like the output in a tree(1) output like at the beginning of the video from @LKedward ward  where the file names changed color as they were done and you could click on them to see their messages or edit them (via the environment variable EDITOR) that was promising, but without a nice interface from the plugin to the backend it was way too kludgy but at some point (maybe using an entirely different GUI tool) maybe a mini-IDE would be nice; but my general impression was that those so inclined to use an IDE already were using a full-blown one and just wanted interfaces into their favorite one.  I would probably restart if I try that again, but you can get an idea of how it worked by looking at fixedform in  M_ncurses"
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-22 02:51:08+00:00",
+                    "text": "@urbanjost if you are interested, we created this library: https://github.com/jupyter-xeus/cpp-terminal/ which implements ncurses like functionality and it works on Windows. It also implements a multiline editing \"widget\" (that works on all platforms), that LFortran uses."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-23 02:33:43+00:00",
+                    "text": "Thanks. I will give that a try. What I was picturing was a scroll-able window that looks like the output of the tree(1) command that would be colored according to whether built with no warnings, with warnings, or with errors and you could click on the names to edit, see the build log of the routine, or run if an executable, sort of like a graphical windows commander plugin; but just have not had the time to pursue it."
+                }
+            ]
+        },
+        {
+            "number": 616,
+            "user": "LKedward",
+            "date": "2021-11-21 10:21:45+00:00",
+            "title": "Add: workflow to make installer on push and release",
+            "text": "Adds an extra job in CI workflow to generate a Windows installer fpm-installer-<version>.exe\nThe installer packages fpm and Git for Windows which are installed locally and added to the user PATH variable\n\nI've tested the new workflow here which produces this release.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-21 15:12:18+00:00",
+                    "text": "Cool, the installer is also automatically included in the continuous delivery."
+                }
+            ]
+        },
+        {
+            "number": 615,
+            "user": "brocolis",
+            "date": "2021-11-21 02:41:53+00:00",
+            "title": "Trouble with `--show-model`",
+            "text": "Description\nFound this while I was trying to debug an unrelated issue in fpm itself.\ncd fpm\nfpm build --show-model\nAt line 247 of file ././src/fpm_model.f90\nFortran runtime error: Index '1' of dimension 1 of array 'source%link_libraries' below lower bound of 4\n\nError termination. Backtrace:\n#0  0x7f0a0e0f9332 in ???\n#1  0x7f0a0e0f9df9 in ???\n#2  0x7f0a0e0fa40a in ???\n#3  0x4ad86b in info_srcfile\n        at ././src/fpm_model.f90:247\n#4  0x4af2fa in info_package\n        at ././src/fpm_model.f90:167\n#5  0x4a363c in info_model\n        at ././src/fpm_model.f90:277\n#6  0x4a2db9 in __fpm_model_MOD_show_model\n        at ././src/fpm_model.f90:313\n#7  0x40c527 in __fpm_MOD_cmd_build\n        at ././src/fpm.f90:285\n#8  0x4027eb in MAIN__\n        at app/main.f90:67\n#9  0x402d1b in main\n        at app/main.f90:10\n\nExpected Behaviour\nView fpm model.\nVersion of fpm\n9dc068d\nPlatform and Architecture\nLinux x64, Windows x64\nAdditional Information\nNo response",
+            "comments": [
+                {
+                    "user": "brocolis",
+                    "date": "2021-11-21 02:52:50+00:00",
+                    "text": "fpm.exe from @awvwgk test release https://github.com/awvwgk/fortran-package-manager/releases/download/v0.5.0/fpm-0.5.0-windows-x86_64.exe works with --show-model"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2021-11-21 03:05:12+00:00",
+                    "text": "I believe this occurs only in debug mode. I can reproduce the issue on Linux+debug build, and no problem on Linux+release build. I don't understand yet from looking at the code why it happens."
+                }
+            ]
+        },
+        {
+            "number": 614,
+            "user": "awvwgk",
+            "date": "2021-11-20 20:39:48+00:00",
+            "title": "Bump version to 0.5.0",
+            "text": "Test release at https://github.com/awvwgk/fortran-package-manager/releases/tag/v0.5.0\nTentative release notes:\nAlpha release update for the Fortran package manager (fpm).\n\n**Changes**\n\n- tests are only build for fpm test and not by default anymore (https://github.com/fortran-lang/fpm/pull/572)\n\n- environment variables for setting Fortran and C compiler changed (https://github.com/fortran-lang/fpm/pull/549, https://github.com/fortran-lang/fpm/pull/584)\n\n- add LFortran optimization flag to release profile (https://github.com/fortran-lang/fpm/pull/597) \n\n\n**New features**\n\n- command line arguments for linker, archiver and C-compiler added (https://github.com/fortran-lang/fpm/pull/549)\n\n\n**Fixes**\n\n- tabs are correctly expanded in source file scanning (https://github.com/fortran-lang/fpm/pull/521)\n\n- installer script will use fpm update to avoid stale dependencies (https://github.com/fortran-lang/fpm/pull/557)\n\n- use multiple build output directories depending on link line options (https://github.com/fortran-lang/fpm/pull/575)\n\n- update truncated help text (https://github.com/fortran-lang/fpm/pull/578)\n\n- fix directory removal in fpm new tests (https://github.com/fortran-lang/fpm/pull/579)\n\n- use MSVS like commands for Intel compilers on Windows (https://github.com/fortran-lang/fpm/pull/590)\n\n- add critical section to mkdir in backend (https://github.com/fortran-lang/fpm/pull/613)\n\n- fix modules listing (for install) (https://github.com/fortran-lang/fpm/pull/612)\n\n- repair --list option and correct obsolete descriptions of the --list option (https://github.com/fortran-lang/fpm/pull/607)\n\n- fix incorrect Intel release flag on Windows (https://github.com/fortran-lang/fpm/pull/602)\n\n- list names without suffix for Windows (https://github.com/fortran-lang/fpm/pull/595)\n\n\n**Repository updates**\n\n- add files and workflow to make installer on release (https://github.com/fortran-lang/fpm/pull/616)\n\n- issue templates added to guide reporting of bugs, package issues, feature requests and specification proposals (https://github.com/fortran-lang/fpm/pull/558)\n\n- default branch renamed to *main* (https://github.com/fortran-lang/fpm/pull/565)\n\n- update documentation on distributions supporting fpm, like spack and MSYS2 (https://github.com/fortran-lang/fpm/pull/562)\n\n- new workflow to automatically generate single source fpm versions (https://github.com/fortran-lang/fpm/pull/563)\n\n- continuous delivery of current fpm git source implemented (https://github.com/fortran-lang/fpm/pull/564, https://github.com/fortran-lang/fpm/pull/569)\n\n- update of bootstrapping instructions (https://github.com/fortran-lang/fpm/pull/587)\n\n- update README.md compiler, archiver, & link flags (https://github.com/fortran-lang/fpm/pull/598)",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-21 15:33:11+00:00",
+                    "text": "Alright, I'll go ahead and make the release."
+                }
+            ]
+        },
+        {
+            "number": 613,
+            "user": "LKedward",
+            "date": "2021-11-20 15:24:56+00:00",
+            "title": "Add: critical section to mkdir in backend",
+            "text": "Minor fix to get parallel builds working on Windows where mkdir fails if the directory already exists.",
+            "comments": []
+        },
+        {
+            "number": 612,
+            "user": "LKedward",
+            "date": "2021-11-20 15:22:01+00:00",
+            "title": "Fix modules listing (for install)",
+            "text": "Quick fix so that setup-stdlib from quickstart-fortran works with the latest fpm.\n\nRemove spurious \"fpm\" from the module path\nSkip submodules when collecting modules for install",
+            "comments": []
+        },
+        {
+            "number": 611,
+            "user": "rouson",
+            "date": "2021-11-17 21:28:30+00:00",
+            "title": "Command line argument to specify manifest location",
+            "text": "Description\nI'm building a project that depends on GASNet-EX, which links to different libraries on different operating systems (macOS vs Linux).  We will need different OS-specific fpm.toml files.\nPossible Solution\nIt would be helpful to have a fpm argument that specifies which manifest to use, e.g.,\nfpm build --manifest macOS-fpm.toml\n\nAdditional Information\nNo response",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-17 21:38:59+00:00",
+                    "text": "Would it be an option to have operating system dependent link options in the same manifest? I would prefer to keep a single, somewhat more complex manifest rather than having several package manifest files, since those will cause issues for dependencies.\nMaybe something like the selector below would be straight-forward to support in fpm:\n[build]\nlink.osx = [\"...\"]\nlink.linux = [\"...\"]\nAlternatively, there might be an option to use, which could provide a more general and extensible selector syntax\n[build]\nlink = [\n  {if=\"os is osx\", then=\"...\"},\n]\nHowever we will need to invent our own grammar or borrow an existing one and create an expression parser."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-11-17 21:45:56+00:00",
+                    "text": "Actually this might be also useful for supporting multiple compilers. E.g.,\nI am currently trying fpm with 2 different compilers to build a same\nproject. However, the libraries used by each compiler have slightly\ndifferent names (e.g., \"gomp\" vs \"iomp\"). Therefore, if I want to use\nanother compiler than the default one, I must first change the `link`\noption in fpm.toml (I didn't find a way to do that yet).\n\nLe mer. 17 nov. 2021 \u00e0 22:39, Sebastian Ehlert ***@***.***> a\n\u00e9crit :\n\u2026\n Would it be an option to have operating system dependent link options in\n the same manifest? I would prefer to keep a single, somewhat more complex\n manifest rather than having several package manifest files, since those\n will cause issues for dependencies.\n\n Maybe something like the selector below would be straight-forward to\n support in fpm:\n\n [build]link.osx = [\"...\"]link.linux = [\"...\"]\n\n Alternatively, there might be an option to use, which could provide a more\n general and extensible selector syntax\n\n [build]link = [\n   {if=\"os is osx\", then=\"...\"},\n ]\n\n However we will need to invent our own grammar or borrow an existing one\n and create an expression parser.\n\n \u2014\n You are receiving this because you are subscribed to this thread.\n Reply to this email directly, view it on GitHub\n <#611 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AD5RO7HX2GTWGUXE5MJH32DUMQOH5ANCNFSM5IIBAD6Q>\n .\n Triage notifications on the go with GitHub Mobile for iOS\n <https://apps.apple.com/app/apple-store/id1477376905?ct=notification-email&mt=8&pt=524675>\n or Android\n <https://play.google.com/store/apps/details?id=com.github.android&referrer=utm_campaign%3Dnotification-email%26utm_medium%3Demail%26utm_source%3Dgithub>."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-18 09:37:16+00:00",
+                    "text": "I am also finding the lack of conditional expressions in a TOML file frustrating, but having profiles supported with definitions in the fpm.toml would satisfy most of my needs.\nIf there were a standard pre-processor another solution might be that the fpm.toml file could be run through the pre-processor passing in the current OS and compiler and profile. Not the most elegant solution but it not require any additional coding if something like cpp(1) directives were supported.\nIs there any other program using TOML files that has added conditional processing other than via selecting named sections?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-18 19:30:23+00:00",
+                    "text": "Couldn't fpm have a built-in expression parser to evaluate some type of Fortran-inspired conditional statements? Something like:\nlink = [ 'merge(\"iomp\",\"gomp\",compiler == id_intel)' ]\n\nThe first suggestion from @awvwgk looks like the simplest to me. On the other hand the combinatorial explosion of platforms, compilers, and various library name exceptions, makes me worried it could get complicated, and a solution at a higher abstraction level is needed.\nAn orthogonal suggestion would be to have the main fpm.toml which includes the default options, and secondary platform specific toml files, which get loaded after the primary toml, overwriting any values. (Doesn't CMake use an approach like this?)"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-19 04:27:46+00:00",
+                    "text": "I'm fine with any solution that solves the problem.  I suspect that the one I originally proposed is probably the easiest for fpm to support, albeit by offloading to the user the work of maintaining multiple manifests.  I'm a minimalist so I use default directory locations, my projects only have a few dependencies, and my manifests are generally 5-10 lines.  Maintaining multiple ones is no problem.\nOf the other solutions proposed, I think the conditional logic seems like the most work to implement in fpm, whereas the preprocessor approach adds a third-party tool and I think one of the most beautiful things about  fpm is that it has no dependencies other than a Fortran compiler and it can be installed by compiling a single file.  I recommend keeping that level of simplicity as long as you possibly can.  When trying to introduce fpm in a project that was using another build system, the simplicity with which fpm can be installed and used is a major plus."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-21 01:23:08+00:00",
+                    "text": "Another alternative would be an option to specify the manifest's location.  For now, I will have the project's install.sh script create an OS-specific manifest in the build tree and then create a soft-link to that manifest at the top level of the source tree.  If something like a --manifest-path existed, we wouldn't need the soft-link, which would eliminate the chance that someone might unnecessarily commit the link.  For now, I'll add fpm.toml to the .gitignore file, but that feels a little strange and might cause some headache someday if we're able to write a single manifest for all platforms and a future developer can't figure out why they can't commit the new manifest.  I'm likely to be that forgetful future developer. :)"
+                }
+            ]
+        },
+        {
+            "number": 609,
+            "user": "awvwgk",
+            "date": "2021-11-14 11:24:39+00:00",
+            "title": "Allow optional features in projects",
+            "text": "Motivation\nNot all parts of a project are always needed. Many Fortran projects can be build with and without MPI support for example. Currently there is no mechanism to express such features in the package manifest. An option is to rely on preprocessor and set reasonable default using constructs like shown below:\n#ifndef WITH_FEATURE\n#define WITH_FEATURE 0\n#endif\nSince preprocessor might be the easiest way to express project local optional features, we could include such mechanism in fpm.\nSpecification\nA project could declare a features table and export this to the project via a preprocessor variable:\n[features]\nqp.preprocessor = \"WITH_QP\"\nWhen used as a dependency the feature could be toggled using\n[dependencies]\ntest-drive = {git=\"https://github.com/fortran-lang/test-drive\", features=[\"qp\"]}\nPrior Art\nCargo has features: https://doc.rust-lang.org/cargo/reference/features.html\nAdditional Information\nA use case would be fortran-lang/test-drive#7\nThe mechanism required in fpm is similar to the one described in #577 (comment)",
+            "comments": [
+                {
+                    "user": "plevold",
+                    "date": "2021-11-19 08:29:11+00:00",
+                    "text": "Features would be a great to have in fpm! In my opinion there's two crucial features in Cargo's feature functionality that would be great to see in fpm too:\nOptional dependencies:\nWhen a dependency is marked as optional in Cargo this creates an implicit feature with the same name. In an ecosystem with lot's of packages available eliminating the need to build unused dependencies are just as important as conditionally building parts of the project source code itself.\nFeature dependencies:\nFor a project with many optional features it might be necessary to specify that one feature requires other features to be enabled."
+                }
+            ]
+        },
+        {
+            "number": 608,
+            "user": "urbanjost",
+            "date": "2021-11-13 07:02:38+00:00",
+            "title": "--env switch lets you specify the prefix of the compiler-related environment variables",
+            "text": "This should address #576",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-15 21:42:51+00:00",
+                    "text": "manual.pdf\nsince there is extensive reorganization of the help text, here is an Adobe PDF version for review.\nAlso, something like this except want it to get the fpm version from the PR (need some help with this)\nmanpages.yml.txt"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-17 14:23:16+00:00",
+                    "text": "After using this for a while, I think a more intuitive mode might be that FPM_COMPILER sets the compiler, but all the other values always are of the form FPM_MODIFIER_KEYWORD and that modifier defaults to the current compiler name, but are ignored unless the -env switch is used. If -env is used with no value, the FPM_compiler_name variables are used, if a blank is given as the value the plain keywords are used, if a modifier value is present it is used. That way only FPM_COMPILER is used by default.  Thoughts?"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-18 09:17:03+00:00",
+                    "text": "After trying several variants this is the most satisfying. It allows for using the \"standard\" variables only as an opt-in, but easily just by using\nfpm  ... --env \"\"\nit allows for named groups of variables to be used and provides an easy syntax for compiler-specific variables. All new variables are ignored by default. All variables begin with the FPM_ prefix. What variables are examined is reflected when the --verbose switch is present. So no newly introduced variables are used inadvertently as they are ignored unless --env is present.\nmanual_0.4.1.html.pdf"
+                }
+            ]
+        },
+        {
+            "number": 607,
+            "user": "urbanjost",
+            "date": "2021-11-12 21:59:45+00:00",
+            "title": "Repair --list option and correct obsolete descriptions of the --list option",
+            "text": "Fixes #606.\n--list now has non-intuitive differences between build --list and [run,test] --list and install --list, as it originally showed the full pathname of targets on all commands.  Not sure if it should be renamed on [run,test]  to --show; or if their should be a --path option specifically for the long names;  but on [run,test] you can still get full pathnames via --runner so no functionality is lost; but\nI do think it is less intuitive what --list does not, as it varies somewhat become subcommands.https://urbanjost.github.io/fpm-tools/manual.html\nDid not add a new test for checking the --list option, but the need for this patch would probably be avoidable if we had one.  Will try to add one in a separate PR, as a good number of features are not tested and we probably could use a separate project to get the tests up to par  (especially since part of the design of fpm is specifically to encourage the development of tests :>).\nTo review the revised help text as HTML see this regenerated version of 'fpm version 0.4.0 manual'",
+            "comments": []
+        },
+        {
+            "number": 606,
+            "user": "urbanjost",
+            "date": "2021-11-12 02:35:08+00:00",
+            "title": "listing of targets and --list option is broken",
+            "text": "Description\nThe --list option should show full pathnames, and target names should be displayed when multiple targets are present.\nTarget names are not displayed. Instead the directory name appears; and full pathnames are not listed when --list is used\non test or run.\nExpected Behaviour\nThe target names should be displayed when no target is specified and multiple targets are present.\nVersion of fpm\n0.4.0\nPlatform and Architecture\nAll\nAdditional Information\nNo response",
+            "comments": []
+        },
+        {
+            "number": 605,
+            "user": "plevold",
+            "date": "2021-11-11 14:52:10+00:00",
+            "title": "Problems declearing local (path) dependencies ",
+            "text": "Description\nI'm trying to organize my fpm project with multiple sub-projects, but I'm experiencing some problems which I believe is a bug or at least an ambiguity in the way fpm handles path dependencies.\nSay I have the following projects:\n\nhierarchical (main project with app)\nmylib (library)\nutils (library)\n\nThe dependency tree is as follows: hierarchical -> mylib -> utils\nI expect to be able to build and test the main project and any of the subprojects depending on what I'm currently working on. Examples:\n\nWhen adding new features to mylib I would write code and run fpm test in mylib-s directory\nWhen utilising the new mylib feature in the app I would write code and run fpm test in the main project directory\n\nI've tried the following ways of organizing my code:\n1)\n- <repo>\n    - fpm.toml (main project)\n    - lib/\n        - mylib/\n            - fpm.toml (library)\n        - utils/\n            - fpm.toml (library)\n\n\n\n\n- <repo>\n    - hierarchical/\n        - fpm.toml (main project)\n    - lib/\n        - mylib/\n            - fpm.toml (library)\n        - utils/\n            - fpm.toml (library)\n\n\n\n\n- <repo>\n    - hierarchical/\n        - fpm.toml (main project)\n    - mylib/\n        - fpm.toml (library)\n    - utils/\n        - fpm.toml (library)\n\nSee https://github.com/plevold/fpm-path-bug for the complete set of files.\nThis is what happens with the different folder layouts:\n\nCase 1:\n\nBuild and test mylib: Works fine\nBuild and test main project: Fails with <ERROR>*cmd_run*:model error:'.\\../utils\\fpm.toml' could not be found, check if the file exists\n\n\nCase 2:\n\nBuild and test mylib: Works fine\nBuild and test main project: Fails with <ERROR>*cmd_run*:package error:'fpm.toml' could not be found, check if the file exists\n\n\nCase 3:\n\nBuild and test mylib: Works fine\nBuild and test main project: Works fine\n\n\n\nExpected Behaviour\nI would expect all of these project layouts to work.\nIt seems like what's happening is that fpm resolves the paths relative to the fpm.toml file being built and not the fpm.toml of the path-dependency. This gives different behaviour when I try to build the main project or mylib. In the third case, the relative path from the main project to utils and from mylib to utils is \"by accident\" the same (i.e. ../utils).\nI think fpm should resolve paths relative to the current fpm.toml file being parsed and not the first one. This would make all the different project layouts in my examples work.\nAs a side note there should maybe be a recommended way of organizing projects like this. I'm not sure which way is better, but that's an interesting discussion for sure \ud83d\ude04\nVersion of fpm\n0.4.0\nPlatform and Architecture\nWindows\nAdditional Information\nNo response",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-11 17:07:24+00:00",
+                    "text": "If the two libraries and the application are developed independently, the approach is assumed that there are three top project directories, and that the app uses the two other projects as dependencies. The dependencies can be links to the pathnames instead of URLs.\nOr, you just have one fpm.toml at the top of the project, and named tests in the test/ directory that you would call, such as\nfpm test my_utils\nThere could have been changes, but fpm(1) was not initially designed to include subprojects in the same directory except as dependencies. An interesting approach that others might feel should be implemented, but the two schemes described above provide the same functionality, essentially. Which to use mostly depends on whether you want to independently compile and/or reuse the libraries, or want everything to build at once with the same options.\nThere are ways to have the file layout you describe with everything after lib/ but you have to turn off auto-search for sources and explicitly name the files to build; the fact you put files into lib/ instead of src/ means you did something in your fpm.toml file that we need to see if you want to stick with that layout."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-11 17:33:35+00:00",
+                    "text": "As an example of creating three directories (on a *nix system with bash, but the concept works on all supported platforms)\nand using directory B and C as dependencies of A (A and B do not have to be links, they could be subdirectories contained in A)\n#!/bin/bash\n# assuming you are building library B in directory B and library C in \n# directory C and your directory with an application is in A\nfpm new A\nfpm new B\nfpm new C\ncd A\n# make links to the other projects\nln -s ../B B\nln -s ../C C\n###############################################################################\n# declare the other directories to be dependencies\ncat >>fpm.toml <<\\EOF\n[dependencies]\nB      = { path = \"B\" }\nC      = { path = \"C\" }\n#B      = { git = \"https://github.com/urbanjost/B.git\" }\n#C      = { git = \"https://github.com/urbanjost/C.git\" }\nEOF\n###############################################################################\n# make a program that calls the other projects\ncat >app/main.f90 <<\\EOF\nprogram main\n  use A, only: helloa => say_hello\n  use B, only: hellob => say_hello\n  use C, only: helloc => say_hello\n  implicit none\n\n  call helloa()\n  call hellob()\n  call helloc()\nend program main\nEOF\n###############################################################################\nfpm run\nexit\nThe output should be\n Hello, A!\n Hello, B!\n Hello, C!"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-11 18:28:53+00:00",
+                    "text": "I think these steps would be closest for what you were originally entertaining:\nmyproject\n    \u251c\u2500\u2500 app\n    \u2502\u00a0\u00a0 \u2514\u2500\u2500 main.f90\n    \u251c\u2500\u2500 fpm.toml\n    \u251c\u2500\u2500 lib\n    \u2502\u00a0\u00a0 \u251c\u2500\u2500 mylib\n    \u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u251c\u2500\u2500 fpm.toml\n    \u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u251c\u2500\u2500 README.md\n    \u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u251c\u2500\u2500 src\n    \u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2514\u2500\u2500 mylib.f90\n    \u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2514\u2500\u2500 test\n    \u2502\u00a0\u00a0 \u2502\u00a0\u00a0     \u2514\u2500\u2500 check.f90\n    \u2502\u00a0\u00a0 \u2514\u2500\u2500 utils\n    \u2502\u00a0\u00a0     \u251c\u2500\u2500 fpm.toml\n    \u2502\u00a0\u00a0     \u251c\u2500\u2500 README.md\n    \u2502\u00a0\u00a0     \u251c\u2500\u2500 src\n    \u2502\u00a0\u00a0     \u2502\u00a0\u00a0 \u2514\u2500\u2500 utils.f90\n    \u2502\u00a0\u00a0     \u2514\u2500\u2500 test\n    \u2502\u00a0\u00a0         \u2514\u2500\u2500 check.f90\n    \u251c\u2500\u2500 README.md\n    \u2514\u2500\u2500 test\n        \u2514\u2500\u2500 check.f90\n\n#!/bin/bash\nfpm new myproject --test --app\ncd myproject\n# add dependencies\ncat >>fpm.toml <<\\EOF\n[dependencies]\nmylib      = { path = \"lib/mylib\" }\nutils      = { path = \"lib/utils\" }\nEOF\n# make program that uses dependencies\ncat > app/main.f90 <<\\EOF\nprogram main\n    use utils, only: hellob => say_hello\n    use mylib, only: helloc => say_hello\n    implicit none\n   \n    call hellob()\n    call helloc()\nend program main\nEOF\n# make the subprojects\nfpm new utils --src --test\nfpm new mylib --src --test\nmkdir lib\nmv utils mylib lib/\n# run app\nfpm run"
+                },
+                {
+                    "user": "plevold",
+                    "date": "2021-11-11 20:04:22+00:00",
+                    "text": "the fact you put files into lib/ instead of src/ means you did something in your fpm.toml file that we need to see if you want to stick with that layout.\n\n@urbanjost as mentioned, please see https://github.com/plevold/fpm-path-bug for the complete set of files.\nIn the last example you show your dependency tree looks like this:\nmyproject -> mylib\n          -> utils              \n\nIn the example I show the main project does not depend on utils, but mylib does. I.e. the dependency tree looks like this:\nmyproject -> mylib -> utils\n\nThis triggers the error while your example does not."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-29 14:32:49+00:00",
+                    "text": "cc @awvwgk\nThanks for reporting @plevold. The manifest reference says this about local path dependencies:\n\nLocal dependency paths are given relative to the project root and use / as path separator on all platforms.\n\nIt's not clear which 'project root' that refers to but it would seem that, perhaps counter-intuitively, all such local paths are currently required to be relative to the top-level project root. Of course, this means that the manifests of the intermediate dependencies (e.g. mylib) are non-sensical in the absence of the top-level project.\nAs shown here, this behavior needs changing because the local paths should be relative to the manifest file which defines them and not the top-level project. Would you agree @awvwgk?\nI believe the relevant implementation is in fpm_dependency.f90 but I don't know yet what changes are required."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2021-11-29 15:27:22+00:00",
+                    "text": "Sorry to chime-in, please hide this message if too much off-topic.\nIf some re-design of the local dependencies implementation will be done, I will ask to consider to allow \"out-of-tree\" local dependencies. E.g. I have a more generic library gen-lib as fpm package that is not pushed to the repository of a remote version control system but that is used by several local projects app1, lib1, app2 in this way\ngen-lib\n    \u251c\u2500\u2500 src\n    \u2502   \u2514\u2500\u2500 *.f90\n    \u2514\u2500\u2500 fpm.toml\n\napp1\n    \u251c\u2500\u2500 app\n    \u2502   \u2514\u2500\u2500 *.f90   <--- use gen-lib\n    \u2514\u2500\u2500 fpm.toml\n\nlib1\n    \u251c\u2500\u2500 src\n    \u2502   \u2514\u2500\u2500 *.f90   <--- use gen-lib\n    \u2514\u2500\u2500 fpm.toml\n\napp2\n    \u251c\u2500\u2500 app\n    \u2502   \u2514\u2500\u2500 *.f90   <--- use gen-lib\n    \u2514\u2500\u2500 fpm.toml\n\nIn this way I can centrally work on gen-lib and then cascade the amendments to app1, lib1, app2, etc...\nI understand that the end result might be a copy or a link of the \"out-of-tree\" dependencies in the project tree, but it would be nice to make this transparent to the fpm user."
+                }
+            ]
+        },
+        {
+            "number": 604,
+            "user": "rouson",
+            "date": "2021-11-09 21:26:31+00:00",
+            "title": "Split --link-flag",
+            "text": "Description\nI believe that fpm's current --link-flag argument needs to be split into two arguments named something like --link-flag (same as before) and --link-lib, where a concatenated list of any --link-lib arguments would be placed at the end of the resulting link line.  The motivating use case is explained below.\nI'm working on a shell-script installer for a new package.  The installer first installs the prerequisite GASNet-EX, which in turn defines several GASNET_* environment variables for use in building and linking against  GASNet-EX.   After installing GASNet-EX on macOS, a fpm command of the following form works to build the new package and link it against GASNet-EX:\nfpm build  \\\n  --c-compile \"$GASNET_CC\" \\\n  --c-flag \"$GASNET_CFLAGS $GASNET_CPPFLAGS\" \\\n  --link-flag \"$GASNET_LDFLAG $GASNET_LIBS\"\n\nwhere  GASNET_LIBS contains the -L and -l flags for linking against GASNet-EX.\nOn Ubuntu, the above command fails, but if I copy the resulting gfortran link command and reuse it with $GASNET_LIBS moved to the tail end, linking succeeds.\nExpected Behaviour\nSuccessful linking.\nVersion of fpm\nc5ef60d\nPlatform and Architecture\nUbuntu via GitHub Action\nAdditional Information\nNo response",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-09 21:34:39+00:00",
+                    "text": "Preferably we could put libraries we link against in the package manifest under build.link rather than injecting them via the command line options. The --link-flag is mainly meant to add -L flags to find libraries we want to link against from the package manifest or add linker options (like -Wl,-rpath, LTO, ...).\nWould adding the required libraries in build.link be sufficient for your use case?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-09 21:55:29+00:00",
+                    "text": "The --link-flag arguments from the model are purposely put in front of the object files here\n\n  \n    \n      fpm/src/fpm_targets.f90\n    \n    \n         Line 517\n      in\n      c5ef60d\n    \n    \n    \n    \n\n        \n          \n           target%link_flags = model%link_flags//\" \"//string_cat(target%link_objects,\" \")"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-09 23:02:27+00:00",
+                    "text": "Would adding the required libraries in build.link be sufficient for your use case?\n\nI didn't know about build.link.  I'll try it.  Thanks for the quick reply!"
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-19 04:49:40+00:00",
+                    "text": "In my use case, building on macOS worked but not on Linux.  @awvwgk, your suggestion works on Linux but breaks the macOS build.  For now, I think we have to come up with a way to use different fpm.toml files on one operating system versus another.   Eventually one of the solutions proposed in issue #611 will likely be best, but it still might be a good idea to also have the option to specify -L and -l arguments separately from other link arguments and have the -L and -l arguments be placed at the end of the link command."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2021-11-19 06:56:24+00:00",
+                    "text": "I agree with @rouson that having the option to specify separately -L and -l in the argumetns would be a nice feature. This could be helpful to support multiple compilers with a same fpm.toml, with the -l argument added to the specified libs in the fpm.toml under [link]."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-29 00:32:42+00:00",
+                    "text": "Haven't carefully read this discussion yet but I\nalways put -L and -l on the right side of my build objects in order as a result of working with single-pass left-to-right loaders; without trouble; but since multiple -flag options are allowed, perhaps a special option like --place [left|right]  that would indicate the position to place subsequent options would be a stop-gap? Although nearly a standard, not all compilers necessarily use -L and -l so just looking for those flag names might have issues"
+                }
+            ]
+        },
+        {
+            "number": 603,
+            "user": "awvwgk",
+            "date": "2021-11-05 09:39:47+00:00",
+            "title": "Upload release artifacts without version number",
+            "text": "Currently we attach the version number to each release artifact. If we would remove or additionally upload artifacts without the version number (fpm.F90 instead of fpm-0.4.0.F90) it would be possible to always download the latest stable version using:\nhttps://github.com/fortran-lang/fpm/releases/download/latest/fpm.F90\nUsing latest correctly ignores pre-releases as well.",
+            "comments": []
+        },
+        {
+            "number": 602,
+            "user": "everythingfunctional",
+            "date": "2021-11-03 17:29:11+00:00",
+            "title": "fix(fpm_compiler): intel windows release flag was incorrect",
+            "text": "Fix #601",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-11-03 19:58:17+00:00",
+                    "text": "Thanks for the reviews guys. With two approvals and this being such a minor change I'm going to go ahead and merge."
+                }
+            ]
+        },
+        {
+            "number": 601,
+            "user": "everythingfunctional",
+            "date": "2021-11-03 14:51:16+00:00",
+            "title": "Windows Intel default release flag invalid",
+            "text": "Description\nOne of the flags used for the built-in release profile for Intel on Windows is not correct.\nSpecifically, /fp-model:precise should just be fp:precise.\nExpected Behaviour\nCompiling using the built-in profiles should have all valid flags.\nVersion of fpm\n0.4.0\nPlatform and Architecture\nWindows\nAdditional Information\nNo response",
+            "comments": [
+                {
+                    "user": "everythingfunctional",
+                    "date": "2021-11-03 14:51:37+00:00",
+                    "text": "I should be able to submit a patch later today."
+                }
+            ]
+        },
+        {
+            "number": 599,
+            "user": "LKedward",
+            "date": "2021-11-02 09:11:38+00:00",
+            "title": "Start dedicated user documentation site",
+            "text": "See #598 (comment).\nThere are lots of options available for generating nice documentation sites.\nOne requirement will be to support multiple versions for each release of fpm.\nAlso will we store the docs in the same repo here or in a separate one?",
+            "comments": [
+                {
+                    "user": "zoziha",
+                    "date": "2021-11-02 09:23:04+00:00",
+                    "text": "I have used rust-lang/mdbook (see GitHub repo and its Doc website), it uses book.toml to configure markdown documents, we will feel familiar. (mdbook is a potential option)\n\nmdBook is a utility to create modern online books from Markdown files."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-02 09:35:41+00:00",
+                    "text": "Sphinx+MyST would also be a good option. It can be maintained in a separate subdirectory here and deployed automatically via GitHub actions to fpm.fortran-lang.org."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-11 03:11:00+00:00",
+                    "text": "The help text of fpm was originally written with the idea of running it through txt2man; and then using man(1) to convert to HTML or dvi and so on, which (with a little editing) produces\nmanual\nas well as man-page files for ULS (*nix) systems.\nI looked for a man-to-markdown  utility with no luck so far. That could be one approach.\nUPDATE: I tried man-to-md but it did not recognize some of the macros generated by txt2man(1); but pandoc(1) looks like it did get close:\nmarkdown\nat first glance, it seems to have a problem with text attributes in fixed text blocks, but close. Might be some simple change needed in txt2man or maybe pandoc(1) has some option or could be fixed.\nAlternatively I was looking for a markdown-to-text converter so the help could alternatively be written as markdown but produce ASCII text that could be included into fpm that was simple enough to be written in Fortran. There are several although I have not tested them yet.\nSo one alternative might be to write the help as markdown, and then have a tool that would convert it into flat text which could easily be converted to INCLUDE files to be placed in the fpm source? There are so many variants of markdown that seems problematic; but anything  available for converting to text could be used (HTML, LaTeX, ....) although that would be a  build dependency for the maintainers, it could perhaps be done via CI/CD when doing a PR.\nGoing back to the original concept, I have txt2man and man2html on my platform so to generate the above only takes\nfpm help manual|txt2man|tee fpm.1|man2html >fpm.html\nusing a modified version of man2html that adds a CSS style sheet.\nThat is all it takes (and currently a small amount of editing that could be scripted on a ULS in a few minutes)  to make a man-page in \"fpm.1\" and the above HTML document."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-13 19:19:11+00:00",
+                    "text": "Even a brute-force script\nusing groff demonstrates the possible process of automatically generating\na HTML representation of the help text with each PR from a CD/CI script.\ngroff(1) does not produce particularly great results and the CSS style\nsheet could definitely be improved. This is just for demonstration\npurposes, but I think something like this could be used to make on-line\ndocumenation available via the fpm webstite. Not quite sure how to place\nthe results back onto the web page as I have not used an artifact file\nyet, but even if another approach is taken such as mentioned above,\nas long as \"fpm help manual\" produces a man-page-like output this would\ncontinue to work.\nSo just to keep it simple (the CSS style would be inserted correctly using\nsomething like sed(1), and would have to experiment with whether man2html,\npandoc, etc. is best in a CD/CI environment) but does the general concept\nseem like something to go forward with? If so, any suggestions?\nAnyone used man2html(1) in a CD/CI environment?\nWould individual documents be better than a single document?\nShould actual man-pages be generated as well?\nThe one listed above produces better results using a slightly modified man2html,\nbut if anyone has a better CSS page using groff(1) would probably be the easiest\nto maintain.\nI keep meaning to make a Fortran version of txt2man(1) using a RE library but\nnever get around to it, as txt2man(1) works for what I need; but that would be\nan interesting method to create\nA quick bash shell script only using groff(1) (probably in the default environment?)\nand curl(1) (wget would work too) :\nmanual.md\nmight want to run through tidy(1) too if that is easy to put into a CD/CI job."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-16 13:23:42+00:00",
+                    "text": "manual.yml.txt\nmade a github-actions file that does a wget of some scripts and runs them that successfully generates an HTML document.\nNot a big user of these files (yet?).   How best to get the output file back to a web site,  and so on?\nUPDATE: missed an issue with man2html output. Probably want to add switch to man2html to not generate contents table but\nin meantime, change command to\n fpm manual|txt2man -t 'fpm manual' -s 1 -r \"$VERSION\" |man2html|\\\n           grep -v '^<A HREF=#'|\\\n           grep -v '\\&nbsp;<A HREF=#'|\\\n           grep -v 'name=contents' >artifacts/manual_$VERSION.html\n```bash"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-29 20:18:41+00:00",
+                    "text": "I started a repository for working on the user documentation at https://github.com/awvwgk/fpm-docs.\nThe documentation is mainly written in the MyST markdown dialect and rendered with sphinx, since I'm building via GitHub actions and deploy to GitHub pages we have the freedom to insert any additional generation steps in the workflow. John @urbanjost, we could try to incorporate the automatically generated markdown versions of fpm's help page in this documentation as well."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-30 03:37:44+00:00",
+                    "text": "Not familiar with MyST markdown, but if it allows including HTML like github markdown that might give better results. Will take a look at MyST."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-30 03:54:50+00:00",
+                    "text": "It says commonmark is a subset of MyST so I made a commonmark subdirectory in the fpm-tools/docs directory but I do not have an easy way to test it that I know of.  Do those look good?"
+                }
+            ]
+        },
+        {
             "number": 598,
             "user": "rouson",
             "date": "2021-10-29 23:14:49+00:00",
             "title": "Update README.md compiler, archiver, & link flags",
             "text": "This PR completes and updates the README.md description of the above fpm flags to match the description given by fpm build --help.",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-01 11:02:23+00:00",
+                    "text": "I don't think we need a separate branch for development (yet). I prefer to have the repository default branch represent the latest development state of a project. Currently the main branch is always in a state that it can be released, we can do this continuously without tagging releases as well (see #569).\nI think the main issue is that we don't have a dedicated user documentation for the fpm yet (the docs at https://fpm.fortran-lang.org are targeted at developers). Preferably we can setup documentation with tutorials and how-to guides which always provide the last stable and the latest version of the user documentation."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-01 13:07:59+00:00",
+                    "text": "One way to mitigate the problem @milancurcic identified is to release more often. In agile sprints, releases happen every 2-3 weeks.  If the main branch is always releasable, there's little downside other than the labor involved, which can be lessened by automated any labor-intensive aspects of releasing."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-02 09:08:31+00:00",
+                    "text": "With two reviews I'll now merge this PR. Thanks everyone."
+                }
+            ]
         },
         {
             "number": 597,
@@ -205,7 +715,18 @@
             "date": "2021-09-24 21:41:01+00:00",
             "title": "Creating Windows installer for fpm",
             "text": "Description\nSince Windows has no actual package manager installing of software is usually expected to be possible by an installer. So far fpm does not explore this road for distribution, we are using binary releases and MinGW packages for pacman instead.\nPossible Solution\nFind out how we can automatically create an installer using GitHub actions\nAdditional Information\n\nhttps://nsis.sourceforge.io/Main_Page\nNuGet packages?",
-            "comments": []
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-14 19:53:47+00:00",
+                    "text": "Just saw Laurence @LKedward has created an installer for fpm: https://github.com/LKedward/quickstart-fortran"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-15 06:50:24+00:00",
+                    "text": "Yes I had a play around with NSIS as a weekend project and came up with this. I ended up bundling in GFortran, Git and OpenBLAS as well to make an all-in-one installer aimed at beginners. I will share on the Discourse to get feedback - if people find it works well, we could move under Fortran-Lang namespace and link to it from the website perhaps?\nThe same workflow can be adapted to create an fpm+Git for Windows installer in this repository for each release."
+                }
+            ]
         },
         {
             "number": 579,
@@ -284,6 +805,11 @@
                     "user": "LKedward",
                     "date": "2021-09-24 07:29:34+00:00",
                     "text": "Comment from @urbanjost :\n\nOne other change that I was hoping would come out of the discussions was an option to set the variable prefix so that it could be a user-defined value, even a blank character, so you could set compiler-specific values or even not have a prefix (and so use FC, AR, ...). So I could set INTEL_FFLAGS and GFORTRAN_FFLAGS and ... and switch to different sets of them just by setting FPM_PRE. No one liked that? It would give you a back door to use the default names and if you are using environment variables would let you have compiler-specific sets of them.\n\n\nThis use case of different compiler flags is a compelling reason to do this IMO."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2021-11-18 09:44:31+00:00",
+                    "text": "I think the proposed PR #608 satisfied the original post without introducing some of the perils associated with using environment variables as an opt-in is required, and easily allows setting groups of variables for specific compilers. It also allows for user-defined names for groups of variables for the case where you want multiple choices for the same compiler. All new variable names are required to begin with FPM_ so they are  easier to identify and list as well."
                 }
             ]
         },
@@ -413,6 +939,26 @@
                     "user": "awvwgk",
                     "date": "2021-09-16 08:51:43+00:00",
                     "text": "It will run on any push event, this includes feature branches on forks. Since we only have a single branch in the main repository this is not an issue (now), but it enables contributors to make use of building continuous releases on their forks for testing purposes. We can limit it to the main branch of course if this is a concern."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-11-01 16:24:04+00:00",
+                    "text": "... it enables contributors to make use of building continuous releases on their forks for testing purposes\n\nI can see the benefit of this for testing, however I don't like the fact that the current tag would be dependent on which ever branch the workflow most recently ran on - or have I misunderstood this? I think we should either have a different tag per branch or restrict the workflow to only run on the default branch. What do you think?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-01 18:22:29+00:00",
+                    "text": "I added a dependency on a repository secret DEPLOY_BRANCH which will be used to determine whether a branch should be deployed or not. If the secret is not set no branch should be deployed. We would set it to refs/heads/main here to only deploy the default branch, but someone could set it to refs/heads at their fork to deploy all branches or to refs/heads/devel to deploy only the devel branch."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-01 18:47:44+00:00",
+                    "text": "@rouson, would a continuous delivery resolve #416 for you?\n\nI'm just realizing that I never responded to the above question.   I'm not familiar with continuous release, but from what is described here, yes.  I think this would solve issue. #416 for me."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-01 19:23:03+00:00",
+                    "text": "The tag will move but the URL will remain unchanged (a nice thing about git, even tags are mutable). To overwrite the artifacts on the tag, I'm stripping the version number information from the artifacts otherwise they would pile up over time on this release."
                 }
             ]
         },
@@ -4452,6 +4998,21 @@
                     "user": "certik",
                     "date": "2021-06-24 17:09:36+00:00",
                     "text": "I agree, we should get fpm into as many package managers as possible.\nI would say we should try to get as involved as we can and our interests allow. Typically each package manager has its own way of accepting contributions, many are on GitHub, so we can just contribute as we see fit."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-11-24 01:08:08+00:00",
+                    "text": "Given that the first comment in this issue contains a working Homebrew formula, what would be the downside in submitting it?  After not having tried homebrew on Linux in several years, I'm having good luck with it.  Getting into package managers does a lot to increase the chances of adoption."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-24 02:55:40+00:00",
+                    "text": "@rouson go ahead and submit it I would say."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-11-24 09:37:03+00:00",
+                    "text": "Note that the formula above is outdated. I'm maintaining a tap for fpm at https://github.com/awvwgk/homebrew-fpm for my programming course. However, I didn't get it to build on Linuxbrew so far, due to the choice of GFortran default version.\nThere is no downside submitting it, but I'm not a brew user. Feel free to submit the formula if you like."
                 }
             ]
         },
