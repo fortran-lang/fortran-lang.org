@@ -2,6 +2,172 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 240,
+            "user": "ivan-pi",
+            "date": "2021-11-11 11:11:53+00:00",
+            "title": "Intrinsics for mathematical constants",
+            "text": "This issue originates from one of the questions at the HPFPC (High-Performance computing with Fortran Promoting Consortium) symposium (https://site.hpfpc.org/home/events/parallel_fortran_sympo5)\nIn the requests & questions list we can read\n\nQ27: The standard should include some physical constants such as pi. It is more helpful if they can used without using any modules, similarly to intrinsic procedures.\nA27: This would not be a big addition to the language, but it has not been requested.\n\nThis has also been suggested and discussed at length in one of the stdlib issues: fortran-lang/stdlib#99\nCurrent status\nIn most Fortran codes today, users rely upon statements like:\nreal(wp), parameter :: pi = 4*atan(1.0_wp) ! or\nreal(wp), parameter :: pi = 2*acos(0.0_wp)\nreal(wp), parameter :: e = exp(1.0_wp)\n\nthat are collected in a constants module, leading to duplication of effort and potential errors.\nPersonally, I often re-declare pi locally in each module (to lazy to use a module) and find myself wondering which trigonometric function am I supposed to use in my head or drawing a unit circle on a sheet of paper.\nOther programming languages\nOther languages are also known to provide such constants, e.g. in C the header file math.h provides the following:\n\nM_E:     The base of natural logarithms.\nM_LOG2E: The logarithm to base 2 of M_E.\nM_LOG10E: The logarithm to base 10 of M_E.\nM_LN2: The natural logarithm of 2.\nM_LN10: The natural logarithm of 10.\nM_PI: Pi, the ratio of a circle\u2019s circumference to its diameter.\nM_PI_2: Pi divided by two.\nM_PI_4: Pi divided by four.\nM_1_PI: The reciprocal of pi (1/pi).\nM_2_PI: Two times the reciprocal of pi.\nM_2_SQRTPI: Two times the reciprocal of the square root of pi.\nM_SQRT2: The square root of two.\nM_SQRT1_2: The reciprocal of the square root of two (also the square root of 1/2).\n\nJulia also provides the constants for im (imaginary unit), pi, \u212f (the constant \u212f), Catalan's constant, Euler's constant, and the golden ratio, among others.\nPython provides math.pi, math.e, and math.tau (2 times pi) to available precision (presumably C double in most implementations).\nSolution\nThe solution could be provided in terms of intrinsic functions, e.g.\npure function math_pi(kind) real(pi)\n   integer, kind :: kind  ! not valid Fortran\n   real(kind=kind) :: pi\n\nwhich accept an integer kind argument. This is still kind of verbose, but users can always use a parameter:\nreal(wp), parameter :: pi = math_pi(wp)\nor an associate construct:\nassociate(pi => math_pi(wp), e => math_e(wp))\n...\nend associate\nif they want a shorter variable name.",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-11 11:30:55+00:00",
+                    "text": "Note in C, the constants are of type double, implemented as macro substitutions. A GNU C library extension also provides constants of type long double, by appending the a lowercase character l to their names.\nSince the Fortran standard does not specify a preprocessor, intrinsic functions with a kind specifier seem like the cleanest solution. An optimizing compiler can easily unwind the function call and substitute the constant with the desired precision."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-11-11 17:13:04+00:00",
+                    "text": "A more idiomatic interface would be to pass an unused real argument whose kind (not value) determines the kind of the result..  This interface could be implemented in current Fortran without adding intrinsics."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-11 17:26:58+00:00",
+                    "text": "As a user I think my preferred way is still to just import them from some module, such as math_constants or just constants:\nuse math_constants, only: pi\n\nBut I don't now how to do it to work with the different kinds properly. As a practical approach, just providing them in double precision would be enough for all my use cases. But I can see how this is not ideal, we really want this to work for all kinds well.\n@klausler suggestion would work today:\nreal(wp), parameter :: x = 1\nreal(wp), parameter :: pi = math_pi(x)\n\nBut it's quite verbose."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-11-11 18:39:29+00:00",
+                    "text": "This needs to be part of the generics feature in Fortran 202y. Not only do we need to be able to define routines and classes that can use any real (or integer, etc.) kind, but that needs to also trickle down to parameters. The kind in the parameter has to be able to inherit that somehow, without having to define multiple ones for each kind (which is basically impossible...which is the problem we have now), or give up on parameters altogether. Not having this is one of the reasons parameterized derived types are mostly useless."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-11 19:04:15+00:00",
+                    "text": "Since you mention generics, in C++ I sometimes see programmers use the following pattern:\ntemplate <typename T> T pi_const() {\n  return static_cast<T>(3.14159265358979323846);\n}\nUsage looks like:\nauto pi = pi_const<double>()\nI guess the answer from @klausler would be one of the arguments against new intrinsic functions. It is similar to some of the intrinsic functions, like newline or kind (roughly). Instead of declaring an unused variable you can always just use a literal constant to achieve resolution of the correct interface, e.g:\nmodule math\n  implicit none\n  private\n  public :: math_pi\n  interface math_pi\n    module procedure math_pi_sp\n    module procedure math_pi_dp\n  end interface\ncontains\npure function math_pi_sp(a)\n  integer, parameter :: sp = kind(1.0e0)\n  real(sp), intent(in) :: a\n  pi = 3.14159265358979323846264338327950288_sp\nend function\npure function math_pi_dp(a) result(pi)\n  integer, parameter :: dp = kind(1.0d0)\n  real(dp), intent(in) :: a\n  pi = 3.14159265358979323846264338327950288_dp\nend function\nend module\n\nprogram circle\nuse math\nimplicit none\ninteger, parameter :: dp = kind(1.0d0)\n\nreal(dp), parameter :: pi = math_pi(1.0_dp)\nreal(dp) :: radius, area\n\nwrite(*,*) \"Enter circle radius\"\nread(*,*) radius\narea = pi * radius**2\nwrite(*,*) \"Circle area = \", area\nend program\nThis feels okay-ish. Perhaps this is the best available approach to use in stdlib."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-11 19:22:25+00:00",
+                    "text": "The kind in the parameter has to be able to inherit that somehow, without having to define multiple ones for each kind (which is basically impossible...which is the problem we have now), or give up on parameters altogether. Not having this is one of the reasons parameterized derived types are mostly useless.\n\n@jacobwilliams, could you elaborate please? I fail to see how adding math constants relates to parameterized derived types. The first part of your answer relates to #91 if I understood correctly.\nApart from the boilerplate in the implementation, I don't think the Fortran approach:\nreal(dp), parameter :: pi = math_pi(1.0_dp)\nis much worse than the C++ approach used in practice (C++ of course being a language famous for generic capabilities):\nconst double pi = pi_const<double>()\nThe C solution using macros is convenient, but limited to double precision. The same can be done easily with Fortran or Python:\nfrom math import pi\nprint(\"pi = {}\".format(pi))\ninclude <math.h>\nprintf(\"pi = %f\\n\",M_PI);\nuse math, only: pi\nwrite(*,*) \"pi = \", pi\nend"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-11-12 00:58:48+00:00",
+                    "text": "@ivan-pi writes Nov. 11, 2021, 6:11 AM EST:\n\n.. The solution could be provided in terms of intrinsic functions ..\n\nPlease see the link in the original post of #46, an alternate solution I had proposed a couple of years ago toward such needs is a proper enumeration type facility in Fortran.\nMy proposal had \"built-in\" Generics i.e., the enumerator constants in an enumeration type can be of any intrinsic type as part of the definition of the enumeration type itself.\nHere are some extracted bits from that proposal:\n\nd) where the underlying type of enumerators in an integer with a\nspecified kind e.g.,\n enum :: MY_HASH_CODES(integer(kind=INT64))\n    enumerator :: FOO = Z\"d76aa478\"\n    enumerator :: BAR = Z\"e8c7b756\"\n    ..\n end enum\n\ne) an enumeration type where the underlying type of elements in the\nenumerated list is that of the LOGICAL intrinsic type.  An example\nwith the defaul logical kind is shown below though it is expected\nother supported logical kinds can be used also.\n enum :: VALVE_STATE(logical)\n    enumerator :: OPEN = .true.\n    enumerator :: CLOSED = .false.\n end enum\n\nf) an enumeration type where the underlying type of elements in the\nenumerator list is that of the CHARACTER intrinsic type. An\nexample with the defaul characted kind is shown below though\nit is expected other supported character kinds can be used also.\n enum :: LNG_CONSTITUENT(character(len=*))\n    enumerator :: N2 = \"Nitrogen\"\n    enumerator :: C1 = \"Methane\"\n    enumerator :: C2 = \"Ethane\"\n    enumerator :: C3 = \"Propane\"\n    ..\n end enum\n\ng) an enumeration type where the underlying type of elements in the\nenumerator list is that of the REAL intrinsic type.  An\nexample with a user-defined kind is shown below and it is\nexpected other supported real kinds can also be used similarly.\n integer, parameter :: R8 = selected_real_kind( p=12 )\n enum :: PHYS_CHEM_CONSTANTS(real(kind=R8)) ! SI units\n    enumerator :: MU = 1.66053906660E-27_r8 ! Atomic mass constant\n    enumerator :: NA = 6.02214076E23_r8     ! Avogadro number\n    enumerator :: K = 1.380649E-23_r8       ! Boltzmann constant\n    enumerator :: R = 8.314462618_r8        ! Molar gas constant\n    ..\n end enum\n\n\n..\n\na) \"cast\" the enumerator value to an object of an intrinsic type using\nthe intrinsic conversion functions e.g.,\n..\n ii) REAL intrinsic\n     real, parameter :: Rgas=real(PHYS_CHEM_CONSTANTS%R, kind(Rgas))\n\n\n..\n\n\n\nthat it will be possible for an enumeration type to be the selector in\nan ASSOCIATE construct e.g., with reference to 1g above,\ntype(PHYS_CHEM_CONSTANTS) :: k\n..\nassociate ( CONST => PHYS_CHEM_CONSTANTS )\n..\nk = CONST%k\n..\nend associate\n\n\nthat it is possible for an enumerator to be the selector in an\nASSOCIATE construct e.g., with reference to 1e above,\nassociate ( foo => MY_HASH_CODES%FOO )\n..\nend associate\nassociate ( R => real(PHYS_CHEM_CONSTANTS%R, kind=..) )\n..\nDensity = P/R/T\n..\nend associate\n\n\n\nOnce such a comprehensive facility were to be added to the language, my vision was \"intrinsic enumerations\" a la \"intrinsic named constants\" in some \"intrinsic modules\" (along the lines of ISO_FORTRAN_ENV, IEEE_ARITHMETIC, etc.).  Intrinsic enumerations for, say, MATH can then offer PI, E, and so forth for those users who would like to use them.\nThe proposal was seen as too comprehensive for the \"minor revision\" that is Fortran 202X and it failed to get any support.\nBut I maintain a proper enumeration type is the way to facilitate the use of many literal constants, be they of any intrinsic type, by the practitioners in their Fortran code."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-12 09:49:10+00:00",
+                    "text": "Thanks @FortranFan for the link. I like your proposed syntax for enumerators and think it would offer safer Fortran usage outside of the traditional scientific computing domain.\nRelated to the current issue, I can't see how would it allow practitioners to select the right kind:\nenum :: math_sp(real(sp))\n  enumerator :: pi = 4*atan(1.0_sp)\n  enumerator :: e = exp(1.0_sp)\nend enum\n\nenum :: math_dp(real(dp))\n  enumerator :: pi = 4*atan(1.0_dp)\n  enumerator :: e = exp(1.0_dp)\nend enum\nIn the stdlib thread on mathematical constants, some practitioners were against using a derived type as a \"pseudo\" enumerator, for the sole reason that it felt wrong to them to have to retrieve constants using the % operator. I think it's a case of de gustibus non disputandum est.\nIf I return to the original post, two questions that should be answered first are:\n\nDo we support adding mathematical constants (or functions/enums/derived types to retrieve them)  and if yes, can they be in global namespace or should they be part of an intrinsic module?\nHow do we allow practitioners to retrieve constants with the right kind, without resorting to expressions like 4*atan(1.0_wp) or exp(1.0_wp)?\n\nIf the answer from the majority is they are fine with a module, this can be done in stdlib with the approach @klausler suggested. If it is preferable to have pi built-in, we need to discuss further. By built-in I mean something along the following lines would be valid Fortran program:\nreal :: pi = 3.14 ! shadows intrinsic pi, be it function or literal constant\n\nblock\nintrinsic :: pi \nprint *, pi  ! or pi(1.0d0), prints 3.14... \nend block\n\nI am afraid there would be opposition to having many short names like pi, e, and others. Other names like the Archimedes's constant or Euler's number are cumbersome. So prepending the names with M_ like C does, or math like Python, seems to be desirable.\nA third alternative, what Julia does, is that the core mathematical constants are handled as special values of type \"Irrational\". These values get converted to floating point numbers without intermediate rounding when used in mathematical expressions.\nThis is an elegant solution which I guess could be done in Fortran too, but is cumbersome for implementation, and would need to be taken care of on the compiler side to guarantee the expressions get replaced with floating point numbers for minimum overhead."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-12 15:21:14+00:00",
+                    "text": "The most natural for me would be to redo how Fortran handles mixed precision. But that's a big task and probably not possible to do at this point.\nBut as a user I would like to just create a math_constants module with:\nreal(decimal), parameter :: pi = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 \n\nwhich would be \"exact\" (in this case 100 digits) and then I would like to use it as:\nreal(sp) :: r4\nreal(dp) :: r8\nr4 = sqrt(pi)*pi\nr8 = sqrt(pi)*pi\n\nand it would just work. It would do the operations with the single or double precision, say in here:\nr4 = r4 * pi\nr8 = r8 * pi\n\nIn the first line it would use a single precision multiplication, in the second line it would use a double precision multiplication. So there would be no runtime overhead.\nIn fact, as a user I would like exactly this behavior for any numbers such as:\nr4 = r4 * 8.15\nr8 = r8 * 8.15\n\nAs I said, this would require to rethink how mixed precision is done. As discussed elsewhere, in Fortran the precision is inferred from the right hand side, never from the left hand side. So 8.15 or \"pi\" would have to be a new type, \"decimal\" (with the exact decimal digits as you write them) and then it would be cast down to whatever accuracy is needed. However, I think this approach hits some obstacles how Fortran traditionally does things."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-11-12 16:47:21+00:00",
+                    "text": "Consider this PDT example. Say you write to write a solver that works for any real kind. You get pretty far and then you realize that you have a bunch of parameters that need to be that same kind. It's basically impossible to do that. Functions are not really what you want (and you can't have functions for every real number). You just want to use parameters, which is the most natural way to do this with Fortran. PDT is basically a half-baked generic feature that never went anywhere and was never fixed. A real generic feature would account for this somehow.\nI don't know what the syntax should look like, but I don't think we should have to use functions or derived types just to specify numeric parameters.\nmodule test\n\nuse iso_fortran_env \n\nimplicit none \n\nprivate\n\ntype,public  :: solver(rk, n)\n    integer,kind :: rk = real64\n    integer,len  :: n  = 0\n    real(rk) :: t\n    real(rk),dimension(n) :: x\n   contains\n   procedure :: solve => rk8\nend type solver\n\ncontains \n    subroutine rk8(me,t0,x0,dt)\n    implicit none\n    class(solver(rk=real64,n=*)),intent(inout) :: me\n    real(me%rk),intent(in) :: t0 \n    real(me%rk),dimension(me%n),intent(in) :: x0 \n    real(me%rk),intent(in) :: dt \n\n    real(me%rk),parameter :: coefficient_1 = 1.0_me%rk / 23.0_me%rk   ! not possible\n\n   ...\n    end subroutine rk8\n\nend module test"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-12 17:52:51+00:00",
+                    "text": "Here's an example of a PDT for performing LU factorization:\nmodule lu_pdt\n\n  implicit none \n  private\n\n  public :: lu_workspace, factorize\n\n  type :: lu_workspace(wp,n)\n    integer, kind :: wp\n    integer, len :: n\n    real(wp) :: a(n,n)\n    real(wp) :: b(n)\n    integer :: ipiv(n)\n    logical :: factorized = .false.\n  end type\n\n  interface factorize\n    module procedure factorize_sp\n    module procedure factorize_dp\n  end interface\n\n  integer, parameter :: sp = kind(1.0e0)\n  integer, parameter :: dp = kind(1.0d0)\n\ncontains\n\n  subroutine factorize_sp(this,info)\n    type(lu_workspace(sp,*)), intent(inout) :: this\n    integer, intent(out), optional :: info  \n\n    integer :: info_\n    external :: sgetrf\n\n    if (.not. this%factorized) then\n      call sgetrf(this%n,this%n,this%a,this%n,this%ipiv,info_)\n      if (info_ == 0) then\n        this%factorized = .true.\n      end if\n      if (present(info)) info = info_\n    else\n      return\n    end if\n\n  end subroutine\n\n  subroutine factorize_dp(this,info)\n    type(lu_workspace(dp,*)), intent(inout) :: this\n    integer, intent(out), optional :: info  \n\n    integer :: info_\n    external :: dgetrf\n\n    if (.not. this%factorized) then\n      call dgetrf(this%n,this%n,this%a,this%n,this%ipiv,info_)\n      if (info_ == 0) then\n        this%factorized = .true.\n      end if\n      if (present(info)) info = info_\n    else\n      return\n    end if\n\n  end subroutine\n\nend module\n\nprogram main\n\n  use lu_pdt\n  implicit none\n\n  integer, parameter :: sp = kind(1.0e0)\n  integer, parameter :: dp = kind(1.0d0)\n\n  type(lu_workspace(dp,:)), allocatable :: work\n  integer :: info\n\n  allocate(lu_workspace(dp,n=3) :: work)\n\n  work%a = reshape(&\n    [real(dp) :: 4, 2, -1, -3, 1, 2, 1, 3, -5], &\n    [3,3])\n\n  work%b = [real(dp) :: -10, 0, 17]\n\n  call factorize(work,info)\n  print *, \"info = \", info\n\nend program\nI couldn't test it fully because I am missing LAPACK on this PC. But gfortran is able to compile it. If I make factorize a type-bound method then it breaks. You are right it's a half-baked feature, but I think we haven't even begun to explore what it offers in terms of simplified API'S.\nWith some include statements (read poor man's templates), you could make it support all allowable real kinds and even mixed-precision (apart from the calls to the LAPACK routines). Granted, it\u00b4s verbose and the methods wouldn't be type-bound (no chance for polymorphism), but it can still work to some degree.\nIf you look at some of the Julia packages, e.g. Pardiso.jl, they also use the style of passing a solver object to a function:\nps = PardisoSolver()\n\nA = sparse(rand(10, 10))\nB = rand(10, 2)\nX = zeros(10, 2)\nsolve!(ps, X, A, B)"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-11-12 18:11:26+00:00",
+                    "text": "In the context of your Runge Kutta PDT, the solve function would like like this:\ntype, public  :: solver(rk, n)\n    integer, kind :: rk = real64\n    integer, len  :: n  = 0\n    real(rk) :: t\n    real(rk), dimension(n) :: x\nend type solver\n\ngeneric :: solve => rk4_sp, rk4_dp\n\ncontains\n    subroutine rk4_sp(me,t0,x0,dt)\n    use prec, only: wp => sp\n    include 'rk4.inc'\n    end subroutine rk4_sp\n    subroutine rk4_dp(me,t0,x0,dt)\n    use prec, only: wp => dp\n    include 'rk4.inc'\n    end subroutine rk4_dp\nand the include file would be\n! rk4.inc\n    type(solver(rk=wp,n=*)), intent(inout) :: me\n    real(wp),intent(in) :: t0 \n    real(wp),dimension(me%n),intent(in) :: x0 \n    real(wp),intent(in) :: dt \n\n    real(wp),parameter :: coefficient_1 = 1.0_wp / 23.0_wp\n    ! ..."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-11-12 18:19:23+00:00",
+                    "text": "A simple module parameterization facility would avoid the need for file inclusion and preprocessing tricks."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-11-12 19:26:30+00:00",
+                    "text": "The problem with include, aside from the interface duplication you have to do, is that there's no way to make it work with any real kinds the compiler supports, without either knowing what they are in advance, or going outside of Fortran (some sort of preprocessor/introspection tricks)."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-11-12 19:33:57+00:00",
+                    "text": "The problem with include, aside from the interface duplication you have to do, is that there's no way to make it work with any real kinds the compiler supports, without either knowing what they are in advance, or going outside of Fortran (some sort of preprocessor/introspection tricks).\n\nThat's right, and that's why a module instantiation facility would need to be able to instantiate a module over a set of values.  Easy to define and easy to implement."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-11-13 05:41:23+00:00",
+                    "text": "@ivan-pi writes Nov. 12, 2021 12:52 PM EST:\n\n.. @FortranFan ..\nRelated to the current issue, I can't see how would it allow practitioners to select the right kind:\n\nThe proposal I mentioned above tries to make it possible for practitioners and implementations to offer a \"grouping\" of related named constants (say math), hence enum's, with consistent floating-point representations.\nI envision a program to define a single enum of suitable floating-point representation for a given set of constants, say for math:\ninteger, parameter :: HP = selected_real_kind( p=xx ) !<-- or ieee_selected_real_kind(..), etc.\n\nenum :: math(real(hp))\n   enumerator :: PI = 3.14159265358979323846264338327950288.._hp\n   enumerator :: e = ..\n   ..\nend enum\nAnd for the code to consume the constants as scoped enumerations, say enum_nameXenumerator where X can be %, ::, etc.\nThe key is to have convenient grouping of constants that are all tied together with consistent floating-point representation."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-11-13 06:02:46+00:00",
+                    "text": "A simple module parameterization facility would avoid the need for file inclusion and preprocessing tricks.\n\nI personally think the boat for module parameterization has long sailed, it is needless complication considering what has been introduced into the language with Fortran 2003 thru' 2018 with PDTs and GENERIC statements.  A better approach now will be to simply build on this in a way that will greatly simplify the consumption of generic types on the client side.  Say as follows\n   generic, kind :: RK => real32, real64, real128 !<-- define a GENERIC for KINDs a la GENERIC interfaces currently\n\n   type, public  :: solver(k, n)\n      integer, kind :: k = <RK> !<-- use some symbols to designate a GENERIC set, shown here with angle brackets\n      integer, len  :: n  = 0\n      real(k) :: t\n      real(k), dimension(n) :: x\n   end type solver\n\ncontains\n\n    subroutine solve(me,t0,x0,dt)\n       type(solver(k=<RK>,n=*)), intent(inout) :: me\n       real(<RK>),intent(in) :: t0 \n       real(<RK>),dimension(me%n),intent(in) :: x0 \n       real(<RK>),intent(in) :: dt \n       ..\n      \n    end subroutine\nThe processor should then be able to do the semantics by substitution and build up the generic interface solve.\nThe advantage with this can be that the code on the client side to use such as a PDT with a generic interface for procedures will be the same as that currently.  It's only on the \"library\" side that code duplication is reduced greatly via a GENERIC mechanism."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-11-13 18:16:56+00:00",
+                    "text": "That only works for integer kind values.  It doesn't work for more general types, such as a data structure module parameterized over arbitrary types."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-13 18:26:57+00:00",
+                    "text": "Actually having modules like:\nuse constants_sp, only: pi\nuse constants_dp, only: pi\nuse constants_qp, only: pi\n\nwould work also I think. But it doesn't feel \"right\" to me either."
+                }
+            ]
+        },
+        {
+            "number": 239,
+            "user": "Beliavsky",
+            "date": "2021-11-03 14:22:05+00:00",
+            "title": "Allow implicit none to appear before use statements",
+            "text": "Currently implicit none must appear after use statements in a module or main program.  Could this restriction be removed? As long as Fortran has implicit typing, implicit none should appear at the beginning of a main program or module. It would convenient if you could just put it on the second line of source files and look for it there, instead of looking for it under any number of use statements.\nI would not call this a big improvement, but unless it is difficult for compiler writers to implement, it may be worth doing.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-11-03 15:46:22+00:00",
+                    "text": "Indeed. I also feel it would be much more natural right after the program or module. (I edited your post, you said it currently appears before use, so I changed it to after use.)"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2021-11-03 16:48:37+00:00",
+                    "text": "@Beliavsky wrote Nov. 3, 2021 10:22 AM EDT:\n\nCurrently implicit none must appear after use statements in a module or main program. Could this restriction be removed?\n\nMy hunch is there will be a lot of resistance to this among the committee.\nNote the semantics of implicit none are but part of those with the implicit statement.\nThe current ordering appears to be intended to allow instructions such as the following and to keep matters simpler for the compiler implementations:\n   use foo_m, only : foo_t\n   ..\n   implicit type(foo_t) (f)  !<-- implicit mapping of type(foo_t) to letter 'f' so that any undeclared object\n                             !    beginning with letter 'f' is *implicitly* of type(foo_t)\nA less troublesome but a wholesome and truly valuable step forward for Fortran will be #218.  Then coders don't have to bother at all about their \"desired\" place for implicit none; that will be the default."
+                },
+                {
+                    "user": "certik",
+                    "date": "2021-11-03 16:58:08+00:00",
+                    "text": "@FortranFan good points. One option is to allow the implicit both after and before use. That way if you use implicit type(foo_t) (f)  then you have to put it after use, but implicit none can come before."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-11-03 17:44:14+00:00",
+                    "text": "The problem here isn't that implicit none isn't allowed before a use, it's that use (and import) are required to appear first.  That's what could be relaxed -- both of them could really appear anywhere in a specification-part, including this particular  desired use case (after implicit none).\nSo long as the names that 'use' and import pull into the scope are distinct, there's no semantic ambiguity introduced by allowing them to appear later; and when the names clash(*) with others in the scope, that's a situation that a compiler already has to cope with today since it can arise using just use and import.  Ditto with forward references to derived types, that's already possible in Fortran.\n((*) not all cases of having a name already in scope and being equivalent to a name from a use/import are errors)"
+                },
+                {
+                    "user": "ashe2",
+                    "date": "2021-11-04 20:37:01+00:00",
+                    "text": "Another option would be to allow use, import, and implicit none statements to occur together in any order at the beginning of a specification part. Other implicit statements would not be allowed in this part so it wouldn't add new forward referencing.\nimplicit none is already treating differently from other implicit statements in that the latter can occur after parameter statements. Also, other implicit statements shouldn't be used in new code, at least in my opinion."
+                }
+            ]
+        },
+        {
+            "number": 238,
+            "user": "Leonard-Reuter",
+            "date": "2021-11-01 15:00:40+00:00",
+            "title": "Add augmented assignment proposal",
+            "text": "Added proposal for augmented assignment with +.=, /.= etc. following the discussion in #113",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-11-01 15:45:31+00:00",
+                    "text": "Thanks for writing it up!\nIn order for this proposal to have a chance, in my opinion we have to address existing and past committee criticisms.\nYou should reference previous proposals, I think there were some.\nAnd then we need to go into the J3 mailinglist (I added a link in one of the comments in #113), and address every objection. Otherwise the same objections will be given and the proposal rejected."
+                }
+            ]
+        },
+        {
+            "number": 237,
+            "user": "Beliavsky",
+            "date": "2021-11-01 13:38:46+00:00",
+            "title": "Make cmplx with non-default real arguments and unspecified kind obsolescent",
+            "text": "I suggest that when the x and y arguments of cmplx are both of a real type other than default real or that when only x is present and is not a default real that it be obsolescent to not specify the kind argument of cmplx. The expression\ncmplx(1.0d0,1.0d0)\ndoes not produce a double precision complex number, although a casual reader may think it does. It's anomalous, because other intrinsics such as sin or sum return reals of the same kind as the argument. To avoid errors one should be forced to write\ncmplx(1.0d0,1.0d0,kind=some_kind)\nIt will be not be obsolescent to write\ncmplx(1.0,1.0)\nsince no silent conversion is performed here.\nStarting from scratch, cmplx(1.0d0,1.0d0) should return a double precision complex value, but I am wary of changing the meaning of valid code.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-11-01 14:25:52+00:00",
+                    "text": "Indeed. I think at the very least, compilers should warn about this."
+                }
+            ]
+        },
+        {
             "number": 236,
             "user": "aradi",
             "date": "2021-10-19 09:02:01+00:00",
@@ -7821,6 +7987,31 @@
                     "user": "aradi",
                     "date": "2019-11-15 09:40:42+00:00",
                     "text": "Yes, nested modules are a nice idea, I fully support it (see my comment there). But, it still does not solve the problem, that you may need to expose the internal structure of your library (in form of having to provide the mod-files for all modules in it), when it should be imported by a program. In C / C++, you would only install the include file for the public API, which I find much cleaner. But in terms of costs, maybe this proposal would not be worth the effort, indeed. So let's concentrate on nested modules (#86) instead."
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2021-11-10 13:03:06+00:00",
+                    "text": "I would support this effort for fortran.\nA big problem with fortran libraries is the requirement of shipping together the compiled *.mod files. And so having a uniform way in the standard to define module/include files for external use is paramount to not complicate matters for end-users!\nUsing compiler A with dependency on library X compiled with compiler B is currently a nightmare!\nCurrently one is just told: don't do this but this is limiting the use of fortran I think!"
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-11-10 15:06:46+00:00",
+                    "text": "@zerothi Unfortunately, this proposal would not solve the issue you raised. Since the Fortran libraries compiled with various compilers are not ABI compatible, it still remains, that all modern Fortran libraries your project depends on must be compiled with the same compiler."
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2021-11-10 20:26:17+00:00",
+                    "text": "Exactly. :)\nIn addition to what you have here it would be ideal if the module files are not binary files, or at least ensures that different compilers can inspect the interfaces/derived types in a non-compiler specific format."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2021-11-10 20:29:16+00:00",
+                    "text": "The format of module files is not within the purview of the standard.  (f18 uses a module file format that any other Fortran compiler could inspect, though; maybe that will help you someday.)"
+                },
+                {
+                    "user": "zerothi",
+                    "date": "2021-11-10 20:35:24+00:00",
+                    "text": "The format of module files is not within the purview of the standard. (f18 uses a module file format that any other Fortran compiler could inspect, though; maybe that will help you someday.)\n\nBut why could it not be part of the standard? ;)\nThis problem is recurring and prohibits system admins from choosing fortran coding for sys-tools (granted it isn't made for this but...)."
                 }
             ]
         },
@@ -12987,17 +13178,17 @@
                 {
                     "user": "FortranFan",
                     "date": "2019-10-19 00:55:58+00:00",
-                    "text": "ASSOCIATE facility in Fortran can be an option to consider for certain use cases involving operations on the diagonal elements of a matrix.  One advantage of this option is the ability to work with objects that do NOT  have the TARGET attribute, as TARGET can possibly hinder optimization:\n   integer, parameter :: N = 3\n   integer :: i\n   blk1: block\n      integer, target :: dat(N*N)  !<-- reguires TARGET attributel might hinder optimization\n      integer, pointer :: mat(:,:)\n      integer, pointer :: diag(:)\n      dat = [( i, i=1,size(dat) )]\n      mat(1:N,1:N) => dat\n      diag => dat(1::N+1)\n      print *, \"Approach 1: Matrix:\"\n      do i = 1, size(mat,dim=1)\n         print \"(*(g0,1x))\", mat(:,i)\n      end do\n      print *, \"Diagonal elements: \", diag\n      mat => null()\n      diag => null()\n   end block blk1\n   blk2: block\n      integer :: dat(1:N*N)        !<-- Note no TARGET attribute\n      dat = [( i, i=1,size(dat) )]\n      print *, \"Approach 2: Matrix:\"\n      do i = 1, N\n         print \"(*(g0,1x))\", dat((i-1)*N+1:(i-1)*N+N)\n      end do\n      associate ( diag => dat(1::N+1) )\n         print *, \"Diagonal elements: \", diag\n      end associate\n   end block blk2\n   stop\nend\n\nUpon compilation and execution, the above should output:\nApproach 1: Matrix:\n1 2 3\n4 5 6\n7 8 9\n Diagonal elements:  1 5 9\n Approach 2: Matrix:\n1 2 3\n4 5 6\n7 8 9\n Diagonal elements:  1 5 9"
+                    "text": "ASSOCIATE facility in Fortran can be an option to consider for certain use cases involving operations on the diagonal elements of a matrix.  One advantage of this option is the ability to work with objects that do NOT  have the TARGET attribute, as TARGET can possibly hinder optimization:\n   integer, parameter :: N = 3\n   integer :: i\n   blk1: block\n      integer, target :: dat(N*N)  !<-- reguires TARGET attributel might hinder optimization\n      integer, pointer :: mat(:,:)\n      integer, pointer :: diag(:)\n      dat = [( i, i=1,size(dat) )]\n      mat(1:N,1:N) => dat\n      diag => dat(1::N+1)\n      print *, \"Approach 1: Matrix:\"\n      do i = 1, size(mat,dim=1)\n         print \"(*(g0,1x))\", mat(:,i)\n      end do\n      print *, \"Diagonal elements: \", diag\n      mat => null()\n      diag => null()\n   end block blk1\n   blk2: block\n      integer :: dat(1:N*N)        !<-- Note no TARGET attribute\n      dat = [( i, i=1,size(dat) )]\n      print *, \"Approach 2: Matrix:\"\n      do i = 1, N\n         print \"(*(g0,1x))\", dat((i-1)*N+1:(i-1)*N+N)\n      end do\n      associate ( diag => dat(1::N+1) )\n         print *, \"Diagonal elements: \", diag\n      end associate\n   end block blk2\n   stop\nend\nUpon compilation and execution, the above should output:\nApproach 1: Matrix:\n1 2 3\n4 5 6\n7 8 9\n Diagonal elements:  1 5 9\n Approach 2: Matrix:\n1 2 3\n4 5 6\n7 8 9\n Diagonal elements:  1 5 9"
                 },
                 {
                     "user": "certik",
                     "date": "2019-10-19 01:08:34+00:00",
-                    "text": "@FortranFan thanks! I was hoping that associate might be able to do it without the target attribute. However, your example is using a 1D array. If I do 2D array:\ninteger, parameter :: N = 3\ninteger :: dat(N,N), i\ndat = reshape([( i, i=1,size(dat) )], [N,N])\nprint *, \"Approach 2: Matrix:\"\ndo i = 1, 3\n    print \"(*(g0,1x))\", dat(i,:)\nend do\nassociate ( diag => dat(1::N+1) )\n    print *, \"Diagonal elements: \", diag\nend associate\nend\n\nThen gfortran gives an error:\na.f90:8:23:\n\n associate ( diag => dat(1::N+1) )\n                       1\nError: Rank mismatch in array reference at (1) (1/2)"
+                    "text": "@FortranFan thanks! I was hoping that associate might be able to do it without the target attribute. However, your example is using a 1D array. If I do 2D array:\ninteger, parameter :: N = 3\ninteger :: dat(N,N), i\ndat = reshape([( i, i=1,size(dat) )], [N,N])\nprint *, \"Approach 2: Matrix:\"\ndo i = 1, 3\n    print \"(*(g0,1x))\", dat(i,:)\nend do\nassociate ( diag => dat(1::N+1) )\n    print *, \"Diagonal elements: \", diag\nend associate\nend\nThen gfortran gives an error:\na.f90:8:23:\n\n associate ( diag => dat(1::N+1) )\n                       1\nError: Rank mismatch in array reference at (1) (1/2)"
                 },
                 {
                     "user": "certik",
                     "date": "2019-10-19 01:20:34+00:00",
-                    "text": "Here is one way to do it without pointers:\ninteger, parameter :: N = 3\ninteger :: dat(N,N), i\ndat = reshape([( i, i=1,size(dat) )], [N,N])\nprint *, \"Approach 2: Matrix:\"\ndo i = 1, 3\n    print \"(*(g0,1x))\", dat(i,:)\nend do\nprint *, \"Diagonal elements: \", diag(dat)\n\ncontains\n\n    function diag(A) result(d)\n    integer, intent(in) :: A(:,:)\n    integer :: d(size(A,1))\n    d = diag1d(size(A,1), A)\n    end function\n\n    function diag1d(n, A) result(d)\n    integer, intent(in) :: n\n    integer, intent(in) :: A(n*n)\n    integer :: d(n)\n    d = A(1::n+1)\n    end function\n\nend\n\nBut at this point, even simpler and more straightforward is to just do:\n    function diag(A) result(d)\n    integer, intent(in) :: A(:,:)\n    integer :: d(size(A,1))\n    integer :: i\n    do i = 1, size(A,1)\n        d(i) = A(i,i)\n    end do\n    end function"
+                    "text": "Here is one way to do it without pointers:\ninteger, parameter :: N = 3\ninteger :: dat(N,N), i\ndat = reshape([( i, i=1,size(dat) )], [N,N])\nprint *, \"Approach 2: Matrix:\"\ndo i = 1, 3\n    print \"(*(g0,1x))\", dat(i,:)\nend do\nprint *, \"Diagonal elements: \", diag(dat)\n\ncontains\n\n    function diag(A) result(d)\n    integer, intent(in) :: A(:,:)\n    integer :: d(size(A,1))\n    d = diag1d(size(A,1), A)\n    end function\n\n    function diag1d(n, A) result(d)\n    integer, intent(in) :: n\n    integer, intent(in) :: A(n*n)\n    integer :: d(n)\n    d = A(1::n+1)\n    end function\n\nend\nBut at this point, even simpler and more straightforward is to just do:\n    function diag(A) result(d)\n    integer, intent(in) :: A(:,:)\n    integer :: d(size(A,1))\n    integer :: i\n    do i = 1, size(A,1)\n        d(i) = A(i,i)\n    end do\n    end function"
                 },
                 {
                     "user": "FortranFan",
@@ -13007,7 +13198,7 @@
                 {
                     "user": "zbeekman",
                     "date": "2019-10-19 19:47:52+00:00",
-                    "text": "Just to riff on the ideas here, you can use associate with multidimensional arrays, so long as you are happy with the result, diag being immutable and essentially a copy since it's an expression.\nprogram main\n  use iso_fortran_env, only : dp => real64\n  implicit none\n  integer, parameter :: N=9\n  integer :: i, j\n  real(dp), allocatable :: A(:,:)\n\n  A = reshape([ ( (10*j + i, i=1,N ), j=1,N) ], [N, N])\n\n  associate( diag => [ (A(i,i), i=1,N) ] )\n    write(*,'(\"diag: \",*(g0,:,\", \"))') nint(diag)\n    A(1,1) = 1010\n    write(*,'(\"diag: \",*(g0,:,\", \"))') nint(diag)\n  end associate\n  write(*,'(A)') \"A:\"\n  do j = 1, N\n     write(*,'(*(g0,:,\", \"))') nint(A(:,j))\n  end do\nend program\n\nThis gives the result:\ndiag: 11, 22, 33, 44, 55, 66, 77, 88, 99\ndiag: 11, 22, 33, 44, 55, 66, 77, 88, 99\nA:\n1010, 12, 13, 14, 15, 16, 17, 18, 19\n21, 22, 23, 24, 25, 26, 27, 28, 29\n31, 32, 33, 34, 35, 36, 37, 38, 39\n41, 42, 43, 44, 45, 46, 47, 48, 49\n51, 52, 53, 54, 55, 56, 57, 58, 59\n61, 62, 63, 64, 65, 66, 67, 68, 69\n71, 72, 73, 74, 75, 76, 77, 78, 79\n81, 82, 83, 84, 85, 86, 87, 88, 89\n91, 92, 93, 94, 95, 96, 97, 98, 99\n\nNotice that diag did not update with A."
+                    "text": "Just to riff on the ideas here, you can use associate with multidimensional arrays, so long as you are happy with the result, diag being immutable and essentially a copy since it's an expression.\nprogram main\n  use iso_fortran_env, only : dp => real64\n  implicit none\n  integer, parameter :: N=9\n  integer :: i, j\n  real(dp), allocatable :: A(:,:)\n\n  A = reshape([ ( (10*j + i, i=1,N ), j=1,N) ], [N, N])\n\n  associate( diag => [ (A(i,i), i=1,N) ] )\n    write(*,'(\"diag: \",*(g0,:,\", \"))') nint(diag)\n    A(1,1) = 1010\n    write(*,'(\"diag: \",*(g0,:,\", \"))') nint(diag)\n  end associate\n  write(*,'(A)') \"A:\"\n  do j = 1, N\n     write(*,'(*(g0,:,\", \"))') nint(A(:,j))\n  end do\nend program\nThis gives the result:\ndiag: 11, 22, 33, 44, 55, 66, 77, 88, 99\ndiag: 11, 22, 33, 44, 55, 66, 77, 88, 99\nA:\n1010, 12, 13, 14, 15, 16, 17, 18, 19\n21, 22, 23, 24, 25, 26, 27, 28, 29\n31, 32, 33, 34, 35, 36, 37, 38, 39\n41, 42, 43, 44, 45, 46, 47, 48, 49\n51, 52, 53, 54, 55, 56, 57, 58, 59\n61, 62, 63, 64, 65, 66, 67, 68, 69\n71, 72, 73, 74, 75, 76, 77, 78, 79\n81, 82, 83, 84, 85, 86, 87, 88, 89\n91, 92, 93, 94, 95, 96, 97, 98, 99\n\nNotice that diag did not update with A."
                 },
                 {
                     "user": "milancurcic",
@@ -13363,6 +13554,21 @@
                     "user": "certik",
                     "date": "2020-03-02 20:19:20+00:00",
                     "text": "Thanks Peter. @tclune that's fine, we can discuss both proposals here."
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-11-25 10:46:48+00:00",
+                    "text": "Is there any progress here? Maybe, the following example may serve as a further argument, why the target-constantness should be considered by the language in some form. Currently, you can easily change intent(in) dummy arguments within a subroutine:\nmodule test\n  implicit none\n\ncontains\n\n  subroutine sub1(val)\n    integer, target, intent(in) :: val\n    call sub2(val)\n  end subroutine sub1\n\n  subroutine sub2(ptr)\n    integer, pointer, intent(in) :: ptr\n    ptr = 42\n  end subroutine sub2\nend module test\n\nprogram testprog\n  use test\n  implicit none\n\n  integer :: val = 0\n  print *, \"VAL BEFORE:\", val  !<-- prints \"0\"\n  call sub1(val)\n  print *, \"VAL AFTER :\", val   !<-- prints \"42\"\n\nend program testprog\nI am kind of inclined to think, that is is more a bug than a feature of the language."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2021-11-26 01:46:56+00:00",
+                    "text": "At the October 2021 meeting, J3 voted to ask WG5 to drop \"pointer intent\" from 202X, with the hope of getting it in for 202Y. There has been lots of discussion, but time ran out on coming up with a solid proposal. I do think that most members are aligned on what is ultimately wanted. See https://j3-fortran.org/doc/year/21/21-195.txt"
+                },
+                {
+                    "user": "aradi",
+                    "date": "2021-11-26 07:10:08+00:00",
+                    "text": "@sblionel Thanks for the feedback. It is promising, that at least there seems to be consensus, that this should be considered in some form. \ud83d\ude04"
                 }
             ]
         },
