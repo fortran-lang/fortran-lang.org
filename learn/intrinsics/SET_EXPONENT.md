@@ -20,10 +20,10 @@ that of X and whose exponent part is I.
 ## __Arguments__
 
   - __X__
-    Shall be of type _real_.
+    : Shall be of type _real_.
 
   - __I__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
 ## __Returns__
 
@@ -36,12 +36,12 @@ returned; it is __fraction__(x) \* __radix__(x)\*\*i.
 Sample program:
 
 ```fortran
-    program demo_setexp
-    implicit none
-      real :: x = 178.1387e-4
-      integer :: i = 17
-      print *, set_exponent(x, i), fraction(x) * radix(x)**i
-    end program demo_setexp
+program demo_setexp
+implicit none
+real :: x = 178.1387e-4
+integer :: i = 17
+   print *, set_exponent(x, i), fraction(x) * radix(x)**i
+end program demo_setexp
 ```
 
 ## __Standard__

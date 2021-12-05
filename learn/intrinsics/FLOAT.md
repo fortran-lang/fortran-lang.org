@@ -19,7 +19,7 @@ __float__(a) converts the integer A to a default real value.
 ## __Arguments__
 
   - __A__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Returns__
 
@@ -30,11 +30,11 @@ The return value is of type default _real_.
 Sample program:
 
 ```fortran
-    program demo_float
-    implicit none
-        integer :: i = 1
-        if (float(i) /= 1.) stop ' FLOAT FAILED'
-    end program demo_float
+program demo_float
+implicit none
+integer :: i = 1
+   if (float(i) /= 1.) stop ' FLOAT FAILED'
+end program demo_float
 ```
 
 ## __Standard__
@@ -43,4 +43,5 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__dble__(3), __real__(3)
+[__dble__(3)](DBLE),
+[__real__(3)](REAL)

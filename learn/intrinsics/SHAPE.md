@@ -19,11 +19,11 @@ Determines the shape of an array.
 ## __Arguments__
 
   - __SOURCE__
-    Shall be an array or scalar of any type. If SOURCE is a pointer it
+    : Shall be an array or scalar of any type. If SOURCE is a pointer it
     must be associated and allocatable arrays must be allocated.
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -39,12 +39,12 @@ value has the default integer kind otherwise the specified kind.
 Sample program:
 
 ```fortran
-   program demo_shape
-   implicit none
-     integer, dimension(-1:1, -1:2) :: a
-     write(*,*) shape(a)             ! [ 3, 4 ]
-     write(*,*) size(shape(42))      ! [ ]
-   end program demo_shape
+program demo_shape
+implicit none
+integer, dimension(-1:1, -1:2) :: a
+   write(*,*) shape(a)             ! [ 3, 4 ]
+   write(*,*) size(shape(42))      ! [ ]
+end program demo_shape
 ```
 
 ## __Standard__
@@ -53,4 +53,5 @@ Fortran 95 and later; with KIND argument Fortran 2003 and later
 
 ## __See Also__
 
-__reshape__(3), __size__(3)
+[__reshape__(3)](RESHAPE),
+[__size__(3)](SIZE)

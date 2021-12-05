@@ -14,12 +14,12 @@ result = __rank__(a)
 
 ## __Description__
 
-__rank__(a) returns the rank of a scalar or array data object.
+__rank(a)__ returns the rank of a scalar or array data object.
 
 ## __Arguments__
 
-  - __A__
-    can be of any type
+  - __a__
+    : can be of any type
 
 ## __Returns__
 
@@ -31,13 +31,13 @@ arrays, their rank is returned; for scalars zero is returned.
 Sample program:
 
 ```fortran
-   program demo_rank
-   implicit none
-     integer :: a
-     real, allocatable :: b(:,:)
-     real  :: c(10,20,30)
-     print *, rank(a), rank(b), rank(c)
-   end program demo_rank
+program demo_rank
+implicit none
+integer :: a
+real, allocatable :: b(:,:)
+real  :: c(10,20,30)
+   print *, rank(a), rank(b), rank(c)
+end program demo_rank
 ```
 Expected output:
 ```text

@@ -28,14 +28,14 @@ being updated concurrently.
 ## __Options__
 
   - __name__
-    The name of the environment variable to query.
+    : The name of the environment variable to query.
 
     Shall be a scalar of type _character_ and of default kind.
 
 ## __Returns__
 
   - __value__
-    The value of the environment variable being queried.
+    : The value of the environment variable being queried.
 
     Shall be a scalar of type _character_ and of default kind.
     The value of NAME is stored in __value__. If __value__ is not large enough
@@ -43,13 +43,13 @@ being updated concurrently.
     filled with blanks.
 
   - __length__
-    Argument __length__ contains the length needed for storing the
+    : Argument __length__ contains the length needed for storing the
     environment variable __name__ or zero if it is not present.
 
     Shall be a scalar of type _integer_ and of default kind.
 
   - __status__
-    __status__ is __-1__ if __value__ is present but too short for the
+    : __status__ is __-1__ if __value__ is present but too short for the
     environment variable; it is __1__ if the environment variable does not
     exist and __2__ if the processor does not support environment variables;
     in all other cases __status__ is zero.
@@ -57,7 +57,7 @@ being updated concurrently.
     Shall be a scalar of type _integer_ and of default kind.
 
   - __trim\_name__
-    If __trim\_name__ is present with the value __.false.__, the trailing blanks in
+    : If __trim\_name__ is present with the value __.false.__, the trailing blanks in
     __name__ are significant; otherwise they are not part of the environment
     variable name.
 

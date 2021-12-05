@@ -23,33 +23,33 @@ it is assigned a positive value and COUNT is assigned the value __-1__.
 ## __Arguments__
 
   - __EVENT__
-    (intent(in)) Scalar of type event\_type, defined in
+    : (intent(in)) Scalar of type event\_type, defined in
     iso\_fortran\_env; shall not be coindexed.
 
   - __COUNT__
-    (intent(out))Scalar integer with at least the precision of default
+    : (intent(out))Scalar integer with at least the precision of default
     integer.
 
   - __STAT__
-    (OPTIONAL) Scalar default-kind integer variable.
+    : (OPTIONAL) Scalar default-kind integer variable.
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-   program demo_event_query
-     use iso_fortran_env
-     implicit none
-     type(event_type) :: event_value_has_been_set[*]
-     integer :: cnt
-     if (this_image() == 1) then
-       call event_query(event_value_has_been_set, cnt)
-       if (cnt > 0) write(*,*) "Value has been set"
-     elseif (this_image() == 2) then
-       event post(event_value_has_been_set[1])
-     endif
-   end program demo_event_query
+program demo_event_query
+use iso_fortran_env
+implicit none
+type(event_type) :: event_value_has_been_set[*]
+integer :: cnt
+   if (this_image() == 1) then
+      call event_query(event_value_has_been_set, cnt)
+      if (cnt > 0) write(*,*) "Value has been set"
+   elseif (this_image() == 2) then
+      event post(event_value_has_been_set[1])
+   endif
+end program demo_event_query
 ```
 
 ## __Standard__

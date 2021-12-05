@@ -20,11 +20,11 @@ Query dynamic types for equality.
 ## __Arguments__
 
   - __a__
-    Shall be an object of extensible declared type or unlimited
+    : Shall be an object of extensible declared type or unlimited
     polymorphic.
 
   - __b__
-    Shall be an object of extensible declared type or unlimited
+    : Shall be an object of extensible declared type or unlimited
     polymorphic.
 
 ## __Returns__

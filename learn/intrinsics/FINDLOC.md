@@ -34,26 +34,26 @@ element order.
 ## __Options__
 
   - __*ARRAY__*
-    shall be an array of intrinsic type.
+    : shall be an array of intrinsic type.
 
   - __*VALUE__*
-    shall be scalar and in type conformance with *ARRAY*, as specified
+    : shall be scalar and in type conformance with *ARRAY*, as specified
     in Table 7.3 for relational intrinsic operations 7.1.5.5.2).
 
   - __DIM__
-    shall be an integer scalar with a value in the range 1 DIM n, where
+    : shall be an integer scalar with a value in the range 1 DIM n, where
     n is the rank of *ARRAY*. The corresponding actual argument shall
     not be an optional dummy argument.
 
   - __*MASK__*
-    (optional) shall be of type logical and shall be conformable with
+    : (optional) shall be of type logical and shall be conformable with
     *ARRAY*.
 
   - __*KIND__*
-    (optional) shall be a scalar integer initialization expression.
+    : (optional) shall be a scalar integer initialization expression.
 
   - __*BACK__*
-    (optional) shall be a logical scalar.
+    : (optional) shall be a logical scalar.
 
 ## __Returns__
 

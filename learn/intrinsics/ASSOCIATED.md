@@ -20,10 +20,10 @@ pointer __POINTER__ or if __POINTER__ is associated with the target __TARGET__.
 ## __Arguments__
 
   - __POINTER__
-    __POINTER__ shall have the __POINTER__ attribute and it can be of any type.
+    : __POINTER__ shall have the __POINTER__ attribute and it can be of any type.
 
   - __TARGET__
-    (Optional) __TARGET__ shall be a pointer or a target. It must have the
+    : (Optional) __TARGET__ shall be a pointer or a target. It must have the
     same type, kind type parameter, and array rank as __POINTER__.
 
 The association status of neither __POINTER__ nor __TARGET__ shall be undefined.

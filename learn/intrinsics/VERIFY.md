@@ -25,16 +25,16 @@ __string__ are found in __set__, the result is zero.
 ## __Arguments__
 
   - __string__
-    Shall be of type _character_.
+    : Shall be of type _character_.
 
   - __set__
-    Shall be of type _character_.
+    : Shall be of type _character_.
 
   - __back__
-    (Optional) shall be of type _logical_.
+    : (Optional) shall be of type _logical_.
 
   - __kind__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__

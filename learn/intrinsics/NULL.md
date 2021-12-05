@@ -26,7 +26,7 @@ In _Fortran 95_, __mold__ is optional. Please note that _Fortran 2003_ includes 
 ## __Arguments__
 
   - __mold__
-    (Optional) shall be a pointer of any association status and of any
+    : (Optional) shall be a pointer of any association status and of any
     type.
 
 ## __Returns__

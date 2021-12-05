@@ -20,7 +20,7 @@ of order __0__ of __x__.
 ## __Arguments__
 
   - __x__
-    The type shall be _real_.
+    : The type shall be _real_.
 
 ## __Returns__
 

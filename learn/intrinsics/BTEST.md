@@ -24,10 +24,10 @@ __btest(i,pos)__ returns logical __.true.__ if the bit at __pos__ in __i__ is se
 ## __Arguments__
 
   - __i__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __pos__
-    The bit position to query. it must be a valid position for the
+    : The bit position to query. it must be a valid position for the
     value __i__; ie.  __0 <= pos <= bit_size(i)__ .
 
     A value of zero refers to the least significant bit.

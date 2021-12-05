@@ -79,13 +79,13 @@ It is processor-dependent whether any other object is contiguous.
 ## __Arguments__
 
   - __A__
-    may be of any type. It shall be an array. If it is a pointer it
+    : may be of any type. It shall be an array. If it is a pointer it
     shall be associated.
 
 ## __Returns__
 
   - __Result__
-    of type Default logical scalar. The result has the value true if A
+    : of type Default logical scalar. The result has the value true if A
     is contiguous, and false otherwise.
 
 ## __Examples__
@@ -93,18 +93,18 @@ It is processor-dependent whether any other object is contiguous.
 Sample program:
 
 ```fortran
-   program demo_is_contiguous
-   implicit none
-   intrinsic is_contiguous
-   _real_, DIMENSION (1000, 1000), TARGET :: A
-   _real_, DIMENSION (:, :), POINTER       :: IN, OUT
+program demo_is_contiguous
+implicit none
+intrinsic is_contiguous
+real, DIMENSION (1000, 1000), TARGET :: A
+real, DIMENSION (:, :), POINTER       :: IN, OUT
    IN => A              ! Associate IN with target A
    OUT => A(1:1000:2,:) ! Associate OUT with subset of target A
    !
    write(*,*)'IN is ',IS_CONTIGUOUS(IN)
    write(*,*)'OUT is ',IS_CONTIGUOUS(OUT)
    !
-   end program demo_is_contiguous
+end program demo_is_contiguous
 ```
 
 ## __Standard__

@@ -21,13 +21,13 @@ bits are the rightmost bits of I.
 ## __Arguments__
 
   - __I__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
   - __J__
-    Shall be of type _integer_, and of the same kind as I.
+    : Shall be of type _integer_, and of the same kind as I.
 
   - __SHIFT__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
 ## __Returns__
 
@@ -39,4 +39,4 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__dshiftr__(3)
+[__dshiftr__(3)](DSHIFTR)

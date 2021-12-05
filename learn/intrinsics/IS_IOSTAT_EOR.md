@@ -22,7 +22,7 @@ variable with the iostat\_eor parameter of the intrinsic module
 ## __Arguments__
 
   - __I__
-    Shall be of the type _integer_.
+    : Shall be of the type _integer_.
 
 ## __Returns__
 
@@ -35,13 +35,16 @@ which indicates an end of file condition for iostat= specifiers, and is
 Sample program:
 
 ```fortran
-    program demo_is_iostat_eor
-      implicit none
-      integer :: stat, i(50)
-      open(88, file='test.dat', form='unformatted')
-      read(88, iostat=stat) i
-      if(is_iostat_eor(stat)) stop 'end of record'
-    end program demo_is_iostat_eor
+program demo_is_iostat_eor
+implicit none
+integer :: stat, i(50)
+
+  open(88, file='test.dat', form='unformatted')
+  read(88, iostat=stat) i
+
+  if(is_iostat_eor(stat)) stop 'end of record'
+
+end program demo_is_iostat_eor
 ```
 
 ## __Standard__

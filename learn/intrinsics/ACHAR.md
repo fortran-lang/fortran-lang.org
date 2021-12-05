@@ -33,11 +33,11 @@ example.
 ## __Arguments__
 
   - __I__
-    the _integer_ value to convert to an ASCII character, in the range
+    : the _integer_ value to convert to an ASCII character, in the range
     0 to 127.
 
   - __KIND__
-    (optional) an _integer_ initialization expression indicating the kind
+    : (optional) an _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__

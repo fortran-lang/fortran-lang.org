@@ -21,10 +21,10 @@ c\_ptr\_2.
 ## __Arguments__
 
   - __c\_ptr\_1__
-    Scalar of the type c\_ptr or c\_funptr.
+    : Scalar of the type c\_ptr or c\_funptr.
 
   - __c\_ptr\_2__
-    (Optional) Scalar of the same type as c\_ptr\_1.
+    : (Optional) Scalar of the same type as c\_ptr\_1.
 
 ## __Returns__
 
@@ -59,4 +59,6 @@ Fortran 2003 and later
 
 ## __See Also__
 
-__c\_loc__(3), __c\_funloc__(3), __iso\_c\_binding__(3)
+[__c\_loc__(3)](C_LOC),
+[__c\_funloc__(3)](C_FUNLOC),
+__iso\_c\_binding__(3)

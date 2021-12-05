@@ -24,7 +24,7 @@ x = __gamma__(x)
 ## __Arguments__
 
   - __X__
-    Shall be of type _real_ and neither zero nor a negative integer.
+    : Shall be of type _real_ and neither zero nor a negative integer.
 
 ## __Returns__
 
@@ -35,11 +35,11 @@ The return value is of type _real_ of the same kind as X.
 Sample program:
 
 ```fortran
-   program demo_gamma
-   implicit none
-     real :: x = 1.0
-     x = gamma(x) ! returns 1.0
-   end program demo_gamma
+program demo_gamma
+implicit none
+real :: x = 1.0
+   x = gamma(x) ! returns 1.0
+end program demo_gamma
 ```
 
 ## __Standard__

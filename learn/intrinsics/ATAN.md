@@ -21,10 +21,10 @@ __atan(X)__ computes the arctangent of __X__.
 ## __Arguments__
 
   - __X__
-    The type shall be _real_ or _complex_; if Y is present, __X__ shall be _real_.
+    : The type shall be _real_ or _complex_; if Y is present, __X__ shall be _real_.
 
   - __Y__
-    Shall be of the same type and kind as __X__.
+    : Shall be of the same type and kind as __X__.
 
 ## __Returns__
 

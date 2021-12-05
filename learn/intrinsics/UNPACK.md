@@ -19,14 +19,14 @@ Store the elements of __vector__ in an array of higher rank.
 ## __Arguments__
 
   - __vector__
-    Shall be an array of any type and rank one. It shall have at least
+    : Shall be an array of any type and rank one. It shall have at least
     as many elements as __mask__ has __.true.__ values.
 
   - __mask__
-    Shall be an array of type _logical_.
+    : Shall be an array of type _logical_.
 
   - __field__
-    Shall be of the same type as __vector__ and have the same shape as __mask__.
+    : Shall be of the same type as __vector__ and have the same shape as __mask__.
 
 ## __Returns__
 
@@ -38,15 +38,15 @@ replaced by values from __vector__ in array element order.
 Sample program:
 
 ```fortran
-    program demo_unpack
-    implicit none
-      integer :: vector(2)  = [1,1]
-      logical :: mask(4)  = [ .true., .false., .false., .true. ]
-      integer :: field(2,2) = 0, unity(2,2)
+program demo_unpack
+implicit none
+integer :: vector(2)  = [1,1]
+logical :: mask(4)  = [ .true., .false., .false., .true. ]
+integer :: field(2,2) = 0, unity(2,2)
 
-      ! result: unity matrix
-      unity = unpack(vector, reshape(mask, [2,2]), field)
-    end program demo_unpack
+    ! result: unity matrix
+    unity = unpack(vector, reshape(mask, [2,2]), field)
+end program demo_unpack
 ```
 ## __Standard__
 

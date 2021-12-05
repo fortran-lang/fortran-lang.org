@@ -19,7 +19,7 @@ __c\_loc__(x) determines the C address of the argument.
 ## __Arguments__
 
   - __X__
-    Shall have either the POINTER or TARGET attribute. It shall not be a
+    : Shall have either the POINTER or TARGET attribute. It shall not be a
     coindexed object. It shall either be a variable with interoperable
     type and kind type parameters, or be a scalar, nonpolymorphic
     variable with no length type parameters.
@@ -50,5 +50,9 @@ Fortran 2003 and later
 
 ## __See Also__
 
-__c\_associated__(3), __c\_funloc__(3), __c\_f\_pointer__(3),
-__c\_f\_procpointer__(3), __iso\_c\_binding__(3)
+[__c\_associated__(3)](C_ASSOCIATED),
+[__c\_funloc__(3)](C_FUNLOC),
+[__c\_f\_pointer__(3)](C_F_POINTER),
+
+[__c\_f\_procpointer__(3)](C_F_PROCPOINTER),
+__iso\_c\_binding__(3)

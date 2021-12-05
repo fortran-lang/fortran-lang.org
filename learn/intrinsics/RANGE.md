@@ -14,13 +14,13 @@ result = __range__(x)
 
 ## __Description__
 
-__range__(x) returns the decimal exponent range in the model of the type
-of X.
+__range(x)__ returns the decimal exponent range in the model of the type
+of __X__.
 
 ## __Arguments__
 
-  - __X__
-    Shall be of type _real_ or _complex_.
+  - __x__
+    : Shall be of type _real_ or _complex_.
 
 ## __Returns__
 
@@ -31,13 +31,13 @@ The return value is of type _integer_ and of the default integer kind.
 Sample program:
 
 ```fortran
-    program demo_range
-    implicit none
-    real(kind=4) :: x(2)
-    complex(kind=8) :: y
-       print *, precision(x), range(x)
-       print *, precision(y), range(y)
-    end program demo_range
+program demo_range
+implicit none
+real(kind=4) :: x(2)
+complex(kind=8) :: y
+   print *, precision(x), range(x)
+   print *, precision(y), range(y)
+end program demo_range
 ```
 
 ## __Standard__

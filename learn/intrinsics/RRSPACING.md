@@ -19,8 +19,8 @@ numbers near X.
 
 ## __Arguments__
 
-  - __X__
-    Shall be of type _real_.
+  - __x__
+    : Shall be of type _real_.
 
 ## __Returns__
 

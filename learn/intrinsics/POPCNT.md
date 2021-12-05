@@ -20,7 +20,7 @@ integer.
 ## __Arguments__
 
   - __I__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
 ## __Returns__
 
@@ -31,17 +31,17 @@ The return value is of type 'integer' and of the default integer kind.
 Sample program:
 
 ```fortran
-   program demo_popcnt
-   use, intrinsic :: iso_fortran_env, only : integer_kinds, &
+program demo_popcnt
+use, intrinsic :: iso_fortran_env, only : integer_kinds, &
    & int8, int16, int32, int64
-   implicit none
+implicit none
      print *, popcnt(127),       poppar(127)
      print *, popcnt(huge(0)), poppar(huge(0))
      print *, popcnt(huge(0_int8)), poppar(huge(0_int8))
      print *, popcnt(huge(0_int16)), poppar(huge(0_int16))
      print *, popcnt(huge(0_int32)), poppar(huge(0_int32))
      print *, popcnt(huge(0_int64)), poppar(huge(0_int64))
-   end program demo_popcnt
+end program demo_popcnt
 Sample output:
 
 ```
@@ -58,4 +58,6 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__poppar__(3), __leadz__(3), __trailz__(3)
+[__poppar__(3)](POPPAR),
+[__leadz__(3)](LEADZ),
+[__trailz__(3)](TRAILZ)

@@ -19,7 +19,7 @@ __kind__(x) returns the kind value of the entity X.
 ## __Arguments__
 
   - __X__
-    Shall be of type _logical_, _integer_, _real_, _complex_ or CHARACTER.
+    : Shall be of type _logical_, _integer_, _real_, _complex_ or CHARACTER.
 
 ## __Returns__
 
@@ -31,14 +31,15 @@ kind.
 Sample program:
 
 ```fortran
-    program demo_kind
-    implicit none
-      integer,parameter :: kc = kind(' ')
-      integer,parameter :: kl = kind(.true.)
+program demo_kind
+implicit none
+integer,parameter :: kc = kind(' ')
+integer,parameter :: kl = kind(.true.)
 
-    print *, "The default character kind is ", kc
-      print *, "The default logical kind is ", kl
-    end program demo_kind
+   print *, "The default character kind is ", kc
+   print *, "The default logical kind is ", kl
+
+end program demo_kind
 ```
 
 ## __Standard__

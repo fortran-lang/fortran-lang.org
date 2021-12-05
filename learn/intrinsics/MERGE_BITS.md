@@ -22,13 +22,13 @@ the k-th bit of __mask__ is __1__; it is equal to the k-th bit of __j__ otherwis
 ## __Arguments__
 
   - __i__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
   - __j__
-    Shall be of type _integer_ and of the same kind as __i__.
+    : Shall be of type _integer_ and of the same kind as __i__.
 
   - __mask__
-    Shall be of type _integer_ and of the same kind as __i__.
+    : Shall be of type _integer_ and of the same kind as __i__.
 
 ## __Returns__
 

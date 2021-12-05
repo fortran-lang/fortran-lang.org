@@ -26,15 +26,15 @@ characters if ARRAY is of character type.
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type _integer_, _real_, or CHARACTER.
+    : Shall be an array of type _integer_, _real_, or CHARACTER.
 
   - __DIM__
-    (Optional) Shall be a scalar of type _integer_, with a value between
+    : (Optional) Shall be a scalar of type _integer_, with a value between
     one and the rank of ARRAY, inclusive. It may not be an optional
     dummy argument.
 
   - __MASK__
-    Shall be an array of type _logical_, and conformable with ARRAY.
+    : Shall be an array of type _logical_, and conformable with ARRAY.
 
 ## __Returns__
 
@@ -49,17 +49,17 @@ kind as ARRAY.
 sample program:
 
 ```fortran
-    program demo_minval
-    implicit none
-    integer,save :: ints(3,5)= reshape([&
+program demo_minval
+implicit none
+integer,save :: ints(3,5)= reshape([&
        1,  2,  3,  4,  5, &
       10, 20, 30, 40, 50, &
       11, 22, 33, 44, 55  &
-    ],shape(ints),order=[2,1])
+],shape(ints),order=[2,1])
     write(*,*) minval(ints)
     write(*,*) minval(ints,dim=1)
     write(*,*) minval(ints,dim=2)
-    end program demo_minval
+end program demo_minval
 ```
 
 results:
@@ -76,4 +76,5 @@ Fortran 95 and later
 
 ## __See Also__
 
-__min__(3), __minloc__(3)
+[__min__(3)](MIN),
+[__minloc__(3)](MINLOC)

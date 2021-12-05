@@ -25,10 +25,10 @@ result is __any__(vector\_a .and. vector\_b).
 ## __Arguments__
 
   - __vector\_a__
-    The type shall be numeric or _logical_, rank 1.
+    : The type shall be numeric or _logical_, rank 1.
 
   - __vector\_b__
-    The type shall be numeric if vector\_a is of numeric type or _logical_
+    : The type shall be numeric if vector\_a is of numeric type or _logical_
     if vector\_a is of type _logical_. vector\_b shall be a rank-one
     array.
 
@@ -43,17 +43,17 @@ return value is .true. or .false..
 Sample program:
 
 ```fortran
-    program demo_dot_prod
-    implicit none
-        integer, dimension(3) :: a, b
-        a = [ 1, 2, 3 ]
-        b = [ 4, 5, 6 ]
-        print '(3i3)', a
-        print *
-        print '(3i3)', b
-        print *
-        print *, dot_product(a,b)
-    end program demo_dot_prod
+program demo_dot_prod
+implicit none
+    integer, dimension(3) :: a, b
+    a = [ 1, 2, 3 ]
+    b = [ 4, 5, 6 ]
+    print '(3i3)', a
+    print *
+    print '(3i3)', b
+    print *
+    print *, dot_product(a,b)
+end program demo_dot_prod
 ```
 
 ## __Standard__

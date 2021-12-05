@@ -17,12 +17,12 @@ __aimag__(3) - \[NUMERIC:TYPE\] Imaginary part of complex number
 
 ## __Description__
 
-__aimag__(Z) yields the imaginary part of complex argument Z.
+__aimag(z)__ yields the imaginary part of complex argument __z__.
 
 ## __Arguments__
 
-  - __Z__
-    The type of the argument shall be _complex_.
+  - __z__
+    : The type of the argument shall be _complex_.
 
 ## __Returns__
 

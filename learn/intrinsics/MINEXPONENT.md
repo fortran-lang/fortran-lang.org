@@ -20,7 +20,7 @@ of __X__.
 ## __Arguments__
 
   - __X__
-    Shall be of type _real_.
+    : Shall be of type _real_.
 
 ## __Returns__
 

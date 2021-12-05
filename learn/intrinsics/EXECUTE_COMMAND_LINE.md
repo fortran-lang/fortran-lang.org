@@ -46,23 +46,23 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
 ## __Arguments__
 
   - __command__
-    a default CHARACTER scalar containing the command line to be
+    : a default CHARACTER scalar containing the command line to be
     executed. The interpretation is programming-environment dependent.
 
   - __wait__
-    (Optional) a default _logical_ scalar. If WAIT is present with the
+    : (Optional) a default _logical_ scalar. If WAIT is present with the
     value .false., and the processor supports asynchronous execution of
     the command, the command is executed asynchronously; otherwise it is
     executed synchronously.
 
   - __exitstat__
-    (Optional) an _integer_ of the default kind with __intent__(INOUT). If
+    : (Optional) an _integer_ of the default kind with __intent__(INOUT). If
     the command is executed synchronously, it is assigned the value of
     the processor-dependent exit status. Otherwise, the value of
     EXITSTAT is unchanged.
 
   - __cmdstat__
-    (Optional) an _integer_ of default kind with __intent__(INOUT). If an
+    : (Optional) an _integer_ of default kind with __intent__(INOUT). If an
     error condition occurs and CMDSTAT is not present, error termination
     of execution of the image is initiated.
 
@@ -74,7 +74,7 @@ EXECUTE\_COMMAND\_LINE returns without waiting.
     the value 0.
 
   - __cmdmsg__
-    (Optional) a _character_ scalar of the default kind. It is an INTENT
+    : (Optional) a _character_ scalar of the default kind. It is an INTENT
     (INOUT) argument.If an error condition occurs, it is assigned a
     processor-dependent explanatory message.Otherwise, it is unchanged.
 

@@ -20,14 +20,14 @@ Returns the cosubscript for this image.
 ## __Arguments__
 
   - __DISTANCE__
-    (optional, __intent__(in)) Nonnegative scalar integer (not permitted
+    : (optional, __intent__(in)) Nonnegative scalar integer (not permitted
     together with COARRAY).
 
   - __COARRAY__
-    Coarray of any type (optional; if DIM present, required).
+    : Coarray of any type (optional; if DIM present, required).
 
   - __DIM__
-    default integer scalar (optional). If present, DIM shall be between
+    : default integer scalar (optional). If present, DIM shall be between
     one and the corank of COARRAY.
 
 ## __Returns__
@@ -49,22 +49,23 @@ __this\_image__(coarray).
 Sample program:
 
 ```fortran
-   program demo_this_image
-   implicit none
-   integer :: value[*]
-   integer :: i
-      value = this_image()
-      sync all
-      if (this_image() == 1) then
-        do i = 1, num_images()
-          write(*,'(2(a,i0))') 'value[', i, '] is ', value[i]
-        end do
-      endif
-   end program demo_this_image
-   !
-   ! Check whether the current image is the initial image
-   if (this_image(huge(1)) /= this_image())
-   error stop "something is rotten here"
+program demo_this_image
+implicit none
+integer :: value[*]
+integer :: i
+   value = this_image()
+   sync all
+   if (this_image() == 1) then
+      do i = 1, num_images()
+         write(*,'(2(a,i0))') 'value[', i, '] is ', value[i]
+      end do
+   endif
+end program demo_this_image
+
+!
+! Check whether the current image is the initial image
+if (this_image(huge(1)) /= this_image())
+error stop "something is rotten here"
 ```
 
 ## __Standard__
@@ -74,4 +75,5 @@ or later
 
 ## __See Also__
 
-__num\_images__(3), __image\_index__(3)
+[__num\_images__(3)](NUM_IMAGES),
+[__image\_index__(3)](IMAGE_INDEX)

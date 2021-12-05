@@ -52,20 +52,20 @@ ordering.
 Sample program:
 
 ```fortran
-   program demo_lle
-   implicit none
-   integer             :: i
-      write(*,'(*(a))')(char(i),i=32,126)
-        write(*,*) lle('abc','ABC')              ! F lowercase is > uppercase
-        write(*,*) lle('abc','abc  ')            ! T trailing spaces
-        ! If both strings are of zero length the result is true.
-        write(*,*) lle('','')                    ! T
-        write(*,*) lle('','a')                   ! T the null string is padded
-        write(*,*) lle('a','')                   ! F
-        write(*,*) lle('abc',['abc','123'])      ! [T,F] scalar and array
-        write(*,*) lle(['cba', '123'],'abc')     ! [F,T]
-        write(*,*) lle(['abc','123'],['cba','123']) ! [T,T] both arrays
-   end program demo_lle
+program demo_lle
+implicit none
+integer             :: i
+   write(*,'(*(a))')(char(i),i=32,126)
+     write(*,*) lle('abc','ABC')              ! F lowercase is > uppercase
+     write(*,*) lle('abc','abc  ')            ! T trailing spaces
+     ! If both strings are of zero length the result is true.
+     write(*,*) lle('','')                    ! T
+     write(*,*) lle('','a')                   ! T the null string is padded
+     write(*,*) lle('a','')                   ! F
+     write(*,*) lle('abc',['abc','123'])      ! [T,F] scalar and array
+     write(*,*) lle(['cba', '123'],'abc')     ! [F,T]
+     write(*,*) lle(['abc','123'],['cba','123']) ! [T,T] both arrays
+end program demo_lle
 ```
 
 Results:
@@ -89,14 +89,22 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__lge__(3), __lgt__(3), __llt__(3)
+[__lge__(3)](LGE),
+[__lgt__(3),](LGT),
+[__llt__(3)](LLT)
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
-  - __Elemental:__
-    [__adjustl__(3)](ADJUSTL), [__adjustr__(3)](ADJUSTR), [__index__(3)](INDEX), [__len\_trim__(3)](LEN_TRIM),
-    [__scan__(3)](SCAN), [__verify__(3)](VERIFY)
+ - __Elemental:__
+ [__adjustl__(3)](ADJUSTL),
+ [__adjustr__(3)](ADJUSTR),
+ [__index__(3)](INDEX),
+ [__len\_trim__(3)](LEN_TRIM),
 
-  - __Nonelemental:__
-    [__repeat__(3)](REPEAT), [__trim__(3)](TRIM)
+ [__scan__(3)](SCAN),
+ [__verify__(3)](VERIFY)
+
+ - __Nonelemental:__
+ [__repeat__(3)](REPEAT),
+ [__trim__(3)](TRIM)

@@ -24,13 +24,13 @@ type to another.
 ## __Arguments__
 
   - __SOURCE__
-    Shall be a scalar or an array of any type.
+    : Shall be a scalar or an array of any type.
 
   - __MOLD__
-    Shall be a scalar or an array of any type.
+    : Shall be a scalar or an array of any type.
 
   - __SIZE__
-    (Optional) shall be a scalar of type _integer_.
+    : (Optional) shall be a scalar of type _integer_.
 
 ## __Returns__
 
@@ -56,11 +56,11 @@ _logical_ variables for which VAR and .not. var both appear to be true.
 Sample program:
 
 ```fortran
-    program demo_transfer
-    implicit none
-      integer :: x = 2143289344
-      print *, transfer(x, 1.0)    ! prints "nan" on i686
-    end program demo_transfer
+program demo_transfer
+implicit none
+integer :: x = 2143289344
+   print *, transfer(x, 1.0)    ! prints "nan" on i686
+end program demo_transfer
 ```
 
 ## __Comments__

@@ -31,15 +31,15 @@ It contains the name of the compiler and its version number.
 Sample program:
 
 ```fortran
-   program demo_compiler_version
-   use, intrinsic :: iso_fortran_env, only : compiler_version, compiler_options
-   implicit none
-      print '(4a)', &
-         'This file was compiled by ', &
-         compiler_version(),           &
-         ' using the options ',        &
-         compiler_options()
-   end program demo_compiler_version
+program demo_compiler_version
+use, intrinsic :: iso_fortran_env, only : compiler_version, compiler_options
+implicit none
+   print '(4a)', &
+      'This file was compiled by ', &
+      compiler_version(),           &
+      ' using the options ',        &
+      compiler_options()
+end program demo_compiler_version
 ```
 
 Example results:
@@ -59,4 +59,5 @@ Fortran 2008
 
 ## __See Also__
 
-__compiler\_options__(3), __iso\_fortran\_env__(7)
+[__compiler\_options__(3)](COMPILER_OPTIONS),
+__iso\_fortran\_env__(7)

@@ -19,10 +19,10 @@ __mod__(a,p) computes the remainder of the division of A by P.
 ## __Arguments__
 
   - __A__
-    Shall be a scalar of type _integer_ or _real_.
+    : Shall be a scalar of type _integer_ or _real_.
 
   - __P__
-    Shall be a scalar of the same type and kind as A and not equal to
+    : Shall be a scalar of the same type and kind as A and not equal to
     zero.
 
 ## __Returns__
@@ -37,8 +37,8 @@ P.
 Sample program:
 
 ```fortran
-   program demo_mod
-   implicit none
+program demo_mod
+implicit none
      print *, mod(17,3)           ! yields 2
      print *, mod(17.5,5.5)       ! yields 1.0
      print *, mod(17.5d0,5.5d0)   ! yields 1.0d0
@@ -53,7 +53,7 @@ Sample program:
      print *, mod(17.5,-5.5)      ! yields 1.0
      print *, mod(17.5d0,-5.5d0)  ! yields 1.0d0
      print *, mod(17.5d0,-5.5d0)  ! yields 1.0d0
-   end program demo_mod
+end program demo_mod
 ```
 
 ## __Standard__
@@ -62,4 +62,4 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__modulo__(3)
+[__modulo__(3)](MODULO)

@@ -19,10 +19,10 @@ Returns the argument with the largest (most positive) value.
 ## __Arguments__
 
   - __A1__
-    The type shall be _integer_ or _real_.
+    : The type shall be _integer_ or _real_.
 
   - __A2,A3,\`\`\`__
-    An expression of the same type and kind as A1.
+    : An expression of the same type and kind as A1.
 
 ## __Returns__
 

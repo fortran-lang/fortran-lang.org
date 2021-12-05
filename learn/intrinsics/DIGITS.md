@@ -22,7 +22,7 @@ floating point representation, a default real number would likely return
 ## __Arguments__
 
   - __X__
-    The type may be _integer_ or _real_.
+    : The type may be _integer_ or _real_.
 
 ## __Returns__
 
@@ -33,15 +33,15 @@ The return value is of type _integer_.
 Sample program:
 
 ```fortran
-    program demo_digits
-    implicit none
-        integer :: i = 12345
-        real :: x = 3.143
-        doubleprecision :: y = 2.33d0
-        print *,'default integer:        ', digits(i)
-        print *,'default real:           ', digits(x)
-        print *,'default doubleprecision:', digits(y)
-    end program demo_digits
+program demo_digits
+implicit none
+integer :: i = 12345
+real :: x = 3.143
+doubleprecision :: y = 2.33d0
+   print *,'default integer:', digits(i)
+   print *,'default real:   ', digits(x)
+   print *,'default doubleprecision:', digits(y)
+end program demo_digits
 ```
 
 Typical Results:

@@ -22,10 +22,10 @@ Convert to integer type by truncating towards zero.
 ## __Arguments__
 
   - __a__
-    Shall be of type _integer_, _real_, or _complex_ or a BOZ-literal-constant.
+    : Shall be of type _integer_, _real_, or _complex_ or a BOZ-literal-constant.
 
   - __kind__
-    An _integer_ initialization expression indicating the kind
+    : An _integer_ initialization expression indicating the kind
     parameter of the result.
 
     If not present the returned type is that of default integer type.

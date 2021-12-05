@@ -115,4 +115,5 @@ Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
 ## __See Also__
 
-__ubound__(3), __co\_lbound__(3)
+[__ubound__(3)](UBOUND),
+[__co\_lbound__(3)](CO_LBOUND)

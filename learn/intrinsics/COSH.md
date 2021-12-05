@@ -27,7 +27,7 @@ __cosh__(x) computes the hyperbolic cosine of X.
 ## __Arguments__
 
   - __X__
-    The type shall be _real_ or _complex_.
+    : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
@@ -54,4 +54,4 @@ FORTRAN 77 and later, for a complex argument - Fortran 2008 or later
 
 ## __See Also__
 
-Inverse function: __acosh__(3)
+Inverse function: [__acosh__(3)](ACOSH)

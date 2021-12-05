@@ -33,16 +33,16 @@ be necessary.
 ## __Returns__
 
   - __command__
-    Shall be of type _character_ and of default kind. If
+    : Shall be of type _character_ and of default kind. If
     __command__ is present, stores the entire command line that was used to
     invoke the program in __command__.
 
   - __length__
-    Shall be of type _integer_ and of default kind. If __length__
+    : Shall be of type _integer_ and of default kind. If __length__
     is present, it is assigned the length of the command line.
 
   - __status__
-    Shall be of type _integer_ and of default kind. If __status__
+    : Shall be of type _integer_ and of default kind. If __status__
     is present, it is assigned 0 upon success of the command, __-1__ if
     __command__ is too short to store the command line, or a positive value
     in case of an error.

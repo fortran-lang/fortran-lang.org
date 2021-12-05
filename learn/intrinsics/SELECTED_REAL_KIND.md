@@ -21,13 +21,13 @@ at least R, and with a radix of RADIX.
 ## __Arguments__
 
   - __P__
-    (Optional) shall be a scalar and of type _integer_.
+    : (Optional) shall be a scalar and of type _integer_.
 
   - __R__
-    (Optional) shall be a scalar and of type _integer_.
+    : (Optional) shall be a scalar and of type _integer_.
 
   - __RADIX__
-    (Optional) shall be a scalar and of type _integer_.
+    : (Optional) shall be a scalar and of type _integer_.
 
 Before \[\[Fortran 2008\]\], at least one of the arguments R or P shall
 be present; since \[\[Fortran 2008\]\], they are assumed to be zero if
@@ -62,19 +62,19 @@ matches the criteria, the result is
 Sample program:
 
 ```fortran
-   program demo_selected_real_kind
-   implicit none
-     integer,parameter :: p6 = selected_real_kind(6)
-     integer,parameter :: p10r100 = selected_real_kind(10,100)
-     integer,parameter :: r400 = selected_real_kind(r=400)
-     real(kind=p6) :: x
-     real(kind=p10r100) :: y
-     real(kind=r400) :: z
+program demo_selected_real_kind
+implicit none
+integer,parameter :: p6 = selected_real_kind(6)
+integer,parameter :: p10r100 = selected_real_kind(10,100)
+integer,parameter :: r400 = selected_real_kind(r=400)
+real(kind=p6) :: x
+real(kind=p10r100) :: y
+real(kind=r400) :: z
 
-     print *, precision(x), range(x)
-     print *, precision(y), range(y)
-     print *, precision(z), range(z)
-   end program demo_selected_real_kind
+   print *, precision(x), range(x)
+   print *, precision(y), range(y)
+   print *, precision(z), range(z)
+end program demo_selected_real_kind
 ```
 
 ## __Standard__
@@ -83,4 +83,6 @@ Fortran 95 and later; with RADIX - Fortran 2008 and later
 
 ## __See Also__
 
-__precision__(3), __range__(3), __radix__(3)
+[__precision__(3)](PRECISION),
+[__range__(3)](RANGE),
+[__radix__(3)](RADIX)

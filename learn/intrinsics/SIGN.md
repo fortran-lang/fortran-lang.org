@@ -19,10 +19,10 @@ __sign__(a,b) returns the value of A with the sign of B.
 ## __Arguments__
 
   - __A__
-    Shall be of type _integer_ or _real_
+    : Shall be of type _integer_ or _real_
 
   - __B__
-    Shall be of the same type and kind as A
+    : Shall be of the same type and kind as A
 
 ## __Returns__
 
@@ -34,16 +34,16 @@ result is __abs__(a), else it is -__abs__(a).
 Sample program:
 
 ```fortran
-    program demo_sign
-    implicit none
-      print *, sign(-12,1)
-      print *, sign(-12,0)
-      print *, sign(-12,-1)
+program demo_sign
+implicit none
+   print *, sign(-12,1)
+   print *, sign(-12,0)
+   print *, sign(-12,-1)
 
-      print *, sign(-12.,1.)
-      print *, sign(-12.,0.)
-      print *, sign(-12.,-1.)
-    end program demo_sign
+   print *, sign(-12.,1.)
+   print *, sign(-12.,0.)
+   print *, sign(-12.,-1.)
+end program demo_sign
 ```
 
 ## __Standard__

@@ -26,34 +26,34 @@ a value describing the occurred error.
 ## __Arguments__
 
   - __A__
-    shall be an integer, real or character variable, which has the same
+    : shall be an integer, real or character variable, which has the same
     type and type parameters on all images of the team.
 
   - __result\_image__
-    (optional) a scalar integer expression; if present, it shall have
+    : (optional) a scalar integer expression; if present, it shall have
     the same the same value on all images and refer to an image of the
     current team.
 
   - __STAT__
-    (optional) a scalar integer variable
+    : (optional) a scalar integer variable
 
   - __ERRMSG__
-    (optional) a scalar character variable
+    : (optional) a scalar character variable
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-   program demo_co_max
-   implicit none
-   integer :: val
-      val = this_image()
-      call co_max(val, result_image=1)
-      if (this_image() == 1) then
-        write(*,*) "Maximal value", val  ! prints num_images()
-      endif
-   end program demo_co_max
+program demo_co_max
+implicit none
+integer :: val
+   val = this_image()
+   call co_max(val, result_image=1)
+   if (this_image() == 1) then
+     write(*,*) "Maximal value", val  ! prints num_images()
+   endif
+end program demo_co_max
 ```
 
 ## __Standard__
@@ -62,4 +62,7 @@ TS 18508 or later
 
 ## __See Also__
 
-__co\_min__(3), __co\_sum__(3), __co\_reduce__(3), __co\_broadcast__(3)
+[__co\_min__(3)](CO_MIN),
+[__co\_sum__(3)](CO_SUM),
+[__co\_reduce__(3)](CO_REDUCE),
+[__co\_broadcast__(3)](CO_BROADCAST)

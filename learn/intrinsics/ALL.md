@@ -22,11 +22,11 @@ in the array along dimension __DIM__.
 ## __Arguments__
 
   - __MASK__
-    shall be a logical array. That is, the type of the argument shall be
+    : shall be a logical array. That is, the type of the argument shall be
     _logical_ and it shall not be scalar.
 
   - __DIM__
-    (optional) __DIM__ shall be a scalar integer with a value that lies
+    : (optional) __DIM__ shall be a scalar integer with a value that lies
     between one and the rank of __MASK__. The corresponding actual argument
     shall not be an optional dummy argument.
 

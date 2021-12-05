@@ -9,8 +9,9 @@ __move\_alloc__(3) - \[\] Move allocation from one object to another
 (GFDL)
 
 ## __Syntax__
-
-call __move\_alloc__(src, dest)
+```fortran
+call move_alloc(src, dest)
+```
 
 ## __Description__
 
@@ -19,11 +20,11 @@ will become deallocated in the process.
 
 ## __Arguments__
 
-  - __SRC__
-    ALLOCATABLE, __intent__(inout), may be of any type and kind.
+  - __src__
+    : allocatable, __intent__(inout), may be of any type and kind.
 
-  - __DEST__
-    ALLOCATABLE, __intent__(out), shall be of the same type, kind and
+  - __dest__
+    : allocatable, __intent__(out), shall be of the same type, kind and
     rank as SRC.
 
 ## __Examples__
@@ -66,4 +67,4 @@ Fortran 2003 and later
 
 ## __See Also__
 
-__allocated__(3)
+[__allocated__(3)](ALLOCATED)

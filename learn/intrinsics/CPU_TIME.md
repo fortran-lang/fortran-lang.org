@@ -37,7 +37,7 @@ which time is an array.
 ## __Returns__
 
   - __TIME__
-    The type shall be _real_ with __intent__(out). It is assigned a
+    : The type shall be _real_ with __intent__(out). It is assigned a
     processor-dependent approximation to the processor time in seconds.
     If the processor cannot return a meaningful time, a
     processor-dependent negative value
@@ -52,17 +52,17 @@ which time is an array.
 Sample program:
 
 ```fortran
-    program demo_cpu_time
-    implicit none
-    real :: start, finish
-       !
-       call cpu_time(start)
-       ! put code to test here
-       call cpu_time(finish)
-       !
-       ! writes processor time taken by the piece of code.
-       print '("Processor Time = ",f6.3," seconds.")',finish-start
-    end program demo_cpu_time
+program demo_cpu_time
+implicit none
+real :: start, finish
+   !
+   call cpu_time(start)
+   ! put code to test here
+   call cpu_time(finish)
+   !
+   ! writes processor time taken by the piece of code.
+   print '("Processor Time = ",f6.3," seconds.")',finish-start
+end program demo_cpu_time
 ```
 
 ## __Standard__
@@ -71,6 +71,7 @@ Fortran 95 and later
 
 ## __See Also__
 
-__system\_clock__(3), __date\_and\_time__(3)
+[__system\_clock__(3)](SYSTEM_CLOCK),
+[__date\_and\_time__(3)](DATE_AND_TIME)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)

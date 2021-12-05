@@ -27,15 +27,15 @@ or a string of nulls if __ARRAY__ is of character type.
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type _integer_, _real_, or __character__.
+    : Shall be an array of type _integer_, _real_, or __character__.
 
   - __DIM__
-    (Optional) Shall be a scalar of type _integer_, with a value between
+    : (Optional) Shall be a scalar of type _integer_, with a value between
     one and the rank of __ARRAY__, inclusive. It may not be an optional
     dummy argument.
 
   - __MASK__
-    (Optional) Shall be an array of type _logical_, and conformable with
+    : (Optional) Shall be an array of type _logical_, and conformable with
     __ARRAY__.
 
 ## __Returns__
@@ -51,19 +51,20 @@ kind as __ARRAY__.
 sample program:
 
 ```fortran
-    program demo_maxval
-    implicit none
-    integer,save :: ints(3,5)= reshape([&
-       1,  2,  3,  4,  5, &
-      10, 20, 30, 40, 50, &
-      11, 22, 33, 44, 55  &
-    ],shape(ints),order=[2,1])
-    write(*,*) maxval(ints)
-    write(*,*) maxval(ints,dim=1)
-    write(*,*) maxval(ints,dim=2)
-    ! find biggest number less than 30 with mask
-    write(*,*) maxval(ints,mask=ints.lt.30)
-    end program demo_maxval
+program demo_maxval
+implicit none
+integer,save :: ints(3,5)= reshape([&
+   1,  2,  3,  4,  5, &
+  10, 20, 30, 40, 50, &
+  11, 22, 33, 44, 55  &
+],shape(ints),order=[2,1])
+
+   write(*,*) maxval(ints)
+   write(*,*) maxval(ints,dim=1)
+   write(*,*) maxval(ints,dim=2)
+   ! find biggest number less than 30 with mask
+   write(*,*) maxval(ints,mask=ints.lt.30)
+end program demo_maxval
 ```
 
 Results:

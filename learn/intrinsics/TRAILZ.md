@@ -20,7 +20,7 @@ TRAILZ returns the number of trailing zero bits of an _integer_ value
 ## __Arguments__
 
   - __I__
-    Shall be of type _integer_.
+    : Shall be of type _integer_.
 
 ## __Returns__
 
@@ -32,11 +32,11 @@ I are zero, the result value is __bit\_size__(I).
 Sample program:
 
 ```fortran
- program demo_trailz
- use, intrinsic :: iso_fortran_env, only : integer_kinds, &
- & int8, int16, int32, int64
- implicit none
- integer(kind=int64) :: i, value
+program demo_trailz
+use, intrinsic :: iso_fortran_env, only : integer_kinds, &
+& int8, int16, int32, int64
+implicit none
+integer(kind=int64) :: i, value
    write(*,*)'Default integer:'
    write(*,*)'bit_size=',bit_size(0)
    write(*,'(1x,i3,1x,i3,1x,b0)')-1,trailz(1),-1
@@ -61,7 +61,7 @@ Sample program:
    value=huge(i)
    write(*,'(1x,a,1x,b64.64)') "huge",value
 
- end program demo_trailz
+end program demo_trailz
 ```
 
 Results:
@@ -111,6 +111,9 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__bit\_size__(3), __popcnt__(3), __poppar__(3), __leadz__(3)
+[__bit\_size__(3)](BIT_SIZE),
+[__popcnt__(3)](POPCNT),
+[__poppar__(3)](POPPAR),
+[__leadz__(3)](LEADZ)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -26,7 +26,7 @@ __iostat\_end__ parameter of the intrinsic module __iso\_fortran\_env__.
 ## __Arguments__
 
   - __i__
-    An _integer_ status value to test if indicating end of file.
+    : An _integer_ status value to test if indicating end of file.
 
 ## __Returns__
 

@@ -24,15 +24,15 @@ failed, the value stat\_failed\_image.
 ## __Arguments__
 
   - __ATOM__
-    Scalar coarray or coindexed variable of integer type with
+    : Scalar coarray or coindexed variable of integer type with
     atomic\_int\_kind kind.
 
   - __VALUE__
-    Scalar of the same type as ATOM. If the kind is different, the value
+    : Scalar of the same type as ATOM. If the kind is different, the value
     is converted to the kind of ATOM.
 
   - __STAT__
-    (optional) Scalar default-kind integer variable.
+    : (optional) Scalar default-kind integer variable.
 
 ## __Examples__
 

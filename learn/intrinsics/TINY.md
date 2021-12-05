@@ -24,7 +24,7 @@ and kind of __x_.
 ## __Arguments__
 
   - __x__
-    Shall be of type _real_.
+    : Shall be of type _real_.
 
 ## __Returns__
 

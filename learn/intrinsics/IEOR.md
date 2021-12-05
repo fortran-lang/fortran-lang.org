@@ -19,10 +19,10 @@ __ieor__ returns the bitwise Boolean exclusive-__or__ of __i__ and __j__.
 ## __Arguments__
 
   - __i__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __j__
-    The type shall be _integer_, of the same kind as __i__.
+    : The type shall be _integer_, of the same kind as __i__.
 
 ## __Returns__
 

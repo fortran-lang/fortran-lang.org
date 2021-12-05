@@ -19,7 +19,7 @@ __atanh(X)__ computes the inverse hyperbolic tangent of __X__.
 ## __Arguments__
 
   - __X__
-    The type shall be _real_ or _complex_.
+    : The type shall be _real_ or _complex_.
 
 ## __Returns__
 

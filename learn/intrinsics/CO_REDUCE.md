@@ -30,14 +30,14 @@ the occurred error.
 ## __Arguments__
 
   - __A__
-    is an __intent__(inout) argument and shall be nonpolymorphic. If it
+    : is an __intent__(inout) argument and shall be nonpolymorphic. If it
     is allocatable, it shall be allocated; if it is a pointer, it shall
     be associated. A shall have the same type and type parameters on all
     images of the team; if it is an array, it shall have the same shape
     on all images.
 
   - __OPERATION__
-    pure function with two scalar nonallocatable arguments, which shall
+    : pure function with two scalar nonallocatable arguments, which shall
     be nonpolymorphic and have the same type and type parameters as A.
     The function shall return a nonallocatable scalar of the same type
     and type parameters as A. The function shall be the same on all
@@ -52,31 +52,35 @@ the occurred error.
         of the current team.
 
   - __STAT__
-    (optional) a scalar integer variable
+    : (optional) a scalar integer variable
 
   - __ERRMSG__
-    (optional) a scalar character variable
+    : (optional) a scalar character variable
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-   program demo_co_reduce
-   implicit none
-     integer :: val
-     val = this_image()
-     call co_reduce(val, myprod, 1)
-        if (this_image() == 1) then
-          write(*,*) "Product value", val  ! prints num_images() factorial
-        endif
-   contains
-     pure function myprod(a, b)
-       integer, value :: a, b
-       integer :: myprod
-       myprod = a * b
-     end function myprod
-   end program demo_co_reduce
+program demo_co_reduce
+implicit none
+integer :: val
+
+   val = this_image()
+   call co_reduce(val, myprod, 1)
+   if (this_image() == 1) then
+      write(*,*) "Product value", val  ! prints num_images() factorial
+   endif
+
+contains
+
+pure function myprod(a, b)
+   integer, value :: a, b
+   integer :: myprod
+   myprod = a * b
+end function myprod
+
+end program demo_co_reduce
 ```
 
 ## __Note__
@@ -92,4 +96,7 @@ TS 18508 or later
 
 ## __See Also__
 
-__co\_min__(3), __co\_max__(3), __co\_sum__(3), __co\_broadcast__(3)
+[__co\_min__(3)](CO_MIN),
+[__co\_max__(3)](CO_MAX),
+[__co\_sum__(3)](CO_SUM),
+[__co\_broadcast__(3)](CO_BROADCAST)

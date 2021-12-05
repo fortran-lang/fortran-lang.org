@@ -22,14 +22,14 @@ dimension DIM if the corresponding element in MASK is TRUE.
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type _integer_
+    : Shall be an array of type _integer_
 
   - __DIM__
-    (Optional) shall be a scalar of type _integer_ with a value in the
+    : (Optional) shall be a scalar of type _integer_ with a value in the
     range from "1" to "n", where "n" equals the rank of ARRAY.
 
   - __MASK__
-    (Optional) shall be of type _logical_ and either be a scalar or an
+    : (Optional) shall be of type _logical_ and either be a scalar or an
     array of the same shape as ARRAY.
 
 ## __Returns__
@@ -46,13 +46,13 @@ dropped is returned.
 Sample program:
 
 ```fortran
-   program demo_iparity
-   implicit none
-     integer, dimension(2) :: a
-     a(1) = int(b'00100100')
-     a(2) = int(b'01101010')
-     print '(b8.8)', iparity(a)
-   end program demo_iparity
+program demo_iparity
+implicit none
+integer, dimension(2) :: a
+  a(1) = int(b'00100100')
+  a(2) = int(b'01101010')
+  print '(b8.8)', iparity(a)
+end program demo_iparity
 ```
 
 Results:
@@ -67,4 +67,7 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__iany__(3), __iall__(3), __ieor__(3), __parity__(3)
+[__iany__(3)](IANY),
+[__iall__(3)](IALL),
+[__ieor__(3)](IEOR),
+[__parity__(3)](PARITY)

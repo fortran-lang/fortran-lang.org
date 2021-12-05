@@ -19,10 +19,10 @@ __ibset__ returns the value of __i__ with the bit at position __pos__ set to one
 ## __Arguments__
 
   - __i__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __pos__
-    The type shall be _integer_. A value of zero refers to the least
+    : The type shall be _integer_. A value of zero refers to the least
     significant bit. pos is an __intent(in)__ scalar or array of type
     _integer_. The value of pos must be within the range zero to
     __(bit\_size(i)-1__).

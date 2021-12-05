@@ -37,4 +37,4 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__maskl__(3)
+[__maskl__(3)](MASKL)

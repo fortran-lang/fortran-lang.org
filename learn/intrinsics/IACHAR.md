@@ -20,10 +20,11 @@ character position of C.
 ## __Arguments__
 
   - __C__
-    Shall be a scalar CHARACTER, with __intent__(in)
+    : Shall be a scalar CHARACTER, with __intent__(in)
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
+/bin/bash: pb0: command not found
     parameter of the result.
 
 ## __Returns__
@@ -36,29 +37,29 @@ the return value is of default integer kind.
 Sample program:
 
 ```fortran
-   program demo_iachar
-   implicit none
-   ! create function to convert uppercase letters to lowercase
-      write(*,'(a)')lower('abcdefg ABCDEFG')
-   contains
-   !
-   elemental pure function lower(str) result (string)
-   ! Changes a string to lowercase
-   character(*), intent(In)     :: str
-   character(len(str))          :: string
-   integer                      :: i
-      string = str
-      ! step thru each letter in the string in specified range
-      do i = 1, len(str)
-         select case (str(i:i))
-         case ('A':'Z') ! change letter to miniscule
-            string(i:i) = char(iachar(str(i:i))+32)
-         case default
-         end select
-      end do
-   end function lower
-   !
-   end program demo_iachar
+program demo_iachar
+implicit none
+! create function to convert uppercase letters to lowercase
+   write(*,'(a)')lower('abcdefg ABCDEFG')
+contains
+!
+elemental pure function lower(str) result (string)
+! Changes a string to lowercase
+character(*), intent(In)     :: str
+character(len(str))          :: string
+integer                      :: i
+   string = str
+   ! step thru each letter in the string in specified range
+   do i = 1, len(str)
+      select case (str(i:i))
+      case ('A':'Z') ! change letter to miniscule
+         string(i:i) = char(iachar(str(i:i))+32)
+      case default
+      end select
+   end do
+end function lower
+!
+end program demo_iachar
 ```
 
 ## __Note__
@@ -72,7 +73,9 @@ Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
 ## __See Also__
 
-\[\[achar\]\], \[\[char\]\], \[\[ichar\]\]
+[__achar(3)__](ACHAR),
+[__char(3)__](CHAR),
+[__ichar(3)__](ICHAR)
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

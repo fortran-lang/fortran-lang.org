@@ -19,7 +19,7 @@ __new\_line__(c) returns the new-line character.
 ## __Arguments__
 
   - __C__
-    \- The argument shall be a scalar or array of the type CHARACTER.
+    : The argument shall be a scalar or array of the type CHARACTER.
 
 ## __Returns__
 
@@ -31,12 +31,13 @@ the same kind as parameter C.
 Sample program:
 
 ```fortran
-    program demo_new_line
-      implicit none
-      write(*,'(A)') 'This is record 1.'//NEW_LINE('A')//'This is record 2.'
-    end program demo_new_line
-```
+program demo_new_line
+implicit none
 
+   write(*,'(A)') 'This is record 1.'//NEW_LINE('A')//'This is record 2.'
+
+end program demo_new_line
+```
 ## __Standard__
 
 Fortran 2003 and later

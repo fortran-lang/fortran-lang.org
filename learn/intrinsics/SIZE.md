@@ -20,15 +20,15 @@ total number of elements in __array__ if __dim__ is absent.
 ## __Arguments__
 
   - __array__
-    be an array of any type. If __array__ is a pointer it must be
+    : be an array of any type. If __array__ is a pointer it must be
     associated and allocatable arrays must be allocated.
 
   - __dim__
-    shall be a scalar of type _integer_ and its value shall be
+    : shall be a scalar of type _integer_ and its value shall be
     in the range from 1 to n, where n equals the rank of __array__.
 
   - __kind__
-    An _integer_ initialization expression indicating the kind
+    : An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__

@@ -18,19 +18,19 @@ __adjustl__(3) - \[CHARACTER\] Left-adjust a string
 
 ## __Description__
 
-__adjustl(STRING)__ will left-adjust a string by removing leading
+__adjustl(string)__ will left-adjust a string by removing leading
 spaces. Spaces are inserted at the end of the string as needed.
 
 ## __Arguments__
 
-  - __STRING__
-    the type shall be _character_.
+  - __string__
+    : the type shall be _character_.
 
 ## __Returns__
 
-The return value is of type _character_ and of the same kind as __STRING__
+The return value is of type _character_ and of the same kind as __string__
 where leading spaces are removed and the same number of spaces are
-inserted on the end of __STRING__.
+inserted on the end of __string__.
 
 ## __Examples__
 

@@ -19,10 +19,10 @@ Returns the argument with the smallest (most negative) value.
 ## __Arguments__
 
   - __A1__
-    The type shall be _integer_ or _real_.
+    : The type shall be _integer_ or _real_.
 
   - __A2, A3, \`\`\`__
-    An expression of the same type and kind as A1.
+    : An expression of the same type and kind as A1.
 
 ## __Returns__
 
@@ -34,10 +34,10 @@ and has the same type and kind as the first argument.
 Sample program
 
 ```fortran
-    program demo_min
-    implicit none
+program demo_min
+implicit none
     write(*,*)min(10.0,11.0,30.0,-100.0)
-    end program demo_min
+end program demo_min
 ```
 
 Results:
@@ -52,4 +52,6 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__max__(3), __minloc__(3), __minval__(3)
+[__max__(3)](MAX),
+[__minloc__(3)](MINLOC),
+[__minval__(3)](MINVAL)

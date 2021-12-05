@@ -20,7 +20,7 @@ value __matrix__(j, i), for all i, j.
 ## __Arguments__
 
   - __MATRIX__
-    Shall be an array of any type and have a rank of two.
+    : Shall be an array of any type and have a rank of two.
 
 ## __Returns__
 

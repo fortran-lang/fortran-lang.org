@@ -19,10 +19,10 @@ Returns the image index belonging to a cosubscript.
 ## __Arguments__
 
   - __COARRAY__
-    Coarray of any type.
+    : Coarray of any type.
 
   - __SUB__
-    default integer rank-1 array of a size equal to the corank of
+    : default integer rank-1 array of a size equal to the corank of
     COARRAY.
 
 ## __Returns__
@@ -36,12 +36,12 @@ zero.
 Sample program:
 
 ```fortran
-   program demo image_index
-   implicit none
-   integer :: array[2,-1:4,8,*]
-      ! Writes  28 (or 0 if there are fewer than 28 images)
-      write (*,*) image_index(array, [2,0,3,1])
-   end demo image_index
+program demo image_index
+implicit none
+integer :: array[2,-1:4,8,*]
+   ! Writes  28 (or 0 if there are fewer than 28 images)
+   write (*,*) image_index(array, [2,0,3,1])
+end demo image_index
 ```
 
 ## __Standard__
@@ -50,4 +50,5 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__this\_image__(3), __num\_images__(3)
+[__this\_image__(3)](THIS_IMAGE),
+[__num\_images__(3)](NUM_IMAGES)

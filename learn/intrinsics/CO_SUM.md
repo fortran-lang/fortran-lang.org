@@ -26,35 +26,35 @@ a value describing the occurred error.
 ## __Arguments__
 
   - __A__
-    shall be an integer, real or complex variable, which has the same
+    : shall be an integer, real or complex variable, which has the same
     type and type parameters on all images of the team.
 
   - __result\_image__
-    (optional) a scalar integer expression; if present, it shall have
+    : (optional) a scalar integer expression; if present, it shall have
     the same the same value on all images and refer to an image of the
     current team.
 
   - __STAT__
-    (optional) a scalar integer variable
+    : (optional) a scalar integer variable
 
   - __ERRMSG__
-    (optional) a scalar character variable
+    : (optional) a scalar character variable
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-   program demo_co_sum
-   implicit none
-   integer :: val
-      val = this_image()
-      call co_sum(val, result_image=1)
-      if (this_image() == 1) then
-         ! prints (n**2 + n)/2, with n = num_images()
-         write(*,*) "The sum is ", val
-      endif
-   end program demo_co_sum
+program demo_co_sum
+implicit none
+integer :: val
+   val = this_image()
+   call co_sum(val, result_image=1)
+   if (this_image() == 1) then
+      ! prints (n**2 + n)/2, with n = num_images()
+      write(*,*) "The sum is ", val
+   endif
+end program demo_co_sum
 ```
 
 ## __Standard__
@@ -63,4 +63,7 @@ TS 18508 or later
 
 ## __See Also__
 
-__co\_max__(3), __co\_min__(3), __co\_reduce__(3), __co\_broadcast__(3)
+[__co\_max__(3)](CO_MAX),
+[__co\_min__(3)](CO_MIN),
+[__co\_reduce__(3)](CO_REDUCE),
+[__co\_broadcast__(3)](CO_BROADCAST)

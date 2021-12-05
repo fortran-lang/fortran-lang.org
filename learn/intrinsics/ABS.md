@@ -33,7 +33,7 @@ values (_see below_).
 ## __Arguments__
 
   - __a__
-    the type of the argument shall be an _integer_, _real_, or _complex_
+    : the type of the argument shall be an _integer_, _real_, or _complex_
     scalar or array.
 
 ## __Returns__

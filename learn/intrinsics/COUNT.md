@@ -22,13 +22,13 @@ the elements of MASK are false, then the result is 0.
 ## __Arguments__
 
   - __MASK__
-    The type shall be _logical_.
+    : The type shall be _logical_.
 
   - __DIM__
-    (Optional) The type shall be _integer_.
+    : (Optional) The type shall be _integer_.
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -43,10 +43,10 @@ size corresponding to the shape of ARRAY with the DIM dimension removed.
 Sample program:
 
 ```fortran
-   program demo_count
-   implicit none
-   integer, dimension(2,3) :: a, b
-   logical, dimension(2,3) :: mymask
+program demo_count
+implicit none
+integer, dimension(2,3) :: a, b
+logical, dimension(2,3) :: mymask
       a = reshape( [ 1, 2, 3, 4, 5, 6 ], [ 2, 3 ])
       b = reshape( [ 0, 7, 3, 4, 5, 8 ], [ 2, 3 ])
       print '(3i3)', a(1,:)
@@ -64,7 +64,7 @@ Sample program:
       print '(3i3)', count(mymask, 1)
       print *
       print '(3i3)', count(mymask, 2)
-   end program demo_count
+end program demo_count
 ```
    Expected Results:
 ```text

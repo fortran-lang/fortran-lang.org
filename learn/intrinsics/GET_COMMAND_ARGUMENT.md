@@ -31,14 +31,14 @@ shells are ignored.
 ## __Options__
 
   - __number__
-    Shall be a scalar of type __integer__, __number \>= 0__. If __number =
+    : Shall be a scalar of type __integer__, __number \>= 0__. If __number =
     0__, __value__ is set to the name of the program (on systems that support
     this feature).
 
 ## __Returns__
 
   - __value__
-    Shall be a scalar of type _character_ and of default kind. After
+    :Shall be a scalar of type _character_ and of default kind. After
     get\_command\_argument returns, the __value__ argument holds the
     __number__-th command line argument. If __value__ can not hold the argument,
     it is truncated to fit the length of __value__. If there are less than
@@ -46,11 +46,11 @@ shells are ignored.
     with blanks.
 
   - __length__
-    (Optional) Shall be a scalar of type _integer_. The __length__
+    :(Optional) Shall be a scalar of type _integer_. The __length__
     argument contains the length of the __number__-th command line argument.
 
   - __status__
-    (Optional) Shall be a scalar of type _integer_. If the argument
+    :(Optional) Shall be a scalar of type _integer_. If the argument
     retrieval fails, __status__ is a positive number; if __value__ contains a
     truncated command line argument, __status__ is __-1__; and otherwise the
     __status__ is zero.

@@ -25,16 +25,16 @@ is found in STRING, the result is zero.
 ## __Arguments__
 
   - __STRING__
-    Shall be of type CHARACTER.
+    : Shall be of type CHARACTER.
 
   - __SET__
-    Shall be of type CHARACTER.
+    : Shall be of type CHARACTER.
 
   - __BACK__
-    (Optional) shall be of type _logical_.
+    : (Optional) shall be of type _logical_.
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -47,12 +47,12 @@ the return value is of default integer kind.
 Sample program:
 
 ```fortran
-    program demo_scan
-    implicit none
-      write(*,*) scan("fortran", "ao")          ! 2, found 'o'
-      write(*,*) scan("fortran", "ao", .true.)  ! 6, found 'a'
-      write(*,*) scan("fortran", "c++")         ! 0, found none
-    end program demo_scan
+program demo_scan
+implicit none
+   write(*,*) scan("fortran", "ao")          ! 2, found 'o'
+   write(*,*) scan("fortran", "ao", .true.)  ! 6, found 'a'
+   write(*,*) scan("fortran", "c++")         ! 0, found none
+end program demo_scan
 ```
 
 ## __Standard__

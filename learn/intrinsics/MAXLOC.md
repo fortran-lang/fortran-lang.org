@@ -28,15 +28,15 @@ result value for that row is zero.
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type _integer_, _real_, or _character_.
+    : Shall be an array of type _integer_, _real_, or _character_.
 
   - __DIM__
-    (Optional) Shall be a scalar of type _integer_, with a value between
+    : (Optional) Shall be a scalar of type _integer_, with a value between
     one and the rank of __ARRAY__, inclusive. It may not be an optional
     dummy argument.
 
   - __MASK__
-    Shall be an array of type _logical_, and conformable with __ARRAY__.
+    : Shall be an array of type _logical_, and conformable with __ARRAY__.
 
 ## __Returns__
 
@@ -56,15 +56,16 @@ not start with one.
 sample program:
 
 ```fortran
-    program demo_maxloc
-    implicit none
-    integer      :: ii
-    integer,save :: i(-3:3)=[(abs(abs(ii)-50),ii=-3,3)]
-    integer,save :: ints(3,5)= reshape([&
-       1,  2,  3,  4,  5, &
-      10, 20, 30, 40, 50, &
-      11, 22, 33, 44, 55  &
-    ],shape(ints),order=[2,1])
+program demo_maxloc
+implicit none
+integer      :: ii
+integer,save :: i(-3:3)=[(abs(abs(ii)-50),ii=-3,3)]
+integer,save :: ints(3,5)= reshape([&
+   1,  2,  3,  4,  5, &
+   10, 20, 30, 40, 50, &
+   11, 22, 33, 44, 55  &
+],shape(ints),order=[2,1])
+
     write(*,*) maxloc(ints)
     write(*,*) maxloc(ints,dim=1)
     write(*,*) maxloc(ints,dim=2)
@@ -78,8 +79,7 @@ sample program:
     write(*,'(g0,1x,g0)') (ii,i(ii),ii=lbound(i,dim=1),ubound(i,dim=1))
     write(*,*)maxloc(i)
 
-    end program demo_maxloc
-```
+end program demo_maxloc
 
 expected output:
 ```text

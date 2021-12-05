@@ -20,10 +20,10 @@ dimension DIM.
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an array of type _real_.
+    : Shall be an array of type _real_.
 
   - __DIM__
-    (Optional) shall be a scalar of type _integer_ with a value in the
+    : (Optional) shall be a scalar of type _integer_ with a value in the
     range from 1 to n, where n equals the rank of ARRAY.
 
 ## __Returns__
@@ -40,11 +40,11 @@ with dimension DIM dropped is returned.
 Sample program:
 
 ```fortran
-   program demo_norm2
-   implicit none
-     real :: x(5) = [ real :: 1, 2, 3, 4, 5 ]
-     print *, norm2(x)  ! = sqrt(55.) ~ 7.416
-   end program demo_norm2
+program demo_norm2
+implicit none
+   real :: x(5) = [ real :: 1, 2, 3, 4, 5 ]
+   print *, norm2(x)  ! = sqrt(55.) ~ 7.416
+end program demo_norm2
 ```
 
 ## __Standard__
@@ -53,4 +53,6 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__product__(3), __sum__(3), __hypot__(3)
+[__product__(3)](PRODUCT),
+[__sum__(3)](SUM),
+[__hypot__(3)](HYPOT)

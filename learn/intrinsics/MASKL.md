@@ -39,4 +39,4 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__maskr__(3)
+[__maskr__(3)](MASKR)

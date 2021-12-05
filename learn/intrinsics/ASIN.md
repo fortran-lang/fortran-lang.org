@@ -24,13 +24,13 @@ the hypotenuse and the opposite side of a right triangle are known.
 ## __Arguments__
 
   - __X__
-    The type shall be either _real_ and a magnitude that is less than or
+    : The type shall be either _real_ and a magnitude that is less than or
     equal to one; or be _complex_.
 
 ## __Returns__
 
   - __RESULT__
-    The return value is of the same type and kind as __X__. The real part of
+    : The return value is of the same type and kind as __X__. The real part of
     the result is in radians and lies in the range __-PI/2 \<=
     asin(X) \<= PI/2__.
 

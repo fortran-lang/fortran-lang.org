@@ -26,16 +26,16 @@ function\|Bessel functions of the first kind of the orders __n1__ to __n2__.
 ## __Arguments__
 
   - __n__
-    Shall be a scalar or an array of type _integer_.
+    : Shall be a scalar or an array of type _integer_.
 
   - __n1__
-    Shall be a non-negative scalar of type _integer_.
+    : Shall be a non-negative scalar of type _integer_.
 
   - __n2__
-    Shall be a non-negative scalar of type _integer_.
+    : Shall be a non-negative scalar of type _integer_.
 
   - __x__
-    Shall be a scalar or an array of type _real_; for __bessel\_yn__(n1,
+    : Shall be a scalar or an array of type _real_; for __bessel\_yn__(n1,
     n2, x) it shall be scalar.
 
 ## __Returns__

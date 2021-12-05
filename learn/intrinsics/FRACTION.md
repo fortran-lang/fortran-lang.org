@@ -20,7 +20,7 @@ y = __fraction__(x)
 ## __Arguments__
 
   - __X__
-    The type of the argument shall be a _real_.
+    : The type of the argument shall be a _real_.
 
 ## __Returns__
 
@@ -33,12 +33,12 @@ __radix__(x)\*\*(__-exponent__(x)).
 Sample program:
 
 ```fortran
-    program demo_fraction
-    implicit none
-      real :: x
-      x = 178.1387e-4
-      print *, fraction(x), x * radix(x)**(-exponent(x))
-    end program demo_fraction
+program demo_fraction
+implicit none
+real :: x
+   x = 178.1387e-4
+   print *, fraction(x), x * radix(x)**(-exponent(x))
+end program demo_fraction
 ```
 
 ## __Standard__

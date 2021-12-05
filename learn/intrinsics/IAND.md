@@ -19,10 +19,10 @@ Bitwise logical __and__.
 ## __Arguments__
 
   - __i__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __j__
-    The type shall be _integer_, of the same kind as __i__.
+    : The type shall be _integer_, of the same kind as __i__.
 
 ## __Returns__
 
@@ -34,12 +34,12 @@ argument kinds differ, it is of the same kind as the larger argument.)
 Sample program:
 
 ```fortran
-    program demo_iand
-    implicit none
-      integer :: a, b
+program demo_iand
+implicit none
+integer :: a, b
       data a / z'f' /, b / z'3' /
       write (*,*) iand(a, b)
-    end program demo_iand
+end program demo_iand
 ```
 
 ## __Standard__

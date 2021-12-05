@@ -22,14 +22,14 @@ equal to the value __bit\_size(i)__.
 ## __Arguments__
 
   - __i__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __pos__
-    The type shall be _integer_. A value of zero refers to the least
+    : The type shall be _integer_. A value of zero refers to the least
     significant bit.
 
   - __len__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Returns__
 

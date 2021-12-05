@@ -20,13 +20,13 @@ the DIM codimension.
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an coarray, of any type.
+    : Shall be an coarray, of any type.
 
   - __DIM__
-    (Optional) Shall be a scalar _integer_.
+    : (Optional) Shall be a scalar _integer_.
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -43,4 +43,5 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__co\_ubound__(3), __lbound__(3)
+[__co\_ubound__(3)](CO_UBOUND),
+[__lbound__(3)](LBOUND)

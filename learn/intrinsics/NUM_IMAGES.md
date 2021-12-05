@@ -19,10 +19,10 @@ Returns the number of images.
 ## __Arguments__
 
   - __DISTANCE__
-    (optional, __intent__(in)) Nonnegative scalar integer
+    : (optional, __intent__(in)) Nonnegative scalar integer
 
   - __FAILED__
-    (optional, __intent__(in)) Scalar logical expression
+    : (optional, __intent__(in)) Scalar logical expression
 
 ## __Returns__
 
@@ -41,18 +41,20 @@ of images which do have not the failed status.
 Sample program:
 
 ```fortran
-   program demo_num_images
-   implicit none
-   integer :: value[*]
-   integer :: i
+program demo_num_images
+implicit none
+integer :: value[*]
+integer :: i
+
    value = this_image()
-      sync all
-      if (this_image() == 1) then
-        do i = 1, num_images()
-          write(*,'(2(a,i0))') 'value[', i, '] is ', value[i]
-        end do
-      endif
-   end program demo_num_images
+   sync all
+   if (this_image() == 1) then
+     do i = 1, num_images()
+       write(*,'(2(a,i0))') 'value[', i, '] is ', value[i]
+     end do
+   endif
+
+end program demo_num_images
 ```
 
 ## __Standard__
@@ -61,4 +63,5 @@ Fortran 2008 and later. With DISTANCE or FAILED argument, TS 18508 or later
 
 ## __See Also__
 
-__this\_image__(3), __image\_index__(3)
+[__this\_image__(3)](THIS_IMAGE),
+[__image\_index__(3)](THIS_INDEX)

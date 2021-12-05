@@ -14,31 +14,31 @@ result = __reshape__(source, shape\[, pad, order\])
 
 ## __Description__
 
-Reshapes array SOURCE to correspond to SHAPE. If necessary, the new
-array may be padded with elements from PAD or permuted as defined by
-ORDER.
+Reshapes array __source__ to correspond to __shape__. If necessary, the new
+array may be padded with elements from __pad__ or permuted as defined by
+__order__.
 
 ## __Arguments__
 
-  - __SOURCE__
-    an array of any type.
+  - __source__
+    : an array of any type.
 
-  - __SHAPE__
-    an array of rank one and type _integer_. Its values must be positive
+  - __shape__
+    : an array of rank one and type _integer_. Its values must be positive
     or zero.
 
-  - __PAD__
-    (Optional) an array of the same type as SOURCE.
+  - __pad__
+    : (Optional) an array of the same type as __source__.
 
-  - __ORDER__
-    (Optional) an array of type _integer_ and the same shape as SHAPE. Its
+  - __order__
+    : (Optional) an array of type _integer_ and the same shape as __shape__. Its
     values shall be a permutation of the numbers from 1 to n, where n is
-    the size of SHAPE. If ORDER is absent, the natural ordering shall be
+    the size of __shape__. If __order__ is absent, the natural ordering shall be
     assumed.
 
 ## __Returns__
 
-The result is an array of shape SHAPE with the same type as SOURCE.
+The result is an array of shape __shape__ with the same type as __source__.
 
 ## __Examples__
 

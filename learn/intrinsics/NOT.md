@@ -17,7 +17,7 @@ NOT returns the bitwise Boolean inverse of I.
 ## __Arguments__
 
   - __I__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Returns__
 
@@ -28,13 +28,15 @@ The return type is _integer_, of the same kind as the argument.
 Sample program
 
 ```fortran
-    program demo_not
-    implicit none
-    integer :: i
-       i=13741
-       write(*,'(b32.32,1x,i0)')i,i
-       write(*,'(b32.32,1x,i0)')not(i),not(i)
-    end program demo_not
+program demo_not
+implicit none
+integer :: i
+
+   i=13741
+   write(*,'(b32.32,1x,i0)')i,i
+   write(*,'(b32.32,1x,i0)')not(i),not(i)
+
+end program demo_not
 ```
 
 Results:
@@ -50,7 +52,12 @@ Fortran 95 and later
 
 ## __See Also__
 
-__iand__(3), __ior__(3), __ieor__(3), __ibits__(3), __ibset__(3),
-__ibclr__(3)
+[__iand__(3)](IAND),
+[__ior__(3)](IOR),
+[__ieor__(3)](IEOR),
+[__ibits__(3)](IBITS),
+[__ibset__(3)](IBSET),
+
+[__ibclr__(3)](IBCLR)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -23,23 +23,23 @@ hypotenuse.
 ## __Arguments__
 
   - __X__
-    The type shall be _real_ or _complex_ in radians.
+    : The type shall be _real_ or _complex_ in radians.
 
 ## __Returns__
 
   - __RESULT__
-    The return value has the same type and kind as X.
+    : The return value has the same type and kind as X.
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-    program sample_sin
-    implicit none
-      real :: x = 0.0
-      x = sin(x)
-    end program sample_sin
+program sample_sin
+implicit none
+real :: x = 0.0
+   x = sin(x)
+end program sample_sin
 ```
 
 ## __Haversine Formula__
@@ -119,6 +119,8 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__asin__(3), __cos__(3), __tan__(3)
+[__asin__(3)](ASIN),
+[__cos__(3)](COS),
+[__tan__(3)](TAN)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)

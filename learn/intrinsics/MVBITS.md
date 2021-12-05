@@ -22,19 +22,19 @@ __frompos+len-1__ and __topos+len-1__ must be less than __bit\_size__(from).
 ## __Arguments__
 
   - __from__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __frompos__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __len__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __to__
-    The type shall be _integer_, of the same kind as __from__.
+    : The type shall be _integer_, of the same kind as __from__.
 
   - __topos__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Standard__
 

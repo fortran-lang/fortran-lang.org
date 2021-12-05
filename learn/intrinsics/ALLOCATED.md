@@ -22,10 +22,10 @@ status of ARRAY and SCALAR, respectively.
 ## __Arguments__
 
   - __ARRAY__
-    the argument shall be an ALLOCATABLE array.
+    : the argument shall be an ALLOCATABLE array.
 
   - __SCALAR__
-    the argument shall be an ALLOCATABLE scalar.
+    : the argument shall be an ALLOCATABLE scalar.
 
 ## __Returns__
 

@@ -19,7 +19,7 @@ __sinh__(x) computes the hyperbolic sine of X.
 ## __Arguments__
 
   - __X__
-    The type shall be _real_ or _complex_.
+    : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
@@ -30,12 +30,12 @@ The return value has same type and kind as X.
 Sample program:
 
 ```fortran
-   program demo_sinh
-   use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
-   implicit none
-     real(kind=real64) :: x = - 1.0_real64
-     x = sinh(x)
-   end program demo_sinh
+program demo_sinh
+use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
+implicit none
+real(kind=real64) :: x = - 1.0_real64
+   x = sinh(x)
+end program demo_sinh
 ```
 
 ## __Standard__
@@ -44,4 +44,4 @@ Fortran 95 and later, for a complex argument Fortran 2008 or later
 
 ## __See Also__
 
-__asinh__(3)
+[__asinh__(3)](ASINH)

@@ -21,7 +21,7 @@ e\*\*{__-t__\*\*2} dt. $$
 ## __Arguments__
 
   - __X__
-    The type shall be _real_.
+    : The type shall be _real_.
 
 ## __Returns__
 
@@ -35,12 +35,12 @@ the range
 Sample program:
 
 ```fortran
-   program demo_erfc
-   use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
-   implicit none
-   real(kind=real64) :: x = 0.17_real64
-     x = erfc(x)
-   end program demo_erfc
+program demo_erfc
+use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
+implicit none
+real(kind=real64) :: x = 0.17_real64
+    x = erfc(x)
+end program demo_erfc
 ```
 
 ## __Standard__

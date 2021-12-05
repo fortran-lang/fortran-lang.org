@@ -20,10 +20,10 @@ __scale__(x,i) returns x \* __radix__(x)\*\*i.
 ## __Arguments__
 
   - __X__
-    The type of the argument shall be a _real_.
+    : The type of the argument shall be a _real_.
 
   - __I__
-    The type of the argument shall be a _integer_.
+    : The type of the argument shall be a _integer_.
 
 ## __Returns__
 
@@ -35,12 +35,12 @@ __radix__(x)\*\*i.
 Sample program:
 
 ```fortran
-    program demo_scale
-    implicit none
-      real :: x = 178.1387e-4
-      integer :: i = 5
-      print *, scale(x,i), x*radix(x)**i
-    end program demo_scale
+program demo_scale
+implicit none
+real :: x = 178.1387e-4
+integer :: i = 5
+   print *, scale(x,i), x*radix(x)**i
+end program demo_scale
 ```
 
 Results:

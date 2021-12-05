@@ -24,10 +24,10 @@ representation is the sign bit.
 ## __Arguments__
 
   - __I__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __SHIFT__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Returns__
 
@@ -39,4 +39,5 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__shiftl__(3), __shiftr__(3)
+[__shiftl__(3)](SHIFTL),
+[__shiftr__(3)](SHIFTR)

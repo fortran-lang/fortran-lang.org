@@ -20,7 +20,7 @@ of X.
 ## __Arguments__
 
   - __X__
-    Shall be of type _real_ or _complex_.
+    : Shall be of type _real_ or _complex_.
 
 ## __Returns__
 
@@ -31,14 +31,14 @@ The return value is of type _integer_ and of the default integer kind.
 Sample program:
 
 ```fortran
-    program demo_precision
-    implicit none
-      real(kind=4) :: x(2)
-      complex(kind=8) :: y
+program demo_precision
+implicit none
+real(kind=4) :: x(2)
+complex(kind=8) :: y
 
-      print *, precision(x), range(x)
-      print *, precision(y), range(y)
-    end program demo_precision
+   print *, precision(x), range(x)
+   print *, precision(y), range(y)
+end program demo_precision
 ```
 
 ## __Standard__

@@ -25,10 +25,10 @@ opposite end.
 ## __Arguments__
 
   - __I__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __SHIFT__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Returns__
 
@@ -40,4 +40,4 @@ Fortran 95 and later
 
 ## __See Also__
 
-__ishftc__(3)
+[__ishftc__(3)](ISHFTC)

@@ -20,7 +20,7 @@ bit) represented by the type of __i__.
 ## __Arguments__
 
   - __I__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Returns__
 

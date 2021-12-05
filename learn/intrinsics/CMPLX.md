@@ -120,22 +120,22 @@ _complex_ kind, regardless of the kinds of X and Y.
 Sample program:
 
 ```fortran
-   program demo_aimag
-   implicit none
-   integer,parameter :: dp=kind(0.0d0)
-   complex          :: z4
-   complex(kind=dp) :: z8
-      z4 = cmplx(1.23456789, 1.23456789)
-      print *, 'Z4=',z4
-      ! using kind=dp makes it keep DOUBLEPRECISION precision
-      z8 = cmplx(1.2345678901234567d0, 1.2345678901234567d0,kind=dp)
-      print *, 'Z8=',z8
-      ! NOTE:
-      ! The following is intuitive and works without calling cmplx(3)
-      ! but does not work for variables just constants
-      z8 = (1.2345678901234567d0 , 1.2345678901234567d0 )
-      print *, 'Z8 defined with constants=',z8
-   end program demo_aimag
+program demo_aimag
+implicit none
+integer,parameter :: dp=kind(0.0d0)
+complex          :: z4
+complex(kind=dp) :: z8
+   z4 = cmplx(1.23456789, 1.23456789)
+   print *, 'Z4=',z4
+   ! using kind=dp makes it keep DOUBLEPRECISION precision
+   z8 = cmplx(1.2345678901234567d0, 1.2345678901234567d0,kind=dp)
+   print *, 'Z8=',z8
+   ! NOTE:
+   ! The following is intuitive and works without calling cmplx(3)
+   ! but does not work for variables just constants
+   z8 = (1.2345678901234567d0 , 1.2345678901234567d0 )
+   print *, 'Z8 defined with constants=',z8
+end program demo_aimag
 ```
 
 Typical Results:
@@ -148,13 +148,13 @@ Typical Results:
 
 ## __See Also__
 
-  - __aimag__(3) - Imaginary part of complex number
+  - [__aimag__(3)](AIMAG) - Imaginary part of complex number
 
-  - __cmplx__(3) - Complex conversion function
+  - [__cmplx__(3)](CMPLX) - Complex conversion function
 
-  - __conjg__(3) - Complex conjugate function
+  - [__conjg__(3)](CONJG) - Complex conjugate function
 
-  - __real__(3) - Convert to real type
+  - [__real__(3)](REAL) - Convert to real type
 
 ## __Standard__
 

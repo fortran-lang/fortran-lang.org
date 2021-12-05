@@ -19,10 +19,10 @@ __ceiling__(a) returns the least integer greater than or equal to A.
 ## __Arguments__
 
   - __A__
-    The type shall be _real_.
+    : The type shall be _real_.
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -35,13 +35,13 @@ default-kind _integer_ otherwise.
 Sample program:
 
 ```fortran
-    program demo_ceiling
-    implicit none
-    real :: x = 63.29
-    real :: y = -63.59
-       print *, ceiling(x) ! returns 64
-       print *, ceiling(y) ! returns -63
-    end program demo_ceiling
+program demo_ceiling
+implicit none
+real :: x = 63.29
+real :: y = -63.59
+   print *, ceiling(x) ! returns 64
+   print *, ceiling(y) ! returns -63
+end program demo_ceiling
 ```
 
 ## __Standard__
@@ -50,4 +50,5 @@ Fortran 95 and later
 
 ## __See Also__
 
-__floor__(3), __nint__(3)
+[__floor__(3)](FLOOR),
+[__nint__(3)](NINT)

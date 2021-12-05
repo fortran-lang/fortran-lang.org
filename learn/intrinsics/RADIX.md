@@ -19,7 +19,7 @@ __radix__(x) returns the base of the model representing the entity X.
 ## __Arguments__
 
   - __X__
-    Shall be of type _integer_ or _real_
+    : Shall be of type _integer_ or _real_
 
 ## __Returns__
 
@@ -31,11 +31,11 @@ kind.
 Sample program:
 
 ```fortran
-    program demo_radix
-    implicit none
-      print *, "The radix for the default integer kind is", radix(0)
-      print *, "The radix for the default real kind is", radix(0.0)
-    end program demo_radix
+program demo_radix
+implicit none
+   print *, "The radix for the default integer kind is", radix(0)
+   print *, "The radix for the default real kind is", radix(0.0)
+end program demo_radix
 ```
 
 ## __Standard__

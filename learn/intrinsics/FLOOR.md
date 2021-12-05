@@ -19,10 +19,10 @@ result = __floor__(a \[, kind\])
 ## __Arguments__
 
   - __A__
-    The type shall be _real_.
+    : The type shall be _real_.
 
   - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -35,13 +35,13 @@ default-kind _integer_ otherwise.
 Sample program:
 
 ```fortran
-    program demo_floor
-    implicit none
-        real :: x = 63.29
-        real :: y = -63.59
-        print *, floor(x) ! returns 63
-        print *, floor(y) ! returns -64
-    end program demo_floor
+program demo_floor
+implicit none
+real :: x = 63.29
+real :: y = -63.59
+    print *, floor(x) ! returns 63
+    print *, floor(y) ! returns -64
+end program demo_floor
 ```
 
 ## __Standard__
@@ -50,4 +50,5 @@ Fortran 95 and later
 
 ## __See Also__
 
-__ceiling__(3), __nint__(3)
+[__ceiling__(3)](CEILING),
+[__nint__(3)](NINT)

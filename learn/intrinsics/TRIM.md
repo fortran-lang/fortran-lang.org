@@ -19,7 +19,7 @@ Removes trailing blank characters of a string.
 ## __Arguments__
 
   - __STRING__
-    Shall be a scalar of type CHARACTER.
+    : Shall be a scalar of type CHARACTER.
 
 ## __Returns__
 
@@ -31,11 +31,11 @@ number of trailing blanks.
 Sample program:
 
 ```fortran
-    program demo_trim
-    implicit none
-      character(len=10), parameter :: s = "gfortran  "
-      write(*,*) len(s), len(trim(s))  ! "10 8", with/without trailing blanks
-    end program demo_trim
+program demo_trim
+implicit none
+character(len=10), parameter :: s = "gfortran  "
+   write(*,*) len(s), len(trim(s))  ! "10 8", with/without trailing blanks
+end program demo_trim
 ```
 
 ## __Standard__

@@ -26,13 +26,13 @@ section are shifted back in the other end.
 ## __Arguments__
 
   - __ARRAY__
-    Shall be an array of any type.
+    : Shall be an array of any type.
 
   - __SHIFT__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __DIM__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
 ## __Returns__
 
@@ -43,19 +43,19 @@ Returns an array of same type and rank as the ARRAY argument.
 Sample program:
 
 ```fortran
-    program demo_cshift
-    implicit none
-    integer, dimension(3,3) :: a
-        a = reshape( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ], [ 3, 3 ])
-        print '(3i3)', a(1,:)
-        print '(3i3)', a(2,:)
-        print '(3i3)', a(3,:)
-        a = cshift(a, SHIFT=[1, 2, -1], DIM=2)
-        print *
-        print '(3i3)', a(1,:)
-        print '(3i3)', a(2,:)
-        print '(3i3)', a(3,:)
-    end program demo_cshift
+program demo_cshift
+implicit none
+integer, dimension(3,3) :: a
+    a = reshape( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ], [ 3, 3 ])
+    print '(3i3)', a(1,:)
+    print '(3i3)', a(2,:)
+    print '(3i3)', a(3,:)
+    a = cshift(a, SHIFT=[1, 2, -1], DIM=2)
+    print *
+    print '(3i3)', a(1,:)
+    print '(3i3)', a(2,:)
+    print '(3i3)', a(3,:)
+end program demo_cshift
 ```
 
 ## __Standard__

@@ -21,7 +21,7 @@ A.
 ## __Arguments__
 
   - __A__
-    The type shall be a double precision _real_.
+    : The type shall be a double precision _real_.
 
 ## __Returns__
 
@@ -33,4 +33,4 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__dble__(3)
+[__dble__(3)](DBLE)

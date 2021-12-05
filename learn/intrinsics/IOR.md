@@ -24,10 +24,10 @@ __ior__ returns the bit-wise Boolean inclusive-__or__ of __i__ and __j__.
 ## __Arguments__
 
   - __i__
-    an _integer_ scalar or array.
+    : an _integer_ scalar or array.
 
   - __j__
-    _integer_ scalar or array, of the same kind as __i__.
+    : _integer_ scalar or array, of the same kind as __i__.
 
 ## __Returns__
 
@@ -39,14 +39,14 @@ argument kinds differ, it is of the same kind as the larger argument.)
 Sample program:
 
 ```fortran
-   program demo_ior
-   implicit none
-   integer :: i, j, k
-      i=53       ! i=00110101 binary (lowest order byte)
-      j=45       ! j=00101101 binary (lowest order byte)
-      k=ior(i,j) ! k=00111101 binary (lowest order byte) , k=61 decimal
-      write(*,'(i8,1x,b8.8)')i,i,j,j,k,k
-   end program demo_ior
+program demo_ior
+implicit none
+integer :: i, j, k
+   i=53       ! i=00110101 binary (lowest order byte)
+   j=45       ! j=00101101 binary (lowest order byte)
+   k=ior(i,j) ! k=00111101 binary (lowest order byte) , k=61 decimal
+   write(*,'(i8,1x,b8.8)')i,i,j,j,k,k
+end program demo_ior
 ```
 
 Results:

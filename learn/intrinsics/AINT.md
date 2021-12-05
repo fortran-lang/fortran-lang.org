@@ -19,10 +19,10 @@ __aint(A \[, KIND\])__ truncates its argument to a whole number.
 ## __Arguments__
 
   - __A__
-    the type of the argument shall be _real_.
+    : the type of the argument shall be _real_.
 
   - __KIND__
-    (optional) an _integer_ initialization expression indicating the kind
+    : (optional) an _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__

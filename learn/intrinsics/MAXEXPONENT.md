@@ -20,7 +20,7 @@ of X.
 ## __Arguments__
 
   - __X__
-    Shall be of type _real_.
+    : Shall be of type _real_.
 
 ## __Returns__
 
@@ -31,14 +31,14 @@ The return value is of type _integer_ and of the default integer kind.
 Sample program:
 
 ```fortran
-    program demo_maxexponent
-    implicit none
-      real(kind=4) :: x
-      real(kind=8) :: y
+program demo_maxexponent
+implicit none
+real(kind=4) :: x
+real(kind=8) :: y
 
-      print *, minexponent(x), maxexponent(x)
-      print *, minexponent(y), maxexponent(y)
-    end program demo_maxexponent
+   print *, minexponent(x), maxexponent(x)
+   print *, minexponent(y), maxexponent(y)
+end program demo_maxexponent
 ```
 
 ## __Standard__

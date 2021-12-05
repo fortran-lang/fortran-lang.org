@@ -22,36 +22,37 @@ data retrieved from the operating system.
 
 ## __Arguments__
 
-  - __SIZE__
-    (Optional) Shall be a scalar and of type default _integer_, with
+  - __size__
+    : (Optional) Shall be a scalar and of type default _integer_, with
     __intent__(out). It specifies the minimum size of the arrays used
-    with the PUT and GET arguments.
+    with the __put__ and __get__ arguments.
 
-  - __PUT__
-    (Optional) Shall be an array of type default _integer_ and rank one.
+  - __put__
+    : (Optional) Shall be an array of type default _integer_ and rank one.
     It is __intent__(in) and the size of the array must be larger than
-    or equal to the number returned by the SIZE argument.
+    or equal to the number returned by the __size__ argument.
 
-  - __GET__
-    (Optional) Shall be an array of type default _integer_ and rank one.
+  - __get__
+    : (Optional) Shall be an array of type default _integer_ and rank one.
     It is __intent__(out) and the size of the array must be larger than
-    or equal to the number returned by the SIZE argument.
+    or equal to the number returned by the __size__ argument.
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-   program demo_random_seed
-     implicit none
-     integer, allocatable :: seed(:)
-     integer :: n
+program demo_random_seed
+implicit none
+integer, allocatable :: seed(:)
+integer :: n
 
-     call random_seed(size = n)
-     allocate(seed(n))
-     call random_seed(get=seed)
-     write (*, *) seed
-   end program demo_random_seed
+   call random_seed(size = n)
+   allocate(seed(n))
+   call random_seed(get=seed)
+   write (*, *) seed
+
+end program demo_random_seed
 ```
 
 ## __Standard__
@@ -60,4 +61,4 @@ Fortran 95 and later
 
 ## __See Also__
 
-__random\_number__(3)
+[__random\_number__(3)](RANDOM_NUMBER)

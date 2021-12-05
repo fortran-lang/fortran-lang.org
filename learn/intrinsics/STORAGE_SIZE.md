@@ -19,10 +19,10 @@ Returns the storage size of argument A in bits.
 ## __Arguments__
 
   - __A__
-    Shall be a scalar or array of any type.
+    : Shall be a scalar or array of any type.
 
   - __KIND__
-    (Optional) shall be a scalar integer constant expression.
+    : (Optional) shall be a scalar integer constant expression.
 
 ## __Returns__
 
@@ -36,14 +36,14 @@ dynamic type and type parameters of A.
 Sample program
 
 ```fortran
-    program demo_storage_size
-    implicit none
-       write(*,*)'size of integer ',storage_size(0)
-       write(*,*)'size of real    ',storage_size(0.0)
-       write(*,*)'size of logical ',storage_size(.true.)
-       write(*,*)'size of complex ',storage_size((0.0,0.0))
-       write(*,*)'size of integer array ',storage_size([0,1,2,3,4,5,6,7,8,9])
-    end program demo_storage_size
+program demo_storage_size
+implicit none
+   write(*,*)'size of integer ',storage_size(0)
+   write(*,*)'size of real    ',storage_size(0.0)
+   write(*,*)'size of logical ',storage_size(.true.)
+   write(*,*)'size of complex ',storage_size((0.0,0.0))
+   write(*,*)'size of integer array ',storage_size([0,1,2,3,4,5,6,7,8,9])
+end program demo_storage_size
 ```
 
 ## __Standard__
@@ -52,4 +52,4 @@ Fortran 2008 and later
 
 ## __See Also__
 
-__c\_sizeof__(3)
+[__c\_sizeof__(3)](C_SIZEOF)

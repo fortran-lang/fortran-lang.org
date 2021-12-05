@@ -17,15 +17,15 @@ __acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine function
 
 ## __Description__
 
-__acos(X)__ computes the arccosine of __X__ (inverse of __cos(X)__).
+__acos(x)__ computes the arccosine of __x__ (inverse of __cos(x)__).
 
 ## __Arguments__
 
-  - __X__
-    The type shall be _real_ with a magnitude that is less than one.
+  - __x__
+    : The type shall be _real_ with a magnitude that is less than one.
 ## __Returns__
 
-The return value is of the same type and kind as __X__. The real part of the
+The return value is of the same type and kind as __x__. The real part of the
 result is in radians and lies in the range
 
      __0 \<= acos(X) \<= PI__

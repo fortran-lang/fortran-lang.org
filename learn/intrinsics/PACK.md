@@ -31,14 +31,14 @@ __vector__.
 ## __Arguments__
 
   - __array__
-    Shall be an array of any type.
+    : Shall be an array of any type.
 
   - __mask__
-    Shall be an array of type _logical_ and of the same size as __array__.
+    : Shall be an array of type _logical_ and of the same size as __array__.
     Alternatively, it may be a _logical_ scalar.
 
   - __vector__
-    (Optional) shall be an array of the same type as __array__ and of rank
+    : (Optional) shall be an array of the same type as __array__ and of rank
     one. If present, the number of elements in __vector__ shall be equal to
     or greater than the number of true elements in __mask__. If __mask__ is
     scalar, the number of elements in __vector__ shall be equal to or
@@ -55,37 +55,43 @@ __.true.__ values in __mask__ otherwise.
 Sample program:
 
 ```fortran
-    program demo_pack
-    implicit none
-    call test1()
-    call test2()
-    call test3()
-    contains
-    !
-    subroutine test1()
-    ! gathering nonzero elements from an array:
-    integer :: m(6)
-      m = [ 1, 0, 0, 0, 5, 0 ]
-      write(*, fmt="(*(i0, ' '))") pack(m, m /= 0)  ! "1 5"
-    end subroutine test1
-    !
-    subroutine test2()
-    ! Gathering nonzero elements from an array and appending elements
-    ! from VECTOR till the size of the mask array (or array size if the
-    ! mask is scalar):
-    integer :: m(4)
-      m = [ 1, 0, 0, 2 ]
-      write(*, fmt="(*(i0, ' '))") pack(m, m /= 0, [ 0, 0, 3, 4 ])
-    end subroutine test2
-    !
-    subroutine test3()
-    ! select strings whose second character is "a"
-    character(len=10) :: m(4)
-    m = [ character(len=10) :: 'ape', 'bat', 'cat', 'dog']
-      write(*, fmt="(*(g0, ' '))") pack(m, m(:)(2:2) == 'a' )
-    end subroutine test3
-    !
-    end program demo_pack
+program demo_pack
+implicit none
+   call test1()
+   call test2()
+   call test3()
+contains
+!
+subroutine test1()
+! gathering nonzero elements from an array:
+integer :: m(6)
+
+   m = [ 1, 0, 0, 0, 5, 0 ]
+   write(*, fmt="(*(i0, ' '))") pack(m, m /= 0)  ! "1 5"
+
+end subroutine test1
+!
+subroutine test2()
+! Gathering nonzero elements from an array and appending elements
+! from VECTOR till the size of the mask array (or array size if the
+! mask is scalar):
+integer :: m(4)
+
+   m = [ 1, 0, 0, 2 ]
+   write(*, fmt="(*(i0, ' '))") pack(m, m /= 0, [ 0, 0, 3, 4 ])
+
+end subroutine test2
+!
+subroutine test3()
+! select strings whose second character is "a"
+character(len=10) :: m(4)
+
+m = [ character(len=10) :: 'ape', 'bat', 'cat', 'dog']
+   write(*, fmt="(*(g0, ' '))") pack(m, m(:)(2:2) == 'a' )
+
+end subroutine test3
+!
+end program demo_pack
 ```
   Results:
 ```text

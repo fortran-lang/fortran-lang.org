@@ -20,10 +20,10 @@ dimension DIM.
 ## __Arguments__
 
   - __MASK__
-    Shall be an array of type _logical_.
+    : Shall be an array of type _logical_.
 
   - __DIM__
-    (Optional) shall be a scalar of type _integer_ with a value in the
+    : (Optional) shall be a scalar of type _integer_ with a value in the
     range from 1 to n, where n equals the rank of ARRAY.
 
 ## __Returns__
@@ -41,11 +41,11 @@ with dimension DIM dropped is returned.
 Sample program:
 
 ```fortran
-   program demo_parity
-   implicit none
-     logical :: x(2) = [ .true., .false. ]
-     print *, parity(x) ! T
-   end program demo_parity
+program demo_parity
+implicit none
+logical :: x(2) = [ .true., .false. ]
+   print *, parity(x) ! T
+end program demo_parity
 ```
 
 ## __Standard__

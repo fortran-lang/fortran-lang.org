@@ -14,16 +14,15 @@ result = __char__(i \[, kind\])
 
 ## __Description__
 
-__char__(i \[, kind\]) returns the character represented by the integer
-I.
+__char(i, kind)__ returns the character represented by the integer __i__.
 
 ## __Arguments__
 
-  - __I__
-    The type shall be _integer_.
+  - __i__
+    : The type shall be _integer_.
 
-  - __KIND__
-    (Optional) An _integer_ initialization expression indicating the kind
+  - __kind__
+    : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -35,13 +34,13 @@ The return value is of type __character__(1)
 Sample program:
 
 ```fortran
-    program demo_char
-    implicit none
-    integer :: i = 74
-    character(1) :: c
-        c = char(i)
-        print *, i, c ! returns 'J'
-    end program demo_char
+program demo_char
+implicit none
+integer :: i = 74
+character(1) :: c
+    c = char(i)
+    print *, i, c ! returns 'J'
+end program demo_char
 ```
 
 ## __Note__

@@ -29,10 +29,10 @@ __hypot(x,y)__ returns the distance between the point __<x,y>__ and the origin.
 ## __Arguments__
 
   - __x__
-    The type shall be _real_.
+    : The type shall be _real_.
 
   - __y__
-    The type and kind type parameter shall be the same as __x__.
+    : The type and kind type parameter shall be the same as __x__.
 
 ## __Returns__
 

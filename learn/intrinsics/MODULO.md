@@ -44,8 +44,8 @@ magnitude of __p__.
 Sample program:
 
 ```fortran
-   program demo_modulo
-   implicit none
+program demo_modulo
+implicit none
      print *, modulo(17,3)        ! yields 2
      print *, modulo(17.5,5.5)    ! yields 1.0
 
@@ -54,7 +54,7 @@ Sample program:
 
      print *, modulo(17,-3)       ! yields -1
      print *, modulo(17.5,-5.5)   ! yields -4.5
-   end program demo_modulo
+end program demo_modulo
 ```
 
 ## __Standard__
@@ -63,4 +63,4 @@ Fortran 95 and later
 
 ## __See Also__
 
-__mod__(3)
+[__mod__(3)](MOD)

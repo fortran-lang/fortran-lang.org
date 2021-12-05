@@ -20,10 +20,10 @@ X in the direction indicated by the sign of S.
 ## __Arguments__
 
   - __X__
-    Shall be of type _real_.
+    : Shall be of type _real_.
 
   - __S__
-    Shall be of type _real_ and not equal to zero.
+    : Shall be of type _real_ and not equal to zero.
 
 ## __Returns__
 
@@ -37,13 +37,15 @@ smaller than X and nearest to it.
 Sample program:
 
 ```fortran
-   program demo_nearest
-   implicit none
-     real :: x, y
-     x = nearest(42.0, 1.0)
-     y = nearest(42.0, -1.0)
-     write (*,"(3(g20.15))") x, y, x - y
-   end program demo_nearest
+program demo_nearest
+implicit none
+
+   real :: x, y
+   x = nearest(42.0, 1.0)
+   y = nearest(42.0, -1.0)
+   write (*,"(3(g20.15))") x, y, x - y
+
+end program demo_nearest
 ```
 
 ## __Standard__

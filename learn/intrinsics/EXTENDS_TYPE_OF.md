@@ -20,20 +20,20 @@ is an extension of the dynamic type of *MOLD*.
 ## __Options__
 
   - __*A__*
-    shall be an object of extensible type. If it is a pointer, it shall
+    : shall be an object of extensible type. If it is a pointer, it shall
     not have an undefined association status.
 
   - __*MOLD__*
-    shall be an object of extensible type. If it is a pointer, it shall
+    : shall be an object of extensible type. If it is a pointer, it shall
     not have an undefined association status.
 
 ## __Returns__
 
   - __RESULT__
-    Default logical scalar.
+    : Default logical scalar.
 
   - __VALUE__
-    If *MOLD* is unlimited polymorphic and is either a disassociated
+    : If *MOLD* is unlimited polymorphic and is either a disassociated
     pointer or unallocated allocatable variable, the result is true;
     otherwise if *A* is unlimited polymorphic and is either a
     disassociated pointer or unallocated allocatable variable, the
@@ -45,4 +45,3 @@ is an extension of the dynamic type of *MOLD*.
     allocatable variable is its declared type.
 
 ## __Examples__
-

@@ -20,15 +20,15 @@ Replicates a __source__ array __ncopies__ times along a specified dimension __di
 ## __Arguments__
 
   - __source__
-    Shall be a scalar or an array of any type and a rank less than
+    : Shall be a scalar or an array of any type and a rank less than
     seven.
 
   - __dim__
-    Shall be a scalar of type _integer_ with a value in the range from 1
+    : Shall be a scalar of type _integer_ with a value in the range from 1
     to n+1, where n equals the rank of __source__.
 
   - __ncopies__
-    Shall be a scalar of type _integer_.
+    : Shall be a scalar of type _integer_.
 
 ## __Returns__
 
@@ -40,23 +40,25 @@ n equals the rank of __source__.
 Sample program:
 
 ```fortran
-    program demo_spread
-    implicit none
-      integer :: a = 1, b(2) = [ 1, 2 ]
-      write(*,*) spread(a, 1, 2)            ! "1 1"
-      write(*,*) spread(b, 1, 2)            ! "1 1 2 2"
-    end program demo_spread
+program demo_spread
+implicit none
+integer :: a = 1, b(2) = [ 1, 2 ]
 
-     program example_spread
-     !  Author:
-     !    John Burkardt, 03 July 2006
-     implicit none
+   write(*,*) spread(a, 1, 2)            ! "1 1"
+   write(*,*) spread(b, 1, 2)            ! "1 1 2 2"
+
+end program demo_spread
+
+program example_spread
+!  Author:
+!    John Burkardt, 03 July 2006
+implicit none
      !
-     integer ( kind = 4 ) a1(4,3)
-     integer ( kind = 4 ) a2(3,4)
-     integer i
-     integer ( kind = 4 ) s
-     integer ( kind = 4 ) v(4)
+integer ( kind = 4 ) a1(4,3)
+integer ( kind = 4 ) a2(3,4)
+integer i
+integer ( kind = 4 ) s
+integer ( kind = 4 ) v(4)
      !
      write ( *, '(a)' ) ' '
      write ( *, '(a)' ) 'TEST_SPREAD'
@@ -101,7 +103,7 @@ Sample program:
      do i = 1, 3
        write ( *, '(4i6)' ) a2(i,1:4)
      end do
-     end program example_spread
+end program example_spread
 ```
 
 ## __Standard__

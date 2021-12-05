@@ -27,22 +27,22 @@ stat\_failed\_image.
 ## __Arguments__
 
   - __ATOM__
-    Scalar coarray or coindexed variable of either integer type with
+    : Scalar coarray or coindexed variable of either integer type with
     atomic\_int\_kind kind or logical type with atomic\_logical\_kind
     kind.
 
   - __OLD__
-    Scalar of the same type and kind as ATOM.
+    : Scalar of the same type and kind as ATOM.
 
   - __COMPARE__
-    Scalar variable of the same type and kind as ATOM.
+    : Scalar variable of the same type and kind as ATOM.
 
   - __NEW__
-    Scalar variable of the same type as ATOM. If kind is different, the
+    : Scalar variable of the same type as ATOM. If kind is different, the
     value is converted to the kind of ATOM.
 
   - __STAT__
-    (optional) Scalar default-kind integer variable.
+    : (optional) Scalar default-kind integer variable.
 
 ## __Examples__
 

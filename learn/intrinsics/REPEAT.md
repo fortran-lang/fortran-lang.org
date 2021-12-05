@@ -24,11 +24,11 @@ Concatenates __ncopies__ copies of a string.
 ## __Arguments__
 
   - __string__
-    The input string to repeatedly generate.
+    : The input string to repeatedly generate.
     Shall be scalar and of type _character_.
 
   - __ncopies__
-    Number of copies to make of _string_, greater than or equal to zero (0).
+    : Number of copies to make of _string_, greater than or equal to zero (0).
     Shall be scalar and of type _integer_.
 
 ## __Returns__

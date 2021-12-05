@@ -19,18 +19,18 @@ by the associated type.
 
 ## __Description__
 
-__acosh(X)__ computes the inverse hyperbolic cosine of __X__ in radians.
+__acosh(x)__ computes the inverse hyperbolic cosine of __x__ in radians.
 
 ## __Arguments__
 
-  - __X__
-    the type shall be _real_ or _complex_.
+  - __x__
+    : the type shall be _real_ or _complex_.
 
 ## __Returns__
 
-The return value has the same type and kind as __X__.
+The return value has the same type and kind as __x__.
 
-If __X__ is _complex_, the imaginary part of the result is in radians and
+If __x__ is _complex_, the imaginary part of the result is in radians and
 lies between
 
 > __0 \<= aimag(acosh(x)) \<= PI__

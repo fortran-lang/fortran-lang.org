@@ -27,7 +27,7 @@ None
 ## __Returns__
 
   - __count__
-    The return value is of type default _integer_. It is the number of
+    : The return value is of type default _integer_. It is the number of
     arguments passed on the command line when the program was invoked.
 
 ## __Examples__

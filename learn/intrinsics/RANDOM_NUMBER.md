@@ -9,8 +9,9 @@ __random\_number__(3) - \[MATHEMATICS:RANDOM\] Pseudo-random number
 (GFDL)
 
 ## __Syntax__
-
-__random\_number__(harvest)
+```fortran
+   random_number(harvest)
+```
 
 ## __Description__
 
@@ -19,24 +20,24 @@ from the uniform distribution over the range 0 \<= x \< 1.
 
 ## __Arguments__
 
-  - __HARVEST__
-    Shall be a scalar or an array of type _real_.
+  - __harvest__
+    : Shall be a scalar or an array of type _real_.
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-   program demo_random_number
-   use, intrinsic :: iso_fortran_env, only : dp=>real64
-   implicit none
-   integer, allocatable :: seed(:)
-   integer              :: n
-   integer              :: first,last
-   integer              :: i
-   integer              :: rand_int
-   integer,allocatable  :: count(:)
-   real(kind=dp)        :: rand_val
+program demo_random_number
+use, intrinsic :: iso_fortran_env, only : dp=>real64
+implicit none
+integer, allocatable :: seed(:)
+integer              :: n
+integer              :: first,last
+integer              :: i
+integer              :: rand_int
+integer,allocatable  :: count(:)
+real(kind=dp)        :: rand_val
    call random_seed(size = n)
    allocate(seed(n))
    call random_seed(get=seed)
@@ -65,7 +66,7 @@ Sample program:
          endif
       enddo
       write(*,'(i0,1x,i0)')(i,count(i),i=1,size(count))
-   end program demo_random_number
+end program demo_random_number
 ```
 
 Sample output:
@@ -89,4 +90,4 @@ Fortran 95 and later
 
 ## __See Also__
 
-__random\_seed__(3)
+[__random\_seed__(3)](RANDOM_SEED)

@@ -26,7 +26,7 @@ kind and type of __x__.
 ## __Arguments__
 
   - __x__
-    Shall be an arbitrary value of type _real_ or _integer_.
+    : Shall be an arbitrary value of type _real_ or _integer_.
     The value is used merely to determine what _kind_ and _type_ of
     scalar is being queried.
 

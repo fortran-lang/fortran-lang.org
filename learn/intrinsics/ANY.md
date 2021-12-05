@@ -20,11 +20,11 @@ array MASK along dimension DIM are .TRUE..
 ## __Arguments__
 
   - __MASK__
-    the type of the argument shall be _logical_ and it shall not be
+    : the type of the argument shall be _logical_ and it shall not be
     scalar.
 
   - __DIM__
-    (optional) DIM shall be a scalar integer with a value that lies
+    : (optional) DIM shall be a scalar integer with a value that lies
     between one and the rank of MASK.
 
 ## __Returns__

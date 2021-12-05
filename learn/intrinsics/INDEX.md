@@ -29,23 +29,23 @@ SUBSTRING is not present in STRING, zero is returned.
 ## __Arguments__
 
   - __STRING__
-    string to be searched
+    : string to be searched
 
   - __SUBSTRING__
-    string to attempt to locate in STRING
+    : string to attempt to locate in STRING
 
   - __BACK__
-    If the BACK argument is present and true, the return value is the
+    : If the BACK argument is present and true, the return value is the
     start of the rightmost occurrence rather than the leftmost.
 
   - __KIND__
-    An _integer_ initialization expression indicating the kind parameter
+    : An _integer_ initialization expression indicating the kind parameter
     of the result.
 
 ## __Returns__
 
   - __START__
-    The return value is of type _integer_ and of kind KIND. If KIND is
+    : The return value is of type _integer_ and of kind KIND. If KIND is
     absent, the return value is of default integer kind.
 
 ## __Examples__
@@ -53,9 +53,9 @@ SUBSTRING is not present in STRING, zero is returned.
 Example program
 
 ```fortran
-   program demo_index
-   implicit none
-   character(len=*),parameter :: str=&
+program demo_index
+implicit none
+character(len=*),parameter :: str=&
    'Search this string for this expression'
    !1234567890123456789012345678901234567890
    write(*,*)&
@@ -64,7 +64,7 @@ Example program
       index(str,'this',back=.true.).eq.24, &
       ! INDEX is case-sensitive
       index(str,'This').eq.0
-   end program demo_index
+end program demo_index
 ```
 Expected Results:
 ```text

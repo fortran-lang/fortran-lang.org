@@ -25,13 +25,13 @@ it is taken to be equivalent to __bit\_size__(i).
 ## __Arguments__
 
   - __I__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __SHIFT__
-    The type shall be _integer_.
+    : The type shall be _integer_.
 
   - __SIZE__
-    (Optional) The type shall be _integer_; the value must be greater than
+    : (Optional) The type shall be _integer_; the value must be greater than
     zero and less than or equal to __bit\_size__(i).
 
 ## __Returns__
@@ -44,4 +44,4 @@ Fortran 95 and later
 
 ## __See Also__
 
-__ishft__(3)
+[__ishft__(3)](ISHFT)

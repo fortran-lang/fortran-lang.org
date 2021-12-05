@@ -30,10 +30,10 @@ To convert from Cartesian Coordinates __(X,Y)__ to polar coordinates
 ## __Arguments__
 
   - __Y__
-    The type shall be ___real___.
+    : The type shall be ___real___.
 
   - __X__
-    The type and kind type parameter shall be the same as __Y__. If __Y__ is
+    : The type and kind type parameter shall be the same as __Y__. If __Y__ is
     zero, then __X__ must be nonzero.
 
 ## __Returns__

@@ -19,7 +19,7 @@ __epsilon__(x) returns a nearly negligible number relative to 1.
 ## __Arguments__
 
   - __X__
-    The type shall be _real_.
+    : The type shall be _real_.
 
 ## __Returns__
 
@@ -30,15 +30,14 @@ The return value is of same type as the argument.
 Sample program:
 
 ```fortran
-    program demo_epsilon
-    implicit none
-        real :: x = 3.143
-        real(8) :: y = 2.33
-        print *, epsilon(x)
-        print *, epsilon(y)
-    end program demo_epsilon
+program demo_epsilon
+implicit none
+real :: x = 3.143
+real(8) :: y = 2.33
+   print *, epsilon(x)
+   print *, epsilon(y)
+end program demo_epsilon
 ```
-
 ## __Standard__
 
 Fortran 95 and later

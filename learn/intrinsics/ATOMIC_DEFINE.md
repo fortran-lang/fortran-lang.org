@@ -30,16 +30,16 @@ image has failed, the value stat\_failed\_image.
 ## __Arguments__
 
   - __atom__
-    Scalar coarray or coindexed variable of either integer type with
+    : Scalar coarray or coindexed variable of either integer type with
     atomic\_int\_kind kind or logical type with atomic\_logical\_kind
     kind.
 
   - __value__
-    Scalar of the same type as __atom__. If the kind is different, the value
+    : Scalar of the same type as __atom__. If the kind is different, the value
     is converted to the kind of __atom__.
 
   - __stat__
-    (optional) Scalar default-kind integer variable.
+    : (optional) Scalar default-kind integer variable.
 
 ## __Examples__
 

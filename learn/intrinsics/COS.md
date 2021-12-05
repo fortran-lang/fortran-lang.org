@@ -19,7 +19,7 @@ __cos__(x) computes the cosine of X.
 ## __Arguments__
 
   - __X__
-    The type shall be _real_ or _complex_.
+    : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
@@ -63,4 +63,6 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__acos__(3), __sin__(3), __tan__(3)
+[__acos__(3)](ACOS),
+[__sin__(3)](SIN),
+[__tan__(3)](TAN)

@@ -24,36 +24,39 @@ value describing the occurred error.
 ## __Arguments__
 
   - __A__
-    __intent__(inout) argument; shall have the same dynamic type and
+    : __intent__(inout) argument; shall have the same dynamic type and
     type parameters on all images of the current team. If it is an
     array, it shall have the same shape on all images.
 
   - __SOURCE\_IMAGE__
-    a scalar integer expression. It shall have the same the same value
+    : a scalar integer expression. It shall have the same the same value
     on all images and refer to an image of the current team.
 
   - __STAT__
-    (optional) a scalar integer variable
+    : (optional) a scalar integer variable
 
   - __ERRMSG__
-    (optional) a scalar character variable
+    : (optional) a scalar character variable
 
 ## __Examples__
 
 Sample program:
 
 ```fortran
-   program demo_co_broadcast
-   implicit none
-   integer :: val(3)
-      if (this_image() == 1) then
-        val = [1, 5, 3]
-      endif
-      call co_broadcast (val, source_image=1)
-      print *, this_image(), ":", val
-   end program demo_co_broadcast
+program demo_co_broadcast
+implicit none
+integer :: val(3)
+   if (this_image() == 1) then
+      val = [1, 5, 3]
+   endif
+   call co_broadcast (val, source_image=1)
+   print *, this_image(), ":", val
+end program demo_co_broadcast
 ```
 
 ## __See Also__
 
-__co\_max__(3), __co\_min__(3), __co\_sum__(3), __co\_reduce__(3)
+[__co\_max__(3)](CO_MAX),
+[__co\_min__(3)](CO_MIN),
+[__co\_sum__(3)](CO_SUM),
+[__co\_reduce__(3)](CO_REDUCE)

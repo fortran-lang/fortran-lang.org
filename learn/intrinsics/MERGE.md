@@ -55,13 +55,13 @@ instead of the more obscure
 ## __Arguments__
 
   - __tsource__
-    May be of any type, including user-defined.
+    : May be of any type, including user-defined.
 
   - __fsource__
-    Shall be of the same type and type parameters as __tsource__.
+    : Shall be of the same type and type parameters as __tsource__.
 
   - __mask__
-    Shall be of type _logical_.
+    : Shall be of type _logical_.
 
 Note that (currently) _character_ values must be of the same length.
 
