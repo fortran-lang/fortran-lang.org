@@ -6,7 +6,6 @@ permalink: /learn/intrinsics/LBOUND
 ## __Name__
 
 __lbound__(3) - \[ARRAY INQUIRY\] Lower dimension bounds of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran

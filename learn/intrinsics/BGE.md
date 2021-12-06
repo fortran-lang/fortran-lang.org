@@ -8,14 +8,14 @@ permalink: /learn/intrinsics/BGE
 __bge__(3) - \[BIT COMPARE\] Bitwise greater than or equal to
 (GFDL)
 
+## __Syntax__
+```fortran
+    result = bge(i, j)
+```
 ## __Description__
 
 Determines whether an integer is bitwise greater than or equal to
 another.
-
-## __Syntax__
-
-    __result = bge(i, j)__
 
 ## __Arguments__
 

@@ -7,17 +7,14 @@ permalink: /learn/intrinsics/MASKL
 
 __maskl__(3) - \[\] Left justified mask
 (GFDL)
-
-## __Synopsis__
-
-result = __maskl(i\[, kind\]__)
-
+## __Syntax__
+```fortran
+result = maskl(i, kind)__
+```
 ## __Description__
 
 __maskl(i\[, *kind*\])__ has its leftmost __I__ bits set to __1__, and the
 remaining bits set to __0__.
-
-## __Syntax__
 
 ## __Arguments__
 

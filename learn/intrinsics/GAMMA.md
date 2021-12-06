@@ -6,6 +6,11 @@ permalink: /learn/intrinsics/GAMMA
 ## __Name__
 
 __gamma__(3) - \[MATHEMATICS\] Gamma function
+## __Syntax__
+```fortran
+x = gamma(x)
+```
+
 
 ## __Description__
 
@@ -16,10 +21,6 @@ __Gamma(x)=(x-1)\!__.
 
 $$ \\__Gamma__(x) = \\int\_0\*\*\\infty
 t\*\*{x-1}{\\mathrm{e}}\*\*{__-t__}\\,{\\mathrm{d}}t $$
-
-## __Syntax__
-
-x = __gamma__(x)
 
 ## __Arguments__
 

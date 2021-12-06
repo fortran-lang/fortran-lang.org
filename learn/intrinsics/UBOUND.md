@@ -6,7 +6,6 @@ permalink: /learn/intrinsics/UBOUND
 ## __Name__
 
 __ubound__(3) - \[ARRAY INQUIRY\] Upper dimension bounds of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran

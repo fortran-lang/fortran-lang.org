@@ -8,7 +8,7 @@ permalink: /learn/intrinsics/EXTENDS_TYPE_OF
 __extends\_type\_of__(3) - \[\] determine if the dynamic type of __a__ is an extension of the dynamic type of __mold__.
 (GFDL)
 
-## __Synopsis__
+## __Syntax__
 ```fortran
 result=extends_type_of(a, mold)
 ```

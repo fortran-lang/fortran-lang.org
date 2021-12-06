@@ -8,13 +8,14 @@ permalink: /learn/intrinsics/FLOOR
 __floor__(3) - \[NUMERIC\] Integer floor function
 (GFDL)
 
+## __Syntax__
+```fortran
+result = floor(a , kind)
+```
+
 ## __Description__
 
 __floor__(a) returns the greatest integer less than or equal to __a__.
-
-## __Syntax__
-
-result = __floor__(a \[, kind\])
 
 ## __Arguments__
 

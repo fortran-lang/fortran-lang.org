@@ -8,10 +8,13 @@ permalink: /learn/intrinsics/FINDLOC
 __findloc__(3) - \[\] Location of first element of ARRAY identified by MASK along dimension DIM having a value
 (GFDL)
 
-## __Synopsis__
+## __Syntax__
 
-FINDLOC (__array__, __value__, dim \[, __mask__, __kind__, __back__\]) or FINDLOC
-(__array__, __value__ \[, __mask__, __kind__, __back__\])
+findloc (__array__, __value__, dim \[, __mask__, __kind__, __back__\]) 
+
+or 
+
+findloc(__array__, __value__ \[, __mask__, __kind__, __back__\])
 
 ## __Description__
 
