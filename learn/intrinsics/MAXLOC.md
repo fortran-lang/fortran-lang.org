@@ -48,7 +48,7 @@ rank of one, the result is a scalar. In all cases, the result is of
 default _integer_ type.
 
 The value returned is reference to the offset from the beginning of the
-array, not neccessarily the subscript value if the array subscripts do
+array, not necessarily the subscript value if the array subscripts do
 not start with one.
 
 ## __Examples__

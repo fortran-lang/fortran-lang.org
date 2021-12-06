@@ -12,6 +12,6 @@ permalink: /learn/intrinsics/C_index
 | *ISO\_C\_BINDING*  ||||| [__c\_f\_pointer__]({{site.baseurl}}/learn/intrinsics/C_F_POINTER)          || &#9679; Convert C into Fortran pointer                                 |
 | *ISO\_C\_BINDING*  ||||| [__c\_f\_procpointer__]({{site.baseurl}}/learn/intrinsics/C_F_PROCPOINTER)  || &#9679; Convert C into Fortran procedure pointer                       |
 | *ISO\_C\_BINDING*  ||||| [__c\_funloc__]({{site.baseurl}}/learn/intrinsics/C_FUNLOC)                 || &#9679; Obtain the C address of a procedure                            |
-| *ISO\_C\_BINDING*  ||||| [__c\_loc__]({{site.baseurl}}/learn/intrinsicsC/_LOC)                       || &#9679; Obtain the C address of an object                              |
-| *ISO\_C\_BINDING*  ||||| [__c\_sizeof__]({{site.baseurl}}/learn/intrinsicsC/_SIZEOF)                 || &#9679; Size in bytes of an expression                                 |
+| *ISO\_C\_BINDING*  ||||| [__c\_loc__]({{site.baseurl}}/learn/intrinsics/C_LOC)                       || &#9679; Obtain the C address of an object                              |
+| *ISO\_C\_BINDING*  ||||| [__c\_sizeof__]({{site.baseurl}}/learn/intrinsics/C_SIZEOF)                 || &#9679; Size in bytes of an expression                                 |
 |--------------------|||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
