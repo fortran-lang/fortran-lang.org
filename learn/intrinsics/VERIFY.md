@@ -110,10 +110,10 @@ character(len=2) :: c3(2)=["de","gh"]
    
    integer :: i
    
-      write(*,'(4(g0,1x,g0,1x))')&
+      write(*,'(4(g0,1x,g0,1x))') &
       & (ints(i),isint(ints(i)),i=1,size(ints))
       
-      write(*,'(4(g0,1x,g0,1x))')&
+      write(*,'(4(g0,1x,g0,1x))') &
       & (symbols(i),fortran_name(symbols(i)),i=1,size(symbols))
 
     endblock TEST_FUNCTIONS
