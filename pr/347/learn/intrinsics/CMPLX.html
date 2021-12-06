@@ -44864,42 +44864,42 @@
 (GFDL)</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
-
-<p>result = <strong>cmplx</strong>(x [, y [, kind]])</p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cmplx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p>To convert numeric variables to complex, use the CMPLX function.
+<p>To convert numeric variables to complex, use the <strong>cmplx(3)</strong> function.
 Constants can be used to define a complex variable using the syntax</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      z8 = (1.2345678901234567d0, 1.2345678901234567d0)
 </code></pre></div></div>
 
-<p>but this will not work for variables. You must use the CMPLX function.</p>
+<p>but this will not work for variables. You must use the <strong>cmplx(3)</strong> function.</p>
 
-<p><strong>CMPLX</strong>(X [, Y [, KIND]]) returns a complex number where X is
-converted to the real component. If X is complex then Y must not be
-present. If Y is present it is converted to the imaginary component. If
-Y is not present then the imaginary component is set to 0.0.</p>
+<p><strong>cmplx(x [, y [, kind]])</strong> returns a complex number where <strong>x</strong> is
+converted to the <em>real</em> component. If <strong>x</strong> is <em>complex</em> then <strong>y</strong> must not be
+present. If <strong>y</strong> is present it is converted to the imaginary component. If
+<strong>y</strong> is not present then the imaginary component is set to <strong>0.0</strong>.</p>
 
-<h2 id="cmplx-and-double-precision"><strong>CMPLX and double precision</strong></h2>
+<h2 id="cmplx3-and-double-precision__"><strong>cmplx(3)</strong> and double precision__</h2>
 
-<p>The Fortran 90 language defines <strong>CMPLX</strong>() as always returning a result
-that is type <strong><em>complex</em></strong>(KIND=KIND(0.0)).</p>
+<p>The Fortran 90 language defines <strong>cmplx(3)</strong> as always returning a result
+that is type <strong><em>complex</em></strong>(kind=KIND(0.0)).</p>
 
-<p>This means `<strong>CMPLX</strong>(D1,D2)’, where `D1’ and `D2’ are
-DOUBLEPRECISION, is treated as:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      CMPLX(SNGL(D1), SNGL(D2))
+<p>This means `<strong>cmplx(d1,d2)</strong>’, where <strong>`d1’</strong> and <strong>`d2’</strong> are
+<em>doubleprecision</em>, is treated as:
+fortran</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      cmplx(sngl(d1), sngl(d2))
 </code></pre></div></div>
 
-<p>DOUBLEPRECISION complex numbers require specifying a precision.</p>
+<p><em>doubleprecision complex</em> numbers require specifying a precision.</p>
 
 <p>It was necessary for Fortran 90 to specify this behavior for
-DOUBLEPRECISION arguments, since that is the behavior mandated by
+<em>doubleprecision</em> arguments, since that is the behavior mandated by
 FORTRAN 77.</p>
 
-<p>So Fortran 90 extends the <strong>CMPLX</strong>() intrinsic by adding an extra
+<p>So Fortran 90 extends the <strong>cmplx(3)</strong> intrinsic by adding an extra
 argument used to specify the desired kind of complex result.</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)</span><span class="w">
@@ -44927,39 +44927,40 @@ can be accessed independently with a component-like syntax in f2018:</p>
 
 <p>A complex-part-designator is</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      designator % RE
+<p>``fortran
+      designator % RE
       or
-      designator % IM.
-</code></pre></div></div>
+      designator % IM.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Where the designator is of complex type.
 
-<p>Where the designator is of complex type.</p>
-
-<p>So designator%RE designates the real part of a complex value,
+So designator%RE designates the real part of a complex value,
 designator%IM designates the imaginary part of complex value. The type
-of a complex-part-designator is <em>real</em>, and its kind and shape are those
-of the designator.</p>
+of a complex-part-designator is _real_, and its kind and shape are those
+of the designator.
 
-<p>The following are examples of complex part designators:</p>
+The following are examples of complex part designators:
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       impedance%re           !-- Same value as _real_(impedance)
+```fortran
+       impedance%re           !-- Same value as _real_(impedance)
        fft%im                 !-- Same value as AIMAG(fft)
-       x%im = 0.0             !-- Sets the imaginary part of X to zero
+       x%im = 0.0             !-- Sets the imaginary part of x to zero
 </code></pre></div></div>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
 <ul>
   <li>
-    <p><strong>X</strong>
+    <p><strong>x</strong>
 The type may be <em>integer</em>, <em>real</em>, or <em>complex</em>.</p>
   </li>
   <li>
-    <p><strong>Y</strong>
-(Optional; only allowed if X is not <em>complex</em>.). May be <em>integer</em> or
+    <p><strong>y</strong>
+(Optional; only allowed if <strong>x</strong> is not <em>complex</em>.). May be <em>integer</em> or
 <em>real</em>.</p>
   </li>
   <li>
-    <p><strong>KIND</strong>
+    <p><strong>kind</strong>
 (Optional) An <em>integer</em> initialization expression indicating the kind
 parameter of the result.</p>
   </li>
@@ -44967,9 +44968,9 @@ parameter of the result.</p>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value is of <em>complex</em> type, with a kind equal to KIND if it is
-specified. If KIND is not specified, the result is of the default
-<em>complex</em> kind, regardless of the kinds of X and Y.</p>
+<p>The return value is of <em>complex</em> type, with a kind equal to <strong>kind</strong> if it is
+specified. If <strong>kind</strong> is not specified, the result is of the default
+<em>complex</em> kind, regardless of the kinds of <strong>x</strong> and <strong>y</strong>.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 

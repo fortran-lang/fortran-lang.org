@@ -44941,25 +44941,25 @@ cmdmsg)</p>
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p>The COMMAND argument is passed to the shell and executed. (The shell is
-generally <strong>sh</strong>(1) on Unix systems, and cmd.exe on Windows.) If WAIT is
-present and has the value .FALSE., the execution of the command is
+<p>The <strong>command</strong> argument is passed to the shell and executed. (The shell is
+generally <strong>sh</strong>(1) on Unix systems, and cmd.exe on Windows.) If <strong>wait</strong> is
+present and has the value <strong>.false.</strong>, the execution of the command is
 asynchronous if the system supports it; otherwise, the command is
 executed synchronously.</p>
 
 <p>The three last arguments allow the user to get status information. After
-synchronous execution, EXITSTAT contains the integer exit code of the
-command, as returned by SYSTEM. CMDSTAT is set to zero if the command
-line was executed (whatever its exit status was). CMDMSG is assigned an
+synchronous execution, <strong>exitstat</strong> contains the integer exit code of the
+command, as returned by <strong>system</strong>. <strong>cmdstat</strong> is set to zero if the command
+line was executed (whatever its exit status was). <strong>cmdmsg</strong> is assigned an
 error message if an error has occurred.</p>
 
 <p>Note that the system call need not be thread-safe. It is the
 responsibility of the user to ensure that the system is not called
 concurrently if required.</p>
 
-<p>When the command is executed synchronously, EXECUTE_COMMAND_LINE
+<p>When the command is executed synchronously, <strong>execute_command_line</strong>
 returns after the command line has completed execution. Otherwise,
-EXECUTE_COMMAND_LINE returns without waiting.</p>
+<strong>execute_command_line</strong> returns without waiting.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44967,14 +44967,14 @@ EXECUTE_COMMAND_LINE returns without waiting.</p>
   <li>
     <dl>
       <dt><strong>command</strong></dt>
-      <dd>a default CHARACTER scalar containing the command line to be
+      <dd>a default <em>character</em> scalar containing the command line to be
 executed. The interpretation is programming-environment dependent.</dd>
     </dl>
   </li>
   <li>
     <dl>
       <dt><strong>wait</strong></dt>
-      <dd>(Optional) a default <em>logical</em> scalar. If WAIT is present with the
+      <dd>(Optional) a default <em>logical</em> scalar. If <strong>wait</strong> is present with the
 value .false., and the processor supports asynchronous execution of
 the command, the command is executed asynchronously; otherwise it is
 executed synchronously.</dd>
@@ -44983,32 +44983,32 @@ executed synchronously.</dd>
   <li>
     <dl>
       <dt><strong>exitstat</strong></dt>
-      <dd>(Optional) an <em>integer</em> of the default kind with <strong>intent</strong>(INOUT). If
+      <dd>(Optional) an <em>integer</em> of the default kind with <strong>intent(inout)</strong>. If
 the command is executed synchronously, it is assigned the value of
 the processor-dependent exit status. Otherwise, the value of
-EXITSTAT is unchanged.</dd>
+<strong>exitstat</strong> is unchanged.</dd>
     </dl>
   </li>
   <li>
     <dl>
       <dt><strong>cmdstat</strong></dt>
-      <dd>(Optional) an <em>integer</em> of default kind with <strong>intent</strong>(INOUT). If an
-error condition occurs and CMDSTAT is not present, error termination
+      <dd>(Optional) an <em>integer</em> of default kind with <strong>intent(inout)</strong>. If an
+error condition occurs and <strong>cmdstat</strong> is not present, error termination
 of execution of the image is initiated.</dd>
     </dl>
 
     <p>It is assigned the value <strong>-1</strong> if the processor does not support
 command line execution, a processor-dependent positive value if an
 error condition occurs, or the value <strong>-2</strong> if no error condition
-occurs but WAIT is present with the value false and the processor
+occurs but <strong>wait</strong> is present with the value false and the processor
 does not support asynchronous execution. Otherwise it is assigned
 the value 0.</p>
   </li>
   <li>
     <dl>
       <dt><strong>cmdmsg</strong></dt>
-      <dd>(Optional) a <em>character</em> scalar of the default kind. It is an INTENT
-(INOUT) argument.If an error condition occurs, it is assigned a
+      <dd>(Optional) a <em>character</em> scalar of the default kind. It is an <strong>intent
+(inout)</strong> argument.If an error condition occurs, it is assigned a
 processor-dependent explanatory message.Otherwise, it is unchanged.</dd>
     </dl>
   </li>
