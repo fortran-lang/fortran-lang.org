@@ -44892,16 +44892,29 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>epsilon</strong>(3) - [NUMERIC MODEL] Epsilon function
-(GFDL)</p>
+<p><strong>epsilon</strong>(3) - [NUMERIC MODEL] Epsilon function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
-
-<p>result = <strong>epsilon</strong>(x)</p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">__</span><span class="n">epsilon__</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>epsilon</strong>(x) returns a nearly negligible number relative to <strong>1</strong>.</p>
+<p><strong>epsilon(x)</strong> returns the floating point relative accuracy. 
+It is the nearly negligible number relative to <strong>1</strong>
+such that <strong>1+ little_number</strong> is not equal to <strong>1</strong>; or more
+precisely</p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">   </span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="o">=</span><span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w">
+</span></code></pre></div></div>
+<p>It may be thought of as the distance from 1.0 to the next largest
+floating point number.</p>
+
+<p>One use of <strong>epsilon</strong>(3) is to select a delta value for algorithms that
+search until the calculation is within <strong>delta</strong> of an estimate.</p>
+
+<p>If delta is too small the algorithm might never halt, as a computation
+summing values smaller than the decimal resolution of the data type does
+not change.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44916,7 +44929,7 @@
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value is of same type as the argument.</p>
+<p>The return value is of the same type as the argument.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
@@ -44927,10 +44940,61 @@
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.143</span><span class="w">
 </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.33d0</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! so if x is of type real32, epsilon(x) has the value 2**-23</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1">! note just the type and kind of x matter, not the value</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="nb">huge</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> 
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="nb">tiny</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> 
+
+   </span><span class="c1">! the value changes with the kind of the real value though</span><span class="w">
    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! adding and subtracing epsilon(x) changes x</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! these next two comparisons will be .true. !</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.999999</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.999999</span><span class="w">
+
+   </span><span class="c1">! you can calculate epsilon(1.0d0)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="n">my_dp_eps</span><span class="p">()</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="k">function</span><span class="w"> </span><span class="n">my_dp_eps</span><span class="p">()</span><span class="w">
+</span><span class="c1">! calculate the epsilon value of a machine the hard way</span><span class="w">
+</span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">t</span><span class="w">
+</span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">my_dp_eps</span><span class="w">
+
+   </span><span class="c1">! starting with a value of 1, keep dividing the value</span><span class="w">
+   </span><span class="c1">! by 2 until no change is detected. Note that with</span><span class="w">
+   </span><span class="c1">! infinite precision this would be an infinite loop,</span><span class="w">
+   </span><span class="c1">! but floating point values in Fortran have a defined</span><span class="w">
+   </span><span class="c1">! and limited precision.</span><span class="w">
+   </span><span class="n">my_dp_eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span><span class="w">
+   </span><span class="n">SET_ST</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w">
+      </span><span class="n">my_dp_eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_dp_eps</span><span class="p">/</span><span class="mf">2.0d0</span><span class="w">
+      </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">my_dp_eps</span><span class="w">
+      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">1.0d0</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span><span class="w">
+   </span><span class="k">enddo</span><span class="w"> </span><span class="n">SET_ST</span><span class="w">
+   </span><span class="n">my_dp_eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0d0</span><span class="o">*</span><span class="n">my_dp_eps</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">my_dp_eps</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_epsilon</span><span class="w">
 </span></code></pre></div></div>
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  1.1920929E-07
+  1.1920929E-07
+  1.1920929E-07
+  2.220446049250313E-016
+ F
+ F
+ T
+ T
+  2.220446049250313E-016
+</code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>Fortran 95 and later</p>
@@ -44952,6 +45016,7 @@
 <a href="SPACING">spacing(3)</a>,
 <a href="TINY">tiny(3)</a></p>
 
+<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
 
 
       <div class="container-flex">
