@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/LEN_TRIM
 ---
 ## __Name__
 
-__len\_trim__(3) - \[CHARACTER\] Length of a character entity without trailing blank characters
+__len\_trim__(3) - \[CHARACTER:WHITESPACE\] Length of a character entity without trailing blank characters
 
 ## __Syntax__
 
@@ -26,7 +26,7 @@ Returns the length of a character string, ignoring any trailing blanks.
 
   - __STRING__
     : The input string whose length is to be measured.
-    Shall be a scalar of type __CHARACTER__
+    Shall be a scalar of type _character_
 
   - __KIND__
     : (Optional) An _integer_ initialization expression indicating the kind

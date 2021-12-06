@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/INDEX
 ---
 ## __Name__
 
-__index__(3) - \[CHARACTER\] Position of a substring within a string
+__index__(3) - \[CHARACTER:SEARCH\] Position of a substring within a string
 (GFDL)
 
 ## __Syntax__

@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/SCAN
 ---
 ## __Name__
 
-__scan__(3) - \[CHARACTER\] Scan a string for the presence of a set of characters
+__scan__(3) - \[CHARACTER:SEARCH\] Scan a string for the presence of a set of characters
 (GFDL)
 
 ## __Syntax__
@@ -25,10 +25,10 @@ is found in STRING, the result is zero.
 ## __Arguments__
 
   - __STRING__
-    : Shall be of type CHARACTER.
+    : Shall be of type _character_.
 
   - __SET__
-    : Shall be of type CHARACTER.
+    : Shall be of type _character_.
 
   - __BACK__
     : (Optional) shall be of type _logical_.

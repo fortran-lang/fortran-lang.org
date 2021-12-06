@@ -28,7 +28,7 @@ content, of __string__ is needed.
 ## __Arguments__
 
   - __string__
-    : Shall be a scalar or array of type CHARACTER, with __intent__(in)
+    : Shall be a scalar or array of type _character_, with __intent__(in)
 
   - __kind__
     : An _integer_ initialization expression indicating the kind

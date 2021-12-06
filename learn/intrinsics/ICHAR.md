@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/ICHAR
 ---
 ## __Name__
 
-__ichar__(3) - \[CHARACTER\] Character-to-integer conversion function
+__ichar__(3) - \[CHARACTER:CONVERSION\] Character-to-integer conversion function
 (GFDL)
 
 ## __Syntax__
@@ -31,7 +31,7 @@ set.
 ## __Arguments__
 
   - __C__
-    : Shall be a scalar CHARACTER, with __intent__(in)
+    : Shall be a scalar _character_, with __intent__(in)
 
   - __KIND__
     : (Optional) An _integer_ initialization expression indicating the kind
@@ -77,7 +77,7 @@ end program demo_ichar
 ## __Note__
 
 No intrinsic exists to convert between a numeric value and a formatted
-character string representation -- for instance, given the CHARACTER
+character string representation -- for instance, given the _character_
 value '154', obtaining an _integer_ or _real_ value with the value 154, or
 vice versa. Instead, this functionality is provided by internal-file
 I/O, as in the following example:

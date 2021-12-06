@@ -19,11 +19,11 @@ __new\_line__(c) returns the new-line character.
 ## __Arguments__
 
   - __C__
-    : The argument shall be a scalar or array of the type CHARACTER.
+    : The argument shall be a scalar or array of the type _character_.
 
 ## __Returns__
 
-Returns a CHARACTER scalar of length one with the new-line character of
+Returns a _character_ scalar of length one with the new-line character of
 the same kind as parameter C.
 
 ## __Examples__

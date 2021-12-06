@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/LLT
 ---
 ## __Name__
 
-__llt__(3) - \[CHARACTER\] Lexical less than
+__llt__(3) - \[CHARACTER:COMPARE\] Lexical less than
 (GFDL)
 
 ## __Syntax__
@@ -29,10 +29,10 @@ ordering.
 ## __Arguments__
 
   - __string\_a__
-    : Shall be of default CHARACTER type.
+    : Shall be of default _character_ type.
 
   - __string\_b__
-    : Shall be of default CHARACTER type.
+    : Shall be of default _character_ type.
 
 ## __Returns__
 

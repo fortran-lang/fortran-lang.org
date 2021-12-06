@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/LLE
 ---
 ## __Name__
 
-__lle__(3) - \[CHARACTER\] Lexical less than or equal
+__lle__(3) - \[CHARACTER:COMPARE\] Lexical less than or equal
 (GFDL)
 
 ## __Syntax__
@@ -33,10 +33,10 @@ ordering.
 ## __Arguments__
 
   - __STR\_A__
-    : variable or array of default CHARACTER type.
+    : variable or array of default _character_ type.
 
   - __STR\_B__
-    : variable or array of default CHARACTER type.
+    : variable or array of default _character_ type.
 
     if STR_A and STR_B are both arrays they must be of the
     same shape.

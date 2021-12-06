@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/ADJUSTL
 ---
 ## __Name__
 
-__adjustl__(3) - \[CHARACTER\] Left-adjust a string
+__adjustl__(3) - \[CHARACTER:WHITESPACE\] Left-adjust a string
 
 ## __Syntax__
 

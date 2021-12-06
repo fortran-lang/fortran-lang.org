@@ -5,12 +5,13 @@ permalink: /learn/intrinsics/TRIM
 ---
 ## __Name__
 
-__trim__(3) - \[CHARACTER\] Remove trailing blank characters of a string
+__trim__(3) - \[CHARACTER:WHITESPACE\] Remove trailing blank characters of a string
 (GFDL)
 
 ## __Syntax__
-
-result = __trim__(string)
+```fortran
+result = trim(string)
+```
 
 ## __Description__
 
@@ -18,12 +19,12 @@ Removes trailing blank characters of a string.
 
 ## __Arguments__
 
-  - __STRING__
-    : Shall be a scalar of type CHARACTER.
+  - __string__
+    : Shall be a scalar of type _character_.
 
 ## __Returns__
 
-A scalar of type CHARACTER which length is that of STRING less the
+A scalar of type _character_ which length is that of __string__ less the
 number of trailing blanks.
 
 ## __Examples__
@@ -48,8 +49,14 @@ Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
   - __Elemental:__
-    [__adjustl__(3)](ADJUSTL), [__adjustr__(3)](ADJUSTR), [__index__(3)](INDEX), [__len\_trim__(3)](LEN_TRIM),
-    [__scan__(3)](SCAN), [__verify__(3)](VERIFY)
+ [__adjustl__(3)](ADJUSTL),
+ [__adjustr__(3)](ADJUSTR),
+ [__index__(3)](INDEX),
+ [__len\_trim__(3)](LEN_TRIM),
+
+ [__scan__(3)](SCAN),
+ [__verify__(3)](VERIFY)
 
   - __Nonelemental:__
-    [__repeat__(3)](REPEAT), [__trim__(3)](TRIM)
+ [__repeat__(3)](REPEAT),
+ [__trim__(3)](TRIM)

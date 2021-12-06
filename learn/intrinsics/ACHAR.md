@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/ACHAR
 ---
 ## __Name__
 
-__achar__(3) - \[CHARACTER\] returns a character in a specified position in the ASCII collating sequence
+__achar__(3) - \[CHARACTER:CONVERSION\] returns a character in a specified position in the ASCII collating sequence
 
 ## __Syntax__
 ```fortran

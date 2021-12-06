@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/VERIFY
 ---
 ## __Name__
 
-__verify__(3) - \[CHARACTER\] Scan a string for the absence of a set of characters
+__verify__(3) - \[CHARACTER:SEARCH\] Scan a string for the absence of a set of characters
 (GFDL)
 
 ## __Syntax__

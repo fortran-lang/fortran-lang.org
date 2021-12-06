@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IACHAR
 ---
 ## __Name__
 
-__iachar__(3) - \[CHARACTER\] Code in ASCII collating sequence
+__iachar__(3) - \[CHARACTER:CONVERSION\] Code in ASCII collating sequence
 (GFDL)
 
 ## __Syntax__
@@ -20,7 +20,7 @@ character position of C.
 ## __Arguments__
 
   - __C__
-    : Shall be a scalar CHARACTER, with __intent__(in)
+    : Shall be a scalar _character_, with __intent__(in)
 
   - __KIND__
     : (Optional) An _integer_ initialization expression indicating the kind
