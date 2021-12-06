@@ -14,20 +14,20 @@ result = __maskr(i\[, kind\])__
 
 ## __Description__
 
-__maskr(i\[, kind\])__ has its rightmost I bits set to 1, and the
+__maskr(i\[, kind\])__ has its rightmost __i__ bits set to 1, and the
 remaining bits set to 0.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : Shall be of type _integer_.
 
-  - __KIND__
+  - __kind__
     : Shall be a scalar constant expression of type _integer_.
 
 ## __Returns__
 
-The return value is of type _integer_. If KIND is present, it specifies
+The return value is of type _integer_. If __kind__ is present, it specifies
 the kind value of the return type; otherwise, it is of the default
 integer kind.
 

@@ -31,7 +31,7 @@ present then the following are copied in depending on the type of __array__.
 
    - Logical .false.
 
-   - __Character__(LEN) LEN blanks
+   - __Character__(len) LEN blanks
 
 ## __Arguments__
 

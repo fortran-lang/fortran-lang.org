@@ -15,16 +15,16 @@ result = __popcnt__(i)
 ## __Description__
 
 Returns the number of bits set in the binary representation of an
-integer.
+_integer_.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : Shall be of type _integer_.
 
 ## __Returns__
 
-The return value is of type 'integer' and of the default integer kind.
+The return value is of type _integer_ and of the default integer kind.
 
 ## __Examples__
 

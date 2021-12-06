@@ -17,9 +17,9 @@ result = __verify__(string, set\[, back \[, kind\]\])
 Verifies that all the characters in __string__ belong to the set of
 characters in __set__.
 
-If __back__ is either absent or equals __false__, this function returns the
+If __back__ is either absent or equals __.false.__, this function returns the
 position of the leftmost character of __string__ that is not in __set__. If __back__
-equals __true__, the rightmost position is returned. If all characters of
+equals __.true.__, the rightmost position is returned. If all characters of
 __string__ are found in __set__, the result is zero.
 
 ## __Arguments__

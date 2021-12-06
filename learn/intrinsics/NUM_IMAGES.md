@@ -18,20 +18,20 @@ Returns the number of images.
 
 ## __Arguments__
 
-  - __DISTANCE__
+  - __distance__
     : (optional, __intent__(in)) Nonnegative scalar integer
 
-  - __FAILED__
+  - __failed__
     : (optional, __intent__(in)) Scalar logical expression
 
 ## __Returns__
 
-Scalar default-kind integer. If DISTANCE is not present or has value 0,
+Scalar default-kind _integer_. If __distance__ is not present or has value 0,
 the number of images in the current team is returned. For values smaller
 or equal distance to the initial team, it returns the number of images
-index on the ancestor team which has a distance of DISTANCE from the
-invoking team. If DISTANCE is larger than the distance to the initial
-team, the number of images of the initial team is returned. If FAILED is
+index on the ancestor team which has a distance of __distance__ from the
+invoking team. If __distance__ is larger than the distance to the initial
+team, the number of images of the initial team is returned. If __failed__ is
 not present the total number of images is returned; if it has the value
 .true., the number of failed images is returned, otherwise, the number
 of images which do have not the failed status.

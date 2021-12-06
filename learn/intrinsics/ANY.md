@@ -15,7 +15,7 @@ result = __any(mask \[, dim\])__
 ## __Description__
 
 __any(mask, dim)__ determines if any of the values in the logical
-array __mask__ along dimension __DIM__ are __.TRUE.__.
+array __mask__ along dimension __dim__ are __.true.__.
 
 ## __Arguments__
 
@@ -30,9 +30,9 @@ array __mask__ along dimension __DIM__ are __.TRUE.__.
 ## __Returns__
 
 __any(mask)__ returns a scalar value of type _logical_ where the kind type
-parameter is the same as the kind type parameter of __mask__. If __DIM__ is
+parameter is the same as the kind type parameter of __mask__. If __dim__ is
 present, then __any(mask, dim)__ returns an array with the rank of __mask__
-minus 1. The shape is determined from the shape of __mask__ where the __DIM__
+minus 1. The shape is determined from the shape of __mask__ where the __dim__
 dimension is elided.
 
 1.  __any(mask)__ is true if any element of __mask__ is true; otherwise, it

@@ -14,27 +14,27 @@ result = __parity__(mask\[, dim\])
 
 ## __Description__
 
-Calculates the parity (i.e. the reduction using .xor.) of MASK along
-dimension DIM.
+Calculates the parity (i.e. the reduction using .xor.) of __mask__ along
+dimension __dim__.
 
 ## __Arguments__
 
-  - __MASK__
+  - __mask__
     : Shall be an array of type _logical_.
 
-  - __DIM__
+  - __dim__
     : (Optional) shall be a scalar of type _integer_ with a value in the
-    range from 1 to n, where n equals the rank of ARRAY.
+    range from __1 to n__, where __n__ equals the rank of __array__.
 
 ## __Returns__
 
-The result is of the same type as MASK.
+The result is of the same type as __mask__.
 
-If DIM is absent, a scalar with the parity of all elements in MASK is
-returned: .true. if an odd number of elements are .true. and
+If __dim__ is absent, a scalar with the parity of all elements in __mask__ is
+returned: __.true.__ if an odd number of elements are __.true.__ and
 
-where "n" equals the rank of MASK, and a shape similar to that of MASK
-with dimension DIM dropped is returned.
+where __n__ equals the rank of __mask__, and a shape similar to that of __mask__
+with dimension __dim__ dropped is returned.
 
 ## __Examples__
 

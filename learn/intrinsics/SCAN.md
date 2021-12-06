@@ -15,31 +15,31 @@ result = scan(string, set[, back [, kind]])
 
 ## __Description__
 
-Scans a STRING for any of the characters in a SET of characters.
+Scans a __string__ for any of the characters in a __set__ of characters.
 
-If BACK is either absent or equals FALSE, this function returns the
-position of the leftmost character of STRING that is in SET. If BACK
-equals TRUE, the rightmost position is returned. If no character of SET
-is found in STRING, the result is zero.
+If __back__ is either absent or equals __.false.__, this function returns the
+position of the leftmost character of __STRING__ that is in __set__. If __back__
+equals __.true.__, the rightmost position is returned. If no character of __set__
+is found in __string__, the result is zero.
 
 ## __Arguments__
 
-  - __STRING__
+  - __string__
     : Shall be of type _character_.
 
-  - __SET__
+  - __set__
     : Shall be of type _character_.
 
-  - __BACK__
+  - __back__
     : (Optional) shall be of type _logical_.
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
 the return value is of default integer kind.
 
 ## __Examples__

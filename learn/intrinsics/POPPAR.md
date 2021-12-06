@@ -24,7 +24,7 @@ parity of the number of bits set).
 
 ## __Returns__
 
-The return value is equal to 0 if __i__ has an even number of bits set and 1 if an odd
+The return value is equal to __0__ if __i__ has an even number of bits set and 1 if an odd
 number of bits are set.
 
 It is of type _integer_ and of the default _integer_ kind.

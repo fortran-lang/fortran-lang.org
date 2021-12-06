@@ -16,7 +16,7 @@ NOT returns the bitwise Boolean inverse of I.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : The type shall be _integer_.
 
 ## __Returns__

@@ -18,14 +18,14 @@ Determines whether an optional dummy argument is present.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : May be of any type and may be a pointer, scalar or array value, or a
     dummy procedure. It shall be the name of an optional dummy argument
     accessible within the current subroutine or function.
 
 ## __Returns__
 
-Returns either TRUE if the optional argument A is present, or FALSE
+Returns either __.true.__ if the optional argument __a__ is present, or __.false.__
 otherwise.
 
 ## __Examples__

@@ -14,25 +14,25 @@ result = __norm2__(array\[, dim\])
 
 ## __Description__
 
-Calculates the Euclidean vector norm (L\_2 norm) of ARRAY along
-dimension DIM.
+Calculates the Euclidean vector norm (L\_2 norm) of __array__ along
+dimension __dim__.
 
 ## __Arguments__
 
-  - __ARRAY__
+  - __array__
     : Shall be an array of type _real_.
 
-  - __DIM__
+  - __dim__
     : (Optional) shall be a scalar of type _integer_ with a value in the
-    range from 1 to n, where n equals the rank of ARRAY.
+    range from 1 to n, where n equals the rank of __array__.
 
 ## __Returns__
 
-The result is of the same type as ARRAY.
+The result is of the same type as __array__.
 
-If DIM is absent, a scalar with the square root of the sum of squares of
-the elements of ARRAY is returned. Otherwise, an array of rank n-1,
-where "n" equals the rank of ARRAY, and a shape similar to that of ARRAY
+If __dim__ is absent, a scalar with the square root of the sum of squares of
+the elements of __array__ is returned. Otherwise, an array of rank __n-1__,
+where __n__ equals the rank of __array__, and a shape similar to that of __array__
 with dimension DIM dropped is returned.
 
 ## __Examples__
