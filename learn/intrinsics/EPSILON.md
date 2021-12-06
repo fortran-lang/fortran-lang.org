@@ -9,9 +9,8 @@ __epsilon__(3) - \[NUMERIC MODEL\] Epsilon function
 
 ## __Syntax__
 ```fortran
-result = __epsilon__(x)
+result = epsilon(x)
 ```
-
 ## __Description__
 
 __epsilon(x)__ returns the floating point relative accuracy. 
