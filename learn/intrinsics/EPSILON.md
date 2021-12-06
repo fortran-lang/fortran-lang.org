@@ -14,11 +14,11 @@ result = __epsilon__(x)
 
 ## __Description__
 
-__epsilon__(x) returns a nearly negligible number relative to 1.
+__epsilon__(x) returns a nearly negligible number relative to __1__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_.
 
 ## __Returns__

@@ -20,12 +20,12 @@ result = __erf__(x)
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_.
 
 ## __Returns__
 
-The return value is of type _real_, of the same kind as X and lies in the
+The return value is of type _real_, of the same kind as __x__ and lies in the
 range __-1__ \<= __erf__(x) \<= 1 .
 
 ## __Examples__

@@ -14,12 +14,12 @@ result = __minexponent__(X)
 
 ## __Description__
 
-__minexponent(X)__ returns the minimum exponent in the model of the type
-of __X__.
+__minexponent(x)__ returns the minimum exponent in the model of the type
+of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Shall be of type _real_.
 
 ## __Returns__

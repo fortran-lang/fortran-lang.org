@@ -15,35 +15,35 @@ result = __maxloc(array, dim \[, mask\]) result = maxloc(array \[, mask\])__
 ## __Description__
 
 Determines the location of the element in the array with the maximum
-value, or, if the __DIM__ argument is supplied, determines the locations of
-the maximum element along each row of the array in the DIM direction. If
-__MASK__ is present, only the elements for which __MASK__ is __.true.__ are
+value, or, if the __dim__ argument is supplied, determines the locations of
+the maximum element along each row of the array in the __dim__ direction. If
+__mask__ is present, only the elements for which __mask__ is __.true.__ are
 considered. If more than one element in the array has the maximum value,
 the location returned is that of the first such element in array element
-order. If the array has zero size, or all of the elements of __MASK__ are
-.false., then the result is an array of zeroes. Similarly, if __DIM__ is
-supplied and all of the elements of __MASK__ along a given row are zero, the
+order. If the array has zero size, or all of the elements of __mask__ are
+.false., then the result is an array of zeroes. Similarly, if __dim__ is
+supplied and all of the elements of __mask__ along a given row are zero, the
 result value for that row is zero.
 
 ## __Arguments__
 
-  - __ARRAY__
+  - __array__
     : Shall be an array of type _integer_, _real_, or _character_.
 
-  - __DIM__
+  - __dim__
     : (Optional) Shall be a scalar of type _integer_, with a value between
-    one and the rank of __ARRAY__, inclusive. It may not be an optional
+    one and the rank of __array__, inclusive. It may not be an optional
     dummy argument.
 
-  - __MASK__
-    : Shall be an array of type _logical_, and conformable with __ARRAY__.
+  - __mask__
+    : Shall be an array of type _logical_, and conformable with __array__.
 
 ## __Returns__
 
-If __DIM__ is absent, the result is a rank-one array with a length equal to
-the rank of __ARRAY__. If __DIM__ is present, the result is an array with a rank
-one less than the rank of __ARRAY__, and a size corresponding to the size of
-__ARRAY__ with the __DIM__ dimension removed. If __DIM__ is present and __ARRAY__ has a
+If __dim__ is absent, the result is a rank-one array with a length equal to
+the rank of __array__. If __dim__ is present, the result is an array with a rank
+one less than the rank of __array__, and a size corresponding to the size of
+__array__ with the __dim__ dimension removed. If __dim__ is present and __array__ has a
 rank of one, the result is a scalar. In all cases, the result is of
 default _integer_ type.
 
@@ -98,4 +98,5 @@ Fortran 95 and later
 
 ## __See Also__
 
-[__max__(3)](MAX), [__maxval__(3)](MAXVAL)
+[__max__(3)](MAX),
+[__maxval__(3)](MAXVAL)

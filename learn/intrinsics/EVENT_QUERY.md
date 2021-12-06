@@ -10,28 +10,28 @@ __event\_query__(3) - \[COLLECTIVE\] Query whether a coarray event has occurred
 
 ## __Syntax__
 
-call __EVENT\_QUERY__(EVENT, COUNT \[, STAT\])
+call __event\_query__(event, count \[, stat\])
 
 ## __Description__
 
-EVENT\_QUERY assigns the number of events to COUNT which have been
-posted to the EVENT variable and not yet been removed by calling
-EVENT\_WAIT. When STAT is present and the invocation was successful, it
-is assigned the value 0. If it is present and the invocation has failed,
-it is assigned a positive value and COUNT is assigned the value __-1__.
+__event\_query__ assigns the number of events to __count__ which have been
+posted to the __event__ variable and not yet been removed by calling
+__event\_wait__. When __stat__ is present and the invocation was successful, it
+is assigned the value __0__. If it is present and the invocation has failed,
+it is assigned a positive value and __count__ is assigned the value __-1__.
 
 ## __Arguments__
 
-  - __EVENT__
+  - __event__
     : (intent(in)) Scalar of type event\_type, defined in
     iso\_fortran\_env; shall not be coindexed.
 
-  - __COUNT__
+  - __count__
     : (intent(out))Scalar integer with at least the precision of default
-    integer.
+    _integer_.
 
-  - __STAT__
-    : (OPTIONAL) Scalar default-kind integer variable.
+  - __stat__
+    : (OPTIONAL) Scalar default-kind _integer_ variable.
 
 ## __Examples__
 

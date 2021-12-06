@@ -15,19 +15,19 @@ result = __eoshift__(array, shift \[, boundary, dim\])
 ## __Description__
 
 __eoshift__(array, shift\[, boundary, dim\]) performs an end-off shift
-on elements of ARRAY along the dimension of DIM. If DIM is omitted it is
-taken to be 1. DIM is a scalar of type _integer_ in the range of 1 \<= DIM
-\<= n where "n" is the rank of ARRAY. If the rank of ARRAY is one, then
-all elements of ARRAY are shifted by SHIFT places. If rank is greater
-than one, then all complete rank one sections of ARRAY along the given
+on elements of __array__ along the dimension of __dim__. If __dim__ is omitted it is
+taken to be __1__. __dim__ is a scalar of type _integer_ in the range of __1 \<= DIM
+\<= n__ where __"n"__ is the rank of __array__. If the rank of __array__ is one, then
+all elements of __array__ are shifted by __shift__ places. If rank is greater
+than one, then all complete rank one sections of __array__ along the given
 dimension are shifted. Elements shifted out one end of each rank one
-section are dropped. If BOUNDARY is present then the corresponding value
-of from BOUNDARY is copied back in the other end. If BOUNDARY is not
-present then the following are copied in depending on the type of ARRAY.
+section are dropped. If __boundary__ is present then the corresponding value
+of from __boundary__ is copied back in the other end. If __boundary__ is not
+present then the following are copied in depending on the type of __array__.
 
 \*Array Type\* - \*Boundary Value\*
 
-   - Numeric 0 of the type and kind of ARRAY
+   - Numeric 0 of the type and kind of __array__
 
    - Logical .false.
 
@@ -35,21 +35,21 @@ present then the following are copied in depending on the type of ARRAY.
 
 ## __Arguments__
 
-  - __ARRAY__
+  - __array__
     : May be any type, not scalar.
 
-  - __SHIFT__
+  - __shift__
     : The type shall be _integer_.
 
-  - __BOUNDARY__
+  - __boundary__
     : Same type as ARRAY.
 
-  - __DIM__
+  - __dim__
     : The type shall be _integer_.
 
 ## __Returns__
 
-Returns an array of same type and rank as the ARRAY argument.
+Returns an array of same type and rank as the __array__ argument.
 
 ## __Examples__
 

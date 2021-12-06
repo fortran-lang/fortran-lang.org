@@ -14,23 +14,23 @@ result = __mod__(a, p)
 
 ## __Description__
 
-__mod__(a,p) computes the remainder of the division of A by P.
+__mod__(a,p) computes the remainder of the division of __a__ by __p__.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : Shall be a scalar of type _integer_ or _real_.
 
-  - __P__
-    : Shall be a scalar of the same type and kind as A and not equal to
+  - __p__
+    : Shall be a scalar of the same type and kind as __a__ and not equal to
     zero.
 
 ## __Returns__
 
-The return value is the result of a - (int(a/p) \* p). The type and kind
+The return value is the result of __a - (int(a/p) \* p)__. The type and kind
 of the return value is the same as that of the arguments. The returned
 value has the same sign as A and a magnitude less than the magnitude of
-P.
+__p__.
 
 ## __Examples__
 

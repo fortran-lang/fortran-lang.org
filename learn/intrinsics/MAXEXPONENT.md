@@ -14,12 +14,12 @@ result = __maxexponent(X)__
 
 ## __Description__
 
-__maxexponent(X)__ returns the maximum exponent in the model of the type
-of X.
+__maxexponent(x)__ returns the maximum exponent in the model of the type
+of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Shall be of type _real_.
 
 ## __Returns__

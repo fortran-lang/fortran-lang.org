@@ -18,11 +18,11 @@ Returns the argument with the largest (most positive) value.
 
 ## __Arguments__
 
-  - __A1__
+  - __a1__
     : The type shall be _integer_ or _real_.
 
-  - __A2,A3,\`\`\`__
-    : An expression of the same type and kind as A1.
+  - __a2,a3,\`\`\`__
+    : An expression of the same type and kind as __a1__.
 
 ## __Returns__
 

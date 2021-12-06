@@ -17,34 +17,34 @@ result = __maxval(array \[, mask\])__
 ## __Description__
 
 Determines the maximum value of the elements in an array value, or, if
-the __DIM__ argument is supplied, determines the maximum value along each
-row of the array in the __DIM__ direction. If __MASK__ is present, only the
-elements for which __MASK__ is __.true.__ are considered. If the array has zero
-size, or all of the elements of __MASK__ are .false., then the result is the
-most negative number of the type and kind of __ARRAY__ if __ARRAY__ is numeric,
-or a string of nulls if __ARRAY__ is of character type.
+the __dim__ argument is supplied, determines the maximum value along each
+row of the array in the __dim__ direction. If __mask__ is present, only the
+elements for which __mask__ is __.true.__ are considered. If the array has zero
+size, or all of the elements of __mask__ are .false., then the result is the
+most negative number of the type and kind of __array__ if __array__ is numeric,
+or a string of nulls if __array__ is of character type.
 
 ## __Arguments__
 
-  - __ARRAY__
+  - __array__
     : Shall be an array of type _integer_, _real_, or __character__.
 
-  - __DIM__
+  - __dim__
     : (Optional) Shall be a scalar of type _integer_, with a value between
-    one and the rank of __ARRAY__, inclusive. It may not be an optional
+    one and the rank of __array__, inclusive. It may not be an optional
     dummy argument.
 
-  - __MASK__
+  - __mask__
     : (Optional) Shall be an array of type _logical_, and conformable with
-    __ARRAY__.
+    __array__.
 
 ## __Returns__
 
-If __DIM__ is absent, or if __ARRAY__ has a rank of one, the result is a scalar.
-If __DIM__ is present, the result is an array with a rank one less than the
-rank of __ARRAY__, and a size corresponding to the size of __ARRAY__ with the
-__DIM__ dimension removed. In all cases, the result is of the same type and
-kind as __ARRAY__.
+If __dim__ is absent, or if __array__ has a rank of one, the result is a scalar.
+If __dim__ is present, the result is an array with a rank one less than the
+rank of __array__, and a size corresponding to the size of __array__ with the
+__dim__ dimension removed. In all cases, the result is of the same type and
+kind as __array__.
 
 ## __Examples__
 
@@ -82,8 +82,5 @@ Fortran 95 and later
 
 ## __See Also__
 
-[__max__(3)](MAX), [__maxloc__(3)](MAXLOC)
-
-## __Category__
-
-intrinsics
+[__max__(3)](MAX),
+[__maxloc__(3)](MAXLOC)

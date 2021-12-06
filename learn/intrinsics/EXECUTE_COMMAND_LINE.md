@@ -23,59 +23,59 @@ cmdmsg)
 
 ## __Description__
 
-The COMMAND argument is passed to the shell and executed. (The shell is
-generally __sh__(1) on Unix systems, and cmd.exe on Windows.) If WAIT is
-present and has the value .FALSE., the execution of the command is
+The __command__ argument is passed to the shell and executed. (The shell is
+generally __sh__(1) on Unix systems, and cmd.exe on Windows.) If __wait__ is
+present and has the value __.false.__, the execution of the command is
 asynchronous if the system supports it; otherwise, the command is
 executed synchronously.
 
 The three last arguments allow the user to get status information. After
-synchronous execution, EXITSTAT contains the integer exit code of the
-command, as returned by SYSTEM. CMDSTAT is set to zero if the command
-line was executed (whatever its exit status was). CMDMSG is assigned an
+synchronous execution, __exitstat__ contains the integer exit code of the
+command, as returned by __system__. __cmdstat__ is set to zero if the command
+line was executed (whatever its exit status was). __cmdmsg__ is assigned an
 error message if an error has occurred.
 
 Note that the system call need not be thread-safe. It is the
 responsibility of the user to ensure that the system is not called
 concurrently if required.
 
-When the command is executed synchronously, EXECUTE\_COMMAND\_LINE
+When the command is executed synchronously, __execute\_command\_line__
 returns after the command line has completed execution. Otherwise,
-EXECUTE\_COMMAND\_LINE returns without waiting.
+__execute\_command\_line__ returns without waiting.
 
 ## __Arguments__
 
   - __command__
-    : a default CHARACTER scalar containing the command line to be
+    : a default _character_ scalar containing the command line to be
     executed. The interpretation is programming-environment dependent.
 
   - __wait__
-    : (Optional) a default _logical_ scalar. If WAIT is present with the
+    : (Optional) a default _logical_ scalar. If __wait__ is present with the
     value .false., and the processor supports asynchronous execution of
     the command, the command is executed asynchronously; otherwise it is
     executed synchronously.
 
   - __exitstat__
-    : (Optional) an _integer_ of the default kind with __intent__(INOUT). If
+    : (Optional) an _integer_ of the default kind with __intent(inout)__. If
     the command is executed synchronously, it is assigned the value of
     the processor-dependent exit status. Otherwise, the value of
-    EXITSTAT is unchanged.
+    __exitstat__ is unchanged.
 
   - __cmdstat__
-    : (Optional) an _integer_ of default kind with __intent__(INOUT). If an
-    error condition occurs and CMDSTAT is not present, error termination
+    : (Optional) an _integer_ of default kind with __intent(inout)__. If an
+    error condition occurs and __cmdstat__ is not present, error termination
     of execution of the image is initiated.
 
     It is assigned the value __-1__ if the processor does not support
     command line execution, a processor-dependent positive value if an
     error condition occurs, or the value __-2__ if no error condition
-    occurs but WAIT is present with the value false and the processor
+    occurs but __wait__ is present with the value false and the processor
     does not support asynchronous execution. Otherwise it is assigned
     the value 0.
 
   - __cmdmsg__
-    : (Optional) a _character_ scalar of the default kind. It is an INTENT
-    (INOUT) argument.If an error condition occurs, it is assigned a
+    : (Optional) a _character_ scalar of the default kind. It is an __intent
+    (inout)__ argument.If an error condition occurs, it is assigned a
     processor-dependent explanatory message.Otherwise, it is unchanged.
 
 ## __Examples__

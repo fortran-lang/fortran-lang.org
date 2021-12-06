@@ -14,16 +14,16 @@ result = __exp__(x)
 
 ## __Description__
 
-__exp__(x) computes the base "e" exponential of X.
+__exp__(x) computes the base "e" exponential of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
-The return value has same type and kind as X.
+The return value has same type and kind as __x__.
 
 ## __Examples__
 

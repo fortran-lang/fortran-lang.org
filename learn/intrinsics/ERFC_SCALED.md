@@ -22,12 +22,12 @@ result = __erfc\_scaled__(x)
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_.
 
 ## __Returns__
 
-The return value is of type _real_ and of the same kind as X.
+The return value is of type _real_ and of the same kind as __x__.
 
 ## __Examples__
 

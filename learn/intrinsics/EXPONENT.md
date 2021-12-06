@@ -14,12 +14,12 @@ result = __exponent__(x)
 
 ## __Description__
 
-__exponent__(x) returns the value of the exponent part of X. If X is
+__exponent__(x) returns the value of the exponent part of __x__. If __x__ is
 zero the value returned is zero.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_.
 
 ## __Returns__

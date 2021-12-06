@@ -14,18 +14,18 @@ result = __erfc__(x)
 
 ## __Description__
 
-__erfc__(x) computes the complementary error function of X, defined as
+__erfc__(x) computes the complementary error function of __x__, defined as
 $$ 1 - \\text{erf}(x) = 1 - \\frac{2}{\\sqrt{\\pi}} \\int\_0\*\*x
 e\*\*{__-t__\*\*2} dt. $$
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_.
 
 ## __Returns__
 
-The return value is of type _real_ and of the same kind as X. It lies in
+The return value is of type _real_ and of the same kind as __x__. It lies in
 the range
 
 > 0 \<= __ERFC__(X) \<= 2.
