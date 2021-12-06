@@ -9,8 +9,9 @@ __reshape__(3) - \[ARRAY RESHAPE\] Function to reshape an array
 (GFDL)
 
 ## __Syntax__
-
-result = __reshape__(source, shape\[, pad, order\])
+```fortran
+result = reshape(source, shape, pad, order)
+```
 
 ## __Description__
 
@@ -49,7 +50,7 @@ program demo_reshape
 implicit none
 integer :: i
 integer, dimension(4) :: x=[(i,i=10,40,10)]
-    ! X is originally a vector with four elements
+    ! x is originally a vector with four elements
     write(*,*) shape(x)                     ! prints "4"
     write(*,*) shape(reshape(x, [2, 2]))    ! prints "2 2"
 end program demo_reshape

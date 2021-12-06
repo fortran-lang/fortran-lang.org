@@ -10,20 +10,20 @@ __tan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Tangent function
 
 ## __Syntax__
 
-result = __tan__(x)
+result = __tan(x)__
 
 ## __Description__
 
-__tan__(x) computes the tangent of X.
+__tan(x)__ computes the tangent of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
-The return value has the same type and kind as X.
+The return value has the same type and kind as __x__.
 
 ## __Examples__
 

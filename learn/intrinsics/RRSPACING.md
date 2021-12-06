@@ -9,13 +9,14 @@ __rrspacing__(3) - \[MODEL\_COMPONENTS\] Reciprocal of the relative spacing
 (GFDL)
 
 ## __Syntax__
-
-result = __rrspacing__(x)
+```fortran
+result = rrspacing(x)
+```
 
 ## __Description__
 
-__rrspacing__(x) returns the reciprocal of the relative spacing of model
-numbers near X.
+__rrspacing(x)__ returns the reciprocal of the relative spacing of model
+numbers near __x__.
 
 ## __Arguments__
 
@@ -24,7 +25,7 @@ numbers near X.
 
 ## __Returns__
 
-The return value is of the same type and kind as X. The value returned
+The return value is of the same type and kind as __x__. The value returned
 is equal to __abs__(fraction(x)) \* __float__(radix(x))\*\*digits(x).
 
 ## __Standard__

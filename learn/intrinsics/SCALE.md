@@ -15,20 +15,20 @@ result = scale(x, i)
 
 ## __Description__
 
-__scale__(x,i) returns x \* __radix__(x)\*\*i.
+__scale(x,i)__ returns x \* __radix(x)\*\*i__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type of the argument shall be a _real_.
 
-  - __I__
+  - __i__
     : The type of the argument shall be a _integer_.
 
 ## __Returns__
 
-The return value is of the same type and kind as X. Its value is x \*
-__radix__(x)\*\*i.
+The return value is of the same type and kind as __x__. Its value is __x \*
+radix(x)\*\*i__.
 
 ## __Examples__
 

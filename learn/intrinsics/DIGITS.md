@@ -9,19 +9,20 @@ __digits__(3) - \[NUMERIC MODEL\] Significant digits function
 (GFDL)
 
 ## __Syntax__
-
-result = __digits__(x)
+```fortran
+result = digits(x)
+```
 
 ## __Description__
 
-__digits__(x) returns the number of significant digits of the internal
-model representation of X. For example, on a system using a 32-bit
+__digits(x)__ returns the number of significant digits of the internal
+model representation of __x__. For example, on a system using a 32-bit
 floating point representation, a default real number would likely return
 24.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type may be _integer_ or _real_.
 
 ## __Returns__
@@ -72,4 +73,3 @@ Fortran 95 and later
 [set_exponent(3)](SET_EXPONENT),
 [spacing(3)](SPACING),
 [tiny(3)](TINY)
-

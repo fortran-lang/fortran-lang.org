@@ -9,21 +9,22 @@ __dim__(3) - \[NUMERIC\] Positive difference
 (GFDL)
 
 ## __Syntax__
-
-result = __DIM__(X, Y)
+```fortran
+result = dim(x, y)
+```
 
 ## __Description__
 
-__DIM__(X,Y) returns the difference X-Y if the result is positive;
+__dim(x,y)__ returns the difference __x - y__ if the result is positive;
 otherwise returns zero.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _integer_ or _real_
 
-  - __Y__
-    : The type shall be the same type and kind as X.
+  - __y__
+    : The type shall be the same type and kind as __x__.
 
 ## __Returns__
 

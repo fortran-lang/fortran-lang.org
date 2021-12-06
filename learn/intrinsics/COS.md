@@ -9,23 +9,24 @@ __cos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Cosine function
 (GFDL)
 
 ## __Syntax__
-
-result = __cos__(x)
+```fortran
+result = cos(x)
+```
 
 ## __Description__
 
-__cos__(x) computes the cosine of X.
+__cos(x)__ computes the cosine of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
-The return value is of the same type and kind as X. The real part of the
-result is in radians. If X is of the type _real_, the return value lies in
-the range __-1__ \<= __cos__(x) \<= 1.
+The return value is of the same type and kind as __x__. The real part of the
+result is in radians. If __x__ is of the type _real_, the return value lies in
+the range __-1 \<= cos(x) \<= 1_.._
 
 ## __Examples__
 

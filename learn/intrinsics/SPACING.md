@@ -14,17 +14,17 @@ result = __spacing__(x)
 
 ## __Description__
 
-Determines the distance between the argument X and the nearest adjacent
+Determines the distance between the argument __x__ and the nearest adjacent
 number of the same type.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Shall be of type _real_.
 
 ## __Returns__
 
-The result is of the same type as the input argument X.
+The result is of the same type as the input argument __x__.
 
 ## __Examples__
 

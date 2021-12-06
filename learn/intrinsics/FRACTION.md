@@ -7,15 +7,16 @@ permalink: /learn/intrinsics/FRACTION
 
 __fraction__(3) - \[MODEL\_COMPONENTS\] Fractional part of the model representation
 (GFDL)
+## __Syntax__
+```fortran
+y = fraction(x)
+```
 
 ## __Description__
 
-__fraction__(x) returns the fractional part of the model representation
-of X.
+__fraction(x)__ returns the fractional part of the model representation
+of __x__.
 
-## __Syntax__
-
-y = __fraction__(x)
 
 ## __Arguments__
 

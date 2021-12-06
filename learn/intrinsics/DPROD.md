@@ -9,23 +9,24 @@ __dprod__(3) - \[NUMERIC\] Double product function
 (GFDL)
 
 ## __Syntax__
-
-result = __dprod__(x, y)
+```fortran
+result = dprod(x, y)
+```
 
 ## __Description__
 
-__DPROD__(X,Y) produces a higher DOUBLEPRECISION product of default _real_
-numbers X and Y.
+__dprod(x,y)__ produces a higher _doubleprecision_ product of default _real_
+numbers __x__ and __y__.
 
 The result has a value equal to a processor-dependent approximation to
-the product of X and Y. It is recommended that the processor compute the
+the product of __x__ and __y__. It is recommended that the processor compute the
 product in double precision, rather than in single precision and then
 converted to double precision.
 
-  - __X__
+  - __x__
     : shall be default real.
 
-  - __Y__
+  - __y__
     : shall be default real.
 
 The setting of compiler options specifying _real_ size can affect this
@@ -33,11 +34,11 @@ function.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Must be of default ___real___(kind=kind(0.0)) type
 
-  - __Y__
-    : Must have the same type and kind parameters as X
+  - __y__
+    : Must have the same type and kind parameters as __x__
 
 ## __Returns__
 

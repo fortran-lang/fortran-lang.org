@@ -9,27 +9,28 @@ __c\_sizeof__(3) - \[ISO\_C\_BINDING\] Size in bytes of an expression
 (GFDL)
 
 ## __Syntax__
-
-n = __c\_sizeof__(x)
+```fortran
+n = c_sizeof(x)
+```
 
 ## __Description__
 
-__c\_sizeof__(x) calculates the number of bytes of storage the
-expression X occupies.
+__c\_sizeof(x)__ calculates the number of bytes of storage the
+expression __x__ occupies.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The argument shall be an interoperable data entity.
 
 ## __Returns__
 
 The return value is of type integer and of the system-dependent kind
-c\_size\_t (from the \[\[iso\_c\_binding\]\] module). Its value is the
+c\_size\_t (from the *iso\_c\_binding* module). Its value is the
 number of bytes occupied by the argument. If the argument has the
-POINTER attribute, the number of bytes of the storage area pointed to is
-returned. If the argument is of a derived type with POINTER or
-ALLOCATABLE components, the return value does not account for the sizes
+_pointer_ attribute, the number of bytes of the storage area pointed to is
+returned. If the argument is of a derived type with _pointer_ or
+_allocatable_ components, the return value does not account for the sizes
 of the data pointed to by these components.
 
 ## __Examples__

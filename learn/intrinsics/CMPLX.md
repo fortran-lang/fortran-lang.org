@@ -9,44 +9,45 @@ __cmplx__(3) - \[NUMERIC:TYPE\] Complex conversion function
 (GFDL)
 
 ## __Syntax__
-
-result = __cmplx__(x \[, y \[, kind\]\])
+```fortran
+result = cmplx(x, y, kind)
+```
 
 ## __Description__
 
-To convert numeric variables to complex, use the CMPLX function.
+To convert numeric variables to complex, use the __cmplx(3)__ function.
 Constants can be used to define a complex variable using the syntax
 
 ```
       z8 = (1.2345678901234567d0, 1.2345678901234567d0)
 ```
 
-but this will not work for variables. You must use the CMPLX function.
+but this will not work for variables. You must use the __cmplx(3)__ function.
 
-__CMPLX__(X \[, Y \[, KIND\]\]) returns a complex number where X is
-converted to the real component. If X is complex then Y must not be
-present. If Y is present it is converted to the imaginary component. If
-Y is not present then the imaginary component is set to 0.0.
+__cmplx(x \[, y \[, kind\]\])__ returns a complex number where __x__ is
+converted to the _real_ component. If __x__ is _complex_ then __y__ must not be
+present. If __y__ is present it is converted to the imaginary component. If
+__y__ is not present then the imaginary component is set to __0.0__.
 
-## __CMPLX and double precision__
+## __cmplx(3)__ and double precision__
 
-The Fortran 90 language defines __CMPLX__() as always returning a result
-that is type ___complex___(KIND=KIND(0.0)).
+The Fortran 90 language defines __cmplx(3)__ as always returning a result
+that is type ___complex___(kind=KIND(0.0)).
 
-This means \`__CMPLX__(D1,D2)', where \`D1' and \`D2' are
-DOUBLEPRECISION, is treated as:
-
+This means \`__cmplx(d1,d2)__', where __\`d1'__ and __\`d2'__ are
+_doubleprecision_, is treated as:
+fortran
 ```
-      CMPLX(SNGL(D1), SNGL(D2))
+      cmplx(sngl(d1), sngl(d2))
 ```
 
-DOUBLEPRECISION complex numbers require specifying a precision.
+_doubleprecision complex_ numbers require specifying a precision.
 
 It was necessary for Fortran 90 to specify this behavior for
-DOUBLEPRECISION arguments, since that is the behavior mandated by
+_doubleprecision_ arguments, since that is the behavior mandated by
 FORTRAN 77.
 
-So Fortran 90 extends the __CMPLX__() intrinsic by adding an extra
+So Fortran 90 extends the __cmplx(3)__ intrinsic by adding an extra
 argument used to specify the desired kind of complex result.
 
 ```fortran
@@ -75,7 +76,7 @@ can be accessed independently with a component-like syntax in f2018:
 
 A complex-part-designator is
 
-```
+``fortran
       designator % RE
       or
       designator % IM.
@@ -90,30 +91,30 @@ of the designator.
 
 The following are examples of complex part designators:
 
-```
+```fortran
        impedance%re           !-- Same value as _real_(impedance)
        fft%im                 !-- Same value as AIMAG(fft)
-       x%im = 0.0             !-- Sets the imaginary part of X to zero
+       x%im = 0.0             !-- Sets the imaginary part of x to zero
 ```
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     The type may be _integer_, _real_, or _complex_.
 
-  - __Y__
-    (Optional; only allowed if X is not _complex_.). May be _integer_ or
+  - __y__
+    (Optional; only allowed if __x__ is not _complex_.). May be _integer_ or
     _real_.
 
-  - __KIND__
+  - __kind__
     (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-The return value is of _complex_ type, with a kind equal to KIND if it is
-specified. If KIND is not specified, the result is of the default
-_complex_ kind, regardless of the kinds of X and Y.
+The return value is of _complex_ type, with a kind equal to __kind__ if it is
+specified. If __kind__ is not specified, the result is of the default
+_complex_ kind, regardless of the kinds of __x__ and __y__.
 
 ## __Examples__
 

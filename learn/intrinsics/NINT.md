@@ -12,39 +12,39 @@ __nint__(3) - \[NUMERIC:TYPE\] Nearest whole number
 
 ```fortran
     elemental function nint(x [, kind=NN]) result(ANSWER)
-     real(kind=??),intent(in) :: X
+     real(kind=??),intent(in) :: x
      integer(kind=NN) :: ANSWER
 ```
 
 ## __Description__
 
-__NINT__(X) rounds its argument to the nearest whole number with its
+__nint(x)__ rounds its argument to the nearest whole number with its
 sign preserved.
 
 The user must ensure the value is a valid value for the range of the
-KIND returned. If the processor cannot represent the result in the kind
+__kind__ returned. If the processor cannot represent the result in the kind
 specified, the result is undefined.
 
-If X is greater than zero, __NINT__(X) has the value __INT__(X+0.5).
+If __x__ is greater than zero, __nint(x)__ has the value __int(x+0.5)__.
 
-If X is less than or equal to zero, __NINT__(X) has the value
-__INT__(a-0.5).
+If __x__ is less than or equal to zero, __nint(x)__ has the value
+__int(a-0.5)__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type of the argument shall be _real_.
 
-  - __KIND__
+  - __kind__
     : (Optional) A constant _integer_ expression indicating the kind
     parameter of the result. Otherwise, the kind type parameter is that
     of default _integer_ type.
 
 ## __Returns__
 
-  - __ANSWER__
-    : The result is the integer nearest X, or if there are two integers
-    equally near X, the result is whichever such integer has the greater
+  - __answer__
+    : The result is the integer nearest __x__, or if there are two integers
+    equally near __x__, the result is whichever such _integer_ has the greater
     magnitude.
 
 ## __Examples__

@@ -8,12 +8,13 @@ permalink: /learn/intrinsics/SIN
 __sin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
 
 ## __Syntax__
-
-result = __sin__(x)
+```fortran
+result = sin(x)
+```
 
 ## __Description__
 
-__sin__(3) computes the sine of an angle given the size of the angle in
+__sin(x)__ computes the sine of an angle given the size of the angle in
 radians.
 
 The sine of an angle in a right-angled triangle is the ratio of the
@@ -22,13 +23,13 @@ hypotenuse.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_ or _complex_ in radians.
 
 ## __Returns__
 
   - __RESULT__
-    : The return value has the same type and kind as X.
+    : The return value has the same type and kind as __x__.
 
 ## __Examples__
 

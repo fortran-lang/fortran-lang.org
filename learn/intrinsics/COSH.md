@@ -22,18 +22,18 @@ will be the same type and kind as the input value __x__.
 
 ## __Description__
 
-__cosh__(x) computes the hyperbolic cosine of X.
+__cosh__(x) computes the hyperbolic cosine of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
-The return value has same type and kind as X. If X is complex, the
-imaginary part of the result is in radians. If X is _real_, the return
-value has a lower bound of one, __cosh__(x) \>= 1.
+The return value has same type and kind as __x__. If __x__ is _complex_, the
+imaginary part of the result is in radians. If __x__ is _real_, the return
+value has a lower bound of one, __cosh(x) \>= 1__.
 
 ## __Examples__
 

@@ -9,17 +9,18 @@ __precision__(3) - \[NUMERIC MODEL\] Decimal precision of a real kind
 (GFDL)
 
 ## __Syntax__
-
-result = __precision__(x)
+```fortran
+result = precision(x)
+```
 
 ## __Description__
 
-__precision__(x) returns the decimal precision in the model of the type
-of X.
+__precision(x)__ returns the decimal precision in the model of the type
+of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Shall be of type _real_ or _complex_.
 
 ## __Returns__
@@ -32,9 +33,10 @@ Sample program:
 
 ```fortran
 program demo_precision
+use,intrinsic :: iso_fortran_env, only : dp=>real64,sp=>real32
 implicit none
-real(kind=4) :: x(2)
-complex(kind=8) :: y
+real(kind=sp) :: x(2)
+complex(kind=dp) :: y
 
    print *, precision(x), range(x)
    print *, precision(y), range(y)

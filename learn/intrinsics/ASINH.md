@@ -9,12 +9,13 @@ __asinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic sine function
 (GFDL)
 
 ## __Syntax__
-
-result = __asinh__(x)
+```fortran
+result = asinh(x)
+```
 
 ## __Description__
 
-__asinh__(x) computes the inverse hyperbolic sine of X.
+__asinh__(x) computes the inverse hyperbolic sine of __x__.
 
 ## __Arguments__
 

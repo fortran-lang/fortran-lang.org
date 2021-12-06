@@ -16,7 +16,7 @@ result = __lgt__(string\_a, string\_b)
 
 Determines whether one string is lexically greater than another string,
 where the two strings are interpreted as containing ASCII character
-codes. If the String A and String B are not the same length, the shorter
+codes. If the String __a__ and String __b__ are not the same length, the shorter
 is compared as if spaces were appended to it to form a value that has
 the same length as the longer.
 

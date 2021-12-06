@@ -9,28 +9,29 @@ __nearest__(3) - \[MODEL\_COMPONENTS\] Nearest representable number
 (GFDL)
 
 ## __Syntax__
-
-result = __nearest__(x, s)
+```fortran
+result = nearest(x, s)
+```
 
 ## __Description__
 
-__nearest__(x, s) returns the processor-representable number nearest to
-X in the direction indicated by the sign of S.
+__nearest(x, s)__ returns the processor-representable number nearest to
+__x__ in the direction indicated by the sign of __s__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Shall be of type _real_.
 
-  - __S__
+  - __s__
     : Shall be of type _real_ and not equal to zero.
 
 ## __Returns__
 
-The return value is of the same type as X. If S is positive, NEAREST
-returns the processor-representable number greater than X and nearest to
-it. If S is negative, NEAREST returns the processor-representable number
-smaller than X and nearest to it.
+The return value is of the same type as __x__. If __s__ is positive, __nearest__
+returns the processor-representable number greater than __x__ and nearest to
+it. If __s__ is negative, __nearest__ returns the processor-representable number
+smaller than __x__ and nearest to it.
 
 ## __Examples__
 

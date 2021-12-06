@@ -9,21 +9,22 @@ __sinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic sine function
 (GFDL)
 
 ## __Syntax__
-
-result = __sinh__(x)
+```fortran
+result = sinh(x)
+```
 
 ## __Description__
 
-__sinh__(x) computes the hyperbolic sine of X.
+__sinh(x)__ computes the hyperbolic sine of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
-The return value has same type and kind as X.
+The return value has same type and kind as __x__.
 
 ## __Examples__
 

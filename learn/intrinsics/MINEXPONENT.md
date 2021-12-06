@@ -9,8 +9,9 @@ __minexponent__(3) - \[NUMERIC MODEL\] Minimum exponent of a real kind
 (GFDL)
 
 ## __Syntax__
-
-result = __minexponent__(X)
+```fortran
+result = minexponent(x)
+```
 
 ## __Description__
 
@@ -66,4 +67,3 @@ Fortran 95 and later
 [set_exponent(3)](SET_EXPONENT),
 [spacing(3)](SPACING),
 [tiny(3)](TINY)
-

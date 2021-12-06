@@ -9,22 +9,22 @@ __tanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic tangent function
 (GFDL)
 
 ## __Syntax__
-
-x = __tanh__(x)
-
+```fortran
+x = tanh(x)
+```
 ## __Description__
 
-__tanh__(X) computes the hyperbolic tangent of X.
+__tanh(x)__ computes the hyperbolic tangent of __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type shall be _real_ or _complex_.
 
 ## __Returns__
 
-The return value has same type and kind as X. If X is complex, the
-imaginary part of the result is in radians. If X is _real_, the return
+The return value has same type and kind as __x__. If __x__ is complex, the
+imaginary part of the result is in radians. If __x__ is _real_, the return
 value lies in the range
 
 ```

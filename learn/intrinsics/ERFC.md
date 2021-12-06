@@ -9,8 +9,9 @@ __erfc__(3) - \[MATHEMATICS\] Complementary error function
 (GFDL)
 
 ## __Syntax__
-
-result = __erfc__(x)
+```fortran
+result = erfc(x)
+```
 
 ## __Description__
 
@@ -28,7 +29,7 @@ e\*\*{__-t__\*\*2} dt. $$
 The return value is of type _real_ and of the same kind as __x__. It lies in
 the range
 
-> 0 \<= __ERFC__(X) \<= 2.
+> 0 \<= __erfc__(x) \<= 2.
 
 ## __Examples__
 

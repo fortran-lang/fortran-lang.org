@@ -22,10 +22,10 @@ element of __fsource__ when it is .false. .
 Multi-dimensional arrays are supported.
 
 Note that argument expressions to __merge__(3) are not required to be
-short-circuited so (as an example) if the array X contains zero values
+short-circuited so (as an example) if the array __x__ contains zero values
 in the statement below the standard does not prevent floating point
-divide by zero being generated; as 1.0/x may be evaluated for all values
-of x before the mask is used to select which value to retain:
+divide by zero being generated; as __1.0/x__ may be evaluated for all values
+of __x__ before the mask is used to select which value to retain:
 
 ```fortran
       y = merge( 1.0\/x, 0.0, x \/= 0.0 )

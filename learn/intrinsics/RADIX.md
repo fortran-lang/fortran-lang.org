@@ -9,16 +9,17 @@ __radix__(3) - \[NUMERIC MODEL\] Base of a model number
 (GFDL)
 
 ## __Syntax__
-
-result = __radix__(x)
+```fortran
+result = radix(x)
+```
 
 ## __Description__
 
-__radix__(x) returns the base of the model representing the entity X.
+__radix(x)__ returns the base of the model representing the entity __x__.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Shall be of type _integer_ or _real_
 
 ## __Returns__

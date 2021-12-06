@@ -9,8 +9,9 @@ __maxexponent__(3) - \[NUMERIC MODEL\] Maximum exponent of a real kind
 (GFDL)
 
 ## __Syntax__
-
-result = __maxexponent(X)__
+```fortran
+result = maxexponent(x)
+```
 
 ## __Description__
 
@@ -32,9 +33,10 @@ Sample program:
 
 ```fortran
 program demo_maxexponent
+iso_fortran_env, only : dp=>real64,sp=>real32
 implicit none
-real(kind=4) :: x
-real(kind=8) :: y
+real(kind=sp) :: x
+real(kind=dp) :: y
 
    print *, minexponent(x), maxexponent(x)
    print *, minexponent(y), maxexponent(y)

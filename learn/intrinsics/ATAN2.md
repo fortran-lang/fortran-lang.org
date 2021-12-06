@@ -9,8 +9,9 @@ __atan2__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
 (GFDL)
 
 ## __Syntax__
-
-result = __atan2(Y, X)__
+```fortran
+result = atan2(y, x)
+```
 
 ## __Description__
 

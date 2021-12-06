@@ -9,17 +9,18 @@ __kind__(3) - \[KIND INQUIRY\] Kind of an entity
 (GFDL)
 
 ## __Syntax__
-
-k = __kind__(x)
+```fortran
+k = kind(x)
+```
 
 ## __Description__
 
-__kind__(x) returns the kind value of the entity X.
+__kind(x)__ returns the kind value of the entity __x__.
 
 ## __Arguments__
 
-  - __X__
-    : Shall be of type _logical_, _integer_, _real_, _complex_ or CHARACTER.
+  - __x__
+    : Shall be of type _logical_, _integer_, _real_, _complex_ or _character_.
 
 ## __Returns__
 
