@@ -17,3 +17,4 @@ permalink: /learn/intrinsics/SYSTEM_index
 | *SYSTEM:PROCESSES*     ||||| [__execute\_command\_line__]({{site.baseurl}}/learn/intrinsics/EXECUTE_COMMAND_LINE)        || &#9679; Execute a shell command                     |
 | *SYSTEM:ENVIRONMENT*   ||||| [__get\_environment\_variable__]({{site.baseurl}}/learn/intrinsics/GET_ENVIRONMENT_VARIABLE)|| &#9679; Get an environmental variable               |
 |------------------------|||||---------------------------------------------------------------------------------------------||-----------------------------------------------------|
+

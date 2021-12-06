@@ -44830,12 +44830,16 @@
 (GFDL)</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="p">)</span><span class="w">
 
-<p>result = <strong>ceiling</strong>(a [, kind])</p>
+   </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">kind</span><span class="p">)</span><span class="w"> 
+   </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">ANY</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">kind</span><span class="w">
+</span></code></pre></div></div>
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>ceiling(a)</strong> returns the least integer greater than or equal to A.</p>
+<p><strong>ceiling(a)</strong> returns the least integer greater than or equal to <strong>a</strong>.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44849,7 +44853,7 @@
   <li>
     <dl>
       <dt><strong>kind</strong></dt>
-      <dd>(Optional) An <em>integer</em> initialization expression indicating the kind
+      <dd>An <em>integer</em> initialization expression indicating the kind
 parameter of the result.</dd>
     </dl>
   </li>
@@ -44868,10 +44872,14 @@ default-kind <em>integer</em> otherwise.</p>
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">63.29</span><span class="w">
 </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-63.59</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1">! returns 64</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="c1">! returns -63</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> 
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_ceiling</span><span class="w">
 </span></code></pre></div></div>
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             64
+            -63
+</code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>
 

@@ -44847,22 +44847,22 @@
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p>To convert numeric variables to complex, use the <strong>cmplx(3)</strong> function.
+<p>To convert numeric variables to complex, use the <strong>cmplx</strong>(3) function.
 Constants can be used to define a complex variable using the syntax</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      z8 = (1.2345678901234567d0, 1.2345678901234567d0)
 </code></pre></div></div>
 
-<p>but this will not work for variables. You must use the <strong>cmplx(3)</strong> function.</p>
+<p>but this will not work for variables. You must use the <strong>cmplx</strong>(3) function.</p>
 
 <p><strong>cmplx(x [, y [, kind]])</strong> returns a complex number where <strong>x</strong> is
 converted to the <em>real</em> component. If <strong>x</strong> is <em>complex</em> then <strong>y</strong> must not be
 present. If <strong>y</strong> is present it is converted to the imaginary component. If
 <strong>y</strong> is not present then the imaginary component is set to <strong>0.0</strong>.</p>
 
-<h2 id="cmplx3-and-double-precision__"><strong>cmplx(3)</strong> and double precision__</h2>
+<h2 id="cmplx3-and-double-precision__"><strong>cmplx</strong>(3) and double precision__</h2>
 
-<p>The Fortran 90 language defines <strong>cmplx(3)</strong> as always returning a result
+<p>The Fortran 90 language defines <strong>cmplx</strong>(3) as always returning a result
 that is type <strong><em>complex</em></strong>(kind=KIND(0.0)).</p>
 
 <p>This means `<strong>cmplx(d1,d2)</strong>’, where <strong>`d1’</strong> and <strong>`d2’</strong> are
@@ -44877,7 +44877,7 @@ fortran</p>
 <em>doubleprecision</em> arguments, since that is the behavior mandated by
 FORTRAN 77.</p>
 
-<p>So Fortran 90 extends the <strong>cmplx(3)</strong> intrinsic by adding an extra
+<p>So Fortran 90 extends the <strong>cmplx</strong>(3) intrinsic by adding an extra
 argument used to specify the desired kind of complex result.</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">      </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dp</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)</span><span class="w">
