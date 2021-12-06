@@ -13,7 +13,7 @@ __acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine function
     real(kind=KIND),elemental  :: acos
     real(kind=KIND),intent(in) :: x
 ```
-    where KIND may be any supported KIND for the type _real_.
+where KIND may be any supported KIND for the type _real_.
 
 ## __Description__
 
