@@ -16,11 +16,11 @@ result = __lge__(string\_a, string\_b)
 
 Determines whether one string is lexically greater than or equal to
 another string, where the two strings are interpreted as containing
-ASCII character codes. If the String A and String B are not the same
+ASCII character codes. If the String __a__ and String __b__ are not the same
 length, the shorter is compared as if spaces were appended to it to form
 a value that has the same length as the longer.
 
-In general, the lexical comparison intrinsics LGE, LGT, LLE, and LLT
+In general, the lexical comparison intrinsics __lge__(3), __lgt__(3), __lle__(3), and __llt__(3)
 differ from the corresponding intrinsic operators .ge., .gt., .le., and
 .lt., in that the latter use the processor's character ordering (which
 is not ASCII on some targets), whereas the former always use the ASCII
@@ -51,8 +51,14 @@ Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:
 
   - __Elemental:__
-    [__adjustl__(3)](ADJUSTL), [__adjustr__(3)](ADJUSTR), [__index__(3)](INDEX), [__len\_trim__(3)](LEN_TRIM),
-    [__scan__(3)](SCAN), [__verify__(3)](VERIFY)
+ [__adjustl__(3)](ADJUSTL),
+ [__adjustr__(3)](ADJUSTR),
+ [__index__(3)](INDEX),
+ [__len\_trim__(3)](LEN_TRIM),
+
+ [__scan__(3)](SCAN),
+ [__verify__(3)](VERIFY)
 
   - __Nonelemental:__
-    [__repeat__(3)](REPEAT), [__trim__(3)](TRIM)
+ [__repeat__(3)](REPEAT),
+ [__trim__(3)](TRIM)

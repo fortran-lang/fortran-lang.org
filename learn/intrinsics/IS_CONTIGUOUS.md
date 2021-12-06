@@ -24,7 +24,7 @@ An object is contiguous if it is
    - __(2)__
      a nonpointer whole array that is not assumed-shape,
 
-   - __(3)__
+   - ____(3)
      an assumed-shape array that is argument associated with an array
      that is contiguous,
 
@@ -78,14 +78,14 @@ It is processor-dependent whether any other object is contiguous.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : may be of any type. It shall be an array. If it is a pointer it
     shall be associated.
 
 ## __Returns__
 
   - __Result__
-    : of type Default logical scalar. The result has the value true if A
+    : of type Default logical scalar. The result has the value true if __a__
     is contiguous, and false otherwise.
 
 ## __Examples__

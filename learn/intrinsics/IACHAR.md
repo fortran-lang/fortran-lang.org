@@ -19,17 +19,16 @@ character position of C.
 
 ## __Arguments__
 
-  - __C__
-    : Shall be a scalar _character_, with __intent__(in)
+  - __c__
+    : Shall be a scalar _character_, with _intent(in)_
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
-/bin/bash: pb0: command not found
     parameter of the result.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind KIND. If KIND is absent,
+The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
 the return value is of default integer kind.
 
 ## __Examples__
@@ -64,7 +63,7 @@ end program demo_iachar
 
 ## __Note__
 
-See [__ichar(3)__](ICHAR) for a discussion of converting between numerical
+See [__ichar__(3)](ICHAR) for a discussion of converting between numerical
 values and formatted string representations.
 
 ## __Standard__
@@ -73,9 +72,9 @@ Fortran 95 and later, with KIND argument - Fortran 2003 and later
 
 ## __See Also__
 
-[__achar(3)__](ACHAR),
-[__char(3)__](CHAR),
-[__ichar(3)__](ICHAR)
+[__achar__(3)](ACHAR),
+[__char__(3)](CHAR),
+[__ichar__(3)](ICHAR)
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

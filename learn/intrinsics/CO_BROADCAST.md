@@ -18,7 +18,7 @@ co\_broadcast copies the value of argument __a__ on the image with image
 index source\_image to all images in the current team. __a__ becomes defined
 as if by intrinsic assignment. If the execution was successful and __stat__
 is present, it is assigned the value zero. If the execution failed, __stat__
-gets assigned a nonzero value and, if present, ERRMSG gets assigned a
+gets assigned a nonzero value and, if present, __errmsg__ gets assigned a
 value describing the occurred error.
 
 ## __Arguments__

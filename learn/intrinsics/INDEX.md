@@ -13,39 +13,39 @@ __index__(3) - \[CHARACTER:SEARCH\] Position of a substring within a string
 __index__(STRING, SUBSTRING \[, BACK \[, KIND\]\]) __result__(START)
 
 ```
-     character(len=*),intent(in) :: STRING
-     character(len=*),intent(in) :: SUBSTRING
-     logical,intent(in),optional :: BACK
-     integer,intent(in),optional :: KIND
-     integer(kind=KIND)          :: START
+     character(len=*),intent(in) :: string
+     character(len=*),intent(in) :: substring
+     logical,intent(in),optional :: back
+     integer,intent(in),optional :: kind
+     integer(kind=KIND)          :: start
 ```
 
 ## __Description__
 
 Returns the position of the start of the leftmost or rightmost
-occurrence of string SUBSTRING in STRING, counting from one. If
-SUBSTRING is not present in STRING, zero is returned.
+occurrence of string __substring__ in __string__, counting from one. If
+__substring__ is not present in __string__, zero is returned.
 
 ## __Arguments__
 
-  - __STRING__
+  - __string__
     : string to be searched
 
-  - __SUBSTRING__
-    : string to attempt to locate in STRING
+  - __substring__
+    : string to attempt to locate in __string__
 
-  - __BACK__
-    : If the BACK argument is present and true, the return value is the
+  - __back__
+    : If the __back__ argument is present and true, the return value is the
     start of the rightmost occurrence rather than the leftmost.
 
-  - __KIND__
+  - __kind__
     : An _integer_ initialization expression indicating the kind parameter
     of the result.
 
 ## __Returns__
 
   - __START__
-    : The return value is of type _integer_ and of kind KIND. If KIND is
+    : The return value is of type _integer_ and of kind __kind__. If __kind__ is
     absent, the return value is of default integer kind.
 
 ## __Examples__

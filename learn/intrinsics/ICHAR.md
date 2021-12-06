@@ -19,28 +19,28 @@ elemental function __ichar__(c,kind)
 
 ## __Description__
 
-__ICHAR__(C) returns the code for the character in the system's native
+__ichar(c)__ returns the code for the character in the system's native
 character set. The correspondence between characters and their codes is
 not necessarily the same across different Fortran implementations. For
 example, a platform using EBCDIC would return different values than an
 ASCII platform.
 
-See __IACHAR__(3) for specifically working with the ASCII character
+See __iachar__(3) for specifically working with the ASCII character
 set.
 
 ## __Arguments__
 
-  - __C__
+  - __c__
     : Shall be a scalar _character_, with __intent__(in)
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind KIND. If KIND is absent,
-the return value is of default integer kind.
+The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
+the return value is of default _integer_ kind.
 
 ## __Examples__
 

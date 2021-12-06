@@ -24,18 +24,18 @@ Returns the length of a character string, ignoring any trailing blanks.
 
 ## __Arguments__
 
-  - __STRING__
+  - __string__
     : The input string whose length is to be measured.
     Shall be a scalar of type _character_
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind KIND. If KIND is absent,
-the return value is of default integer kind.
+The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
+the return value is of default _integer_ kind.
 
 ## __Examples__
 

@@ -21,12 +21,12 @@ __iso\_fortran\_env__.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : Shall be of the type _integer_.
 
 ## __Returns__
 
-Returns a _logical_ of the default kind, which .true. if I has the value
+Returns a _logical_ of the default kind, which .true. if __i__ has the value
 which indicates an end of file condition for iostat= specifiers, and is
 .false. otherwise.
 

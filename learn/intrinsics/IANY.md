@@ -16,29 +16,29 @@ __iany__(3) - \[BIT MANIPULATION\] Bitwise or of array elements
 
 ## __Description__
 
-Reduces with bitwise or (inclusive or) the elements of ARRAY along
-dimension DIM if the corresponding element in MASK is TRUE.
+Reduces with bitwise or (inclusive or) the elements of __array__ along
+dimension __dim__ if the corresponding element in __mask__ is __.true.__.
 
 ## __Arguments__
 
-  - __ARRAY__
+  - __array__
     : Shall be an array of type _integer_
 
-  - __DIM__
+  - __dim__
     : (Optional) shall be a scalar of type _integer_ with a value in the
-    range from "1" to "n", where "n" equals the rank of ARRAY.
+    range from __1 to n__, where __n__ equals the rank of __array__.
 
-  - __MASK__
+  - __mask__
     : (Optional) shall be of type _logical_ and either be a scalar or an
-    array of the same shape as ARRAY.
+    array of the same shape as __array__.
 
 ## __Returns__
 
-The result is of the same type as ARRAY.
+The result is of the same type as __array__.
 
-If DIM is absent, a scalar with the bitwise OR of all elements in ARRAY
-is returned. Otherwise, an array of rank "n-1", where "n" equals the
-rank of ARRAY, and a shape similar to that of ARRAY with dimension DIM
+If __dim__ is absent, a scalar with the bitwise _or_ of all elements in __array__
+is returned. Otherwise, an array of rank __n-1__, where __n__ equals the
+rank of __array__, and a shape similar to that of __array__ with dimension __dim__
 dropped is returned.
 
 ## __Examples__

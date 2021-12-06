@@ -22,7 +22,7 @@ where KIND may be any supported kind value for _integer_ types.
 __achar(i)__ returns the character located at position __i__ (commonly called the
 _ADE_ or ASCII Decimal Equivalent) in the ASCII collating sequence.
 
-The __achar(3)__ function is often used for generating in-band escape
+The __achar__(3) function is often used for generating in-band escape
 sequences to control terminal attributes.
 ```fortran
    write(*,'(*(a))')achar(27),'[2J'

@@ -9,12 +9,17 @@ __ceiling__(3) - \[NUMERIC\] Integer ceiling function
 (GFDL)
 
 ## __Syntax__
+```fortran
+result = ceiling(a, kind)
 
-result = __ceiling__(a \[, kind\])
+   integer(kind=KIND) elemental function ceiling(a,kind) 
+   real(kind=ANY),intent(in)   :: a
+   integer,intent(in),optional :: kind
+```
 
 ## __Description__
 
-__ceiling(a)__ returns the least integer greater than or equal to A.
+__ceiling(a)__ returns the least integer greater than or equal to __a__.
 
 ## __Arguments__
 
@@ -22,7 +27,7 @@ __ceiling(a)__ returns the least integer greater than or equal to A.
     : The type shall be _real_.
 
   - __kind__
-    : (Optional) An _integer_ initialization expression indicating the kind
+    : An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -39,9 +44,14 @@ program demo_ceiling
 implicit none
 real :: x = 63.29
 real :: y = -63.59
-   print *, ceiling(x) ! returns 64
-   print *, ceiling(y) ! returns -63
+   print *, ceiling(x) 
+   print *, ceiling(y) 
 end program demo_ceiling
+```
+  Results:
+```text
+             64
+            -63
 ```
 
 ## __Standard__

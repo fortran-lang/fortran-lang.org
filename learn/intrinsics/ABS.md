@@ -27,7 +27,7 @@ In mathematics, the absolute value or modulus of a real number __x__,
 denoted __|x|__, is the magnitude of __x__ without regard to its sign.
 
 The absolute value of a number may be thought of as its distance from
-zero, which is the definition used by __abs(3)__ when dealing with _complex_
+zero, which is the definition used by __abs__(3) when dealing with _complex_
 values (_see below_).
 
 ## __Arguments__

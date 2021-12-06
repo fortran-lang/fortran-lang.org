@@ -15,23 +15,23 @@ result = cmplx(x, y, kind)
 
 ## __Description__
 
-To convert numeric variables to complex, use the __cmplx(3)__ function.
+To convert numeric variables to complex, use the __cmplx__(3) function.
 Constants can be used to define a complex variable using the syntax
 
 ```
       z8 = (1.2345678901234567d0, 1.2345678901234567d0)
 ```
 
-but this will not work for variables. You must use the __cmplx(3)__ function.
+but this will not work for variables. You must use the __cmplx__(3) function.
 
 __cmplx(x \[, y \[, kind\]\])__ returns a complex number where __x__ is
 converted to the _real_ component. If __x__ is _complex_ then __y__ must not be
 present. If __y__ is present it is converted to the imaginary component. If
 __y__ is not present then the imaginary component is set to __0.0__.
 
-## __cmplx(3)__ and double precision__
+## __cmplx__(3) and double precision__
 
-The Fortran 90 language defines __cmplx(3)__ as always returning a result
+The Fortran 90 language defines __cmplx__(3) as always returning a result
 that is type ___complex___(kind=KIND(0.0)).
 
 This means \`__cmplx(d1,d2)__', where __\`d1'__ and __\`d2'__ are
@@ -47,7 +47,7 @@ It was necessary for Fortran 90 to specify this behavior for
 _doubleprecision_ arguments, since that is the behavior mandated by
 FORTRAN 77.
 
-So Fortran 90 extends the __cmplx(3)__ intrinsic by adding an extra
+So Fortran 90 extends the __cmplx__(3) intrinsic by adding an extra
 argument used to specify the desired kind of complex result.
 
 ```fortran

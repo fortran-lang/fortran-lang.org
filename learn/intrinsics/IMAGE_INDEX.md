@@ -18,12 +18,12 @@ Returns the image index belonging to a cosubscript.
 
 ## __Arguments__
 
-  - __COARRAY__
+  - __coarray__
     : Coarray of any type.
 
-  - __SUB__
+  - __sub__
     : default integer rank-1 array of a size equal to the corank of
-    COARRAY.
+    __coarray__.
 
 ## __Returns__
 
