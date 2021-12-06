@@ -14,11 +14,11 @@ result = __c\_funloc__(x)
 
 ## __Description__
 
-__c\_funloc__(x) determines the C address of the argument.
+__c\_funloc(x)__ determines the C address of the argument.
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : Interoperable function or pointer to such function.
 
 ## __Returns__

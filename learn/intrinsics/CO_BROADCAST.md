@@ -10,32 +10,32 @@ __co\_broadcast__(3) - \[COLLECTIVE\] Copy a value to all images the current set
 
 ## __Syntax__
 
-call __co\_broadcast__(A, SOURCE\_IMAGE \[, STAT, ERRMSG\])
+call __co\_broadcast__(a, source\_image \[, stat, errmsg\])
 
 ## __Description__
 
-co\_broadcast copies the value of argument A on the image with image
-index source\_image to all images in the current team. A becomes defined
-as if by intrinsic assignment. If the execution was successful and STAT
-is present, it is assigned the value zero. If the execution failed, STAT
+co\_broadcast copies the value of argument __a__ on the image with image
+index source\_image to all images in the current team. __a__ becomes defined
+as if by intrinsic assignment. If the execution was successful and __stat__
+is present, it is assigned the value zero. If the execution failed, __stat__
 gets assigned a nonzero value and, if present, ERRMSG gets assigned a
 value describing the occurred error.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : __intent__(inout) argument; shall have the same dynamic type and
     type parameters on all images of the current team. If it is an
     array, it shall have the same shape on all images.
 
-  - __SOURCE\_IMAGE__
+  - __source\_image__
     : a scalar integer expression. It shall have the same the same value
     on all images and refer to an image of the current team.
 
-  - __STAT__
+  - __stat__
     : (optional) a scalar integer variable
 
-  - __ERRMSG__
+  - __errmsg__
     : (optional) a scalar character variable
 
 ## __Examples__

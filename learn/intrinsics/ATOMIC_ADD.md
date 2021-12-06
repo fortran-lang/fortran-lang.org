@@ -13,8 +13,8 @@ call atomic\_add (atom, value \[, stat\])
 
 ## __Description__
 
-__atomic\_add__(atom, value) atomically adds the value of VAR to the
-variable ATOM. When STAT is present and the invocation was successful,
+__atomic\_ad_(atom, value)__ atomically adds the value of VAR to the
+variable __atom__. When __stat__ is present and the invocation was successful,
 it is assigned the value 0. If it is present and the invocation has
 failed, it is assigned a positive value; in particular, for a coindexed
 ATOM, if the remote image has stopped, it is assigned the value of
@@ -23,15 +23,15 @@ failed, the value stat\_failed\_image.
 
 ## __Arguments__
 
-  - __ATOM__
+  - __atom__
     : Scalar coarray or coindexed variable of integer type with
     atomic\_int\_kind kind.
 
-  - __VALUE__
-    : Scalar of the same type as ATOM. If the kind is different, the value
-    is converted to the kind of ATOM.
+  - __value__
+    : Scalar of the same type as __atom__. If the kind is different, the value
+    is converted to the kind of __atom__.
 
-  - __STAT__
+  - __stat__
     : (optional) Scalar default-kind integer variable.
 
 ## __Examples__

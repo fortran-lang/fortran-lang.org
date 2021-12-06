@@ -14,34 +14,34 @@ call atomic\_cas (atom, old, compare, new \[, stat\])
 
 ## __Description__
 
-atomic\_cas compares the variable ATOM with the value of COMPARE; if the
-value is the same, ATOM is set to the value of NEW. Additionally, OLD is
-set to the value of ATOM that was used for the comparison. When STAT is
+atomic\_cas compares the variable __atom__ with the value of __compare__; if the
+value is the same, __atom__ is set to the value of __new__. Additionally, __old__ is
+set to the value of __atom__ that was used for the comparison. When __stat__ is
 present and the invocation was successful, it is assigned the value 0.
 If it is present and the invocation has failed, it is assigned a
-positive value; in particular, for a coindexed ATOM, if the remote image
+positive value; in particular, for a coindexed __atom__, if the remote image
 has stopped, it is assigned the value of iso\_fortran\_env's
 stat\_stopped\_image and if the remote image has failed, the value
 stat\_failed\_image.
 
 ## __Arguments__
 
-  - __ATOM__
+  - __atom__
     : Scalar coarray or coindexed variable of either integer type with
     atomic\_int\_kind kind or logical type with atomic\_logical\_kind
     kind.
 
-  - __OLD__
-    : Scalar of the same type and kind as ATOM.
+  - __old__
+    : Scalar of the same type and kind as __atom__.
 
-  - __COMPARE__
-    : Scalar variable of the same type and kind as ATOM.
+  - __compare__
+    : Scalar variable of the same type and kind as __atom__.
 
-  - __NEW__
-    : Scalar variable of the same type as ATOM. If kind is different, the
-    value is converted to the kind of ATOM.
+  - __new__
+    : Scalar variable of the same type as __atom__. If kind is different, the
+    value is converted to the kind of __atom__.
 
-  - __STAT__
+  - __stat__
     : (optional) Scalar default-kind integer variable.
 
 ## __Examples__

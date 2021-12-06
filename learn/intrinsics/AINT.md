@@ -9,8 +9,9 @@ __aint__(3) - \[NUMERIC\] Truncate to a whole number
 (GFDL)
 
 ## __Syntax__
-
-result = __aint__(x \[, KIND\])
+```fortran
+result = aint(x, kind)
+```
 
 ## __Description__
 
@@ -21,7 +22,7 @@ __aint(x, kind)__ truncates its argument to a whole number.
   - __x__
     : the type of the argument shall be _real_.
 
-  - __KIND__
+  - __kind__
     : (optional) an _integer_ initialization expression indicating the kind
     parameter of the result.
 

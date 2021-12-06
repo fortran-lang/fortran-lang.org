@@ -14,16 +14,16 @@ call __c\_f\_procpointer__(cptr, fptr)
 
 ## __Description__
 
-__c\_f\_procpointer__(cptr, fptr) assigns the target of the C function
-pointer CPTR to the Fortran procedure pointer FPTR.
+__c\_f\_procpointer(cptr, fptr)__ assigns the target of the C function
+pointer __cptr__ to the Fortran procedure pointer __fptr__.
 
 ## __Arguments__
 
-  - __CPTR__
-    : scalar of the type c\_funptr. It is __intent__(in).
+  - __cptr__
+    : scalar of the type c\_funptr. It is __intent(in)__.
 
-  - __FPTR__
-    : procedure pointer interoperable with CPTR. It is __intent__(out).
+  - __fptr__
+    : procedure pointer interoperable with __cptr__. It is __intent(out)__.
 
 ## __Examples__
 

@@ -15,20 +15,20 @@ call __c\_f\_pointer__(cptr, fptr\[, shape\])
 ## __Description__
 
 __c\_f\_pointer__(cptr, fptr\[, shape\]) Assign the target, the C
-pointer, CPTR to the Fortran pointer FPTR and specify its shape.
+pointer, __cptr__ to the Fortran pointer __fptr__ and specify its shape.
 
 ## __Arguments__
 
-  - __CPTR__
+  - __cptr__
     : scalar of the type c\_ptr. It is __intent__(in).
 
-  - __FPTR__
-    : pointer interoperable with CPTR. It is __intent__(out).
+  - __fptr__
+    : pointer interoperable with __cptr__. it is __intent__(out).
 
-  - __SHAPE__
+  - __shape__
     : (Optional) Rank-one array of type _integer_ with __intent__(in). It
-    shall be present if and only if FPTR is an array. The size must be
-    equal to the rank of FPTR.
+    shall be present if and only if __fptr__ is an array. The size must be
+    equal to the rank of __fptr__.
 
 ## __Examples__
 

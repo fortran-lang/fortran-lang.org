@@ -14,26 +14,26 @@ call __atomic\_ref__(value, atom \[, stat\])
 
 ## __Description__
 
-__atomic\_ref__(VALUE, ATOM ) atomically assigns the value of the
-variable ATOM to VALUE. When STAT is present and the invocation was
-successful, it is assigned the value 0. If it is present and the
+__atomic\_ref(value, atom)__ atomically assigns the value of the
+variable __atom__ to __value__. When __stat__ is present and the invocation was
+successful, it is assigned the value __0__. If it is present and the
 invocation has failed, it is assigned a positive value; in particular,
-for a coindexed ATOM, if the remote image has stopped, it is assigned
-the value of iso\_fortran\_env's STAT\_STOPPED\_IMAGE and if the remote
-image has failed, the value STAT\_FAILED\_IMAGE.
+for a coindexed __atom__, if the remote image has stopped, it is assigned
+the value of iso\_fortran\_env's __stat\_stopped\_image__ and if the remote
+image has failed, the value __stat\_failed\_image__.
 
 ## __Arguments__
 
-  - __VALUE__
-    : Scalar of the same type as ATOM. If the kind is different, the value
-    is converted to the kind of ATOM.
+  - __value__
+    : Scalar of the same type as __atom__. If the kind is different, the value
+    is converted to the kind of __atom__.
 
-  - __ATOM__
+  - __atom__
     : Scalar coarray or coindexed variable of either integer type with
     atomic\_int\_kind kind or logical type with atomic\_logical\_kind
     kind.
 
-  - __STAT__
+  - __stat__
     : (optional) Scalar default-kind integer variable.
 
 ## __Examples__

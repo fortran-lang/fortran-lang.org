@@ -14,20 +14,20 @@ result = __ceiling__(a \[, kind\])
 
 ## __Description__
 
-__ceiling__(a) returns the least integer greater than or equal to A.
+__ceiling(a)__ returns the least integer greater than or equal to A.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : The type shall be _real_.
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-The return value is of type __integer__(kind) if KIND is present and a
+The return value is of type __integer__(kind) if __kind__ is present and a
 default-kind _integer_ otherwise.
 
 ## __Examples__

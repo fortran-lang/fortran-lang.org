@@ -29,7 +29,7 @@ the hypotenuse and the opposite side of a right triangle are known.
 
 ## __Returns__
 
-  - __RESULT__
+  - __result__
     : The return value is of the same type and kind as __x__. The real part of
     the result is in radians and lies in the range __-PI/2 \<=
     asin(X) \<= PI/2__.

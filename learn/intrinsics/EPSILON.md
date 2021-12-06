@@ -31,9 +31,10 @@ Sample program:
 
 ```fortran
 program demo_epsilon
+use,intrinsic :: iso_fortran_env, only : dp=>real64,sp=>real32
 implicit none
-real :: x = 3.143
-real(8) :: y = 2.33
+real(kind=sp) :: x = 3.143
+real(kind=dp) :: y = 2.33d0
    print *, epsilon(x)
    print *, epsilon(y)
 end program demo_epsilon

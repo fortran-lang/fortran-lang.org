@@ -18,8 +18,8 @@ __c\_loc__(x) determines the C address of the argument.
 
 ## __Arguments__
 
-  - __X__
-    : Shall have either the POINTER or TARGET attribute. It shall not be a
+  - __x__
+    : Shall have either the _pointer_ or _target_ attribute. It shall not be a
     coindexed object. It shall either be a variable with interoperable
     type and kind type parameters, or be a scalar, nonpolymorphic
     variable with no length type parameters.
