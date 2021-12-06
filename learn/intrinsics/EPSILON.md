@@ -23,10 +23,10 @@ precisely
 It may be thought of as the distance from 1.0 to the next largest
 floating point number. 
 
-One use of __epsilon__(3) is to select a delta value for algorithms that
-search until the calculation is within __delta__ of an estimate.
+One use of __epsilon__(3) is to select a _delta_ value for algorithms that
+search until the calculation is within _delta_ of an estimate.
 
-If delta is too small the algorithm might never halt, as a computation
+If _delta_ is too small the algorithm might never halt, as a computation
 summing values smaller than the decimal resolution of the data type does
 not change.
 
@@ -58,7 +58,7 @@ real(kind=dp) :: y = 2.33d0
    ! the value changes with the kind of the real value though
    print *, epsilon(y)
 
-   ! adding and subtracing epsilon(x) changes x
+   ! adding and subtracting epsilon(x) changes x
    write(*,*)x == x + epsilon(x)
    write(*,*)x == x - epsilon(x)
 
