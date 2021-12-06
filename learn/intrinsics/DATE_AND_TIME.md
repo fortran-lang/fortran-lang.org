@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/DATE_AND_TIME
 ---
 ## __Name__
 
-__date\_and\_time__(3) - \[SYSTEM ENVIRONMENT\] gets current time
+__date\_and\_time__(3) - \[SYSTEM:TIME\] gets current time
 
 ## __Syntax__
 ```fortran

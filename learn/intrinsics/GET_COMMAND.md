@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/GET_COMMAND
 ---
 ## __Name__
 
-__get\_command__(3) - \[SYSTEM ENVIRONMENT\] Get the entire command line
+__get\_command__(3) - \[SYSTEM:COMMAND LINE\] Get the entire command line
 
 ## __Syntax__
 

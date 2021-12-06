@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/GET_COMMAND_ARGUMENT
 ---
 ## __Name__
 
-__get\_command\_argument__(3) - \[SYSTEM ENVIRONMENT\] Get command line arguments
+__get\_command\_argument__(3) - \[SYSTEM:COMMAND LINE\] Get command line arguments
 
 ## __Syntax__
 ```fortran

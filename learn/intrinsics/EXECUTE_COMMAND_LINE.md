@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/EXECUTE_COMMAND_LINE
 ---
 ## __Name__
 
-__execute\_command\_line__(3) - \[SYSTEM ENVIRONMENT\] Execute a shell command
+__execute\_command\_line__(3) - \[SYSTEM:PROCESSES\] Execute a shell command
 (GFDL)
 
 ## __Syntax__

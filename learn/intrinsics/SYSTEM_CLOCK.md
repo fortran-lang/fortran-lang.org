@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/SYSTEM_CLOCK
 ---
 ## __Name__
 
-__system\_clock__(3) - \[SYSTEM ENVIRONMENT\] Return numeric data from a real-time clock.
+__system\_clock__(3) - \[SYSTEM:TIME\] Return numeric data from a real-time clock.
 (GFDL)
 
 ## __Syntax__

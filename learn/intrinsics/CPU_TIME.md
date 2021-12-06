@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/CPU_TIME
 ---
 ## __Name__
 
-__cpu\_time__(3) - \[SYSTEM ENVIRONMENT\] return CPU processor time in seconds
+__cpu\_time__(3) - \[SYSTEM:TIME\] return CPU processor time in seconds
 
 ## __Syntax__
 

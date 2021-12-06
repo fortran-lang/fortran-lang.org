@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/COMMAND_ARGUMENT_COUNT
 ---
 ## __Name__
 
-__command\_argument\_count__(3) - \[SYSTEM ENVIRONMENT\] Get number of command line arguments
+__command\_argument\_count__(3) - \[SYSTEM:COMMAND LINE\] Get number of command line arguments
 
 ## __Syntax__
 
