@@ -14,11 +14,11 @@ result = __float__(a)
 
 ## __Description__
 
-__float__(a) converts the integer A to a default real value.
+__float__(a) converts the _integer_ __a__ to a default real value.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : The type shall be _integer_.
 
 ## __Returns__

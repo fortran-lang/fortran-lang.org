@@ -10,7 +10,7 @@ __floor__(3) - \[NUMERIC\] Integer floor function
 
 ## __Description__
 
-__floor__(a) returns the greatest integer less than or equal to X.
+__floor__(a) returns the greatest integer less than or equal to __a__.
 
 ## __Syntax__
 
@@ -18,10 +18,10 @@ result = __floor__(a \[, kind\])
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : The type shall be _real_.
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 

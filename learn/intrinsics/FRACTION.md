@@ -19,14 +19,14 @@ y = __fraction__(x)
 
 ## __Arguments__
 
-  - __X__
+  - __x__
     : The type of the argument shall be a _real_.
 
 ## __Returns__
 
 The return value is of the same type and kind as the argument. The
-fractional part of the model representation of X is returned; it is x \*
-__radix__(x)\*\*(__-exponent__(x)).
+fractional part of the model representation of __x__ is returned; it is __x \*
+radix(x)\*\*(-exponent(x))__.
 
 ## __Examples__
 
