@@ -45093,42 +45093,42 @@
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>selected_real_kind</strong>(p, r, radix) return the kind value of a real
-data type with decimal precision of at least P digits, exponent range of
-at least R, and with a radix of RADIX.</p>
+<p><strong>selected_real_kind(p, r, radix)</strong> return the kind value of a real
+data type with decimal precision of at least <strong>p</strong> digits, exponent range of
+at least <strong>r</strong>, and with a radix of <strong>radix</strong>.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
 <ul>
   <li>
     <dl>
-      <dt><strong>P</strong></dt>
+      <dt><strong>p</strong></dt>
       <dd>(Optional) shall be a scalar and of type <em>integer</em>.</dd>
     </dl>
   </li>
   <li>
     <dl>
-      <dt><strong>R</strong></dt>
+      <dt><strong>r</strong></dt>
       <dd>(Optional) shall be a scalar and of type <em>integer</em>.</dd>
     </dl>
   </li>
   <li>
     <dl>
-      <dt><strong>RADIX</strong></dt>
+      <dt><strong>radix</strong></dt>
       <dd>(Optional) shall be a scalar and of type <em>integer</em>.</dd>
     </dl>
   </li>
 </ul>
 
-<p>Before <strong>Fortran 2008</strong>, at least one of the arguments R or P shall
+<p>Before <strong>Fortran 2008</strong>, at least one of the arguments <strong>r</strong> or <strong>p</strong> shall
 be present; since <strong>Fortran 2008</strong>, they are assumed to be zero if
 absent.</p>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
 <p>selected_real_kind returns the value of the kind type parameter of a
-real data type with decimal precision of at least P digits, a decimal
-exponent range of at least R, and with the requested RADIX. If the RADIX
+real data type with decimal precision of at least <strong>p</strong> digits, a decimal
+exponent range of at least R, and with the requested <strong>radix</strong>. If the <strong>radix</strong>
 parameter is absent, real kinds with any radix can be returned. If more
 than one real data type meet the criteria, the kind of the data type
 with the smallest decimal precision is returned. If no real data type
@@ -45137,23 +45137,23 @@ matches the criteria, the result is</p>
 <ul>
   <li>
     <p><strong>-1</strong> if the processor does not support a real data type with a
-precision greater than or equal to P, but the R and RADIX
+precision greater than or equal to <strong>p</strong>, but the <strong>r</strong> and <strong>radix</strong>
 requirements can be fulfilled</p>
 
     <ul>
       <li>
         <p><strong>-2</strong> if the processor does not support a real type with an
-exponent range greater than or equal to R, but P and RADIX are
+exponent range greater than or equal to <strong>r</strong>, but <strong>p</strong> and <strong>radix</strong> are
 fulfillable</p>
       </li>
       <li>
-        <p><strong>-3</strong> if RADIX but not P and R requirements are fulfillable</p>
+        <p><strong>-3</strong> if <strong>radix</strong> but not <strong>p</strong> and <strong>r</strong> requirements are fulfillable</p>
       </li>
       <li>
-        <p><strong>-4</strong> if RADIX and either P or R requirements are fulfillable</p>
+        <p><strong>-4</strong> if <strong>radix</strong> and either <strong>p</strong> or <strong>r</strong> requirements are fulfillable</p>
       </li>
       <li>
-        <p><strong>-5</strong> if there is no real type with the given RADIX</p>
+        <p><strong>-5</strong> if there is no real type with the given <strong>radix</strong></p>
       </li>
     </ul>
   </li>

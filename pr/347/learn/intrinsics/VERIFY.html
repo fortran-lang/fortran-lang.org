@@ -45148,7 +45148,8 @@
 <h2 id="description"><strong>Description</strong></h2>
 
 <p>Verifies that all the characters in <strong>string</strong> belong to the set of
-characters in <strong>set</strong>.</p>
+characters in <strong>set</strong> by identifying the first character in the string(s)
+that is not in the set(s).</p>
 
 <p>If <strong>back</strong> is either absent or equals <strong>.false.</strong>, this function returns the
 position of the leftmost character of <strong>string</strong> that is not in <strong>set</strong>. If <strong>back</strong>
@@ -45187,37 +45188,37 @@ parameter of the result.</dd>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value is of type <em>integer</em> and of kind KIND. If KIND is absent,
+<p>The return value is of type <em>integer</em> and of kind <strong>kind</strong>. If <strong>kind</strong> is absent,
 the return value is of default integer kind.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
-<p>Sample program:</p>
+<p>Sample program I:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_verify</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">12</span><span class="p">)::</span><span class="w"> </span><span class="n">c1</span><span class="o">=</span><span class="s1">'Howdy There!'</span><span class="w">
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">c2</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="s2">"Howdy "</span><span class="p">,</span><span class="s2">"there!"</span><span class="p">]</span><span class="w">
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">c3</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="s2">"de"</span><span class="p">,</span><span class="s2">"gh"</span><span class="p">]</span><span class="w">
-    </span><span class="c1">!=======================================================</span><span class="w">
-    </span><span class="c1">!! LOCATION OF FIRST NONBLANK CHARACTER</span><span class="w">
+    
+    </span><span class="c1">!! location of first nonblank character</span><span class="w">
     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'nonblank '</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="s1">'  Hello World! '</span><span class="p">,</span><span class="w"> </span><span class="s1">' '</span><span class="p">)</span><span class="w">
-    </span><span class="c1">!! SAME AS LEN_TRIM()</span><span class="w">
+
+    </span><span class="c1">!! same as len_trim(3)</span><span class="w">
     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'length '</span><span class="p">,</span><span class="nb">verify</span><span class="p">(</span><span class="s1">'  Hello World!    '</span><span class="p">,</span><span class="w"> </span><span class="s1">' '</span><span class="p">,</span><span class="w"> </span><span class="n">back</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.true.</span><span class="p">)</span><span class="w">
-    </span><span class="c1">!! ARRAYS</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="s1">'de'</span><span class="p">)</span><span class="w">                   </span><span class="c1">! writes 1</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">c3</span><span class="p">)</span><span class="w">                     </span><span class="c1">! writes 1 1</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="s1">'de'</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="kc">.true.</span><span class="p">)</span><span class="w">       </span><span class="c1">! writes 12</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">c3</span><span class="p">,[</span><span class="kc">.true.</span><span class="p">,</span><span class="kc">.false.</span><span class="p">])</span><span class="w">    </span><span class="c1">! writes 6 1</span><span class="w">
-    </span><span class="c1">!=======================================================</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="s2">"fortran"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ao"</span><span class="p">)</span><span class="w">           </span><span class="c1">! 1, found 'f'</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="s2">"fortran"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fo"</span><span class="p">)</span><span class="w">           </span><span class="c1">! 3, found 'r'</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="s2">"fortran"</span><span class="p">,</span><span class="w"> </span><span class="s2">"c++"</span><span class="p">)</span><span class="w">          </span><span class="c1">! 1, found 'f'</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="s2">"fortran"</span><span class="p">,</span><span class="w"> </span><span class="s2">"c++"</span><span class="p">,</span><span class="w"> </span><span class="kc">.true.</span><span class="p">)</span><span class="w">  </span><span class="c1">! 7, found 'n'</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="s2">"fortran"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nartrof"</span><span class="p">)</span><span class="w">      </span><span class="c1">! 0' found none</span><span class="w">
-    </span><span class="c1">!=======================================================</span><span class="w">
+
+    </span><span class="c1">!! arrays for both strings and for sets</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="s1">'Hode'</span><span class="p">)</span><span class="w">                   </span><span class="c1">! first not matched is 'w'</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">c3</span><span class="p">)</span><span class="w">                       </span><span class="c1">! writes 1 1</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span><span class="s1">'de'</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="kc">.true.</span><span class="p">)</span><span class="w">         </span><span class="c1">! writes 12</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span><span class="n">c3</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="p">[</span><span class="kc">.true.</span><span class="p">,</span><span class="kc">.false.</span><span class="p">])</span><span class="w"> </span><span class="c1">! writes 6 1</span><span class="w">
+
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="s2">"fortran"</span><span class="p">,</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="kc">.true.</span><span class="p">)</span><span class="w">  </span><span class="c1">! 7, found 'n'</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="s2">"fortran"</span><span class="p">,</span><span class="w"> </span><span class="s2">"nartrof"</span><span class="p">)</span><span class="w">      </span><span class="c1">! 0' found none unmatched</span><span class="w">
+
+
     </span><span class="c1">!! CHECK IF STRING IS OF FORM NN-HHHHH</span><span class="w">
-    </span><span class="n">check</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">block</span><span class="w">
+    </span><span class="n">CHECK</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">block</span><span class="w">
        </span><span class="kt">logical</span><span class="w">                    </span><span class="p">::</span><span class="w"> </span><span class="n">lout</span><span class="w">
        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">int</span><span class="o">=</span><span class="s1">'0123456789'</span><span class="w">
        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">hex</span><span class="o">=</span><span class="s1">'abcdef0123456789'</span><span class="w">
@@ -45225,29 +45226,133 @@ the return value is of default integer kind.</p>
    
        </span><span class="n">chars</span><span class="o">=</span><span class="s1">'32-af43d'</span><span class="w">
        </span><span class="n">lout</span><span class="o">=</span><span class="kc">.true.</span><span class="w">
+
+       </span><span class="c1">! are the first two characters integer characters?</span><span class="w">
        </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lout</span><span class="ow">.and.</span><span class="p">(</span><span class="nb">verify</span><span class="p">(</span><span class="n">chars</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="nb">int</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+
+       </span><span class="c1">! is the third character a dash?</span><span class="w">
        </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lout</span><span class="ow">.and.</span><span class="p">(</span><span class="nb">verify</span><span class="p">(</span><span class="n">chars</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="s1">'-'</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+
+       </span><span class="c1">! is remaining string a valid representation of a hex value?</span><span class="w">
        </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lout</span><span class="ow">.and.</span><span class="p">(</span><span class="nb">verify</span><span class="p">(</span><span class="n">chars</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">),</span><span class="w"> </span><span class="n">hex</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+
        </span><span class="k">if</span><span class="p">(</span><span class="n">lout</span><span class="p">)</span><span class="k">then</span><span class="w">
           </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nb">trim</span><span class="p">(</span><span class="n">chars</span><span class="p">),</span><span class="s1">' passed'</span><span class="w">
        </span><span class="k">endif</span><span class="w">
-    </span><span class="k">endblock</span><span class="w"> </span><span class="n">check</span><span class="w">
+
+    </span><span class="k">endblock</span><span class="w"> </span><span class="n">CHECK</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_verify</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> nonblank            3
+ length           14
+           1
+           1           1
+          12
+           6           1
+           1
+           3
+           1
+           7
+           0
+ 32-af43d passed
+</code></pre></div></div>
+<p>Sample program II:</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    nonblank            3
-    length           14
-              1
-              1           1
-             12
-              6           1
-              1
-              3
-              1
-              7
-              0
-    32-af43d passed
+<p>Determine if strings are valid integer representations</p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">fortran_ints</span><span class="w">
+</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">ints</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'+1 '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'3044848 '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'30.40 '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'September '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'1 2 3'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'  -3000 '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">' '</span><span class="p">]</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("|",*(g0,"|"))'</span><span class="p">)</span><span class="w"> </span><span class="n">ints</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("|",*(1x,l1,8x,"|"))'</span><span class="p">)</span><span class="w"> </span><span class="n">isint</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">isint</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">lout</span><span class="p">)</span><span class="w">
+</span><span class="c1">!</span><span class="w">
+</span><span class="c1">! determine if string is a valid integer representation </span><span class="w">
+</span><span class="c1">! ignoring trailing spaces and leading spaces</span><span class="w">
+</span><span class="c1">!</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="nb">digits</span><span class="o">=</span><span class="s1">'0123456789'</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">line</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">name</span><span class="w">
+</span><span class="kt">logical</span><span class="w">                      </span><span class="p">::</span><span class="w"> </span><span class="n">lout</span><span class="w">
+   </span><span class="n">lout</span><span class="o">=</span><span class="kc">.false.</span><span class="w">
+   </span><span class="n">name</span><span class="o">=</span><span class="nb">adjustl</span><span class="p">(</span><span class="n">line</span><span class="p">)//</span><span class="s1">'  '</span><span class="w"> </span><span class="c1">! make sure at least two characters long to simplify tests</span><span class="w">
+   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="ow">.eq.</span><span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="p">)</span><span class="k">return</span><span class="w">                        </span><span class="c1">! blank string</span><span class="w">
+   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="s1">'+-'</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">(</span><span class="mi">2</span><span class="p">:)</span><span class="w"> </span><span class="c1">! allow one leading sign</span><span class="w">
+   </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="ow">.eq.</span><span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="p">)</span><span class="k">return</span><span class="w">                        </span><span class="c1">! was just a sign</span><span class="w">
+   </span><span class="n">lout</span><span class="o">=</span><span class="nb">verify</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="nb">digits</span><span class="p">)</span><span class="w">  </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w">  
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">isint</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">fortran_ints</span><span class="w">
+</span></code></pre></div></div>
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|+1        |3044848   |30.40     |September |1 2 3     |  -3000   |          |
+| T        | T        | F        | F        | F        | T        | F        |
+</code></pre></div></div>
+
+<p>Sample program III:</p>
+
+<p>Determine if strings represent valid Fortran symbol names</p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">fortran_symbol_name</span><span class="w">
+</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">symbols</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="o">=</span><span class="p">[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'A_ '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'10 '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'September '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'A B'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">'_A '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+ </span><span class="s1">' '</span><span class="p">]</span><span class="w">
+   
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("|",*(g0,"|"))'</span><span class="p">)</span><span class="w"> </span><span class="n">symbols</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("|",*(1x,l1,8x,"|"))'</span><span class="p">)</span><span class="w"> </span><span class="n">fortran_name</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">fortran_name</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">lout</span><span class="p">)</span><span class="w">
+</span><span class="c1">!</span><span class="w">
+</span><span class="c1">! determine if a string is a valid Fortran name </span><span class="w">
+</span><span class="c1">! ignoring trailing spaces (but not leading spaces)</span><span class="w">
+</span><span class="c1">!</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="nb">int</span><span class="o">=</span><span class="s1">'0123456789'</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">lower</span><span class="o">=</span><span class="s1">'abcdefghijklmnopqrstuvwxyz'</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">upper</span><span class="o">=</span><span class="s1">'ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">allowed</span><span class="o">=</span><span class="n">upper</span><span class="p">//</span><span class="n">lower</span><span class="p">//</span><span class="nb">int</span><span class="p">//</span><span class="s1">'_'</span><span class="w">
+
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w">  </span><span class="p">::</span><span class="w"> </span><span class="n">line</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">name</span><span class="w">
+</span><span class="kt">logical</span><span class="w">                      </span><span class="p">::</span><span class="w"> </span><span class="n">lout</span><span class="w">
+   </span><span class="n">name</span><span class="o">=</span><span class="nb">trim</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="w">
+   </span><span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="ow">.ne.</span><span class="mi">0</span><span class="p">)</span><span class="k">then</span><span class="w">
+      </span><span class="c1">! first character is alphameric</span><span class="w">
+      </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">lower</span><span class="p">//</span><span class="n">upper</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="p">&amp;</span><span class="w">
+       </span><span class="c1">! other characters are allowed in a symbol name</span><span class="w">
+       </span><span class="p">&amp;</span><span class="w"> </span><span class="ow">.and.</span><span class="w"> </span><span class="nb">verify</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">allowed</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w">           </span><span class="p">&amp;</span><span class="w">
+       </span><span class="c1">! allowable length</span><span class="w">
+       </span><span class="p">&amp;</span><span class="w"> </span><span class="ow">.and.</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">63</span><span class="w">
+   </span><span class="k">else</span><span class="w">
+      </span><span class="n">lout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.false.</span><span class="w">
+   </span><span class="k">endif</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">fortran_name</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">fortran_symbol_name</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Results:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|A_        |10        |September |A B       |_A        |          |
+| T        | F        | T        | F        | F        | F        |
 </code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>

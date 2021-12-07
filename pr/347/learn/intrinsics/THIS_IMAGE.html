@@ -45139,39 +45139,39 @@
 <ul>
   <li>
     <dl>
-      <dt><strong>DISTANCE</strong></dt>
+      <dt><strong>distance</strong></dt>
       <dd>(optional, <strong>intent</strong>(in)) Nonnegative scalar integer (not permitted
-together with COARRAY).</dd>
+together with <strong>coarray</strong>).</dd>
     </dl>
   </li>
   <li>
     <dl>
-      <dt><strong>COARRAY</strong></dt>
-      <dd>Coarray of any type (optional; if DIM present, required).</dd>
+      <dt><strong>coarray</strong></dt>
+      <dd>Coarray of any type (optional; if <strong>dim</strong> present, required).</dd>
     </dl>
   </li>
   <li>
     <dl>
-      <dt><strong>DIM</strong></dt>
-      <dd>default integer scalar (optional). If present, DIM shall be between
-one and the corank of COARRAY.</dd>
+      <dt><strong>dim</strong></dt>
+      <dd>default integer scalar (optional). If present, <strong>dim</strong> shall be between
+one and the corank of <strong>coarray</strong>.</dd>
     </dl>
   </li>
 </ul>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>Default integer. If COARRAY is not present, it is scalar; if DISTANCE is
-not present or has value 0, its value is the image index on the invoking
+<p>Default integer. If <strong>coarray</strong> is not present, it is scalar; if <strong>distance</strong> is
+not present or has value <strong>0</strong>, its value is the image index on the invoking
 image for the current team, for values smaller or equal distance to the
 initial team, it returns the image index on the ancestor team which has
-a distance of DISTANCE from the invoking team. If DISTANCE is larger
+a distance of <strong>distance</strong> from the invoking team. If <strong>distance</strong> is larger
 than the distance to the initial team, the image index of the initial
-team is returned. Otherwise when the COARRAY is present, if DIM is not
+team is returned. Otherwise when the <strong>coarray</strong> is present, if <strong>dim</strong> is not
 present, a rank-1 array with corank elements is returned, containing the
-cosubscripts for COARRAY specifying the invoking image. If DIM is
-present, a scalar is returned, with the value of the DIM element of
-<strong>this_image</strong>(coarray).</p>
+cosubscripts for <strong>coarray</strong> specifying the invoking image. If <strong>dim</strong> is
+present, a scalar is returned, with the value of the <strong>dim</strong> element of
+<strong>this_image(coarray)</strong>.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 

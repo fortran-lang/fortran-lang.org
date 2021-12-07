@@ -45137,9 +45137,9 @@
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p>Interprets the bitwise representation of SOURCE in memory as if it is
+<p>Interprets the bitwise representation of <strong>source</strong> in memory as if it is
 the representation of a variable or array of the same type and type
-parameters as MOLD.</p>
+parameters as <strong>mold</strong>.</p>
 
 <p>This is approximately equivalent to the C concept of *casting* one
 type to another.</p>
@@ -45149,19 +45149,19 @@ type to another.</p>
 <ul>
   <li>
     <dl>
-      <dt><strong>SOURCE</strong></dt>
+      <dt><strong>source</strong></dt>
       <dd>Shall be a scalar or an array of any type.</dd>
     </dl>
   </li>
   <li>
     <dl>
-      <dt><strong>MOLD</strong></dt>
+      <dt><strong>mold</strong></dt>
       <dd>Shall be a scalar or an array of any type.</dd>
     </dl>
   </li>
   <li>
     <dl>
-      <dt><strong>SIZE</strong></dt>
+      <dt><strong>size</strong></dt>
       <dd>(Optional) shall be a scalar of type <em>integer</em>.</dd>
     </dl>
   </li>
@@ -45169,22 +45169,22 @@ type to another.</p>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The result has the same type as MOLD, with the bit level representation
-of SOURCE. If SIZE is present, the result is a one-dimensional array of
-length SIZE. If SIZE is absent but MOLD is an array (of any size or
+<p>The result has the same type as <strong>mold</strong>, with the bit level representation
+of <strong>source</strong>. If <strong>size</strong> is present, the result is a one-dimensional array of
+length <strong>size</strong>. If <strong>size</strong> is absent but <strong>mold</strong> is an array (of any size or
 shape), the result is a one-dimensional array of the minimum length
-needed to contain the entirety of the bitwise representation of SOURCE.
-If SIZE is absent and MOLD is a scalar, the result is a scalar.</p>
+needed to contain the entirety of the bitwise representation of <strong>source</strong>.
+If <strong>size</strong> is absent and <strong>mold</strong> is a scalar, the result is a scalar.</p>
 
 <p>If the bitwise representation of the result is longer than that of
-SOURCE, then the leading bits of the result correspond to those of
-SOURCE and any trailing bits are filled arbitrarily.</p>
+<strong>source</strong>, then the leading bits of the result correspond to those of
+<strong>source</strong> and any trailing bits are filled arbitrarily.</p>
 
 <p>When the resulting bit representation does not correspond to a valid
-representation of a variable of the same type as MOLD, the results are
+representation of a variable of the same type as <strong>mold</strong>, the results are
 undefined, and subsequent operations on the result cannot be guaranteed
 to produce sensible behavior. For example, it is possible to create
-<em>logical</em> variables for which VAR and .not. var both appear to be true.</p>
+<em>logical</em> variables for which <strong>var</strong> and .not. var both appear to be true.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
