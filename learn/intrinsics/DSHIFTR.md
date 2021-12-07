@@ -5,33 +5,33 @@ permalink: /learn/intrinsics/DSHIFTR
 ---
 ## __Name__
 
-__dshiftr__(3) - \[BIT MANIPULATION\] combines bits of arguments I and J
+__dshiftr__(3) - \[BIT MANIPULATION\] combines bits of arguments __i__ and __j__
 (GFDL)
 
 ## __Syntax__
 
-result = __DSHIFTL__(I, J, SHIFT)
+result = __dshiftl__(i, j, shift)
 
 ## __Description__
 
-__DSHIFTR__(I, J, SHIFT) combines bits of I and J. The leftmost SHIFT
-bits of the result are the rightmost SHIFT bits of I, and the remaining
-bits are the leftmost bits of J.
+__dshiftr(i, j, shift)__ combines bits of __i__ and __j__. The leftmost __shift__
+bits of the result are the rightmost __shift__ bits of __i__, and the remaining
+bits are the leftmost bits of __j__.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : Shall be of type _integer_.
 
-  - __J__
-    : Shall be of type _integer_, and of the same kind as I.
+  - __j__
+    : Shall be of type _integer_, and of the same kind as __i__.
 
-  - __SHIFT__
+  - __shift__
     : Shall be of type _integer_.
 
 ## __Returns__
 
-The return value has same type and kind as I.
+The return value has same type and kind as __i__.
 
 ## __Standard__
 
