@@ -38,7 +38,7 @@ being updated concurrently.
     : The value of the environment variable being queried.
 
     Shall be a scalar of type _character_ and of default kind.
-    The value of NAME is stored in __value__. If __value__ is not large enough
+    The value of __name__ is stored in __value__. If __value__ is not large enough
     to hold the data, it is truncated. If __name__ is not set, __value__ will be
     filled with blanks.
 
