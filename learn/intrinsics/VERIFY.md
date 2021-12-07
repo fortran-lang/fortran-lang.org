@@ -15,7 +15,8 @@ result = __verify__(string, set\[, back \[, kind\]\])
 ## __Description__
 
 Verifies that all the characters in __string__ belong to the set of
-characters in __set__.
+characters in __set__ by identifying the first character in the string(s)
+that is not in the set(s).
 
 If __back__ is either absent or equals __.false.__, this function returns the
 position of the leftmost character of __string__ that is not in __set__. If __back__
@@ -59,17 +60,14 @@ character(len=2) :: c3(2)=["de","gh"]
     !! same as len_trim(3)
     write(*,*)'length ',verify('  Hello World!    ', ' ', back = .true.)
 
-    !! arrays
-    write(*,*) verify(c1,'de')                   ! writes 1
-    write(*,*) verify(c2,c3)                     ! writes 1 1
-    write(*,*) verify(c1,'de',back=.true.)       ! writes 12
-    write(*,*) verify(c2,c3,[.true.,.false.])    ! writes 6 1
+    !! arrays for both strings and for sets
+    write(*,*) verify(c1,'Hode')                   ! first not matched is 'w'
+    write(*,*) verify(c2,c3)                       ! writes 1 1
+    write(*,*) verify(c1,'de',back=.true.)         ! writes 12
+    write(*,*) verify(c2,c3,back=[.true.,.false.]) ! writes 6 1
 
-    write(*,*) verify("fortran", "ao")           ! 1, found 'f'
-    write(*,*) verify("fortran", "fo")           ! 3, found 'r'
-    write(*,*) verify("fortran", "c++")          ! 1, found 'f'
-    write(*,*) verify("fortran", "c++", .true.)  ! 7, found 'n'
-    write(*,*) verify("fortran", "nartrof")      ! 0' found none
+    write(*,*) verify("fortran", "", .true.)  ! 7, found 'n'
+    write(*,*) verify("fortran", "nartrof")      ! 0' found none unmatched
 
 
     !! CHECK IF STRING IS OF FORM NN-HHHHH
@@ -81,12 +79,20 @@ character(len=2) :: c3(2)=["de","gh"]
    
        chars='32-af43d'
        lout=.true.
+
+       ! are the first two characters integer characters?
        lout = lout.and.(verify(chars(1:2), int) == 0)
+
+       ! is the third character a dash?
        lout = lout.and.(verify(chars(3:3), '-') == 0)
+
+       ! is remaining string a valid representation of a hex value?
        lout = lout.and.(verify(chars(4:8), hex) == 0)
+
        if(lout)then
           write(*,*)trim(chars),' passed'
        endif
+
     endblock CHECK
 end program demo_verify
 ```
@@ -107,6 +113,7 @@ Results:
 ```
 Sample program II:
 
+Determine if strings are valid integer representations
 ```fortran
 program fortran_ints
 implicit none
@@ -152,6 +159,7 @@ Results:
 
 Sample program III:
 
+Determine if strings represent valid Fortran symbol names
 ```fortran
 program fortran_symbol_name
 implicit none
@@ -197,7 +205,9 @@ end function fortran_name
 
 end program fortran_symbol_name
 ```
+
 Results:
+
 ```text
 |A_        |10        |September |A B       |_A        |          |
 | T        | F        | T        | F        | F        | F        |
