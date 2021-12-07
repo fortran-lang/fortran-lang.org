@@ -44,7 +44,7 @@ the return value is of default integer kind.
 
 ## __Examples__
 
-Sample program:
+Sample program I:
 
 ```fortran
 program demo_verify
@@ -88,35 +88,84 @@ character(len=2) :: c3(2)=["de","gh"]
           write(*,*)trim(chars),' passed'
        endif
     endblock CHECK
+end program demo_verify
+```
+Results:
+``` text
+ nonblank            3
+ length           14
+           1
+           1           1
+          12
+           6           1
+           1
+           3
+           1
+           7
+           0
+ 32-af43d passed
+```
+Sample program II:
 
-   TEST_FUNCTIONS : block
-   character(len=*),parameter :: ints(*)=[character(len=19) :: &
-   '+1 ', &
-   '3044848 ', &
-   '30.40 ', &
-   'September ', &
-   '1 2 3', &
-   '  -3000 ', &
-   ' ']
-   
-   character(len=*),parameter :: symbols(*)=[character(len=19) :: &
-   'A_ ', &
-   '10 ', &
-   ' ', &
-   'September ', &
-   'A B', &
-   '_A ', &
-   ' ']
-   
-   integer :: i
-   
-      write(*,'(4(g0,1x,g0,1x))') &
-      & (ints(i),isint(ints(i)),i=1,size(ints))
-      
-      write(*,'(4(g0,1x,g0,1x))') &
-      & (symbols(i),fortran_name(symbols(i)),i=1,size(symbols))
+```fortran
+program fortran_ints
+implicit none
+integer :: i
+character(len=*),parameter :: ints(*)=[character(len=10) :: &
+ '+1 ', &
+ '3044848 ', &
+ '30.40 ', &
+ 'September ', &
+ '1 2 3', &
+ '  -3000 ', &
+ ' ']
 
-    endblock TEST_FUNCTIONS
+   write(*,'("|",*(g0,"|"))') ints
+   write(*,'("|",*(1x,l1,8x,"|"))') isint(ints)
+
+contains
+
+elemental function isint(line) result (lout)
+!
+! determine if string is a valid integer representation 
+! ignoring trailing spaces and leading spaces
+!
+character(len=*),parameter   :: digits='0123456789'
+character(len=*),intent(in)  :: line
+character(len=:),allocatable :: name
+logical                      :: lout
+   lout=.false.
+   name=adjustl(line)//'  ' ! make sure at least two characters long to simplify tests
+   if( name .eq. '' )return                        ! blank string
+   if( verify(name(1:1),'+-') == 0 ) name=name(2:) ! allow one leading sign
+   if( name .eq. '' )return                        ! was just a sign
+   lout=verify(trim(name), digits)  == 0  
+end function isint
+
+end program fortran_ints
+```
+Results:
+```text
+|+1        |3044848   |30.40     |September |1 2 3     |  -3000   |          |
+| T        | T        | F        | F        | F        | T        | F        |
+```
+
+Sample program III:
+
+```fortran
+program fortran_symbol_name
+implicit none
+integer :: i
+character(len=*),parameter :: symbols(*)=[character(len=10) :: &
+ 'A_ ', &
+ '10 ', &
+ 'September ', &
+ 'A B', &
+ '_A ', &
+ ' ']
+   
+   write(*,'("|",*(g0,"|"))') symbols
+   write(*,'("|",*(1x,l1,8x,"|"))') fortran_name(symbols)
 
 contains
 
@@ -146,43 +195,12 @@ logical                      :: lout
    endif
 end function fortran_name
 
-elemental function isint(line) result (lout)
-!
-! determine if string is a valid integer representation 
-! ignoring trailing spaces and leading spaces
-!
-character(len=*),parameter   :: digits='0123456789'
-character(len=*),intent(in)  :: line
-character(len=:),allocatable :: name
-logical                      :: lout
-   lout=.false.
-   name=adjustl(line)//'  ' ! make sure at least two characters long to simplify tests
-   if( name .eq. '' )return                        ! blank string
-   if( verify(name(1:1),'+-') == 0 ) name=name(2:) ! allow one leading sign
-   if( name .eq. '' )return                        ! was just a sign
-   lout=verify(trim(name), digits)  == 0  
-end function isint
-
-end program demo_verify
+end program fortran_symbol_name
 ```
 Results:
-``` text
- nonblank            3
- length           14
-           1
-           1           1
-          12
-           6           1
-           1
-           3
-           1
-           7
-           0
- 32-af43d passed
-+1                  T 3044848             T 30.40               F September           F
-1 2 3               F   -3000             T                     F
-A_                  T 10                  F                     F September           T
-A B                 F _A                  F                     F
+```text
+|A_        |10        |September |A B       |_A        |          |
+| T        | F        | T        | F        | F        | F        |
 ```
 
 ## __Standard__
