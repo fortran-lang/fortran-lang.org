@@ -44904,8 +44904,7 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>exp</strong>(3) - [MATHEMATICS] Exponential function
-(GFDL)</p>
+<p><strong>exp</strong>(3) - [MATHEMATICS] Exponential function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 
@@ -44913,7 +44912,19 @@
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>exp</strong>(x) computes the base “e” exponential of <strong>x</strong>.</p>
+<p><strong>exp</strong>(x) computes the base “e” exponential of <strong>x</strong> where “e” is
+Euler’s constant.</p>
+
+<p>If <strong>x</strong> is of type <em>complex</em>, its imaginary part is regarded as a value
+in radians such that</p>
+
+<p>if 
+    <strong>cx=(re,im)</strong> 
+then 
+    <strong>exp(cx)=exp(re)*cmplx(cos(im),sin(im))</strong></p>
+
+<p>Since exp(3) is the inverse function of log(3) the maximum valid magnitude
+of the real component of <strong>x</strong> is <strong>log(huge(x))</strong>.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44928,7 +44939,9 @@
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value has same type and kind as <strong>x</strong>.</p>
+<p>The value of the result is <strong>e**x</strong> where <strong>e</strong> is Euler’s constant.</p>
+
+<p>The return value has the same type and kind as <strong>x</strong>.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
@@ -44936,14 +44949,61 @@
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_exp</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
-  </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">im</span><span class="w">
+</span><span class="kt">complex</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">cx</span><span class="w">
+
+   </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s2">"Euler's constant is approximately"</span><span class="p">,</span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">!! complex values</span><span class="w">
+   </span><span class="c1">! given</span><span class="w">
+   </span><span class="n">re</span><span class="o">=</span><span class="mf">3.0</span><span class="w">
+   </span><span class="n">im</span><span class="o">=</span><span class="mf">4.0</span><span class="w">
+   </span><span class="n">cx</span><span class="o">=</span><span class="nb">cmplx</span><span class="p">(</span><span class="n">re</span><span class="p">,</span><span class="n">im</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! complex results from complex arguments are Related to Euler's formula</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'given the complex value '</span><span class="p">,</span><span class="n">cx</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'exp(x) is'</span><span class="p">,</span><span class="nb">exp</span><span class="p">(</span><span class="n">cx</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'is the same as'</span><span class="p">,</span><span class="nb">exp</span><span class="p">(</span><span class="n">re</span><span class="p">)</span><span class="o">*</span><span class="nb">cmplx</span><span class="p">(</span><span class="nb">cos</span><span class="p">(</span><span class="n">im</span><span class="p">),</span><span class="nb">sin</span><span class="p">(</span><span class="n">im</span><span class="p">))</span><span class="w">
+
+   </span><span class="c1">! exp(3) is the inverse function of log(3) so</span><span class="w">
+   </span><span class="c1">! the real compoenent of the input must be less than or equal to </span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'maximum real real component'</span><span class="p">,</span><span class="nb">log</span><span class="p">(</span><span class="nb">huge</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span><span class="w"> 
+   </span><span class="c1">! or for double precision</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'maximum doubleprecision real component'</span><span class="p">,</span><span class="nb">log</span><span class="p">(</span><span class="nb">huge</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">))</span><span class="w"> 
+
+   </span><span class="c1">! but since the imaginary component is passed to the cos(3) and sin(3)</span><span class="w">
+   </span><span class="c1">! functions the imaginary component can be any real value</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_exp</span><span class="w">
 </span></code></pre></div></div>
-
+<p>Results</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Euler's constant is approximately   2.718282    
+ given the complex value  (3.000000,4.000000)
+ exp(x) is (-13.12878,-15.20078)
+ is the same as (-13.12878,-15.20078)
+ maximum real real component   88.72284    
+ maximum doubleprecision real component   709.782712893384     
+</code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>FORTRAN 77 and later</p>
+
+<h2 id="see-also"><strong>See Also</strong></h2>
+
+<ul>
+  <li>
+    <p><a href="LOG"><strong>log</strong>(3)</a></p>
+  </li>
+  <li>
+    <p>Wikipedia:<a href="https://en.wikipedia.org/wiki/Exponential_function">Exponential function</a></p>
+  </li>
+  <li>
+    <p>Wikipedia:<a href="https://en.wikipedia.org/wiki/Euler%27s_formula">Euler’s formula</a></p>
+  </li>
+</ul>
+
+<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
 
 
       <div class="container-flex">
