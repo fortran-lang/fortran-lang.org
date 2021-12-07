@@ -18,20 +18,20 @@ Determines the shape of an array.
 
 ## __Arguments__
 
-  - __SOURCE__
-    : Shall be an array or scalar of any type. If SOURCE is a pointer it
+  - __source__
+    : Shall be an array or scalar of any type. If __source__ is a pointer it
     must be associated and allocatable arrays must be allocated.
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-An _integer_ array of rank one with as many elements as SOURCE has
+An _integer_ array of rank one with as many elements as __source__ has
 dimensions. The elements of the resulting array correspond to the extend
-of SOURCE along the respective dimensions. If SOURCE is a scalar, the
-result is the rank one array of size zero. If KIND is absent, the return
+of __source__ along the respective dimensions. If __source__ is a scalar, the
+result is the rank one array of size zero. If __kind__ is absent, the return
 value has the default integer kind otherwise the specified kind.
 
 ## __Examples__

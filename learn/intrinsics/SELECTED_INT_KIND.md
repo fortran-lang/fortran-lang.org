@@ -15,13 +15,13 @@ result = __selected\_int\_kind__(r)
 ## __Description__
 
 __selected\_int\_kind__(r) return the kind value of the smallest integer
-type that can represent all values ranging from __-10__\*\*R (exclusive)
-to 10\*\*R (exclusive). If there is no integer kind that accommodates
+type that can represent all values ranging from __-10\*\*r__ (exclusive)
+to __10\*\*r__ (exclusive). If there is no integer kind that accommodates
 this range, selected\_int\_kind returns __-1__.
 
 ## __Arguments__
 
-  - __R__
+  - __r__
     : Shall be a scalar and of type _integer_.
 
 ## __Examples__

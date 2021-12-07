@@ -14,42 +14,42 @@ result = __transfer__(source, mold\[, size\])
 
 ## __Description__
 
-Interprets the bitwise representation of SOURCE in memory as if it is
+Interprets the bitwise representation of __source__ in memory as if it is
 the representation of a variable or array of the same type and type
-parameters as MOLD.
+parameters as __mold__.
 
 This is approximately equivalent to the C concept of \*casting\* one
 type to another.
 
 ## __Arguments__
 
-  - __SOURCE__
+  - __source__
     : Shall be a scalar or an array of any type.
 
-  - __MOLD__
+  - __mold__
     : Shall be a scalar or an array of any type.
 
-  - __SIZE__
+  - __size__
     : (Optional) shall be a scalar of type _integer_.
 
 ## __Returns__
 
-The result has the same type as MOLD, with the bit level representation
-of SOURCE. If SIZE is present, the result is a one-dimensional array of
-length SIZE. If SIZE is absent but MOLD is an array (of any size or
+The result has the same type as __mold__, with the bit level representation
+of __source__. If __size__ is present, the result is a one-dimensional array of
+length __size__. If __size__ is absent but __mold__ is an array (of any size or
 shape), the result is a one-dimensional array of the minimum length
-needed to contain the entirety of the bitwise representation of SOURCE.
-If SIZE is absent and MOLD is a scalar, the result is a scalar.
+needed to contain the entirety of the bitwise representation of __source__.
+If __size__ is absent and __mold__ is a scalar, the result is a scalar.
 
 If the bitwise representation of the result is longer than that of
-SOURCE, then the leading bits of the result correspond to those of
-SOURCE and any trailing bits are filled arbitrarily.
+__source__, then the leading bits of the result correspond to those of
+__source__ and any trailing bits are filled arbitrarily.
 
 When the resulting bit representation does not correspond to a valid
-representation of a variable of the same type as MOLD, the results are
+representation of a variable of the same type as __mold__, the results are
 undefined, and subsequent operations on the result cannot be guaranteed
 to produce sensible behavior. For example, it is possible to create
-_logical_ variables for which VAR and .not. var both appear to be true.
+_logical_ variables for which __var__ and .not. var both appear to be true.
 
 ## __Examples__
 

@@ -14,18 +14,18 @@ call __co\_max__(a \[, result\_image, stat, errmsg\])
 
 ## __Description__
 
-co\_max determines element-wise the maximal value of A on all images of
+co\_max determines element-wise the maximal value of __a__ on all images of
 the current team. If result\_image is present, the maximum values are
-returned in A on the specified image only and the value of A on the
+returned in __a__ on the specified image only and the value of __a__ on the
 other images become undefined. If result\_image is not present, the
 value is returned on all images. If the execution was successful and
-STAT is present, it is assigned the value zero. If the execution failed,
-STAT gets assigned a nonzero value and, if present, ERRMSG gets assigned
+__stat__ is present, it is assigned the value zero. If the execution failed,
+__stat__ gets assigned a nonzero value and, if present, __errmsg__ gets assigned
 a value describing the occurred error.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : shall be an integer, real or character variable, which has the same
     type and type parameters on all images of the team.
 
@@ -34,10 +34,10 @@ a value describing the occurred error.
     the same the same value on all images and refer to an image of the
     current team.
 
-  - __STAT__
+  - __stat__
     : (optional) a scalar integer variable
 
-  - __ERRMSG__
+  - __errmsg__
     : (optional) a scalar character variable
 
 ## __Examples__

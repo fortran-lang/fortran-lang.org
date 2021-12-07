@@ -19,13 +19,13 @@ value __matrix__(j, i), for all i, j.
 
 ## __Arguments__
 
-  - __MATRIX__
+  - __matrix__
     : Shall be an array of any type and have a rank of two.
 
 ## __Returns__
 
-The result has the same type as MATRIX, and has shape \[ m, n \] if
-MATRIX has shape \[ n, m \].
+The result has the same type as __matrix__, and has shape \[ m, n \] if
+__matrix__ has shape \[ n, m \].
 
 ## __Examples__
 

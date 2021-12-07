@@ -19,30 +19,30 @@ Returns the cosubscript for this image.
 
 ## __Arguments__
 
-  - __DISTANCE__
+  - __distance__
     : (optional, __intent__(in)) Nonnegative scalar integer (not permitted
-    together with COARRAY).
+    together with __coarray__).
 
-  - __COARRAY__
-    : Coarray of any type (optional; if DIM present, required).
+  - __coarray__
+    : Coarray of any type (optional; if __dim__ present, required).
 
-  - __DIM__
-    : default integer scalar (optional). If present, DIM shall be between
-    one and the corank of COARRAY.
+  - __dim__
+    : default integer scalar (optional). If present, __dim__ shall be between
+    one and the corank of __coarray__.
 
 ## __Returns__
 
-Default integer. If COARRAY is not present, it is scalar; if DISTANCE is
-not present or has value 0, its value is the image index on the invoking
+Default integer. If __coarray__ is not present, it is scalar; if __distance__ is
+not present or has value __0__, its value is the image index on the invoking
 image for the current team, for values smaller or equal distance to the
 initial team, it returns the image index on the ancestor team which has
-a distance of DISTANCE from the invoking team. If DISTANCE is larger
+a distance of __distance__ from the invoking team. If __distance__ is larger
 than the distance to the initial team, the image index of the initial
-team is returned. Otherwise when the COARRAY is present, if DIM is not
+team is returned. Otherwise when the __coarray__ is present, if __dim__ is not
 present, a rank-1 array with corank elements is returned, containing the
-cosubscripts for COARRAY specifying the invoking image. If DIM is
-present, a scalar is returned, with the value of the DIM element of
-__this\_image__(coarray).
+cosubscripts for __coarray__ specifying the invoking image. If __dim__ is
+present, a scalar is returned, with the value of the __dim__ element of
+__this\_image(coarray)__.
 
 ## __Examples__
 

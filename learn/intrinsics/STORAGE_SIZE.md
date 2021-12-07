@@ -14,22 +14,22 @@ result = __storage\_size__(a \[, kind\])
 
 ## __Description__
 
-Returns the storage size of argument A in bits.
+Returns the storage size of argument __a__ in bits.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : Shall be a scalar or array of any type.
 
-  - __KIND__
+  - __kind__
     : (Optional) shall be a scalar integer constant expression.
 
 ## __Returns__
 
 The result is a scalar integer with the kind type parameter specified by
-KIND (or default integer type if KIND is missing). The result value is
+__kind__ (or default integer type if __kind__ is missing). The result value is
 the size expressed in bits for an element of an array that has the
-dynamic type and type parameters of A.
+dynamic type and type parameters of __a__.
 
 ## __Examples__
 

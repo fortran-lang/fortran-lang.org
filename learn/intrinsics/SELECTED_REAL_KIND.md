@@ -14,48 +14,48 @@ result = __selected\_real\_kind__(\[p, r, radix\])
 
 ## __Description__
 
-__selected\_real\_kind__(p, r, radix) return the kind value of a real
-data type with decimal precision of at least P digits, exponent range of
-at least R, and with a radix of RADIX.
+__selected\_real\_kind(p, r, radix)__ return the kind value of a real
+data type with decimal precision of at least __p__ digits, exponent range of
+at least __r__, and with a radix of __radix__.
 
 ## __Arguments__
 
-  - __P__
+  - __p__
     : (Optional) shall be a scalar and of type _integer_.
 
-  - __R__
+  - __r__
     : (Optional) shall be a scalar and of type _integer_.
 
-  - __RADIX__
+  - __radix__
     : (Optional) shall be a scalar and of type _integer_.
 
-Before __Fortran 2008__, at least one of the arguments R or P shall
+Before __Fortran 2008__, at least one of the arguments __r__ or __p__ shall
 be present; since __Fortran 2008__, they are assumed to be zero if
 absent.
 
 ## __Returns__
 
 selected\_real\_kind returns the value of the kind type parameter of a
-real data type with decimal precision of at least P digits, a decimal
-exponent range of at least R, and with the requested RADIX. If the RADIX
+real data type with decimal precision of at least __p__ digits, a decimal
+exponent range of at least R, and with the requested __radix__. If the __radix__
 parameter is absent, real kinds with any radix can be returned. If more
 than one real data type meet the criteria, the kind of the data type
 with the smallest decimal precision is returned. If no real data type
 matches the criteria, the result is
 
   - __-1__ if the processor does not support a real data type with a
-    precision greater than or equal to P, but the R and RADIX
+    precision greater than or equal to __p__, but the __r__ and __radix__
     requirements can be fulfilled
 
       - __-2__ if the processor does not support a real type with an
-        exponent range greater than or equal to R, but P and RADIX are
+        exponent range greater than or equal to __r__, but __p__ and __radix__ are
         fulfillable
 
-      - __-3__ if RADIX but not P and R requirements are fulfillable
+      - __-3__ if __radix__ but not __p__ and __r__ requirements are fulfillable
 
-      - __-4__ if RADIX and either P or R requirements are fulfillable
+      - __-4__ if __radix__ and either __p__ or __r__ requirements are fulfillable
 
-      - __-5__ if there is no real type with the given RADIX
+      - __-5__ if there is no real type with the given __radix__
 
 ## __Examples__
 

@@ -14,29 +14,29 @@ result = __count__(mask \[, dim, kind\])
 
 ## __Description__
 
-Counts the number of .true. elements in a logical MASK, or, if the DIM
+Counts the number of __.true.__ elements in a logical __mask__, or, if the __dim__
 argument is supplied, counts the number of elements along each row of
-the array in the DIM direction. If the array has zero size, or all of
-the elements of MASK are false, then the result is 0.
+the array in the __dim__ direction. If the array has zero size, or all of
+the elements of __mask__ are false, then the result is __0__.
 
 ## __Arguments__
 
-  - __MASK__
+  - __mask__
     : The type shall be _logical_.
 
-  - __DIM__
+  - __dim__
     : (Optional) The type shall be _integer_.
 
-  - __KIND__
+  - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind KIND. If KIND is absent,
-the return value is of default integer kind. If DIM is present, the
-result is an array with a rank one less than the rank of ARRAY, and a
-size corresponding to the shape of ARRAY with the DIM dimension removed.
+The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
+the return value is of default integer kind. If __dim__ is present, the
+result is an array with a rank one less than the rank of __array__, and a
+size corresponding to the shape of __array__ with the __dim__ dimension removed.
 
 ## __Examples__
 

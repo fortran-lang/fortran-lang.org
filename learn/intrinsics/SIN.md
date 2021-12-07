@@ -28,7 +28,7 @@ hypotenuse.
 
 ## __Returns__
 
-  - __RESULT__
+  - __result__
     : The return value has the same type and kind as __x__.
 
 ## __Examples__

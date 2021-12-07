@@ -14,17 +14,17 @@ result = __SHIFTL__(I, SHIFT)
 
 ## __Description__
 
-Returns a value corresponding to I with all of the bits shifted left by
-SHIFT places. If the absolute value of SHIFT is greater than
-__BIT\_SIZE__(I), the value is undefined. Bits shifted out from the left
-end are lost, and bits shifted in from the right end are set to 0.
+Returns a value corresponding to __i__ with all of the bits shifted left by
+__shift__ places. If the absolute value of __shift__ is greater than
+__bit\_size(i)__, the value is undefined. Bits shifted out from the left
+end are lost, and bits shifted in from the right end are set to __0__.
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : The type shall be _integer_.
 
-  - __SHIFT__
+  - __shift__
     : The type shall be _integer_.
 
 ## __Returns__

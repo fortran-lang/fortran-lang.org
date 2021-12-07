@@ -15,28 +15,28 @@ result = __cshift__(array, shift \[, dim\])
 ## __Description__
 
 __cshift__(array, shift \[, dim\]) performs a circular shift on elements
-of ARRAY along the dimension of DIM. If DIM is omitted it is taken to be
-1. DIM is a scalar of type _integer_ in the range of 1 \<= DIM \<= n,
-where "n" is the rank of ARRAY. If the rank of ARRAY is one, then all
-elements of ARRAY are shifted by SHIFT places. If rank is greater than
-one, then all complete rank one sections of ARRAY along the given
+of __array__ along the dimension of __dim__. If __dim__ is omitted it is taken to be
+__1__. __dim__ is a scalar of type _integer_ in the range of __1 \<= dim \<= n__,
+where "n" is the rank of __array__. If the rank of __array__ is one, then all
+elements of __array__ are shifted by __shift__ places. If rank is greater than
+one, then all complete rank one sections of __array__ along the given
 dimension are shifted. Elements shifted out one end of each rank one
 section are shifted back in the other end.
 
 ## __Arguments__
 
-  - __ARRAY__
+  - __array__
     : Shall be an array of any type.
 
-  - __SHIFT__
+  - __shift__
     : The type shall be _integer_.
 
-  - __DIM__
+  - __dim__
     : The type shall be _integer_.
 
 ## __Returns__
 
-Returns an array of same type and rank as the ARRAY argument.
+Returns an array of same type and rank as the __array__ argument.
 
 ## __Examples__
 

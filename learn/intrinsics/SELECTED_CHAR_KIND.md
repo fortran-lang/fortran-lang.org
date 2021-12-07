@@ -22,7 +22,7 @@ Character Set, UCS-4) which is commonly known as "Unicode".
 
 ## __Arguments__
 
-  - __NAME__
+  - __name__
     : Shall be a scalar and of the default character type.
 
 ## __Examples__
