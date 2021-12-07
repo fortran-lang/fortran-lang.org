@@ -13,18 +13,18 @@ result = __exp__(x)
 
 ## __Description__
 
-__exp__(x) computes the base "e" exponential of __x__ where "e" is
-Euler's constant.
+__exp__(x) computes the base "_e_" exponential of __x__ where "_e_" is
+_Euler's constant_.
 
 If __x__ is of type _complex_, its imaginary part is regarded as a value
-in radians such that
+in radians such that (see _Euler's formula_):
 
 if 
-    __cx=(re,im)__ 
+     __cx=(re,im)__ 
 then 
-    __exp(cx)=exp(re)*cmplx(cos(im),sin(im))__
+     __exp(cx)=exp(re)*cmplx(cos(im),sin(im))__
 
-Since exp(3) is the inverse function of log(3) the maximum valid magnitude
+Since __exp__(3) is the inverse function of __log__(3) the maximum valid magnitude
 of the real component of __x__ is __log(huge(x))__.
 
 ## __Arguments__
