@@ -47,12 +47,16 @@ By describing the procedures here
      (including additional documents at fortran-lang.org and related
      discussions in Fortran Discourse)
 
-these documents aspire to be a valuable asset for Fortran programmers.
+these documents strive to be a valuable asset for Fortran programmers.
 
 This is a community-driven resource and everyone is encouraged to contribute 
 to the documents. For contribution guidelines see
 [MINIBOOKS](https://github.com/fortran-lang/fortran-lang.org/blob/master/MINIBOOKS.md)
 and the following Copyright guidelines.
+
+## See also
+   - The [Fortran stdlib](https://stdlib.fortran-lang.org/) project
+   - [fpm(1)](https://fortran-lang.org/packages/fpm) packages, many of which are general-purpose libraries/modules
 
 ## Text Content Copyrights
 
