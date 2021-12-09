@@ -44974,24 +44974,28 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>len</strong>(3) - [CHARACTER] Length of a character entity
-(GFDL)</p>
+<p><strong>len</strong>(3) - [CHARACTER] Length of a character entity</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">   </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="p">)</span><span class="w">
 
-    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="nb">kind</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="nb">kind</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="k">value</span><span class="p">)</span><span class="w">
     </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">string</span><span class="w">
-    </span><span class="kt">integer</span><span class="p">,</span><span class="k">optional</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">kind</span><span class="w">
-    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">value</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">,</span><span class="k">optional</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">KIND</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">value</span><span class="w">
 </span></code></pre></div></div>
+<p>where the returned value is the same kind as the <strong>KIND</strong>  if it is 
+specified.</p>
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p>Returns the length of a character string. If <strong>string</strong> is an array, the
-length of an element of <strong>string</strong> is returned. Note that <strong>string</strong> need not be
-defined when this intrinsic is invoked, since only the length, not the
-content, of <strong>string</strong> is needed.</p>
+<p><strong>len(3)</strong> Returns the length of a <em>character</em> string.</p>
+
+<p>If <strong>string</strong> is an array, the length of an element of <strong>string</strong>
+is returned.</p>
+
+<p>Note that <strong>string</strong> need not be defined when this intrinsic is invoked,
+as only the length (not the content) of <strong>string</strong> is needed.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44999,7 +45003,7 @@ content, of <strong>string</strong> is needed.</p>
   <li>
     <dl>
       <dt><strong>string</strong></dt>
-      <dd>Shall be a scalar or array of type <em>character</em>, with <strong>intent</strong>(in)</dd>
+      <dd>Shall be a scalar or array of type <em>character</em>.</dd>
     </dl>
   </li>
   <li>
@@ -45018,21 +45022,107 @@ the return value is of default integer kind.</p>
 
 <h2 id="standard"><strong>Standard</strong></h2>
 
-<p>FORTRAN 77 and later, with <strong>kind</strong> argument - Fortran 2003 and later</p>
+<p>FORTRAN 77 and later; with <strong>kind</strong> argument - Fortran 2003 and later</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
 <p>Sample program</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_len</span><span class="w">
+</span><span class="k">use</span><span class="p">,</span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">stdout</span><span class="o">=&gt;</span><span class="n">output_unit</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">string</span><span class="w">
-   </span><span class="n">string</span><span class="o">=</span><span class="s1">' how long is this string?     '</span><span class="w">
-   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'LENGTH='</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w">
-   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'TRIMMED LENGTH='</span><span class="p">,</span><span class="nb">len_trim</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">many_strings</span><span class="p">(:)</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">ii</span><span class="w">
+
+   </span><span class="n">string</span><span class="o">=</span><span class="s1">' How long is this string?     '</span><span class="w">
+   </span><span class="n">ii</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w">
+   </span><span class="c1">! note when adjacent strings are printed no space is inserted between them</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'['</span><span class="p">,</span><span class="n">string</span><span class="p">,</span><span class="s1">']'</span><span class="p">,</span><span class="s1">' length='</span><span class="p">,</span><span class="n">ii</span><span class="w">
+
+   </span><span class="c1">! Related Matters:</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w">
+   </span><span class="c1">! you can also query the length (and other attributes) of a string using a </span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"type parameter inquiry:"</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'length='</span><span class="p">,</span><span class="n">string</span><span class="o">%</span><span class="nb">len</span><span class="p">,</span><span class="s1">'kind='</span><span class="p">,</span><span class="n">string</span><span class="o">%</span><span class="nb">kind</span><span class="w">
+   </span><span class="c1">! note a type parameter inquiry of an intrinsic requires Fortran 2018+ </span><span class="w">
+
+   </span><span class="c1">! note that all that is required is an A descriptor in a format, a numeric</span><span class="w">
+   </span><span class="c1">! length is not required. If a length IS provided the string will be trimmed</span><span class="w">
+   </span><span class="c1">! or blank padded ON THE LEFT to the specified length</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(" ",a," ")'</span><span class="p">)</span><span class="nb">repeat</span><span class="p">(</span><span class="s1">'='</span><span class="p">,</span><span class="n">ii</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("[",a,"]")'</span><span class="p">)</span><span class="n">string</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(" ",a," ")'</span><span class="p">)</span><span class="nb">repeat</span><span class="p">(</span><span class="s1">'='</span><span class="p">,</span><span class="n">ii</span><span class="p">)</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("[",a10,"]")'</span><span class="p">)</span><span class="n">string</span><span class="w">  </span><span class="c1">! TRUNCATED!</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("[",a40,"]")'</span><span class="p">)</span><span class="n">string</span><span class="w">  </span><span class="c1">! PADDED!</span><span class="w">
+   </span><span class="c1">! you can specify the length at run time:</span><span class="w">
+   </span><span class="n">ii</span><span class="o">=</span><span class="mi">40</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("[",a,"]")'</span><span class="p">)[</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">ii</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">string</span><span class="p">]</span><span class="w">  </span><span class="c1">! RIGHT JUSTIFIED!</span><span class="w">
+
+   </span><span class="c1">! a scalar is returned for an array, as all values in a Fortran</span><span class="w">
+   </span><span class="c1">! character array must be of the same length:</span><span class="w">
+
+   </span><span class="c1">! stepping aside to define an allocatable array with a constructor ...</span><span class="w">
+   </span><span class="c1">! (that MUST specify a LEN= length type parameter if all values are</span><span class="w">
+   </span><span class="c1">! not the same length):</span><span class="w">
+     </span><span class="n">many_strings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="s1">'Takata'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Tanaka'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Hayashi'</span><span class="w"> </span><span class="p">]</span><span class="w">
+   </span><span class="c1">! if the length specified is too short the strings will be truncated</span><span class="w">
+
+   </span><span class="c1">! In that constructor, without the LEN= type specification, it would</span><span class="w">
+   </span><span class="c1">! have been necessary to specify all of the constants with the same</span><span class="w">
+   </span><span class="c1">! character length.</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'length of ALL elements of array='</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">many_strings</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'("[",a,"]")'</span><span class="p">)</span><span class="n">many_strings</span><span class="w">
+
+   </span><span class="c1">! Note in the following the result is always scalar, even if the</span><span class="w">
+   </span><span class="c1">! object is an array.</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'length='</span><span class="p">,</span><span class="w"> </span><span class="n">many_strings</span><span class="o">%</span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'kind='</span><span class="p">,</span><span class="w"> </span><span class="n">many_strings</span><span class="o">%</span><span class="nb">kind</span><span class="w">
+   </span><span class="c1">! which is the same as</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'length='</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">many_strings</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w"> </span><span class="s1">'kind='</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="n">many_strings</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! you should also be careful when printing strings that they do not</span><span class="w">
+   </span><span class="c1">! exceed the current record length of your output file, although that</span><span class="w">
+   </span><span class="c1">! usually is very large</span><span class="w">
+   </span><span class="k">inquire</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="n">stdout</span><span class="p">,</span><span class="n">recl</span><span class="o">=</span><span class="n">ii</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'line length='</span><span class="p">,</span><span class="n">ii</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_len</span><span class="w">
 </span></code></pre></div></div>
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [ How long is this string?     ] length=          30
+ 
+ type parameter inquiry:
+ length=          30 kind=           1
+ 
+ ============================== 
+[ How long is this string?     ]
+ ============================== 
+[ How long ]
+[           How long is this string?     ]
+[ How long is this string?               ]
+ 
+ length of ALL elements of array=           7
+[Takata ]
+[Tanaka ]
+[Hayashi]
+ length=           7 kind=           1
+ length=           7 kind=           1
+ line length=         132
+</code></pre></div></div>
 <h2 id="see-also"><strong>See Also</strong></h2>
+
+<p>len_trim(3), adjustr(3), trim(3), and adjustl(3) are related routines that
+allow you to deal with leading and trailing blanks.</p>
 
 <p>Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:</p>
@@ -45051,6 +45141,7 @@ of arguments, and search for certain arguments:</p>
     <p><strong>Nonelemental:</strong>
 <a href="REPEAT"><strong>repeat</strong>(3)</a>,
 <a href="TRIM"><strong>trim</strong>(3)</a></p>
+    <h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
   </li>
 </ul>
 
