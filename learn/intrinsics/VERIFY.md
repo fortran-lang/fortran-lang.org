@@ -18,10 +18,11 @@ Verifies that all the characters in __string__ belong to the set of
 characters in __set__ by identifying the first character in the string(s)
 that is not in the set(s).
 
-If __back__ is either absent or equals __.false.__, this function returns the
-position of the leftmost character of __string__ that is not in __set__. If __back__
-equals __.true.__, the rightmost position is returned. If all characters of
-__string__ are found in __set__, the result is zero.
+If __back__ is either absent or equals __.false.__, this function
+returns the position of the leftmost character of __string__ that is
+not in __set__. If __back__ equals __.true.__, the rightmost position
+is returned. If all characters of __string__ are found in __set__,
+the result is zero.
 
 ## __Arguments__
 
@@ -40,8 +41,8 @@ __string__ are found in __set__, the result is zero.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
-the return value is of default integer kind.
+The return value is of type _integer_ and of kind __kind__. If __kind__
+is absent, the return value is of default integer kind.
 
 ## __Examples__
 
@@ -61,13 +62,15 @@ character(len=2) :: c3(2)=["de","gh"]
     write(*,*)'length ',verify('  Hello World!    ', ' ', back = .true.)
 
     !! arrays for both strings and for sets
-    write(*,*) verify(c1,'Hode')                   ! first not matched is 'w'
-    write(*,*) verify(c2,c3)                       ! writes 1 1
-    write(*,*) verify(c1,'de',back=.true.)         ! writes 12
-    write(*,*) verify(c2,c3,back=[.true.,.false.]) ! writes 6 1
+    ! first not matched is 'w'
+    write(*,*) verify(c1,'Hode')          
+    write(*,*) verify(c2,c3)                       
+    write(*,*) verify(c1,'de',back=.true.)         
+    write(*,*) verify(c2,c3,back=[.true.,.false.]) 
 
     write(*,*) verify("fortran", "", .true.)  ! 7, found 'n'
-    write(*,*) verify("fortran", "nartrof")      ! 0' found none unmatched
+    ! 0' found none unmatched
+    write(*,*) verify("fortran", "nartrof")      
 
 
     !! CHECK IF STRING IS OF FORM NN-HHHHH
@@ -142,10 +145,14 @@ character(len=*),intent(in)  :: line
 character(len=:),allocatable :: name
 logical                      :: lout
    lout=.false.
-   name=adjustl(line)//'  ' ! make sure at least two characters long to simplify tests
-   if( name .eq. '' )return                        ! blank string
-   if( verify(name(1:1),'+-') == 0 ) name=name(2:) ! allow one leading sign
-   if( name .eq. '' )return                        ! was just a sign
+   ! make sure at least two characters long to simplify tests
+   name=adjustl(line)//'  ' 
+   ! blank string
+   if( name .eq. '' )return     
+   ! allow one leading sign
+   if( verify(name(1:1),'+-') == 0 ) name=name(2:) 
+   ! was just a sign
+   if( name .eq. '' )return 
    lout=verify(trim(name), digits)  == 0  
 end function isint
 
@@ -153,8 +160,8 @@ end program fortran_ints
 ```
 Results:
 ```text
-|+1        |3044848   |30.40     |September |1 2 3     |  -3000   |          |
-| T        | T        | F        | F        | F        | T        | F        |
+|+1       |3044848  |30.40    |September|1 2 3    |  -3000  |         |
+| T       | T       | F       | F       | F       | T       | F       |
 ```
 
 Sample program III:

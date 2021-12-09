@@ -42,9 +42,11 @@ implicit none
      print *, popcnt(huge(0_int32)), poppar(huge(0_int32))
      print *, popcnt(huge(0_int64)), poppar(huge(0_int64))
 end program demo_popcnt
+```
+
 Sample output:
 
-```
+```text
         7           1
        31           1
         7           1

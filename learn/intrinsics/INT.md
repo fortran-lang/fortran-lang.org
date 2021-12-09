@@ -82,7 +82,9 @@ real :: x=-10.5, y=10.5
    ! using a larger kind
    print *, int(x,kind=int64),x
 
-   print *, int(B"111111111111111111111111111111111111111111111111111111111111111",kind=int64)
+   print *, int(&
+   & B"111111111111111111111111111111111111111111111111111111111111111",&
+   & kind=int64)
    print *, int(O"777777777777777777777",kind=int64)
    print *, int(Z"7FFFFFFFFFFFFFFF",kind=int64)
 

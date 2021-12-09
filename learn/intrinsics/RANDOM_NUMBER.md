@@ -44,18 +44,19 @@ real(kind=dp)        :: rand_val
    first=1
    last=10
    allocate(count(last-first+1))
-   ! To have a discrete uniform distribution on the integers {first, first+1,
-   ! ```, last-1, last} carve the continuous distribution up into last+1-first
-   ! equal sized chunks, mapping each chunk to an integer.
+   ! To have a discrete uniform distribution on the integers 
+   ! [first, first+1, ..., last-1, last] carve the continuous
+   ! distribution up into last+1-first equal sized chunks, 
+   ! mapping each chunk to an integer.
    !
    ! One way is:
    !   call random_number(rand_val)
    ! choose one from last-first+1 integers
    !   rand_int = first + FLOOR((last+1-first)*rand_val)
       count=0
-   ! generate a lot of random integers from 1 to 10 and count them.
-   ! with a large number of values you should get about the same number
-   ! of each value
+      ! generate a lot of random integers from 1 to 10 and count them.
+      ! with a large number of values you should get about the same
+      ! number of each value
       do i=1,100000000
          call random_number(rand_val)
          rand_int=first+floor((last+1-first)*rand_val)

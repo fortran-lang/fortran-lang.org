@@ -9,9 +9,9 @@ __bgt__(3) - \[BIT COMPARE\] Bitwise greater than
 (GFDL)
 
 ## __Syntax__
-
-    __result = bgt(i, j)__
-
+```fortran
+    result = bgt(i, j)
+```
 ## __Description__
 
 Determines whether an integer is bitwise greater than another.

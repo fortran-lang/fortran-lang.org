@@ -9,11 +9,11 @@ __bessel\_yn__(3) - \[MATHEMATICS\] Bessel function of the second kind
 (GFDL)
 
 ## __Syntax__
+```fortran
+  result = bessel_yn(n, x)
 
-  - __result = bessel\_yn(n, x)__
-
-  - __result = bessel\_yn(n1, n2, x)__
-
+  result = bessel_yn(n1, n2, x)
+```
 ## __Description__
 
 __bessel\_yn__(n, x) computes the Bessel function of the second

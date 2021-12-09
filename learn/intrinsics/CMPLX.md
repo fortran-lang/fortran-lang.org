@@ -29,7 +29,7 @@ converted to the _real_ component. If __x__ is _complex_ then __y__ must not be
 present. If __y__ is present it is converted to the imaginary component. If
 __y__ is not present then the imaginary component is set to __0.0__.
 
-## __cmplx__(3) and double precision__
+## __cmplx(3) and double precision__
 
 The Fortran 90 language defines __cmplx__(3) as always returning a result
 that is type ___complex___(kind=KIND(0.0)).

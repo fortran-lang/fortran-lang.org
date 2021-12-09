@@ -33,9 +33,10 @@ __btest(i,pos)__ returns logical __.true.__ if the bit at __pos__ in __i__ is se
     A value of zero refers to the least significant bit.
 
 ## __Returns__
-    The result is a _logical_ that has the value __.true.__ if bit
-    position __pos__ of __i__ has the value __1__ and the value
-    __.false.__ if bit __pos__ of __i__ has the value __0__.
+
+   The result is a _logical_ that has the value __.true.__ if bit
+   position __pos__ of __i__ has the value __1__ and the value
+   __.false.__ if bit __pos__ of __i__ has the value __0__.
 
 ## __Examples__
 

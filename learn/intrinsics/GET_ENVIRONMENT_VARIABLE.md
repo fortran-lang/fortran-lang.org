@@ -91,21 +91,24 @@ integer                              :: length
    length=0
    VALUE=''
    if(NAME.ne.'')then
-      call get_environment_variable(NAME, length=howbig,status=stat,trim_name=.true.)
+      call get_environment_variable( &
+      & NAME, length=howbig,status=stat,trim_name=.true.)
       select case (stat)
       case (1)
-         !*!print *, NAME, " is not defined in the environment. Strange..."
-         VALUE=''
+       !*!print *, NAME, " is not defined in the environment. Strange..."
+       VALUE=''
       case (2)
-         !*!print *, "This processor doesn't support environment variables. Boooh!"
-         VALUE=''
+       !*!print *, &
+       !*!"This processor does not support environment variables. Boooh!"
+       VALUE=''
       case default
-         ! make string to hold value of sufficient size
-         if(allocated(VALUE))deallocate(VALUE)
-         allocate(character(len=max(howbig,1)) :: VALUE)
-         ! get value
-         call get_environment_variable(NAME,VALUE,status=stat,trim_name=.true.)
-         if(stat.ne.0)VALUE=''
+       ! make string to hold value of sufficient size
+       if(allocated(VALUE))deallocate(VALUE)
+       allocate(character(len=max(howbig,1)) :: VALUE)
+       ! get value
+       call get_environment_variable( &
+       & NAME,VALUE,status=stat,trim_name=.true.)
+       if(stat.ne.0)VALUE=''
       end select
    endif
    if(VALUE.eq.''.and.present(DEFAULT))VALUE=DEFAULT

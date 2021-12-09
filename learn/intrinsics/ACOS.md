@@ -26,9 +26,7 @@ __acos(x)__ computes the arccosine of __x__ (inverse of __cos(x)__).
 ## __Returns__
 
 The return value is of the same type and kind as __x__. The real part of the
-result is in radians and lies in the range
-
-     __0 \<= acos(x) \<= PI__
+result is in radians and lies in the range __0 \<= acos(x) \<= PI__ .
 
 ## __Examples__
 Sample program:

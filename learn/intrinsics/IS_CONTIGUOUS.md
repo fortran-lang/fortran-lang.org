@@ -24,7 +24,7 @@ An object is contiguous if it is
    - __(2)__
      a nonpointer whole array that is not assumed-shape,
 
-   - ____(3)
+   - __(3)__
      an assumed-shape array that is argument associated with an array
      that is contiguous,
 

@@ -9,8 +9,9 @@ __bessel\_y0__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 
 (GFDL)
 
 ## __Syntax__
-
-    __result = bessel\_y0(x)__
+```fortran
+    result = bessel_y0(x)
+```
 
 ## __Description__
 

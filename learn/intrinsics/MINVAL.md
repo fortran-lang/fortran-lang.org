@@ -69,7 +69,8 @@ integer,save :: box(3,5,2)
    box(:,:,2)=-ints
 
    write(*,*)'Given the array'
-   write(*,'(1x,*(g4.4,1x))') (ints(i,:),new_line('a'),i=1,size(ints,dim=1))
+   write(*,'(1x,*(g4.4,1x))') &
+   & (ints(i,:),new_line('a'),i=1,size(ints,dim=1))
 
    write(*,*)'What is the smallest element in the array?'
    write(*,g) minval(ints),'at <',minloc(ints),'>'
@@ -80,13 +81,15 @@ integer,save :: box(3,5,2)
    write(*,*)'What is the smallest element in each row?'
    write(*,g) minval(ints,dim=2)
 
-   ! notice the shape of the output has less columns than the input in this case
+   ! notice the shape of the output has less columns 
+   ! than the input in this case
    write(*,*)'What is the smallest element in each column,'
    write(*,*)'considering only those elements that are'
    write(*,*)'greater than zero?'
    write(*,g) minval(ints, dim=1, mask = ints > 0)
 
-   write(*,*)'if everything is false a zero-sized array is NOT returned'
+   write(*,*)&
+   & 'if everything is false a zero-sized array is NOT returned'
    write(*,*) minval(ints, dim=1, mask = .false.)
    write(*,*)'even for a zero-sized input'
    write(*,g) minval([integer ::], dim=1, mask = .false.)
@@ -100,7 +103,8 @@ integer,save :: box(3,5,2)
    write(*,g) minval(box, dim=1, mask = .true. )
 
    write(*,g) minval(box, dim=2, mask = .true. )
-   write(*,g) 'shape of answer is ',shape(minval(box, dim=2, mask = .true. ))
+   write(*,g) 'shape of answer is ', &
+   & shape(minval(box, dim=2, mask = .true. ))
 
 end program demo_minval
 ```

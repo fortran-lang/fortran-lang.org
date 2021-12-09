@@ -12,14 +12,10 @@ __atan2__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
 ```fortran
 result = atan2(y, x)
 ```
-
 ## __Description__
 
 __atan2(y, x)__ computes the arctangent of the complex number
-
-```
-      __x__ + i__y__.
-```
+( __x__ + i __y__ ) .
 
 This function can be used to transform from Cartesian into polar
 coordinates and allows to determine the angle in the correct quadrant.

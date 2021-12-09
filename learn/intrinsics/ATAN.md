@@ -21,18 +21,19 @@ __atan(x)__ computes the arctangent of __x__.
 ## __Arguments__
 
   - __x__
-    : The type shall be _real_ or _complex_; if __y__ is present, __x__ shall be _real_.
+    : The type shall be _real_ or _complex_; if __y__ is present, __x__
+      shall be _real_.
 
   - __y__
     : Shall be of the same type and kind as __x__.
 
 ## __Returns__
 
-The return value is of the same type and kind as __x__. If __y__ is present, the
-result is identical to __atan2(y,x)__. Otherwise, it the arc tangent of
-__x__, where the real part of the result is in radians and lies in the range
-
-    __-PI/2 \<= atan(x) \<= PI/2__
+The return value is of the same type and kind as __x__. If __y__ is
+present, the result is identical to __atan2(y,x)__. Otherwise, it the
+arc tangent of __x__, where the real part of the result is in radians
+and lies in the range
+__-PI/2 \<= atan(x) \<= PI/2__
 
 ## __Examples__
 

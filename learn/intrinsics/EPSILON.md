@@ -51,7 +51,8 @@ real(kind=sp) :: x = 3.143
 real(kind=dp) :: y = 2.33d0
 
    ! so if x is of type real32, epsilon(x) has the value 2**-23
-   print *, epsilon(x) ! note just the type and kind of x matter, not the value
+   print *, epsilon(x) 
+   ! note just the type and kind of x matter, not the value
    print *, epsilon(huge(x)) 
    print *, epsilon(tiny(x)) 
 

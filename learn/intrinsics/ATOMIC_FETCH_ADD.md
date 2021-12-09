@@ -60,7 +60,7 @@ TS 18508 or later
 
 [__atomic\_define__(3)](ATOMIC_DEFINE),
 [__atomic\_add__(3)](ATOMIC_ADD),
-iso\_fortran\_env__(3),
+__iso\_fortran\_env__(3),
 
 [__atomic\_fetch\_and__(3)](ATOMIC_FETCH_AND),
 [__atomic\_fetch\_or__(3)](ATOMIC_FETCH_OR),

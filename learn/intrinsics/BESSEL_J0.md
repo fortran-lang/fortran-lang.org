@@ -9,8 +9,9 @@ __bessel\_j0__(3) - \[MATHEMATICS\] Bessel function of the first kind of order 0
 (GFDL)
 
 ## __Syntax__
-
-    __result = bessel\_j0(x)__
+```fortran
+    result = bessel_j0(x)
+```
 
 ## __Description__
 

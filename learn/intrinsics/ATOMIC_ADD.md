@@ -8,12 +8,13 @@ permalink: /learn/intrinsics/ATOMIC_ADD
 __atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation (GFDL)
 
 ## __Syntax__
-
-call atomic\_add (atom, value \[, stat\])
+```fortran
+call atomic_add (atom, value, stat)
+```
 
 ## __Description__
 
-__atomic\_ad_(atom, value)__ atomically adds the value of VAR to the
+__atomic\_ad(atom, value)__ atomically adds the value of VAR to the
 variable __atom__. When __stat__ is present and the invocation was successful,
 it is assigned the value 0. If it is present and the invocation has
 failed, it is assigned a positive value; in particular, for a coindexed

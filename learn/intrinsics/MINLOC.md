@@ -9,9 +9,11 @@ __minloc__(3) - \[ARRAY LOCATION\] Location of the minimum value within an array
 (GFDL)
 
 ## __Syntax__
+```fortran
+    result = minloc(array, dim, mask) 
 
-    result = __minloc(array, dim \[, mask\]) result = minloc(array \[, mask\])__
-
+    result = minloc(array, mask)
+```
 ## __Description__
 
 Determines the location of the element in the array with the minimum
@@ -68,22 +70,14 @@ integer,save :: ints(3,5)= reshape([&
     write(*,*) minloc(pack(ints,.true.),dim=1) ! scalar
 end program demo_minloc
 ```
-
 Results:
-```
-   - __1__
-     3
 
-   - __1__
-     3 1 3 2
-
-   - __3__
-     5 4
-
-   - __5__
-     4 3
-
-   - __7__
+```text
+         1       3
+         1       3       1       3       2
+         3       5       4
+         5       4       3
+         7
 ```
 ## __Standard__
 

@@ -27,8 +27,8 @@ In mathematics, the absolute value or modulus of a real number __x__,
 denoted __|x|__, is the magnitude of __x__ without regard to its sign.
 
 The absolute value of a number may be thought of as its distance from
-zero, which is the definition used by __abs__(3) when dealing with _complex_
-values (_see below_).
+zero, which is the definition used by __abs__(3) when dealing with
+_complex_ values (_see below_).
 
 ## __Arguments__
 
@@ -38,11 +38,11 @@ values (_see below_).
 
 ## __Returns__
 
-If __a__ is of type _integer_ or _real_, the value of the result is __|a|__ and of
-the same type and kind as the input argument.
+If __a__ is of type _integer_ or _real_, the value of the result is
+__|a|__ and of the same type and kind as the input argument.
 
-(Take particular note) if __a__ is _complex_ with value __(x, y)__, the result is
-a _real_ equal to a processor-dependent approximation to
+(Take particular note) if __a__ is _complex_ with value __(x, y)__,
+the result is a _real_ equal to a processor-dependent approximation to
 __sqrt(x\*\*2 + y\*\*2)__
 computed without undue overflow or underflow.
 
@@ -76,14 +76,16 @@ integer,parameter :: dp=kind(0.0d0)
     write(*, *) 'abs range test : ', abs(tiny(0.0)), abs(-tiny(0.0))
 
     write(*, *)
-    write(*, *) 'distance of <XX,YY> from zero is', distance(30.0_dp,40.0_dp)
+    write(*, *) 'distance of <XX,YY> from zero is', &
+               & distance(30.0_dp,40.0_dp)
 
     contains
 
     real(kind=dp) elemental function distance(x,y)
     real(kind=dp),intent(in) :: x,y
        ! dusty corners:
-       ! note that KIND=DP is NOT optional if the desired result is KIND=dp.
+       ! note that KIND=DP is NOT optional 
+       ! if the desired result is KIND=dp.
        ! See cmplx(3).
        distance=abs( cmplx(x,y,kind=dp) )
     end function distance
@@ -105,7 +107,6 @@ Results:
 
  distance of <XX,YY> from zero is   50.0000000000000
 ```
-
 ## __Standard__
 
 FORTRAN 77 and later

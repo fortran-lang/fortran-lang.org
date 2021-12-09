@@ -26,7 +26,7 @@ __cos(x)__ computes the cosine of __x__.
 
 The return value is of the same type and kind as __x__. The real part of the
 result is in radians. If __x__ is of the type _real_, the return value lies in
-the range __-1 \<= cos(x) \<= 1_.._
+the range __-1 \<= cos(x) \<= 1__ .
 
 ## __Examples__
 

@@ -65,14 +65,14 @@ commonly given as
 
 which converted to floating-point values in degrees is:
 
-```
-      Latitude Longitude
+```text
+     Latitude Longitude
 
-   - __BNA__
-     36.12, __-86.67__
+   - BNA
+     36.12, -86.67
 
-   - __LAX__
-     33.94, __-118.40__
+   - LAX
+     33.94, -118.40
 ```
 
 And then use the haversine formula to roughly calculate the distance
@@ -96,12 +96,15 @@ along the surface of the Earth between the locations:
      real :: a,c,dist,delta_lat,delta_lon,lat1,lat2
      real,parameter :: radius = 6371 ! mean earth radius in kilometers,
      ! recommended by the International Union of Geodesy and Geophysics
-     real, parameter :: deg_to_rad = atan(1.0)/45.0 ! generate constant pi/180
+
+     ! generate constant pi/180
+     real, parameter :: deg_to_rad = atan(1.0)/45.0 
         delta_lat = deg_to_rad*(latB-latA)
         delta_lon = deg_to_rad*(lonB-lonA)
         lat1 = deg_to_rad*(latA)
         lat2 = deg_to_rad*(latB)
-        a = (sin(delta_lat/2))**2 + cos(lat1)*cos(lat2)*(sin(delta_lon/2))**2
+        a = (sin(delta_lat/2))**2 + &
+	  & cos(lat1)*cos(lat2)*(sin(delta_lon/2))**2
         c = 2*asin(sqrt(a))
         dist = radius*c
      end function haversine

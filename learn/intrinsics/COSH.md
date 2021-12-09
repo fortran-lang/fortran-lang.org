@@ -10,7 +10,7 @@ __cosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic cosine function
 
 ## __Syntax__
 ```fortran
-    result = __cosh__(x)
+    result = cosh(x)
 
      TYPE(kind=KIND) elemental function cosh(x) result(value)
      TYPE(kind=KIND),intent(in) :: x
@@ -41,7 +41,8 @@ Sample program:
 
 ```fortran
 program demo_cosh
-use, intrinsic :: iso_fortran_env, only : real_kinds, real32, real64, real128
+use, intrinsic :: iso_fortran_env, only : &
+ & real_kinds, real32, real64, real128
 implicit none
 real(kind=real64) :: x = 1.0_real64
     x = cosh(x)

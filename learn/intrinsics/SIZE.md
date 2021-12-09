@@ -11,11 +11,12 @@ __size__(3) - \[ARRAY INQUIRY\] Determine the size of an array
 ## __Syntax__
 ```fortran
 result = size(array, dim , kind)
+```
 
 ## __Description__
 
-Determine the extent of __array__ along a specified dimension __dim__, or the
-total number of elements in __array__ if __dim__ is absent.
+Determine the extent of __array__ along a specified dimension __dim__,
+or the total number of elements in __array__ if __dim__ is absent.
 
 ## __Arguments__
 
@@ -33,8 +34,8 @@ total number of elements in __array__ if __dim__ is absent.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
-the return value is of default _integer_ kind.
+The return value is of type _integer_ and of kind __kind__. If __kind__
+is absent, the return value is of default _integer_ kind.
 
 ## __Examples__
 
@@ -71,7 +72,7 @@ integer,intent(in)  :: arr2(2,*)
    !
    write(*,*)'interfaced assumed-shape arr2ay'
    !
-   !    source    argument of    shape    intrinsic at (1) must not be
+   ! source argument of shape intrinsic at (1) must not be
    ! an assumed size array
    !!write(*,*)'SHAPE(arr2)       :',shape(arr2)
    ! The upper bound in the last dimension must appear in the reference

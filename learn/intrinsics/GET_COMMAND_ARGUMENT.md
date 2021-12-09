@@ -66,7 +66,7 @@ character(len=255)           :: progname
 integer                      :: stat
 integer                      :: count,i, longest, argument_length
 integer,allocatable          :: istat(:), ilen(:)
-character(len=:),allocatable :: arguments(:)
+character(len=:),allocatable :: args(:)
   !
   ! get number of arguments
   count = command_argument_count()
@@ -89,38 +89,38 @@ character(len=:),allocatable :: arguments(:)
      longest=max(longest,argument_length)
   enddo
   !
-  ! allocate string array big enough to hold command line argument strings
-  ! and related information
+  ! allocate string array big enough to hold command line 
+  ! argument strings and related information
   !
-  allocate(character(len=longest) :: arguments(0:count))
+  allocate(character(len=longest) :: args(0:count))
   allocate(istat(0:count))
   allocate(ilen(0:count))
   !
   ! read the arguments into the array
   !
   do i=0,count
-    call get_command_argument(i, arguments(i),status=istat(i),length=ilen(i))
+    call get_command_argument(i, args(i),status=istat(i),length=ilen(i))
   enddo
   !
   ! show the results
   !
   write (*,'(i3.3,1x,i0.5,1x,i0.5,1x,"[",a,"]")') &
-  & (i,istat(i),ilen(i),arguments(i)(:ilen(i)),i=0,count)
+  & (i,istat(i),ilen(i),args(i)(:ilen(i)),i=0,count)
 end program demo_get_command_argument
 ```
 
 Sample output:
 
 ```text
-   ./test_get_command_argument a    test  'of getting   arguments  ' "  leading"
+/demo_get_command_argument a    test  'of getting   arguments  ' "  leading"
 
-    The number of arguments is            5
-    The program's name is xxx
-   000 00000 00003 [./test_get_command_argument]
-   001 00000 00001 [a]
-   003 00000 00004 [test]
-   004 00000 00024 [of getting   arguments  ]
-   005 00000 00018 [  leading]
+ The number of arguments is            5
+ The program's name is xxx
+000 00000 00003 [./test_get_command_argument]
+001 00000 00001 [a]
+003 00000 00004 [test]
+004 00000 00024 [of getting   arguments  ]
+005 00000 00018 [  leading]
 ```
 
 ## __Standard__

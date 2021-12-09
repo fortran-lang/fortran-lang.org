@@ -97,7 +97,8 @@ real :: arr2(5)= [20.0,21.0,32.0,-200.0,2200.0]
   !! as the same reason above when arrays are used
   !! (without scalar values) all the arrays must be the same size
 
-  write(*,*)'scalars and array:',max(40.0,11.0,30.0,-100.0,arr2(:4),arr1)
+  write(*,*)'scalars and array:',&
+  & max(40.0,11.0,30.0,-100.0,arr2(:4),arr1)
 end program demo\_max
 ```
 Results:
@@ -105,8 +106,8 @@ Results:
 ```text
     scalars:   30.000000
       20.0000000  21.000000  32.000000 -100.00000
-    scalars and array:   30.000000  30.000000  32.000000  30.000000  2200.0000
-    scalars and array:   40.000000  40.000000  40.000000  40.000000
+    scalars and array: 30.000000 30.000000 32.000000 30.000000 2200.0000
+    scalars and array: 40.000000 40.000000 40.000000 40.000000
 ```
 
 ## __Standard__

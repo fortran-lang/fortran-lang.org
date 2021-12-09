@@ -73,14 +73,14 @@ Sample execution:
 ```bash
      # note that shell expansion removes some of the whitespace
      # without quotes
-     ./test_get_command  arguments    on the    command   line to   echo
+     ./test_get_command  arguments    on command   line to   echo
 
-     OUTPUT:./test_get_command arguments on the command line to echo
+     OUTPUT:./test_get_command arguments on command line to echo
 
      # using the bash shell with single quotes
-     ./test_get_command  'arguments  *><`~[]!{}?"\'| on the    command   line '
+     ./test_get_command  'arguments  *><`~[]!{}?"\'| '
 
-     OUTPUT:./test_get_command arguments  *><`~[]!{}?"'| on the   command   line
+     OUTPUT:./test_get_command arguments  *><`~[]!{}?"'|
 ```
 
 ## __Standard__

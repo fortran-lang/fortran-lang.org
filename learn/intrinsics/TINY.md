@@ -19,7 +19,7 @@ result = tiny(x)
 ## __Description__
 
 __tiny(x)__ returns the smallest positive (non zero) number of the type
-and kind of __x_.
+and kind of __x__.
 
 ## __Arguments__
 

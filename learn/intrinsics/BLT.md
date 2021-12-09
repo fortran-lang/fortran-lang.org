@@ -9,9 +9,9 @@ __blt__(3) - \[BIT COMPARE\] Bitwise less than
 (GFDL)
 
 ## __Syntax__
-
-    __result = blt(i, j)__
-
+```fortran
+    result = blt(i, j)
+```
 ## __Description__
 
 Determines whether an integer is bitwise less than another.

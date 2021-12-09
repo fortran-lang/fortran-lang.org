@@ -61,20 +61,22 @@ integer :: ii
 
    string=' How long is this string?     '
    ii=len(string)
-   ! note when adjacent strings are printed no space is inserted between them
+   ! note when adjacent strings are printed no space is inserted
+   ! between them
    write(*,*)'[',string,']',' length=',ii
 
    ! Related Matters:
 
    write(*,*)
-   ! you can also query the length (and other attributes) of a string using a 
+   ! you can also query the length (and other attributes) of a string
+   ! using a
    write(*,*) "type parameter inquiry:"
    write(*,*)'length=',string%len,'kind=',string%kind
    ! note a type parameter inquiry of an intrinsic requires Fortran 2018+ 
 
-   ! note that all that is required is an A descriptor in a format, a numeric
-   ! length is not required. If a length IS provided the string will be trimmed
-   ! or blank padded ON THE LEFT to the specified length
+   ! note that all that is required is an A descriptor in a format, a
+   ! numeric length is not required. If a length IS provided the string
+   ! will be trimmed or blank padded ON THE LEFT to the specified length
    write(*,*)
    write(*,'(" ",a," ")')repeat('=',ii)
    write(*,'("[",a,"]")')string
@@ -164,4 +166,5 @@ of arguments, and search for certain arguments:
     [__len__(3)](LEN),
     [__repeat__(3)](REPEAT),
     [__trim__(3)](TRIM)
+
 ###### fortran-lang intrinsic descriptions (@urbanjost)

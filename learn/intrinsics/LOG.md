@@ -41,7 +41,7 @@ implicit none
   x = log(x)    ! will yield (approximately) 1
   z = log(z)
 end program demo_log
-
+```
 ## __Standard__
 
 FORTRAN 77 and later

@@ -9,10 +9,11 @@ __bessel\_jn__(3) - \[MATHEMATICS\] Bessel function of the first kind
 (GFDL)
 
 ## __Syntax__
+```fortran
+  result = bessel_jn(n, x)
 
-  - __result = bessel\_jn(n, x)__
-
-  - __result = bessel\_jn(n1, n2, x)__
+  result = bessel_jn(n1, n2, x)
+```
 
 ## __Description__
 
