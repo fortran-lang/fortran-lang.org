@@ -58,7 +58,19 @@ and the following Copyright guidelines.
    - The [Fortran stdlib](https://stdlib.fortran-lang.org/) project
    - [fpm(1)](https://fortran-lang.org/packages/fpm) packages, many of which are general-purpose libraries/modules
 
-## Text Content Copyrights
+## Experimental
+
+   - [fman(1)](EXAMPLES/fman.f90) A self-contained Fortran program that
+     lets you view the non-graphical plain ASCII portions of the
+     documentation from a terminal interface. Compiler the program and
+     enter "./fman --help" for directions. 
+
+   - [man pages](EXAMPLES/fortran.tgz) A gzipped tar(1) file containing
+     early versions of man-pages derived from the markdown documents.
+
+     Still debating whether having to keep the document limited to ANSI
+     characters is worth-while, and still having issues converting the
+     markdown to the proper formats.
 
 Each document file should indicate any specific license under which
 the document falls.
