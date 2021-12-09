@@ -8676,7 +8676,411 @@ if(present(m_help))then
 endif
 
 
-case('93','huge')
+case('93','gnu_free_documentation_license')
+
+textblock=[character(len=256) :: &
+'', &
+'0. PREAMBLE', &
+'', &
+'The purpose of this License is to make a manual, textbook, or other', &
+'functional and useful document "free" in the sense of freedom: to assure', &
+'everyone the effective freedom to copy and redistribute it, with or', &
+'without modifying it, either commercially or noncommercially.', &
+'Secondarily, this License preserves for the author and publisher a way', &
+'to get credit for their work, while not being considered responsible for', &
+'modifications made by others.', &
+'', &
+'This License is a kind of "copyleft", which means that derivative works', &
+'of the document must themselves be free in the same sense. It', &
+'complements the GNU General Public License, which is a copyleft license', &
+'designed for free software.', &
+'', &
+'We have designed this License in order to use it for manuals for free', &
+'software, because free software needs free documentation: a free program', &
+'should come with manuals providing the same freedoms that the software', &
+'does. But this License is not limited to software manuals; it can be', &
+'used for any textual work, regardless of subject matter or whether it is', &
+'published as a printed book. We recommend this License principally for', &
+'works whose purpose is instruction or reference.', &
+'', &
+'1. APPLICABILITY AND DEFINITIONS', &
+'', &
+'This License applies to any manual or other work, in any medium, that', &
+'contains a notice placed by the copyright holder saying it can be', &
+'distributed under the terms of this License. Such a notice grants a', &
+'world-wide, royalty-free license, unlimited in duration, to use that', &
+'work under the conditions stated herein. The "Document", below, refers', &
+'to any such manual or work. Any member of the public is a licensee, and', &
+'is addressed as "you". You accept the license if you copy, modify or', &
+'distribute the work in a way requiring permission under copyright law.', &
+'', &
+'A "Modified Version" of the Document means any work containing the', &
+'Document or a portion of it, either copied verbatim, or with', &
+'modifications and/or translated into another language.', &
+'', &
+'A "Secondary Section" is a named appendix or a front-matter section of', &
+'the Document that deals exclusively with the relationship of the', &
+'publishers or authors of the Document to the Document''s overall subject', &
+'(or to related matters) and contains nothing that could fall directly', &
+'within that overall subject. (Thus, if the Document is in part a', &
+'textbook of mathematics, a Secondary Section may not explain any', &
+'mathematics.) The relationship could be a matter of historical', &
+'connection with the subject or with related matters, or of legal,', &
+'commercial, philosophical, ethical or political position regarding them.', &
+'', &
+'The "Invariant Sections" are certain Secondary Sections whose titles are', &
+'designated, as being those of Invariant Sections, in the notice that', &
+'says that the Document is released under this License. If a section does', &
+'not fit the above definition of Secondary then it is not allowed to be', &
+'designated as Invariant. The Document may contain zero Invariant', &
+'Sections. If the Document does not identify any Invariant Sections then', &
+'there are none.', &
+'', &
+'The "Cover Texts" are certain short passages of text that are listed, as', &
+'Front-Cover Texts or Back-Cover Texts, in the notice that says that the', &
+'Document is released under this License. A Front-Cover Text may be at', &
+'most 5 words, and a Back-Cover Text may be at most 25 words.', &
+'', &
+'A "Transparent" copy of the Document means a machine-readable copy,', &
+'represented in a format whose specification is available to the general', &
+'public, that is suitable for revising the document straightforwardly', &
+'with generic text editors or (for images composed of pixels) generic', &
+'paint programs or (for drawings) some widely available drawing editor,', &
+'and that is suitable for input to text formatters or for automatic', &
+'translation to a variety of formats suitable for input to text', &
+'formatters. A copy made in an otherwise Transparent file format whose', &
+'markup, or absence of markup, has been arranged to thwart or discourage', &
+'subsequent modification by readers is not Transparent. An image format', &
+'is not Transparent if used for any substantial amount of text. A copy', &
+'that is not "Transparent" is called "Opaque".', &
+'', &
+'Examples of suitable formats for Transparent copies include plain ASCII', &
+'without markup, Texinfo input format, LaTeX input format, SGML or XML', &
+'using a publicly available DTD, and standard-conforming simple HTML,', &
+'PostScript or PDF designed for human modification. Examples of', &
+'transparent image formats include PNG, XCF and JPG. Opaque formats', &
+'include proprietary formats that can be read and edited only by', &
+'proprietary word processors, SGML or XML for which the DTD and/or', &
+'processing tools are not generally available, and the machine-generated', &
+'HTML, PostScript or PDF produced by some word processors for output', &
+'purposes only.', &
+'', &
+'The "Title Page" means, for a printed book, the title page itself, plus', &
+'such following pages as are needed to hold, legibly, the material this', &
+'License requires to appear in the title page. For works in formats which', &
+'do not have any title page as such, "Title Page" means the text near the', &
+'most prominent appearance of the work''s title, preceding the beginning', &
+'of the body of the text.', &
+'', &
+'A section "Entitled XYZ" means a named subunit of the Document whose', &
+'title either is precisely XYZ or contains XYZ in parentheses following', &
+'text that translates XYZ in another language. (Here XYZ stands for a', &
+'specific section name mentioned below, such as "Acknowledgements",', &
+'"Dedications", "Endorsements", or "History".) To "Preserve the Title" of', &
+'such a section when you modify the Document means that it remains a', &
+'section "Entitled XYZ" according to this definition.', &
+'', &
+'The Document may include Warranty Disclaimers next to the notice which', &
+'states that this License applies to the Document. These Warranty', &
+'Disclaimers are considered to be included by reference in this License,', &
+'but only as regards disclaiming warranties: any other implication that', &
+'these Warranty Disclaimers may have is void and has no effect on the', &
+'meaning of this License.', &
+'', &
+'2. VERBATIM COPYING', &
+'', &
+'You may copy and distribute the Document in any medium, either', &
+'commercially or noncommercially, provided that this License, the', &
+'copyright notices, and the license notice saying this License applies to', &
+'the Document are reproduced in all copies, and that you add no other', &
+'conditions whatsoever to those of this License. You may not use', &
+'technical measures to obstruct or control the reading or further copying', &
+'of the copies you make or distribute. However, you may accept', &
+'compensation in exchange for copies. If you distribute a large enough', &
+'number of copies you must also follow the conditions in section 3.', &
+'', &
+'You may also lend copies, under the same conditions stated above, and', &
+'you may publicly display copies.', &
+'', &
+'3. COPYING IN QUANTITY', &
+'', &
+'If you publish printed copies (or copies in media that commonly have', &
+'printed covers) of the Document, numbering more than 100, and the', &
+'Document''s license notice requires Cover Texts, you must enclose the', &
+'copies in covers that carry, clearly and legibly, all these Cover Texts:', &
+'Front-Cover Texts on the front cover, and Back-Cover Texts on the back', &
+'cover. Both covers must also clearly and legibly identify you as the', &
+'publisher of these copies. The front cover must present the full title', &
+'with all words of the title equally prominent and visible. You may add', &
+'other material on the covers in addition. Copying with changes limited', &
+'to the covers, as long as they preserve the title of the Document and', &
+'satisfy these conditions, can be treated as verbatim copying in other', &
+'respects.', &
+'', &
+'If the required texts for either cover are too voluminous to fit', &
+'legibly, you should put the first ones listed (as many as fit', &
+'reasonably) on the actual cover, and continue the rest onto adjacent', &
+'pages.', &
+'', &
+'If you publish or distribute Opaque copies of the Document numbering', &
+'more than 100, you must either include a machine-readable Transparent', &
+'copy along with each Opaque copy, or state in or with each Opaque copy a', &
+'computer-network location from which the general network-using public', &
+'has access to download using public-standard network protocols a', &
+'complete Transparent copy of the Document, free of added material. If', &
+'you use the latter option, you must take reasonably prudent steps, when', &
+'you begin distribution of Opaque copies in quantity, to ensure that this', &
+'Transparent copy will remain thus accessible at the stated location', &
+'until at least one year after the last time you distribute an Opaque', &
+'copy (directly or through your agents or retailers) of that edition to', &
+'the public.', &
+'', &
+'It is requested, but not required, that you contact the authors of the', &
+'Document well before redistributing any large number of copies, to give', &
+'them a chance to provide you with an updated version of the Document.', &
+'', &
+'4. MODIFICATIONS', &
+'', &
+'You may copy and distribute a Modified Version of the Document under the', &
+'conditions of sections 2 and 3 above, provided that you release the', &
+'Modified Version under precisely this License, with the Modified Version', &
+'filling the role of the Document, thus licensing distribution and', &
+'modification of the Modified Version to whoever possesses a copy of it.', &
+'In addition, you must do these things in the Modified Version:', &
+'', &
+'-   A. Use in the Title Page (and on the covers, if any) a title', &
+'    distinct from that of the Document, and from those of previous', &
+'    versions (which should, if there were any, be listed in the History', &
+'    section of the Document). You may use the same title as a previous', &
+'    version if the original publisher of that version gives permission.', &
+'-   B. List on the Title Page, as authors, one or more persons or', &
+'    entities responsible for authorship of the modifications in the', &
+'    Modified Version, together with at least five of the principal', &
+'    authors of the Document (all of its principal authors, if it has', &
+'    fewer than five), unless they release you from this requirement.', &
+'-   C. State on the Title page the name of the publisher of the Modified', &
+'    Version, as the publisher.', &
+'-   D. Preserve all the copyright notices of the Document.', &
+'-   E. Add an appropriate copyright notice for your modifications', &
+'    adjacent to the other copyright notices.', &
+'-   F. Include, immediately after the copyright notices, a license', &
+'    notice giving the public permission to use the Modified Version', &
+'    under the terms of this License, in the form shown in the Addendum', &
+'    below.', &
+'-   G. Preserve in that license notice the full lists of Invariant', &
+'    Sections and required Cover Texts given in the Document''s license', &
+'    notice.', &
+'-   H. Include an unaltered copy of this License.', &
+'-   I. Preserve the section Entitled "History", Preserve its Title, and', &
+'    add to it an item stating at least the title, year, new authors, and', &
+'    publisher of the Modified Version as given on the Title Page. If', &
+'    there is no section Entitled "History" in the Document, create one', &
+'    stating the title, year, authors, and publisher of the Document as', &
+'    given on its Title Page, then add an item describing the Modified', &
+'    Version as stated in the previous sentence.', &
+'-   J. Preserve the network location, if any, given in the Document for', &
+'    public access to a Transparent copy of the Document, and likewise', &
+'    the network locations given in the Document for previous versions it', &
+'    was based on. These may be placed in the "History" section. You may', &
+'    omit a network location for a work that was published at least four', &
+'    years before the Document itself, or if the original publisher of', &
+'    the version it refers to gives permission.', &
+'-   K. For any section Entitled "Acknowledgements" or "Dedications",', &
+'    Preserve the Title of the section, and preserve in the section all', &
+'    the substance and tone of each of the contributor acknowledgements', &
+'    and/or dedications given therein.', &
+'-   L. Preserve all the Invariant Sections of the Document, unaltered in', &
+'    their text and in their titles. Section numbers or the equivalent', &
+'    are not considered part of the section titles.', &
+'-   M. Delete any section Entitled "Endorsements". Such a section may', &
+'    not be included in the Modified Version.', &
+'-   N. Do not retitle any existing section to be Entitled "Endorsements"', &
+'    or to conflict in title with any Invariant Section.', &
+'-   O. Preserve any Warranty Disclaimers.', &
+'', &
+'If the Modified Version includes new front-matter sections or appendices', &
+'that qualify as Secondary Sections and contain no material copied from', &
+'the Document, you may at your option designate some or all of these', &
+'sections as invariant. To do this, add their titles to the list of', &
+'Invariant Sections in the Modified Version''s license notice. These', &
+'titles must be distinct from any other section titles.', &
+'', &
+'You may add a section Entitled "Endorsements", provided it contains', &
+'nothing but endorsements of your Modified Version by various', &
+'parties--for example, statements of peer review or that the text has', &
+'been approved by an organization as the authoritative definition of a', &
+'standard.', &
+'', &
+'You may add a passage of up to five words as a Front-Cover Text, and a', &
+'passage of up to 25 words as a Back-Cover Text, to the end of the list', &
+'of Cover Texts in the Modified Version. Only one passage of Front-Cover', &
+'Text and one of Back-Cover Text may be added by (or through arrangements', &
+'made by) any one entity. If the Document already includes a cover text', &
+'for the same cover, previously added by you or by arrangement made by', &
+'the same entity you are acting on behalf of, you may not add another;', &
+'but you may replace the old one, on explicit permission from the', &
+'previous publisher that added the old one.', &
+'', &
+'The author(s) and publisher(s) of the Document do not by this License', &
+'give permission to use their names for publicity for or to assert or', &
+'imply endorsement of any Modified Version.', &
+'', &
+'5. COMBINING DOCUMENTS', &
+'', &
+'You may combine the Document with other documents released under this', &
+'License, under the terms defined in section 4 above for modified', &
+'versions, provided that you include in the combination all of the', &
+'Invariant Sections of all of the original documents, unmodified, and', &
+'list them all as Invariant Sections of your combined work in its license', &
+'notice, and that you preserve all their Warranty Disclaimers.', &
+'', &
+'The combined work need only contain one copy of this License, and', &
+'multiple identical Invariant Sections may be replaced with a single', &
+'copy. If there are multiple Invariant Sections with the same name but', &
+'different contents, make the title of each such section unique by adding', &
+'at the end of it, in parentheses, the name of the original author or', &
+'publisher of that section if known, or else a unique number. Make the', &
+'same adjustment to the section titles in the list of Invariant Sections', &
+'in the license notice of the combined work.', &
+'', &
+'In the combination, you must combine any sections Entitled "History" in', &
+'the various original documents, forming one section Entitled "History";', &
+'likewise combine any sections Entitled "Acknowledgements", and any', &
+'sections Entitled "Dedications". You must delete all sections Entitled', &
+'"Endorsements".', &
+'', &
+'6. COLLECTIONS OF DOCUMENTS', &
+'', &
+'You may make a collection consisting of the Document and other documents', &
+'released under this License, and replace the individual copies of this', &
+'License in the various documents with a single copy that is included in', &
+'the collection, provided that you follow the rules of this License for', &
+'verbatim copying of each of the documents in all other respects.', &
+'', &
+'You may extract a single document from such a collection, and distribute', &
+'it individually under this License, provided you insert a copy of this', &
+'License into the extracted document, and follow this License in all', &
+'other respects regarding verbatim copying of that document.', &
+'', &
+'7. AGGREGATION WITH INDEPENDENT WORKS', &
+'', &
+'A compilation of the Document or its derivatives with other separate and', &
+'independent documents or works, in or on a volume of a storage or', &
+'distribution medium, is called an "aggregate" if the copyright resulting', &
+'from the compilation is not used to limit the legal rights of the', &
+'compilation''s users beyond what the individual works permit. When the', &
+'Document is included in an aggregate, this License does not apply to the', &
+'other works in the aggregate which are not themselves derivative works', &
+'of the Document.', &
+'', &
+'If the Cover Text requirement of section 3 is applicable to these copies', &
+'of the Document, then if the Document is less than one half of the', &
+'entire aggregate, the Document''s Cover Texts may be placed on covers', &
+'that bracket the Document within the aggregate, or the electronic', &
+'equivalent of covers if the Document is in electronic form. Otherwise', &
+'they must appear on printed covers that bracket the whole aggregate.', &
+'', &
+'8. TRANSLATION', &
+'', &
+'Translation is considered a kind of modification, so you may distribute', &
+'translations of the Document under the terms of section 4. Replacing', &
+'Invariant Sections with translations requires special permission from', &
+'their copyright holders, but you may include translations of some or all', &
+'Invariant Sections in addition to the original versions of these', &
+'Invariant Sections. You may include a translation of this License, and', &
+'all the license notices in the Document, and any Warranty Disclaimers,', &
+'provided that you also include the original English version of this', &
+'License and the original versions of those notices and disclaimers. In', &
+'case of a disagreement between the translation and the original version', &
+'of this License or a notice or disclaimer, the original version will', &
+'prevail.', &
+'', &
+'If a section in the Document is Entitled "Acknowledgements",', &
+'"Dedications", or "History", the requirement (section 4) to Preserve its', &
+'Title (section 1) will typically require changing the actual title.', &
+'', &
+'9. TERMINATION', &
+'', &
+'You may not copy, modify, sublicense, or distribute the Document except', &
+'as expressly provided for under this License. Any other attempt to copy,', &
+'modify, sublicense or distribute the Document is void, and will', &
+'automatically terminate your rights under this License. However, parties', &
+'who have received copies, or rights, from you under this License will', &
+'not have their licenses terminated so long as such parties remain in', &
+'full compliance.', &
+'', &
+'10. FUTURE REVISIONS OF THIS LICENSE', &
+'', &
+'The Free Software Foundation may publish new, revised versions of the', &
+'GNU Free Documentation License from time to time. Such new versions will', &
+'be similar in spirit to the present version, but may differ in detail to', &
+'address new problems or concerns. See http://www.gnu.org/copyleft/.', &
+'', &
+'Each version of the License is given a distinguishing version number. If', &
+'the Document specifies that a particular numbered version of this', &
+'License "or any later version" applies to it, you have the option of', &
+'following the terms and conditions either of that specified version or', &
+'of any later version that has been published (not as a draft) by the', &
+'Free Software Foundation. If the Document does not specify a version', &
+'number of this License, you may choose any version ever published (not', &
+'as a draft) by the Free Software Foundation.', &
+'', &
+'ADDENDUM: How to use this License for your documents', &
+'', &
+'To use this License in a document you have written, include a copy of', &
+'the License in the document and put the following copyright and license', &
+'notices just after the title page:', &
+'', &
+'    Copyright (c)  YEAR  YOUR NAME.', &
+'    Permission is granted to copy, distribute and/or modify this document', &
+'    under the terms of the GNU Free Documentation License, Version 1.2', &
+'    or any later version published by the Free Software Foundation;', &
+'    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.', &
+'    A copy of the license is included in the section entitled "GNU', &
+'    Free Documentation License".', &
+'', &
+'If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,', &
+'replace the "with...Texts." line with this:', &
+'', &
+'    with the Invariant Sections being LIST THEIR TITLES, with the', &
+'    Front-Cover Texts being LIST, and with the Back-Cover Texts being LIST.', &
+'', &
+'If you have Invariant Sections without Cover Texts, or some other', &
+'combination of the three, merge those two alternatives to suit the', &
+'situation.', &
+'', &
+'If your document contains nontrivial examples of program code, we', &
+'recommend releasing these examples in parallel under your choice of free', &
+'software license, such as the GNU General Public License, to permit', &
+'their use in free software.', &
+'']
+
+shortname="gnu_free_documentation_license"
+
+if(present(topic))then
+   if(topic)then
+      textblock=[shortname]
+   endif
+endif
+
+if(present(prefix))then
+   if(prefix)then
+      do i=1,size(textblock)
+         textblock(i)= shortname//':'//trim(textblock(i))
+      enddo
+   endif
+endif
+
+if(present(m_help))then
+   if(m_help)then
+      textblock=[character(len=len(textblock)+1) :: ' ',textblock] ! add blank line to put shortname into
+      textblock=' '//textblock                                     ! shift to right by one character
+      textblock(1)=shortname
+   endif
+endif
+
+
+case('94','huge')
 
 textblock=[character(len=256) :: &
 '', &
@@ -8815,7 +9219,7 @@ if(present(m_help))then
 endif
 
 
-case('94','hypot')
+case('95','hypot')
 
 textblock=[character(len=256) :: &
 '', &
@@ -8939,7 +9343,7 @@ if(present(m_help))then
 endif
 
 
-case('95','iachar')
+case('96','iachar')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9045,7 +9449,7 @@ if(present(m_help))then
 endif
 
 
-case('96','iall')
+case('97','iall')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9141,7 +9545,7 @@ if(present(m_help))then
 endif
 
 
-case('97','iand')
+case('98','iand')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9216,7 +9620,7 @@ if(present(m_help))then
 endif
 
 
-case('98','iany')
+case('99','iany')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9309,7 +9713,7 @@ if(present(m_help))then
 endif
 
 
-case('99','ibclr')
+case('100','ibclr')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9375,7 +9779,7 @@ if(present(m_help))then
 endif
 
 
-case('100','ibits')
+case('101','ibits')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9445,7 +9849,7 @@ if(present(m_help))then
 endif
 
 
-case('101','ibset')
+case('102','ibset')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9511,7 +9915,7 @@ if(present(m_help))then
 endif
 
 
-case('102','ichar')
+case('103','ichar')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9646,7 +10050,7 @@ if(present(m_help))then
 endif
 
 
-case('103','ieor')
+case('104','ieor')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9710,7 +10114,7 @@ if(present(m_help))then
 endif
 
 
-case('104','image_index')
+case('105','image_index')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9787,7 +10191,7 @@ if(present(m_help))then
 endif
 
 
-case('105','index')
+case('106','index')
 
 textblock=[character(len=256) :: &
 '', &
@@ -9894,7 +10298,7 @@ if(present(m_help))then
 endif
 
 
-case('106','int')
+case('107','int')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10032,7 +10436,7 @@ if(present(m_help))then
 endif
 
 
-case('107','ior')
+case('108','ior')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10118,7 +10522,7 @@ if(present(m_help))then
 endif
 
 
-case('108','iparity')
+case('109','iparity')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10210,7 +10614,7 @@ if(present(m_help))then
 endif
 
 
-case('109','is_contiguous')
+case('110','is_contiguous')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10333,7 +10737,7 @@ if(present(m_help))then
 endif
 
 
-case('110','ishft')
+case('111','ishft')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10401,7 +10805,7 @@ if(present(m_help))then
 endif
 
 
-case('111','ishftc')
+case('112','ishftc')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10473,7 +10877,7 @@ if(present(m_help))then
 endif
 
 
-case('112','is_iostat_end')
+case('113','is_iostat_end')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10562,7 +10966,7 @@ if(present(m_help))then
 endif
 
 
-case('113','is_iostat_eor')
+case('114','is_iostat_eor')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10636,7 +11040,7 @@ if(present(m_help))then
 endif
 
 
-case('114','kind')
+case('115','kind')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10707,7 +11111,7 @@ if(present(m_help))then
 endif
 
 
-case('115','lbound')
+case('116','lbound')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10847,7 +11251,7 @@ if(present(m_help))then
 endif
 
 
-case('116','leadz')
+case('117','leadz')
 
 textblock=[character(len=256) :: &
 '', &
@@ -10998,7 +11402,7 @@ if(present(m_help))then
 endif
 
 
-case('117','len')
+case('118','len')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11144,7 +11548,7 @@ if(present(m_help))then
 endif
 
 
-case('118','len_trim')
+case('119','len_trim')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11253,7 +11657,7 @@ if(present(m_help))then
 endif
 
 
-case('119','lge')
+case('120','lge')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11335,7 +11739,7 @@ if(present(m_help))then
 endif
 
 
-case('120','lgt')
+case('121','lgt')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11417,7 +11821,7 @@ if(present(m_help))then
 endif
 
 
-case('121','lle')
+case('122','lle')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11536,7 +11940,7 @@ if(present(m_help))then
 endif
 
 
-case('122','llt')
+case('123','llt')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11616,7 +12020,7 @@ if(present(m_help))then
 endif
 
 
-case('123','log10')
+case('124','log10')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11701,7 +12105,7 @@ if(present(m_help))then
 endif
 
 
-case('124','log')
+case('125','log')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11773,7 +12177,7 @@ if(present(m_help))then
 endif
 
 
-case('125','log_gamma')
+case('126','log_gamma')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11843,7 +12247,7 @@ if(present(m_help))then
 endif
 
 
-case('126','logical')
+case('127','logical')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11928,7 +12332,7 @@ if(present(m_help))then
 endif
 
 
-case('127','maskl')
+case('128','maskl')
 
 textblock=[character(len=256) :: &
 '', &
@@ -11993,7 +12397,7 @@ if(present(m_help))then
 endif
 
 
-case('128','maskr')
+case('129','maskr')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12058,7 +12462,7 @@ if(present(m_help))then
 endif
 
 
-case('129','matmul')
+case('130','matmul')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12123,7 +12527,7 @@ if(present(m_help))then
 endif
 
 
-case('130','max')
+case('131','max')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12263,7 +12667,7 @@ if(present(m_help))then
 endif
 
 
-case('131','maxexponent')
+case('132','maxexponent')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12339,7 +12743,7 @@ if(present(m_help))then
 endif
 
 
-case('132','maxloc')
+case('133','maxloc')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12462,7 +12866,7 @@ if(present(m_help))then
 endif
 
 
-case('133','maxval')
+case('134','maxval')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12569,7 +12973,7 @@ if(present(m_help))then
 endif
 
 
-case('134','merge')
+case('135','merge')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12741,7 +13145,7 @@ if(present(m_help))then
 endif
 
 
-case('135','merge_bits')
+case('136','merge_bits')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12804,7 +13208,7 @@ if(present(m_help))then
 endif
 
 
-case('136','min')
+case('137','min')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12880,7 +13284,7 @@ if(present(m_help))then
 endif
 
 
-case('137','minexponent')
+case('138','minexponent')
 
 textblock=[character(len=256) :: &
 '', &
@@ -12961,7 +13365,7 @@ if(present(m_help))then
 endif
 
 
-case('138','minloc')
+case('139','minloc')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13073,7 +13477,7 @@ if(present(m_help))then
 endif
 
 
-case('139','minval')
+case('140','minval')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13246,7 +13650,7 @@ if(present(m_help))then
 endif
 
 
-case('140','mod')
+case('141','mod')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13334,7 +13738,7 @@ if(present(m_help))then
 endif
 
 
-case('141','modulo')
+case('142','modulo')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13422,7 +13826,7 @@ if(present(m_help))then
 endif
 
 
-case('142','move_alloc')
+case('143','move_alloc')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13514,7 +13918,7 @@ if(present(m_help))then
 endif
 
 
-case('143','mvbits')
+case('144','mvbits')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13586,7 +13990,7 @@ if(present(m_help))then
 endif
 
 
-case('144','nearest')
+case('145','nearest')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13668,7 +14072,7 @@ if(present(m_help))then
 endif
 
 
-case('145','new_line')
+case('146','new_line')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13735,7 +14139,7 @@ if(present(m_help))then
 endif
 
 
-case('146','nint')
+case('147','nint')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13868,7 +14272,7 @@ if(present(m_help))then
 endif
 
 
-case('147','norm2')
+case('148','norm2')
 
 textblock=[character(len=256) :: &
 '', &
@@ -13947,7 +14351,7 @@ if(present(m_help))then
 endif
 
 
-case('148','not')
+case('149','not')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14029,7 +14433,7 @@ if(present(m_help))then
 endif
 
 
-case('149','null')
+case('150','null')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14166,7 +14570,7 @@ if(present(m_help))then
 endif
 
 
-case('150','num_images')
+case('151','num_images')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14256,7 +14660,7 @@ if(present(m_help))then
 endif
 
 
-case('151','pack')
+case('152','pack')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14391,7 +14795,7 @@ if(present(m_help))then
 endif
 
 
-case('152','parity')
+case('153','parity')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14468,7 +14872,7 @@ if(present(m_help))then
 endif
 
 
-case('153','popcnt')
+case('154','popcnt')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14553,7 +14957,7 @@ if(present(m_help))then
 endif
 
 
-case('154','poppar')
+case('155','poppar')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14631,7 +15035,7 @@ if(present(m_help))then
 endif
 
 
-case('155','precision')
+case('156','precision')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14707,7 +15111,7 @@ if(present(m_help))then
 endif
 
 
-case('156','present')
+case('157','present')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14780,7 +15184,7 @@ if(present(m_help))then
 endif
 
 
-case('157','product')
+case('158','product')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14867,7 +15271,7 @@ if(present(m_help))then
 endif
 
 
-case('158','radix')
+case('159','radix')
 
 textblock=[character(len=256) :: &
 '', &
@@ -14939,7 +15343,7 @@ if(present(m_help))then
 endif
 
 
-case('159','random_number')
+case('160','random_number')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15053,7 +15457,7 @@ if(present(m_help))then
 endif
 
 
-case('160','random_seed')
+case('161','random_seed')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15141,7 +15545,7 @@ if(present(m_help))then
 endif
 
 
-case('161','range')
+case('162','range')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15216,7 +15620,7 @@ if(present(m_help))then
 endif
 
 
-case('162','rank')
+case('163','rank')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15288,7 +15692,7 @@ if(present(m_help))then
 endif
 
 
-case('163','real')
+case('164','real')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15384,7 +15788,7 @@ if(present(m_help))then
 endif
 
 
-case('164','repeat')
+case('165','repeat')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15479,7 +15883,7 @@ if(present(m_help))then
 endif
 
 
-case('165','reshape')
+case('166','reshape')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15571,7 +15975,7 @@ if(present(m_help))then
 endif
 
 
-case('166','rrspacing')
+case('167','rrspacing')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15635,7 +16039,7 @@ if(present(m_help))then
 endif
 
 
-case('167','same_type_as')
+case('168','same_type_as')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15700,7 +16104,7 @@ if(present(m_help))then
 endif
 
 
-case('168','scale')
+case('169','scale')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15780,7 +16184,7 @@ if(present(m_help))then
 endif
 
 
-case('169','scan')
+case('170','scan')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15872,7 +16276,7 @@ if(present(m_help))then
 endif
 
 
-case('170','selected_char_kind')
+case('171','selected_char_kind')
 
 textblock=[character(len=256) :: &
 '', &
@@ -15952,7 +16356,7 @@ if(present(m_help))then
 endif
 
 
-case('171','selected_int_kind')
+case('172','selected_int_kind')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16024,7 +16428,7 @@ if(present(m_help))then
 endif
 
 
-case('172','selected_real_kind')
+case('173','selected_real_kind')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16132,7 +16536,7 @@ if(present(m_help))then
 endif
 
 
-case('173','set_exponent')
+case('174','set_exponent')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16211,7 +16615,7 @@ if(present(m_help))then
 endif
 
 
-case('174','shape')
+case('175','shape')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16290,7 +16694,7 @@ if(present(m_help))then
 endif
 
 
-case('175','shifta')
+case('176','shifta')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16357,7 +16761,7 @@ if(present(m_help))then
 endif
 
 
-case('176','shiftl')
+case('177','shiftl')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16422,7 +16826,7 @@ if(present(m_help))then
 endif
 
 
-case('177','shiftr')
+case('178','shiftr')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16487,7 +16891,7 @@ if(present(m_help))then
 endif
 
 
-case('178','sign')
+case('179','sign')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16561,7 +16965,7 @@ if(present(m_help))then
 endif
 
 
-case('179','sin')
+case('180','sin')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16702,7 +17106,7 @@ if(present(m_help))then
 endif
 
 
-case('180','sinh')
+case('181','sinh')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16773,7 +17177,7 @@ if(present(m_help))then
 endif
 
 
-case('181','size')
+case('182','size')
 
 textblock=[character(len=256) :: &
 '', &
@@ -16985,7 +17389,7 @@ if(present(m_help))then
 endif
 
 
-case('182','sngl')
+case('183','sngl')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17046,7 +17450,7 @@ if(present(m_help))then
 endif
 
 
-case('183','spacing')
+case('184','spacing')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17122,7 +17526,7 @@ if(present(m_help))then
 endif
 
 
-case('184','spread')
+case('185','spread')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17259,7 +17663,7 @@ if(present(m_help))then
 endif
 
 
-case('185','sqrt')
+case('186','sqrt')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17375,7 +17779,7 @@ if(present(m_help))then
 endif
 
 
-case('186','storage_size')
+case('187','storage_size')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17453,7 +17857,7 @@ if(present(m_help))then
 endif
 
 
-case('187','sum')
+case('188','sum')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17565,7 +17969,7 @@ if(present(m_help))then
 endif
 
 
-case('188','system_clock')
+case('189','system_clock')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17682,7 +18086,7 @@ if(present(m_help))then
 endif
 
 
-case('189','tan')
+case('190','tan')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17753,7 +18157,7 @@ if(present(m_help))then
 endif
 
 
-case('190','tanh')
+case('191','tanh')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17828,7 +18232,7 @@ if(present(m_help))then
 endif
 
 
-case('191','this_image')
+case('192','this_image')
 
 textblock=[character(len=256) :: &
 '', &
@@ -17928,7 +18332,7 @@ if(present(m_help))then
 endif
 
 
-case('192','tiny')
+case('193','tiny')
 
 textblock=[character(len=256) :: &
 '', &
@@ -18011,7 +18415,7 @@ if(present(m_help))then
 endif
 
 
-case('193','trailz')
+case('194','trailz')
 
 textblock=[character(len=256) :: &
 '', &
@@ -18148,7 +18552,7 @@ if(present(m_help))then
 endif
 
 
-case('194','transfer')
+case('195','transfer')
 
 textblock=[character(len=256) :: &
 '', &
@@ -18260,7 +18664,7 @@ if(present(m_help))then
 endif
 
 
-case('195','transpose')
+case('196','transpose')
 
 textblock=[character(len=256) :: &
 '', &
@@ -18370,7 +18774,7 @@ if(present(m_help))then
 endif
 
 
-case('196','trim')
+case('197','trim')
 
 textblock=[character(len=256) :: &
 '', &
@@ -18448,7 +18852,7 @@ if(present(m_help))then
 endif
 
 
-case('197','ubound')
+case('198','ubound')
 
 textblock=[character(len=256) :: &
 '', &
@@ -18583,7 +18987,7 @@ if(present(m_help))then
 endif
 
 
-case('198','unpack')
+case('199','unpack')
 
 textblock=[character(len=256) :: &
 '', &
@@ -18667,7 +19071,7 @@ if(present(m_help))then
 endif
 
 
-case('199','verify')
+case('200','verify')
 
 textblock=[character(len=256) :: &
 '', &
@@ -39663,7 +40067,7 @@ integer                      :: start_keep, end_keep
 
     if(regex.ne.' ')then
        if (getpat(merge(lower(regex),regex,ignorecase), p%pat) .eq. ERR) then
-          stop '*fpm-man* Illegal pattern.'
+          stop '*fman* Illegal pattern.'
        endif
     endif
 
@@ -39693,9 +40097,9 @@ integer                      :: start_keep, end_keep
     ! display selected text
     if(size(manual).eq.0)then
        write(*,'(g0)')'Sorry. did not find that. Perhaps you should search the TOC. try'
-       write(*,'(g0)')'   fpm-man -e TOPIC'
+       write(*,'(g0)')'   fman -e TOPIC'
        write(*,'(g0)')'or search the entire manual:'
-       write(*,'(g0)')'   fpm-man manual -i -e TOPIC'
+       write(*,'(g0)')'   fman manual -i -e TOPIC'
        stop 1
     else
        ! display what was found
@@ -39746,7 +40150,7 @@ integer :: i,j,k
       enddo
     endif
     if(size(newsection).eq.0)then
-       write(*,*)'!<ERROR> *fpm-man* standard demo code format not found for ',trim(topics(i))
+       write(*,*)'!<ERROR> *fman* standard demo code format not found for ',trim(topics(i))
        section=['']
     else
        section=newsection
@@ -39804,17 +40208,17 @@ end function than
 subroutine setup()
 help_text=[ CHARACTER(LEN=128) :: &
 'NAME                                                                            ',&
-'    fpm-man(1f) - [DEVELOPER] output descriptions of Fortran intrinsics         ',&
+'    fman(1f) - [DEVELOPER] output descriptions of Fortran intrinsics         ',&
 '    (LICENSE:PD)                                                                ',&
 '                                                                                ',&
 'SYNOPSIS                                                                        ',&
-'    fpm-man NAME(s) [[-ignorecase][--regex Regular_Expression]]|[-topic_only]   ',&
+'    fman NAME(s) [[-ignorecase][--regex Regular_Expression]]|[-topic_only]   ',&
 '                [--color][--demo]                                               ',&
 '                                                                                ',&
-'    fpm-man [ --help| --version]                                                ',&
+'    fman [ --help| --version]                                                ',&
 '                                                                                ',&
 'DESCRIPTION                                                                     ',&
-'   fpm-man(1) prints descriptions of Fortran intrinsics as simple flat text.    ',&
+'   fman(1) prints descriptions of Fortran intrinsics as simple flat text.    ',&
 '                                                                                ',&
 '   The text is formatted in the txt2man(1) markdown language so one can easily  ',&
 '   generate man-pages on ULS (Unix-Like Systems).                               ',&
@@ -39840,24 +40244,24 @@ help_text=[ CHARACTER(LEN=128) :: &
 'EXAMPLES                                                                        ',&
 '  Sample commands                                                               ',&
 '                                                                                ',&
-'   fpm-man                 # list table of contents                             ',&
-'   fpm-man -e character    # check TOC for string. try "trigo","size","complex" ',&
-'   fpm-man tan|less        # display a description of tan(3f)                   ',&
+'   fman                 # list table of contents                             ',&
+'   fman -e character    # check TOC for string. try "trigo","size","complex" ',&
+'   fman tan|less        # display a description of tan(3f)                   ',&
 '                                                                                ',&
-'   fpm-man --regex ''character'' # look for string in the TOC ignoring case     ',&
+'   fman --regex ''character'' # look for string in the TOC ignoring case     ',&
 '                                                                                ',&
-'   fpm-man manual>fortran.txt    # create a copy of all descriptions            ',&
+'   fman manual>fortran.txt    # create a copy of all descriptions            ',&
 '                                                                                ',&
 '   # list the topic "scan" if found and lines containing "scan" from the entire ',&
 '   # manual, prefixing the lines with the section name, while ignoring case.    ',&
-'   fpm-man -e scan -i manual                                                    ',&
+'   fman -e scan -i manual                                                    ',&
 '                                                                                ',&
-'   fpm-man -d verify >demo_verify.f90 # get sample program to try VERIFY(3f).   ',&
+'   fman -d verify >demo_verify.f90 # get sample program to try VERIFY(3f).   ',&
 '']
 
 version_text=[ CHARACTER(LEN=128) :: &
 'PRODUCT:         GPF (General Purpose Fortran) utilities and examples           ',&
-'PROGRAM:         fpm-man(1)                                                     ',&
+'PROGRAM:         fman(1)                                                     ',&
 'DESCRIPTION:     output Fortran intrinsic descriptions                          ',&
 !'VERSION:         1.0.0, 20201215                                               ',&
 !'VERSION:         1.0.1, 20201217                                               ',&
