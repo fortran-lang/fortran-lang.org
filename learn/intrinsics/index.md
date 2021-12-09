@@ -54,7 +54,7 @@ to the documents. For contribution guidelines see
 [MINIBOOKS](https://github.com/fortran-lang/fortran-lang.org/blob/master/MINIBOOKS.md)
 and the following Copyright guidelines.
 
-## See also
+## See Also
    - The [Fortran stdlib](https://stdlib.fortran-lang.org/) project
    - [fpm(1)](https://fortran-lang.org/packages/fpm) packages, many of which are general-purpose libraries/modules
 
