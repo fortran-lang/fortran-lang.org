@@ -4,7 +4,6 @@ title: real
 permalink: /learn/intrinsics/REAL
 ---
 ## __Name__
-
 __real__(3) - \[NUMERIC:TYPE\] Convert to real type
 (GFDL)
 

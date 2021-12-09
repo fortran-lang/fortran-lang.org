@@ -4,7 +4,6 @@ title: int
 permalink: /learn/intrinsics/INT
 ---
 ## __Name__
-
 __int__(3) - \[NUMERIC:TYPE\] Convert to integer type by truncating towards zero
 
 ## __Syntax__
