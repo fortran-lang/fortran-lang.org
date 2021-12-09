@@ -62,15 +62,15 @@ and the following Copyright guidelines.
 
    - [fman(1)](EXAMPLES/fman.f90) A self-contained Fortran program that
      lets you view the non-graphical plain ASCII portions of the
-     documentation from a terminal interface. Compiler the program and
+     documentation from a terminal interface. Compile the program and
      enter "./fman --help" for directions. 
 
    - [man pages](EXAMPLES/fortran.tgz) A gzipped tar(1) file containing
      early versions of man-pages derived from the markdown documents.
 
      Still debating whether having to keep the document limited to ANSI
-     characters is worth-while, and still having issues converting the
-     markdown to the proper formats.
+     characters is worth-while so these formats can be generated, and
+     still having issues converting the markdown to the proper formats.
 
 ## Text Content Copyrights
 
