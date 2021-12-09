@@ -45018,8 +45018,7 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>minval</strong>(3) - [ARRAY REDUCTION] Minimum value of an array
-(GFDL)</p>
+<p><strong>minval</strong>(3) - [ARRAY REDUCTION] Minimum value of an array</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 
@@ -45030,11 +45029,14 @@ mask])</p>
 
 <p>Determines the minimum value of the elements in an array value, or, if
 the <strong>dim</strong> argument is supplied, determines the minimum value along each
-row of the array in the <strong>dim</strong> direction. If <strong>mask</strong> is present, only the
-elements for which <strong>mask</strong> is .true. are considered. If the array has zero
-size, or all of the elements of MASK are .false., then the result is
-<strong>huge</strong>(array) if <strong>array</strong> is numeric, or a string of <strong>char</strong>(255)
-characters if <strong>array</strong> is of character type.</p>
+row of the array in the <strong>dim</strong> direction.</p>
+
+<p>If <strong>mask</strong> is present, only the
+elements for which <strong>mask</strong> is <strong>.true.</strong> are considered.</p>
+
+<p>If the array has zero size, or all of the elements of <strong>mask</strong> are
+.false., then the result is <strong>huge(array)</strong> if <strong>array</strong> is numeric, or a
+string of <strong>char(len=255)</strong> characters if <strong>array</strong> is of character type.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -45063,8 +45065,9 @@ dummy argument.</dd>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>If <strong>dim</strong> is absent, or if <strong>array</strong> has a rank of one, the result is a scalar.
-If <strong>dim</strong> is present, the result is an array with a rank one less than the
+<p>If <strong>dim</strong> is absent, or if <strong>array</strong> has a rank of one, the result is a scalar.</p>
+
+<p>If <strong>dim</strong> is present, the result is an array with a rank one less than the
 rank of <strong>array</strong>, and a size corresponding to the size of <strong>array</strong> with the
 <strong>dim</strong> dimension removed. In all cases, the result is of the same type and
 kind as <strong>array</strong>.</p>
@@ -45075,22 +45078,86 @@ kind as <strong>array</strong>.</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_minval</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">g</span><span class="o">=</span><span class="s1">'(3x,*(g0,1x))'</span><span class="w">
+
 </span><span class="kt">integer</span><span class="p">,</span><span class="k">save</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">ints</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([&amp;</span><span class="w">
-       </span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">2</span><span class="p">,</span><span class="w">  </span><span class="mi">3</span><span class="p">,</span><span class="w">  </span><span class="mi">4</span><span class="p">,</span><span class="w">  </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-      </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-      </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span><span class="w"> </span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="mi">44</span><span class="p">,</span><span class="w"> </span><span class="mi">55</span><span class="w">  </span><span class="p">&amp;</span><span class="w">
+       </span><span class="mi">1</span><span class="p">,</span><span class="w">  </span><span class="mi">-2</span><span class="p">,</span><span class="w">   </span><span class="mi">3</span><span class="p">,</span><span class="w">   </span><span class="mi">4</span><span class="p">,</span><span class="w">   </span><span class="mi">5</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span><span class="w">
+      </span><span class="mi">10</span><span class="p">,</span><span class="w">  </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">-30</span><span class="p">,</span><span class="w">  </span><span class="mi">40</span><span class="p">,</span><span class="w">  </span><span class="mi">50</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span><span class="w">
+      </span><span class="mi">11</span><span class="p">,</span><span class="w">  </span><span class="mi">22</span><span class="p">,</span><span class="w">  </span><span class="mi">33</span><span class="p">,</span><span class="w"> </span><span class="mi">-44</span><span class="p">,</span><span class="w">  </span><span class="mi">55</span><span class="w">  </span><span class="p">&amp;</span><span class="w">
 </span><span class="p">],</span><span class="nb">shape</span><span class="p">(</span><span class="n">ints</span><span class="p">),</span><span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">)</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w">
+
+</span><span class="kt">integer</span><span class="p">,</span><span class="k">save</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">box</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w">
+
+   </span><span class="n">box</span><span class="p">(:,:,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">ints</span><span class="w">
+   </span><span class="n">box</span><span class="p">(:,:,</span><span class="mi">2</span><span class="p">)</span><span class="o">=-</span><span class="n">ints</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'Given the array'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(1x,*(g4.4,1x))'</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">ints</span><span class="p">(</span><span class="n">i</span><span class="p">,:),</span><span class="nb">new_line</span><span class="p">(</span><span class="s1">'a'</span><span class="p">),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'What is the smallest element in the array?'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">),</span><span class="s1">'at &lt;'</span><span class="p">,</span><span class="nb">minloc</span><span class="p">(</span><span class="n">ints</span><span class="p">),</span><span class="s1">'&gt;'</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'What is the smallest element in each column?'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'What is the smallest element in each row?'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! notice the shape of the output has less columns than the input in this case</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'What is the smallest element in each column,'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'considering only those elements that are'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'greater than zero?'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ints</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'if everything is false a zero-sized array is NOT returned'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.false.</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'even for a zero-sized input'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">([</span><span class="kt">integer</span><span class="w"> </span><span class="p">::],</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.false.</span><span class="p">)</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'a scalar answer for everything false is huge()'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.false.</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">([</span><span class="kt">integer</span><span class="w"> </span><span class="p">::],</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.false.</span><span class="p">)</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'some calls with three dimensions'</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.true.</span><span class="w"> </span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.true.</span><span class="w"> </span><span class="p">)</span><span class="w">
+
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="nb">minval</span><span class="p">(</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.true.</span><span class="w"> </span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="s1">'shape of answer is '</span><span class="p">,</span><span class="nb">shape</span><span class="p">(</span><span class="nb">minval</span><span class="p">(</span><span class="n">box</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">.true.</span><span class="w"> </span><span class="p">))</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_minval</span><span class="w">
 </span></code></pre></div></div>
 
 <p>results:</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1
- 1    2     3     4     5
- 1   10    11
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Given the array
+    1   -2    3    4    5    
+   10   20  -30   40   50    
+   11   22   33  -44   55    
+
+ What is the smallest element in the array?
+   -44 at &lt; 3 4 &gt;
+ What is the smallest element in each column?
+   1 -2 -30 -44 5
+ What is the smallest element in each row?
+   -2 -30 -44
+ What is the smallest element in each column,
+ considering only those elements that are
+ greater than zero?
+   1 20 3 4 5
+ if everything is false a zero-sized array is NOT returned
+  2147483647  2147483647  2147483647  2147483647  2147483647
+ even for a zero-sized input
+   2147483647
+ a scalar answer for everything false is huge()
+   2147483647
+   2147483647
+ some calls with three dimensions
+   -55
+   1 -2 -30 -44 5 -11 -22 -33 -40 -55
+   -2 -30 -44 -5 -50 -55
+   shape of answer is  3 2
 </code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>
@@ -45101,6 +45168,8 @@ kind as <strong>array</strong>.</p>
 
 <p><a href="MIN"><strong>min</strong>(3)</a>,
 <a href="MINLOC"><strong>minloc</strong>(3)</a></p>
+
+<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
 
 
       <div class="container-flex">
