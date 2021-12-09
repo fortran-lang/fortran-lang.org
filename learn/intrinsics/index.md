@@ -72,8 +72,10 @@ and the following Copyright guidelines.
      characters is worth-while, and still having issues converting the
      markdown to the proper formats.
 
-Each document file should indicate any specific license under which
-the document falls.
+## Text Content Copyrights
+
+Each document file should indicate any specific license under which the
+document falls.
 
 Many of the documents presented here are modified versions of man-pages from the
 [Fortran Wiki](https://fortranwiki.org)
