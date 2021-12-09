@@ -12,7 +12,7 @@ __len\_trim__(3) - \[CHARACTER:WHITESPACE\] Length of a character entity without
 ```fortran
    result = len_trim(string, kind)
 
-    integer(kind=KIND) elemental function len_trim(string,KIND) result (value)
+    integer(kind=KIND) function len_trim(string,KIND) result (value)
     character(len=*),intent(in) :: string
     integer,optional,intent(in) :: KIND
     integer(kind=KIND) :: value
@@ -83,13 +83,12 @@ of arguments, and search for certain arguments:
     [__adjustl__(3)](ADJUSTL),
     [__adjustr__(3)](ADJUSTR),
     [__index__(3)](INDEX),
-    [__len\_trim__(3)](LEN_TRIM),
     [__scan__(3)](SCAN),
     [__verify__(3)](VERIFY)
 
   - __Nonelemental:__
     [__repeat__(3)](REPEAT),
-    [__trim__(3)](TRIM)
     [__len__(3)](LEN),
+    [__trim__(3)](TRIM)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)
