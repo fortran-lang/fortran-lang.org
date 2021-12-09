@@ -16,8 +16,8 @@ __len__(3) - \[CHARACTER\] Length of a character entity
     integer,optional,intent(in) :: KIND
     integer(kind=KIND) :: value
 ```
-where the returned value is the same kind as the __KIND__  if it is 
-specified.
+where the returned value is the same kind as the __KIND__, or of
+the default kind if __KIND__ is not specified.
 
 ## __Description__
 
@@ -53,98 +53,60 @@ Sample program
 
 ```fortran
 program demo_len
-use,intrinsic :: iso_fortran_env, only : stdout=>output_unit
 implicit none
-character(len=:),allocatable :: string
+character(len=40) :: string
+character(len=:),allocatable :: astring
 character(len=:),allocatable :: many_strings(:)
 integer :: ii
 
-   string=' How long is this string?     '
    ii=len(string)
-   ! note when adjacent strings are printed no space is inserted
-   ! between them
-   write(*,*)'[',string,']',' length=',ii
+  write(*,*)'length =',ii
 
-   ! Related Matters:
+  ! the string length will be constant for the fixed-length variable
+  string=' How long is this string? '
+  write(*,'(a)')' ',string,repeat('=',len(string))
 
-   write(*,*)
+  ! the allocatable string length will be the length of LHS expression
+  astring=' How long is this string? '
+  write(*,'(a)')' ',astring,repeat('=',len(astring))
+   
    ! you can also query the length (and other attributes) of a string
-   ! using a
-   write(*,*) "type parameter inquiry:"
-   write(*,*)'length=',string%len,'kind=',string%kind
-   ! note a type parameter inquiry of an intrinsic requires Fortran 2018+ 
-
-   ! note that all that is required is an A descriptor in a format, a
-   ! numeric length is not required. If a length IS provided the string
-   ! will be trimmed or blank padded ON THE LEFT to the specified length
-   write(*,*)
-   write(*,'(" ",a," ")')repeat('=',ii)
-   write(*,'("[",a,"]")')string
-   write(*,'(" ",a," ")')repeat('=',ii)
-
-   write(*,'("[",a10,"]")')string  ! TRUNCATED!
-   write(*,'("[",a40,"]")')string  ! PADDED!
-   ! you can specify the length at run time:
-   ii=40
-   write(*,'("[",a,"]")')[character(len=ii) :: string]  ! RIGHT JUSTIFIED!
+   ! using a "type parameter inquiry:" (available since fortran 2018)
+   write(*,*)'length from type parameter inquiry=',string%len
 
    ! a scalar is returned for an array, as all values in a Fortran
    ! character array must be of the same length:
 
-   ! stepping aside to define an allocatable array with a constructor ...
-   ! (that MUST specify a LEN= length type parameter if all values are
-   ! not the same length):
+   ! define an allocatable array with a constructor ...
      many_strings = [ character(len=7) :: 'Takata', 'Tanaka', 'Hayashi' ]
-   ! if the length specified is too short the strings will be truncated
-
-   ! In that constructor, without the LEN= type specification, it would
-   ! have been necessary to specify all of the constants with the same
-   ! character length.
-
    write(*,*)
    write(*,*)'length of ALL elements of array=',len(many_strings)
-   write(*,'("[",a,"]")')many_strings
 
-   ! Note in the following the result is always scalar, even if the
-   ! object is an array.
+   call proc_star(' how long? ')
 
-   write(*,*) &
-   & 'length=', many_strings%len, &
-   & 'kind=', many_strings%kind
-   ! which is the same as
-   write(*,*) &
-   & 'length=', len(many_strings), &
-   & 'kind=', kind(many_strings)
+contains
 
-   ! you should also be careful when printing strings that they do not
-   ! exceed the current record length of your output file, although that
-   ! usually is very large
-   inquire(unit=stdout,recl=ii)
-   write(*,*)'line length=',ii
+   subroutine proc_star(str)
+   character(len=*),intent(in)  :: str
+   character(len=:),allocatable :: str2
+   ! the length of str can be used in the definitions of variables
+   character(len=len(str))      :: str3
+
+      if(allocated(str2))deallocate(str2)
+      ! syntax for allocating a scalar string
+      allocate(character(len=len(str)) :: str2)
+
+      write(*,*)len(str),len(str2),len(str3)
+      ! these are other allowable ways to define str2
+      str2=str
+      str2=repeat(' ',len(str))
+
+   end subroutine proc_star
 
 end program demo_len
 ```
 Results:
 ```text
- [ How long is this string?     ] length=          30
- 
- type parameter inquiry:
- length=          30 kind=           1
- 
- ============================== 
-[ How long is this string?     ]
- ============================== 
-[ How long ]
-[           How long is this string?     ]
-[ How long is this string?               ]
- 
- length of ALL elements of array=           7
-[Takata ]
-[Tanaka ]
-[Hayashi]
- length=           7 kind=           1
- length=           7 kind=           1
- line length=         132
 ```
 ## __See Also__
 
