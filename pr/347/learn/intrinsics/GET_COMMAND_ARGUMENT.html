@@ -44991,7 +44991,7 @@ truncated command line argument, <strong>status</strong> is <strong>-1</strong>;
 </span><span class="kt">integer</span><span class="w">                      </span><span class="p">::</span><span class="w"> </span><span class="n">stat</span><span class="w">
 </span><span class="kt">integer</span><span class="w">                      </span><span class="p">::</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">longest</span><span class="p">,</span><span class="w"> </span><span class="n">argument_length</span><span class="w">
 </span><span class="kt">integer</span><span class="p">,</span><span class="k">allocatable</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">istat</span><span class="p">(:),</span><span class="w"> </span><span class="n">ilen</span><span class="p">(:)</span><span class="w">
-</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">arguments</span><span class="p">(:)</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">args</span><span class="p">(:)</span><span class="w">
   </span><span class="c1">!</span><span class="w">
   </span><span class="c1">! get number of arguments</span><span class="w">
   </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">command_argument_count</span><span class="p">()</span><span class="w">
@@ -45014,37 +45014,37 @@ truncated command line argument, <strong>status</strong> is <strong>-1</strong>;
      </span><span class="n">longest</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">longest</span><span class="p">,</span><span class="n">argument_length</span><span class="p">)</span><span class="w">
   </span><span class="k">enddo</span><span class="w">
   </span><span class="c1">!</span><span class="w">
-  </span><span class="c1">! allocate string array big enough to hold command line argument strings</span><span class="w">
-  </span><span class="c1">! and related information</span><span class="w">
+  </span><span class="c1">! allocate string array big enough to hold command line </span><span class="w">
+  </span><span class="c1">! argument strings and related information</span><span class="w">
   </span><span class="c1">!</span><span class="w">
-  </span><span class="k">allocate</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">longest</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">arguments</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="nb">count</span><span class="p">))</span><span class="w">
+  </span><span class="k">allocate</span><span class="p">(</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">longest</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="nb">count</span><span class="p">))</span><span class="w">
   </span><span class="k">allocate</span><span class="p">(</span><span class="n">istat</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="nb">count</span><span class="p">))</span><span class="w">
   </span><span class="k">allocate</span><span class="p">(</span><span class="n">ilen</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="nb">count</span><span class="p">))</span><span class="w">
   </span><span class="c1">!</span><span class="w">
   </span><span class="c1">! read the arguments into the array</span><span class="w">
   </span><span class="c1">!</span><span class="w">
   </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">count</span><span class="w">
-    </span><span class="k">call</span><span class="w"> </span><span class="nb">get_command_argument</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">arguments</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">status</span><span class="o">=</span><span class="n">istat</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">length</span><span class="o">=</span><span class="n">ilen</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w">
+    </span><span class="k">call</span><span class="w"> </span><span class="nb">get_command_argument</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">status</span><span class="o">=</span><span class="n">istat</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">length</span><span class="o">=</span><span class="n">ilen</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w">
   </span><span class="k">enddo</span><span class="w">
   </span><span class="c1">!</span><span class="w">
   </span><span class="c1">! show the results</span><span class="w">
   </span><span class="c1">!</span><span class="w">
   </span><span class="k">write</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(i3.3,1x,i0.5,1x,i0.5,1x,"[",a,"]")'</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-  </span><span class="p">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">istat</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">ilen</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">arguments</span><span class="p">(</span><span class="n">i</span><span class="p">)(:</span><span class="n">ilen</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">count</span><span class="p">)</span><span class="w">
+  </span><span class="p">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">istat</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">ilen</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">args</span><span class="p">(</span><span class="n">i</span><span class="p">)(:</span><span class="n">ilen</span><span class="p">(</span><span class="n">i</span><span class="p">)),</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">count</span><span class="p">)</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_get_command_argument</span><span class="w">
 </span></code></pre></div></div>
 
 <p>Sample output:</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   ./test_get_command_argument a    test  'of getting   arguments  ' "  leading"
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/demo_get_command_argument a    test  'of getting   arguments  ' "  leading"
 
-    The number of arguments is            5
-    The program's name is xxx
-   000 00000 00003 [./test_get_command_argument]
-   001 00000 00001 [a]
-   003 00000 00004 [test]
-   004 00000 00024 [of getting   arguments  ]
-   005 00000 00018 [  leading]
+ The number of arguments is            5
+ The program's name is xxx
+000 00000 00003 [./test_get_command_argument]
+001 00000 00001 [a]
+003 00000 00004 [test]
+004 00000 00024 [of getting   arguments  ]
+005 00000 00018 [  leading]
 </code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>

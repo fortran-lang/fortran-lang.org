@@ -45101,18 +45101,19 @@ from the uniform distribution over the range 0 &lt;= x &lt; 1.</p>
    </span><span class="n">first</span><span class="o">=</span><span class="mi">1</span><span class="w">
    </span><span class="n">last</span><span class="o">=</span><span class="mi">10</span><span class="w">
    </span><span class="k">allocate</span><span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="n">last</span><span class="o">-</span><span class="n">first</span><span class="mi">+1</span><span class="p">))</span><span class="w">
-   </span><span class="c1">! To have a discrete uniform distribution on the integers {first, first+1,</span><span class="w">
-   </span><span class="c1">! ```, last-1, last} carve the continuous distribution up into last+1-first</span><span class="w">
-   </span><span class="c1">! equal sized chunks, mapping each chunk to an integer.</span><span class="w">
+   </span><span class="c1">! To have a discrete uniform distribution on the integers </span><span class="w">
+   </span><span class="c1">! [first, first+1, ..., last-1, last] carve the continuous</span><span class="w">
+   </span><span class="c1">! distribution up into last+1-first equal sized chunks, </span><span class="w">
+   </span><span class="c1">! mapping each chunk to an integer.</span><span class="w">
    </span><span class="c1">!</span><span class="w">
    </span><span class="c1">! One way is:</span><span class="w">
    </span><span class="c1">!   call random_number(rand_val)</span><span class="w">
    </span><span class="c1">! choose one from last-first+1 integers</span><span class="w">
    </span><span class="c1">!   rand_int = first + FLOOR((last+1-first)*rand_val)</span><span class="w">
       </span><span class="nb">count</span><span class="o">=</span><span class="mi">0</span><span class="w">
-   </span><span class="c1">! generate a lot of random integers from 1 to 10 and count them.</span><span class="w">
-   </span><span class="c1">! with a large number of values you should get about the same number</span><span class="w">
-   </span><span class="c1">! of each value</span><span class="w">
+      </span><span class="c1">! generate a lot of random integers from 1 to 10 and count them.</span><span class="w">
+      </span><span class="c1">! with a large number of values you should get about the same</span><span class="w">
+      </span><span class="c1">! number of each value</span><span class="w">
       </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">100000000</span><span class="w">
          </span><span class="k">call</span><span class="w"> </span><span class="nb">random_number</span><span class="p">(</span><span class="n">rand_val</span><span class="p">)</span><span class="w">
          </span><span class="n">rand_int</span><span class="o">=</span><span class="n">first</span><span class="o">+</span><span class="nb">floor</span><span class="p">((</span><span class="n">last</span><span class="mi">+1</span><span class="o">-</span><span class="n">first</span><span class="p">)</span><span class="o">*</span><span class="n">rand_val</span><span class="p">)</span><span class="w">

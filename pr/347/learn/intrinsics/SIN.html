@@ -45168,13 +45168,13 @@ commonly given as</p>
 
 <p>which converted to floating-point values in degrees is:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      Latitude Longitude
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     Latitude Longitude
 
-   - __BNA__
-     36.12, __-86.67__
+   - BNA
+     36.12, -86.67
 
-   - __LAX__
-     33.94, __-118.40__
+   - LAX
+     33.94, -118.40
 </code></pre></div></div>
 
 <p>And then use the haversine formula to roughly calculate the distance
@@ -45197,12 +45197,15 @@ along the surface of the Earth between the locations:</p>
      </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="n">delta_lat</span><span class="p">,</span><span class="n">delta_lon</span><span class="p">,</span><span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="w">
      </span><span class="kt">real</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6371</span><span class="w"> </span><span class="c1">! mean earth radius in kilometers,</span><span class="w">
      </span><span class="c1">! recommended by the International Union of Geodesy and Geophysics</span><span class="w">
-     </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">atan</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)/</span><span class="mf">45.0</span><span class="w"> </span><span class="c1">! generate constant pi/180</span><span class="w">
+
+     </span><span class="c1">! generate constant pi/180</span><span class="w">
+     </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">atan</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)/</span><span class="mf">45.0</span><span class="w"> 
         </span><span class="n">delta_lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latB</span><span class="o">-</span><span class="n">latA</span><span class="p">)</span><span class="w">
         </span><span class="n">delta_lon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">lonB</span><span class="o">-</span><span class="n">lonA</span><span class="p">)</span><span class="w">
         </span><span class="n">lat1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latA</span><span class="p">)</span><span class="w">
         </span><span class="n">lat2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latB</span><span class="p">)</span><span class="w">
-        </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">sin</span><span class="p">(</span><span class="n">delta_lat</span><span class="p">/</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">sin</span><span class="p">(</span><span class="n">delta_lon</span><span class="p">/</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="w">
+        </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">sin</span><span class="p">(</span><span class="n">delta_lat</span><span class="p">/</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+	  </span><span class="p">&amp;</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">sin</span><span class="p">(</span><span class="n">delta_lon</span><span class="p">/</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="w">
         </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">asin</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">
         </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="o">*</span><span class="n">c</span><span class="w">
      </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">haversine</span><span class="w">

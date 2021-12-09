@@ -44795,10 +44795,10 @@ shall not be an optional dummy argument.</dd>
 <h2 id="returns"><strong>Returns</strong></h2>
 
 <p>“<strong>all(mask)</strong>” returns a scalar value of type <em>logical</em> where the kind
-type parameter is the same as the kind type parameter of <strong>mask</strong>. If <strong>dim</strong> is
-present, then <strong>all(mask, dim)</strong> returns an array with the rank of <strong>mask</strong>
-minus 1. The shape is determined from the shape of <strong>mask</strong> where the <strong>dim</strong>
-dimension is elided.</p>
+type parameter is the same as the kind type parameter of <strong>mask</strong>. If
+<strong>dim</strong> is present, then <strong>all(mask, dim)</strong> returns an array with the rank
+of <strong>mask</strong> minus 1. The shape is determined from the shape of <strong>mask</strong>
+where the <strong>dim</strong> dimension is elided.</p>
 
 <ol>
   <li>
@@ -44807,33 +44807,33 @@ true if <strong>mask</strong> has zero size; otherwise, it is false.</p>
   </li>
   <li>
     <p>If the rank of <strong>mask</strong> is one, then <strong>all(mask, dim)</strong> is equivalent
-to <strong>all(mask)</strong>. If the rank is greater than one, then
-<strong>all(mask, dim)</strong> is determined by applying <strong>all()</strong> to the array
-sections.</p>
+to <strong>all(mask)</strong>. If the rank is greater than one, then <strong>all(mask,
+dim)</strong> is determined by applying <strong>all()</strong> to the array sections.</p>
   </li>
   <li>
     <p>Result Characteristics. The result is of type <em>logical</em> with the
-same kind type parameter as <strong>mask</strong>. It is scalar if <strong>dim</strong> is absent or
-<strong>n = 1</strong>; otherwise, the result has rank <strong>n - 1</strong> and shape <strong>[d1 , d2 ,
-. . . , dDIM-1 , dDIM+1 , . . . , dn ]</strong> where <strong>[d1 , d2 , . . . ,
-dn ]</strong> is the shape of <strong>mask</strong>.</p>
+same kind type parameter as <strong>mask</strong>. It is scalar if <strong>dim</strong>
+is absent or <strong>n = 1</strong>; otherwise, the result has rank <strong>n - 1</strong>
+and shape <strong>[d1 , d2 , . . . , dDIM-1 , dDIM+1 , . . . , dn ]</strong>
+where <strong>[d1 , d2 , . . . , dn ]</strong> is the shape of <strong>mask</strong>.</p>
   </li>
   <li>
     <p>Result Value.</p>
+
+    <p>Case (i):
+          : The result of <strong>all(mask)</strong> has the value true if all
+          elements of <strong>mask</strong> are true or if <strong>mask</strong> has
+          size zero, and the result has value false if any element
+          of <strong>mask</strong> is false.</p>
+
+    <p>Case (ii): 
+          : If <strong>mask</strong> has rank one, <strong>all(mask,dim)</strong> is equal to
+          <strong>all(mask)</strong>. Otherwise, the value of element <strong>(s1 , s2 ,
+          . . . , sdim-1 , sdim+1 , . . . , sn )</strong> of all <strong>(mask,
+          dim)</strong> is equal to <strong>all(mask (s1 , s2 , . . . , sdim-1 ,
+          :, sdim+1 , . . . , sn ))</strong>.</p>
   </li>
 </ol>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        Case (i):   The result of __all(mask)__ has the value true if all
-                    elements of __mask__ are true or if __mask__ has
-                    size zero, and the result has value false if any element
-                    of __mask__ is false.
-
-        Case (ii):  If __mask__ has rank one, __all(mask,dim)__ is equal to
-                    __all(mask)__. Otherwise, the value of element
-                    __(s1 , s2 , . . . , sdim-1 , sdim+1 , . . . , sn )__ of all
-                    __(mask, dim)__ is equal to __all(mask (s1 , s2 , . . . ,
-                    sdim-1 , :, sdim+1 , . . . , sn ))__.
-</code></pre></div></div>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
@@ -44862,12 +44862,12 @@ dn ]</strong> is the shape of <strong>mask</strong>.</p>
 
 <p>Case (i):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     The value of __all([.TRUE., .FALSE., .TRUE.])__ is false.
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     The value of all([.TRUE., .FALSE., .TRUE.]) is false.
 </code></pre></div></div>
 
 <p>Case (ii):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                          1|3|5
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                          1|3|5
    If B is the array      -+-+-
                           2|4|6
   
@@ -44875,7 +44875,7 @@ dn ]</strong> is the shape of <strong>mask</strong>.</p>
    and C is the array     -+-+-
                           7|4|8
 
-   then __all(B /= C, DIM = 1)__ is
+   then all(B /= C, DIM = 1) is
 
       [true, false, false]
 </code></pre></div></div>

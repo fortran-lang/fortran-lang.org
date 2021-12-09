@@ -44763,8 +44763,8 @@ associated type.</p>
 denoted <strong>|x|</strong>, is the magnitude of <strong>x</strong> without regard to its sign.</p>
 
 <p>The absolute value of a number may be thought of as its distance from
-zero, which is the definition used by <strong>abs</strong>(3) when dealing with <em>complex</em>
-values (<em>see below</em>).</p>
+zero, which is the definition used by <strong>abs</strong>(3) when dealing with
+<em>complex</em> values (<em>see below</em>).</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44780,11 +44780,11 @@ scalar or array.</dd>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>If <strong>a</strong> is of type <em>integer</em> or <em>real</em>, the value of the result is <strong>|a|</strong> and of
-the same type and kind as the input argument.</p>
+<p>If <strong>a</strong> is of type <em>integer</em> or <em>real</em>, the value of the result is
+<strong>|a|</strong> and of the same type and kind as the input argument.</p>
 
-<p>(Take particular note) if <strong>a</strong> is <em>complex</em> with value <strong>(x, y)</strong>, the result is
-a <em>real</em> equal to a processor-dependent approximation to
+<p>(Take particular note) if <strong>a</strong> is <em>complex</em> with value <strong>(x, y)</strong>,
+the result is a <em>real</em> equal to a processor-dependent approximation to
 <strong>sqrt(x**2 + y**2)</strong>
 computed without undue overflow or underflow.</p>
 
@@ -44817,14 +44817,16 @@ computed without undue overflow or underflow.</p>
     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'abs range test : '</span><span class="p">,</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="nb">tiny</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)),</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="nb">tiny</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span><span class="w">
 
     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'distance of &lt;XX,YY&gt; from zero is'</span><span class="p">,</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="mf">30.0_dp</span><span class="p">,</span><span class="mf">40.0_dp</span><span class="p">)</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'distance of &lt;XX,YY&gt; from zero is'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+               </span><span class="p">&amp;</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="mf">30.0_dp</span><span class="p">,</span><span class="mf">40.0_dp</span><span class="p">)</span><span class="w">
 
     </span><span class="k">contains</span><span class="w">
 
     </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w">
     </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="w">
        </span><span class="c1">! dusty corners:</span><span class="w">
-       </span><span class="c1">! note that KIND=DP is NOT optional if the desired result is KIND=dp.</span><span class="w">
+       </span><span class="c1">! note that KIND=DP is NOT optional </span><span class="w">
+       </span><span class="c1">! if the desired result is KIND=dp.</span><span class="w">
        </span><span class="c1">! See cmplx(3).</span><span class="w">
        </span><span class="n">distance</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="w"> </span><span class="nb">cmplx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w">
     </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">distance</span><span class="w">
@@ -44845,7 +44847,6 @@ computed without undue overflow or underflow.</p>
 
  distance of &lt;XX,YY&gt; from zero is   50.0000000000000
 </code></pre></div></div>
-
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>FORTRAN 77 and later</p>
