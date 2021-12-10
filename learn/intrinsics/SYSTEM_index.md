@@ -1,4 +1,4 @@
-   ---
+---
 layout: book
 title: System Environment
 permalink: /learn/intrinsics/SYSTEM_index

@@ -22,7 +22,7 @@ Vendor-specific extensions are not included.
 ### &#9755;[Character]({{site.baseurl}}/learn/intrinsics/CHARACTER_index) 
 #### basic procedures specifically for manipulating _character_ variables
 ### &#9755;[System Environment]({{site.baseurl}}/learn/intrinsics/SYSTEM_index) 
-#### accessing external system information
+#### accessing external system information such as environmental variables, command line arguments, date and timing data ...
 ### &#9755;[C Interface]({{site.baseurl}}/learn/intrinsics/C_index) 
 #### procedures useful for binding to C interfaces
 ### &#9755;[Bit-level]({{site.baseurl}}/learn/intrinsics/BIT_index) 

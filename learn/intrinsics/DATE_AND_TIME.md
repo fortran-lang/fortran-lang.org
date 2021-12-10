@@ -41,21 +41,22 @@ Unavailable time and date _character_ parameters return blanks.
   - __values__
     : An _integer_ array of eight elements. On return __values__ contains:
 
-      - __value__(1): - The year
-
-      - __value__(2): - The month
-
-      - __value__(3): - The day of the month
-
-      - __value__(4): - Time difference with UTC in minutes
-
-      - __value__(5): - The hour of the day
-
-      - __value__(6): - The minutes of the hour
-
-      - __value__(7): - The seconds of the minute
-
-      - __value__(8): - The milliseconds of the second
+      - __values__(1)
+      : The year
+      - __values__(2)
+      : The month
+      - __values__(3)
+      : The day of the month
+      - __values__(4)
+      : Time difference with UTC in minutes
+      - __values__(5)
+      : The hour of the day
+      - __values__(6)
+      : The minutes of the hour
+      - __values__(7)
+      : The seconds of the minute
+      - __values__(8)
+      : The milliseconds of the second
 
 ## __Examples__
 
