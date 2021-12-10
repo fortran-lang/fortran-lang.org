@@ -10,7 +10,13 @@ __sin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
 ## __Syntax__
 ```fortran
 result = sin(x)
+
+    elemental TYPE(kind=KIND) function sin(x)
+    TYPE(kind=KIND) :: x
 ```
+Where the returned value has the kind of the input value 
+and TYPE may be _real_ or _complex_
+
 ## __Description__
 
 __sin(x)__ computes the sine of an angle given the size of the angle in
@@ -109,7 +115,6 @@ real, parameter :: deg_to_rad = atan(1.0)/45.0
 end function haversine
 end program demo_sin
 ```
-
 Results:
 
 ```text
@@ -121,6 +126,7 @@ Results:
 FORTRAN 77 and later
 
 ## __See Also__
+- [Wikipedia:sine and cosine](https://en.wikipedia.org/wiki/Sine_and_cosine)
 
 [__asin__(3)](ASIN),
 [__cos__(3)](COS),

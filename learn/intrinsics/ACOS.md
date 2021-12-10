@@ -9,11 +9,14 @@ __acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine function
 
 ## __Syntax__
 ```fortran
-   result = acos(x)
-    real(kind=KIND),elemental  :: acos
-    real(kind=KIND),intent(in) :: x
+  result = acos(x)
+
+   TYPE(kind=KIND),elemental :: acos
+   TYPE(kind=KIND,intent(in) :: x
 ```
-where KIND may be any supported KIND for the type _real_.
+where TYPE may be _real_ or _complex_ and KIND may be any KIND supported
+by the associated type.
+
 
 ## __Description__
 

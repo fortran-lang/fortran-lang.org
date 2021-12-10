@@ -12,9 +12,8 @@ __cosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic cosine function
 ```fortran
     result = cosh(x)
 
-     TYPE(kind=KIND) elemental function cosh(x) result(value)
+     TYPE(kind=KIND) elemental function cosh(x)
      TYPE(kind=KIND),intent(in) :: x
-     TYPE(kind=KIND)            :: value
 ```
 where TYPE may be _real_ or _complex_ and KIND may be any 
 supported kind for the associated type. The returned __value__
@@ -32,8 +31,10 @@ __cosh__(x) computes the hyperbolic cosine of __x__.
 ## __Returns__
 
 The return value has same type and kind as __x__. If __x__ is _complex_, the
-imaginary part of the result is in radians. If __x__ is _real_, the return
-value has a lower bound of one, __cosh(x) \>= 1__.
+imaginary part of the result is in radians.
+
+If __x__ is _real_, the return value has a lower bound of one, 
+__cosh(x) \>= 1__.
 
 ## __Examples__
 

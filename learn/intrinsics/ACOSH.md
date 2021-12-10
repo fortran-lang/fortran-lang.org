@@ -10,12 +10,12 @@ __acosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic cosine function
 ## __Syntax__
 ```fortran
   result = acosh(x)
+
    TYPE(kind=KIND),elemental :: acosh
    TYPE(kind=KIND,intent(in) :: x
 ```
 where TYPE may be _real_ or _complex_ and KIND may be any KIND supported
 by the associated type.
-
 ## __Description__
 
 __acosh(x)__ computes the inverse hyperbolic cosine of __x__ in radians.

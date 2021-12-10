@@ -14,7 +14,7 @@ result = ubound(array, dim, kind)
 ## __Description__
 
 Returns the upper bounds of an array, or a single upper bound along the
-DIM dimension.
+__dim__ dimension.
 
 ## __Arguments__
 
@@ -30,20 +30,25 @@ DIM dimension.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
-the return value is of default integer kind. If __dim__ is absent, the
-result is an array of the upper bounds of __array__. If __dim__ is present, the
-result is a scalar corresponding to the upper bound of the array along
-that dimension. If __array__ is an expression rather than a whole array or
-array structure component, or if it has a zero extent along the relevant
+The return value is of type _integer_ and of kind __kind__. If __kind__
+is absent, the return value is of default integer kind.
+
+If __dim__ is absent, the result is an array of the upper bounds of
+__array__.
+
+If __dim__ is present, the result is a scalar corresponding to the upper
+bound of the array along that dimension.
+
+If __array__ is an expression rather than a whole array or array
+structure component, or if it has a zero extent along the relevant
 dimension, the upper bound is taken to be the number of elements along
 the relevant dimension.
 
 ## __Examples__
 
-Note that in my opinion this function should not be used on assumed-size
-arrays or in any function without an explicit interface. Errors can
-occur if there is no interface defined.
+Note this function should not be used on assumed-size arrays or in any
+function without an explicit interface. Errors can occur if there is no
+interface defined.
 
 Sample program
 

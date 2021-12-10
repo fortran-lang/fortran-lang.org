@@ -78,6 +78,15 @@ and the following Copyright guidelines.
 ```
      then anyone on that plaform can enter commands like (see man(1))
 ```bash
+     # as a user, placing the files in ~/man:
+     cd 
+     tar xvfz /tmp/fortran.tgz
+     cd man
+     mand -c
+     export MANPATH="$MANPATH:$HOME/man"
+     export MANWIDTH=80
+```
+```bash
      man sinh.3fortran     # specifically show Fortran sinh(3) documentation
      man -k . -s 3fortran  # list all fortran pages
 ```

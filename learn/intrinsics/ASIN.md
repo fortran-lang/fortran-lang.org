@@ -10,7 +10,12 @@ __asin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arcsine function
 ## __Syntax__
 ```fortran
 result = asin(x)
+
+    elemental TYPE(kind=KIND) function asin(x)
+    TYPE(kind=KIND) :: x
 ```
+where the returned value has the kind of the input value 
+and TYPE may be _real_ or _complex_
 ## __Description__
 
 __asin(x)__ computes the arcsine of its argument __x__.
