@@ -9,9 +9,9 @@ __num\_images__(3) - \[COLLECTIVE\] Number of images
 (GFDL)
 
 ## __Syntax__
-
-result = __num\_images__(distance, failed)
-
+```fortran
+result = num_images(distance, failed)
+```
 ## __Description__
 
 Returns the number of images.

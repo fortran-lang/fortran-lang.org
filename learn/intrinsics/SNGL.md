@@ -9,9 +9,9 @@ __sngl__(3) - \[NUMERIC:TYPE\] Convert double precision real to default real
 (GFDL)
 
 ## __Syntax__
-
-result = __sngl__(a)
-
+```fortran
+result = sngl(a)
+```
 ## __Description__
 
 __sngl__(a) converts the double precision real A to a default real

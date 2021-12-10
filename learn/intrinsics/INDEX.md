@@ -9,17 +9,15 @@ __index__(3) - \[CHARACTER:SEARCH\] Position of a substring within a string
 (GFDL)
 
 ## __Syntax__
+```fortran
+   index(string, substring, back, kind) result(start)
 
-__index__(STRING, SUBSTRING \[, BACK \[, KIND\]\]) __result__(START)
-
-```
      character(len=*),intent(in) :: string
      character(len=*),intent(in) :: substring
      logical,intent(in),optional :: back
      integer,intent(in),optional :: kind
      integer(kind=KIND)          :: start
 ```
-
 ## __Description__
 
 Returns the position of the start of the leftmost or rightmost

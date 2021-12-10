@@ -9,9 +9,9 @@ __lgt__(3) - \[CHARACTER:COMPARE\] Lexical greater than
 (GFDL)
 
 ## __Syntax__
-
-result = __lgt__(string\_a, string\_b)
-
+```fortran
+result = lgt(string_a, string_b)
+```
 ## __Description__
 
 Determines whether one string is lexically greater than another string,

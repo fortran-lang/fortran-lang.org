@@ -9,11 +9,13 @@ __iany__(3) - \[BIT MANIPULATION\] Bitwise or of array elements
 (GFDL)
 
 ## __Syntax__
+```fortran
+  result = iany(array, mask)
 
-  - result = __iany__(array\[, mask\])
+    or
 
-  - result = __iany__(array, dim\[, mask\])
-
+  result = iany(array, dim, mask)
+```
 ## __Description__
 
 Reduces with bitwise or (inclusive or) the elements of __array__ along

@@ -9,9 +9,9 @@ __selected\_int\_kind__(3) - \[KIND\] Choose integer kind
 (GFDL)
 
 ## __Syntax__
-
-result = __selected\_int\_kind__(r)
-
+```fortran
+result = selected_int_kind(r)
+```
 ## __Description__
 
 __selected\_int\_kind__(r) return the kind value of the smallest integer

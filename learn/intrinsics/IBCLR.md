@@ -9,9 +9,9 @@ __ibclr__(3) - \[BIT MANIPULATION\] Clear bit
 (GFDL)
 
 ## __Syntax__
-
-__result = ibclr(i, pos)__
-
+```fortran
+result = ibclr(i, pos)
+```
 ## __Description__
 
 __ibclr__ returns the value of __i__ with the bit at position __pos__ set to zero.

@@ -8,7 +8,6 @@ permalink: /learn/intrinsics/MASKL
 __maskl__(3) - \[\] Left justified mask
 (GFDL)
 ## __Syntax__
-
 ```fortran
 result = maskl(i, kind)
 ```

@@ -16,7 +16,6 @@ result = ceiling(a, kind)
    real(kind=ANY),intent(in)   :: a
    integer,intent(in),optional :: kind
 ```
-
 ## __Description__
 
 __ceiling(a)__ returns the least integer greater than or equal to __a__.

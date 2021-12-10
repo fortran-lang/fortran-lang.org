@@ -11,7 +11,9 @@ __minloc__(3) - \[ARRAY LOCATION\] Location of the minimum value within an array
 ## __Syntax__
 ```fortran
     result = minloc(array, dim, mask) 
-
+```
+   or
+```fortran
     result = minloc(array, mask)
 ```
 ## __Description__

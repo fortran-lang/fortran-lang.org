@@ -12,7 +12,6 @@ __bessel\_y0__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 
 ```fortran
     result = bessel_y0(x)
 ```
-
 ## __Description__
 
 __bessel\_y0__(x) computes the Bessel function of the second

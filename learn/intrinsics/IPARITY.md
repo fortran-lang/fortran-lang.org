@@ -9,11 +9,13 @@ __iparity__(3) - \[BIT MANIPULATION\] Bitwise exclusive or of array elements
 (GFDL)
 
 ## __Syntax__
+```fortran
+  result = iparity(array, mask)
 
-  - result = __iparity__(array\[, mask\])
+   or
 
-  - result = __iparity__(array, dim\[, mask\])
-
+  result = iparity(array, dim, mask)
+```
 ## __Description__
 
 Reduces with bitwise _xor_ (exclusive _or_) the elements of __array__ along

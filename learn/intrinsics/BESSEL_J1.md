@@ -12,7 +12,6 @@ __bessel\_j1__(3) - \[MATHEMATICS\] Bessel function of the first kind of order 1
 ```fortran
     result = bessel_j1(x)
 ```
-
 ## __Description__
 
 __bessel\_j1(x)__ computes the Bessel function of the first kind

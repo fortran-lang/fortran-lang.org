@@ -9,9 +9,9 @@ __image\_index__(3) - \[COLLECTIVE\] Cosubscript to image index conversion
 (GFDL)
 
 ## __Syntax__
-
-result = __image\_index__(coarray, sub)
-
+```fortran
+result = image_index(coarray, sub)
+```
 ## __Description__
 
 Returns the image index belonging to a cosubscript.

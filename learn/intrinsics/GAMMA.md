@@ -10,8 +10,6 @@ __gamma__(3) - \[MATHEMATICS\] Gamma function
 ```fortran
 x = gamma(x)
 ```
-
-
 ## __Description__
 
 __gamma(x)__ computes Gamma of __x__. For positive, whole number values of __x__ the

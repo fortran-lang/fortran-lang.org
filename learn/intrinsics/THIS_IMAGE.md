@@ -9,10 +9,10 @@ __this\_image__(3) - \[COLLECTIVE\] Cosubscript index of this image
 (GFDL)
 
 ## __Syntax__
-
-result = __this\_image__() result = __this\_image__(distance) result =
-__this\_image__(coarray \[, dim\])
-
+```fortran
+result = this_image() result = this_image(distance) &
+         & result = this_image(coarray, dim)
+```
 ## __Description__
 
 Returns the cosubscript for this image.

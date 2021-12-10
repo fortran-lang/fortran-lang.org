@@ -9,9 +9,9 @@ __ishftc__(3) - \[BIT MANIPULATION\] Shift bits circularly
 (GFDL)
 
 ## __Syntax__
-
-result = __ishftc__(i, shift \[, size\])
-
+```fortran
+result = ishftc(i, shift, size)
+```
 ## __Description__
 
 __ishftc__(3) returns a value corresponding to __i__ with the rightmost __size__ bits

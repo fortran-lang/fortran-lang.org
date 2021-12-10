@@ -12,7 +12,6 @@ __digits__(3) - \[NUMERIC MODEL\] Significant digits function
 ```fortran
 result = digits(x)
 ```
-
 ## __Description__
 
 __digits(x)__ returns the number of significant digits of the internal

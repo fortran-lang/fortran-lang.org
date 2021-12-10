@@ -12,7 +12,6 @@ __dim__(3) - \[NUMERIC\] Positive difference
 ```fortran
 result = dim(x, y)
 ```
-
 ## __Description__
 
 __dim(x,y)__ returns the difference __x - y__ if the result is positive;

@@ -12,7 +12,6 @@ __trim__(3) - \[CHARACTER:WHITESPACE\] Remove trailing blank characters of a str
 ```fortran
 result = trim(string)
 ```
-
 ## __Description__
 
 Removes trailing blank characters of a string.

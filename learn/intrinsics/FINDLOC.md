@@ -9,13 +9,13 @@ __findloc__(3) - \[\] Location of first element of ARRAY identified by MASK alon
 (GFDL)
 
 ## __Syntax__
-
-findloc (__array__, __value__, dim \[, __mask__, __kind__, __back__\]) 
+```fortran
+findloc (array, value, dim, mask, kind, back) 
 
 or 
 
-findloc(__array__, __value__ \[, __mask__, __kind__, __back__\])
-
+findloc(array, value, mask, kind, back)
+```
 ## __Description__
 
 Location of the first element of __array__ identified by __mask__ along

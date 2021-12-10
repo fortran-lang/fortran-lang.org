@@ -9,9 +9,9 @@ __selected\_real\_kind__(3) - \[KIND\] Choose real kind
 (GFDL)
 
 ## __Syntax__
-
-result = __selected\_real\_kind__(\[p, r, radix\])
-
+```fortran
+result = selected_real_kind(p, r, radix)
+```
 ## __Description__
 
 __selected\_real\_kind(p, r, radix)__ return the kind value of a real

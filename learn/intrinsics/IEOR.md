@@ -9,9 +9,9 @@ __ieor__(3) - \[BIT MANIPULATION\] Bitwise logical exclusive or
 (GFDL)
 
 ## __Syntax__
-
-__result = ieor(i, j)__
-
+```fortran
+result = ieor(i, j)
+```
 ## __Description__
 
 __ieor__ returns the bitwise Boolean exclusive-__or__ of __i__ and __j__.

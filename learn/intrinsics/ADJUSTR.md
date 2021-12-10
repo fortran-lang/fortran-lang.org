@@ -8,13 +8,11 @@ permalink: /learn/intrinsics/ADJUSTR
 __adjustr__(3) - \[CHARACTER:WHITESPACE\] Right-adjust a string
 
 ## __Syntax__
-
 ```fortran
     result = adjustr(string)
      character(len=*),intent(in) :: string
      character(len=len(string))  :: result
 ```
-
 ## __Description__
 
 __adjustr(string)__ will right-adjust a string by removing trailing

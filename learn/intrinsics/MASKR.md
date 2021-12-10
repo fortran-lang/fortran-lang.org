@@ -9,9 +9,9 @@ __maskr__(3) - \[\] Right justified mask
 (GFDL)
 
 ## __Syntax__
-
-result = __maskr(i\[, kind\])__
-
+```fortran
+result = maskr(i, kind)
+```
 ## __Description__
 
 __maskr(i\[, kind\])__ has its rightmost __i__ bits set to 1, and the

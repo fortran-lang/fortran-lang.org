@@ -9,9 +9,9 @@ __co\_min__(3) - \[COLLECTIVE\] Minimal value on the current set of images
 (GFDL)
 
 ## __Syntax__
-
-call __co\_min__(a \[, result\_image, stat, errmsg\])
-
+```fortran
+call co_min(a, result_image, stat, errmsg)
+```
 ## __Description__
 
 co\_min determines element-wise the minimal value of __a__ on all images of

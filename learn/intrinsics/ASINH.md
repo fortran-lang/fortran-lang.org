@@ -12,7 +12,6 @@ __asinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic sine function
 ```fortran
 result = asinh(x)
 ```
-
 ## __Description__
 
 __asinh__(x) computes the inverse hyperbolic sine of __x__.

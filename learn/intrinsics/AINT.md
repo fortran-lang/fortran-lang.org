@@ -12,7 +12,6 @@ __aint__(3) - \[NUMERIC\] Truncate to a whole number
 ```fortran
 result = aint(x, kind)
 ```
-
 ## __Description__
 
 __aint(x, kind)__ truncates its argument to a whole number.

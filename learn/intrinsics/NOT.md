@@ -7,9 +7,9 @@ permalink: /learn/intrinsics/NOT
 __not__(3) - \[BIT MANIPULATION\] Logical negation
 
 ## __Syntax__
-
-result = __not__(i)
-
+```fortran
+result = not(i)
+```
 ## __Description__
 
 NOT returns the bitwise Boolean inverse of I.

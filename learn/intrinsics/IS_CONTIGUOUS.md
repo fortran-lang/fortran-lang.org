@@ -9,9 +9,9 @@ __is\_contiguous__(3) - \[ARRAY INQUIRY\] test if object is contiguous
 (GFDL)
 
 ## __Syntax__
-
-result = __is\_contiguous__(A)
-
+```fortran
+result = is_contiguous(a)
+```
 ## __Description__
 
 True if and only if an object is contiguous.

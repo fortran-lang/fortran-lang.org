@@ -9,9 +9,9 @@ __spacing__(3) - \[MODEL\_COMPONENTS\] Smallest distance between two numbers of 
 (GFDL)
 
 ## __Syntax__
-
-result = __spacing__(x)
-
+```fortran
+result = spacing(x)
+```
 ## __Description__
 
 Determines the distance between the argument __x__ and the nearest adjacent

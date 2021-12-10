@@ -11,7 +11,6 @@ __atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation (GFDL)
 ```fortran
 call atomic_add (atom, value, stat)
 ```
-
 ## __Description__
 
 __atomic\_ad(atom, value)__ atomically adds the value of VAR to the

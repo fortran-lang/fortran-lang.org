@@ -13,7 +13,6 @@ __null__(3) - \[TRANSFORMATIONAL FUNCTION\] Function that returns a disassociate
 ptr => null(mold)
 
 ```
-
 ## __Description__
 
 Returns a disassociated pointer.

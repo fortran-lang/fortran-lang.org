@@ -9,9 +9,9 @@ __range__(3) - \[NUMERIC MODEL\] Decimal exponent range of a real kind
 (GFDL)
 
 ## __Syntax__
-
-result = __range__(x)
-
+```fortran
+result = range(x)
+```
 ## __Description__
 
 __range(x)__ returns the decimal exponent range in the model of the type

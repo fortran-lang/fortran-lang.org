@@ -12,7 +12,6 @@ __move\_alloc__(3) - \[\] Move allocation from one object to another
 ```fortran
 call move_alloc(src, dest)
 ```
-
 ## __Description__
 
 __move\_alloc__(src, dest) moves the allocation from SRC to DEST. SRC

@@ -9,9 +9,9 @@ __atomic\_cas__(3) - \[ATOMIC\] Atomic compare and swap
 (GFDL)
 
 ## __Syntax__
-
-call atomic\_cas (atom, old, compare, new \[, stat\])
-
+```fortran
+call atomic_cas (atom, old, compare, new, stat)
+```
 ## __Description__
 
 atomic\_cas compares the variable __atom__ with the value of __compare__; if the

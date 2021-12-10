@@ -12,7 +12,6 @@ __erfc__(3) - \[MATHEMATICS\] Complementary error function
 ```fortran
 result = erfc(x)
 ```
-
 ## __Description__
 
 __erfc__(x) computes the complementary error function of __x__, defined as

@@ -9,9 +9,9 @@ __transpose__(3) - \[ARRAY MANIPULATION\] Transpose an array of rank two
 (GFDL)
 
 ## __Syntax__
-
-result = __transpose__(matrix)
-
+```fortran
+result = transpose(matrix)
+```
 ## __Description__
 
 Transpose an array of rank two. Element (i, j) of the result has the

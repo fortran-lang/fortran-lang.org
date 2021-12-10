@@ -12,7 +12,6 @@ __kind__(3) - \[KIND INQUIRY\] Kind of an entity
 ```fortran
 k = kind(x)
 ```
-
 ## __Description__
 
 __kind(x)__ returns the kind value of the entity __x__.

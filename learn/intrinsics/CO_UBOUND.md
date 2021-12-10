@@ -9,9 +9,9 @@ __co\_ubound__(3) - \[COLLECTIVE\] Upper codimension bounds of an array
 (GFDL)
 
 ## __Syntax__
-
-result = __co\_ubound__(coarray \[, dim \[, kind\]\])
-
+```fortran
+result = co_ubound(coarray, dim, kind)
+```
 ## __Description__
 
 Returns the upper cobounds of a coarray, or a single upper cobound along

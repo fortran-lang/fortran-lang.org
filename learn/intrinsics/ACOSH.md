@@ -8,7 +8,6 @@ permalink: /learn/intrinsics/ACOSH
 __acosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic cosine function
 
 ## __Syntax__
-
 ```fortran
   result = acosh(x)
    TYPE(kind=KIND),elemental :: acosh

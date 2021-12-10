@@ -9,9 +9,9 @@ __co\_broadcast__(3) - \[COLLECTIVE\] Copy a value to all images the current set
 (GFDL)
 
 ## __Syntax__
-
-call __co\_broadcast__(a, source\_image \[, stat, errmsg\])
-
+```fortran
+call co_broadcast(a, source_image, stat, errmsg)
+```
 ## __Description__
 
 co\_broadcast copies the value of argument __a__ on the image with image

@@ -9,9 +9,9 @@ __iand__(3) - \[BIT MANIPULATION\] Bitwise logical and
 (GFDL)
 
 ## __Syntax__
-
-__result = iand(i, j)__
-
+```fortran
+result = iand(i, j)
+```
 ## __Description__
 
 Bitwise logical __and__.

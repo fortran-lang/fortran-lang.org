@@ -9,9 +9,9 @@ __new\_line__(3) - \[CHARACTER\] New line character
 (GFDL)
 
 ## __Syntax__
-
-result = __new\_line__(c)
-
+```fortran
+result = new_line(c)
+```
 ## __Description__
 
 __new\_line__(c) returns the new-line character.

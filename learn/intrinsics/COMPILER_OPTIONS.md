@@ -9,9 +9,9 @@ __compiler\_options__(3) - \[COMPILER INQUIRY\] Options passed to the compiler
 (GFDL)
 
 ## __Syntax__
-
-str = __compiler\_options__()
-
+```fortran
+str = compiler_options()
+```
 ## __Description__
 
 compiler\_options returns a string with the options used for compiling.

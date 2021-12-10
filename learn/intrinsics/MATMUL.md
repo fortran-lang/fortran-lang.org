@@ -9,9 +9,9 @@ __matmul__(3) - \[TRANSFORMATIONAL FUNCTION\] matrix multiplication
 (GFDL)
 
 ## __Syntax__
-
-result = __matmul__(matrix\_a, matrix\_b)
-
+```fortran
+result = matmul(matrix_a, matrix_b)
+```
 ## __Description__
 
 Performs a matrix multiplication on numeric or logical arguments.

@@ -9,9 +9,9 @@ __shifta__(3) - \[BIT MANIPULATION\] shift bits right with fill
 (GFDL)
 
 ## __Syntax__
-
-result = __shifta__(i, shift)
-
+```fortran
+result = shifta(i, shift)
+```
 ## __Description__
 
 Returns a value corresponding to I with all of the bits shifted right by

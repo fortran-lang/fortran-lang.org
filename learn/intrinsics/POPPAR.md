@@ -9,9 +9,9 @@ __poppar__(3) - \[BIT INQUIRY\] Parity of the number of bits set
 (GFDL)
 
 ## __Syntax__
-
-result = __poppar__(i)
-
+```fortran
+result = poppar(i)
+```
 ## __Description__
 
 Returns the parity of an integer's binary representation (i.e., the

@@ -9,9 +9,9 @@ __dot\_product__(3) - \[TRANSFORMATIONAL FUNCTION\] Dot product function
 (GFDL)
 
 ## __Syntax__
-
-result = __dot\_product__(vector\_a, vector\_b)
-
+```fortran
+result = dot_product(vector_a, vector_b)
+```
 ## __Description__
 
 __dot\_product__(vector\_a, vector\_b) computes the dot product

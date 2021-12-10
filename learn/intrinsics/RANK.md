@@ -9,9 +9,9 @@ __rank__(3) - \[ARRAY INQUIRY\] Rank of a data object
 (GFDL)
 
 ## __Syntax__
-
-result = __rank__(a)
-
+```fortran
+result = rank(a)
+```
 ## __Description__
 
 __rank(a)__ returns the rank of a scalar or array data object.

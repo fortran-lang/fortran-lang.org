@@ -12,7 +12,6 @@ __reshape__(3) - \[ARRAY RESHAPE\] Function to reshape an array
 ```fortran
 result = reshape(source, shape, pad, order)
 ```
-
 ## __Description__
 
 Reshapes array __source__ to correspond to __shape__. If necessary, the new

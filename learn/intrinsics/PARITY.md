@@ -9,9 +9,9 @@ __parity__(3) - \[TRANSFORMATIONAL FUNCTION\] Reduction with exclusive __OR__()
 (GFDL)
 
 ## __Syntax__
-
-result = __parity__(mask\[, dim\])
-
+```fortran
+result = parity(mask, dim)
+```
 ## __Description__
 
 Calculates the parity (i.e. the reduction using .xor.) of __mask__ along

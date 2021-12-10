@@ -9,9 +9,9 @@ __bit\_size__(3) - \[BIT INQUIRY\] Bit size inquiry function
 (GFDL)
 
 ## __Syntax__
-
-__result = bit\_size(i)__
-
+```fortran
+result = bit_size(i)
+```
 ## __Description__
 
 __bit\_size__(i) returns the number of bits (integer precision plus sign

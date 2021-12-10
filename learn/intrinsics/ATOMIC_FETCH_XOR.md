@@ -9,9 +9,9 @@ __atomic\_fetch\_xor__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise XOR opera
 (GFDL)
 
 ## __Syntax__
-
-call atomic\_fetch\_xor (atom, value, old \[, stat\])
-
+```fortran
+call atomic_fetch_xor (atom, value, old, stat)
+```
 ## __Description__
 
 __atomic\_fetch\_xor__(atom, value, old) atomically stores the value of

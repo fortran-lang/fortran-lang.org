@@ -9,9 +9,9 @@ __tan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Tangent function
 (GFDL)
 
 ## __Syntax__
-
-result = __tan(x)__
-
+```fortran
+result = tan(x)
+```
 ## __Description__
 
 __tan(x)__ computes the tangent of __x__.

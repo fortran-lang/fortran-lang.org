@@ -9,9 +9,9 @@ __storage\_size__(3) - \[BIT INQUIRY\] Storage size in bits
 (GFDL)
 
 ## __Syntax__
-
-result = __storage\_size__(a \[, kind\])
-
+```fortran
+result = storage_size(a, kind)
+```
 ## __Description__
 
 Returns the storage size of argument __a__ in bits.

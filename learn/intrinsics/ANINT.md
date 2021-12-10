@@ -9,9 +9,9 @@ __anint__(3) - \[NUMERIC\] Nearest whole number
 (GFDL)
 
 ## __Syntax__
-
-result = __anint__(a \[, kind\])
-
+```fortran
+result = anint(a, kind)
+```
 ## __Description__
 
 __anint__(a \[, kind\]) rounds its argument to the nearest whole number.

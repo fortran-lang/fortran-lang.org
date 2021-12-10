@@ -12,7 +12,6 @@ __scale__(3) - \[MODEL\_COMPONENTS\] Scale a real value
 ```fortran
 result = scale(x, i)
 ```
-
 ## __Description__
 
 __scale(x,i)__ returns x \* __radix(x)\*\*i__.

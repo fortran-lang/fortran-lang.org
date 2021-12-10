@@ -9,9 +9,9 @@ __mvbits__(3) - \[BIT MANIPULATION\] Move bits from one integer to another
 (GFDL)
 
 ## __Syntax__
-
-call __mvbits(from, frompos, len, to, topos)__
-
+```fortran
+call mvbits(from, frompos, len, to, topos)
+```
 ## __Description__
 
 Moves __len__ bits from positions __frompos__ through __frompos+len-1__ of __from__ to

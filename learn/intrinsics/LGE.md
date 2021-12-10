@@ -9,9 +9,9 @@ __lge__(3) - \[CHARACTER:COMPARE\] Lexical greater than or equal
 (GFDL)
 
 ## __Syntax__
-
-result = __lge__(string\_a, string\_b)
-
+```fortran
+result = lge(string_a, string_b)
+```
 ## __Description__
 
 Determines whether one string is lexically greater than or equal to

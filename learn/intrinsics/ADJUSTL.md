@@ -8,14 +8,11 @@ permalink: /learn/intrinsics/ADJUSTL
 __adjustl__(3) - \[CHARACTER:WHITESPACE\] Left-adjust a string
 
 ## __Syntax__
-
-
 ```fortran
     result = adjustl(string)
      character(len=*),intent(in) :: string
      character(len=len(string))  :: result
 ```
-
 ## __Description__
 
 __adjustl(string)__ will left-adjust a string by removing leading

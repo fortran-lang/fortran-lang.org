@@ -8,8 +8,6 @@ permalink: /learn/intrinsics/GET_COMMAND
 __get\_command__(3) - \[SYSTEM:COMMAND LINE\] Get the entire command line
 
 ## __Syntax__
-
-
 ```fortran
    call get_command(command, length, status)
 
@@ -18,7 +16,6 @@ __get\_command__(3) - \[SYSTEM:COMMAND LINE\] Get the entire command line
     integer,intent(out),optional :: length
     integer,intent(out),optional :: status
 ```
-
 ## __Description__
 
 Retrieve the entire command line that was used to invoke the program.

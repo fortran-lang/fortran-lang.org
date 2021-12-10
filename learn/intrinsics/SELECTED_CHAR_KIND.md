@@ -9,9 +9,9 @@ __selected\_char\_kind__(3) - \[KIND\] Choose character kind such as "Unicode"
 (GFDL)
 
 ## __Syntax__
-
-result = __selected\_char\_kind__(name)
-
+```fortran
+result = selected_char_kind(name)
+```
 ## __Description__
 
 __selected\_char\_kind__(name) returns the kind value for the character

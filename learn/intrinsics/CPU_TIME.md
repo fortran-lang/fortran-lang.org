@@ -8,13 +8,10 @@ permalink: /learn/intrinsics/CPU_TIME
 __cpu\_time__(3) - \[SYSTEM:TIME\] return CPU processor time in seconds
 
 ## __Syntax__
-
-
 ```fortran
      call cpu_time(time)
      real,intent(out) :: time
 ```
-
 ## __Description__
 
 Returns a _real_ value representing the elapsed CPU time in seconds. This

@@ -12,7 +12,6 @@ __merge\_bits__(3) - \[BIT MANIPULATION\] Merge of bits under mask
 ```fortran
 result = mergebits(i, j, mask)
 ```
-
 ## __Description__
 
 __merge\_bits(i, j, mask)__ merges the bits of __i__ and __j__ as determined by

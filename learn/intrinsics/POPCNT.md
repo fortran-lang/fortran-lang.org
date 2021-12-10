@@ -9,9 +9,9 @@ __popcnt__(3) - \[BIT INQUIRY\] Number of bits set
 (GFDL)
 
 ## __Syntax__
-
-result = __popcnt__(i)
-
+```fortran
+result = popcnt(i)
+```
 ## __Description__
 
 Returns the number of bits set in the binary representation of an

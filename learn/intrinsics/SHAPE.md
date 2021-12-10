@@ -9,9 +9,9 @@ __shape__(3) - \[ARRAY INQUIRY\] Determine the shape of an array
 (GFDL)
 
 ## __Syntax__
-
-result = __shape__(source\[, kind\])
-
+```fortran
+result = shape(source, kind)
+```
 ## __Description__
 
 Determines the shape of an array.

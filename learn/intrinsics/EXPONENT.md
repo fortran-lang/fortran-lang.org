@@ -9,9 +9,9 @@ __exponent__(3) - \[MODEL\_COMPONENTS\] Exponent function
 (GFDL)
 
 ## __Syntax__
-
-result = __exponent__(x)
-
+```fortran
+result = exponent(x)
+```
 ## __Description__
 
 __exponent__(x) returns the value of the exponent part of __x__. If __x__ is

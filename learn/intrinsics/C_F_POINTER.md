@@ -9,9 +9,9 @@ __c\_f\_pointer__(3) - \[ISO\_C\_BINDING\] Convert C into Fortran pointer
 (GFDL)
 
 ## __Syntax__
-
-call __c\_f\_pointer__(cptr, fptr\[, shape\])
-
+```fortran
+call c_f_pointer(cptr, fptr, shape)
+```
 ## __Description__
 
 __c\_f\_pointer__(cptr, fptr\[, shape\]) Assign the target, the C

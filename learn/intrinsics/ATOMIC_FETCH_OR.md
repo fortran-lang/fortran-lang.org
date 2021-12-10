@@ -9,9 +9,9 @@ __atomic\_fetch\_or__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operati
 (GFDL)
 
 ## __Syntax__
-
-call __atomic\_fetch\_or__(atom, value, old \[, stat\])
-
+```fortran
+call atomic_fetch_or(atom, value, old, stat)
+```
 ## __Description__
 
 __atomic\_fetch\_or__(atom, value, old) atomically stores the value of

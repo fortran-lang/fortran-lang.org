@@ -9,9 +9,9 @@ __char__(3) - \[CHARACTER\] Character conversion function
 (GFDL)
 
 ## __Syntax__
-
-result = __char__(i \[, kind\])
-
+```fortran
+result = char(i, kind)
+```
 ## __Description__
 
 __char(i, kind)__ returns the character represented by the integer __i__.

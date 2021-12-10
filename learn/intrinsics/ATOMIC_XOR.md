@@ -9,9 +9,9 @@ __atomic\_xor__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation
 (GFDL)
 
 ## __Syntax__
-
-call __atomic\_xor__(atom, value \[, stat\])
-
+```fortran
+call atomic_xor(atom, value, stat)
+```
 ## __Description__
 
 __atomic\_xor(atom, value)__ atomically defines __atom__ with the bitwise

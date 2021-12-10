@@ -9,9 +9,9 @@ __atomic\_or__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation
 (GFDL)
 
 ## __Syntax__
-
-call __atomic\_or__(atom, value \[, stat\])
-
+```fortran
+call atomic_or__(atom, value, stat)
+```
 ## __Description__
 
 __atomic\_or(atom, value)__ atomically defines __atom__ with the bitwise __or__

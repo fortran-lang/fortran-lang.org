@@ -9,9 +9,9 @@ __min__(3) - \[NUMERIC\] Minimum value of an argument list
 (GFDL)
 
 ## __Syntax__
-
-result = __min__(a1, a2 \[, a3, \`\`\`\])
-
+```fortran
+result = min(a1, a2, a3, ... )
+```
 ## __Description__
 
 Returns the argument with the smallest (most negative) value.

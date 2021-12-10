@@ -9,9 +9,9 @@ __eoshift__(3) - \[TRANSFORMATIONAL FUNCTION\] End-off shift elements of an arra
 (GFDL)
 
 ## __Syntax__
-
-result = __eoshift__(array, shift \[, boundary, dim\])
-
+```fortran
+result = eoshift(array, shift, boundary, dim)
+```
 ## __Description__
 
 __eoshift__(array, shift\[, boundary, dim\]) performs an end-off shift

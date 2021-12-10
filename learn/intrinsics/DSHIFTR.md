@@ -9,9 +9,9 @@ __dshiftr__(3) - \[BIT MANIPULATION\] combines bits of arguments __i__ and __j__
 (GFDL)
 
 ## __Syntax__
-
-result = __dshiftl__(i, j, shift)
-
+```fortran
+result = dshiftl(i, j, shift)
+```
 ## __Description__
 
 __dshiftr(i, j, shift)__ combines bits of __i__ and __j__. The leftmost __shift__

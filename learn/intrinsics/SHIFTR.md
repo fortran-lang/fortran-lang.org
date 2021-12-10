@@ -9,9 +9,9 @@ __shiftr__(3) - \[BIT MANIPULATION\] shift bits right
 (GFDL)
 
 ## __Syntax__
-
-result = __shiftr__(i, shift)
-
+```fortran
+result = shiftr(i, shift)
+```
 ## __Description__
 
 Returns a value corresponding to __i__ with all of the bits shifted right by

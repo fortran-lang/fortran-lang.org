@@ -9,14 +9,12 @@ __ichar__(3) - \[CHARACTER:CONVERSION\] Character-to-integer conversion function
 (GFDL)
 
 ## __Syntax__
+```fortran
+   elemental function ichar(c,kind)
 
-elemental function __ichar__(c,kind)
-
-```
     character(len=1),intent(in) :: c
     integer,intent(in),optional :: kind
 ```
-
 ## __Description__
 
 __ichar(c)__ returns the code for the character in the system's native

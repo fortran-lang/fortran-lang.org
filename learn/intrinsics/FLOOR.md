@@ -10,7 +10,7 @@ __floor__(3) - \[NUMERIC\] Integer floor function
 
 ## __Syntax__
 ```fortran
-result = floor(a , kind)
+result = floor(a, kind)
 ```
 ## __Description__
 

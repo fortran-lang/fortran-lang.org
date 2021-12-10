@@ -9,9 +9,9 @@ __co\_lbound__(3) - \[COLLECTIVE\] Lower codimension bounds of an array
 (GFDL)
 
 ## __Syntax__
-
-result = __co\_lbound__(coarray \[, dim \[, kind\]\])
-
+```fortran
+result = co_lbound(coarray, dim, kind)
+```
 ## __Description__
 
 Returns the lower bounds of a coarray, or a single lower cobound along

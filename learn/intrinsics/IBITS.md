@@ -9,9 +9,9 @@ __ibits__(3) - \[BIT MANIPULATION\] Bit extraction
 (GFDL)
 
 ## __Syntax__
-
-__result = ibits(i, pos, len)__
-
+```fortran
+result = ibits(i, pos, len)
+```
 ## __Description__
 
 __ibits__ extracts a field of length __len__ from __i__, starting from

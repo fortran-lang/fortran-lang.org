@@ -10,9 +10,8 @@ __atomic\_and__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation
 
 ## __Syntax__
 ```fortran
-call atomic\_and(atom, value, stat)
+call atomic_and(atom, value, stat)
 ```
-
 ## __Description__
 
 __atomic\_and__(atom, value) atomically defines __atom__ with the bitwise

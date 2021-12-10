@@ -12,7 +12,6 @@ __cmplx__(3) - \[NUMERIC:TYPE\] Complex conversion function
 ```fortran
 result = cmplx(x, y, kind)
 ```
-
 ## __Description__
 
 To convert numeric variables to complex, use the __cmplx__(3) function.

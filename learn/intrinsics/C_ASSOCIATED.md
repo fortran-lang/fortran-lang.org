@@ -9,9 +9,9 @@ __c\_associated__(3) - \[ISO\_C\_BINDING\] Status of a C pointer
 (GFDL)
 
 ## __Syntax__
-
-result = __c\_associated__(c\_prt\_1\[, c\_ptr\_2\])
-
+```fortran
+result = c_associated(c_prt_1, c_ptr_2)
+```
 ## __Description__
 
 __c\_associated__(c\_prt\_1\[, c\_ptr\_2\]) determines the status of the

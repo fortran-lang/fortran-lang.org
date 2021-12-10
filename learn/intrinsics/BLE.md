@@ -12,7 +12,6 @@ __ble__(3) - \[BIT COMPARE\] Bitwise less than or equal to
 ```fortran
     result = ble(i, j)
 ```
-
 ## __Description__
 
 Determines whether an integer is bitwise less than or equal to another.

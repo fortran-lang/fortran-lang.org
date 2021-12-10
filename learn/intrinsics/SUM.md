@@ -9,14 +9,10 @@ __sum__(3) - \[ARRAY REDUCTION\] sum the elements of an array
 (GFDL)
 
 ## __Syntax__
-
-Calling sequence:
-
-```
+```fortran
    result = sum(array[, mask])
    result = sum(array, dim[, mask])
 ```
-
 ## __Description__
 
 Adds the elements of ARRAY along dimension DIM if the corresponding

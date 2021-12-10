@@ -9,9 +9,9 @@ __event\_query__(3) - \[COLLECTIVE\] Query whether a coarray event has occurred
 (GFDL)
 
 ## __Syntax__
-
-call __event\_query__(event, count \[, stat\])
-
+```fortran
+call event_query(event, count, stat)
+```
 ## __Description__
 
 __event\_query__ assigns the number of events to __count__ which have been

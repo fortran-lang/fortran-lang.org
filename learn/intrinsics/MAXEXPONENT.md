@@ -12,7 +12,6 @@ __maxexponent__(3) - \[NUMERIC MODEL\] Maximum exponent of a real kind
 ```fortran
 result = maxexponent(x)
 ```
-
 ## __Description__
 
 __maxexponent(x)__ returns the maximum exponent in the model of the type

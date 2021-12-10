@@ -7,12 +7,10 @@ permalink: /learn/intrinsics/ALL
 
 __all__(3) - \[ARRAY REDUCTION\] determines if all the values are true
 (GFDL)
-
 ## __Syntax__
 ```fortran
 result = all(mask, dim)
 ```
-
 ## __Description__
 
 Logical conjunction of elements of __mask__ along dimension __dim__.

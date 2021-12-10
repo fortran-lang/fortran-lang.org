@@ -8,9 +8,9 @@ permalink: /learn/intrinsics/EXP
 __exp__(3) - \[MATHEMATICS\] Exponential function
 
 ## __Syntax__
-
-result = __exp__(x)
-
+```fortran
+result = exp(x)
+```
 ## __Description__
 
 __exp__(x) computes the base "_e_" exponential of __x__ where "_e_" is

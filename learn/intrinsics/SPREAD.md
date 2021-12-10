@@ -12,7 +12,6 @@ __spread__(3) - \[ARRAY CONSTRUCTION\] Add a dimension to an array
 ```fortran
 result = spread(source, dim, ncopies)
 ```
-
 ## __Description__
 
 Replicates a __source__ array __ncopies__ times along a specified dimension __dim__.

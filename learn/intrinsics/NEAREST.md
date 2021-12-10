@@ -12,7 +12,6 @@ __nearest__(3) - \[MODEL\_COMPONENTS\] Nearest representable number
 ```fortran
 result = nearest(x, s)
 ```
-
 ## __Description__
 
 __nearest(x, s)__ returns the processor-representable number nearest to

@@ -9,9 +9,9 @@ __is\_iostat\_eor__(3) - \[\] Test for end-of-record value
 (GFDL)
 
 ## __Syntax__
-
-result = __is\_iostat\_eor__(i)
-
+```fortran
+result = is_iostat_eor(i)
+```
 ## __Description__
 
 is\_iostat\_eor tests whether an variable has the value of the I/O

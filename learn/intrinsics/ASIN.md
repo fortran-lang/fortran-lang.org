@@ -8,11 +8,9 @@ permalink: /learn/intrinsics/ASIN
 __asin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arcsine function
 
 ## __Syntax__
-
 ```fortran
 result = asin(x)
 ```
-
 ## __Description__
 
 __asin(x)__ computes the arcsine of its argument __x__.

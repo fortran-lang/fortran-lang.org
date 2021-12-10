@@ -9,9 +9,9 @@ __llt__(3) - \[CHARACTER:COMPARE\] Lexical less than
 (GFDL)
 
 ## __Syntax__
-
-result = __llt__(string\_a, string\_b)
-
+```fortran
+result = llt(string_a, string_b)
+```
 ## __Description__
 
 Determines whether one string is lexically less than another string,

@@ -17,7 +17,6 @@ __get\_command\_argument__(3) - \[SYSTEM:COMMAND LINE\] Get command line argumen
      integer,intent(out),optional          :: length
      integer,intent(out),optional          :: status
 ```
-
 ## __Description__
 
 Retrieve the __number__-th argument that was passed on the command line

@@ -12,7 +12,6 @@ __radix__(3) - \[NUMERIC MODEL\] Base of a model number
 ```fortran
 result = radix(x)
 ```
-
 ## __Description__
 
 __radix(x)__ returns the base of the model representing the entity __x__.

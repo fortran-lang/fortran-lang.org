@@ -9,9 +9,9 @@ __co\_sum__(3) - \[COLLECTIVE\] Sum of values on the current set of images
 (GFDL)
 
 ## __Syntax__
-
-call __co\_sum__(a \[, result\_image, stat, errmsg\])
-
+```fortran
+call co_sum(a, result_image, stat, errmsg)
+```
 ## __Description__
 
 co\_sum sums up the values of each element of __a__ on all images of the

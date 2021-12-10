@@ -12,7 +12,6 @@ __dprod__(3) - \[NUMERIC\] Double product function
 ```fortran
 result = dprod(x, y)
 ```
-
 ## __Description__
 
 __dprod(x,y)__ produces a higher _doubleprecision_ product of default _real_

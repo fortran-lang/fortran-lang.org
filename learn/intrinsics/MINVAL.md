@@ -8,10 +8,9 @@ permalink: /learn/intrinsics/MINVAL
 __minval__(3) - \[ARRAY REDUCTION\] Minimum value of an array
 
 ## __Syntax__
-
-result = __minval__(array, dim \[, mask\]) result = __minval__(array \[,
-mask\])
-
+```fortran
+result = minval(array, dim, mask) result = minval(array, mask)
+```
 ## __Description__
 
 Determines the minimum value of the elements in an array value, or, if

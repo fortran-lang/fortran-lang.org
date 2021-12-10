@@ -9,9 +9,9 @@ __any__(3) - \[ARRAY REDUCTION\] determines if any of the values in the logical 
 (GFDL)
 
 ## __Syntax__
-
-result = __any(mask \[, dim\])__
-
+```fortran
+result = any(mask, dim)
+```
 ## __Description__
 
 __any(mask, dim)__ determines if any of the values in the logical

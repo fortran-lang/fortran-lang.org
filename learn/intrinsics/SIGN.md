@@ -9,9 +9,9 @@ __sign__(3) - \[NUMERIC\] Sign copying function
 (GFDL)
 
 ## __Syntax__
-
-result = __sign__(a, b)
-
+```fortran
+result = sign(a, b)
+```
 ## __Description__
 
 __sign__(a,b) returns the value of A with the sign of B.

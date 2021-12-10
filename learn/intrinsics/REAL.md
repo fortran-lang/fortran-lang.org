@@ -8,9 +8,9 @@ __real__(3) - \[NUMERIC:TYPE\] Convert to real type
 (GFDL)
 
 ## __Syntax__
-
-result = __real__(x \[, kind\])
-
+```fortran
+result = real(x, kind)
+```
 ## __Description__
 
 __real(x, kind)__ converts its argument __x__ to a real type.

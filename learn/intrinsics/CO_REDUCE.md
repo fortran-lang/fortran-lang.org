@@ -9,9 +9,9 @@ __co\_reduce__(3) - \[COLLECTIVE\] Reduction of values on the current set of ima
 (GFDL)
 
 ## __Syntax__
-
-call __co\_reduce__(a, operation, \[, result\_image, stat, errmsg\])
-
+```fortran
+call co_reduce(a, operation,, result_image, stat, errmsg)
+```
 ## __Description__
 
 co\_reduce determines element-wise the reduction of the value of __a__ on

@@ -8,7 +8,6 @@ permalink: /learn/intrinsics/COMMAND_ARGUMENT_COUNT
 __command\_argument\_count__(3) - \[SYSTEM:COMMAND LINE\] Get number of command line arguments
 
 ## __Syntax__
-
 ```fortran
     result = command_argument_count()
 

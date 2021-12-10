@@ -9,9 +9,9 @@ __shiftl__(3) - \[BIT MANIPULATION\] shift bits left
 (GFDL)
 
 ## __Syntax__
-
-result = __SHIFTL__(I, SHIFT)
-
+```fortran
+result = shiftl(i, shift)
+```
 ## __Description__
 
 Returns a value corresponding to __i__ with all of the bits shifted left by

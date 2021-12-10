@@ -9,9 +9,9 @@ __associated__(3) - \[\] Status of a pointer or pointer/target pair
 (GFDL)
 
 ## __Syntax__
-
-result = __associated(pointer \[, target\])__
-
+```fortran
+result = associated(pointer, target)
+```
 ## __Description__
 
 __associated(pointer \[, target\])__ determines the status of the

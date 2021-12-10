@@ -9,7 +9,6 @@ __logical__(3) - \[BIT MANIPULATION\] Converts one kind of _logical_ variable to
 (GFDL)
 
 ## __Syntax__
-
 ```fortran
 result = logical(l, kind)
 
@@ -17,7 +16,6 @@ result = logical(l, kind)
   logical(kind=INK),intent(in) :: L
   integer,intent(in),optional :: KIND
 ```
-
 ## __Description__
 
 Converts one kind of _logical_ variable to another.

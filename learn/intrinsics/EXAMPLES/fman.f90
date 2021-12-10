@@ -1222,7 +1222,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = ANINT(a [, kind])', &
+'    result = anint(a, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -1304,7 +1304,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = ANY(MASK [, DIM])', &
+'    result = any(mask, dim)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -1588,7 +1588,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = ASSOCIATED(POINTER [, TARGET])', &
+'    result = associated(pointer, target)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -1869,7 +1869,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = ATANH(X)', &
+'    result = atanh(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2025,7 +2025,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'    call atomic\_and(atom, value, stat)', &
+'    call atomic_and(atom, value, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2106,7 +2106,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call atomic_cas (atom, old, compare, new [, stat])', &
+'    call atomic_cas (atom, old, compare, new, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2283,7 +2283,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call ATOMIC_FETCH_ADD(atom, value, old [, stat])', &
+'    call atomic_fetch_add(atom, value, old, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2372,7 +2372,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call ATOMIC_FETCH_AND(atom, value, old [, stat])', &
+'    call atomic_fetch_and(atom, value, old, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2458,7 +2458,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call ATOMIC_FETCH_OR(atom, value, old [, stat])', &
+'    call atomic_fetch_or(atom, value, old, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2544,7 +2544,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call atomic_fetch_xor (atom, value, old [, stat])', &
+'    call atomic_fetch_xor (atom, value, old, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2630,7 +2630,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call ATOMIC_OR(atom, value [, stat])', &
+'    call atomic_or__(atom, value, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2712,7 +2712,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call ATOMIC_REF(value, atom [, stat])', &
+'    call atomic_ref(value, atom, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -2802,7 +2802,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call ATOMIC_XOR(atom, value [, stat])', &
+'    call atomic_xor(atom, value, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -3480,7 +3480,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'RESULT = BIT_SIZE(I)', &
+'    result = bit_size(i)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -3842,7 +3842,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = C_ASSOCIATED(c_prt_1[, c_ptr_2])', &
+'    result = c_associated(c_prt_1, c_ptr_2)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4011,7 +4011,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call C_F_POINTER(cptr, fptr[, shape])', &
+'    call c_f_pointer(cptr, fptr, shape)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4095,7 +4095,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call C_F_PROCPOINTER(cptr, fptr)', &
+'    call c_f_procpointer(cptr, fptr)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4180,7 +4180,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = C_FUNLOC(x)', &
+'    result = c_funloc(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4271,7 +4271,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = CHAR(i [, kind])', &
+'    result = char(i, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4358,7 +4358,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = C_LOC(x)', &
+'    result = c_loc(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4605,7 +4605,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call CO_BROADCAST(a, source_image [, stat, errmsg])', &
+'    call co_broadcast(a, source_image, stat, errmsg)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4687,7 +4687,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = CO_LBOUND(coarray [, dim [, kind]])', &
+'    result = co_lbound(coarray, dim, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4759,7 +4759,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call CO_MAX(a [, result_image, stat, errmsg])', &
+'    call co_max(a, result_image, stat, errmsg)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -4848,7 +4848,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call CO_MIN(a [, result_image, stat, errmsg])', &
+'    call co_min(a, result_image, stat, errmsg)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -5027,7 +5027,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'str = COMPILER_OPTIONS()', &
+'    str = compiler_options()', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -5193,7 +5193,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'z = CONJG(z)', &
+'    z = conjg(z)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -5268,7 +5268,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call CO_REDUCE(a, operation, [, result_image, stat, errmsg])', &
+'    call co_reduce(a, operation,, result_image, stat, errmsg)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -5559,7 +5559,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call CO_SUM(a [, result_image, stat, errmsg])', &
+'    call co_sum(a, result_image, stat, errmsg)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -5648,7 +5648,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = CO_UBOUND(coarray [, dim [, kind]])', &
+'    result = co_ubound(coarray, dim, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -5719,7 +5719,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = COUNT(mask [, dim, kind])', &
+'    result = count(mask, dim, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -5929,7 +5929,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = CSHIFT(array, shift [, dim])', &
+'    result = cshift(array, shift, dim)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -6232,7 +6232,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = DBLE(A)', &
+'    result = dble(a)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -6245,7 +6245,7 @@ textblock=[character(len=256) :: &
 '', &
 'RETURNS', &
 '', &
-'The return value is of type DOUBLEPRECISION.', &
+'The return value is of type _doubleprecision_.', &
 '', &
 'EXAMPLES', &
 '', &
@@ -6461,7 +6461,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = DOT_PRODUCT(vector_a, vector_b)', &
+'    result = dot_product(vector_a, vector_b)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -6650,7 +6650,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = DSHIFTL(I, J, SHIFT)', &
+'    result = dshiftl(i, j, shift)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -6718,7 +6718,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = DSHIFTL(i, j, shift)', &
+'    result = dshiftl(i, j, shift)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -6786,7 +6786,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = EOSHIFT(array, shift [, boundary, dim])', &
+'    result = eoshift(array, shift, boundary, dim)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -7239,7 +7239,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call EVENT_QUERY(event, count [, stat])', &
+'    call event_query(event, count, stat)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -7320,8 +7320,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'subroutine EXECUTE_COMMAND_LINE(command, wait, exitstat, cmdstat,', &
-'cmdmsg)', &
+'       subroutine execute_command_line(command, wait, exitstat, cmdstat, cmdmsg)', &
 '', &
 '        character(len=*),intent(in)  :: command', &
 '        logical,intent(in),optional  :: wait', &
@@ -7452,7 +7451,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = EXP(x)', &
+'    result = exp(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -7571,7 +7570,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = EXPONENT(x)', &
+'    result = exponent(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -7720,11 +7719,11 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'findloc (ARRAY, VALUE, dim [, MASK, KIND, BACK])', &
+'    findloc (array, value, dim, mask, kind, back)', &
 '', &
-'or', &
+'    or', &
 '', &
-'findloc(ARRAY, VALUE [, MASK, KIND, BACK])', &
+'    findloc(array, value, mask, kind, back)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -7906,7 +7905,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = FLOAT(a)', &
+'    result = float(a)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -7975,7 +7974,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'    result = floor(a , kind)', &
+'    result = floor(a, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9354,7 +9353,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = IACHAR(c [, kind])', &
+'    result = iachar(c, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9459,9 +9458,11 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'-   result = IALL(array[, mask])', &
+'      result = iall(array, mask)', &
 '', &
-'-   result = IALL(array, dim[, mask])', &
+'        or', &
+'', &
+'      result = iall(array, dim, mask)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9555,7 +9556,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'RESULT = IAND(I, J)', &
+'    result = iand(i, j)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9630,9 +9631,11 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'-   result = IANY(array[, mask])', &
+'      result = iany(array, mask)', &
 '', &
-'-   result = IANY(array, dim[, mask])', &
+'        or', &
+'', &
+'      result = iany(array, dim, mask)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9723,7 +9726,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'RESULT = IBCLR(I, POS)', &
+'    result = ibclr(i, pos)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9789,7 +9792,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'RESULT = IBITS(I, POS, LEN)', &
+'    result = ibits(i, pos, len)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9859,7 +9862,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'RESULT = IBSET(I, POS)', &
+'    result = ibset(i, pos)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -9926,7 +9929,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'elemental function ICHAR(c,kind)', &
+'       elemental function ichar(c,kind)', &
 '', &
 '        character(len=1),intent(in) :: c', &
 '        integer,intent(in),optional :: kind', &
@@ -10060,7 +10063,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'RESULT = IEOR(I, J)', &
+'    result = ieor(i, j)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -10125,7 +10128,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = IMAGE_INDEX(coarray, sub)', &
+'    result = image_index(coarray, sub)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -10202,7 +10205,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'INDEX(STRING, SUBSTRING [, BACK [, KIND]]) RESULT(START)', &
+'       index(string, substring, back, kind) result(start)', &
 '', &
 '         character(len=*),intent(in) :: string', &
 '         character(len=*),intent(in) :: substring', &
@@ -10446,8 +10449,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'RESULT = IOR(I, J)', &
-'', &
+'       result = ior(i, j)', &
 '        integer,intent(in) :: i', &
 '        integer,intent(in) :: j', &
 '', &
@@ -10533,9 +10535,11 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'-   result = IPARITY(array[, mask])', &
+'      result = iparity(array, mask)', &
 '', &
-'-   result = IPARITY(array, dim[, mask])', &
+'       or', &
+'', &
+'      result = iparity(array, dim, mask)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -10624,7 +10628,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = IS_CONTIGUOUS(A)', &
+'    result = is_contiguous(a)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -10747,7 +10751,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = ISHFT(i, shift)', &
+'    result = ishft(i, shift)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -10815,7 +10819,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = ISHFTC(i, shift [, size])', &
+'    result = ishftc(i, shift, size)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -10976,7 +10980,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = IS_IOSTAT_EOR(i)', &
+'    result = is_iostat_eor(i)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -11667,7 +11671,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = LGE(string_a, string_b)', &
+'    result = lge(string_a, string_b)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -11749,7 +11753,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = LGT(string_a, string_b)', &
+'    result = lgt(string_a, string_b)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -11831,10 +11835,13 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = LLE(STR_A, STR_B)', &
+'    result = lle(STR_A, STR_B)', &
 '', &
-'CHARACTER(len=*),intent(in) :: STR_A, STR_B or', &
-'CHARACTER(len=*),intent(in) :: STR_A, STR_B(*) logical :: result', &
+'       character(len=*),intent(in) :: STR_A, STR_B', &
+'', &
+'          or', &
+'', &
+'       character(len=*),intent(in) :: STR_A, STR_B(*) logical :: result', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -11950,7 +11957,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = LLT(string_a, string_b)', &
+'    result = llt(string_a, string_b)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -12407,7 +12414,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MASKR(I[, KIND])', &
+'    result = maskr(i, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -12472,7 +12479,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MATMUL(matrix_a, matrix_b)', &
+'    result = matmul(matrix_a, matrix_b)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -12537,7 +12544,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MAX(A1, A2 [, A3 [, ```]])', &
+'    result = max(a1, a2, a3, ...)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -12754,7 +12761,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MAXLOC(ARRAY, DIM [, MASK]) RESULT = MAXLOC(ARRAY [, MASK])', &
+'    result = maxloc(array, dim, mask) result = maxloc(array, mask)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -12877,9 +12884,11 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MAXVAL(ARRAY, DIM [, MASK])', &
+'    result = maxval(array, dim, mask)', &
 '', &
-'result = MAXVAL(ARRAY [, MASK])', &
+'or', &
+'', &
+'    result = maxval(array, mask)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -13218,7 +13227,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MIN(a1, a2 [, a3, ```])', &
+'    result = min(a1, a2, a3, ... )', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -13378,6 +13387,8 @@ textblock=[character(len=256) :: &
 '', &
 '        result = minloc(array, dim, mask)', &
 '', &
+'or', &
+'', &
 '        result = minloc(array, mask)', &
 '', &
 'DESCRIPTION', &
@@ -13487,7 +13498,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MINVAL(array, dim [, mask]) result = MINVAL(array [, mask])', &
+'    result = minval(array, dim, mask) result = minval(array, mask)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -13660,7 +13671,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = MOD(a, p)', &
+'    result = mod(a, p)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -13929,7 +13940,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call MVBITS(FROM, FROMPOS, LEN, TO, TOPOS)', &
+'    call mvbits(from, frompos, len, to, topos)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -14082,7 +14093,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = NEW_LINE(c)', &
+'    result = new_line(c)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -14282,7 +14293,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = NORM2(array[, dim])', &
+'    result = norm2(array, dim)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -14361,7 +14372,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = NOT(i)', &
+'    result = not(i)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -14580,7 +14591,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = NUM_IMAGES(distance, failed)', &
+'    result = num_images(distance, failed)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -14806,7 +14817,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = PARITY(mask[, dim])', &
+'    result = parity(mask, dim)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -14882,7 +14893,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = POPCNT(i)', &
+'    result = popcnt(i)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -14967,7 +14978,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = POPPAR(i)', &
+'    result = poppar(i)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -15122,7 +15133,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = PRESENT(a)', &
+'    result = present(a)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -15194,9 +15205,11 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'-   result = PRODUCT(array[, mask])', &
+'      result = product(array, mask)', &
 '', &
-'-   result = PRODUCT(array, dim[, mask])', &
+'or', &
+'', &
+'      result = product(array, dim, mask)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -15468,7 +15481,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'call RANDOM_SEED([size, put, get])', &
+'    call random_seed(size, put, get)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -15555,7 +15568,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = RANGE(x)', &
+'    result = range(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -15630,7 +15643,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = RANK(a)', &
+'    result = rank(a)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -15702,7 +15715,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = REAL(x [, kind])', &
+'    result = real(x, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16287,7 +16300,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SELECTED_CHAR_KIND(name)', &
+'    result = selected_char_kind(name)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16366,7 +16379,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SELECTED_INT_KIND(r)', &
+'    result = selected_int_kind(r)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16438,7 +16451,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SELECTED_REAL_KIND([p, r, radix])', &
+'    result = selected_real_kind(p, r, radix)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16625,7 +16638,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SHAPE(source[, kind])', &
+'    result = shape(source, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16704,7 +16717,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SHIFTA(i, shift)', &
+'    result = shifta(i, shift)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16771,7 +16784,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SHIFTL(I, SHIFT)', &
+'    result = shiftl(i, shift)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16836,7 +16849,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SHIFTR(i, shift)', &
+'    result = shiftr(i, shift)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -16901,7 +16914,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SIGN(a, b)', &
+'    result = sign(a, b)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -17187,7 +17200,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'    result = size(array, dim , kind)', &
+'    result = size(array, dim, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -17400,7 +17413,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SNGL(a)', &
+'    result = sngl(a)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -17461,7 +17474,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = SPACING(x)', &
+'    result = spacing(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -17789,7 +17802,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = STORAGE_SIZE(a [, kind])', &
+'    result = storage_size(a, kind)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -17866,8 +17879,6 @@ textblock=[character(len=256) :: &
 'SUM(3) - [ARRAY REDUCTION] sum the elements of an array (GFDL)', &
 '', &
 'SYNTAX', &
-'', &
-'Calling sequence:', &
 '', &
 '       result = sum(array[, mask])', &
 '       result = sum(array, dim[, mask])', &
@@ -18096,7 +18107,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = TAN(X)', &
+'    result = tan(x)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -18242,8 +18253,8 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = THIS_IMAGE() result = THIS_IMAGE(distance) result =', &
-'THIS_IMAGE(coarray [, dim])', &
+'    result = this_image() result = this_image(distance) &', &
+'             & result = this_image(coarray, dim)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -18430,7 +18441,7 @@ textblock=[character(len=256) :: &
 '', &
 'DESCRIPTION', &
 '', &
-'TRAILZ returns the number of trailing zero bits of an _integer_ value', &
+'TRAILZ(3) returns the number of trailing zero bits of an _integer_ value', &
 '', &
 'ARGUMENTS', &
 '', &
@@ -18562,7 +18573,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = TRANSFER(source, mold[, size])', &
+'    result = transfer(source, mold, size)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -18675,7 +18686,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = TRANSPOSE(matrix)', &
+'    result = transpose(matrix)', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -19082,7 +19093,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYNTAX', &
 '', &
-'result = VERIFY(string, set[, back [, kind]])', &
+'    result = verify(string, set, back, kind)', &
 '', &
 'DESCRIPTION', &
 '', &

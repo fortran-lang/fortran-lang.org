@@ -12,7 +12,6 @@ __log\_gamma__(3) - \[MATHEMATICS\] Logarithm of the Gamma function
 ```fortran
 x = log_gamma(x)
 ```
-
 ## __Description__
 
 __log\_gamma(x)__ computes the natural logarithm of the absolute value of the Gamma function.

@@ -8,7 +8,6 @@ permalink: /learn/intrinsics/ABS
 __abs__(3) - \[NUMERIC\] Absolute value
 
 ## __Syntax__
-
 ```fortran
   result = abs(a)
 

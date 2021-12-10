@@ -14,7 +14,6 @@ __aimag__(3) - \[NUMERIC:TYPE\] Imaginary part of complex number
     complex(kind=KIND),elemental :: aimag
     complex(kind=KIND),intent(in) :: z
 ```
-
 ## __Description__
 
 __aimag(z)__ yields the imaginary part of complex argument __z__.

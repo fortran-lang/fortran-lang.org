@@ -9,18 +9,15 @@ __execute\_command\_line__(3) - \[SYSTEM:PROCESSES\] Execute a shell command
 (GFDL)
 
 ## __Syntax__
+```fortran
+   subroutine execute_command_line(command, wait, exitstat, cmdstat, cmdmsg)
 
-subroutine __execute\_command\_line__(command, wait, exitstat, cmdstat,
-cmdmsg)
-
-```
     character(len=*),intent(in)  :: command
     logical,intent(in),optional  :: wait
     integer,intent(out),optional :: exitstat
     integer,intent(out),optional :: cmdstat
     character(len=*),intent(out),optional :: cmdmsg
 ```
-
 ## __Description__
 
 The __command__ argument is passed to the shell and executed. (The shell is

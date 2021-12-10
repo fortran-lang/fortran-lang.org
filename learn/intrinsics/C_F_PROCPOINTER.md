@@ -9,9 +9,9 @@ __c\_f\_procpointer__(3) - \[ISO\_C\_BINDING\] Convert C into Fortran procedure 
 (GFDL)
 
 ## __Syntax__
-
-call __c\_f\_procpointer__(cptr, fptr)
-
+```fortran
+call c_f_procpointer(cptr, fptr)
+```
 ## __Description__
 
 __c\_f\_procpointer(cptr, fptr)__ assigns the target of the C function

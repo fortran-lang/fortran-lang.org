@@ -9,9 +9,9 @@ __atomic\_fetch\_and__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND opera
 (GFDL)
 
 ## __Syntax__
-
-call __atomic\_fetch\_and__(atom, value, old \[, stat\])
-
+```fortran
+call atomic_fetch_and(atom, value, old, stat)
+```
 ## __Description__
 
 __atomic\_fetch\_and__(atom, value, old) atomically stores the value of

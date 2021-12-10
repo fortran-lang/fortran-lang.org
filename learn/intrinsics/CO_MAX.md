@@ -9,9 +9,9 @@ __co\_max__(3) - \[COLLECTIVE\] Maximal value on the current set of images
 (GFDL)
 
 ## __Syntax__
-
-call __co\_max__(a \[, result\_image, stat, errmsg\])
-
+```fortran
+call co_max(a, result_image, stat, errmsg)
+```
 ## __Description__
 
 co\_max determines element-wise the maximal value of __a__ on all images of

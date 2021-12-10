@@ -11,7 +11,6 @@ __ubound__(3) - \[ARRAY INQUIRY\] Upper dimension bounds of an array
 ```fortran
 result = ubound(array, dim, kind)
 ```
-
 ## __Description__
 
 Returns the upper bounds of an array, or a single upper bound along the

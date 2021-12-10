@@ -12,7 +12,6 @@ __set\_exponent__(3) - \[MODEL\_COMPONENTS\] Set the exponent of the model
 ```fortran
 result = set_exponent(x, i)
 ```
-
 ## __Description__
 
 __set\_exponent(x, i)__ returns the real number whose fractional part is

@@ -9,11 +9,13 @@ __iall__(3) - \[BIT MANIPULATION\] Bitwise and of array elements
 (GFDL)
 
 ## __Syntax__
+```fortran
+  result = iall(array, mask)
 
-  - result = __iall__(array\[, mask\])
+    or
 
-  - result = __iall__(array, dim\[, mask\])
-
+  result = iall(array, dim, mask)
+```
 ## __Description__
 
 Reduces with bitwise _and_ the elements of __array__ along dimension __dim__ if

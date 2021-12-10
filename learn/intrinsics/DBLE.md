@@ -9,21 +9,21 @@ __dble__(3) - \[NUMERIC:TYPE\] Double conversion function
 (GFDL)
 
 ## __Syntax__
-
-result = __DBLE__(A)
-
+```fortran
+result = dble(a)
+```
 ## __Description__
 
-__DBLE__(A) Converts A to double precision real type.
+__dble(a)__ Converts A to double precision real type.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : The type shall be _integer_, _real_, or _complex_.
 
 ## __Returns__
 
-The return value is of type DOUBLEPRECISION.
+The return value is of type _doubleprecision_.
 
 ## __Examples__
 

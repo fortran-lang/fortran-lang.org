@@ -9,14 +9,11 @@ __ior__(3) - \[BIT MANIPULATION\] Bitwise logical inclusive or
 (GFDL)
 
 ## __Syntax__
-
-__result = ior(i, j)__
-
 ```fortran
+   result = ior(i, j)
     integer,intent(in) :: i
     integer,intent(in) :: j
 ```
-
 ## __Description__
 
 __ior__ returns the bit-wise Boolean inclusive-__or__ of __i__ and __j__.

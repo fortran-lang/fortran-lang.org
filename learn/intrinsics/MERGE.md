@@ -11,7 +11,6 @@ __merge__(3) - \[ARRAY CONSTRUCTION\] Merge variables
 ```fortran
 result = merge(tsource, fsource, mask)
 ```
-
 ## __Description__
 
 The elemental function __merge__(3) selects values from two arrays or

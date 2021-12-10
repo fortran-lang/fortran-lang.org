@@ -12,7 +12,6 @@ __precision__(3) - \[NUMERIC MODEL\] Decimal precision of a real kind
 ```fortran
 result = precision(x)
 ```
-
 ## __Description__
 
 __precision(x)__ returns the decimal precision in the model of the type

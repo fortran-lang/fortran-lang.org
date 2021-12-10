@@ -10,10 +10,13 @@ __product__(3) - \[ARRAY REDUCTION\] Product of array elements
 
 ## __Syntax__
 
-  - result = __product__(array\[, mask\])
-
-  - result = __product__(array, dim\[, mask\])
-
+```fortran
+  result = product(array, mask)
+```
+   or
+```fortran
+  result = product(array, dim, mask)
+```
 ## __Description__
 
 Multiplies the elements of __array__ along dimension __dim__ if the

@@ -9,11 +9,13 @@ __maxval__(3) - \[ARRAY REDUCTION\] determines the maximum value in an array or 
 (GFDL)
 
 ## __Syntax__
-
-result = __maxval(array, dim \[, mask\])__
-
-result = __maxval(array \[, mask\])__
-
+```fortran
+result = maxval(array, dim, mask)
+```
+   or 
+```fortran
+result = maxval(array, mask)
+```
 ## __Description__
 
 Determines the maximum value of the elements in an array value, or, if

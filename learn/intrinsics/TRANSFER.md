@@ -9,9 +9,9 @@ __transfer__(3) - \[BIT MANIPULATION\] Transfer bit patterns
 (GFDL)
 
 ## __Syntax__
-
-result = __transfer__(source, mold\[, size\])
-
+```fortran
+result = transfer(source, mold, size)
+```
 ## __Description__
 
 Interprets the bitwise representation of __source__ in memory as if it is

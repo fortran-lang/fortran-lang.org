@@ -8,14 +8,11 @@ permalink: /learn/intrinsics/NINT
 __nint__(3) - \[NUMERIC:TYPE\] Nearest whole number
 
 ## __Syntax__
-
-
 ```fortran
     elemental function nint(x [, kind=NN]) result(ANSWER)
      real(kind=??),intent(in) :: x
      integer(kind=NN) :: ANSWER
 ```
-
 ## __Description__
 
 __nint(x)__ rounds its argument to the nearest whole number with its

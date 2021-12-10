@@ -9,9 +9,9 @@ __atomic\_ref__(3) - \[ATOMIC\] Obtaining the value of a variable atomically
 (GFDL)
 
 ## __Syntax__
-
-call __atomic\_ref__(value, atom \[, stat\])
-
+```fortran
+call atomic_ref(value, atom, stat)
+```
 ## __Description__
 
 __atomic\_ref(value, atom)__ atomically assigns the value of the

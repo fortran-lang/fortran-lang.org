@@ -8,7 +8,6 @@ permalink: /learn/intrinsics/LEN_TRIM
 __len\_trim__(3) - \[CHARACTER:WHITESPACE\] Length of a character entity without trailing blank characters
 
 ## __Syntax__
-
 ```fortran
    result = len_trim(string, kind)
 
@@ -17,7 +16,6 @@ __len\_trim__(3) - \[CHARACTER:WHITESPACE\] Length of a character entity without
     integer,optional,intent(in) :: KIND
     integer(kind=KIND) :: value
 ```
-
 ## __Description__
 
 Returns the length of a character string, ignoring any trailing blanks.

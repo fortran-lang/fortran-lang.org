@@ -9,9 +9,9 @@ __count__(3) - \[ARRAY REDUCTION\] Count function
 (GFDL)
 
 ## __Syntax__
-
-result = __count__(mask \[, dim, kind\])
-
+```fortran
+result = count(mask, dim, kind)
+```
 ## __Description__
 
 Counts the number of __.true.__ elements in a logical __mask__, or, if the __dim__

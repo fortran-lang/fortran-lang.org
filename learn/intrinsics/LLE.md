@@ -9,13 +9,15 @@ __lle__(3) - \[CHARACTER:COMPARE\] Lexical less than or equal
 (GFDL)
 
 ## __Syntax__
+```fortran
+result = lle(STR_A, STR_B)
 
-result = __lle__(STR\_A, STR\_B)
+   character(len=*),intent(in) :: STR_A, STR_B
 
-__character__(len=\*),intent(in) :: STR\_A, STR\_B or
-__character__(len=\*),intent(in) :: STR\_A, __STR\_B__(\*) logical ::
-result
+      or
 
+   character(len=*),intent(in) :: STR_A, STR_B(*) logical :: result
+```
 ## __Description__
 
 Determines whether one string is lexically less than or equal to another
@@ -43,8 +45,8 @@ ordering.
 
 ## __Returns__
 
-  - __RESULT__
-    Returns .TRUE. if STR\_A \<= STR\_B, and .FALSE. otherwise, based on
+  - __result__
+    Returns __.true.__ if STR\_A \<= STR\_B, and __.false.__ otherwise, based on
     the ASCII ordering.
 
 ## __Examples__

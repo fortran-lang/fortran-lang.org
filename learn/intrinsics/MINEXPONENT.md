@@ -12,7 +12,6 @@ __minexponent__(3) - \[NUMERIC MODEL\] Minimum exponent of a real kind
 ```fortran
 result = minexponent(x)
 ```
-
 ## __Description__
 
 __minexponent(x)__ returns the minimum exponent in the model of the type

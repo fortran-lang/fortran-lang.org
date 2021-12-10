@@ -11,7 +11,6 @@ __sin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function
 ```fortran
 result = sin(x)
 ```
-
 ## __Description__
 
 __sin(x)__ computes the sine of an angle given the size of the angle in

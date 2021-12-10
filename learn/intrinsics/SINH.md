@@ -12,7 +12,6 @@ __sinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic sine function
 ```fortran
 result = sinh(x)
 ```
-
 ## __Description__
 
 __sinh(x)__ computes the hyperbolic sine of __x__.

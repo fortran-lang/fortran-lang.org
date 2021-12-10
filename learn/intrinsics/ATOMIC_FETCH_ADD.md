@@ -9,9 +9,9 @@ __atomic\_fetch\_add__(3) - \[ATOMIC\] Atomic ADD operation with prior fetch
 (GFDL)
 
 ## __Syntax__
-
-call __atomic\_fetch\_add__(atom, value, old \[, stat\])
-
+```fortran
+call atomic_fetch_add(atom, value, old, stat)
+```
 ## __Description__
 
 __atomic\_fetch\_add__(atom, value, old) atomically stores the value of

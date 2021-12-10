@@ -12,7 +12,6 @@ __random\_number__(3) - \[MATHEMATICS:RANDOM\] Pseudo-random number
 ```fortran
    random_number(harvest)
 ```
-
 ## __Description__
 
 Returns a single pseudorandom number or an array of pseudorandom numbers

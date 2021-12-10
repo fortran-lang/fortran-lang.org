@@ -9,9 +9,9 @@ __conjg__(3) - \[NUMERIC\] Complex conjugate function
 (GFDL)
 
 ## __Syntax__
-
-z = __conjg__(z)
-
+```fortran
+z = conjg(z)
+```
 ## __Description__
 
 __conjg__(z) returns the conjugate of Z. If Z is (x, y) then the result

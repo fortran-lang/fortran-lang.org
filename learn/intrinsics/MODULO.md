@@ -11,7 +11,6 @@ __modulo__(3) - \[NUMERIC\] Modulo function
 ## __Syntax__
 ```fortran
 result = modulo(a, p)
-
 ```
 ## __Description__
 

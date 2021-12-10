@@ -9,9 +9,9 @@ __ibset__(3) - \[BIT MANIPULATION\] Set bit
 (GFDL)
 
 ## __Syntax__
-
-__result = ibset(i, pos)__
-
+```fortran
+result = ibset(i, pos)
+```
 ## __Description__
 
 __ibset__ returns the value of __i__ with the bit at position __pos__ set to one.

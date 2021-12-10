@@ -9,9 +9,9 @@ __iachar__(3) - \[CHARACTER:CONVERSION\] Code in ASCII collating sequence
 (GFDL)
 
 ## __Syntax__
-
-result = __iachar__(c \[, kind\])
-
+```fortran
+result = iachar(c, kind)
+```
 ## __Description__
 
 __iachar__(c) returns the code for the ASCII character in the first

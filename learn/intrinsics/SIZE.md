@@ -10,9 +10,8 @@ __size__(3) - \[ARRAY INQUIRY\] Determine the size of an array
 
 ## __Syntax__
 ```fortran
-result = size(array, dim , kind)
+result = size(array, dim, kind)
 ```
-
 ## __Description__
 
 Determine the extent of __array__ along a specified dimension __dim__,

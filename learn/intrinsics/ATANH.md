@@ -9,9 +9,9 @@ __atanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic tangent function
 (GFDL)
 
 ## __Syntax__
-
-result = __atanh(x)__
-
+```fortran
+result = atanh(x)
+```
 ## __Description__
 
 __atanh(x)__ computes the inverse hyperbolic tangent of __x__.

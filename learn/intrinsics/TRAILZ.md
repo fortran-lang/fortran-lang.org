@@ -12,20 +12,19 @@ __trailz__(3) - \[BIT INQUIRY\] Number of trailing zero bits of an integer
    result = trailz(i) integer :: result
    integer(kind=NNN),intent(in) :: i
 ```
-
 ## __Description__
 
-TRAILZ returns the number of trailing zero bits of an _integer_ value
+__trailz(3)__ returns the number of trailing zero bits of an _integer_ value
 
 ## __Arguments__
 
-  - __I__
+  - __i__
     : Shall be of type _integer_.
 
 ## __Returns__
 
 The type of the return value is the default _integer_. If all the bits of
-I are zero, the result value is __bit\_size__(I).
+I are zero, the result value is __bit\_size(i)__.
 
 ## __Examples__
 

@@ -9,9 +9,9 @@ __c\_funloc__(3) - \[ISO\_C\_BINDING\] Obtain the C address of a procedure
 (GFDL)
 
 ## __Syntax__
-
-result = __c\_funloc__(x)
-
+```fortran
+result = c_funloc(x)
+```
 ## __Description__
 
 __c\_funloc(x)__ determines the C address of the argument.

@@ -9,9 +9,9 @@ __mod__(3) - \[NUMERIC\] Remainder function
 (GFDL)
 
 ## __Syntax__
-
-result = __mod__(a, p)
-
+```fortran
+result = mod(a, p)
+```
 ## __Description__
 
 __mod__(a,p) computes the remainder of the division of __a__ by __p__.

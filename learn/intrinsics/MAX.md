@@ -9,9 +9,9 @@ __max__(3) - \[NUMERIC\] Maximum value of an argument list
 (GFDL)
 
 ## __Syntax__
-
-result = __max(a1, a2 \[, a3 \[, \`\`\`\]\])__
-
+```fortran
+result = max(a1, a2, a3, ...)
+```
 ## __Description__
 
 Returns the argument with the largest (most positive) value.

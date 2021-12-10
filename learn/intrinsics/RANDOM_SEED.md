@@ -9,9 +9,9 @@ __random\_seed__(3) - \[MATHEMATICS:RANDOM\] Initialize a pseudo-random number s
 (GFDL)
 
 ## __Syntax__
-
-call __random\_seed__(\[size, put, get\])
-
+```fortran
+call random_seed(size, put, get)
+```
 ## __Description__
 
 Restarts or queries the state of the pseudorandom number generator used

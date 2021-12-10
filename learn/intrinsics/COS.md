@@ -12,7 +12,6 @@ __cos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Cosine function
 ```fortran
 result = cos(x)
 ```
-
 ## __Description__
 
 __cos(x)__ computes the cosine of __x__.

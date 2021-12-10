@@ -14,7 +14,6 @@ __bessel\_jn__(3) - \[MATHEMATICS\] Bessel function of the first kind
 
   result = bessel_jn(n1, n2, x)
 ```
-
 ## __Description__
 
 __bessel\_jn__(n, x) computes the Bessel function of the first

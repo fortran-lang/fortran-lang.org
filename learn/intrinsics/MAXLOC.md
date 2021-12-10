@@ -9,9 +9,9 @@ __maxloc__(3) - \[ARRAY LOCATION\] Location of the maximum value within an array
 (GFDL)
 
 ## __Syntax__
-
-result = __maxloc(array, dim \[, mask\]) result = maxloc(array \[, mask\])__
-
+```fortran
+result = maxloc(array, dim, mask) result = maxloc(array, mask)
+```
 ## __Description__
 
 Determines the location of the element in the array with the maximum

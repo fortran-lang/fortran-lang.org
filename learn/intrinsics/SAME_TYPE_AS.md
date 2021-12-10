@@ -11,7 +11,6 @@ __same\_type\_as__(3) - \[\] Query dynamic types for equality
 ## __Syntax__
 ```fortran
 result = same_type_as(a, b)
-     
 ```
 ## __Description__
 

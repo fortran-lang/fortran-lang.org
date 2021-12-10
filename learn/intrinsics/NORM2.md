@@ -9,9 +9,9 @@ __norm2__(3) - \[MATHEMATICS\] Euclidean vector norm
 (GFDL)
 
 ## __Syntax__
-
-result = __norm2__(array\[, dim\])
-
+```fortran
+result = norm2(array, dim)
+```
 ## __Description__
 
 Calculates the Euclidean vector norm (L\_2 norm) of __array__ along

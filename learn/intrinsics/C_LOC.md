@@ -9,9 +9,9 @@ __c\_loc__(3) - \[ISO\_C\_BINDING\] Obtain the C address of an object
 (GFDL)
 
 ## __Syntax__
-
-result = __c\_loc__(x)
-
+```fortran
+result = c_loc(x)
+```
 ## __Description__
 
 __c\_loc__(x) determines the C address of the argument.

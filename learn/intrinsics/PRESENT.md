@@ -9,9 +9,9 @@ __present__(3) - \[\] Determine whether an optional dummy argument is specified
 (GFDL)
 
 ## __Syntax__
-
-result = __present__(a)
-
+```fortran
+result = present(a)
+```
 ## __Description__
 
 Determines whether an optional dummy argument is present.

@@ -9,9 +9,9 @@ __cshift__(3) - \[TRANSFORMATIONAL FUNCTION\] Circular shift elements of an arra
 (GFDL)
 
 ## __Syntax__
-
-result = __cshift__(array, shift \[, dim\])
-
+```fortran
+result = cshift(array, shift, dim)
+```
 ## __Description__
 
 __cshift__(array, shift \[, dim\]) performs a circular shift on elements

@@ -9,9 +9,9 @@ __float__(3) - \[NUMERIC:TYPE\] Convert integer to default real
 (GFDL)
 
 ## __Syntax__
-
-result = __float__(a)
-
+```fortran
+result = float(a)
+```
 ## __Description__
 
 __float__(a) converts the _integer_ __a__ to a default real value.

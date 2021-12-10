@@ -12,7 +12,6 @@ __rrspacing__(3) - \[MODEL\_COMPONENTS\] Reciprocal of the relative spacing
 ```fortran
 result = rrspacing(x)
 ```
-
 ## __Description__
 
 __rrspacing(x)__ returns the reciprocal of the relative spacing of model

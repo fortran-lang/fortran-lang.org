@@ -12,7 +12,6 @@ __scan__(3) - \[CHARACTER:SEARCH\] Scan a string for the presence of a set of ch
 ```fortran
 result = scan(string, set[, back [, kind]])
 ```
-
 ## __Description__
 
 Scans a __string__ for any of the characters in a __set__ of characters.

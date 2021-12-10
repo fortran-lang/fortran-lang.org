@@ -11,7 +11,6 @@ __fraction__(3) - \[MODEL\_COMPONENTS\] Fractional part of the model representat
 ```fortran
 y = fraction(x)
 ```
-
 ## __Description__
 
 __fraction(x)__ returns the fractional part of the model representation

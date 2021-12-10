@@ -16,7 +16,6 @@ result = repeat(string, ncopies)
    character(len=*),intent(in)        :: string
    integer,intent(in)                 :: ncopies
 ```
-
 ## __Description__
 
 Concatenates __ncopies__ copies of a string.

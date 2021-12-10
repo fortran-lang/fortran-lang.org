@@ -9,9 +9,9 @@ __verify__(3) - \[CHARACTER:SEARCH\] Scan a string for the absence of a set of c
 (GFDL)
 
 ## __Syntax__
-
-result = __verify__(string, set\[, back \[, kind\]\])
-
+```fortran
+result = verify(string, set, back, kind)
+```
 ## __Description__
 
 Verifies that all the characters in __string__ belong to the set of

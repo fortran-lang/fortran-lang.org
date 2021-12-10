@@ -9,9 +9,9 @@ __ishft__(3) - \[BIT MANIPULATION\] Shift bits
 (GFDL)
 
 ## __Syntax__
-
-result = __ishft__(i, shift)
-
+```fortran
+result = ishft(i, shift)
+```
 ## __Description__
 
 __ishft__(3) returns a value corresponding to __i__ with all of the bits shifted

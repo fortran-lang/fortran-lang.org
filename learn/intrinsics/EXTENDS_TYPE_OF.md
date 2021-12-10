@@ -12,7 +12,6 @@ __extends\_type\_of__(3) - \[\] determine if the dynamic type of __a__ is an ext
 ```fortran
 result=extends_type_of(a, mold)
 ```
-
 ## __Description__
 
 __extends\_type\_of__(3) is __.true.__ if and only if the dynamic type of __a__
