@@ -27,8 +27,8 @@ pointer, __cptr__ to the Fortran pointer __fptr__ and specify its shape.
 
   - __shape__
     : (Optional) Rank-one array of type _integer_ with __intent(in)__. It
-    shall be present if and only if __fptr__ is an array. The size must be
-    equal to the rank of __fptr__.
+    shall be present if and only if __fptr__ is an array. The size must
+    be equal to the rank of __fptr__.
 
 ## __Examples__
 

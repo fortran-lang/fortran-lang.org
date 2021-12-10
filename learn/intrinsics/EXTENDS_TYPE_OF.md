@@ -20,12 +20,12 @@ is an extension of the dynamic type of __mold__.
 ## __Options__
 
   - __a__
-    : shall be an object of extensible type. If it is a pointer, it shall
-    not have an undefined association status.
+    : shall be an object of extensible type. If it is a pointer, it
+    shall not have an undefined association status.
 
   - __mold__
-    : shall be an object of extensible type. If it is a pointer, it shall
-    not have an undefined association status.
+    : shall be an object of extensible type. If it is a pointer, it
+    shall not have an undefined association status.
 
 ## __Returns__
 
@@ -34,12 +34,11 @@ is an extension of the dynamic type of __mold__.
 
   - __value__
     : If __mold__ is unlimited polymorphic and is either a disassociated
-    pointer or unallocated allocatable variable, the result is true;
-    otherwise if __a__ is unlimited polymorphic and is either a
-    disassociated pointer or unallocated allocatable variable, the
-    result is false; otherwise the result is true if and only if the
-    dynamic type of *A* is an extension type of the dynamic type of
-    __mold__.
+    pointer or unallocated allocatable variable, the result is
+    true; otherwise if __a__ is unlimited polymorphic and is either a
+    disassociated pointer or unallocated allocatable variable, the result
+    is false; otherwise the result is true if and only if the dynamic
+    type of *A* is an extension type of the dynamic type of __mold__.
 
     The dynamic type of a disassociated pointer or unallocated
     allocatable variable is its declared type.

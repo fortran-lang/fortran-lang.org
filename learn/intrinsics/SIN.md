@@ -14,7 +14,7 @@ result = sin(x)
     elemental TYPE(kind=KIND) function sin(x)
     TYPE(kind=KIND) :: x
 ```
-Where the returned value has the kind of the input value 
+Where the returned value has the kind of the input value
 and TYPE may be _real_ or _complex_
 
 ## __Description__
@@ -103,13 +103,13 @@ real,parameter :: radius = 6371 ! mean earth radius in kilometers,
 ! recommended by the International Union of Geodesy and Geophysics
 
 ! generate constant pi/180
-real, parameter :: deg_to_rad = atan(1.0)/45.0 
+real, parameter :: deg_to_rad = atan(1.0)/45.0
    delta_lat = deg_to_rad*(latB-latA)
    delta_lon = deg_to_rad*(lonB-lonA)
    lat1 = deg_to_rad*(latA)
    lat2 = deg_to_rad*(latB)
    a = (sin(delta_lat/2))**2 + &
-	  & cos(lat1)*cos(lat2)*(sin(delta_lon/2))**2
+          & cos(lat1)*cos(lat2)*(sin(delta_lon/2))**2
    c = 2*asin(sqrt(a))
    dist = radius*c
 end function haversine

@@ -89,6 +89,7 @@ and the following Copyright guidelines.
 ```bash
      man sinh.3fortran     # specifically show Fortran sinh(3) documentation
      man -k . -s 3fortran  # list all fortran pages
+     man -s 3fortran --regex '.*' |col -b # show all Fortran intrinsics
 ```
 
      Still debating whether having to keep the document limited to ANSI
