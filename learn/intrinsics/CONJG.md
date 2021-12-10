@@ -48,9 +48,9 @@ use, intrinsic :: iso_fortran_env, only : real_kinds, &
 & real32, real64, real128
 implicit none
 complex :: z = (2.0, 3.0)
-complex(kind=real64) :: dz = (&
-&  1.2345678901234567_real64, &
-& -1.2345678901234567_real64)
+complex(kind=real64) :: dz = (   &
+   &  1.2345678901234567_real64, &
+   & -1.2345678901234567_real64)
 complex :: arr(3,3)
 integer :: i
 
@@ -64,6 +64,7 @@ integer :: i
     print *, dz
     print *
 
+    ! the function is elemental so it can take arrays
     arr(1,:)=[(-1.0, 2.0),( 3.0, 4.0),( 5.0,-6.0)]
     arr(2,:)=[( 7.0,-8.0),( 8.0, 9.0),( 9.0, 9.0)]
     arr(3,:)=[( 1.0, 9.0),( 2.0, 0.0),(-3.0,-7.0)]
@@ -97,3 +98,5 @@ end program demo_conjg
 ## __Standard__
 
 FORTRAN 77 and later
+
+###### fortran-lang intrinsic descriptions (@urbanjost)
