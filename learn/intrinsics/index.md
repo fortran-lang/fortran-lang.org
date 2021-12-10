@@ -68,6 +68,20 @@ and the following Copyright guidelines.
    - [man pages](http://www.urbanjost.altervista.org/SUPPLEMENTS/fortran.tgz) A gzipped tar(1) file containing
      early versions of man-pages derived from the markdown documents.
 
+     Typical installation on a Linux platform, but it varies
+```bash
+     # as the administrator
+     cd /usr/share
+     tar xvfz /tmp/fortran.tgz
+     cd man
+     mand -c
+```
+     then anyone on that plaform can enter commands like (see man(1))
+```bash
+     man sinh.3fortran     # specifically show Fortran sinh(3) documentation
+     man -k . -s 3fortran  # list all fortran pages
+```
+
      Still debating whether having to keep the document limited to ANSI
      characters is worth-while so these formats can be generated, and
      still having issues converting the markdown to the proper formats.
