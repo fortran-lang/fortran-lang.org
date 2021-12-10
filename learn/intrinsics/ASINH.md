@@ -24,8 +24,9 @@ __asinh__(x) computes the inverse hyperbolic sine of __x__.
 ## __Returns__
 
 The return value is of the same type and kind as __x__. If __x__ is complex, the
-imaginary part of the result is in radians and lies between __-PI/2
-\<= aimag(asinh(x)) \<= PI/2__.
+imaginary part of the result is in radians and lies between 
+__-PI/2 \<= aimag(asinh(x)) \<= PI/2__.
+
 
 ## __Examples__
 

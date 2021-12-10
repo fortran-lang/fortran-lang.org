@@ -44,15 +44,14 @@ is returned.
 
 Sample program:
 
+```fortran
+program simple_sum
+implicit none
+integer :: x(5) = [ 1, 2, 3, 4 ,5 ]
+   print *, sum(x)                        ! all elements, sum = 15
+   print *, sum(x, mask=mod(x, 2)==1)     ! odd elements, sum = 9
+end program simple_sum
 ```
-    program simple_sum
-    implicit none
-      integer :: x(5) = [ 1, 2, 3, 4 ,5 ]
-      print *, sum(x)                        ! all elements, sum = 15
-      print *, sum(x, mask=mod(x, 2)==1)     ! odd elements, sum = 9
-    end program simple_sum
-```
-
 Demonstrate Fortran 90 SUM function with MASK option
 
 ```fortran
@@ -76,10 +75,10 @@ end program demo_sum
 
 Results:
 
-```
-    Sum of all elements in c =    35.0000000
-    Sum of Positive elements in c =    36.0000000
-    Sum of elements in c when corresponding elements in b>0 =   30.0000000
+```text
+ Sum of all elements in c =    35.0000000
+ Sum of Positive elements in c =    36.0000000
+ Sum of elements in c when corresponding elements in b>0 =   30.0000000
 ```
 
 ## __Standard__
