@@ -40835,6 +40835,8 @@
         
       
         
+      
+        
           
           
 
@@ -40846,6 +40848,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -41661,6 +41665,8 @@
         
       
         
+      
+        
           
           
 
@@ -41672,6 +41678,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -42497,6 +42505,8 @@
         
       
         
+      
+        
           
           
 
@@ -42508,6 +42518,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -43343,6 +43355,8 @@
         
       
         
+      
+        
           
           
 
@@ -43354,6 +43368,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -44201,6 +44217,8 @@
         
       
         
+      
+        
           
           
 
@@ -44212,6 +44230,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -45069,6 +45089,8 @@
         
       
         
+      
+        
           
           
 
@@ -45098,15 +45120,26 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>sinh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic sine function
-(GFDL)</p>
+<p><strong>sinh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic sine function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">elemental</span><span class="w"> </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
 </span></code></pre></div></div>
+<p>Where the returned value has the kind of the input value 
+and TYPE may be <em>real</em> or <em>complex</em></p>
 <h2 id="description"><strong>Description</strong></h2>
 
 <p><strong>sinh(x)</strong> computes the hyperbolic sine of <strong>x</strong>.</p>
+
+<p>The hyperbolic sine of x is defined mathematically as:</p>
+
+<p><strong>sinh(x) = (exp(x) - exp(-x)) / 2.0</strong></p>
+
+<p>If <strong>x</strong> is of type <em>complex</em> its imaginary part is regarded as a value
+in radians.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -45132,15 +45165,48 @@
 </span><span class="p">&amp;</span><span class="w"> </span><span class="n">real_kinds</span><span class="p">,</span><span class="w"> </span><span class="n">real32</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">,</span><span class="w"> </span><span class="n">real128</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1.0_real64</span><span class="w">
-   </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">nan</span><span class="p">,</span><span class="w"> </span><span class="n">inf</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">line</span><span class="w">
+
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nb">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))/</span><span class="mf">2.0</span><span class="w">
+
+   </span><span class="c1">! sinh(3) is elemental and can handle an array</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sinh</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="mf">2.0</span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">/</span><span class="mf">3.0</span><span class="p">])</span><span class="w">
+
+   </span><span class="c1">! a NaN input returns NaN</span><span class="w">
+   </span><span class="n">line</span><span class="o">=</span><span class="s1">'NAN'</span><span class="w">
+   </span><span class="k">read</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">nan</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sinh</span><span class="p">(</span><span class="n">nan</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! a Inf input returns Inf</span><span class="w">
+   </span><span class="n">line</span><span class="o">=</span><span class="s1">'Infinity'</span><span class="w">
+   </span><span class="k">read</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">inf</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sinh</span><span class="p">(</span><span class="n">inf</span><span class="p">)</span><span class="w">
+
+   </span><span class="c1">! an overflow returns Inf</span><span class="w">
+   </span><span class="n">x</span><span class="o">=</span><span class="nb">huge</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_sinh</span><span class="w">
 </span></code></pre></div></div>
-
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  -1.1752011936438014     
+  -1.1752011936438014     
+  -1.1752011936438014       -3.6268604078470190      -0.33954055725615012     
+                       NaN
+                  Infinity
+                  Infinity
+</code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>Fortran 95 and later, for a complex argument Fortran 2008 or later</p>
 
 <h2 id="see-also"><strong>See Also</strong></h2>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Hyperbolic_functions">Wikipedia:hyperbolic sine</a></li>
+</ul>
 
 <p><a href="ASINH"><strong>asinh</strong>(3)</a></p>
 

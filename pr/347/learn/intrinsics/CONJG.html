@@ -40591,6 +40591,8 @@
         
       
         
+      
+        
           
           
 
@@ -40602,6 +40604,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -41417,6 +41421,8 @@
         
       
         
+      
+        
           
           
 
@@ -41428,6 +41434,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -42253,6 +42261,8 @@
         
       
         
+      
+        
           
           
 
@@ -42264,6 +42274,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -43099,6 +43111,8 @@
         
       
         
+      
+        
           
           
 
@@ -43110,6 +43124,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -43957,6 +43973,8 @@
         
       
         
+      
+        
           
           
 
@@ -43968,6 +43986,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -44825,6 +44845,8 @@
         
       
         
+      
+        
           
           
 
@@ -44854,23 +44876,35 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>conjg</strong>(3) - [NUMERIC] Complex conjugate function
-(GFDL)</p>
+<p><strong>conjg</strong>(4) - [NUMERIC] Complex conjugate of a complex value</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="w">
+
+   </span><span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">K</span><span class="p">)</span><span class="w"> </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="w">
+   </span><span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">K</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">z</span><span class="w"> 
 </span></code></pre></div></div>
+<p>where <strong>K</strong> is the kind of the parameter <strong>z</strong></p>
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>conjg</strong>(z) returns the conjugate of Z. If Z is (x, y) then the result
-is (x, <strong>-y</strong>)</p>
+<p><strong>conjg(z)</strong> returns the complex conjugate of the <em>complex</em> value <strong>z</strong>.</p>
+
+<p>In mathematics, the complex conjugate of a complex_ number is the number
+with an equal real part and an imaginary part equal in magnitude but
+opposite in sign.</p>
+
+<p>That is, If <strong>z</strong> is <strong>(x, y)</strong> then the result is <strong>(x, -y)</strong>.</p>
+
+<p>For matrices of complex numbers, <strong>conjg(array)</strong> represents the
+element-by-element conjugation of <strong>array</strong>; not the conjugate transpose
+of <strong>array</strong> .</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
 <ul>
   <li>
     <dl>
-      <dt><strong>Z</strong></dt>
+      <dt><strong>z</strong></dt>
       <dd>The type shall be <em>complex</em>.</dd>
     </dl>
   </li>
@@ -44889,19 +44923,57 @@ is (x, <strong>-y</strong>)</p>
 </span><span class="p">&amp;</span><span class="w"> </span><span class="n">real32</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">,</span><span class="w"> </span><span class="n">real128</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">complex</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">3.0</span><span class="p">)</span><span class="w">
-</span><span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(&amp;</span><span class="w">
-</span><span class="p">&amp;</span><span class="w">  </span><span class="mf">1.2345678901234567_real64</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-</span><span class="p">&amp;</span><span class="w"> </span><span class="mf">-1.2345678901234567_real64</span><span class="p">)</span><span class="w">
+</span><span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w">   </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">1.2345678901234567_real64</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w"> </span><span class="mf">-1.2345678901234567_real64</span><span class="p">)</span><span class="w">
+</span><span class="kt">complex</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w">
     </span><span class="n">z</span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="w">
     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="w">
+
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">dz</span><span class="w">
     </span><span class="n">dz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">dz</span><span class="p">)</span><span class="w">
     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">dz</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="w">
+
+    </span><span class="c1">! the function is elemental so it can take arrays</span><span class="w">
+    </span><span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="o">=</span><span class="p">[(</span><span class="mf">-1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">),(</span><span class="w"> </span><span class="mf">3.0</span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="p">),(</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span><span class="mf">-6.0</span><span class="p">)]</span><span class="w">
+    </span><span class="n">arr</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="o">=</span><span class="p">[(</span><span class="w"> </span><span class="mf">7.0</span><span class="p">,</span><span class="mf">-8.0</span><span class="p">),(</span><span class="w"> </span><span class="mf">8.0</span><span class="p">,</span><span class="w"> </span><span class="mf">9.0</span><span class="p">),(</span><span class="w"> </span><span class="mf">9.0</span><span class="p">,</span><span class="w"> </span><span class="mf">9.0</span><span class="p">)]</span><span class="w">
+    </span><span class="n">arr</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span><span class="o">=</span><span class="p">[(</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">9.0</span><span class="p">),(</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">),(</span><span class="mf">-3.0</span><span class="p">,</span><span class="mf">-7.0</span><span class="p">)]</span><span class="w">
+
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'original'</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(3("(",g8.2,",",g8.2,")",1x))'</span><span class="p">)(</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">,:),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">
+    </span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">conjg</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'conjugate'</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(3("(",g8.2,",",g8.2,")",1x))'</span><span class="p">)(</span><span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">,:),</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_conjg</span><span class="w">
 </span></code></pre></div></div>
+<p>Results:</p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">(</span><span class="mf">2.000000</span><span class="p">,</span><span class="mf">3.000000</span><span class="p">)</span><span class="w">
+ </span><span class="p">(</span><span class="mf">2.000000</span><span class="p">,</span><span class="mf">-3.000000</span><span class="p">)</span><span class="w">
+ 
+ </span><span class="p">(</span><span class="mf">1.23456789012346</span><span class="p">,</span><span class="mf">-1.23456789012346</span><span class="p">)</span><span class="w">
+ </span><span class="p">(</span><span class="mf">1.23456789012346</span><span class="p">,</span><span class="mf">1.23456789012346</span><span class="p">)</span><span class="w">
+ 
+ </span><span class="n">original</span><span class="w">
+</span><span class="p">(</span><span class="mf">-1.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">3.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">4.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">5.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-6.0</span><span class="w">    </span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="w"> </span><span class="mf">7.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-8.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">8.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">9.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">9.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">9.0</span><span class="w">    </span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="w"> </span><span class="mf">1.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">9.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">2.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="mf">-3.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-7.0</span><span class="w">    </span><span class="p">)</span><span class="w">
 
+ </span><span class="n">conjugate</span><span class="w">
+</span><span class="p">(</span><span class="mf">-1.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-2.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">3.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-4.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">5.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">6.0</span><span class="w">    </span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="w"> </span><span class="mf">7.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">8.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">8.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-9.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">9.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-9.0</span><span class="w">    </span><span class="p">)</span><span class="w">
+</span><span class="p">(</span><span class="w"> </span><span class="mf">1.0</span><span class="w">    </span><span class="p">,</span><span class="mf">-9.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mf">2.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="mf">-3.0</span><span class="w">    </span><span class="p">,</span><span class="w"> </span><span class="mf">7.0</span><span class="w">    </span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>FORTRAN 77 and later</p>
+
+<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
 
 
       <div class="container-flex">

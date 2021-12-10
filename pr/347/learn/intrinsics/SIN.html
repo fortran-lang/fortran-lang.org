@@ -40837,6 +40837,8 @@
         
       
         
+      
+        
           
           
 
@@ -40848,6 +40850,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -41663,6 +41667,8 @@
         
       
         
+      
+        
           
           
 
@@ -41674,6 +41680,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -42499,6 +42507,8 @@
         
       
         
+      
+        
           
           
 
@@ -42510,6 +42520,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -43345,6 +43357,8 @@
         
       
         
+      
+        
           
           
 
@@ -43356,6 +43370,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -44203,6 +44219,8 @@
         
       
         
+      
+        
           
           
 
@@ -44214,6 +44232,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -45071,6 +45091,8 @@
         
       
         
+      
+        
           
           
 
@@ -45104,7 +45126,13 @@
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">elemental</span><span class="w"> </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
 </span></code></pre></div></div>
+<p>Where the returned value has the kind of the input value 
+and TYPE may be <em>real</em> or <em>complex</em></p>
+
 <h2 id="description"><strong>Description</strong></h2>
 
 <p><strong>sin(x)</strong> computes the sine of an angle given the size of the angle in
@@ -45151,9 +45179,9 @@ hypotenuse.</p>
 
 <p>From the article on “Haversine formula” in Wikipedia:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      The haversine formula is an equation important in navigation,
-      giving great-circle distances between two points on a sphere from
-      their longitudes and latitudes.
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The haversine formula is an equation important in navigation,
+giving great-circle distances between two points on a sphere from
+their longitudes and latitudes.
 </code></pre></div></div>
 
 <p>So to show the great-circle distance between the Nashville International
@@ -45161,8 +45189,8 @@ Airport (BNA) in TN, USA, and the Los Angeles International Airport
 (LAX) in CA, USA you would start with their latitude and longitude,
 commonly given as</p>
 
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     BNA: N 36 degrees 7.2',   W 86 degrees 40.2'
-     LAX: N 33 degrees 56.4',  W 118 degrees 24.0'
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BNA: N 36 degrees 7.2',   W 86 degrees 40.2'
+LAX: N 33 degrees 56.4',  W 118 degrees 24.0'
 </code></pre></div></div>
 
 <p>which converted to floating-point values in degrees is:</p>
@@ -45181,36 +45209,35 @@ along the surface of the Earth between the locations:</p>
 
 <p>Sample program:</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">     </span><span class="k">program</span><span class="w"> </span><span class="n">demo_sin</span><span class="w">
-     </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-     </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">d</span><span class="w">
-         </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">haversine</span><span class="p">(</span><span class="mf">36.12</span><span class="p">,</span><span class="mf">-86.67</span><span class="p">,</span><span class="w"> </span><span class="mf">33.94</span><span class="p">,</span><span class="mf">-118.40</span><span class="p">)</span><span class="w"> </span><span class="c1">! BNA to LAX</span><span class="w">
-         </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,F9.4,A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'distance: '</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="s1">' km'</span><span class="w">
-     </span><span class="k">contains</span><span class="w">
-     </span><span class="k">function</span><span class="w"> </span><span class="n">haversine</span><span class="p">(</span><span class="n">latA</span><span class="p">,</span><span class="n">lonA</span><span class="p">,</span><span class="n">latB</span><span class="p">,</span><span class="n">lonB</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w">
-     </span><span class="c1">!</span><span class="w">
-     </span><span class="c1">! calculate great circle distance in kilometers</span><span class="w">
-     </span><span class="c1">! given latitude and longitude in degrees</span><span class="w">
-     </span><span class="c1">!</span><span class="w">
-     </span><span class="kt">real</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">latA</span><span class="p">,</span><span class="n">lonA</span><span class="p">,</span><span class="n">latB</span><span class="p">,</span><span class="n">lonB</span><span class="w">
-     </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="n">delta_lat</span><span class="p">,</span><span class="n">delta_lon</span><span class="p">,</span><span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="w">
-     </span><span class="kt">real</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6371</span><span class="w"> </span><span class="c1">! mean earth radius in kilometers,</span><span class="w">
-     </span><span class="c1">! recommended by the International Union of Geodesy and Geophysics</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_sin</span><span class="w">
+</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">d</span><span class="w">
+    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">haversine</span><span class="p">(</span><span class="mf">36.12</span><span class="p">,</span><span class="mf">-86.67</span><span class="p">,</span><span class="w"> </span><span class="mf">33.94</span><span class="p">,</span><span class="mf">-118.40</span><span class="p">)</span><span class="w"> </span><span class="c1">! BNA to LAX</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="s1">'(A,F9.4,A)'</span><span class="p">,</span><span class="w"> </span><span class="s1">'distance: '</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="s1">' km'</span><span class="w">
+</span><span class="k">contains</span><span class="w">
+</span><span class="k">function</span><span class="w"> </span><span class="n">haversine</span><span class="p">(</span><span class="n">latA</span><span class="p">,</span><span class="n">lonA</span><span class="p">,</span><span class="n">latB</span><span class="p">,</span><span class="n">lonB</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="w">
+</span><span class="c1">!</span><span class="w">
+</span><span class="c1">! calculate great circle distance in kilometers</span><span class="w">
+</span><span class="c1">! given latitude and longitude in degrees</span><span class="w">
+</span><span class="c1">!</span><span class="w">
+</span><span class="kt">real</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">latA</span><span class="p">,</span><span class="n">lonA</span><span class="p">,</span><span class="n">latB</span><span class="p">,</span><span class="n">lonB</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="n">delta_lat</span><span class="p">,</span><span class="n">delta_lon</span><span class="p">,</span><span class="n">lat1</span><span class="p">,</span><span class="n">lat2</span><span class="w">
+</span><span class="kt">real</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6371</span><span class="w"> </span><span class="c1">! mean earth radius in kilometers,</span><span class="w">
+</span><span class="c1">! recommended by the International Union of Geodesy and Geophysics</span><span class="w">
 
-     </span><span class="c1">! generate constant pi/180</span><span class="w">
-     </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">atan</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)/</span><span class="mf">45.0</span><span class="w"> 
-        </span><span class="n">delta_lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latB</span><span class="o">-</span><span class="n">latA</span><span class="p">)</span><span class="w">
-        </span><span class="n">delta_lon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">lonB</span><span class="o">-</span><span class="n">lonA</span><span class="p">)</span><span class="w">
-        </span><span class="n">lat1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latA</span><span class="p">)</span><span class="w">
-        </span><span class="n">lat2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latB</span><span class="p">)</span><span class="w">
-        </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">sin</span><span class="p">(</span><span class="n">delta_lat</span><span class="p">/</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+</span><span class="c1">! generate constant pi/180</span><span class="w">
+</span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">atan</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)/</span><span class="mf">45.0</span><span class="w"> 
+   </span><span class="n">delta_lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latB</span><span class="o">-</span><span class="n">latA</span><span class="p">)</span><span class="w">
+   </span><span class="n">delta_lon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">lonB</span><span class="o">-</span><span class="n">lonA</span><span class="p">)</span><span class="w">
+   </span><span class="n">lat1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latA</span><span class="p">)</span><span class="w">
+   </span><span class="n">lat2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deg_to_rad</span><span class="o">*</span><span class="p">(</span><span class="n">latB</span><span class="p">)</span><span class="w">
+   </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nb">sin</span><span class="p">(</span><span class="n">delta_lat</span><span class="p">/</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
 	  </span><span class="p">&amp;</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="nb">sin</span><span class="p">(</span><span class="n">delta_lon</span><span class="p">/</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="w">
-        </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">asin</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">
-        </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="o">*</span><span class="n">c</span><span class="w">
-     </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">haversine</span><span class="w">
-     </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_sin</span><span class="w">
+   </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nb">asin</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w">
+   </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="o">*</span><span class="n">c</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">haversine</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_sin</span><span class="w">
 </span></code></pre></div></div>
-
 <p>Results:</p>
 
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    distance: 2886.4446 km
@@ -45221,6 +45248,9 @@ along the surface of the Earth between the locations:</p>
 <p>FORTRAN 77 and later</p>
 
 <h2 id="see-also"><strong>See Also</strong></h2>
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Sine_and_cosine">Wikipedia:sine and cosine</a></li>
+</ul>
 
 <p><a href="ASIN"><strong>asin</strong>(3)</a>,
 <a href="COS"><strong>cos</strong>(3)</a>,

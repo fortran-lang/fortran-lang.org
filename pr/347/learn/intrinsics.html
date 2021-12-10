@@ -40470,6 +40470,8 @@
         
       
         
+      
+        
           
           
 
@@ -40481,6 +40483,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -41296,6 +41300,8 @@
         
       
         
+      
+        
           
           
 
@@ -41307,6 +41313,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -42132,6 +42140,8 @@
         
       
         
+      
+        
           
           
 
@@ -42143,6 +42153,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -42978,6 +42990,8 @@
         
       
         
+      
+        
           
           
 
@@ -42989,6 +43003,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -43836,6 +43852,8 @@
         
       
         
+      
+        
           
           
 
@@ -43847,6 +43865,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -44704,6 +44724,8 @@
         
       
         
+      
+        
           
           
 
@@ -44750,7 +44772,7 @@ Vendor-specific extensions are not included.</p>
 <h3 id="character">☛<a href="/pr/347/learn/intrinsics/CHARACTER_index">Character</a></h3>
 <h4 id="basic-procedures-specifically-for-manipulating-character-variables">basic procedures specifically for manipulating <em>character</em> variables</h4>
 <h3 id="system-environment">☛<a href="/pr/347/learn/intrinsics/SYSTEM_index">System Environment</a></h3>
-<h4 id="accessing-external-system-information">accessing external system information</h4>
+<h4 id="accessing-external-system-information-such-as-environmental-variables-command-line-arguments-date-and-timing-data-">accessing external system information such as environmental variables, command line arguments, date and timing data …</h4>
 <h3 id="c-interface">☛<a href="/pr/347/learn/intrinsics/C_index">C Interface</a></h3>
 <h4 id="procedures-useful-for-binding-to-c-interfaces">procedures useful for binding to C interfaces</h4>
 <h3 id="bit-level">☛<a href="/pr/347/learn/intrinsics/BIT_index">Bit-level</a></h3>
@@ -44802,6 +44824,26 @@ enter “./fman –help” for directions.</p>
   <li>
     <p><a href="http://www.urbanjost.altervista.org/SUPPLEMENTS/fortran.tgz">man pages</a> A gzipped tar(1) file containing
 early versions of man-pages derived from the markdown documents.</p>
+
+    <p>Typical installation on a Linux platform, but it varies</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># as the administrator</span>
+<span class="nb">cd</span> /usr/share
+<span class="nb">tar </span>xvfz /tmp/fortran.tgz
+<span class="nb">cd </span>man
+mand <span class="nt">-c</span>
+</code></pre></div>    </div>
+    <p>then anyone on that plaform can enter commands like (see man(1))</p>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># as a user, placing the files in ~/man:</span>
+<span class="nb">cd 
+tar </span>xvfz /tmp/fortran.tgz
+<span class="nb">cd </span>man
+mand <span class="nt">-c</span>
+<span class="nb">export </span><span class="nv">MANPATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$MANPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/man"</span>
+<span class="nb">export </span><span class="nv">MANWIDTH</span><span class="o">=</span>80
+</code></pre></div>    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man sinh.3fortran     <span class="c"># specifically show Fortran sinh(3) documentation</span>
+man <span class="nt">-k</span> <span class="nb">.</span> <span class="nt">-s</span> 3fortran  <span class="c"># list all fortran pages</span>
+</code></pre></div>    </div>
 
     <p>Still debating whether having to keep the document limited to ANSI
 characters is worth-while so these formats can be generated, and

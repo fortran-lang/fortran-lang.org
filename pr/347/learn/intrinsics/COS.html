@@ -40597,6 +40597,8 @@
         
       
         
+      
+        
           
           
 
@@ -40608,6 +40610,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -41423,6 +41427,8 @@
         
       
         
+      
+        
           
           
 
@@ -41434,6 +41440,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -42259,6 +42267,8 @@
         
       
         
+      
+        
           
           
 
@@ -42270,6 +42280,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -43105,6 +43117,8 @@
         
       
         
+      
+        
           
           
 
@@ -43116,6 +43130,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -43963,6 +43979,8 @@
         
       
         
+      
+        
           
           
 
@@ -43974,6 +43992,8 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
       
         
       
@@ -44831,6 +44851,8 @@
         
       
         
+      
+        
           
           
 
@@ -44860,15 +44882,24 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>cos</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Cosine function
-(GFDL)</p>
+<p><strong>cos</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Cosine function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+   </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">),</span><span class="k">elemental</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">cos</span><span class="w">
+   </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
 </span></code></pre></div></div>
+<p>where TYPE may be <em>real</em> or <em>complex</em> and KIND may be any KIND supported
+by the associated type.</p>
+
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>cos(x)</strong> computes the cosine of <strong>x</strong>.</p>
+<p><strong>cos(x)</strong> computes the cosine of an angle <strong>x</strong> given the size of the
+angle in radians.</p>
+
+<p>The cosine of a <em>real</em> value is the ratio of the adjacent side to the
+hypotenuse of a right-angled triangle.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44876,15 +44907,17 @@
   <li>
     <dl>
       <dt><strong>x</strong></dt>
-      <dd>The type shall be <em>real</em> or <em>complex</em>.</dd>
+      <dd>The type shall be <em>real</em> or <em>complex</em>.
+<strong>x</strong> is assumed to be in radians.</dd>
     </dl>
   </li>
 </ul>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value is of the same type and kind as <strong>x</strong>. The real part of the
-result is in radians. If <strong>x</strong> is of the type <em>real</em>, the return value lies in
+<p>The return value is of the same type and kind as <strong>x</strong>.</p>
+
+<p>If <strong>x</strong> is of the type <em>real</em>, the return value lies in
 the range <strong>-1 &lt;= cos(x) &lt;= 1</strong> .</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
@@ -44903,9 +44936,7 @@ the range <strong>-1 &lt;= cos(x) &lt;= 1</strong> .</p>
    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'COS(3000*PI)='</span><span class="p">,</span><span class="nb">cos</span><span class="p">(</span><span class="mi">3000</span><span class="o">*</span><span class="n">PI</span><span class="p">)</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_cos</span><span class="w">
 </span></code></pre></div></div>
-
 <p>Expected output:</p>
-
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   COS(0.0)=        1.00000000
    COS(PI)=        -1.0000000000000000
    COS(PI/2.0d0)=   6.1232339957367660E-017
@@ -44914,12 +44945,14 @@ the range <strong>-1 &lt;= cos(x) &lt;= 1</strong> .</p>
    COS(-2*PI)=      1.0000000000000000
    COS(-2000*PI)=   1.0000000000000000
 </code></pre></div></div>
-
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>FORTRAN 77 and later</p>
 
 <h2 id="see-also"><strong>See Also</strong></h2>
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Sine_and_cosine">Wikipedia:sine and cosine</a></li>
+</ul>
 
 <p><a href="ACOS"><strong>acos</strong>(3)</a>,
 <a href="SIN"><strong>sin</strong>(3)</a>,
