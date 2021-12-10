@@ -26,9 +26,9 @@ pointer, __cptr__ to the Fortran pointer __fptr__ and specify its shape.
     : pointer interoperable with __cptr__. it is __intent(out)__.
 
   - __shape__
-    : (Optional) Rank-one array of type _integer_ with __intent(in)__. It
-    shall be present if and only if __fptr__ is an array. The size must
-    be equal to the rank of __fptr__.
+    : (Optional) Rank-one array of type _integer_ with __intent(in)__ .
+    It shall be present if and only if __fptr__ is an array. The size
+    must be equal to the rank of __fptr__.
 
 ## __Examples__
 

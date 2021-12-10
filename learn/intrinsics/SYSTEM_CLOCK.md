@@ -16,7 +16,7 @@ subroutine system_clock(count, count_rate, count_max)
    integer,intent(out),optional  :: count_rate
     ! or !
    real,intent(out),optional     :: count_rate
-   integer,intent(out,optional   :: count_max
+   integer,intent(out),optional  :: count_max
 ```
 ## __Description__
 
