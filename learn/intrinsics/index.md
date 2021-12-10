@@ -60,12 +60,12 @@ and the following Copyright guidelines.
 
 ## Experimental
 
-   - [fman(1)](EXAMPLES/fman.f90) A self-contained Fortran program that
+   - [fman(1)](http://www.urbanjost.altervista.org/SUPPLEMENTS/fman.f90) A self-contained Fortran program that
      lets you view the non-graphical plain ASCII portions of the
      documentation from a terminal interface. Compile the program and
      enter "./fman --help" for directions. 
 
-   - [man pages](EXAMPLES/fortran.tgz) A gzipped tar(1) file containing
+   - [man pages](http://www.urbanjost.altervista.org/SUPPLEMENTS/fortran.tgz) A gzipped tar(1) file containing
      early versions of man-pages derived from the markdown documents.
 
      Still debating whether having to keep the document limited to ANSI
