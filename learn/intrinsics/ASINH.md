@@ -11,10 +11,15 @@ __asinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic sine function
 ## __Syntax__
 ```fortran
 result = asinh(x)
+
+    elemental TYPE(kind=KIND) function asinh(x)
+    TYPE(kind=KIND) :: x
 ```
+Where the returned value has the kind of the input value 
+and TYPE may be _real_ or _complex_
 ## __Description__
 
-__asinh__(x) computes the inverse hyperbolic sine of __x__.
+__asinh(x)__ computes the inverse hyperbolic sine of __x__.
 
 ## __Arguments__
 
@@ -23,10 +28,9 @@ __asinh__(x) computes the inverse hyperbolic sine of __x__.
 
 ## __Returns__
 
-The return value is of the same type and kind as __x__. If __x__ is complex, the
+The return value is of the same type and kind as __x__. If __x__ is _complex_, the
 imaginary part of the result is in radians and lies between 
 __-PI/2 \<= aimag(asinh(x)) \<= PI/2__.
-
 
 ## __Examples__
 
