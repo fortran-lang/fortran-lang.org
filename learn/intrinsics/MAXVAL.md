@@ -29,7 +29,7 @@ or a string of nulls if __array__ is of character type.
 ## __Arguments__
 
   - __array__
-    : Shall be an array of type _integer_, _real_, or __character__.
+    : Shall be an array of type _integer_, _real_, or _character_.
 
   - __dim__
     : (Optional) Shall be a scalar of type _integer_, with a value between

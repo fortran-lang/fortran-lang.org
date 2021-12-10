@@ -14,7 +14,7 @@ result = anint(a, kind)
 ```
 ## __Description__
 
-__anint__(a \[, kind\]) rounds its argument to the nearest whole number.
+__anint(a \[, kind\])__ rounds its argument to the nearest whole number.
 
 ## __Arguments__
 

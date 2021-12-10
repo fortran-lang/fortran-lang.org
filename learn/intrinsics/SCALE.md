@@ -26,8 +26,8 @@ __scale(x,i)__ returns x \* __radix(x)\*\*i__.
 
 ## __Returns__
 
-The return value is of the same type and kind as __x__. Its value is __x \*
-radix(x)\*\*i__.
+The return value is of the same type and kind as __x__. Its value is 
+__x \* radix(x)\*\*i__.
 
 ## __Examples__
 

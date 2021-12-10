@@ -14,7 +14,7 @@ result = cshift(array, shift, dim)
 ```
 ## __Description__
 
-__cshift__(array, shift \[, dim\]) performs a circular shift on elements
+__cshift(array, shift \[, dim\])__ performs a circular shift on elements
 of __array__ along the dimension of __dim__. If __dim__ is omitted it is taken to be
 __1__. __dim__ is a scalar of type _integer_ in the range of __1 \<= dim \<= n__,
 where "n" is the rank of __array__. If the rank of __array__ is one, then all

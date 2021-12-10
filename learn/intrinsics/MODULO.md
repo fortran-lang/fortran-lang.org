@@ -14,7 +14,7 @@ result = modulo(a, p)
 ```
 ## __Description__
 
-__modulo__(a,p) computes the __a__ modulo __p__.
+__modulo(a,p)__ computes the __a__ modulo __p__.
 
 ## __Arguments__
 
@@ -29,11 +29,11 @@ __modulo__(a,p) computes the __a__ modulo __p__.
 
 The type and kind of the result are those of the arguments.
 
-  - If __a__ and __p__ are of type _integer_: __modulo(a,p)__ has the value of __a -
-    floor (real(a) / real(p)) \* p__.
+  - If __a__ and __p__ are of type _integer_: __modulo(a,p)__ has the value of 
+    __a - floor (real(a) / real(p)) \* p__.
 
-  - If __a__ and __p__ are of type _real_: __modulo(a,p)__ has the value of __a -
-    floor (a / p) \* p__.
+  - If __a__ and __p__ are of type _real_: __modulo(a,p)__ has the value of 
+    __a - floor (a / p) \* p__.
 
 The returned value has the same sign as __p__ and a magnitude less than the
 magnitude of __p__.

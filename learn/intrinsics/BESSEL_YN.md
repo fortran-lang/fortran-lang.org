@@ -16,11 +16,11 @@ __bessel\_yn__(3) - \[MATHEMATICS\] Bessel function of the second kind
 ```
 ## __Description__
 
-__bessel\_yn__(n, x) computes the Bessel function of the second
+__bessel\_yn(n, x)__ computes the Bessel function of the second
 kind of order __n__ of __x__. If __n__ and __x__ are arrays, their ranks and shapes
 shall conform.
 
-__bessel\_yn__(n1, n2, x) returns an array with the Bessel
+__bessel\_yn(n1, n2, x)__ returns an array with the Bessel
 function\|Bessel functions of the first kind of the orders __n1__ to __n2__.
 
 ## __Arguments__
@@ -35,8 +35,8 @@ function\|Bessel functions of the first kind of the orders __n1__ to __n2__.
     : Shall be a non-negative scalar of type _integer_.
 
   - __x__
-    : Shall be a scalar or an array of type _real_; for __bessel\_yn__(n1,
-    n2, x) it shall be scalar.
+    : Shall be a scalar or an array of type _real_; for 
+    __bessel\_yn(n1, n2, x)__ it shall be scalar.
 
 ## __Returns__
 

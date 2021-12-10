@@ -34,7 +34,7 @@ which time is an array.
 ## __Returns__
 
   - __TIME__
-    : The type shall be _real_ with __intent__(out). It is assigned a
+    : The type shall be _real_ with __intent(out)__. It is assigned a
     processor-dependent approximation to the processor time in seconds.
     If the processor cannot return a meaningful time, a
     processor-dependent negative value

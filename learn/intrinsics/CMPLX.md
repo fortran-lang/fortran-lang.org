@@ -31,7 +31,7 @@ __y__ is not present then the imaginary component is set to __0.0__.
 ## __cmplx(3) and double precision__
 
 The Fortran 90 language defines __cmplx__(3) as always returning a result
-that is type ___complex___(kind=KIND(0.0)).
+that is type __complex(kind=KIND(0.0))__.
 
 This means \`__cmplx(d1,d2)__', where __\`d1'__ and __\`d2'__ are
 _doubleprecision_, is treated as:

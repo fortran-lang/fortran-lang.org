@@ -21,7 +21,7 @@ will be the same type and kind as the input value __x__.
 
 ## __Description__
 
-__cosh__(x) computes the hyperbolic cosine of __x__.
+__cosh(x)__ computes the hyperbolic cosine of __x__.
 
 ## __Arguments__
 

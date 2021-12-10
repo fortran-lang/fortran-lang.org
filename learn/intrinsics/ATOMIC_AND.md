@@ -14,7 +14,7 @@ call atomic_and(atom, value, stat)
 ```
 ## __Description__
 
-__atomic\_and__(atom, value) atomically defines __atom__ with the bitwise
+__atomic\_and(atom, value)__ atomically defines __atom__ with the bitwise
 __and__ between the values of __atom__ and __value__. When __stat__ is present and the
 invocation was successful, it is assigned the value 0. If it is present
 and the invocation has failed, it is assigned a positive value; in

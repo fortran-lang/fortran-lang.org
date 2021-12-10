@@ -14,7 +14,7 @@ result = bit_size(i)
 ```
 ## __Description__
 
-__bit\_size__(i) returns the number of bits (integer precision plus sign
+__bit\_size(i)__ returns the number of bits (integer precision plus sign
 bit) represented by the type of __i__.
 
 ## __Arguments__

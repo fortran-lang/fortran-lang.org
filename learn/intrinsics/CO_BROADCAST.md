@@ -24,7 +24,7 @@ value describing the occurred error.
 ## __Arguments__
 
   - __a__
-    : __intent__(inout) argument; shall have the same dynamic type and
+    : __intent(inout)__ argument; shall have the same dynamic type and
     type parameters on all images of the current team. If it is an
     array, it shall have the same shape on all images.
 

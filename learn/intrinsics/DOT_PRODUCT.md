@@ -14,13 +14,13 @@ result = dot_product(vector_a, vector_b)
 ```
 ## __Description__
 
-__dot\_product__(vector\_a, vector\_b) computes the dot product
+__dot\_product(vector\_a, vector\_b)__ computes the dot product
 multiplication of two vectors vector\_a and vector\_b. The two vectors
 may be either numeric or logical and must be arrays of rank one and of
 equal size. If the vectors are _integer_ or _real_, the result is
-__sum__(vector\_a\*vector\_b). If the vectors are _complex_, the result is
-__sum__(conjg(vector\_a)\*vector\_b). If the vectors are _logical_, the
-result is __any__(vector\_a .and. vector\_b).
+__sum(vector\_a\*vector\_b)__. If the vectors are _complex_, the result is
+__sum(conjg(vector\_a)\*vector\_b)__. If the vectors are _logical_, the
+result is __any(vector\_a .and. vector\_b)__.
 
 ## __Arguments__
 

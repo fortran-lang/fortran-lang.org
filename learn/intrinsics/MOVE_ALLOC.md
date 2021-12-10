@@ -14,16 +14,16 @@ call move_alloc(src, dest)
 ```
 ## __Description__
 
-__move\_alloc__(src, dest) moves the allocation from SRC to DEST. SRC
+__move\_alloc(src, dest)__ moves the allocation from SRC to DEST. SRC
 will become deallocated in the process.
 
 ## __Arguments__
 
   - __src__
-    : allocatable, __intent__(inout), may be of any type and kind.
+    : allocatable, __intent(inout)__, may be of any type and kind.
 
   - __dest__
-    : allocatable, __intent__(out), shall be of the same type, kind and
+    : allocatable, __intent(out)__, shall be of the same type, kind and
     rank as SRC.
 
 ## __Examples__

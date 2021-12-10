@@ -14,7 +14,7 @@ call atomic_fetch_and(atom, value, old, stat)
 ```
 ## __Description__
 
-__atomic\_fetch\_and__(atom, value, old) atomically stores the value of
+__atomic\_fetch\_and(atom, value, old)__ atomically stores the value of
 __atom__ in __old__ and defines __atom__ with the bitwise AND between the values of
 __atom__ and __value__. When __stat__ is present and the invocation was successful,
 it is assigned the value __0__. If it is present and the invocation has

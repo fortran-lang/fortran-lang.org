@@ -15,7 +15,7 @@ result = transpose(matrix)
 ## __Description__
 
 Transpose an array of rank two. Element (i, j) of the result has the
-value __matrix__(j, i), for all i, j.
+value __matrix(j, i)__, for all i, j.
 
 ## __Arguments__
 

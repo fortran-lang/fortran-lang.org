@@ -14,7 +14,7 @@ result = sngl(a)
 ```
 ## __Description__
 
-__sngl__(a) converts the double precision real A to a default real
+__sngl(a)__ converts the double precision real A to a default real
 value. This is an archaic form of _real_ that is specific to one type for
 A.
 

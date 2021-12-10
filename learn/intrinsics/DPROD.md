@@ -34,14 +34,14 @@ function.
 ## __Arguments__
 
   - __x__
-    : Must be of default ___real___(kind=kind(0.0)) type
+    : Must be of default _real(kind=kind(0.0))_ type
 
   - __y__
     : Must have the same type and kind parameters as __x__
 
 ## __Returns__
 
-The return value is of type __real__(kind=kind(0.0d0)).
+The return value is of type _real(kind=kind(0.0d0))_.
 
 ## __Examples__
 

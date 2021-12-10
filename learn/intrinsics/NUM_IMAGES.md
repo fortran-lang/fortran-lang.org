@@ -19,10 +19,10 @@ Returns the number of images.
 ## __Arguments__
 
   - __distance__
-    : (optional, __intent__(in)) Nonnegative scalar integer
+    : (optional, __intent(in)__) Nonnegative scalar integer
 
   - __failed__
-    : (optional, __intent__(in)) Scalar logical expression
+    : (optional, __intent(in)__) Scalar logical expression
 
 ## __Returns__
 

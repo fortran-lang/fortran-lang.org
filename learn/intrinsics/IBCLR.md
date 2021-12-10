@@ -23,7 +23,7 @@ __ibclr__ returns the value of __i__ with the bit at position __pos__ set to zer
 
   - __pos__
     : The type shall be _integer_. A value of zero refers to the least
-    significant bit. __pos__ is an __intent__(in) scalar or array of type
+    significant bit. __pos__ is an __intent(in)__ scalar or array of type
     _integer_. The value of __pos__ must be within the range zero to
     __(bit\_size(i)-1__).
 

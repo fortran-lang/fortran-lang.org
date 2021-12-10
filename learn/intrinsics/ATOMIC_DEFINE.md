@@ -19,7 +19,7 @@ call atomic_define (atom, value, stat)
 ```
 ## __Description__
 
-__atomic\_define__(atom, value) defines the variable __atom__ with the value
+__atomic\_define(atom, value)__ defines the variable __atom__ with the value
 __value__ atomically. When __stat__ is present and the invocation was
 successful, it is assigned the value __0__. If it is present and the
 invocation has failed, it is assigned a positive value; in particular,

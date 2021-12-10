@@ -70,7 +70,7 @@ integer :: icheck
    & int32,huge(0_int32), &
    & int64,huge(0_int64)
 
-   ! the standard does not require this to be an error ```
+   ! the standard does not require this to be an error ...
    x8=12345.67e15 ! too big of a number
    icheck=selected_int_kind(ceiling(log10(x8)))
    write(*,*)'Any KIND big enough? ICHECK=',icheck

@@ -14,7 +14,7 @@ result = eoshift(array, shift, boundary, dim)
 ```
 ## __Description__
 
-__eoshift__(array, shift\[, boundary, dim\]) performs an end-off shift
+__eoshift(array, shift\[, boundary, dim\])__ performs an end-off shift
 on elements of __array__ along the dimension of __dim__. If __dim__ is omitted it is
 taken to be __1__. __dim__ is a scalar of type _integer_ in the range of __1 \<= DIM
 \<= n__ where __"n"__ is the rank of __array__. If the rank of __array__ is one, then
@@ -31,7 +31,7 @@ present then the following are copied in depending on the type of __array__.
 
    - Logical .false.
 
-   - __Character__(len) LEN blanks
+   - __Character(len)__ LEN blanks
 
 ## __Arguments__
 

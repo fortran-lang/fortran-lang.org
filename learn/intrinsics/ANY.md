@@ -45,7 +45,6 @@ dimension is elided.
 ## __Examples__
 
 Sample program:
-
 ```fortran
 program demo_any
 implicit none
@@ -64,7 +63,6 @@ logical l
      end subroutine section
 end program demo_any
 ```
-
 ## __Standard__
 
 Fortran 95 and later

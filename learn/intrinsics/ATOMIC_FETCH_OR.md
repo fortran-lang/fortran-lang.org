@@ -14,7 +14,7 @@ call atomic_fetch_or(atom, value, old, stat)
 ```
 ## __Description__
 
-__atomic\_fetch\_or__(atom, value, old) atomically stores the value of
+__atomic\_fetch\_or(atom, value, old)__ atomically stores the value of
 __atom__ in __old__ and defines __atom__ with the bitwise OR between the values of
 __atom__ and __value__. When __stat__ is present and the invocation was successful,
 it is assigned the value __0__. If it is present and the invocation has

@@ -14,7 +14,7 @@ __bessel\_y0__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 
 ```
 ## __Description__
 
-__bessel\_y0__(x) computes the Bessel function of the second
+__bessel\_y0(x)__ computes the Bessel function of the second
 kind of order 0 of __x__.
 
 ## __Arguments__

@@ -25,7 +25,7 @@ numbers near __x__.
 ## __Returns__
 
 The return value is of the same type and kind as __x__. The value returned
-is equal to __abs__(fraction(x)) \* __float__(radix(x))\*\*digits(x).
+is equal to __abs(fraction(x)) \* float(radix(x))\*\*digits(x)__.
 
 ## __Standard__
 

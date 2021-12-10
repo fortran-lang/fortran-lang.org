@@ -14,7 +14,7 @@ result = selected_int_kind(r)
 ```
 ## __Description__
 
-__selected\_int\_kind__(r) return the kind value of the smallest integer
+__selected\_int\_kind(r)__ return the kind value of the smallest integer
 type that can represent all values ranging from __-10\*\*r__ (exclusive)
 to __10\*\*r__ (exclusive). If there is no integer kind that accommodates
 this range, selected\_int\_kind returns __-1__.

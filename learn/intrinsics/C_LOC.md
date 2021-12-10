@@ -14,7 +14,7 @@ result = c_loc(x)
 ```
 ## __Description__
 
-__c\_loc__(x) determines the C address of the argument.
+__c\_loc(x)__ determines the C address of the argument.
 
 ## __Arguments__
 

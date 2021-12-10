@@ -14,7 +14,7 @@ call atomic_fetch_add(atom, value, old, stat)
 ```
 ## __Description__
 
-__atomic\_fetch\_add__(atom, value, old) atomically stores the value of
+__atomic\_fetch\_add(atom, value, old)__ atomically stores the value of
 __atom__ in __old__ and adds the value of __var__ to the variable __atom__. When __stat__ is
 present and the invocation was successful, it is assigned the value __0__.
 If it is present and the invocation has failed, it is assigned a

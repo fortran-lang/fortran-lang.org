@@ -24,17 +24,17 @@ data retrieved from the operating system.
 
   - __size__
     : (Optional) Shall be a scalar and of type default _integer_, with
-    __intent__(out). It specifies the minimum size of the arrays used
+    __intent(out)__. It specifies the minimum size of the arrays used
     with the __put__ and __get__ arguments.
 
   - __put__
     : (Optional) Shall be an array of type default _integer_ and rank one.
-    It is __intent__(in) and the size of the array must be larger than
+    It is __intent(in)__ and the size of the array must be larger than
     or equal to the number returned by the __size__ argument.
 
   - __get__
     : (Optional) Shall be an array of type default _integer_ and rank one.
-    It is __intent__(out) and the size of the array must be larger than
+    It is __intent(out)__ and the size of the array must be larger than
     or equal to the number returned by the __size__ argument.
 
 ## __Examples__

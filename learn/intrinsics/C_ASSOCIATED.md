@@ -14,7 +14,7 @@ result = c_associated(c_prt_1, c_ptr_2)
 ```
 ## __Description__
 
-__c\_associated__(c\_prt\_1\[, c\_ptr\_2\]) determines the status of the
+__c\_associated(c\_prt\_1\[, c\_ptr\_2\])__ determines the status of the
 C pointer c\_ptr\_1 or if c\_ptr\_1 is associated with the target
 c\_ptr\_2.
 

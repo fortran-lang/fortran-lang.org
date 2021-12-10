@@ -14,7 +14,7 @@ result = new_line(c)
 ```
 ## __Description__
 
-__new\_line__(c) returns the new-line character.
+__new\_line(c)__ returns the new-line character.
 
 ## __Arguments__
 

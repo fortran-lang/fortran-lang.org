@@ -9,11 +9,13 @@ __allocated__(3) - \[ARRAY INQUIRY\] Status of an allocatable entity
 (GFDL)
 
 ## __Syntax__
-
-  - result = __allocated__(array)
-
-  - result = __allocated__(scalar)
-
+```fortran
+  result = allocated(array)
+```
+   or
+```fortran
+  result = allocated(scalar)
+```
 ## __Description__
 
 __allocated(array)__ and __allocated(scalar)__ check the allocation

@@ -29,7 +29,7 @@ set.
 ## __Arguments__
 
   - __c__
-    : Shall be a scalar _character_, with __intent__(in)
+    : Shall be a scalar _character_, with __intent(in)__
 
   - __kind__
     : (Optional) An _integer_ initialization expression indicating the kind

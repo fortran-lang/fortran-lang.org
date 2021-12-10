@@ -27,7 +27,7 @@ __char(i, kind)__ returns the character represented by the integer __i__.
 
 ## __Returns__
 
-The return value is of type __character__(1)
+The return value is of type _character_
 
 ## __Examples__
 

@@ -30,7 +30,7 @@ the occurred error.
 ## __Arguments__
 
   - __a__
-    : is an __intent__(inout) argument and shall be nonpolymorphic. If it
+    : is an __intent(inout)__ argument and shall be nonpolymorphic. If it
     is allocatable, it shall be allocated; if it is a pointer, it shall
     be associated. A shall have the same type and type parameters on all
     images of the team; if it is an array, it shall have the same shape

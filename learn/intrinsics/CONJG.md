@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/CONJG
 ---
 ## __Name__
 
-__conjg__(4) - \[NUMERIC\] Complex conjugate of a complex value
+__conjg__(3) - \[NUMERIC\] Complex conjugate of a complex value
 
 ## __Syntax__
 ```fortran

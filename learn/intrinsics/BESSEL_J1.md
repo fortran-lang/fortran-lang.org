@@ -24,8 +24,8 @@ of order __1__ of __x__.
 
 ## __Returns__
 
-The return value is of type _real_ and lies in the range __-0.5818 \<=
-bessel(0,x) \<= 0.5818__ . It has the same kind as __x__.
+The return value is of type _real_ and lies in the range 
+__-0.5818 \<= bessel(0,x) \<= 0.5818__ . It has the same kind as __x__.
 
 ## __Examples__
 

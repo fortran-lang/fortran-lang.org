@@ -14,7 +14,7 @@ result = selected_char_kind(name)
 ```
 ## __Description__
 
-__selected\_char\_kind__(name) returns the kind value for the character
+__selected\_char\_kind(name)__ returns the kind value for the character
 set named NAME, if a character set with such a name is supported, or
 __-1__ otherwise. Currently, supported character sets include "ASCII"
 and "DEFAULT" (iwhich are equivalent), and "ISO\_10646" (Universal

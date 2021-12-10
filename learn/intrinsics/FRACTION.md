@@ -25,8 +25,8 @@ of __x__.
 ## __Returns__
 
 The return value is of the same type and kind as the argument. The
-fractional part of the model representation of __x__ is returned; it is __x \*
-radix(x)\*\*(-exponent(x))__.
+fractional part of the model representation of __x__ is returned; it is 
+__x \* radix(x)\*\*(-exponent(x))__.
 
 ## __Examples__
 

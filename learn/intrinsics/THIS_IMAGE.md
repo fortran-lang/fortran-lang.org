@@ -20,7 +20,7 @@ Returns the cosubscript for this image.
 ## __Arguments__
 
   - __distance__
-    : (optional, __intent__(in)) Nonnegative scalar integer (not permitted
+    : (optional, __intent(in)__) Nonnegative scalar integer (not permitted
     together with __coarray__).
 
   - __coarray__
