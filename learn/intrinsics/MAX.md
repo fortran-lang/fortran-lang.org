@@ -99,7 +99,7 @@ real :: arr2(5)= [20.0,21.0,32.0,-200.0,2200.0]
 
   write(*,*)'scalars and array:',&
   & max(40.0,11.0,30.0,-100.0,arr2(:4),arr1)
-end program demo\_max
+end program demo_max
 ```
 Results:
 

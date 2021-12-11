@@ -13,9 +13,7 @@ permalink: /learn/intrinsics/TYPE_index
 | *NUMERIC:TYPE*  |||| [__int__]({{site.baseurl}}/learn/intrinsics/INT)                                 || &#9679; Convert to integer type                             |
 | *NUMERIC:TYPE*  |||| [__nint__]({{site.baseurl}}/learn/intrinsics/NINT)                               || &#9679; Nearest whole number                                |
 | *NUMERIC:TYPE*  |||| [__real__]({{site.baseurl}}/learn/intrinsics/REAL)                               || &#9679; Convert to real type                                |
-| *NUMERIC:TYPE*  |||| [__float__]({{site.baseurl}}/learn/intrinsics/FLOAT)                             || &#9679; Convert integer to default real                     |
 | *NUMERIC:TYPE*  |||| [__dble__]({{site.baseurl}}/learn/intrinsics/DBLE)                               || &#9679; Double conversion function                          |
-| *NUMERIC:TYPE*  |||| [__sngl__]({{site.baseurl}}/learn/intrinsics/SNGL)                               || &#9679; Convert double precision real to default real       |
 |-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
 | *LOGICAL:TYPE*  |||| [__logical__]({{site.baseurl}}/learn/intrinsics/LOGICAL)                         || &#9679; Converts one kind of _logical_ variable to another  |
 |-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
