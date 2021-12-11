@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/DSHIFTL
 ---
 ## __Name__
 
-__dshiftl__(3) - \[BIT MANIPULATION\] combines bits of arguments I and J
+__dshiftl__(3) - \[BIT:MANIPULATION\] combines bits of arguments I and J
 (GFDL)
 
 ## __Syntax__

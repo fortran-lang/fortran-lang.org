@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/MASKR
 ---
 ## __Name__
 
-__maskr__(3) - \[\] Right justified mask
+__maskr__(3) - \[BIT:MANIPULATION\] Right justified mask
 (GFDL)
 
 ## __Syntax__

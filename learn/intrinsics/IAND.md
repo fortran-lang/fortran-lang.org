@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IAND
 ---
 ## __Name__
 
-__iand__(3) - \[BIT MANIPULATION\] Bitwise logical and
+__iand__(3) - \[BIT:MANIPULATION\] Bitwise logical and
 (GFDL)
 
 ## __Syntax__

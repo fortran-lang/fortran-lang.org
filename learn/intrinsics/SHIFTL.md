@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/SHIFTL
 ---
 ## __Name__
 
-__shiftl__(3) - \[BIT MANIPULATION\] shift bits left
+__shiftl__(3) - \[BIT:MANIPULATION\] shift bits left
 (GFDL)
 
 ## __Syntax__
@@ -29,7 +29,7 @@ end are lost, and bits shifted in from the right end are set to __0__.
 
 ## __Returns__
 
-The return value is of type _integer_ and of the same kind as I.
+The return value is of type _integer_ and of the same kind as __i__.
 
 ## __Standard__
 

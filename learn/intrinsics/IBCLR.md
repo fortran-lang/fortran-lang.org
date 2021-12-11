@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IBCLR
 ---
 ## __Name__
 
-__ibclr__(3) - \[BIT MANIPULATION\] Clear bit
+__ibclr__(3) - \[BIT:MANIPULATION\] Clear bit
 (GFDL)
 
 ## __Syntax__

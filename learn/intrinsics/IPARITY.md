@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IPARITY
 ---
 ## __Name__
 
-__iparity__(3) - \[BIT MANIPULATION\] Bitwise exclusive or of array elements
+__iparity__(3) - \[BIT:MANIPULATION\] Bitwise exclusive or of array elements
 (GFDL)
 
 ## __Syntax__

@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/LOGICAL
 ---
 ## __Name__
 
-__logical__(3) - \[BIT MANIPULATION\] Converts one kind of _logical_ variable to another
+__logical__(3) - \[BIT:MANIPULATION\] Converts one kind of _logical_ variable to another
 (GFDL)
 
 ## __Syntax__

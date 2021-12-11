@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IANY
 ---
 ## __Name__
 
-__iany__(3) - \[BIT MANIPULATION\] Bitwise or of array elements
+__iany__(3) - \[BIT:MANIPULATION\] Bitwise or of array elements
 (GFDL)
 
 ## __Syntax__

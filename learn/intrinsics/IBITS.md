@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IBITS
 ---
 ## __Name__
 
-__ibits__(3) - \[BIT MANIPULATION\] Bit extraction
+__ibits__(3) - \[BIT:MANIPULATION\] Bit extraction
 (GFDL)
 
 ## __Syntax__

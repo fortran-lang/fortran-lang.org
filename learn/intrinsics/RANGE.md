@@ -15,7 +15,7 @@ result = range(x)
 ## __Description__
 
 __range(x)__ returns the decimal exponent range in the model of the type
-of __X__.
+of __x__.
 
 ## __Arguments__
 
@@ -62,4 +62,3 @@ Fortran 95 and later
 [set_exponent(3)](SET_EXPONENT),
 [spacing(3)](SPACING),
 [tiny(3)](TINY)
-

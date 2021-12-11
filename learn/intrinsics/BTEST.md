@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/BTEST
 ---
 ## __Name__
 
-__btest__(3) - \[BIT MANIPULATION\] Tests a bit of an _integer_ value.
+__btest__(3) - \[BIT:INQUIRY\] Tests a bit of an _integer_ value.
 
 ## __Syntax__
 ```fortran

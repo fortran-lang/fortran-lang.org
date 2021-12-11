@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/SHIFTA
 ---
 ## __Name__
 
-__shifta__(3) - \[BIT MANIPULATION\] shift bits right with fill
+__shifta__(3) - \[BIT:MANIPULATION\] shift bits right with fill
 (GFDL)
 
 ## __Syntax__
@@ -14,8 +14,8 @@ result = shifta(i, shift)
 ```
 ## __Description__
 
-Returns a value corresponding to I with all of the bits shifted right by
-SHIFT places. If the absolute value of __shift__ is greater than
+Returns a value corresponding to __i__ with all of the bits shifted right by
+__shift__ places. If the absolute value of __shift__ is greater than
 __bit\_size(i)__, the value is undefined. Bits shifted out from the
 right end are lost. The fill is arithmetic: the bits shifted in from the
 left end are equal to the leftmost bit, which in two's complement

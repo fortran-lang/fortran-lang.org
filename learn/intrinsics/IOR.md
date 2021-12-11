@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IOR
 ---
 ## __Name__
 
-__ior__(3) - \[BIT MANIPULATION\] Bitwise logical inclusive or
+__ior__(3) - \[BIT:MANIPULATION\] Bitwise logical inclusive or
 (GFDL)
 
 ## __Syntax__
