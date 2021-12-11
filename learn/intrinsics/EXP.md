@@ -25,7 +25,7 @@ then
      __exp(cx)=exp(re)*cmplx(cos(im),sin(im))__
 
 Since __exp__(3) is the inverse function of __log__(3) the maximum valid magnitude
-of the real component of __x__ is __log(huge(x))__.
+of the _real_ component of __x__ is __log(huge(x))__.
 
 ## __Arguments__
 
