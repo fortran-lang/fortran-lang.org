@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/SHIFTL
 ---
 ## __Name__
 
-__shiftl__(3) - \[BIT:MANIPULATION\] shift bits left
+__shiftl__(3) - \[BIT:SHIFT\] shift bits left
 (GFDL)
 
 ## __Syntax__

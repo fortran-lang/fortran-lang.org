@@ -4,7 +4,7 @@ title: not
 permalink: /learn/intrinsics/NOT
 ---
 ## __Name__
-__not__(3) - \[BIT:MANIPULATION\] Logical negation
+__not__(3) - \[BIT:LOGICAL\] Logical negation
 
 ## __Syntax__
 ```fortran

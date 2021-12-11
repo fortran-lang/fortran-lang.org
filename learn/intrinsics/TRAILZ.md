@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/TRAILZ
 ---
 ## __Name__
 
-__trailz__(3) - \[BIT INQUIRY\] Number of trailing zero bits of an integer
+__trailz__(3) - \[BIT:COUNT\] Number of trailing zero bits of an integer
 
 ## __Syntax__
 ```fortran

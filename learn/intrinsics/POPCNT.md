@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/POPCNT
 ---
 ## __Name__
 
-__popcnt__(3) - \[BIT INQUIRY\] Number of bits set
+__popcnt__(3) - \[BIT:COUNT\] Number of bits set
 (GFDL)
 
 ## __Syntax__

@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/MVBITS
 ---
 ## __Name__
 
-__mvbits__(3) - \[BIT:MANIPULATION\] Move bits from one integer to another
+__mvbits__(3) - \[BIT:COPY\] Move bits from one integer to another
 (GFDL)
 
 ## __Syntax__

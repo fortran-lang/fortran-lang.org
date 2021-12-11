@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/MERGE_BITS
 ---
 ## __Name__
 
-__merge\_bits__(3) - \[BIT:MANIPULATION\] Merge of bits under mask
+__merge\_bits__(3) - \[BIT:COPY\] Merge of bits under mask
 (GFDL)
 
 ## __Syntax__

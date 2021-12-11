@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/SHIFTA
 ---
 ## __Name__
 
-__shifta__(3) - \[BIT:MANIPULATION\] shift bits right with fill
+__shifta__(3) - \[BIT:SHIFT\] shift bits right with fill
 (GFDL)
 
 ## __Syntax__

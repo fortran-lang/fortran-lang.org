@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/MASKR
 ---
 ## __Name__
 
-__maskr__(3) - \[BIT:MANIPULATION\] Generates a right-justified mask
+__maskr__(3) - \[BIT:SET\] Generates a right-justified mask
 
 ## __Syntax__
 ```fortran

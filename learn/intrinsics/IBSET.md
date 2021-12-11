@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IBSET
 ---
 ## __Name__
 
-__ibset__(3) - \[BIT:MANIPULATION\] Set bit
+__ibset__(3) - \[BIT:SET\] Set bit
 (GFDL)
 
 ## __Syntax__

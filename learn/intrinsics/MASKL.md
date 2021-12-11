@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/MASKL
 ---
 ## __Name__
 
-__maskl__(3) - \[BIT:MANIPULATION\] Generates a left justified mask
+__maskl__(3) - \[BIT:SET\] Generates a left justified mask
 ## __Syntax__
 ```fortran
 result = maskl(i, kind)

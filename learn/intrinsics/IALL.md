@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IALL
 ---
 ## __Name__
 
-__iall__(3) - \[BIT:MANIPULATION\] Bitwise and of array elements
+__iall__(3) - \[BIT:LOGICAL\] Bitwise and of array elements
 (GFDL)
 
 ## __Syntax__

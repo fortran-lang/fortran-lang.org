@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/ISHFT
 ---
 ## __Name__
 
-__ishft__(3) - \[BIT:MANIPULATION\] Shift bits
+__ishft__(3) - \[BIT:SHIFT\] Shift bits
 (GFDL)
 
 ## __Syntax__
