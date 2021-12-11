@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/BLE
 ---
 ## __Name__
 
-__ble__(3) - \[BIT COMPARE\] Bitwise less than or equal to
+__ble__(3) - \[BIT:COMPARE\] Bitwise less than or equal to
 (GFDL)
 
 ## __Syntax__

@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/BLT
 ---
 ## __Name__
 
-__blt__(3) - \[BIT COMPARE\] Bitwise less than
+__blt__(3) - \[BIT:COMPARE\] Bitwise less than
 (GFDL)
 
 ## __Syntax__

@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/DOT_PRODUCT
 ---
 ## __Name__
 
-__dot\_product__(3) - \[TRANSFORMATIONAL FUNCTION\] Dot product function
+__dot\_product__(3) - \[TRANSFORMATIONAL\] Dot product function
 (GFDL)
 
 ## __Syntax__

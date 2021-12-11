@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/MATMUL
 ---
 ## __Name__
 
-__matmul__(3) - \[TRANSFORMATIONAL FUNCTION\] matrix multiplication
+__matmul__(3) - \[TRANSFORMATIONAL\] matrix multiplication
 (GFDL)
 
 ## __Syntax__

@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/EOSHIFT
 ---
 ## __Name__
 
-__eoshift__(3) - \[TRANSFORMATIONAL FUNCTION\] End-off shift elements of an array
+__eoshift__(3) - \[TRANSFORMATIONAL\] End-off shift elements of an array
 (GFDL)
 
 ## __Syntax__

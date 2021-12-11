@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/NULL
 ---
 ## __Name__
 
-__null__(3) - \[TRANSFORMATIONAL FUNCTION\] Function that returns a disassociated pointer
+__null__(3) - \[TRANSFORMATIONAL\] Function that returns a disassociated pointer
 (GFDL)
 
 ## __Syntax__

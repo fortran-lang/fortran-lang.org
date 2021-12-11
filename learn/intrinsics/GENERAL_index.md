@@ -10,7 +10,6 @@ permalink: /learn/intrinsics/GENERAL_index
 |-----------||||-----------------------------------------------------------------------------||--------------------------------------------------------------------------------------------|
 | *TBD*     |||| [__associated__]({{site.baseurl}}/learn/intrinsics/ASSOCIATED)              || &#9679; Status of a pointer or pointer/target pair                                         |
 | *TBD*     |||| [__extends\_type\_of__]({{site.baseurl}}/learn/intrinsics/EXTENDS_TYPE_OF)  || &#9679; Determine if the dynamic type of A is an extension of the dynamic type of MOLD.    |
-| *TBD*     |||| [__findloc__]({{site.baseurl}}/learn/intrinsics/FINDLOC)                    || &#9679; Locate first element of ARRAY identified by MASK along dimension DIM having a value|
 | *TBD*     |||| [__is\_iostat\_end__]({{site.baseurl}}/learn/intrinsics/IS_IOSTAT_END)      || &#9679; Test for end-of-file value                                                         |
 | *TBD*     |||| [__is\_iostat\_eor__]({{site.baseurl}}/learn/intrinsics/IS_IOSTAT_EOR)      || &#9679; Test for end-of-record value                                                       |
 | *TBD*     |||| [__move\_alloc__]({{site.baseurl}}/learn/intrinsics/MOVE_ALLOC)             || &#9679; Move allocation from one object to another                                         |

@@ -23,6 +23,7 @@ permalink: /learn/intrinsics/ARRAY_index
 |----------------------|||||-----------------------------------------------------------------------||------------------------------------------------------------------|
 | *ARRAY:LOCATION*     ||||| [__maxloc__]({{site.baseurl}}/learn/intrinsics/MAXLOC)                || &#9679; Location of the maximum value within an array            |
 | *ARRAY:LOCATION*     ||||| [__minloc__]({{site.baseurl}}/learn/intrinsics/MINLOC)                || &#9679; Location of the minimum value within an array            |
+| *ARRAY:LOCATION*     ||||| [__findloc__]({{site.baseurl}}/learn/intrinsics/FINDLOC)              || &#9679; Locate first element of ARRAY identified by MASK along dimension DIM having a value|
 |----------------------|||||-----------------------------------------------------------------------||------------------------------------------------------------------|
 | *ARRAY:MANIPULATION* ||||| [__transpose__]({{site.baseurl}}/learn/intrinsics/TRANSPOSE)          || &#9679; Transpose an array of rank two                           |
 |----------------------|||||-----------------------------------------------------------------------||------------------------------------------------------------------|

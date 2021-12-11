@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/GET_ENVIRONMENT_VARIABLE
 ---
 ## __Name__
 
-__get\_environment\_variable__(3) - \[SYSTEM ENVIRONMENT\] Get an environmental variable
+__get\_environment\_variable__(3) - \[SYSTEM:ENVIRONMENT\] Get an environmental variable
 
 ## __Syntax__
 ```fortran

@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/PARITY
 ---
 ## __Name__
 
-__parity__(3) - \[TRANSFORMATIONAL FUNCTION\] Reduction with exclusive __OR__()
+__parity__(3) - \[TRANSFORMATIONAL\] Reduction with exclusive __OR__()
 (GFDL)
 
 ## __Syntax__

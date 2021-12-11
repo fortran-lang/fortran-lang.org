@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/CSHIFT
 ---
 ## __Name__
 
-__cshift__(3) - \[TRANSFORMATIONAL FUNCTION\] Circular shift elements of an array
+__cshift__(3) - \[TRANSFORMATIONAL\] Circular shift elements of an array
 (GFDL)
 
 ## __Syntax__
