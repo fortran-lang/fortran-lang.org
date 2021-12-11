@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/ASSOCIATED
 ---
 ## __Name__
 
-__associated__(3) - \[\] Status of a pointer or pointer/target pair
+__associated__(3) - \[STATE\] Status of a pointer or pointer/target pair
 (GFDL)
 
 ## __Syntax__

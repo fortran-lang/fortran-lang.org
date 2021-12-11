@@ -53,7 +53,7 @@ not start with one.
 
 ## __Examples__
 
-sample program:
+sample program
 
 ```fortran
 program demo_maxloc
@@ -80,6 +80,7 @@ integer,save :: ints(3,5)= reshape([&
     write(*,*)maxloc(i)
 
 end program demo_maxloc
+```
 
 expected output:
 ```text

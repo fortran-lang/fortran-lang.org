@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/SAME_TYPE_AS
 ---
 ## __Name__
 
-__same\_type\_as__(3) - \[\] Query dynamic types for equality
+__same\_type\_as__(3) - \[STATE\] Query dynamic types for equality
 (GFDL)
 
 ## __Syntax__

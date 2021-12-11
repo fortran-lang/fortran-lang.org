@@ -36,7 +36,7 @@ The return value is a _logical_ value equal to __l__, with a kind
 corresponding to __kind__, or of the default logical kind if __kind__ is not
 given.
 
-## __Example__
+## __Examples__
 ```fortran
 program demo_logical
 ! Access array containing the kind type parameter values supported by this

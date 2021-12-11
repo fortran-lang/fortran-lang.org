@@ -10,7 +10,7 @@ __dshiftr__(3) - \[BIT:COPY\] combines bits of arguments __i__ and __j__
 
 ## __Syntax__
 ```fortran
-result = dshiftl(i, j, shift)
+result = dshiftr(i, j, shift)
 ```
 ## __Description__
 

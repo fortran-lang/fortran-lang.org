@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/STORAGE_SIZE
 ---
 ## __Name__
 
-__storage\_size__(3) - \[BIT INQUIRY\] Storage size in bits
+__storage\_size__(3) - \[BIT:INQUIRY\] Storage size in bits
 (GFDL)
 
 ## __Syntax__
@@ -38,14 +38,21 @@ Sample program
 ```fortran
 program demo_storage_size
 implicit none
-   write(*,*)'size of integer ',storage_size(0)
-   write(*,*)'size of real    ',storage_size(0.0)
-   write(*,*)'size of logical ',storage_size(.true.)
-   write(*,*)'size of complex ',storage_size((0.0,0.0))
+   write(*,*)'size of integer       ',storage_size(0)
+   write(*,*)'size of real          ',storage_size(0.0)
+   write(*,*)'size of logical       ',storage_size(.true.)
+   write(*,*)'size of complex       ',storage_size((0.0,0.0))
    write(*,*)'size of integer array ',storage_size([0,1,2,3,4,5,6,7,8,9])
 end program demo_storage_size
 ```
-
+  Results:
+```text
+    size of integer                 32
+    size of real                    32
+    size of logical                 32
+    size of complex                 64
+    size of integer array           32
+```
 ## __Standard__
 
 Fortran 2008 and later

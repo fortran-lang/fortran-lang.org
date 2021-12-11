@@ -11,6 +11,12 @@ __cmplx__(3) - \[NUMERIC:TYPE\] Complex conversion function
 ## __Syntax__
 ```fortran
 result = cmplx(x, y, kind)
+
+   complex elemental function :: cmplx
+   TYPE(kind=KIND),intent(in), x
+   TYPE(kind=KIND),intent(in),optional, y
+   integer,intent(in),optional :: kind
+
 ```
 ## __Description__
 

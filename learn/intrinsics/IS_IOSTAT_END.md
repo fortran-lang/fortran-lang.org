@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/IS_IOSTAT_END
 ---
 ## __Name__
 
-__is\_iostat\_end__(3) - \[\] Test for end-of-file value
+__is\_iostat\_end__(3) - \[STATE\] Test for end-of-file value
 (GFDL)
 
 ## __Syntax__
@@ -46,7 +46,7 @@ integer            :: ios
 character(len=256) :: message
    write(*,*)'Begin entering numeric values, one per line'
    do
-      read(*,'(g0)',iostat=ios,iomsg=message)value
+      read(*,*,iostat=ios,iomsg=message)value
       if(ios.eq.0)then
          write(*,*)'VALUE=',value
       elseif( is_iostat_end(ios) ) then

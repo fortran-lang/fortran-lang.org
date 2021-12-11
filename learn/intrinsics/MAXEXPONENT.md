@@ -32,7 +32,7 @@ Sample program:
 
 ```fortran
 program demo_maxexponent
-iso_fortran_env, only : dp=>real64,sp=>real32
+use,intrinsic :: iso_fortran_env, only : dp=>real64,sp=>real32
 implicit none
 real(kind=sp) :: x
 real(kind=dp) :: y

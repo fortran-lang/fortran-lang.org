@@ -17,8 +17,8 @@ Vendor-specific extensions are not included.
 #### Manipulation and properties of numeric values
 ### &#9755;[Transformational]({{site.baseurl}}/learn/intrinsics/TRANSFORM_index) 
 #### Matrix multiplication, Dot product, array shifts,
-### &#9755;[General Intrinsics]({{site.baseurl}}/learn/intrinsics/GENERAL_index) 
-#### General and miscellaneous intrinsics
+### &#9755;[General State]({{site.baseurl}}/learn/intrinsics/STATE_index) 
+#### General and miscellaneous intrinsics on state of variables and I/O
 ### &#9755;[Character]({{site.baseurl}}/learn/intrinsics/CHARACTER_index) 
 #### basic procedures specifically for manipulating _character_ variables
 ### &#9755;[System Environment]({{site.baseurl}}/learn/intrinsics/SYSTEM_index) 
