@@ -5,29 +5,30 @@ permalink: /learn/intrinsics/TYPE_index
 ---
 ### Types and kinds
 
-|--------------------|||||----------------------------------------------------------------------------------||------------------------------------------------------------------|
-| category           ||||| page                                                                             || description                                                      |
-|--------------------|||||----------------------------------------------------------------------------------||------------------------------------------------------------------|
-| *NUMERIC:TYPE*     ||||| [__aimag__]({{site.baseurl}}/learn/intrinsics/AIMAG)                             || &#9679; Imaginary part of complex number                         |
-| *NUMERIC:TYPE*     ||||| [__cmplx__]({{site.baseurl}}/learn/intrinsics/CMPLX)                             || &#9679; Complex conversion function                              |
-| *NUMERIC:TYPE*     ||||| [__int__]({{site.baseurl}}/learn/intrinsics/INT)                                 || &#9679; Convert to integer type                                  |
-| *NUMERIC:TYPE*     ||||| [__nint__]({{site.baseurl}}/learn/intrinsics/NINT)                               || &#9679; Nearest whole number                                     |
-| *NUMERIC:TYPE*     ||||| [__real__]({{site.baseurl}}/learn/intrinsics/REAL)                               || &#9679; Convert to real type                                     |
-| *NUMERIC:TYPE*     ||||| [__float__]({{site.baseurl}}/learn/intrinsics/FLOAT)                             || &#9679; Convert integer to default real                          |
-| *NUMERIC:TYPE*     ||||| [__dble__]({{site.baseurl}}/learn/intrinsics/DBLE)                               || &#9679; Double conversion function                               |
-| *NUMERIC:TYPE*     ||||| [__sngl__]({{site.baseurl}}/learn/intrinsics/SNGL)                               || &#9679; Convert double precision real to default real            |
-|--------------------|||||----------------------------------------------------------------------------------||------------------------------------------------------------------|
-| *LOGICAL:TYPE*     ||||| [__logical__]({{site.baseurl}}/learn/intrinsics/LOGICAL)                         || &#9679; Converts one kind of _logical_ variable to another       |
-|--------------------|||||----------------------------------------------------------------------------------||------------------------------------------------------------------|
-| *KIND:INQUIRY*     ||||| [__kind__]({{site.baseurl}}/learn/intrinsics/KIND)                               || &#9679; Kind of an entity                                        |
-|--------------------|||||----------------------------------------------------------------------------------||------------------------------------------------------------------|
-| *KIND*             ||||| [__selected\_char\_kind__]({{site.baseurl}}/learn/intrinsics/SELECTED_CHAR_KIND) || &#9679; Choose character kind such as "Unicode"                  |
-| *KIND*             ||||| [__selected\_int\_kind__]({{site.baseurl}}/learn/intrinsics/SELECTED_INT_KIND)   || &#9679; Choose integer kind                                      |
-| *KIND*             ||||| [__selected\_real\_kind__]({{site.baseurl}}/learn/intrinsics/SELECTED_REAL_KIND) || &#9679; Choose real kind                                         |
-|--------------------|||||----------------------------------------------------------------------------------||------------------------------------------------------------------|
+|-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
+| category        |||| page                                                                             || description                                                 |
+|-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
+| *NUMERIC:TYPE*  |||| [__aimag__]({{site.baseurl}}/learn/intrinsics/AIMAG)                             || &#9679; Imaginary part of complex number                    |
+| *NUMERIC:TYPE*  |||| [__cmplx__]({{site.baseurl}}/learn/intrinsics/CMPLX)                             || &#9679; Complex conversion function                         |
+| *NUMERIC:TYPE*  |||| [__int__]({{site.baseurl}}/learn/intrinsics/INT)                                 || &#9679; Convert to integer type                             |
+| *NUMERIC:TYPE*  |||| [__nint__]({{site.baseurl}}/learn/intrinsics/NINT)                               || &#9679; Nearest whole number                                |
+| *NUMERIC:TYPE*  |||| [__real__]({{site.baseurl}}/learn/intrinsics/REAL)                               || &#9679; Convert to real type                                |
+| *NUMERIC:TYPE*  |||| [__float__]({{site.baseurl}}/learn/intrinsics/FLOAT)                             || &#9679; Convert integer to default real                     |
+| *NUMERIC:TYPE*  |||| [__dble__]({{site.baseurl}}/learn/intrinsics/DBLE)                               || &#9679; Double conversion function                          |
+| *NUMERIC:TYPE*  |||| [__sngl__]({{site.baseurl}}/learn/intrinsics/SNGL)                               || &#9679; Convert double precision real to default real       |
+|-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
+| *LOGICAL:TYPE*  |||| [__logical__]({{site.baseurl}}/learn/intrinsics/LOGICAL)                         || &#9679; Converts one kind of _logical_ variable to another  |
+|-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
+| *KIND:INQUIRY*  |||| [__kind__]({{site.baseurl}}/learn/intrinsics/KIND)                               || &#9679; Kind of an entity                                   |
+|-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
+| *KIND*          |||| [__selected\_char\_kind__]({{site.baseurl}}/learn/intrinsics/SELECTED_CHAR_KIND) || &#9679; Choose character kind such as "Unicode"             |
+| *KIND*          |||| [__selected\_int\_kind__]({{site.baseurl}}/learn/intrinsics/SELECTED_INT_KIND)   || &#9679; Choose integer kind                                 |
+| *KIND*          |||| [__selected\_real\_kind__]({{site.baseurl}}/learn/intrinsics/SELECTED_REAL_KIND) || &#9679; Choose real kind                                    |
+|-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
 
-These intrinsics allow for explicitly casting one type of variable to another or can be used to conditionally execute code blocks based on variable types when working with
-polymorphic variables.
+These intrinsics allow for explicitly casting one type of variable to
+another or can be used to conditionally execute code blocks based on
+variable types when working with polymorphic variables.
 
 #### Fortran Data Types
 
