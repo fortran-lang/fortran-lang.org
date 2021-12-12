@@ -85,7 +85,6 @@ Results:
 Fortran 95 and later, for a complex argument Fortran 2008 or later
 
 ## __See Also__
-
-- [Wikipedia:hyperbolic sine](https://en.wikipedia.org/wiki/Hyperbolic_functions)
+- [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 [__asinh__(3)](ASINH)

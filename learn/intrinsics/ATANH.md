@@ -47,5 +47,6 @@ end program demo_atanh
 Fortran 2008 and later
 
 ## __See Also__
+- [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 Inverse function: [__tanh__(3)](TANH)

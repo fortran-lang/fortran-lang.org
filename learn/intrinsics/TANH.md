@@ -30,7 +30,6 @@ value lies in the range
 ```
       -1 <= tanh(x) <= 1.
 ```
-
 ## __Examples__
 
 Sample program:
@@ -44,11 +43,11 @@ real(kind=real64) :: x = 2.1_real64
    x = tanh(x)
 end program demo_tanh
 ```
-
 ## __Standard__
 
 FORTRAN 77 and later, for a complex argument Fortran 2008 or later
 
 ## __See Also__
+- [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 [__atanh__(3)](ATANH)

@@ -52,6 +52,7 @@ end program demo_acosh
 Fortran 2008 and later
 
 ## __See Also__
+- [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 Inverse function: [__cosh__(3)](COSH)
 

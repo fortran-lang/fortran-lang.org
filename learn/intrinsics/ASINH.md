@@ -52,5 +52,6 @@ end program demo_asinh
 Fortran 2008 and later
 
 ## __See Also__
+- [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 Inverse function: [__sinh__(3)](SINH)
