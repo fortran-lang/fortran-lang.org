@@ -45271,9 +45271,20 @@ value that <strong>COUNT</strong> can have, or zero if there is no clock.</dd>
 <p>Sample program:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_system_clock</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">wp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">kind</span><span class="p">(</span><span class="mf">1.0d0</span><span class="p">)</span><span class="w">
 </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="n">count_max</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">finish</span><span class="w">
+
    </span><span class="k">call</span><span class="w"> </span><span class="nb">system_clock</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="n">count_max</span><span class="p">)</span><span class="w">
    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">count_rate</span><span class="p">,</span><span class="w"> </span><span class="n">count_max</span><span class="w">
+
+   </span><span class="k">call</span><span class="w"> </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">count_rate</span><span class="p">)</span><span class="w">
+   </span><span class="c1">! &lt;&lt;&lt;&lt; code to time</span><span class="w">
+   </span><span class="k">call</span><span class="w"> </span><span class="nb">system_clock</span><span class="p">(</span><span class="n">finish</span><span class="p">)</span><span class="w">
+   </span><span class="n">time_read</span><span class="o">=</span><span class="p">(</span><span class="n">finish</span><span class="o">-</span><span class="n">start</span><span class="p">)/</span><span class="kt">real</span><span class="p">(</span><span class="n">count_rate</span><span class="p">,</span><span class="n">wp</span><span class="p">)</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(a30,1x,f7.4,1x,a)'</span><span class="p">)</span><span class="w"> </span><span class="s1">'time * : '</span><span class="p">,</span><span class="w"> </span><span class="n">time_read</span><span class="p">,</span><span class="w"> </span><span class="s1">' seconds'</span><span class="w">
+
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_system_clock</span><span class="w">
 </span></code></pre></div></div>
 <p>If the processor clock is a 24-hour clock that registers time at
