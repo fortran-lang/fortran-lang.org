@@ -35,7 +35,14 @@ program demo_radix
 implicit none
    print *, "The radix for the default integer kind is", radix(0)
    print *, "The radix for the default real kind is", radix(0.0)
+   print *, "The radix for the doubleprecsion real kind is", radix(0.0d0)
 end program demo_radix
+```
+  Results:
+```text
+    The radix for the default integer kind is           2
+    The radix for the default real kind is           2
+    The radix for the doubleprecsion real kind is           2
 ```
 
 ## __Standard__

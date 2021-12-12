@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/NINT
 ---
 ## __Name__
 
-__nint__(3) - \[NUMERIC:TYPE\] Nearest whole number
+__nint__(3) - \[TYPE:NUMERIC\] Nearest whole number
 
 ## __Syntax__
 ```fortran

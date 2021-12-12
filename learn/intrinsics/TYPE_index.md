@@ -8,14 +8,16 @@ permalink: /learn/intrinsics/TYPE_index
 |-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
 | category        |||| page                                                                             || description                                                 |
 |-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
-| *NUMERIC:TYPE*  |||| [__aimag__]({{site.baseurl}}/learn/intrinsics/AIMAG)                             || &#9679; Imaginary part of complex number                    |
-| *NUMERIC:TYPE*  |||| [__cmplx__]({{site.baseurl}}/learn/intrinsics/CMPLX)                             || &#9679; Complex conversion function                         |
-| *NUMERIC:TYPE*  |||| [__int__]({{site.baseurl}}/learn/intrinsics/INT)                                 || &#9679; Convert to integer type                             |
-| *NUMERIC:TYPE*  |||| [__nint__]({{site.baseurl}}/learn/intrinsics/NINT)                               || &#9679; Nearest whole number                                |
-| *NUMERIC:TYPE*  |||| [__real__]({{site.baseurl}}/learn/intrinsics/REAL)                               || &#9679; Convert to real type                                |
-| *NUMERIC:TYPE*  |||| [__dble__]({{site.baseurl}}/learn/intrinsics/DBLE)                               || &#9679; Double conversion function                          |
+| *TYPE:NUMERIC*  |||| [__aimag__]({{site.baseurl}}/learn/intrinsics/AIMAG)                             || &#9679; Imaginary part of complex number                    |
+| *TYPE:NUMERIC*  |||| [__cmplx__]({{site.baseurl}}/learn/intrinsics/CMPLX)                             || &#9679; Complex conversion function                         |
+| *TYPE:NUMERIC*  |||| [__int__]({{site.baseurl}}/learn/intrinsics/INT)                                 || &#9679; Convert to integer type                             |
+| *TYPE:NUMERIC*  |||| [__nint__]({{site.baseurl}}/learn/intrinsics/NINT)                               || &#9679; Nearest whole number                                |
+| *TYPE:NUMERIC*  |||| [__real__]({{site.baseurl}}/learn/intrinsics/REAL)                               || &#9679; Convert to real type                                |
+| *TYPE:NUMERIC*  |||| [__dble__]({{site.baseurl}}/learn/intrinsics/DBLE)                               || &#9679; Double conversion function                          |
 |-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
-| *LOGICAL:TYPE*  |||| [__logical__]({{site.baseurl}}/learn/intrinsics/LOGICAL)                         || &#9679; Converts one kind of _logical_ variable to another  |
+| *TYPE:MOLD*     |||| [__transfer__]({{site.baseurl}}/learn/intrinsics/TRANSFER)                       || &#9679; Transfer bit patterns                               |
+|-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
+| *TYPE:LOGICAL*  |||| [__logical__]({{site.baseurl}}/learn/intrinsics/LOGICAL)                         || &#9679; Converts one kind of _logical_ variable to another  |
 |-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|
 | *KIND:INQUIRY*  |||| [__kind__]({{site.baseurl}}/learn/intrinsics/KIND)                               || &#9679; Kind of an entity                                   |
 |-----------------||||----------------------------------------------------------------------------------||-------------------------------------------------------------|

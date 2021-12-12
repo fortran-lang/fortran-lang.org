@@ -11,6 +11,11 @@ __char__(3) - \[CHARACTER\] Character conversion function
 ## __Syntax__
 ```fortran
 result = char(i, kind)
+   elemental integer function char(i,kind)
+
+    integer(kind=KIND),intent(in) :: c
+    integer,intent(in),optional :: KIND
+```
 ```
 ## __Description__
 

@@ -27,7 +27,7 @@ divide by zero being generated; as __1.0/x__ may be evaluated for all values
 of __x__ before the mask is used to select which value to retain:
 
 ```fortran
-      y = merge( 1.0\/x, 0.0, x \/= 0.0 )
+      y = merge( 1.0/x, 0.0, x /= 0.0 )
 ```
 
 Note the compiler is also free to short-circuit or to generate an
@@ -39,7 +39,7 @@ construct:
 
 ```fortran
       where(x .ne. 0.0)
-         y = 1.0\/x
+         y = 1.0/x
       elsewhere
          y = 0.0
       endwhere
@@ -48,7 +48,7 @@ construct:
 instead of the more obscure
 
 ```fortran
-      merge(1.0\/merge(x,1.0,x \/= 0.0), 0.0, x \/= 0.0)
+      merge(1.0/merge(x,1.0,x /= 0.0), 0.0, x /= 0.0)
 ```
 
 ## __Arguments__

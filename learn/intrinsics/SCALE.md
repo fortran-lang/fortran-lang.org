@@ -5,12 +5,15 @@ permalink: /learn/intrinsics/SCALE
 ---
 ## __Name__
 
-__scale__(3) - \[MODEL\_COMPONENTS\] Scale a real value
+__scale__(3) - \[MODEL\_COMPONENTS\] Scale a real value by a whole power of two
 (GFDL)
 
 ## __Syntax__
 ```fortran
 result = scale(x, i)
+
+   real(kind=KIND),intent(in) :: x
+   integer,intent(in)         :: i
 ```
 ## __Description__
 

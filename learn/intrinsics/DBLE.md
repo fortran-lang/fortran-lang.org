@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/DBLE
 ---
 ## __Name__
 
-__dble__(3) - \[NUMERIC:TYPE\] Double conversion function
+__dble__(3) - \[TYPE:NUMERIC\] Double conversion function
 (GFDL)
 
 ## __Syntax__

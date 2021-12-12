@@ -227,3 +227,5 @@ Fortran 95 and later
 
 [__sum__(3)](SUM), note that an element by element multiplication is done
 directly using the star character.
+
+###### fortran-lang intrinsic descriptions (@urbanjost)

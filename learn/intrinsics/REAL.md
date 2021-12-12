@@ -4,7 +4,7 @@ title: real
 permalink: /learn/intrinsics/REAL
 ---
 ## __Name__
-__real__(3) - \[NUMERIC:TYPE\] Convert to real type
+__real__(3) - \[TYPE:NUMERIC\] Convert to real type
 (GFDL)
 
 ## __Syntax__
