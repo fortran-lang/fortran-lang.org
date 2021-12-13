@@ -135,8 +135,7 @@ end subroutine nointerface
 !!
 end program demo_size
 ```
-Expected results:
-
+Results:
 ```text
     SIZE of simple one-dimensional array=           3
     body

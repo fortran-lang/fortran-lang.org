@@ -72,7 +72,7 @@ end function factorial
 
 end program demo_gamma
 ```
-Results
+Results:
 ```text
  gamma(1.0)=   1.000000    
    1.000000       1.000000       2.000000       6.000000    

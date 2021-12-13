@@ -46,6 +46,10 @@ real(kind=dp), dimension(3) :: x = [ 1.0d0, 2.0d0, 3.0d0 ]
    write (*,*) acosh(x)
 end program demo_acosh
 ```
+  Results:
+```text
+ 0.000000000000000E+000   1.31695789692482        1.76274717403909
+```
 
 ## __Standard__
 

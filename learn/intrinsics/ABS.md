@@ -91,7 +91,6 @@ integer,parameter :: dp=kind(0.0d0)
 end program demo_abs
 ```
 Results:
-
 ```
  integer          In: -1                           Out: 1
  real             In: -1.000000                    Out: 1.000000

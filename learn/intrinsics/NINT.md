@@ -83,9 +83,7 @@ endblock ISSUES
 
 end program demo_nint
 ```
-
-Results
-
+Results:
 ```
    1 5 -5
    Range limits for typical KINDS:

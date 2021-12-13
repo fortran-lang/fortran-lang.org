@@ -54,7 +54,7 @@ integer, dimension(4) :: x=[(i,i=10,40,10)]
     write(*,*) shape(reshape(x, [2, 2]))    ! prints "2 2"
 end program demo_reshape
 ```
-Results
+Results:
 ```text
    4
    2 2

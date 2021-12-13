@@ -73,7 +73,7 @@ complex :: cx
 
 end program demo_exp
 ```
-Results
+Results:
 ```text
  Euler's constant is approximately   2.718282    
  given the complex value  (3.000000,4.000000)

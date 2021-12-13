@@ -107,9 +107,7 @@ character(len=:),allocatable :: args(:)
   & (i,istat(i),ilen(i),args(i)(:ilen(i)),i=0,count)
 end program demo_get_command_argument
 ```
-
-Sample output:
-
+Results:
 ```text
 /demo_get_command_argument a    test  'of getting   arguments  ' "  leading"
 
@@ -121,7 +119,6 @@ Sample output:
 004 00000 00024 [of getting   arguments  ]
 005 00000 00018 [  leading]
 ```
-
 ## __Standard__
 
 Fortran 2003 and later

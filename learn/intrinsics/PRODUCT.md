@@ -159,6 +159,7 @@ end subroutine print_matrix_int
   
 end program demo_product
 ```
+Results:
 ```text
 factorial of  1  is  1.000000
 factorial of  2  is  2.000000

@@ -49,10 +49,8 @@ complex(kind=real64) z8
     print *, aimag([z4,z4/2.0,z4+z4,z4**3])
 end program demo_aimag
 ```
-
 Results:
-
-```
+```text
   2.000000       4.00000000000000
 
  (1.000000,2.000000) (0.5000000,1.000000) (2.000000,4.000000)
@@ -60,7 +58,6 @@ Results:
 
        2.000000       1.000000       4.000000      -2.000000
 ```
-
 ## __Standard__
 
 FORTRAN 77 and later

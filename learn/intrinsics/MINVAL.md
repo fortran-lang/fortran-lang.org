@@ -107,9 +107,7 @@ integer,save :: box(3,5,2)
 
 end program demo_minval
 ```
-
-results:
-
+Results:
 ```text
  Given the array
     1   -2    3    4    5    

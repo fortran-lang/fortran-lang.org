@@ -65,8 +65,7 @@ contains
 end program demo_adjustr
 ```
 Results:
-
-```
+```text
    [12345678901234567890123456789012345678901234567890]
    [       sample string]
    [                                     sample string]

@@ -41,12 +41,23 @@ Sample program:
 ```fortran
 program demo_shape
 implicit none
+character(len=*),parameter :: all='(*(g0,1x))'
 integer, dimension(-1:1, -1:2) :: a
-   write(*,*) shape(a)             ! [ 3, 4 ]
-   write(*,*) size(shape(42))      ! [ ]
+   print all, 'shape of array=',shape(a)
+   print all, 'shape of constant=',shape(42)
+   print all, 'size of shape of constant=',size(shape(42))
+   print all, 'ubound of array=',ubound(a)
+   print all, 'lbound of array=',lbound(a)
 end program demo_shape
 ```
-
+  Results:
+```text
+   shape of array= 3 4
+   shape of constant=
+   size of shape of constant= 0
+   ubound of array= 1 2
+   lbound of array= -1 -1
+```
 ## __Standard__
 
 Fortran 95 and later; with KIND argument Fortran 2003 and later

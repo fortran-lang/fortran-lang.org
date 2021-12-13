@@ -51,13 +51,11 @@ character(len=:),allocatable :: astr
 end program demo_adjustl
 ```
 Results:
-
-```
+```text
    [sample string       ]
    [sample string]
    [allocatable string       ]
 ```
-
 ## __Standard__
 
 Fortran 95 and later

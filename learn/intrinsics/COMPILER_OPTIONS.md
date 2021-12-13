@@ -41,9 +41,7 @@ implicit none
       compiler_options()
 end program demo_compiler_version
 ```
-
-Example results:
-
+Results:
 ```
    This file was compiled by GCC version 5.4.0 using the options
    -I /usr/include/w32api -I /home/urbanjs/V600/lib/CYGWIN64_GFORTRAN
@@ -52,7 +50,6 @@ Example results:
    -fno-range-check -frecord-marker=4
    -J /home/urbanjs/V600/lib/CYGWIN64_GFORTRAN
 ```
-
 ## __Standard__
 
 Fortran 2008

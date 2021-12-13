@@ -87,10 +87,14 @@ integer a(2,3), b(2,3)
   print *, all(a .eq. b, 1)
   print *, all(a .eq. b, 2)
 end subroutine section
-
 end program demo_all
 ```
-
+Results:
+```text
+    T
+    T F T
+    T F
+```
 Case (i):
 
 ```text

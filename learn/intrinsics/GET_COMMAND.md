@@ -64,9 +64,7 @@ character(len=:),allocatable :: COMMAND_LINE
    write(*,'("OUTPUT:",a)')COMMAND_LINE
 end program demo_get_command
 ```
-
-Sample execution:
-
+Results:
 ```bash
      # note that shell expansion removes some of the whitespace
      # without quotes
@@ -79,7 +77,6 @@ Sample execution:
 
      OUTPUT:./test_get_command arguments  *><`~[]!{}?"'|
 ```
-
 ## __Standard__
 
 Fortran 2003 and later

@@ -68,7 +68,7 @@ write(*,*)'sqrt(sum(x**2))=',sqrt(sum(x**2))
 
 end program demo_norm2
 ```
-Results
+Results:
 ```text
  x=
       1.  2.  3.

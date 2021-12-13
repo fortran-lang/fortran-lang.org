@@ -83,7 +83,7 @@ character(len=*),parameter :: g='(*(g0))'
     write(*,'(a,/,*(l2,1x,l2,/))')'the value of btest (2, a)',btest(2,a)
 end program demo_btest
 ```
-Results
+Results:
 ```text
 Looking at the integer: 33856=>11111111111111110111101111000000
 
