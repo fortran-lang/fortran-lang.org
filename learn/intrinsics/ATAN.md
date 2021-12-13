@@ -56,4 +56,7 @@ arguments Fortran 2008 or later
 
 ## __See Also__
 
+ - [wikipedia: inverse trigonometric functions](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)
+
+
 [__atan2__(3)](ATAN2), [__tan__(3)](TAN)

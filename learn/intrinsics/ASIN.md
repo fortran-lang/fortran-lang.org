@@ -92,6 +92,8 @@ FORTRAN 77 and later, for a complex argument Fortran 2008 or later
 
 ## __See Also__
 
+ - [wikipedia: inverse trigonometric functions](https://en.wikipedia.org/wiki/Inverse_trigonometric_functions)
+
 Inverse function: [__sin__(3)](SIN)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)
