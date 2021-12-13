@@ -45123,6 +45123,11 @@
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">)</span><span class="w">
+
+</span><span class="kt">real</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">)</span><span class="w">
+
+   </span><span class="kt">real</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">array</span><span class="p">(</span><span class="err">..</span><span class="p">)</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">dim</span><span class="w">
 </span></code></pre></div></div>
 <h2 id="description"><strong>Description</strong></h2>
 
@@ -45141,8 +45146,8 @@ dimension <strong>dim</strong>.</p>
   <li>
     <dl>
       <dt><strong>dim</strong></dt>
-      <dd>(Optional) shall be a scalar of type <em>integer</em> with a value in the
-range from 1 to n, where n equals the rank of <strong>array</strong>.</dd>
+      <dd>shall be a scalar of type <em>integer</em> with a value in the
+range from <strong>1</strong> to  <strong>rank(array)</strong>.</dd>
     </dl>
   </li>
 </ul>
@@ -45152,7 +45157,9 @@ range from 1 to n, where n equals the rank of <strong>array</strong>.</dd>
 <p>The result is of the same type as <strong>array</strong>.</p>
 
 <p>If <strong>dim</strong> is absent, a scalar with the square root of the sum of squares of
-the elements of <strong>array</strong> is returned. Otherwise, an array of rank <strong>n-1</strong>,
+the elements of <strong>array</strong> is returned.</p>
+
+<p>Otherwise, an array of rank <strong>n-1</strong>,
 where <strong>n</strong> equals the rank of <strong>array</strong>, and a shape similar to that of <strong>array</strong>
 with dimension DIM dropped is returned.</p>
 
@@ -45162,11 +45169,37 @@ with dimension DIM dropped is returned.</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_norm2</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-   </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">]</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">  </span><span class="c1">! = sqrt(55.) ~ 7.416</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+</span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="w">  </span><span class="p">&amp;</span><span class="w">
+</span><span class="p">],</span><span class="nb">shape</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="w">
+
+</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'x='</span><span class="w">
+</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(4x,3f4.0)'</span><span class="p">)</span><span class="nb">transpose</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'norm2(x)='</span><span class="p">,</span><span class="nb">norm2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+
+</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'x**2='</span><span class="w">
+</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(4x,3f4.0)'</span><span class="p">)</span><span class="nb">transpose</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w">
+</span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'sqrt(sum(x**2))='</span><span class="p">,</span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_norm2</span><span class="w">
 </span></code></pre></div></div>
-
+<p>Results</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code> x=
+      1.  2.  3.
+      4.  5.  6.
+      7.  8.  9.
+ norm2(x)=   16.88194    
+ x**2=
+      1.  4.  9.
+     16. 25. 36.
+     49. 64. 81.
+ sqrt(sum(x**2))=   16.88194    
+</code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>Fortran 2008 and later</p>
