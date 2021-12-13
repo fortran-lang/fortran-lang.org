@@ -16,7 +16,6 @@ __acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine (inverse cosine) function
 where __TYPE__ may be _real_ or _complex_ and __KIND__ may be any __KIND__ supported
 by the associated type.
 
-
 ## __Description__
 
 __acos(x)__ computes the arccosine of __x__ (inverse of __cos(x)__).
@@ -26,6 +25,7 @@ __acos(x)__ computes the arccosine of __x__ (inverse of __cos(x)__).
   - __x__
     : Must be type _real_ or _complex_. If the type is _real_, the value
     must satisfy |__x__| <= 1.
+
 ## __Returns__
 
 The return value is of the same type and kind as __x__. The _real_ part of

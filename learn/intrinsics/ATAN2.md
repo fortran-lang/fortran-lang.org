@@ -6,7 +6,6 @@ permalink: /learn/intrinsics/ATAN2
 ## __Name__
 
 __atan2__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Arctangent function
-(GFDL)
 
 ## __Syntax__
 ```fortran
