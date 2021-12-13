@@ -16,7 +16,6 @@ result = char(i, kind)
     integer(kind=KIND),intent(in) :: c
     integer,intent(in),optional :: KIND
 ```
-```
 ## __Description__
 
 __char(i, kind)__ returns the character represented by the integer __i__.

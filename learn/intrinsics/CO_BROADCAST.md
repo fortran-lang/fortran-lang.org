@@ -14,7 +14,7 @@ call co_broadcast(a, source_image, stat, errmsg)
 ```
 ## __Description__
 
-co\_broadcast copies the value of argument __a__ on the image with image
+__co\_broadcast(3)__ copies the value of argument __a__ on the image with image
 index source\_image to all images in the current team. __a__ becomes defined
 as if by intrinsic assignment. If the execution was successful and __stat__
 is present, it is assigned the value zero. If the execution failed, __stat__

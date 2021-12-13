@@ -37,7 +37,7 @@ default integer kind.
 
 It has its rightmost __i__ bits set to 1, and the remaining bits set to 0.
 
-#  __Example__
+##  __Example__
 
 Sample program:
 ```fortrqn
