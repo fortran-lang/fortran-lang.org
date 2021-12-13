@@ -31,3 +31,5 @@ permalink: /learn/intrinsics/CHARACTER_index
 | *CHARACTER:WHITESPACE* ||||| [__len\_trim__]({{site.baseurl}}/learn/intrinsics/LEN_TRIM)   || &#9679; Length of a character entity without trailing blank characters |
 | *CHARACTER:WHITESPACE* ||||| [__trim__]({{site.baseurl}}/learn/intrinsics/TRIM)            || &#9679; Remove trailing blank characters of a string                   |
 |------------------------|||||---------------------------------------------------------------||------------------------------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

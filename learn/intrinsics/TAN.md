@@ -51,3 +51,5 @@ FORTRAN 77 and later. For a complex argument, Fortran 2008 or later.
 [__atan__(3)](ATAN),
 [__cos__(3)](COS),
 [__sin__(3)](SIN)
+
+###### fortran-lang intrinsic descriptions

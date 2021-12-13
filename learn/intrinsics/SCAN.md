@@ -76,3 +76,5 @@ of arguments, and search for certain arguments:
     [__len\_trim__(3)](LEN_TRIM),
     [__len__(3)](LEN),
     [__repeat__(3)](REPEAT), [__trim__(3)](TRIM)
+
+###### fortran-lang intrinsic descriptions

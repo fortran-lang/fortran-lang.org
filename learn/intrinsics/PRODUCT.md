@@ -16,6 +16,7 @@ __product__(3) - \[ARRAY REDUCTION\] Product of array elements
     logical,intent(in),optional :: mask(..)
 ```
 where __NUMERIC__ is any numeric type
+
 ## __Description__
 
 Multiplies together all the selected elements of __array__, or along

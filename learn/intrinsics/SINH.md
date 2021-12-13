@@ -16,6 +16,7 @@ result = sinh(x)
 ```
 Where the returned value has the kind of the input value 
 and TYPE may be _real_ or _complex_
+
 ## __Description__
 
 __sinh(x)__ computes the hyperbolic sine of __x__.
@@ -88,3 +89,5 @@ Fortran 95 and later, for a complex argument Fortran 2008 or later
 - [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 [__asinh__(3)](ASINH)
+
+###### fortran-lang intrinsic descriptions

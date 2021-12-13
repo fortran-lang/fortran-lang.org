@@ -46,3 +46,5 @@ Fortran 2008 and later
 [__co\_lbound__(3)](CO_LBOUND),
 [__lbound__(3)](LBOUND),
 [__ubound__(3)](UBOUND)
+
+###### fortran-lang intrinsic descriptions

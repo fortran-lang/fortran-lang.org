@@ -51,6 +51,7 @@ Results:
 ## __Standard__
 
 Fortran 95 and later
+
 ## __See Also__
 
 [__digits__(3)](DIGITS),
@@ -68,3 +69,5 @@ Fortran 95 and later
 [__scale__(3)](SCALE),
 [__set_exponent__(3)](SET_EXPONENT),
 [__spacing__(3)](SPACING)
+
+###### fortran-lang intrinsic descriptions

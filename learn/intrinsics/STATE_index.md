@@ -16,3 +16,5 @@ permalink: /learn/intrinsics/STATE_index
 | *STATE*   |||| [__present__]({{site.baseurl}}/learn/intrinsics/PRESENT)                    || &#9679; Determine whether an optional dummy argument is specified      |
 | *STATE*   |||| [__same\_type\_as__]({{site.baseurl}}/learn/intrinsics/SAME_TYPE_AS)        || &#9679; Query dynamic types for equality                               |
 |-----------||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

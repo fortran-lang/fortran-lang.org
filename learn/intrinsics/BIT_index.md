@@ -47,3 +47,5 @@ permalink: /learn/intrinsics/BIT_index
 | *BIT:SHIFT*    ||||| [__shiftl__]({{site.baseurl}}/learn/intrinsics/SHIFTL)               || &#9679; Shift bits left                              |
 | *BIT:SHIFT*    ||||| [__shiftr__]({{site.baseurl}}/learn/intrinsics/SHIFTR)               || &#9679; Shift bits right                             |
 |----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

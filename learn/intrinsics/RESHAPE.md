@@ -66,3 +66,5 @@ Fortran 95 and later
 ## __See Also__
 
 [__shape__(3)](SHAPE)
+
+###### fortran-lang intrinsic descriptions

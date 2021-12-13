@@ -70,3 +70,5 @@ end program demo_cshift
 ## __Standard__
 
 Fortran 95 and later
+
+###### fortran-lang intrinsic descriptions

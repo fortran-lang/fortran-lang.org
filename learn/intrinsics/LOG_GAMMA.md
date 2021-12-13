@@ -47,3 +47,5 @@ Fortran 2008 and later
 ## __See Also__
 
 Gamma function: [__gamma__(3)](GAMMA)
+
+###### fortran-lang intrinsic descriptions

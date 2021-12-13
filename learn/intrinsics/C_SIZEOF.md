@@ -12,7 +12,6 @@ __c\_sizeof__(3) - \[ISO\_C\_BINDING\] Size in bytes of an expression
 ```fortran
 n = c_sizeof(x)
 ```
-
 ## __Description__
 
 __c\_sizeof(x)__ calculates the number of bytes of storage the
@@ -59,3 +58,5 @@ Fortran 2008
 ## __See Also__
 
 [__storage\_size__(3)](STORAGE_SIZE)
+
+###### fortran-lang intrinsic descriptions

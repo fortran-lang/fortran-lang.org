@@ -73,3 +73,5 @@ Fortran 2008 and later
 [__iall__(3)](IALL),
 [__ieor__(3)](IEOR),
 [__parity__(3)](PARITY)
+
+###### fortran-lang intrinsic descriptions

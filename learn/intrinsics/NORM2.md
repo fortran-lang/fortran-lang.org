@@ -90,3 +90,5 @@ Fortran 2008 and later
 [__product__(3)](PRODUCT),
 [__sum__(3)](SUM),
 [__hypot__(3)](HYPOT)
+
+###### fortran-lang intrinsic descriptions

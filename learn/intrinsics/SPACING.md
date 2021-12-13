@@ -67,3 +67,5 @@ Fortran 95 and later
 [__set\_exponent__(3)](SET_EXPONENT),
 [__tiny__(3)](TINY)
 
+
+###### fortran-lang intrinsic descriptions

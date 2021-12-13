@@ -39,3 +39,5 @@ Fortran 2008 and later
 
 [__shifta__(3)](SHIFTA),
 [__shiftr__(3)](SHIFTR)
+
+###### fortran-lang intrinsic descriptions

@@ -71,3 +71,5 @@ Fortran 95 and later
 ## __See Also__
 
 [__mod__(3)](MOD)
+
+###### fortran-lang intrinsic descriptions

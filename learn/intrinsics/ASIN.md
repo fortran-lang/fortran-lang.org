@@ -16,6 +16,7 @@ result = asin(x)
 ```
 where the returned value has the kind of the input value 
 and TYPE may be _real_ or _complex_
+
 ## __Description__
 
 __asin(x)__ computes the arcsine of its argument __x__.

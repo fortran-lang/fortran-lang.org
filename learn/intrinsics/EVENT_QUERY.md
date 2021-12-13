@@ -55,3 +55,5 @@ end program demo_event_query
 ## __Standard__
 
 TS 18508 or later
+
+###### fortran-lang intrinsic descriptions

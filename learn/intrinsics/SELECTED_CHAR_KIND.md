@@ -58,3 +58,5 @@ end program demo_selected_char_kind
 ## __Standard__
 
 Fortran 2003 and later
+
+###### fortran-lang intrinsic descriptions

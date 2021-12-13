@@ -81,3 +81,5 @@ or later
 
 [__num\_images__(3)](NUM_IMAGES),
 [__image\_index__(3)](IMAGE_INDEX)
+
+###### fortran-lang intrinsic descriptions

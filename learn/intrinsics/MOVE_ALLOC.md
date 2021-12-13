@@ -71,3 +71,5 @@ Fortran 2003 and later
 ## __See Also__
 
 [__allocated__(3)](ALLOCATED)
+
+###### fortran-lang intrinsic descriptions

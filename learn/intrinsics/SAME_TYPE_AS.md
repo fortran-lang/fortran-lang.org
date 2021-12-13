@@ -38,3 +38,5 @@ Fortran 2003 and later
 ## __See Also__
 
 [__extends\_type\_of__(3)](EXTENDS_TYPE_OF)
+
+###### fortran-lang intrinsic descriptions

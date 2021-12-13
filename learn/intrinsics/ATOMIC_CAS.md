@@ -64,3 +64,5 @@ TS 18508 or later
 ## __See Also__
 
 __atomic\_define__(3), __atomic\_ref__(3), __iso\_fortran\_env__(3)
+
+###### fortran-lang intrinsic descriptions

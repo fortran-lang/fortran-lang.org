@@ -46,3 +46,5 @@ Results:
 ## __Standard__
 
 TS 29113
+
+###### fortran-lang intrinsic descriptions

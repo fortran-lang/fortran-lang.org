@@ -52,3 +52,5 @@ end program demo_selected_int_kind
 ## __Standard__
 
 Fortran 95 and later
+
+###### fortran-lang intrinsic descriptions

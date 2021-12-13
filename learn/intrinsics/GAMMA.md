@@ -6,6 +6,7 @@ permalink: /learn/intrinsics/GAMMA
 ## __Name__
 
 __gamma__(3) - \[MATHEMATICS\] Gamma function
+
 ## __Syntax__
 ```fortran
 x = gamma(x)
@@ -108,3 +109,5 @@ Fortran 2008 and later
 Logarithm of the Gamma function: [__log\_gamma__(3)](LOG_GAMMA)
 
 [Wikipedia: Gamma_function](https://en.wikipedia.org/wiki/Gamma_function)
+
+###### fortran-lang intrinsic descriptions

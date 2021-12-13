@@ -17,6 +17,7 @@ result = asinh(x)
 ```
 Where the returned value has the kind of the input value 
 and TYPE may be _real_ or _complex_
+
 ## __Description__
 
 __asinh(x)__ computes the inverse hyperbolic sine of __x__.
@@ -59,3 +60,5 @@ Fortran 2008 and later
 - [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 Inverse function: [__sinh__(3)](SINH)
+
+###### fortran-lang intrinsic descriptions

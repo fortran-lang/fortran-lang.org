@@ -59,3 +59,5 @@ scalar entities are available in Fortran 2003 and later.
 ## __See Also__
 
 [__move\_alloc__(3)](MOVE_ALLOC)
+
+###### fortran-lang intrinsic descriptions

@@ -73,3 +73,5 @@ Fortran 2008 and later
 [__iparity__(3)](IPARITY),
 [__iall__(3)](IALL),
 [__ior__(3)](IOR)
+
+###### fortran-lang intrinsic descriptions

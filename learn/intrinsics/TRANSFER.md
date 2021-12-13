@@ -104,3 +104,5 @@ oblivious to the benefits of EQUIVALENCEs when used sparingly.
 ## __Standard__
 
 Fortran 90 and later
+
+###### fortran-lang intrinsic descriptions

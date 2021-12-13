@@ -63,3 +63,5 @@ Expected output:
 ## __Standard__
 
 Fortran 95 and later
+
+###### fortran-lang intrinsic descriptions

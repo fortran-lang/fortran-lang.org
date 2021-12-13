@@ -60,3 +60,5 @@ end program demo_co_broadcast
 [__co\_min__(3)](CO_MIN),
 [__co\_sum__(3)](CO_SUM),
 [__co\_reduce__(3)](CO_REDUCE)
+
+###### fortran-lang intrinsic descriptions

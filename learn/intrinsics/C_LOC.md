@@ -56,3 +56,5 @@ Fortran 2003 and later
 
 [__c\_f\_procpointer__(3)](C_F_PROCPOINTER),
 __iso\_c\_binding__(3)
+
+###### fortran-lang intrinsic descriptions

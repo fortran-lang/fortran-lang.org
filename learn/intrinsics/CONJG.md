@@ -15,6 +15,7 @@ z = conjg(z)
    complex(kind=K),intent(in) :: z 
 ```
 where __K__ is the kind of the parameter __z__
+
 ## __Description__
 
 __conjg(z)__ returns the complex conjugate of the _complex_ value __z__. 

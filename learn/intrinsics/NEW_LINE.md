@@ -46,3 +46,5 @@ end program demo_new_line
 ## __Standard__
 
 Fortran 2003 and later
+
+###### fortran-lang intrinsic descriptions

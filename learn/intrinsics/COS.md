@@ -75,3 +75,5 @@ FORTRAN 77 and later
 [__acos__(3)](ACOS),
 [__sin__(3)](SIN),
 [__tan__(3)](TAN)
+
+###### fortran-lang intrinsic descriptions

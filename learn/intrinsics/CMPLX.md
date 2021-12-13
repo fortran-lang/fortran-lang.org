@@ -16,7 +16,6 @@ result = cmplx(x, y, kind)
    TYPE(kind=KIND),intent(in), x
    TYPE(kind=KIND),intent(in),optional, y
    integer,intent(in),optional :: kind
-
 ```
 ## __Description__
 
@@ -165,3 +164,5 @@ Typical Results:
 ## __Standard__
 
 FORTRAN 77 and later
+
+###### fortran-lang intrinsic descriptions

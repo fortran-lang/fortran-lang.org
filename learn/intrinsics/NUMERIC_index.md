@@ -22,3 +22,5 @@ permalink: /learn/intrinsics/NUMERIC_index
 | *NUMERIC*       ||||| [__modulo__]({{site.baseurl}}/learn/intrinsics/MODULO)   || &#9679; Modulo function                        |
 | *NUMERIC*       ||||| [__sign__]({{site.baseurl}}/learn/intrinsics/SIGN)       || &#9679; Sign copying function                  |
 |-----------------|||||----------------------------------------------------------||------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

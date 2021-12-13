@@ -7,6 +7,7 @@ permalink: /learn/intrinsics/FRACTION
 
 __fraction__(3) - \[MODEL\_COMPONENTS\] Fractional part of the model representation
 (GFDL)
+
 ## __Syntax__
 ```fortran
 y = fraction(x)
@@ -47,6 +48,7 @@ end program demo_fraction
 ## __Standard__
 
 Fortran 95 and later
+
 ## __See Also__
 
 [__digits__(3)](DIGITS),
@@ -65,3 +67,5 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
+
+###### fortran-lang intrinsic descriptions

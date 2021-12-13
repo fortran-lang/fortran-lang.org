@@ -87,3 +87,5 @@ end program demo_count
 
 Fortran 95 and later, with KIND argument - Fortran 2003
 and later
+
+###### fortran-lang intrinsic descriptions

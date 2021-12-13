@@ -26,3 +26,5 @@ permalink: /learn/intrinsics/MODEL_index
 | *NUMERIC\_MODEL*     ||||| [__range__]({{site.baseurl}}/learn/intrinsics/RANGE)                 || &#9679; Decimal exponent range of a real kind                     |
 | *NUMERIC\_MODEL*     ||||| [__tiny__]({{site.baseurl}}/learn/intrinsics/TINY)                   || &#9679; Smallest positive number of a real kind                   |
 |----------------------|||||----------------------------------------------------------------------||-------------------------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

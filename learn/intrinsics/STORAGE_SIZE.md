@@ -60,3 +60,5 @@ Fortran 2008 and later
 ## __See Also__
 
 [__c\_sizeof__(3)](C_SIZEOF)
+
+###### fortran-lang intrinsic descriptions

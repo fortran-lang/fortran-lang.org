@@ -55,6 +55,7 @@ Typical Results:
 ## __Standard__
 
 Fortran 95 and later
+
 ## __See Also__
 
 [__epsilon__(3)](EPSILON),
@@ -72,3 +73,5 @@ Fortran 95 and later
 [__set\_exponent__(3)](SET_EXPONENT),
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
+
+###### fortran-lang intrinsic descriptions

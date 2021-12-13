@@ -75,3 +75,5 @@ Fortran 2008 and later
 [__iany__(3),](IANY)
 [__iparity__(3)](IPARITY),
 [__iand__(3)](IAND)
+
+###### fortran-lang intrinsic descriptions

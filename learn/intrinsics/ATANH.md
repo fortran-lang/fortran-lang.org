@@ -54,3 +54,5 @@ Fortran 2008 and later
 - [Wikipedia:hyperbolic functions](https://en.wikipedia.org/wiki/Hyperbolic_functions)
 
 Inverse function: [__tanh__(3)](TANH)
+
+###### fortran-lang intrinsic descriptions

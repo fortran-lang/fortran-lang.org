@@ -15,3 +15,5 @@ permalink: /learn/intrinsics/TRANSFORM_index
 | *TRANSFORMATIONAL*    ||||| [__parity__]({{site.baseurl}}/learn/intrinsics/PARITY)            || &#9679; Reduction with exclusive OR                              |
 | *TRANSFORMATIONAL*    ||||| [__null__]({{site.baseurl}}/learn/intrinsics/NULL)                || &#9679; Function that returns a disassociated pointer            |
 |-----------------------|||||-------------------------------------------------------------------||------------------------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

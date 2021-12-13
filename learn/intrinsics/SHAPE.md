@@ -66,3 +66,5 @@ Fortran 95 and later; with KIND argument Fortran 2003 and later
 
 [__reshape__(3)](RESHAPE),
 [__size__(3)](SIZE)
+
+###### fortran-lang intrinsic descriptions

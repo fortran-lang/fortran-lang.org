@@ -119,3 +119,5 @@ FORTRAN 77 and later
 [__maxloc__(3)](MAXLOC),
 [__maxval__(3)](MAXVAL),
 [__min__(3)](MIN)
+
+###### fortran-lang intrinsic descriptions

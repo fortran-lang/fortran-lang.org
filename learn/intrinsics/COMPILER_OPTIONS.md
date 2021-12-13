@@ -58,3 +58,5 @@ Fortran 2008
 
 [__compiler\_version__(3)](COMPILER_VERSION),
 __iso\_fortran\_env__(7)
+
+###### fortran-lang intrinsic descriptions

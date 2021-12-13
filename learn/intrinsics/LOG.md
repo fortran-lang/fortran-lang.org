@@ -50,3 +50,5 @@ end program demo_log
 ## __Standard__
 
 FORTRAN 77 and later
+
+###### fortran-lang intrinsic descriptions

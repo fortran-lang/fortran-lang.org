@@ -7,6 +7,7 @@ permalink: /learn/intrinsics/ALL
 
 __all__(3) - \[ARRAY REDUCTION\] determines if all the values are true
 (GFDL)
+
 ## __Syntax__
 ```fortran
 result = all(mask, dim)
@@ -126,3 +127,5 @@ and __all(B /= C, DIM = 2)__ is
 ## __Standard__
 
 Fortran 95 and later
+
+###### fortran-lang intrinsic descriptions

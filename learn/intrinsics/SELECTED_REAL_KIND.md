@@ -91,3 +91,5 @@ Fortran 95 and later; with RADIX - Fortran 2008 and later
 [__precision__(3)](PRECISION),
 [__range__(3)](RANGE),
 [__radix__(3)](RADIX)
+
+###### fortran-lang intrinsic descriptions

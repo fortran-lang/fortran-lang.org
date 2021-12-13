@@ -76,3 +76,5 @@ the statement
 implicit none
 ```
 For more information refer to the __implicit__ statement.
+
+###### fortran-lang intrinsic descriptions

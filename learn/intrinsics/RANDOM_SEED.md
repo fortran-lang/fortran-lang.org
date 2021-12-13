@@ -67,3 +67,5 @@ Fortran 95 and later
 ## __See Also__
 
 [__random\_number__(3)](RANDOM_NUMBER)
+
+###### fortran-lang intrinsic descriptions

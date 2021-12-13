@@ -18,3 +18,5 @@ permalink: /learn/intrinsics/SYSTEM_index
 | *SYSTEM:ENVIRONMENT*   ||||| [__get\_environment\_variable__]({{site.baseurl}}/learn/intrinsics/GET_ENVIRONMENT_VARIABLE)|| &#9679; Get an environmental variable               |
 |------------------------|||||---------------------------------------------------------------------------------------------||-----------------------------------------------------|
 
+
+###### fortran-lang intrinsic descriptions

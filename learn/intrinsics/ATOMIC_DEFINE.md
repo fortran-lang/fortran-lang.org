@@ -66,3 +66,5 @@ __iso\_fortran\_env__(3),
 [__atomic\_and__(3)](ATOMIC_AND),
 [__atomic\_or__(3)](ATOMIC_OR),
 [__atomic\_xor__(3)](ATOMIC_XOR)
+
+###### fortran-lang intrinsic descriptions

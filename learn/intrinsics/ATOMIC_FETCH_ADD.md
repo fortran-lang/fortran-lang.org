@@ -66,3 +66,5 @@ __iso\_fortran\_env__(3),
 [__atomic\_fetch\_or__(3)](ATOMIC_FETCH_OR),
 
 [__atomic\_fetch\_xor__(3)](ATOMIC_FETCH_XOR)
+
+###### fortran-lang intrinsic descriptions

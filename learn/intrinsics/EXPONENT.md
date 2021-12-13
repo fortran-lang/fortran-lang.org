@@ -48,6 +48,7 @@ end program demo_exponent
 ## __Standard__
 
 Fortran 95 and later
+
 ## __See Also__
 
 [__digits__(3)](DIGITS),
@@ -66,3 +67,5 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
+
+###### fortran-lang intrinsic descriptions

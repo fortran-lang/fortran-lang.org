@@ -33,3 +33,5 @@ permalink: /learn/intrinsics/PARALLEL_index
 | *ATOMIC*                   |||| [__atomic\_fetch\_add__]({{site.baseurl}}/learn/intrinsics/ATOMIC_FETCH_ADD)|| &#9679; Atomic ADD operation with prior fetch                 |
 | *ATOMIC*                   |||| [__atomic\_ref__]({{site.baseurl}}/learn/intrinsics/ATOMIC_REF)             || &#9679; Obtaining the value of a variable atomically          |
 |----------------------------||||-----------------------------------------------------------------------------||---------------------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

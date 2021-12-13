@@ -7,6 +7,7 @@ permalink: /learn/intrinsics/ERFC_SCALED
 
 __erfc\_scaled__(3) - \[MATHEMATICS\] Error function
 (GFDL)
+
 ## __Syntax__
 ```fortran
 result = erfc_scaled(x)
@@ -48,3 +49,5 @@ end program demo_erfc_scaled
 ## __Standard__
 
 Fortran 2008 and later
+
+###### fortran-lang intrinsic descriptions

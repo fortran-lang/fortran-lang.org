@@ -88,3 +88,5 @@ Fortran 95 and later
 ## __See Also__
 
 [__random\_seed__(3)](RANDOM_SEED)
+
+###### fortran-lang intrinsic descriptions

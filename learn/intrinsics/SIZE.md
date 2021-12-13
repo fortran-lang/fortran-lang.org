@@ -187,3 +187,5 @@ Fortran 95 and later, with __kind__ argument - Fortran 2003 and later
 
 [__shape__(3)](SHAPE),
 [__reshape__(3)])(RESHAPE)
+
+###### fortran-lang intrinsic descriptions

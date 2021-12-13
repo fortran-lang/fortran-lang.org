@@ -104,3 +104,5 @@ be terminated alongside.
 ## __Standard__
 
 Fortran 2008 and later
+
+###### fortran-lang intrinsic descriptions

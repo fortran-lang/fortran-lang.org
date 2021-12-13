@@ -45,3 +45,5 @@ permalink: /learn/intrinsics/MATH_index
 | *MATH:HIGHER*      ||||| [__log\_gamma__]({{site.baseurl}}/learn/intrinsics/LOG_GAMMA)         || &#9679; Logarithm of the Gamma function                          |
 | *MATH:HIGHER*      ||||| [__norm2__]({{site.baseurl}}/learn/intrinsics/NORM2)                  || &#9679; Euclidean vector norm                                    |
 |--------------------|||||-----------------------------------------------------------------------||------------------------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

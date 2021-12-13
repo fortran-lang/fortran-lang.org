@@ -101,3 +101,5 @@ Fortran 95 and later
 
 [__date\_and\_time__(3)](DATE_AND_TIME),
 [__cpu\_time__(3)](CPU_TIME)
+
+###### fortran-lang intrinsic descriptions

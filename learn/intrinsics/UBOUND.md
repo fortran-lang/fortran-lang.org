@@ -116,3 +116,5 @@ and later
 [__lbound__(3)](LBOUND),
 [__co\_ubound__(3)](CO_UBOUND),
 [__co\_lbound__(3)(CO_LBOUND)]
+
+###### fortran-lang intrinsic descriptions

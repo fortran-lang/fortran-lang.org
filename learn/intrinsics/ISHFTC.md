@@ -45,3 +45,5 @@ Fortran 95 and later
 ## __See Also__
 
 [__ishft__(3)](ISHFT)
+
+###### fortran-lang intrinsic descriptions

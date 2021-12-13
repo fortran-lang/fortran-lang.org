@@ -62,3 +62,5 @@ Fortran 2003 and later
 [__c\_loc__(3)](C_LOC),
 [__c\_funloc__(3)](C_FUNLOC),
 __iso\_c\_binding__(3)
+
+###### fortran-lang intrinsic descriptions

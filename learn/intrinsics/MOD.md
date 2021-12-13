@@ -77,3 +77,5 @@ FORTRAN 77 and later
 ## __See Also__
 
 [__modulo__(3)](MODULO)
+
+###### fortran-lang intrinsic descriptions

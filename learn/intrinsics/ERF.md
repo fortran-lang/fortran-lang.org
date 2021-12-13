@@ -48,3 +48,5 @@ end program demo_erf
 ## __Standard__
 
 Fortran 2008 and later
+
+###### fortran-lang intrinsic descriptions

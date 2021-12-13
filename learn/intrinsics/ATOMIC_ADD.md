@@ -59,3 +59,5 @@ TS 18508 or later
 [__atomic\_or__(3)](ATOMIC_OR),
 [__atomic\_xor__(3)](ATOMIC_XOR)
 __iso\_fortran\_env__(3),
+
+###### fortran-lang intrinsic descriptions

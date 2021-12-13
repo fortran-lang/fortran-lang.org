@@ -15,3 +15,5 @@ permalink: /learn/intrinsics/C_index
 | *ISO\_C\_BINDING*  ||||| [__c\_loc__]({{site.baseurl}}/learn/intrinsics/C_LOC)                       || &#9679; Obtain the C address of an object         |
 | *ISO\_C\_BINDING*  ||||| [__c\_sizeof__]({{site.baseurl}}/learn/intrinsics/C_SIZEOF)                 || &#9679; Size in bytes of an expression            |
 |--------------------|||||-----------------------------------------------------------------------------||---------------------------------------------------|
+
+###### fortran-lang intrinsic descriptions

@@ -54,3 +54,5 @@ end program demo_dim
 ## __Standard__
 
 FORTRAN 77 and later
+
+###### fortran-lang intrinsic descriptions

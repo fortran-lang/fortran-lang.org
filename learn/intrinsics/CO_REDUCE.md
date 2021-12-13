@@ -100,3 +100,5 @@ TS 18508 or later
 [__co\_max__(3)](CO_MAX),
 [__co\_sum__(3)](CO_SUM),
 [__co\_broadcast__(3)](CO_BROADCAST)
+
+###### fortran-lang intrinsic descriptions

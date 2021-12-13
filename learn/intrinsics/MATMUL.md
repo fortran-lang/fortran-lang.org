@@ -37,3 +37,5 @@ result follow the usual type and kind promotion rules, as for the \* or
 ## __Standard__
 
 Fortran 95 and later
+
+###### fortran-lang intrinsic descriptions

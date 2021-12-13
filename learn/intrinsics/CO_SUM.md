@@ -71,3 +71,5 @@ TS 18508 or later
 [__co\_min__(3)](CO_MIN),
 [__co\_reduce__(3)](CO_REDUCE),
 [__co\_broadcast__(3)](CO_BROADCAST)
+
+###### fortran-lang intrinsic descriptions

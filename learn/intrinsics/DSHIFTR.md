@@ -40,3 +40,5 @@ Fortran 2008 and later
 ## __See Also__
 
 [__dshiftl__(3)](DSHIFTL)
+
+###### fortran-lang intrinsic descriptions

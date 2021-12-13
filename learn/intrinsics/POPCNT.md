@@ -61,3 +61,5 @@ Fortran 2008 and later
 [__poppar__(3)](POPPAR),
 [__leadz__(3)](LEADZ),
 [__trailz__(3)](TRAILZ)
+
+###### fortran-lang intrinsic descriptions

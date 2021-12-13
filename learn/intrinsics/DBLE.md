@@ -50,3 +50,5 @@ FORTRAN 77 and later
 
 [__float__(3)](FLOAT),
 [__real__(3)](REAL)
+
+###### fortran-lang intrinsic descriptions

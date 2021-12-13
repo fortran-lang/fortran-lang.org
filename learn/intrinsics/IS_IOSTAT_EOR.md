@@ -50,3 +50,5 @@ end program demo_is_iostat_eor
 ## __Standard__
 
 Fortran 2003 and later
+
+###### fortran-lang intrinsic descriptions

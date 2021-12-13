@@ -36,3 +36,5 @@ The result is of the same type and kind as __i__.
 ## __Standard__
 
 Fortran 2008 and later
+
+###### fortran-lang intrinsic descriptions

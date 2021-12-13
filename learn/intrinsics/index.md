@@ -60,6 +60,10 @@ and the following Copyright guidelines.
 
 ## Experimental
 
+   - [review by procedure ](http://www.urbanjost.altervista.org/SUPPLEMENTS/slidy_byprocedure.html)
+
+   - [review by header ](http://www.urbanjost.altervista.org/SUPPLEMENTS/slidy_byheader.html)
+
    - [fman(1)](http://www.urbanjost.altervista.org/SUPPLEMENTS/fman.f90) A self-contained Fortran program that
      lets you view the non-graphical plain ASCII portions of the
      documentation from a terminal interface. Compile the program and

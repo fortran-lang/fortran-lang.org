@@ -117,3 +117,5 @@ Fortran 95 and later
 ## __See Also__
 
 [__associated__(3)](ASSOCIATED)
+
+###### fortran-lang intrinsic descriptions

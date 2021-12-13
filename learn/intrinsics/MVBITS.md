@@ -52,3 +52,5 @@ Fortran 95 and later
 [__iand__(3)](IAND),
 [__ior__(3)](IOR),
 [__ieor__(3)](IEOR)
+
+###### fortran-lang intrinsic descriptions

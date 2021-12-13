@@ -130,3 +130,5 @@ Fortran 2008 and later
 [__popcnt__(3)](POPCNT),
 [__poppar__(3)](POPPAR),
 [__trailz__(3)](TRAILZ)
+
+###### fortran-lang intrinsic descriptions
