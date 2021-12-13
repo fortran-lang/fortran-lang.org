@@ -10,7 +10,9 @@ __compiler\_version__(3) - \[COMPILER INQUIRY\] Compiler version string
 
 ## __Syntax__
 
-str = __compiler\_version__()
+```fortran
+str = compiler_version()
+```
 
 ## __Description__
 
