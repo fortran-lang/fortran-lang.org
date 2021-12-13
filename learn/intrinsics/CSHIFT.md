@@ -57,7 +57,16 @@ integer, dimension(3,3) :: a
     print '(3i3)', a(3,:)
 end program demo_cshift
 ```
-
+  Results:
+```text
+     1  4  7
+     2  5  8
+     3  6  9
+    
+     4  7  1
+     8  2  5
+     9  3  6
+```
 ## __Standard__
 
 Fortran 95 and later
