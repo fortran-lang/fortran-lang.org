@@ -41,7 +41,11 @@ real(kind=dp) :: y
    print *, minexponent(y), maxexponent(y)
 end program demo_maxexponent
 ```
-
+  Results:
+```text
+           -125         128
+          -1021        1024
+```
 ## __Standard__
 
 Fortran 95 and later

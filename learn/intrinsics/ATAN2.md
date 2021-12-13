@@ -56,6 +56,10 @@ real(kind=sp) :: x = 1.e0_sp, y = 0.5e0_sp, z
    write(*,*)x,y,z
 end program demo_atan2
 ```
+Results:
+```text
+      1.00000000      0.500000000      0.463647604    
+```
 
 ## __Standard__
 

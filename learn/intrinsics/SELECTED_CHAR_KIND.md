@@ -50,7 +50,11 @@ character(kind=ucs4,  len=30) :: hello_world
    write (*,*) trim (hello_world)
 end program demo_selected_char_kind
 ```
-
+  Results:
+```text
+    abcdefghijklmnopqrstuvwxyz
+    Hello World and Ni Hao -- 你好
+```
 ## __Standard__
 
 Fortran 2003 and later

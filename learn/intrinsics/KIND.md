@@ -41,7 +41,11 @@ integer,parameter :: kl = kind(.true.)
 
 end program demo_kind
 ```
-
+  Results:
+```text
+    The default character kind is            1
+    The default logical kind is            4
+```
 ## __Standard__
 
 Fortran 95 and later

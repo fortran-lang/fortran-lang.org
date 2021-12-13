@@ -46,7 +46,11 @@ real(kind=real64) :: x
     print *, x
 end program demo_dim
 ```
-
+  Results:
+```text
+              0
+      2.2339999999999995     
+```
 ## __Standard__
 
 FORTRAN 77 and later

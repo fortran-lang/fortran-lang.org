@@ -46,6 +46,10 @@ real(kind=dp), dimension(3) :: x = [ -1.0d0, 0.0d0, 1.0d0 ]
 
 end program demo_asinh
 ```
+  Results:
+```text
+  -0.88137358701954305  0.0000000000000000  0.88137358701954305     
+```
 
 ## __Standard__
 

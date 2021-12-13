@@ -40,10 +40,13 @@ use, intrinsic :: iso_fortran_env, only : &
  & real_kinds, real32, real64, real128
 implicit none
 real(kind=real64) :: x = 0.17_real64
-    x = erfc(x)
+    write(*,*)x, erfc(x)
 end program demo_erfc
 ```
-
+  Results:
+```text
+     0.17000000000000001       0.81000753879819121     
+```
 ## __Standard__
 
 Fortran 2008 and later

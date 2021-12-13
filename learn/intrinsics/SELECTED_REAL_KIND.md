@@ -76,7 +76,12 @@ real(kind=r400) :: z
    print *, precision(z), range(z)
 end program demo_selected_real_kind
 ```
-
+  Results:
+```text
+              6          37
+             15         307
+             18        4931
+```
 ## __Standard__
 
 Fortran 95 and later; with RADIX - Fortran 2008 and later

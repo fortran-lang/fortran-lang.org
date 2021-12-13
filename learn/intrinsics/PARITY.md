@@ -47,7 +47,10 @@ logical :: x(2) = [ .true., .false. ]
    print *, parity(x) ! T
 end program demo_parity
 ```
-
+  Results:
+```text
+    T
+```
 ## __Standard__
 
 Fortran 2008 and later

@@ -70,7 +70,16 @@ implicit none
     print '(3i3)', a(3,:)
 end program demo_eoshift
 ```
-
+  Results:
+```text
+     1  4  7
+     2  5  8
+     3  6  9
+   
+     4  7 -5
+     8 -5 -5
+     6  9 -5
+```
 ## __Standard__
 
 Fortran 95 and later

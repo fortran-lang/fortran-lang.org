@@ -61,7 +61,11 @@ integer :: i
       end do
    endif
 end program demo_this_image
-
+```
+  Results:
+```text
+   value[1] is 1
+```
 !
 ! Check whether the current image is the initial image
 if (this_image(huge(1)) /= this_image())

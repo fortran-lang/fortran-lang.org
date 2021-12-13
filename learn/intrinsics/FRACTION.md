@@ -40,7 +40,10 @@ real :: x
    print *, fraction(x), x * radix(x)**(-exponent(x))
 end program demo_fraction
 ```
-
+  Results:
+```text
+     0.570043862      0.570043862    
+```
 ## __Standard__
 
 Fortran 95 and later

@@ -45,7 +45,15 @@ implicit none
    print *, sign(-12.,-1.)
 end program demo_sign
 ```
-
+  Results:
+```text
+             12
+             12
+            -12
+      12.0000000    
+      12.0000000    
+     -12.0000000    
+```
 ## __Standard__
 
 FORTRAN 77 and later

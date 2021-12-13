@@ -66,7 +66,7 @@ real :: v, w
    enddo
 end program demo_huge
 ```
-Sample output:
+Results:
 ```
   2147483647  3.4028235E+38  1.797693134862316E+308
   1.1754944E-38  2.225073858507201E-308

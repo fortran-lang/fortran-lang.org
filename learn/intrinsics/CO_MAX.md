@@ -55,6 +55,10 @@ integer :: val
    endif
 end program demo_co_max
 ```
+  Results:
+```text
+    Maximal value           2
+```
 
 ## __Standard__
 

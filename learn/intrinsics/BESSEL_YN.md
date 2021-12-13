@@ -52,10 +52,13 @@ use, intrinsic :: iso_fortran_env, only : real_kinds, &
 & real32, real64, real128
 implicit none
 real(kind=real64) :: x = 1.0_real64
-  x = bessel_yn(5,x)
+  write(*,*) x,bessel_yn(5,x)
 end program demo_besyn
 ```
-
+  Results:
+```text
+      1.0000000000000000       -260.40586662581222     
+```
 ## __Standard__
 
 Fortran 2008 and later

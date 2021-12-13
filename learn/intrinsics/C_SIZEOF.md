@@ -45,7 +45,10 @@ real(c_float) :: r, s(5)
    print *, (c_sizeof(s)/c_sizeof(r) == 5)
 end program demo_c_sizeof
 ```
-
+  Results:
+```text
+    T
+```
 The example will print .true. unless you are using a platform where
 default _real_ variables are unusually padded.
 

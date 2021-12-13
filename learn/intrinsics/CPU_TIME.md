@@ -61,7 +61,10 @@ real :: start, finish
    print '("Processor Time = ",f6.3," seconds.")',finish-start
 end program demo_cpu_time
 ```
-
+  Results:
+```text
+   Processor Time =  0.000 seconds.
+```
 ## __Standard__
 
 Fortran 95 and later

@@ -40,7 +40,11 @@ integer :: i
    print *, exponent(0.0)
 end program demo_exponent
 ```
-
+  Results:
+```text
+              1
+              0
+```
 ## __Standard__
 
 Fortran 95 and later

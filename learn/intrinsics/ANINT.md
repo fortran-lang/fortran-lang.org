@@ -49,8 +49,14 @@ real(kind=real64) :: x8
    x8 = 4.321_real64
    print *, anint(x4), dnint(x8)
    x8 = anint(x4,kind=real64)
+   print *, x8
 
 end program demo_anint
+```
+Results:
+```text
+      1.00000000       4.0000000000000000     
+      1.0000000000000000     
 ```
 
 ## __Standard__

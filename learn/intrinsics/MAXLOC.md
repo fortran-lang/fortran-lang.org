@@ -81,8 +81,7 @@ integer,save :: ints(3,5)= reshape([&
 
 end program demo_maxloc
 ```
-
-expected output:
+Results:
 ```text
       3       5
       3       3       3       3       3

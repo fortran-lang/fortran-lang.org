@@ -59,7 +59,11 @@ integer :: n, i
    print '(99f8.3)', grid
 end program demo_move_alloc
 ```
-
+  Results:
+```text
+    T F
+      1.000   1.500   2.000   2.500   3.000   3.500
+```
 ## __Standard__
 
 Fortran 2003 and later

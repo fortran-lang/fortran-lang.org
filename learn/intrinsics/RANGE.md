@@ -40,6 +40,11 @@ complex(kind=dp) :: y
    print *, precision(y), range(y)
 end program demo_range
 ```
+  Results:
+```text
+              6          37
+             15         307
+```
 
 ## __Standard__
 

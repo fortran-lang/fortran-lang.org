@@ -54,6 +54,11 @@ integer :: n
 
 end program demo_random_seed
 ```
+  Results:
+```text
+     -674862499 -1750483360  -183136071  -317862567   682500039
+     349459   344020729 -1725483289
+```
 
 ## __Standard__
 

@@ -41,7 +41,10 @@ integer :: a, b
       write (*,*) iand(a, b)
 end program demo_iand
 ```
-
+  Results:
+```text
+              3
+```
 ## __Standard__
 
 Fortran 95 and later

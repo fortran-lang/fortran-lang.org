@@ -55,7 +55,7 @@ doubleprecision,parameter :: PI=atan(1.0d0)*4.0d0
    write(*,*)'COS(3000*PI)=',cos(3000*PI)
 end program demo_cos
 ```
-Expected output:
+Results:
 ```
    COS(0.0)=        1.00000000
    COS(PI)=        -1.0000000000000000

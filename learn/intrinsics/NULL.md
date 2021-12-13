@@ -103,7 +103,13 @@ call gen (4, integer_ptr ) ! invokes s1
 end
 !end program demo_null
 ```
-
+  Results:
+```text
+   One integer in S2:, 1
+   One integer in S1:, 2
+   integer and real in S2:, 3 and 200.000000
+   Two integers in S1:, 4 and 100
+```
 ## __Standard__
 
 Fortran 95 and later

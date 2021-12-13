@@ -80,7 +80,6 @@ real, pointer :: ptr(:)
    & stop 'POINTER NOT ASSOCIATED TO TARGET'
 end program demo_associated
 ```
-
 ## __Standard__
 
 Fortran 95 and later

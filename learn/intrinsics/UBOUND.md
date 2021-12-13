@@ -99,16 +99,13 @@ integer,intent(in) :: arr(:)
 end subroutine esub
 !end program demo_ubound
 ```
-
-Expected output
- 
+Results:
 ```text
   MAIN: LOWER=         -10 UPPER=          10 SIZE=          21
   CSUB: LOWER=         -10 UPPER=          10 SIZE=          21
   MSUB: LOWER=           1 UPPER=          21 SIZE=          21
   ESUB: LOWER=           1 UPPER=          21 SIZE=          21
 ```
-
 ## __Standard__
 
 Fortran 95 and later, with KIND argument Fortran 2003

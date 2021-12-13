@@ -47,6 +47,10 @@ character(1) :: c
     print *, i, c ! returns 'J'
 end program demo_char
 ```
+  Results:
+```text
+             74 J
+```
 
 ## __Note__
 

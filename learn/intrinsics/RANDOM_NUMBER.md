@@ -68,9 +68,7 @@ real(kind=dp)        :: rand_val
       write(*,'(i0,1x,i0)')(i,count(i),i=1,size(count))
 end program demo_random_number
 ```
-
-Sample output:
-
+Results:
 ```
    1 10003588
    2 10000104
@@ -83,7 +81,6 @@ Sample output:
    9 10000252
    10 10000196
 ```
-
 ## __Standard__
 
 Fortran 95 and later

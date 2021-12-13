@@ -79,7 +79,6 @@ integer :: start, finish
    time_read=(finish-start)/real(count_rate,wp)
    write(*,'(a30,1x,f7.4,1x,a)') 'time * : ', time_read, ' seconds'
 
-
 end program demo_system_clock
 ```
 If the processor clock is a 24-hour clock that registers time at

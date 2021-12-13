@@ -75,7 +75,13 @@ real(kind=dp) :: dd
 
 end program demo_dprod
 ```
-
+  Results:
+```text
+   11.959999313354501 11.9599991 4 8 8
+        1196
+   11.9600000    
+   11.960000000000001     
+```
 ## __Standard__
 
 FORTRAN 77 and later

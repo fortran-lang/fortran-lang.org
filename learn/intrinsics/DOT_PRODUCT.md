@@ -55,7 +55,14 @@ implicit none
     print *, dot_product(a,b)
 end program demo_dot_prod
 ```
-
+  Results:
+```text
+     1  2  3
+   
+     4  5  6
+   
+             32
+```
 ## __Standard__
 
 Fortran 95 and later

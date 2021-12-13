@@ -40,6 +40,11 @@ integer, parameter :: dbl = selected_real_kind(p=13, r=200)
    write(*,*) spacing(1.0_dbl)      ! "2.220446049250313e-016" on i686
 end program demo_spacing
 ```
+  Results:
+```text
+      1.19209290E-07
+      2.2204460492503131E-016
+```
 ## __Standard__
 
 Fortran 95 and later

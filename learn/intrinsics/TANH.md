@@ -40,8 +40,12 @@ use, intrinsic :: iso_fortran_env, only : &
 & real_kinds, real32, real64, real128
 implicit none
 real(kind=real64) :: x = 2.1_real64
-   x = tanh(x)
+   write(*,*)x, tanh(x)
 end program demo_tanh
+```
+  Results:
+```text
+      2.1000000000000001       0.97045193661345386     
 ```
 ## __Standard__
 

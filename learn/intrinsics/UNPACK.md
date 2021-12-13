@@ -46,8 +46,14 @@ integer :: field(2,2) = 0, unity(2,2)
 
    ! result: unity matrix
    unity = unpack(vector, reshape(mask, [2,2]), field)
+   write(*,*)unity,size(unity),shape(unity)
 
 end program demo_unpack
+```
+  Results:
+```text
+              1           0           0           1           4
+              2           2
 ```
 ## __Standard__
 

@@ -53,7 +53,12 @@ implicit none
    write(*,*) scan("fortran", "c++")         ! 0, found none
 end program demo_scan
 ```
-
+  Results:
+```text
+              2
+              6
+              0
+```
 ## __Standard__
 
 Fortran 95 and later, with KIND argument - Fortran 2003 and later

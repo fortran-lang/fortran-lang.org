@@ -43,7 +43,12 @@ integer(kind=k15) :: i15
     print *, huge(i15) >= 10_k15**15-1
 end program demo_selected_int_kind
 ```
-
+  Results:
+```text
+     2147483647  9223372036854775807
+    T
+    T
+```
 ## __Standard__
 
 Fortran 95 and later

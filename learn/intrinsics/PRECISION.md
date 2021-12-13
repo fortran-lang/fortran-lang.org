@@ -41,7 +41,11 @@ complex(kind=dp) :: y
    print *, precision(y), range(y)
 end program demo_precision
 ```
-
+  Results:
+```text
+              6          37
+             15         307
+```
 ## __Standard__
 
 Fortran 95 and later

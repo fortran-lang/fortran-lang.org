@@ -99,7 +99,7 @@ end
 
 !end program demo_lbound
 ```
-Expected output
+Results:
 
 ```
    MAIN: LOWER=         -10 UPPER=          10 SIZE=          21

@@ -38,6 +38,11 @@ implicit none
 
 end program demo_new_line
 ```
+  Results:
+```text
+   This is record 1.
+   This is record 2.
+```
 ## __Standard__
 
 Fortran 2003 and later

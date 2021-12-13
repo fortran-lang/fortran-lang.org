@@ -38,7 +38,10 @@ complex :: z = (2.3,1.14)
    print *, dble(x), dble(i), dble(z)
 end program demo_dble
 ```
-
+  Results:
+```text
+  2.1800000667572021  5.0000000000000000   2.2999999523162842     
+```
 ## __Standard__
 
 FORTRAN 77 and later

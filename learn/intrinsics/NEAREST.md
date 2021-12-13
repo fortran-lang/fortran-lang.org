@@ -47,7 +47,10 @@ implicit none
 
 end program demo_nearest
 ```
-
+  Results:
+```text
+   42.0000038146973    41.9999961853027    .762939453125000E-05
+```
 ## __Standard__
 
 Fortran 95 and later

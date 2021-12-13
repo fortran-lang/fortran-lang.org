@@ -38,7 +38,12 @@ use, intrinsic :: iso_fortran_env, only : real_kinds, &
    implicit none
    real(kind=real64) :: x = 0.0_real64
    x = bessel_j0(x)
+   write(*,*)x
 end program demo_besj0
+```
+  Results:
+```text
+      1.0000000000000000     
 ```
 
 ## __Standard__

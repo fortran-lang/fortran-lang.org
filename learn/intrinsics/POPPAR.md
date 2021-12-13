@@ -45,7 +45,14 @@ implicit none
    print  *,  popcnt(huge(0_int64)),  poppar(huge(0_int64))
 end program demo_popcnt
 ```
-
+  Results:
+```text
+              7           1
+              7           1
+             15           1
+             31           1
+             63           1
+```
 ## __Standard__
 
 Fortran 2008 and later

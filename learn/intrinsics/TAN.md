@@ -35,10 +35,13 @@ use, intrinsic :: iso_fortran_env, only : real_kinds, &
 & real32, real64, real128
 implicit none
 real(kind=real64) :: x = 0.165_real64
-     x = tan(x)
+     write(*,*)x, tan(x)
 end program demo_tan
 ```
-
+  Results:
+```text
+     0.16500000000000001       0.16651386310913616     
+```
 ## __Standard__
 
 FORTRAN 77 and later. For a complex argument, Fortran 2008 or later.

@@ -63,6 +63,12 @@ logical l
      end subroutine section
 end program demo_any
 ```
+  Results:
+```text
+    T
+    T T T
+    T T
+```
 ## __Standard__
 
 Fortran 95 and later

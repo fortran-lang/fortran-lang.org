@@ -41,6 +41,10 @@ real, dimension(3) :: x = [ -1.0, 0.0, 1.0 ]
 
 end program demo_atanh
 ```
+  Results:
+```text
+   -Infinity   0.00000000             Infinity
+```
 
 ## __Standard__
 

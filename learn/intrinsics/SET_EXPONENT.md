@@ -43,7 +43,10 @@ integer :: i = 17
    print *, set_exponent(x, i), fraction(x) * radix(x)**i
 end program demo_setexp
 ```
-
+  Results:
+```text
+      74716.7891       74716.7891    
+```
 ## __Standard__
 
 Fortran 95 and later

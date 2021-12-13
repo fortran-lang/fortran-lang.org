@@ -60,7 +60,10 @@ end function lower
 !
 end program demo_iachar
 ```
-
+  Results:
+```text
+   abcdefg abcdefg
+```
 ## __Note__
 
 See [__ichar__(3)](ICHAR) for a discussion of converting between numerical

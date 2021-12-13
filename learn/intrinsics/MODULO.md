@@ -55,7 +55,15 @@ implicit none
      print *, modulo(17.5,-5.5)   ! yields -4.5
 end program demo_modulo
 ```
-
+  Results:
+```text
+              2
+      1.00000000    
+              1
+      4.50000000    
+             -1
+     -4.50000000    
+```
 ## __Standard__
 
 Fortran 95 and later

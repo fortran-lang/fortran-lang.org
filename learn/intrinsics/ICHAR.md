@@ -95,6 +95,11 @@ character(len=10) string, string2
    print *, string2
 end program read_val
 ```
+  Results:
+```text
+            154
+           154
+```
 
 ## __Standard__
 
