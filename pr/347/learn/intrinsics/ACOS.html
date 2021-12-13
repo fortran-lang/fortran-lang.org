@@ -44831,8 +44831,7 @@
       </div>
 
       <h2 id="name"><strong>Name</strong></h2>
-<p><strong>acos</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] arccosine function
-(GFDL)</p>
+<p><strong>acos</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] arccosine (inverse cosine) function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
@@ -44840,7 +44839,7 @@
    </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">),</span><span class="k">elemental</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">acos</span><span class="w">
    </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
 </span></code></pre></div></div>
-<p>where TYPE may be <em>real</em> or <em>complex</em> and KIND may be any KIND supported
+<p>where <strong>TYPE</strong> may be <em>real</em> or <em>complex</em> and <strong>KIND</strong> may be any <strong>KIND</strong> supported
 by the associated type.</p>
 
 <h2 id="description"><strong>Description</strong></h2>
@@ -44853,41 +44852,54 @@ by the associated type.</p>
   <li>
     <dl>
       <dt><strong>x</strong></dt>
-      <dd>The type shall be <em>real</em> with a magnitude that is less than one.
-        <h2 id="returns"><strong>Returns</strong></h2>
-      </dd>
+      <dd>Must be type <em>real</em> or <em>complex</em>. If the type is <em>real</em>, the value
+must satisfy |<strong>x</strong>| &lt;= 1.</dd>
     </dl>
   </li>
 </ul>
 
-<p>The return value is of the same type and kind as <strong>x</strong>. The real part of the
-result is in radians and lies in the range <strong>0 &lt;= acos(x) &lt;= PI</strong> .</p>
+<h2 id="returns"><strong>Returns</strong></h2>
+
+<p>The return value is of the same type and kind as <strong>x</strong>. The <em>real</em> part of
+the result is in radians and lies in the range <strong>0 &lt;= acos(x%re) &lt;= PI</strong> .</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 <p>Sample program:</p>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_acos</span><span class="w">
 </span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">real_kinds</span><span class="p">,</span><span class="n">real32</span><span class="p">,</span><span class="n">real64</span><span class="p">,</span><span class="n">real128</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">all</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span><span class="w">
 </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.866_real64</span><span class="w">
 </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real64</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">d2r</span><span class="o">=</span><span class="nb">acos</span><span class="p">(</span><span class="mf">-1.0_real64</span><span class="p">)/</span><span class="mf">180.0_real64</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'acos('</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="s1">') is '</span><span class="p">,</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'90 degrees is '</span><span class="p">,</span><span class="w"> </span><span class="n">d2r</span><span class="o">*</span><span class="mf">90.0_real64</span><span class="p">,</span><span class="w"> </span><span class="s1">' radians'</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'180 degrees is '</span><span class="p">,</span><span class="w"> </span><span class="n">d2r</span><span class="o">*</span><span class="mf">180.0_real64</span><span class="p">,</span><span class="w"> </span><span class="s1">' radians'</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'for reference &amp;
-    &amp;PI= 3.14159265358979323846264338327950288419716939937510'</span><span class="w">
+
+    </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="s1">'acos('</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="s1">') is '</span><span class="p">,</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="s1">'90 degrees is '</span><span class="p">,</span><span class="w"> </span><span class="n">d2r</span><span class="o">*</span><span class="mf">90.0_real64</span><span class="p">,</span><span class="w"> </span><span class="s1">' radians'</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="s1">'180 degrees is '</span><span class="p">,</span><span class="w"> </span><span class="n">d2r</span><span class="o">*</span><span class="mf">180.0_real64</span><span class="p">,</span><span class="w"> </span><span class="s1">' radians'</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="s1">'for reference &amp;
+    &amp;PI ~ 3.14159265358979323846264338327950288419716939937510'</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="s1">'elemental'</span><span class="p">,</span><span class="nb">acos</span><span class="p">([</span><span class="mf">-1.0</span><span class="p">,</span><span class="mf">-0.5</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.50</span><span class="p">,</span><span class="mf">1.0</span><span class="p">])</span><span class="w">
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_acos</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    acos(  0.86599999999999999      ) is   0.52364958093182890
-    90 degrees is    1.5707963267948966       radians
-    180 degrees is    3.1415926535897931       radians
-    for reference PI= 3.14159265358979323846264338327950288419716939937510
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   acos( .8660000000000000 ) is  .5236495809318289
+   90 degrees is  1.570796326794897  radians
+   180 degrees is  3.141592653589793  radians
+   for reference PI ~ 3.14159265358979323846264338327950288419716939937510
+   elemental 3.141593 2.094395 1.570796 1.047198 .000000
 </code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 <p>FORTRAN 77 and later; for a <em>complex</em> argument - Fortran 2008 and later</p>
 
 <h2 id="see-also"><strong>See Also</strong></h2>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Inverse_trigonometric_functions">wikipedia: inverse trigonometric functions</a></li>
+</ul>
+
 <p>Inverse function: <a href="COS"><strong>cos</strong>(3</a>)</p>
+
+<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
 
 
       <div class="container-flex">
