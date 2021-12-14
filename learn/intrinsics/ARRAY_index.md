@@ -38,4 +38,11 @@ permalink: /learn/intrinsics/ARRAY_index
 | *ARRAY:RESHAPE*      ||||| [__reshape__]({{site.baseurl}}/learn/intrinsics/RESHAPE)              || &#9679; Function to reshape an array                             |
 |----------------------|||||-----------------------------------------------------------------------||------------------------------------------------------------------|
 
+    - Explicit-shape arrays
+    - Assumed-shape arrays
+    - Deferred-shape arrays
+    - Implied-shape arrays 
+    - Assumed-size arrays
+    - Assumed-rank objects 
+
 ###### fortran-lang intrinsic descriptions
