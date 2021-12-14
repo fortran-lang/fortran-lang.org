@@ -44947,6 +44947,9 @@ parameter of the result.</dd>
 <p>The return value is of type <strong>integer</strong>(kind) if <strong>kind</strong> is present and a
 default-kind <em>integer</em> otherwise.</p>
 
+<p>The result is undefined if it cannot be represented in the specified
+integer type.</p>
+
 <h2 id="examples"><strong>Examples</strong></h2>
 
 <p>Sample program:</p>
@@ -44957,13 +44960,20 @@ default-kind <em>integer</em> otherwise.</p>
 </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-63.59</span><span class="w">
    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> 
    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">ceiling</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> 
+   </span><span class="c1">! elemental</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nb">ceiling</span><span class="p">([</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">-2.7</span><span class="p">,</span><span class="w">  </span><span class="mf">-2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">0.0</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">+0.5</span><span class="p">,</span><span class="w">  </span><span class="mf">+1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.7</span><span class="w">  </span><span class="p">])</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_ceiling</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             64
-            -63
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   64
+  -63
+   -2      -2      -2      -2      -1      -1
+    0       0       1       1       2       2
+    3       3       3
 </code></pre></div></div>
-
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>Fortran 95 and later</p>
@@ -44972,6 +44982,11 @@ default-kind <em>integer</em> otherwise.</p>
 
 <p><a href="FLOOR"><strong>floor</strong>(3)</a>,
 <a href="NINT"><strong>nint</strong>(3)</a></p>
+
+<p><a href="AINT"><strong>aint</strong>(3)</a>,
+<a href="ANINT"><strong>anint</strong>(3)</a>,
+<a href="INT"><strong>int</strong>(3)</a>,
+<a href="SELECTED_INT_KIND"><strong>selected_int_kind</strong>(3)</a></p>
 
 <h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
 

@@ -45006,7 +45006,9 @@
 </span></code></pre></div></div>
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>floor</strong>(a) returns the greatest integer less than or equal to <strong>a</strong>.</p>
+<p><strong>floor</strong>(a) returns the greatest integer less than or equal to <strong>a</strong>.
+That is, it picks the whole number at or to the left of the value on
+the number line  <strong>-huge(int(a,kind=KIND))</strong> to <strong>huge(int(a),kind=KIND)</strong>.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -45031,6 +45033,9 @@ parameter of the result.</dd>
 <p>The return value is of type <em>integer(kind)</em> if <strong>kind</strong> is present and of
 default-kind <em>integer</em> otherwise.</p>
 
+<p>The result is undefined if it cannot be represented in the specified
+integer type.</p>
+
 <h2 id="examples"><strong>Examples</strong></h2>
 
 <p>Sample program:</p>
@@ -45039,13 +45044,21 @@ default-kind <em>integer</em> otherwise.</p>
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">63.29</span><span class="w">
 </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">-63.59</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> 
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> 
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> 
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"> 
+   </span><span class="c1">! elemental</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nb">floor</span><span class="p">([</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">-2.7</span><span class="p">,</span><span class="w">  </span><span class="mf">-2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">0.0</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">+0.5</span><span class="p">,</span><span class="w">  </span><span class="mf">+1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.7</span><span class="w">  </span><span class="p">])</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_floor</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             63
-            -64
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   63.2900009   63
+  -63.5900002  -64
+   -3     -3     -3     -2     -2     -1
+   -1      0      0      1      1      2
+    2      2      2
 </code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>
@@ -45057,7 +45070,12 @@ default-kind <em>integer</em> otherwise.</p>
 <p><a href="CEILING"><strong>ceiling</strong>(3)</a>,
 <a href="NINT"><strong>nint</strong>(3)</a></p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<p><a href="AINT"><strong>aint</strong>(3)</a>,
+<a href="ANINT"><strong>anint</strong>(3)</a>,
+<a href="INT"><strong>int</strong>(3)</a>,
+<a href="SELECTED_INT_KIND"><strong>selected_int_kind</strong>(3)</a></p>
+
+<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
 
 
       <div class="container-flex">

@@ -45166,6 +45166,9 @@ of default <em>integer</em> type.</dd>
 equally near <strong>x</strong>, the result is whichever such <em>integer</em> has the greater
 magnitude.</dd>
     </dl>
+
+    <p>The result is undefined if it cannot be represented in the specified
+integer type.</p>
   </li>
 </ul>
 
@@ -45181,6 +45184,11 @@ magnitude.</dd>
 
 </span><span class="c1">! basic use</span><span class="w">
    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">nint</span><span class="p">(</span><span class="n">x4</span><span class="p">),</span><span class="w"> </span><span class="nb">nint</span><span class="p">(</span><span class="n">x8</span><span class="p">),</span><span class="nb">nint</span><span class="p">(</span><span class="o">-</span><span class="n">x8</span><span class="p">)</span><span class="w">
+   </span><span class="c1">! elemental</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nb">nint</span><span class="p">([</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">-2.7</span><span class="p">,</span><span class="w">  </span><span class="mf">-2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">0.0</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span><span class="w">
+   </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">+0.5</span><span class="p">,</span><span class="w">  </span><span class="mf">+1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.7</span><span class="w">  </span><span class="p">])</span><span class="w">
 
 </span><span class="c1">! issues</span><span class="w">
 </span><span class="n">ISSUES</span><span class="p">:</span><span class="w"> </span><span class="k">block</span><span class="w">
@@ -45208,18 +45216,21 @@ magnitude.</dd>
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_nint</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   1 5 -5
-   Range limits for typical KINDS:
-   1 127
-   2 32767
-   4 2147483647
-   8 9223372036854775807
-   Any KIND big enough? ICHECK=          -1
-   These are all wrong answers for   1.234566949990144E+019
-   0
-   0
-   -2147483648
-   -9223372036854775808
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     1    5   -5
+    -3   -3   -2   -2   -2
+    -1   -1    0    1    1
+     2    2    2    3    3
+    Range limits for typical KINDS:
+    1 127
+    2 32767
+    4 2147483647
+    8 9223372036854775807
+    Any KIND big enough? ICHECK=          16
+    These are all wrong answers for    1.2345669499901444E+019
+       0
+         0
+              0
+    -9223372036854775808
 </code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>
@@ -45228,7 +45239,11 @@ magnitude.</dd>
 
 <h2 id="see-also"><strong>See Also</strong></h2>
 
-<p><a href="CEILING"><strong>ceiling</strong>(3)</a>,
+<p><a href="AINT"><strong>aint</strong>(3)</a>,
+<a href="ANINT"><strong>anint</strong>(3)</a>,
+<a href="INT"><strong>int</strong>(3)</a>,
+<a href="SELECTED_INT_KIND"><strong>selected_int_kind</strong>(3)</a>,
+<a href="CEILING"><strong>ceiling</strong>(3)</a>,
 <a href="FLOOR"><strong>floor</strong>(3)</a></p>
 
 <h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>

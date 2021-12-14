@@ -45197,10 +45197,20 @@
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">spread</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">,</span><span class="w"> </span><span class="n">ncopies</span><span class="p">)</span><span class="w">
+
+  </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">spread</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">,</span><span class="w"> </span><span class="n">ncopies</span><span class="p">)</span><span class="w">
+
+   </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">source</span><span class="p">(</span><span class="err">..</span><span class="p">)</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">dim</span><span class="w">
+   </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">ncopies</span><span class="w">
 </span></code></pre></div></div>
 <h2 id="description"><strong>Description</strong></h2>
 
-<p>Replicates a <strong>source</strong> array <strong>ncopies</strong> times along a specified dimension <strong>dim</strong>.</p>
+<p>Replicates a <strong>source</strong> array <strong>ncopies</strong> times along a specified
+dimension <strong>dim</strong>.</p>
+
+<p>If SOURCE is scalar, the shape of the result is (MAX (NCOPIES, 0)).
+and each element of the result has a value equal to SOURCE.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -45209,14 +45219,14 @@
     <dl>
       <dt><strong>source</strong></dt>
       <dd>Shall be a scalar or an array of any type and a rank less than
-seven.</dd>
+fifteen.</dd>
     </dl>
   </li>
   <li>
     <dl>
       <dt><strong>dim</strong></dt>
-      <dd>Shall be a scalar of type <em>integer</em> with a value in the range from 1
-to n+1, where n equals the rank of <strong>source</strong>.</dd>
+      <dd>Shall be a scalar of type <em>integer</em> with a value in the range from
+<strong>1</strong> to <strong>n+1</strong>, where <strong>n</strong> equals the rank of <strong>source</strong>.</dd>
     </dl>
   </li>
   <li>
@@ -45229,8 +45239,8 @@ to n+1, where n equals the rank of <strong>source</strong>.</dd>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The result is an array of the same type as <strong>source</strong> and has rank n+1 where
-n equals the rank of <strong>source</strong>.</p>
+<p>The result is an array of the same type as <strong>source</strong> and has rank <strong>n+1</strong>
+where <strong>n</strong> equals the rank of <strong>source</strong>.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 

@@ -45070,11 +45070,14 @@ respect to Coordinated Universal Time (UTC).</dd>
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="w">    </span><span class="p">::</span><span class="w"> </span><span class="n">time</span><span class="w">
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="w">     </span><span class="p">::</span><span class="w"> </span><span class="n">zone</span><span class="w">
 </span><span class="kt">integer</span><span class="p">,</span><span class="k">dimension</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">values</span><span class="w">
+
     </span><span class="k">call</span><span class="w"> </span><span class="nb">date_and_time</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="n">time</span><span class="p">,</span><span class="n">zone</span><span class="p">,</span><span class="n">values</span><span class="p">)</span><span class="w">
+
     </span><span class="c1">! using keyword arguments</span><span class="w">
     </span><span class="k">call</span><span class="w"> </span><span class="nb">date_and_time</span><span class="p">(</span><span class="n">DATE</span><span class="o">=</span><span class="n">date</span><span class="p">,</span><span class="n">TIME</span><span class="o">=</span><span class="n">time</span><span class="p">,</span><span class="n">ZONE</span><span class="o">=</span><span class="n">zone</span><span class="p">)</span><span class="w">
-    </span><span class="k">call</span><span class="w"> </span><span class="nb">date_and_time</span><span class="p">(</span><span class="n">VALUES</span><span class="o">=</span><span class="n">values</span><span class="p">)</span><span class="w">
     </span><span class="k">print</span><span class="w"> </span><span class="s1">'(*(g0))'</span><span class="p">,</span><span class="s1">'DATE="'</span><span class="p">,</span><span class="n">date</span><span class="p">,</span><span class="s1">'" TIME="'</span><span class="p">,</span><span class="n">time</span><span class="p">,</span><span class="s1">'" ZONE="'</span><span class="p">,</span><span class="n">zone</span><span class="p">,</span><span class="s1">'"'</span><span class="w">
+
+    </span><span class="k">call</span><span class="w"> </span><span class="nb">date_and_time</span><span class="p">(</span><span class="n">VALUES</span><span class="o">=</span><span class="n">values</span><span class="p">)</span><span class="w">
     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(i5,a)'</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="s1">' - The year'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">values</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="s1">' - The month'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
@@ -45108,6 +45111,7 @@ respect to Coordinated Universal Time (UTC).</dd>
 
 <h2 id="resources"><strong>Resources</strong></h2>
 <p>date and time conversion, formatting and computation</p>
+
 <ul>
   <li><a href="https://github.com/urbanjost/M_time">M_time</a></li>
   <li><a href="https://github.com/wavebitscientific/datetime-fortran">datetime</a></li>

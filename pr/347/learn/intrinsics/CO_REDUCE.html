@@ -44944,7 +44944,7 @@
 (GFDL)</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">call</span><span class="w"> </span><span class="n">co_reduce</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">operation</span><span class="p">,,</span><span class="w"> </span><span class="n">result_image</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">,</span><span class="w"> </span><span class="n">errmsg</span><span class="p">)</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">call</span><span class="w"> </span><span class="n">co_reduce</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">operation</span><span class="p">,</span><span class="w"> </span><span class="n">result_image</span><span class="p">,</span><span class="w"> </span><span class="n">stat</span><span class="p">,</span><span class="w"> </span><span class="n">errmsg</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
 <h2 id="description"><strong>Description</strong></h2>
 
@@ -44969,7 +44969,7 @@ the occurred error.</p>
       <dt><strong>a</strong></dt>
       <dd>is an <strong>intent(inout)</strong> argument and shall be nonpolymorphic. If it
 is allocatable, it shall be allocated; if it is a pointer, it shall
-be associated. A shall have the same type and type parameters on all
+be associated. <strong>a</strong> shall have the same type and type parameters on all
 images of the team; if it is an array, it shall have the same shape
 on all images.</dd>
     </dl>
@@ -44978,9 +44978,9 @@ on all images.</dd>
     <dl>
       <dt><strong>operation</strong></dt>
       <dd>pure function with two scalar nonallocatable arguments, which shall
-be nonpolymorphic and have the same type and type parameters as A.
+be nonpolymorphic and have the same type and type parameters as <strong>a</strong>.
 The function shall return a nonallocatable scalar of the same type
-and type parameters as A. The function shall be the same on all
+and type parameters as <strong>a</strong>. The function shall be the same on all
 images and with regards to the arguments mathematically commutative
 and associative. Note that OPERATION may not be an elemental
 
