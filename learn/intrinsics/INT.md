@@ -87,22 +87,42 @@ real :: x=-10.5, y=10.5
    print *, int(O"777777777777777777777",kind=int64)
    print *, int(Z"7FFFFFFFFFFFFFFF",kind=int64)
 
+   ! elemental
+   print *
+   print *,int([ &
+   &  -2.7,  -2.5, -2.2, -2.0, -1.5, -1.0, -0.5, &
+   &  0.0,   &
+   &  +0.5,  +1.0, +1.5, +2.0, +2.2, +2.5, +2.7  ])
+
 end program demo_int
 ```
   Results:
 ```text
-         -10          10
-          42
-          -3                    -3
-         -10         -10         -10          10          10          10
- -2147483648  2.1474847E+09
-            2147484672  2.1474847E+09
-   9223372036854775807
-   9223372036854775807
-   9223372036854775807
+            -10   10
+             42
+             -3  -3
+            -10  -10  -10   10   10  10
+    -2147483648   2.14748467E+09
+     2147484672   2.14748467E+09
+     9223372036854775807
+     9223372036854775807
+     9223372036854775807
+   
+    -2          -2          -2          -2          -1
+    -1           0           0           0           1
+     1           2           2           2           2
 ```
 ## __Standard__
 
 FORTRAN 77 and later
+
+## __See Also__
+
+[__aint__(3)](AINT),
+[__anint__(3)](ANINT),
+[__nint__(3)](NINT),
+[__selected_int_kind__(3)](SELECTED_INT_KIND),
+[__ceiling__(3)](CEILING),
+[__floor__(3)](FLOOR)
 
 ###### fortran-lang intrinsic descriptions (@urbanjost)

@@ -12,6 +12,7 @@ __achar__(3) - \[CHARACTER:CONVERSION\] returns a character in a specified posit
   result = achar(i,kind=KIND)
 
     character(len=1) elemental function :: achar(i,kind=KIND)
+
     integer(kind=KIND),intent(in) :: i
     integer(kind=KIND),intent(in),optional :: kind
 ```

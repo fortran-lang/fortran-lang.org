@@ -10,8 +10,10 @@ __adjustl__(3) - \[CHARACTER:WHITESPACE\] Left-adjust a string
 ## __Syntax__
 ```fortran
     result = adjustl(string)
+
+     character(len=(len(string)) elemental function adjustr(a)
+
      character(len=*),intent(in) :: string
-     character(len=len(string))  :: result
 ```
 ## __Description__
 

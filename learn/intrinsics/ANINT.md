@@ -50,17 +50,36 @@ real(kind=real64) :: x8
    print *, anint(x4), dnint(x8)
    x8 = anint(x4,kind=real64)
    print *, x8
+   print *
+   ! elemental
+   print *,anint([ &
+    & -2.7,  -2.5, -2.2, -2.0, -1.5, -1.0, -0.5, &
+    &  0.0, &
+    & +0.5,  +1.0, +1.5, +2.0, +2.2, +2.5, +2.7  ])
 
 end program demo_anint
 ```
-Results:
+  Results:
 ```text
-      1.00000000       4.0000000000000000     
-      1.0000000000000000     
+    1.00000000       4.0000000000000000     
+    1.0000000000000000     
+  
+   -3.00000000      -3.00000000      -2.00000000      -2.00000000
+   -2.00000000      -1.00000000      -1.00000000       0.00000000
+    1.00000000       1.00000000       2.00000000       2.00000000
+    2.00000000       3.00000000       3.00000000
 ```
-
 ## __Standard__
 
 FORTRAN 77 and later
+
+## __See Also__
+
+[__aint__(3)](AINT),
+[__int__(3)](INT),
+[__nint__(3)](NINT),
+[__selected_int_kind__(3)](SELECTED_INT_KIND),
+[__ceiling__(3)](CEILING),
+[__floor__(3)](FLOOR)
 
 ###### fortran-lang intrinsic descriptions

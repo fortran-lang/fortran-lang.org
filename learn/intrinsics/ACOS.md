@@ -11,6 +11,7 @@ __acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine (inverse cosine) function
   result = acos(x)
 
    TYPE(kind=KIND),elemental :: acos
+
    TYPE(kind=KIND,intent(in) :: x
 ```
 where __TYPE__ may be _real_ or _complex_ and __KIND__ may be any __KIND__ supported

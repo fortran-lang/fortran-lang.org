@@ -53,4 +53,13 @@ end program demo_selected_int_kind
 
 Fortran 95 and later
 
+## __See Also__
+
+[__aint__(3)](AINT),
+[__anint__(3)](ANINT),
+[__int__(3)](INT),
+[__nint__(3)](NINT),
+[__ceiling__(3)](CEILING),
+[__floor__(3)](FLOOR)
+
 ###### fortran-lang intrinsic descriptions

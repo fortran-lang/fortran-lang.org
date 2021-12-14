@@ -44,6 +44,9 @@ __int(a-0.5)__.
     equally near __x__, the result is whichever such _integer_ has the greater
     magnitude.
 
+    The result is undefined if it cannot be represented in the specified
+    integer type.
+
 ## __Examples__
 
 Sample program:
@@ -57,6 +60,11 @@ real(kind=dp)     :: x8 = 4.721_dp
 
 ! basic use
    print *, nint(x4), nint(x8),nint(-x8)
+   ! elemental
+   print *,nint([ &
+   &  -2.7,  -2.5, -2.2, -2.0, -1.5, -1.0, -0.5, &
+   &  0.0,   &
+   &  +0.5,  +1.0, +1.5, +2.0, +2.2, +2.5, +2.7  ])
 
 ! issues
 ISSUES: block
@@ -83,20 +91,23 @@ endblock ISSUES
 
 end program demo_nint
 ```
-Results:
-```
-   1 5 -5
-   Range limits for typical KINDS:
-   1 127
-   2 32767
-   4 2147483647
-   8 9223372036854775807
-   Any KIND big enough? ICHECK=          -1
-   These are all wrong answers for   1.234566949990144E+019
-   0
-   0
-   -2147483648
-   -9223372036854775808
+  Results:
+```text
+     1    5   -5
+    -3   -3   -2   -2   -2
+    -1   -1    0    1    1
+     2    2    2    3    3
+    Range limits for typical KINDS:
+    1 127
+    2 32767
+    4 2147483647
+    8 9223372036854775807
+    Any KIND big enough? ICHECK=          16
+    These are all wrong answers for    1.2345669499901444E+019
+       0
+         0
+              0
+    -9223372036854775808
 ```
 
 ## __Standard__
@@ -105,6 +116,10 @@ FORTRAN 77 and later, with KIND argument - Fortran 90 and later
 
 ## __See Also__
 
+[__aint__(3)](AINT),
+[__anint__(3)](ANINT),
+[__int__(3)](INT),
+[__selected_int_kind__(3)](SELECTED_INT_KIND),
 [__ceiling__(3)](CEILING),
 [__floor__(3)](FLOOR)
 
