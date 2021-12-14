@@ -32,6 +32,14 @@ If __back__ equals __.true.__, the rightmost position is returned.
 
 If all characters of __string__ are found in __set__, the result is zero.
 
+This makes it easy to verify strings are all uppercase or lowercase, 
+follow a basic syntax, only contain printable characters, and many of the
+conditions tested for with the C routines
+__isalnum__(3c), __isalpha__(3c), __isascii__(3c), __isblank__(3c),
+__iscntrl__(3c), __isdigit__(3c), __isgraph__(3c), __islower__(3c),
+__isprint__(3c), __ispunct__(3c), __isspace__(3c), __isupper__(3c),
+and __isxdigit__(3c)
+
 ## __Arguments__
 
   - __string__
