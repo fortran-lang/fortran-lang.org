@@ -6,11 +6,17 @@ permalink: /learn/intrinsics/VERIFY
 ## __Name__
 
 __verify__(3) - \[CHARACTER:SEARCH\] Scan a string for the absence of a set of characters
-(GFDL)
 
 ## __Syntax__
 ```fortran
 result = verify(string, set, back, kind)
+
+  integer(kind=KIND) elemental function verify(string,set,back,kind)
+
+   character(len=*),intent(in) :: string
+   character(len=*),intent(in) :: set
+   logical,intent(in),optional :: back
+   integer,intent(in),optional :: KIND
 ```
 ## __Description__
 
@@ -20,9 +26,11 @@ that is not in the set(s).
 
 If __back__ is either absent or equals __.false.__, this function
 returns the position of the leftmost character of __string__ that is
-not in __set__. If __back__ equals __.true.__, the rightmost position
-is returned. If all characters of __string__ are found in __set__,
-the result is zero.
+not in __set__.
+
+If __back__ equals __.true.__, the rightmost position is returned.
+
+If all characters of __string__ are found in __set__, the result is zero.
 
 ## __Arguments__
 
@@ -33,10 +41,10 @@ the result is zero.
     : Shall be of type _character_.
 
   - __back__
-    : (Optional) shall be of type _logical_.
+    : shall be of type _logical_.
 
   - __kind__
-    : (Optional) An _integer_ initialization expression indicating the kind
+    : An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
@@ -51,33 +59,43 @@ Sample program I:
 ```fortran
 program demo_verify
 implicit none
-character(len=12):: c1='Howdy There!'
-character(len=6) :: c2(2)=["Howdy ","there!"]
-character(len=2) :: c3(2)=["de","gh"]
+character(len=*),parameter :: int='0123456789'
+character(len=*),parameter :: hex='abcdef0123456789'
+character(len=*),parameter :: low='abcdefghijklmnopqrstuvwxyz'
+character(len=*),parameter :: upp='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+character(len=20):: string='   Howdy There!'
+character(len=6) :: strings(2)=["Howdy ","there!"]
+character(len=2) :: sets(2)=["de","gh"]
     
-    !! location of first nonblank character
-    write(*,*)'nonblank ',verify('  Hello World! ', ' ')
+   write(*,*)'first non-blank character ',verify(string, ' ')
+   ! NOTE: same as len_trim(3)
+   write(*,*)'last non-blank character',verify(string, ' ',back=.true.)
 
-    !! same as len_trim(3)
-    write(*,*)'length ',verify('  Hello World!    ', ' ', back = .true.)
+   !! elemental -- using arrays for both strings and for sets
+   
+   ! first non-lowercase non-blank character
+   write(*,*) verify(string,low//' ')          
 
-    !! arrays for both strings and for sets
-    ! first not matched is 'w'
-    write(*,*) verify(c1,'Hode')          
-    write(*,*) verify(c2,c3)                       
-    write(*,*) verify(c1,'de',back=.true.)         
-    write(*,*) verify(c2,c3,back=[.true.,.false.]) 
+   ! first character in "Howdy" not in "de", and first letter in "there!"
+   ! not in "gh"
+   write(*,*) verify(strings,sets)                       
 
-    write(*,*) verify("fortran", "", .true.)  ! 7, found 'n'
-    ! 0' found none unmatched
-    write(*,*) verify("fortran", "nartrof")      
+   ! check each string from right to left for non-letter
+   write(*,*) 'last non-letter',verify(strings,upp//low,back=.true.)         
+
+   ! note character variables in an array have to be of same length
+   ! find last non-uppercase character in "Howdy" 
+   ! and first non-lowercase in "There!"
+   write(*,*) verify(strings,[upp,low],back=[.true.,.false.]) 
+
+   write(*,*) verify("fortran", "", .true.)  ! 7, found 'n'
+   ! 0' found none unmatched
+   write(*,*) verify("fortran", "nartrof")      
 
 
     !! CHECK IF STRING IS OF FORM NN-HHHHH
     CHECK : block
        logical                    :: lout
-       character(len=*),parameter :: int='0123456789'
-       character(len=*),parameter :: hex='abcdef0123456789'
        character(len=80)          :: chars
    
        chars='32-af43d'
@@ -99,20 +117,17 @@ character(len=2) :: c3(2)=["de","gh"]
     endblock CHECK
 end program demo_verify
 ```
-Results:
-``` text
- nonblank            3
- length           14
-           1
-           1           1
-          12
-           6           1
-           1
-           3
-           1
-           7
-           0
- 32-af43d passed
+  Results:
+```text
+    first non-blank character            4
+    last non-blank character          15
+              4
+              1           1
+    last non-letter           6           6
+              6           6
+              7
+              0
+    32-af43d passed
 ```
 Sample program II:
 
@@ -242,4 +257,4 @@ of arguments, and search for certain arguments:
     [__repeat__(3)](REPEAT), 
     [__trim__(3)](TRIM)
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (@urbanjost)
