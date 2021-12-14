@@ -72,7 +72,7 @@ Fortran 2008 and later
 
 ## __See Also__
 
-[__iany__(3),](IANY)
+[__iany__(3)](IANY),
 [__iparity__(3)](IPARITY),
 [__iand__(3)](IAND)
 

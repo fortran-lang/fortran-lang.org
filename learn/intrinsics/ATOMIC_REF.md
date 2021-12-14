@@ -61,8 +61,14 @@ Fortran 2008 and later; with STAT, TS 18508 or later
 
 ## __See Also__
 
-__atomic\_define__(3), __atomic\_cas__(3), __iso\_fortran\_env__(3),
-__atomic\_fetch\_add__(3), __atomic\_fetch\_and__(3),
-__atomic\_fetch\_or__(3), __atomic\_fetch\_xor__(3)
+[__atomic\_define__(3)](ATOMIC_DEFINE),
+[__atomic\_cas__(3)](ATOMIC_CAS),
+[__iso\_fortran\_env__(3)](),
+
+[__atomic\_fetch\_add__(3)](ATOMIC_ADD),
+[__atomic\_fetch\_and__(3)](ATOMIC_AND),
+
+[__atomic\_fetch\_or__(3)](ATOMIC_OR),
+[__atomic\_fetch\_xor__(3)](ATOMIC_XOR)
 
 ###### fortran-lang intrinsic descriptions

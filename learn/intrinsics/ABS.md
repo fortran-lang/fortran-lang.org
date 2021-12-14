@@ -15,9 +15,8 @@ __abs__(3) - \[NUMERIC\] Absolute value
 
    TYPE(kind=KIND),intent(in) :: a
 ```
-where TYPE may be _real_, _integer_, or _complex_
-and KIND may be any supported kind for the
-associated type.
+where TYPE may be _real_, _integer_, or _complex_ and KIND may be any
+supported kind for the associated type.
 
 ## __Description__
 
