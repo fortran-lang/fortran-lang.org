@@ -15,8 +15,13 @@ __abs__(3) - \[NUMERIC\] Absolute value
 
    TYPE(kind=KIND),intent(in) :: a
 ```
-where TYPE may be _real_, _integer_, or _complex_ and KIND may be any
-supported kind for the associated type.
+where the TYPE and KIND is determined by the type and type attributes
+of __a__, which may be any __real_, _integer_, or _complex_ value.
+
+If the type of __a__ is _cmplx_ the type returned will be _real_ with
+the same kind as the _real_ part of the input value.
+
+Otherwise the returned type will be the same type as __a__.
 
 ## __Description__
 
@@ -60,6 +65,7 @@ character(len=*),parameter :: &
  frmt =  '(1x,a15,1x," In: ",g0,            T51," Out: ",g0)', &
  frmtc = '(1x,a15,1x," In: (",g0,",",g0,")",T51," Out: ",g0)'
 integer,parameter :: dp=kind(0.0d0)
+integer,parameter :: sp=kind(0.0)
 
     write(*, frmt)  'integer         ',  i, abs(i)
     write(*, frmt)  'real            ',  x, abs(x)
@@ -73,6 +79,13 @@ integer,parameter :: dp=kind(0.0d0)
     write(*, *) 'abs range test : ', abs(huge(0)), abs(-huge(0))
     write(*, *) 'abs range test : ', abs(huge(0.0)), abs(-huge(0.0))
     write(*, *) 'abs range test : ', abs(tiny(0.0)), abs(-tiny(0.0))
+
+    write(*, *) 'returned real kind:', cmplx(30.0_dp,40.0_dp,kind=dp), &
+                                  kind(cmplx(30.0_dp,40.0_dp,kind=dp))
+    write(*, *) 'returned real kind:', cmplx(30.0_dp,40.0_dp),&
+                                  kind(cmplx(30.0_dp,40.0_dp))
+    write(*, *) 'returned real kind:', cmplx(30.0_sp,40.0_sp),&
+                                  kind(cmplx(30.0_sp,40.0_sp))
 
     write(*, *)
     write(*, *) 'distance of <XX,YY> from zero is', &
@@ -90,20 +103,23 @@ integer,parameter :: dp=kind(0.0d0)
     end function distance
 end program demo_abs
 ```
-Results:
-```
- integer          In: -1                           Out: 1
- real             In: -1.000000                    Out: 1.000000
- doubleprecision  In: -45.78000000000000           Out: 45.78000000000000
- complex          In: (-3.000000,-4.000000)        Out: 5.000000
-
- abs is elemental: 20 0 1 3 100
-
- abs range test :   2147483647  2147483647
- abs range test :   3.4028235E+38  3.4028235E+38
- abs range test :   1.1754944E-38  1.1754944E-38
-
- distance of <XX,YY> from zero is   50.0000000000000
+  Results:
+```text
+    integer          In: -1                        Out: 1
+    real             In: -1.00000000               Out: 1.00000000
+    doubleprecision  In: -45.780000000000001       Out: 45.780000000000001
+    complex          In: (-3.00000000,-4.00000000) Out: 5.00000000
+   
+    abs is elemental:     20     0     1     3   100
+   
+    abs range test :   2147483647  2147483647
+    abs range test :    3.40282347E+38   3.40282347E+38
+    abs range test :    1.17549435E-38   1.17549435E-38
+    returned real kind: (30.000000000000000,40.000000000000000) 8
+    returned real kind: (30.0000000,40.0000000) 4
+    returned real kind: (30.0000000,40.0000000) 4
+   
+    distance of <XX,YY> from zero is   50.000000000000000     
 ```
 ## __Standard__
 
