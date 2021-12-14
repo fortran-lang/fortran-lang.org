@@ -11,28 +11,39 @@ __spread__(3) - \[ARRAY CONSTRUCTION\] Add a dimension to an array
 ## __Syntax__
 ```fortran
 result = spread(source, dim, ncopies)
+
+  TYPE(kind=KIND) function spread(source, dim, ncopies)
+
+   TYPE(kind=KIND)    :: source(..)
+   integer,intent(in) :: dim
+   integer,intent(in) :: ncopies
 ```
 ## __Description__
 
-Replicates a __source__ array __ncopies__ times along a specified dimension __dim__.
+Replicates a __source__ array __ncopies__ times along a specified
+dimension __dim__.
+
+If SOURCE is scalar, the shape of the result is (MAX (NCOPIES, 0)).
+and each element of the result has a value equal to SOURCE.
 
 ## __Arguments__
 
   - __source__
     : Shall be a scalar or an array of any type and a rank less than
-    seven.
+    fifteen.
 
   - __dim__
-    : Shall be a scalar of type _integer_ with a value in the range from 1
-    to n+1, where n equals the rank of __source__.
+    : Shall be a scalar of type _integer_ with a value in the range from
+    __1__ to __n+1__, where __n__ equals the rank of __source__.
 
   - __ncopies__
     : Shall be a scalar of type _integer_.
 
 ## __Returns__
 
-The result is an array of the same type as __source__ and has rank n+1 where
-n equals the rank of __source__.
+The result is an array of the same type as __source__ and has rank __n+1__
+where __n__ equals the rank of __source__.
+
 
 ## __Examples__
 
