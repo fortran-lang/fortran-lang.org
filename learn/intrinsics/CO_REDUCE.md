@@ -10,7 +10,7 @@ __co\_reduce__(3) - \[COLLECTIVE\] Reduction of values on the current set of ima
 
 ## __Syntax__
 ```fortran
-call co_reduce(a, operation,, result_image, stat, errmsg)
+call co_reduce(a, operation, result_image, stat, errmsg)
 ```
 ## __Description__
 
@@ -32,15 +32,15 @@ the occurred error.
   - __a__
     : is an __intent(inout)__ argument and shall be nonpolymorphic. If it
     is allocatable, it shall be allocated; if it is a pointer, it shall
-    be associated. A shall have the same type and type parameters on all
+    be associated. __a__ shall have the same type and type parameters on all
     images of the team; if it is an array, it shall have the same shape
     on all images.
 
   - __operation__
     : pure function with two scalar nonallocatable arguments, which shall
-    be nonpolymorphic and have the same type and type parameters as A.
+    be nonpolymorphic and have the same type and type parameters as __a__.
     The function shall return a nonallocatable scalar of the same type
-    and type parameters as A. The function shall be the same on all
+    and type parameters as __a__. The function shall be the same on all
     images and with regards to the arguments mathematically commutative
     and associative. Note that OPERATION may not be an elemental
 

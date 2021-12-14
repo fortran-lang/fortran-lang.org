@@ -29,7 +29,7 @@ __mod__(a,p) computes the remainder of the division of __a__ by __p__.
 
 The return value is the result of __a - (int(a/p) \* p)__. The type and kind
 of the return value is the same as that of the arguments. The returned
-value has the same sign as A and a magnitude less than the magnitude of
+value has the same sign as __a__ and a magnitude less than the magnitude of
 __p__.
 
 ## __Examples__

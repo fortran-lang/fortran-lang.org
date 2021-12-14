@@ -38,7 +38,7 @@ is an extension of the dynamic type of __mold__.
     true; otherwise if __a__ is unlimited polymorphic and is either a
     disassociated pointer or unallocated allocatable variable, the result
     is false; otherwise the result is true if and only if the dynamic
-    type of *A* is an extension type of the dynamic type of __mold__.
+    type of __a__ is an extension type of the dynamic type of __mold__.
 
     The dynamic type of a disassociated pointer or unallocated
     allocatable variable is its declared type.

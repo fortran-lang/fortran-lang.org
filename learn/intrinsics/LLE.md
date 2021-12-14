@@ -10,19 +10,19 @@ __lle__(3) - \[CHARACTER:COMPARE\] Lexical less than or equal
 
 ## __Syntax__
 ```fortran
-result = lle(STR_A, STR_B)
+result = lle(str_a, str_b)
 
-   character(len=*),intent(in) :: STR_A, STR_B
+   character(len=*),intent(in) :: str_a, str_b
 
       or
 
-   character(len=*),intent(in) :: STR_A, STR_B(*) logical :: result
+   character(len=*),intent(in) :: str_a, str_b(*) logical :: result
 ```
 ## __Description__
 
 Determines whether one string is lexically less than or equal to another
 string, where the two strings are interpreted as containing ASCII
-character codes. If the String A and String B are not the same length,
+character codes. if the __string\_a__ and __string\_b__ are not the same length,
 the shorter is compared as if spaces were appended to it to form a value
 that has the same length as the longer. Leading spaces are significant.
 
@@ -34,19 +34,19 @@ ordering.
 
 ## __Arguments__
 
-  - __STR\_A__
+  - __str\_a__
     : variable or array of default _character_ type.
 
-  - __STR\_B__
+  - __str\_b__
     : variable or array of default _character_ type.
 
-    if STR_A and STR_B are both arrays they must be of the
+    if __str_a__ and __str_b__ are both arrays they must be of the
     same shape.
 
 ## __Returns__
 
   - __result__
-    Returns __.true.__ if STR\_A \<= STR\_B, and __.false.__ otherwise, based on
+    Returns __.true.__ if __STR\_A \<= STR\_B__, and __.false.__ otherwise, based on
     the ASCII ordering.
 
 ## __Examples__

@@ -167,7 +167,7 @@ has the value \[1, 4\] and
 ```
 
 has the value \[3, 4\]. This is independent of the declared lower
-bounds for A.
+bounds for __a__ .
 
   - __Case (iii):__
     The value of
@@ -176,7 +176,7 @@ bounds for A.
       findloc ([2, 6, 4], value = 6, dim = 1)
 ```
 
-is 2. If B has the value
+is 2. If __b__ has the value
 
 ```
        1 2 -9
@@ -192,6 +192,6 @@ has the value \[2, 1, 0\] and
 ```
 
 has the value \[2, 1\]. This is independent of the declared lower
-bounds for B.
+bounds for __b__.
 
 ###### fortran-lang intrinsic descriptions

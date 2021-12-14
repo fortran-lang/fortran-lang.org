@@ -16,7 +16,7 @@ result = llt(string_a, string_b)
 
 Determines whether one string is lexically less than another string,
 where the two strings are interpreted as containing ASCII character
-codes. If the String A and String B are not the same length, the shorter
+codes. If the __string\_a__ and __string\_b__ are not the same length, the shorter
 is compared as if spaces were appended to it to form a value that has
 the same length as the longer.
 
@@ -45,7 +45,9 @@ FORTRAN 77 and later
 
 ## __See Also__
 
-__\[\[lge__(3), __\[\[lgt__(3), __\[\[lle__(3)
+[__lge__(3)](LGE),
+[__lgt__(3)](LGT),
+[__lle__(3](LLE))
 
 Functions that perform operations on character strings, return lengths
 of arguments, and search for certain arguments:

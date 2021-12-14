@@ -14,7 +14,7 @@ result = dble(a)
 ```
 ## __Description__
 
-__dble(a)__ Converts A to double precision real type.
+__dble(a)__ Converts __a__ to double precision real type.
 
 ## __Arguments__
 

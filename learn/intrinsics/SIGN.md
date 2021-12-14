@@ -14,20 +14,20 @@ result = sign(a, b)
 ```
 ## __Description__
 
-__sign__(a,b) returns the value of A with the sign of B.
+__sign__(a,b) returns the value of __a__ with the sign of __b__.
 
 ## __Arguments__
 
-  - __A__
+  - __a__
     : Shall be of type _integer_ or _real_
 
-  - __B__
+  - __b__
     : Shall be of the same type and kind as A
 
 ## __Returns__
 
-The kind of the return value is that of A and B. If B \>= 0 then the
-result is __abs__(a), else it is -__abs__(a).
+The kind of the return value is that of __a__ and __b__. If __b \>= 0__ then the
+result is __abs(a)__, else it is -__abs(a)__.
 
 ## __Examples__
 
