@@ -79,11 +79,11 @@ character(len=2) :: sets(2)=["de","gh"]
    ! NOTE: same as len_trim(3)
    write(*,*)'last non-blank character',verify(string, ' ',back=.true.)
 
-   !! elemental -- using arrays for both strings and for sets
-   
    ! first non-lowercase non-blank character
    write(*,*) verify(string,low//' ')          
 
+   !! elemental -- using arrays for both strings and for sets
+   
    ! first character in "Howdy" not in "de", and first letter in "there!"
    ! not in "gh"
    write(*,*) verify(strings,sets)                       
