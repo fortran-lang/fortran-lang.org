@@ -38,7 +38,7 @@ conditions tested for with the C routines
 __isalnum__(3c), __isalpha__(3c), __isascii__(3c), __isblank__(3c),
 __iscntrl__(3c), __isdigit__(3c), __isgraph__(3c), __islower__(3c),
 __isprint__(3c), __ispunct__(3c), __isspace__(3c), __isupper__(3c),
-and __isxdigit__(3c)
+and __isxdigit__(3c); but for a string as well an an array of characters.
 
 ## __Arguments__
 
