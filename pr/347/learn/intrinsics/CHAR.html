@@ -44928,35 +44928,46 @@
     </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">c</span><span class="w">
     </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">KIND</span><span class="w">
 </span></code></pre></div></div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## __Description__
+<h2 id="description"><strong>Description</strong></h2>
 
-__char(i, kind)__ returns the character represented by the integer __i__.
+<p><strong>char(i, kind)</strong> returns the character represented by the integer <strong>i</strong>.</p>
 
-## __Arguments__
+<h2 id="arguments"><strong>Arguments</strong></h2>
 
-  - __i__
-    : The type shall be _integer_.
+<ul>
+  <li>
+    <dl>
+      <dt><strong>i</strong></dt>
+      <dd>The type shall be <em>integer</em>.</dd>
+    </dl>
+  </li>
+  <li>
+    <dl>
+      <dt><strong>kind</strong></dt>
+      <dd>(Optional) An <em>integer</em> initialization expression indicating the kind
+parameter of the result.</dd>
+    </dl>
+  </li>
+</ul>
 
-  - __kind__
-    : (Optional) An _integer_ initialization expression indicating the kind
-    parameter of the result.
+<h2 id="returns"><strong>Returns</strong></h2>
 
-## __Returns__
+<p>The return value is of type <em>character</em></p>
 
-The return value is of type _character_
+<h2 id="examples"><strong>Examples</strong></h2>
 
-## __Examples__
+<p>Sample program:</p>
 
-Sample program:
-
-```fortran
-program demo_char
-implicit none
-integer :: i = 74
-character(1) :: c
-    c = char(i)
-    print *, i, c ! returns 'J'
-end program demo_char
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_char</span><span class="w">
+</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">74</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">c</span><span class="w">
+    </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">char</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="c1">! returns 'J'</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_char</span><span class="w">
+</span></code></pre></div></div>
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             74 J
 </code></pre></div></div>
 
 <h2 id="note"><strong>Note</strong></h2>
@@ -44990,6 +45001,8 @@ of arguments, and search for certain arguments:</p>
 <a href="REPEAT"><strong>repeat</strong>(3)</a>, <a href="TRIM"><strong>trim</strong>(3)</a></p>
   </li>
 </ul>
+
+<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
 
 
       <div class="container-flex">

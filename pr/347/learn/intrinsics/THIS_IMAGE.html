@@ -45272,12 +45272,15 @@ present, a scalar is returned, with the value of the <strong>dim</strong> elemen
       </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
    </span><span class="k">endif</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_this_image</span><span class="w">
-
-</span><span class="c1">!</span><span class="w">
-</span><span class="c1">! Check whether the current image is the initial image</span><span class="w">
-</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">this_image</span><span class="p">(</span><span class="nb">huge</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">/</span><span class="o">=</span><span class="w"> </span><span class="nb">this_image</span><span class="p">())</span><span class="w">
-</span><span class="k">error stop</span><span class="w"> </span><span class="s2">"something is rotten here"</span><span class="w">
 </span></code></pre></div></div>
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   value[1] is 1
+</code></pre></div></div>
+<p>!
+! Check whether the current image is the initial image
+if (this_image(huge(1)) /= this_image())
+error stop “something is rotten here”
+```</p>
 
 <h2 id="standard"><strong>Standard</strong></h2>
 
@@ -45288,6 +45291,8 @@ or later</p>
 
 <p><a href="NUM_IMAGES"><strong>num_images</strong>(3)</a>,
 <a href="IMAGE_INDEX"><strong>image_index</strong>(3)</a></p>
+
+<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
 
 
       <div class="container-flex">

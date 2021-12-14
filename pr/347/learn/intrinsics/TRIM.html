@@ -45250,9 +45250,20 @@ number of trailing blanks.</p>
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"gfortran  "</span><span class="w">
    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="w">  </span><span class="c1">! "10 8", with/without trailing blanks</span><span class="w">
+
+   </span><span class="c1">! with/without trailing blanks</span><span class="w">
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="s1">'   leading'</span><span class="p">))</span><span class="w">  
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="s1">'   trailing    '</span><span class="p">))</span><span class="w"> 
+   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nb">trim</span><span class="p">(</span><span class="s1">'               '</span><span class="p">))</span><span class="w"> 
+
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_trim</span><span class="w">
 </span></code></pre></div></div>
-
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      10           8
+      10          10
+      10          11
+      10           0
+</code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>Fortran 95 and later</p>
@@ -45279,6 +45290,8 @@ of arguments, and search for certain arguments:</p>
  <a href="REPEAT"><strong>repeat</strong>(3)</a>,
  <a href="TRIM"><strong>trim</strong>(3)</a></li>
 </ul>
+
+<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
 
 
       <div class="container-flex">

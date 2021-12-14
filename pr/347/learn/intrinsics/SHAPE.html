@@ -45215,12 +45215,22 @@ value has the default integer kind otherwise the specified kind.</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_shape</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">all</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span><span class="w">
 </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">-1</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
-   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">shape</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">             </span><span class="c1">! [ 3, 4 ]</span><span class="w">
-   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="nb">shape</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span><span class="w">      </span><span class="c1">! [ ]</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="w"> </span><span class="s1">'shape of array='</span><span class="p">,</span><span class="nb">shape</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="w"> </span><span class="s1">'shape of constant='</span><span class="p">,</span><span class="nb">shape</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="w"> </span><span class="s1">'size of shape of constant='</span><span class="p">,</span><span class="nb">size</span><span class="p">(</span><span class="nb">shape</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="w"> </span><span class="s1">'ubound of array='</span><span class="p">,</span><span class="nb">ubound</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="nb">all</span><span class="p">,</span><span class="w"> </span><span class="s1">'lbound of array='</span><span class="p">,</span><span class="nb">lbound</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_shape</span><span class="w">
 </span></code></pre></div></div>
-
+<p>Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   shape of array= 3 4
+   shape of constant=
+   size of shape of constant= 0
+   ubound of array= 1 2
+   lbound of array= -1 -1
+</code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>Fortran 95 and later; with KIND argument Fortran 2003 and later</p>
@@ -45229,6 +45239,8 @@ value has the default integer kind otherwise the specified kind.</p>
 
 <p><a href="RESHAPE"><strong>reshape</strong>(3)</a>,
 <a href="SIZE"><strong>size</strong>(3)</a></p>
+
+<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
 
 
       <div class="container-flex">
