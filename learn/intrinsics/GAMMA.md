@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/GAMMA
 ---
 ## __Name__
 
-__gamma__(3) - \[MATHEMATICS\] Gamma function
+__gamma__(3) - \[MATHEMATICS\] Gamma function, which yields factorials for positive whole numbers
 
 ## __Syntax__
 ```fortran
