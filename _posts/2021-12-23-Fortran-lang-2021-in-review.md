@@ -218,8 +218,8 @@ located at [fortran-lang.github.io/fpm/](https://fortran-lang.github.io/fpm/).
 
 ## Google Summer of Code 2021
 
-2021 has been the first year for Fortran-lang to participate in the Google
-Summer of Code program.
+2021 has been the first year for Fortran-lang to participate in the
+[Google Summer of Code](https://summerofcode.withgoogle.com/) program.
 Together with NumFOCUS and LFortran, Fortran-lang had six students work on a 
 variety of projects:
 
@@ -317,7 +317,11 @@ Stay tuned for its publication.
 * New Fortran-lang projects include
   [fftpack](https://github.com/fortran-lang/fftpack),
   [test-drive](https://github.com/fortran-lang/test-drive), and
-  [fpm-docs](https://github.com/fortran-lang/fpm-docs). 
+  [fpm-docs](https://github.com/fortran-lang/fpm-docs).
+* Fortran-lang participated in the
+  [Google Summer of Code](https://summerofcode.withgoogle.com/) program for
+  the first time, and had 6 students working on projects across stdlib, fpm,
+  and LFortran.
 * We had several presentations of Fortran-lang projects at
   [FortranCon 2021](https://www.youtube.com/playlist?list=PLeKbr7eYHjt5UaV9zQtY24oEbne9_uFni) and
   [PackagingCon 2021](https://www.youtube.com/watch?v=YG8zEM1lAVM).
