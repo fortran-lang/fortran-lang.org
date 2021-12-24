@@ -119,7 +119,7 @@ It has truly been a game-changing tool for many of us.
 
 <center>
 <a href="https://lfortran.org">
-<img src="/assets/img/Fortran-lang-2021-in-review/lfortran-logo-300x300.png">
+<img src="{{ site.baseurl }}/assets/img/Fortran-lang-2021-in-review/lfortran-logo-300x300.png">
 </a>
 </center>
 
@@ -209,7 +209,7 @@ target audiences/use cases:
 
 <center>
 <a href="https://fpm.fortran-lang.org">
-<img src="/assets/img/Fortran-lang-2021-in-review/fpm-docs.png" width="100%">
+<img src="{{ site.baseurl }}/assets/img/Fortran-lang-2021-in-review/fpm-docs.png" width="100%">
 </a>
 </center>
 
@@ -278,7 +278,7 @@ Laurence Kedward, Arjen Markus, Ivan Pribec, and Jérémie Vandenplas
 
 <center>
 <a href="https://arxiv.org/abs/2109.07382">
-<img width="600" src="/assets/img/Fortran-lang-2021-in-review/fortran-lang-paper.png">
+<img width="600" src="{{ site.baseurl }}/assets/img/Fortran-lang-2021-in-review/fortran-lang-paper.png">
 </a>
 </center>
 
