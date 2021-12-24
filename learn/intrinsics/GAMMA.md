@@ -13,10 +13,12 @@ x = gamma(x)
 ```
 ## __Description__
 
-__gamma(x)__ computes Gamma of __x__. For positive, whole number values of __x__ the
-Gamma function simplifies to the factorial function.
-
-__Gamma(x)=(x+1)\!__.
+__gamma(x)__ computes Gamma of __x__. For positive whole number values of __n__ the
+Gamma function can be used to calculate factorials, as  __(n-1)!  == gamma(real(n))__.
+That is 
+```text
+n! == gamma(real(n+1))
+```
 
 $$ \\__Gamma__(x) = \\int\_0\*\*\\infty
 t\*\*{x-1}{\\mathrm{e}}\*\*{__-t__}\\,{\\mathrm{d}}t $$
