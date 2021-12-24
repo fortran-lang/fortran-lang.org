@@ -12,7 +12,7 @@ We're an open source community that aims to develop modern Fortran tooling and
 nurture a rich ecosystem of libraries, as well as to provide a friendly,
 helpful, and inclusive space for newcomers and experienced Fortran programmers
 to work together.
-We started in late 2019 by and have been going since.
+We started in late 2019 by and have been going ever since.
 If you're first discovering (or re-discovering) Fortran through this article,
 welcome, and we hope it inspires you to try Fortran for one of your projects.
 In this article we summarize new developments from 2021,
