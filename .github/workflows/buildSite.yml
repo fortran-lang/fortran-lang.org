@@ -12,7 +12,7 @@ on:
 env:
   SRC_DIR: src
   PUBLISH_DIR: gh-pages
-  FPM_INDEX: "https://raw.githubusercontent.com/fortran-lang/fpm-registry/master/index.json"
+  FPM_INDEX: "https://raw.githubusercontent.com/fortran-lang/fpm-registry/HEAD/index.json"
 
 jobs:
   build:
@@ -20,8 +20,8 @@ jobs:
     
     steps:
 
-    # Checkout master branch into SRC_DIR
-    - name: Checkout master
+    # Checkout default branch into SRC_DIR
+    - name: Checkout default branch
       uses: actions/checkout@v2
       with:
         path: ${{env.SRC_DIR}}

@@ -37,11 +37,11 @@ Here's what's new in Fortran Standard Library:
 
 * [#172](https://github.com/fortran-lang/stdlib/pull/172)
 New function `cov` in the `stdlib_experimental_stats` module to compute covariance of array elements.
-Read the full specification [here](https://github.com/fortran-lang/stdlib/blob/master/src/stdlib_experimental_stats.md#cov---covariance-of-array-elements).
+Read the full specification [here](https://github.com/fortran-lang/stdlib/blob/HEAD/src/stdlib_experimental_stats.md#cov---covariance-of-array-elements).
 
 * [#168](https://github.com/fortran-lang/stdlib/pull/168)
 Specify recommended order of attributes for dummy arguments in the 
-[Stdlib style guide](https://github.com/fortran-lang/stdlib/blob/master/STYLE_GUIDE.md).
+[Stdlib style guide](https://github.com/fortran-lang/stdlib/blob/HEAD/STYLE_GUIDE.md).
 
 * [#173](https://github.com/fortran-lang/stdlib/pull/173)
 Minor bug fix.
@@ -62,7 +62,7 @@ Specifically:
 * FPM can build an executable program, a library, or a combination of both.
 * Currently only gfortran is supported as the compiler backend. FPM will suport other compilers soon.
 
-Read the [FPM packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md)
+Read the [FPM packaging guide](https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md)
 to learn how to build your package with FPM.
 
 FPM is still in very early development, and we need as much help as we can get.

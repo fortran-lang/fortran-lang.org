@@ -31,7 +31,7 @@ See the corresponding community poll and discussion on [Discourse](https://fortr
 * [#112](https://github.com/fortran-lang/fortran-lang.org/issues/112): Plan for core language tutorials.
 
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues) if you have any suggestions for the website and its content.
-We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md) for how to get started.
+We welcome any new contributors to the website and the tutorials page in particular - see the [contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md) for how to get started.
 
 __Did you know__ you don't need to know HTML or any fancy languages to contribute to the website;
 all of the online tutorials and most of the website content are written in [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet), a simple markup language for formatting text - don't worry if you haven't used it before, it's very easy to pick up!
@@ -77,7 +77,7 @@ Minor improvements to the README.
 fpm is still in very early development, and we need as much help as we can get.
 Here's how you can help today:
 
-* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm.
+* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md) to learn how to build your package with fpm.
 * Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.
 * Adapt your Fortran package for fpm.
 * Improve the documentation.
