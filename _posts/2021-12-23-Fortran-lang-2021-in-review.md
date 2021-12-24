@@ -66,7 +66,7 @@ key improvements in terms of stdlib delivery:
    As stdlib matures and becomes more widely used, we expect releases to become
    more frequent.
 3. We now maintain a
-  [change log](https://github.com/fortran-lang/stdlib/blob/master/CHANGELOG.md) where every change to the API is documented.
+  [change log](https://github.com/fortran-lang/stdlib/blob/HEAD/CHANGELOG.md) where every change to the API is documented.
   This is a useful document to reference when you want to know what's been
   added to the stdlib since the latest release.
 
