@@ -23,7 +23,7 @@ from flagship projects to community development and outreach.
 ## Standard Library (stdlib)
 
 To date, [33 people](https://github.com/fortran-lang/stdlib/graphs/contributors)
-have contributed code to stdlib.
+have contributed code to stdlib, and more than 100 people have joined in discussions.
 More than a dozen new modules have been added in 2021:
 
 * `stdlib_array`: Provides `trueloc` and `falseloc` which allow you
@@ -46,9 +46,9 @@ More than a dozen new modules have been added in 2021:
   is compatible with all intrinsic procedures that operate on `character`.
 * `stdlib_stringlist_type`: A derived type that is a 1-dimensional list of
   strings.
-* `stdlib_strings`: Provides a number inquiry and manipulation procedures that
+* `stdlib_strings`: Provides a number of inquiry and manipulation procedures that
   complement the intrinsic set.
-* `stdlib_version`: Allows querying the version of the stlib library build.
+* `stdlib_version`: Allows querying the version of the stdlib library build.
 
 which brings us to a total of 23 modules in stdlib.
 You can read about these modules in more detail on the
@@ -62,9 +62,9 @@ key improvements in terms of stdlib delivery:
    This significantly lowers the bar for getting started with stdlib.
 2. We had our first stdlib release (0.1.0) on October 4. As of now we don't have
    a set release schedule, and plan to publish a new release when there is
-   significant new functionality in.
+   significant new functionality.
    As stdlib matures and becomes more widely used, we expect releases to become
-   to become more frequent.
+   more frequent.
 3. We now maintain a
   [change log](https://github.com/fortran-lang/stdlib/blob/master/CHANGELOG.md) where every change to the API is documented.
   This is a useful document to reference when you want to know what's been
@@ -111,6 +111,7 @@ Check out also these fpm plugins:
   Adds the `fpm man` command for displaying man-style help pages about Fortran
   intrinsics and other language features.
 
+At the time of writing, there are almost 200 projects now using fpm.
 If you haven't tried fpm yet, please do!
 It has truly been a game-changing tool for many of us.
 
@@ -233,7 +234,7 @@ variety of projects:
 You can read in more detail about their projects
 [here](https://summerofcode.withgoogle.com/archive/2021/organizations/6542461173760000).
 
-Big thank you to all students, mentors, and administrators, for their great
+A big thank you to all students, mentors, and administrators, for their great
 work, and of course, to the Google Summer of Code program for making it
 possible for students to participate.
 
