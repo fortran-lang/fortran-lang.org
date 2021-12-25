@@ -201,11 +201,11 @@ documentation website for fpm, developed by
 It's key aim is to provide community-maintained documentation across four
 target audiences/use cases:
 
-* Tutorials: for learning how to use fpm for Fortran development
-* How-to guides: recipes for specific and concrete problems
-* Design documents: resources that document the design of various aspects of
+* **Tutorials**: for learning how to use fpm for Fortran development
+* **How-to guides**: recipes for specific and concrete problems
+* **Design documents**: resources that document the design of various aspects of
   fpm
-* References: specification documents of fpm components
+* **References**: specification documents of fpm components
 
 <center>
 <a href="https://fpm.fortran-lang.org">
