@@ -138,6 +138,8 @@ You can help speed up LFortran's development by contributing code and/or
 documentation directly, or by donating funds to the project via
 [NumFOCUS](https://numfocus.org/project/lfortran).
 
+Follow LFortran on Twitter at [@lfortranorg](https://twitter.com/lfortranorg).
+
 ## fortran-lang.org, Discourse, and social media
 
 A major addition to the Fortran website this year is the
