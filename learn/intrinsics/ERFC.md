@@ -11,12 +11,29 @@ __erfc__(3) - \[MATHEMATICS\] Complementary error function
 ## __Syntax__
 ```fortran
 result = erfc(x)
+
+   elemental function erfc(x)
+   real(kind=KIND) :: erfc
+   real(kind=KIND),intent(in) :: x
 ```
 ## __Description__
 
-__erfc__(x) computes the complementary error function of __x__, defined as
-$$ 1 - \\text{erf}(x) = 1 - \\frac{2}{\\sqrt{\\pi}} \\int\_0\*\*x
-e\*\*{__-t__\*\*2} dt. $$
+__erfc__(x) computes the complementary error function of __x__.  Simpy put
+this is equivalent to __1 - erf(x)__, but __erfc__ is provided because
+of the extreme loss of relative accuracy if __erf(x)__ is called for
+large __x__ and the result is subtracted from __1__.
+
+__erfc(x)__ is defined as
+
+<!--
+$$
+\text{erfc}(x) = 1 - \text{erf}(x) = 1 - \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt.
+$$
+-->
+
+$$
+\text{erfc}(x) = 1 - \text{erf}(x) = 1 - \frac{2}{\sqrt{\pi}} \int_x^{\infty} e^{-t^2} dt.
+$$
 
 ## __Arguments__
 
@@ -51,4 +68,9 @@ end program demo_erfc
 
 Fortran 2008 and later
 
-###### fortran-lang intrinsic descriptions
+## See also
+[__erf__(3)](ERF)
+
+- [Wikipedia:error function](https://en.wikipedia.org/wiki/Error_function)
+
+###### fortran-lang intrinsic descriptions @urbanjost

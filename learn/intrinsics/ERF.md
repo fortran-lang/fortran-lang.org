@@ -15,8 +15,7 @@ result = erf(x)
 ## __Description__
 
 __erf__(x) computes the error function of __x__, defined as $$
-\\text{erf}(x) = \\frac{2}{\\sqrt{\\pi}} \\int\_0\*\*x
-e\*\*{__-t__\*\*2} dt. $$
+\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{__-t__^2} dt. $$
 
 ## __Arguments__
 
@@ -48,5 +47,11 @@ end program demo_erf
 ## __Standard__
 
 Fortran 2008 and later
+
+## See also
+
+[__erfc__(3)](ERFC)
+
+- [Wikipedia:error function](https://en.wikipedia.org/wiki/Error_function)
 
 ###### fortran-lang intrinsic descriptions
