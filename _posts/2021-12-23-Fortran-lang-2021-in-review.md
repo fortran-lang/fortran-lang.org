@@ -248,8 +248,9 @@ don't hesitate to contact us and we'll guide you toward applying.
 
 ### FortranCon 2021
 
-Like in 2020, the Fortran event of this year was FortranCon 2021, the
-international Fortran conference, held on September 23-24. 
+Like in 2020, the Fortran event of this year was
+[FortranCon 2021](https://tcevents.chem.uzh.ch/event/14/), the international
+Fortran conference, held on September 23-24.
 The keynote speaker this year was [Damian Rouson](https://github.com/rouson),
 the head of the
 [Computer Languages and Systems Software (CLaSS)](https://crd.lbl.gov/divisions/amcr/computer-science-amcr/class/)
