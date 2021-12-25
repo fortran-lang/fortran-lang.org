@@ -238,6 +238,12 @@ A big thank you to all students, mentors, and administrators, for their great
 work, and of course, to the Google Summer of Code program for making it
 possible for students to participate.
 
+We plan to apply for Google Summer of Code in 2022 as well.
+The program is no longer limited to students and anybody 18 or older can apply
+to work on an open source project and get paid for it.
+If you're interested participating in the program in 2022 with Fortran-lang,
+don't hesitate to contact us and we'll guide you toward applying.
+
 ## Conferences and papers
 
 ### FortranCon 2021
