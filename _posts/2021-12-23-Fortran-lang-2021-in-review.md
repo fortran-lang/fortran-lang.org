@@ -200,7 +200,7 @@ Give test-drive a test drive for your next Fortran project!
 [fpm-docs](https://github.com/fortran-lang/fpm-docs) is a brand new user
 documentation website for fpm, developed by
 [Sebastian Ehlert](https://github.com/awvwgk).
-It's key aim is to provide community-maintained documentation across four
+Its key aim is to provide community-maintained documentation across four
 target audiences/use cases:
 
 * **Tutorials**: for learning how to use fpm for Fortran development
@@ -223,7 +223,7 @@ located at [fortran-lang.github.io/fpm/](https://fortran-lang.github.io/fpm/).
 
 2021 has been the first year for Fortran-lang to participate in the
 [Google Summer of Code](https://summerofcode.withgoogle.com/) program.
-Together with NumFOCUS and LFortran, Fortran-lang had six students work on a 
+Together with NumFOCUS and LFortran, Fortran-lang had six students who worked on a 
 variety of projects:
 
 * [Aman Godara](https://github.com/Aman-Godara) (Improving strings in stdlib)
