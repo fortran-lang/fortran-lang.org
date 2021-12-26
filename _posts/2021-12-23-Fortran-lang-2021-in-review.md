@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran-lang: 2021 in review"
 category: newsletter
-author: Milan Curcic, Ondřej Čertík, Laurence Kedward, Sebastian Ehlert
+author: Milan Curcic, Ondřej Čertík, Laurence Kedward, Sebastian Ehlert, Jérémie Vandenplas
 ---
 
 With another year behind us, let's review all the progress that the
