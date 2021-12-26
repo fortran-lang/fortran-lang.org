@@ -155,7 +155,7 @@ The [Fortran Discourse](https://fortran-lang.discourse.group) is as active
 as ever, with new users joining daily.
 There are currently 338 active users out of a total of 535 registered users.
 The Fortran Discourse is a great place to ask for help with Fortran code, post
-a Fortran-related job opening, and discuss anything Fortran related.
+a Fortran job opening, and discuss anything Fortran-related.
 
 We also continue to release the monthly newsletter where we
 document the progress month-by-month, as well as post about any notable events
