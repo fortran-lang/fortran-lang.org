@@ -237,7 +237,7 @@ You can read in more detail about their projects
 [here](https://summerofcode.withgoogle.com/archive/2021/organizations/6542461173760000).
 
 A big thank you to all students, mentors, and administrators, for their great
-work, and of course, to the Google Summer of Code program for making it
+work, and of course, to the Google Summer of Code program for making
 possible for students to participate.
 
 We plan to apply for Google Summer of Code in 2022 as well.
