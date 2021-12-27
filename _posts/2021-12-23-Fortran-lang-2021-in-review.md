@@ -167,6 +167,11 @@ updates, as well as the new [@FortranTip](https://twitter.com/FortranTip)
 account, managed by [Beliavsky](https://github.com/beliavsky), which brings
 daily Fortran tips to your Twitter feed.
 
+Finally, we meet on monthly video calls to discuss issues and topics related to all
+Fortran-lang projects.
+The calls are advertised on Fortran Discourse and are open to everyone.
+Don't hesitate to join the call to meet other Fortran-lang participants and take part
+in different discussions.
 ## New projects
 
 In addition to the flagship projects summarized above, a few new projects
