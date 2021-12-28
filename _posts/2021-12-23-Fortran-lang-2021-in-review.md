@@ -145,7 +145,7 @@ Follow LFortran on Twitter at [@lfortranorg](https://twitter.com/lfortranorg).
 A major addition to the Fortran website this year is the
 [Fortran Best Practices mini-book](https://fortran-lang.org/learn/best_practices).
 This is a port and an update to the well-known
-[fortran90.org](https://fortran90.org) by
+[fortran90.org](https://www.fortran90.org) by
 [Ondřej Čertík](https://github.com/certik).
 It provides a plethora of tips on how to write simple and idiomatic Fortran
 for numerical tasks, and how to avoid some common gotchas.
