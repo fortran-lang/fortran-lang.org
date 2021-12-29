@@ -296,7 +296,8 @@ recording below:
 
 ### Papers
 
-This year we also wrote our first paper documenting the motivation and goals of
+This year two papers have been written about Fortran-lang projects.
+The first paper documents the motivation and goals of
 Fortran-lang: "Toward Modern Fortran Tooling and a Thriving Developer
 Community" by Milan Curcic, Ondřej Čertík, Brad Richardson, Sebastian Ehlert,
 Laurence Kedward, Arjen Markus, Ivan Pribec, and Jérémie Vandenplas
