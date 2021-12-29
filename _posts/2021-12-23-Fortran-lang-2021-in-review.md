@@ -308,8 +308,8 @@ Laurence Kedward, Arjen Markus, Ivan Pribec, and Jérémie Vandenplas
 </a>
 </center>
 
-If you use any of the Fortran-lang projects for your publications,
-please cite this paper as:
+If Fortran-lang has been helpful in your work and if you want to cite this paper,
+here's the citation info:
 
 ```bibtex
 @article{curcic2021toward,
