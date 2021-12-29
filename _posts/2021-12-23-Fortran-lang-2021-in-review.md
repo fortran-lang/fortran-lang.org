@@ -143,6 +143,7 @@ LFortran has been developing rapidly this year and was released as a
 [Minimum Viable Product (MVP)](https://lfortran.org/blog/2021/09/lfortran-minimum-viable-product-mvp/) in September.
 LFortran currently parses all of Fortran 2018 and compiles a significant
 subset of the language.
+16 people have contributed code so far, and many more have reported bugs or participated in discussions.
 If you haven't tried LFortran yet, please do and let us know how it can best
 improve for your use case.
 You can help speed up LFortran's development by contributing code and/or
