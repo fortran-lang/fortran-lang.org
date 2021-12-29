@@ -331,6 +331,10 @@ We have also submitted a paper draft to IEEE's
 [Computing in Science & Engineering (CiSE)](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=5992)
 journal, titled "The State of Fortran" and led by
 [Laurence Kedward](https://github.com/lkedward).
+For this paper, we have
+[publicly invited on Discourse](https://fortran-lang.discourse.group/t/fortran-lang-community-paper/1232)
+anybody in the Fortran-lang community to participate.
+Once published, this will be another paper that you can cite.
 Stay tuned for its publication.
 
 ## Summary
