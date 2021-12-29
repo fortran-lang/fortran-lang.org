@@ -72,6 +72,8 @@ key improvements in terms of stdlib delivery:
 
 If you haven't tried stdlib yet, please do and let us know what you think
 and how we can improve it.
+Our vision for stdlib is to provide basic utilities that most Fortran projects use,
+as well as wider numerical capabilities with the scope of NumPy and SciPy.
 
 ## Fortran Package Manager (fpm)
 
