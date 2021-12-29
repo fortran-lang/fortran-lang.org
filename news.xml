@@ -4,12 +4,402 @@
     <title type="text" xml:lang="en">Fortran Newsletter</title>
     <link type="application/atom+xml" href="https://fortran-lang.org/news.xml" rel="self"/>
     <link type="text" href="https://fortran-lang.org/news" rel="alternate"/>
-    <updated>2021-12-24T18:25:40+00:00</updated>
+    <updated>2021-12-29T18:45:59+00:00</updated>
     <id>/news</id>
     <author>
         <name></name>
     </author>
 
+    
+    <entry>
+        <title>Fortran-lang: 2021 in review</title>
+        <link href="https://fortran-lang.org/newsletter/2021/12/29/Fortran-lang-2021-in-review/"/>
+        <updated>2021-12-29T00:00:00+00:00</updated>
+        <id>/news/newsletter/2021/12/29/Fortran-lang-2021-in-review</id>
+        <content type="html">&lt;p&gt;With another year behind us, let’s review the progress that the
+Fortran-lang community has made.
+If you’re new to Fortran-lang, here’s a quick intro:
+We’re an open source community that aims to develop modern Fortran tooling and
+nurture a rich ecosystem of libraries, as well as to provide a friendly,
+helpful, and inclusive space for newcomers and experienced Fortran programmers
+to work together.
+We started in late 2019 and have been going ever since.
+If you’re first discovering (or re-discovering) Fortran through this article,
+welcome, and we hope it inspires you to try Fortran for one of your projects.
+In this article we summarize new developments from 2021,
+from flagship and new projects to community development and outreach.&lt;/p&gt;
+
+&lt;ul id=&quot;page-nav&quot;&gt;&lt;/ul&gt;
+
+&lt;h2 id=&quot;standard-library-stdlib&quot;&gt;Standard Library (stdlib)&lt;/h2&gt;
+
+&lt;p&gt;To date, &lt;a href=&quot;https://github.com/fortran-lang/stdlib/graphs/contributors&quot;&gt;33 people&lt;/a&gt;
+have contributed code to stdlib, and more than 100 people have participated in
+discussions.
+More than a dozen new modules have been added in 2021:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_array&lt;/code&gt;: Provides &lt;code class=&quot;highlighter-rouge&quot;&gt;trueloc&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;falseloc&lt;/code&gt; which allow you
+to index an array based on a logical condition in a functional style&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_hash&lt;/code&gt;: Provides many hash algorithms, 32- and 64-bit alike&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_math&lt;/code&gt;: Provides a number of common mathematical functions&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_random&lt;/code&gt;: Pseudo-random integer number generation&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_selection&lt;/code&gt;: Selection procedures for selecting elements from an array
+given a desired range&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_sorting&lt;/code&gt;: Sorting procedures based on Rust’s sorting algorithm and
+introsort by David Musser&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_specialfunctions&lt;/code&gt;: Provides the Legendre function and its derivative
+in support of the Gaussian quadrature procedures&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_stats_distribution_normal&lt;/code&gt;: Functions to sample values from a normal
+distribution&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_stats_distribution_uniform&lt;/code&gt;: Functions to sample values from a uniform
+distribution&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_string_type&lt;/code&gt;: Provides a &lt;code class=&quot;highlighter-rouge&quot;&gt;string_type&lt;/code&gt; derived type that alleviates
+some limitations of the variable-length &lt;code class=&quot;highlighter-rouge&quot;&gt;character&lt;/code&gt; variables. &lt;code class=&quot;highlighter-rouge&quot;&gt;string_type&lt;/code&gt;
+is compatible with all intrinsic procedures that operate on &lt;code class=&quot;highlighter-rouge&quot;&gt;character&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_stringlist_type&lt;/code&gt;: A derived type that is a 1-dimensional list of
+strings&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_strings&lt;/code&gt;: Provides a number of inquiry and manipulation procedures that
+complement the intrinsic set&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;stdlib_version&lt;/code&gt;: Allows querying the version of the stdlib library build&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;which brings us to a total of 23 modules in stdlib.
+You can read about these modules in more detail on the
+&lt;a href=&quot;https://stdlib.fortran-lang.org&quot;&gt;stdlib API docs website&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Besides the new modules, procedures, and derived types, there have been a few
+key improvements in terms of stdlib delivery:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;You can now use stdlib as a dependency in your fpm projects,
+see &lt;a href=&quot;https://github.com/fortran-lang/stdlib#build-with-fortran-langfpm&quot;&gt;here&lt;/a&gt;.
+This significantly lowers the bar for getting started with stdlib.&lt;/li&gt;
+  &lt;li&gt;We had our first stdlib release (0.1.0) on October 4. As of now we don’t have
+a set release schedule, and plan to publish a new release when there is
+significant new functionality.
+As stdlib matures and becomes more widely used, we expect releases to become
+more frequent.&lt;/li&gt;
+  &lt;li&gt;We now maintain a
+  &lt;a href=&quot;https://github.com/fortran-lang/stdlib/blob/HEAD/CHANGELOG.md&quot;&gt;change log&lt;/a&gt; where every change to the API is documented.
+  This is a useful document to reference when you want to know what’s been
+  added to the stdlib since the latest release.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If you haven’t tried stdlib yet, please do and let us know what you think
+and how we can improve it.
+Our vision for stdlib is to provide basic utilities that most Fortran projects use,
+as well as wider numerical capabilities with the scope of NumPy and SciPy.&lt;/p&gt;
+
+&lt;h2 id=&quot;fortran-package-manager-fpm&quot;&gt;Fortran Package Manager (fpm)&lt;/h2&gt;
+
+&lt;p&gt;Fortran Package Manager (fpm) is the package manager and build system for
+Fortran.
+Its key goal is to make developing, distributing, and reusing Fortran
+libraries and applications as easy and as fun as possible.
+In 2020, the big change for fpm was the transition from the prototype
+implemented in Haskell to a pure Fortran implementation.
+Fpm has since been used in increasingly more and ever larger Fortran projects.&lt;/p&gt;
+
+&lt;p&gt;To date, &lt;a href=&quot;https://github.com/fortran-lang/fpm/graphs/contributors&quot;&gt;22 people&lt;/a&gt;
+have contributed code to fpm.
+In 2021 fpm has advanced from v0.1.3 to v0.5.0.
+Key additions this year include (release version in parentheses):&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;CLI arguments for linker, archiver, and C compiler (0.5.0)&lt;/li&gt;
+  &lt;li&gt;Support for MPI and LFortran (0.4.0)&lt;/li&gt;
+  &lt;li&gt;Support for installed library modules via &lt;code class=&quot;highlighter-rouge&quot;&gt;external-modules&lt;/code&gt; in the manifest
+(0.3.0)&lt;/li&gt;
+  &lt;li&gt;Automatic discovery of manifest files in parent directories (0.3.0)&lt;/li&gt;
+  &lt;li&gt;Support for reading package version from file (0.3.0)&lt;/li&gt;
+  &lt;li&gt;Support for include directories (0.2.0)&lt;/li&gt;
+  &lt;li&gt;Support for &lt;code class=&quot;highlighter-rouge&quot;&gt;--flag&lt;/code&gt; CLI option to specify compiler flags (0.2.0)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fpm build --show-model&lt;/code&gt; displays the internal representation of a package
+(0.1.4)&lt;/li&gt;
+  &lt;li&gt;Allow hyphen in new package names (0.1.4)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fpm new&lt;/code&gt; now supports &lt;code class=&quot;highlighter-rouge&quot;&gt;--full&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;--bare&lt;/code&gt; to specify level of scaffolding
+(0.1.4)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Check out also these fpm plugins:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/brocolis/fpm-search&quot;&gt;fpm-search&lt;/a&gt;:
+Adds the &lt;code class=&quot;highlighter-rouge&quot;&gt;fpm search&lt;/code&gt; command for searching for registered fpm packages from
+the command line.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/urbanjost/fpm-man&quot;&gt;fpm-man&lt;/a&gt;:
+Adds the &lt;code class=&quot;highlighter-rouge&quot;&gt;fpm man&lt;/code&gt; command for displaying man-style help pages about Fortran
+intrinsics and other language features.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At the time of writing, there are almost 200 projects now using fpm.
+If you haven’t tried fpm yet, please do!
+It has truly been a game-changing tool for many of us.&lt;/p&gt;
+
+&lt;p&gt;We have many ideas that we want to pursue, such as:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;First-class integration with other package managers such as Spack and Conda&lt;/li&gt;
+  &lt;li&gt;First-class integration with build systems like CMake and Meson&lt;/li&gt;
+  &lt;li&gt;Improving &lt;a href=&quot;https://github.com/fortran-lang/fpm-registry&quot;&gt;fpm’s package registry&lt;/a&gt;, etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We are always looking for new contributors.
+If any of these projects interest you, please join us.&lt;/p&gt;
+
+&lt;h2 id=&quot;lfortran&quot;&gt;LFortran&lt;/h2&gt;
+
+&lt;center&gt;
+&lt;a href=&quot;https://lfortran.org&quot;&gt;
+&lt;img src=&quot;/assets/img/Fortran-lang-2021-in-review/lfortran-logo-300x300.png&quot; /&gt;
+&lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;Though not technically a Fortran-lang project,
+&lt;a href=&quot;https://lfortran.org&quot;&gt;LFortran&lt;/a&gt; has been growing close to the Fortran-lang
+community and projects largely thanks to its creator and lead developer 
+&lt;a href=&quot;https://github.com/certik&quot;&gt;Ondřej Čertík&lt;/a&gt; also being one of the founding
+members of Fortran-lang.
+LFortran has been developing rapidly this year and was released as a
+&lt;a href=&quot;https://lfortran.org/blog/2021/09/lfortran-minimum-viable-product-mvp/&quot;&gt;Minimum Viable Product (MVP)&lt;/a&gt; in September.
+LFortran currently parses all of Fortran 2018 and compiles a significant
+subset of the language.
+16 people have contributed code so far, and many more have reported bugs or participated in discussions.
+If you haven’t tried LFortran yet, please do and let us know how it can best
+improve for your use case.
+You can help speed up LFortran’s development by contributing code and/or
+documentation directly, or by donating funds to the project via
+&lt;a href=&quot;https://numfocus.org/project/lfortran&quot;&gt;NumFOCUS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Follow LFortran on Twitter at &lt;a href=&quot;https://twitter.com/lfortranorg&quot;&gt;@lfortranorg&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;fortran-langorg-discourse-and-social-media&quot;&gt;fortran-lang.org, Discourse, and social media&lt;/h2&gt;
+
+&lt;p&gt;A major addition to the Fortran website this year is the
+&lt;a href=&quot;https://fortran-lang.org/learn/best_practices&quot;&gt;Fortran Best Practices mini-book&lt;/a&gt;.
+This is a port and an update to the well-known
+&lt;a href=&quot;https://www.fortran90.org&quot;&gt;fortran90.org&lt;/a&gt; by
+&lt;a href=&quot;https://github.com/certik&quot;&gt;Ondřej Čertík&lt;/a&gt;.
+It provides a plethora of tips on how to write simple and idiomatic Fortran
+for numerical tasks, and how to avoid some common gotchas.
+Give it a read and let us know how it can be improved.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://fortran-lang.discourse.group&quot;&gt;Fortran Discourse&lt;/a&gt; is as active
+as ever, with new users joining daily.
+There are currently 338 active users out of a total of 537 registered users.
+The Fortran Discourse is a great place to ask for help with Fortran code, post
+a Fortran job opening, and discuss anything Fortran-related.&lt;/p&gt;
+
+&lt;p&gt;We also continue to release the monthly newsletter where we
+document the progress month-by-month, as well as post about any notable events
+in the Fortran world.
+This newsletter is a great way to stay up to date with Fortran-lang.
+If you’re also on Twitter, follow our account
+&lt;a href=&quot;https://twitter.com/fortranlang&quot;&gt;@fortranlang&lt;/a&gt; for daily bite-size news and
+updates, as well as the new &lt;a href=&quot;https://twitter.com/FortranTip&quot;&gt;@FortranTip&lt;/a&gt;
+account, managed by &lt;a href=&quot;https://github.com/beliavsky&quot;&gt;Beliavsky&lt;/a&gt;, which brings
+daily Fortran tips to your Twitter feed.&lt;/p&gt;
+
+&lt;p&gt;Finally, we meet on monthly video calls to discuss issues and topics related to all
+Fortran-lang projects.
+The calls are advertised on Fortran Discourse and are open to everyone.
+Don’t hesitate to join the call to meet other Fortran-lang participants and take part
+in different discussions.&lt;/p&gt;
+&lt;h2 id=&quot;new-projects&quot;&gt;New projects&lt;/h2&gt;
+
+&lt;p&gt;In addition to the flagship projects summarized above, a few new projects
+started or were adopted by Fortran-lang this year.&lt;/p&gt;
+
+&lt;h3 id=&quot;fftpack&quot;&gt;fftpack&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/fortran-lang/fftpack&quot;&gt;fftpack&lt;/a&gt; is a classic collection of
+subroutines to perform the Fast Fourier Transform on real and complex data.
+It is based on the classic
+&lt;a href=&quot;http://www.netlib.org/fftpack/&quot;&gt;FFTPACK library from Netlib&lt;/a&gt;.
+fftpack was adopted by Fortran-lang in an effort to provide:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A community-maintained FFT library&lt;/li&gt;
+  &lt;li&gt;Bug fixes to the existing codebase&lt;/li&gt;
+  &lt;li&gt;Modern interfaces on top of the existing API&lt;/li&gt;
+  &lt;li&gt;fpm package for easy use as a dependency.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;test-drive&quot;&gt;test-drive&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/fortran-lang/test-drive&quot;&gt;Test-drive&lt;/a&gt; is a simple and 
+easy-to-use testing framework developed by
+&lt;a href=&quot;https://github.com/awvwgk&quot;&gt;Sebastian Ehlert&lt;/a&gt;.
+It follows a simple functional style to collect and run your tests in parallel
+and print a minimal and clean diagnostic printout to the standard output. 
+Test-drive is currently used by both stdlib and fpm for their own test suites.
+Give test-drive a test drive for your next Fortran project!&lt;/p&gt;
+
+&lt;h3 id=&quot;fpm-docs&quot;&gt;fpm-docs&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/fortran-lang/fpm-docs&quot;&gt;fpm-docs&lt;/a&gt; is a brand new user
+documentation website for fpm, developed by
+&lt;a href=&quot;https://github.com/awvwgk&quot;&gt;Sebastian Ehlert&lt;/a&gt;.
+Its key aim is to provide community-maintained documentation across four
+target audiences/use cases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Tutorials&lt;/strong&gt;: for learning how to use fpm for Fortran development&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;How-to guides&lt;/strong&gt;: recipes for specific and concrete problems&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Design documents&lt;/strong&gt;: resources that document the design of various aspects of
+fpm&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;References&lt;/strong&gt;: specification documents of fpm components&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;
+&lt;a href=&quot;https://fpm.fortran-lang.org&quot;&gt;
+&lt;img src=&quot;/assets/img/Fortran-lang-2021-in-review/fpm-docs.png&quot; width=&quot;100%&quot; /&gt;
+&lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;As the fpm user docs are now hosted at
+&lt;a href=&quot;https://fpm.fortran-lang.org&quot;&gt;fpm.fortran-lang.org&lt;/a&gt;, the API docs are now
+located at &lt;a href=&quot;https://fortran-lang.github.io/fpm/&quot;&gt;fortran-lang.github.io/fpm/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;google-summer-of-code-2021&quot;&gt;Google Summer of Code 2021&lt;/h2&gt;
+
+&lt;p&gt;2021 has been the first year for Fortran-lang to participate in the
+&lt;a href=&quot;https://summerofcode.withgoogle.com/&quot;&gt;Google Summer of Code&lt;/a&gt; program.
+Together with NumFOCUS and LFortran, Fortran-lang had six students who worked on a 
+variety of projects:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Aman-Godara&quot;&gt;Aman Godara&lt;/a&gt; (Improving strings in stdlib)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/chetankarwa&quot;&gt;Chetan Karwa&lt;/a&gt; (Linked lists in stdlib)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/czgdp1807&quot;&gt;Gagandeep Singh&lt;/a&gt; (Arrays and allocatables in LFortran)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubajj&quot;&gt;Jakub Jelínek&lt;/a&gt; (Compiler arguments in fpm)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://rgoswami.me/&quot;&gt;Rohit Goswami&lt;/a&gt; (Compiling dftatom with LFortran)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Thirumalai-Shaktivel&quot;&gt;Thirumalai Shaktivel&lt;/a&gt; (AST generation in LFortran)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can read in more detail about their projects
+&lt;a href=&quot;https://summerofcode.withgoogle.com/archive/2021/organizations/6542461173760000&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A big thank you to all students, mentors, and administrators, for their great
+work, and of course, to the Google Summer of Code program for making
+possible for students to participate.&lt;/p&gt;
+
+&lt;p&gt;We plan to apply for Google Summer of Code in 2022 as well.
+The program is no longer limited to students and anybody 18 or older can apply
+to work on an open source project and get paid for it.
+If you’re interested participating in the program in 2022 with Fortran-lang,
+don’t hesitate to contact us and we’ll guide you toward applying.&lt;/p&gt;
+
+&lt;h2 id=&quot;conferences-and-papers&quot;&gt;Conferences and papers&lt;/h2&gt;
+
+&lt;h3 id=&quot;fortrancon-2021&quot;&gt;FortranCon 2021&lt;/h3&gt;
+
+&lt;p&gt;Like in 2020, the Fortran event of this year was
+&lt;a href=&quot;https://tcevents.chem.uzh.ch/event/14/&quot;&gt;FortranCon 2021&lt;/a&gt;, the international
+Fortran conference, held on September 23-24.
+The keynote speaker this year was &lt;a href=&quot;https://github.com/rouson&quot;&gt;Damian Rouson&lt;/a&gt;,
+the head of the
+&lt;a href=&quot;https://crd.lbl.gov/divisions/amcr/computer-science-amcr/class/&quot;&gt;Computer Languages and Systems Software (CLaSS)&lt;/a&gt;
+group at the Lawrence Berkeley National Lab. 
+Fortran-lang had a dedicated session (a Fortran-lang minisymposium) on the
+second day of the conference, with the talks about specific Fortran-lang
+projects as well as the Google Summer of Code student presentations.
+FortranCon was hosted at the University of Zurich (UZH), and organized by
+&lt;a href=&quot;https://github.com/dev-zero&quot;&gt;Tiziano Müller&lt;/a&gt; from UZH and
+&lt;a href=&quot;https://github.com/alazzaro&quot;&gt;Alfio Lazzaro&lt;/a&gt; from Hewlett-Packard Enterprise.
+You can watch all FortranCon 2021 talks &lt;a href=&quot;https://www.youtube.com/playlist?list=PLeKbr7eYHjt5UaV9zQtY24oEbne9_uFni&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;packagingcon-2021&quot;&gt;PackagingCon 2021&lt;/h3&gt;
+
+&lt;p&gt;Another big event for Fortran-lang was
+&lt;a href=&quot;https://packaging-con.org/&quot;&gt;PackagingCon 2021&lt;/a&gt;, a conference dedicated to
+package management software and its community of developers.
+&lt;a href=&quot;https://github.com/awvwgk&quot;&gt;Sebastian Ehlert&lt;/a&gt; presented fpm–you can watch the
+recording below:&lt;/p&gt;
+
+&lt;center&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/YG8zEM1lAVM&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;/center&gt;
+
+&lt;h3 id=&quot;papers&quot;&gt;Papers&lt;/h3&gt;
+
+&lt;p&gt;This year two papers have been written about Fortran-lang projects.
+The first paper documents the motivation and goals of
+Fortran-lang: “Toward Modern Fortran Tooling and a Thriving Developer
+Community” by Milan Curcic, Ondřej Čertík, Brad Richardson, Sebastian Ehlert,
+Laurence Kedward, Arjen Markus, Ivan Pribec, and Jérémie Vandenplas
+(&lt;a href=&quot;https://arxiv.org/abs/2109.07382&quot;&gt;https://arxiv.org/abs/2109.07382&lt;/a&gt;).&lt;/p&gt;
+
+&lt;center&gt;
+&lt;a href=&quot;https://arxiv.org/abs/2109.07382&quot;&gt;
+&lt;img width=&quot;600&quot; src=&quot;/assets/img/Fortran-lang-2021-in-review/fortran-lang-paper.png&quot; /&gt;
+&lt;/a&gt;
+&lt;/center&gt;
+
+&lt;p&gt;If Fortran-lang has been helpful in your work and if you want to cite this paper,
+here’s the citation info:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bibtex&quot;&gt;@article{curcic2021toward,
+  title={Toward Modern Fortran Tooling and a Thriving Developer Community},
+  author={Curcic, Milan and
+          {\v{C}}ert{\'\i}k, Ond{\v{r}}ej and
+          Richardson, Brad and
+          Ehlert, Sebastian and
+          Kedward, Laurence and
+          Markus, Arjen and
+          Pribec, Ivan and
+          Vandenplas, J{\'e}r{\'e}mie},
+  journal={arXiv preprint arXiv:2109.07382},
+  year={2021}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We have also submitted a paper draft to IEEE’s
+&lt;a href=&quot;https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=5992&quot;&gt;Computing in Science &amp;amp; Engineering (CiSE)&lt;/a&gt;
+journal, titled “The State of Fortran” and led by
+&lt;a href=&quot;https://github.com/lkedward&quot;&gt;Laurence Kedward&lt;/a&gt;.
+For this paper, we have
+&lt;a href=&quot;https://fortran-lang.discourse.group/t/fortran-lang-community-paper/1232&quot;&gt;publicly invited on Discourse&lt;/a&gt;
+anybody in the Fortran-lang community to participate.
+Once published, this will be another paper that you can cite.
+Stay tuned for its publication.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2021 is behind us as another productive year.&lt;/li&gt;
+  &lt;li&gt;Fortran-lang flagship projects such as
+&lt;a href=&quot;https://github.com/fortran-lang/stdlib&quot;&gt;stdlib&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/fortran-lang/fpm&quot;&gt;fpm&lt;/a&gt;,
+&lt;a href=&quot;https://fortran-lang.org&quot;&gt;fortran-lang.org&lt;/a&gt;, and
+&lt;a href=&quot;https://lfortran.org&quot;&gt;LFortran&lt;/a&gt; continue to grow and gain traction.&lt;/li&gt;
+  &lt;li&gt;New Fortran-lang projects include
+&lt;a href=&quot;https://github.com/fortran-lang/fftpack&quot;&gt;fftpack&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/fortran-lang/test-drive&quot;&gt;test-drive&lt;/a&gt;, and
+&lt;a href=&quot;https://github.com/fortran-lang/fpm-docs&quot;&gt;fpm-docs&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Fortran-lang participated in the
+&lt;a href=&quot;https://summerofcode.withgoogle.com/&quot;&gt;Google Summer of Code&lt;/a&gt; program for
+the first time, and had 6 students working on projects across stdlib, fpm,
+and LFortran.&lt;/li&gt;
+  &lt;li&gt;We had several presentations of Fortran-lang projects at
+&lt;a href=&quot;https://www.youtube.com/playlist?list=PLeKbr7eYHjt5UaV9zQtY24oEbne9_uFni&quot;&gt;FortranCon 2021&lt;/a&gt; and
+&lt;a href=&quot;https://www.youtube.com/watch?v=YG8zEM1lAVM&quot;&gt;PackagingCon 2021&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;New Fortran-lang &lt;a href=&quot;https://arxiv.org/abs/2109.07382&quot;&gt;paper&lt;/a&gt; is out and 
+another is in review.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;thanks&quot;&gt;Thanks&lt;/h2&gt;
+
+&lt;p&gt;We thank all people who contributed to Fortran-lang projects and discussions
+on GitHub, Fortran Discourse, Fortran-lang mailing list, Twitter, and 
+elsewhere.
+It wouldn’t have been possible without you all.&lt;/p&gt;
+
+&lt;div class=&quot;language-fortran highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;program&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fortran_lang_2021&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</content>
+    </entry>
     
     <entry>
         <title>Fortran newsletter: December 2021</title>
