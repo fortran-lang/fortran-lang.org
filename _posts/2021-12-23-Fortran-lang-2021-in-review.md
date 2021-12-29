@@ -117,6 +117,15 @@ At the time of writing, there are almost 200 projects now using fpm.
 If you haven't tried fpm yet, please do!
 It has truly been a game-changing tool for many of us.
 
+We have many ideas that we want to pursue, such as:
+
+* First-class integration with other package managers such as Spack and Conda
+* First-class integration with build systems like CMake and Meson
+* Improving [fpm's package registry](https://github.com/fortran-lang/fpm-registry), etc.
+
+We are always looking for new contributors.
+If any of these projects interest you, please join us.
+
 ## LFortran
 
 <center>
