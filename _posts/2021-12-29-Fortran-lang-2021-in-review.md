@@ -5,7 +5,7 @@ category: newsletter
 author: Milan Curcic, Ondřej Čertík, Laurence Kedward, Sebastian Ehlert, Jérémie Vandenplas
 ---
 
-With another year behind us, let's review all the progress that the
+With another year behind us, let's review the progress that the
 Fortran-lang community has made.
 If you're new to Fortran-lang, here's a quick intro:
 We're an open source community that aims to develop modern Fortran tooling and
@@ -16,14 +16,15 @@ We started in late 2019 and have been going ever since.
 If you're first discovering (or re-discovering) Fortran through this article,
 welcome, and we hope it inspires you to try Fortran for one of your projects.
 In this article we summarize new developments from 2021,
-from flagship projects to community development and outreach.
+from flagship and new projects to community development and outreach.
 
 <ul id="page-nav"></ul>
 
 ## Standard Library (stdlib)
 
 To date, [33 people](https://github.com/fortran-lang/stdlib/graphs/contributors)
-have contributed code to stdlib, and more than 100 people have joined in discussions.
+have contributed code to stdlib, and more than 100 people have participated in
+discussions.
 More than a dozen new modules have been added in 2021:
 
 * `stdlib_array`: Provides `trueloc` and `falseloc` which allow you
@@ -45,10 +46,10 @@ More than a dozen new modules have been added in 2021:
   some limitations of the variable-length `character` variables. `string_type`
   is compatible with all intrinsic procedures that operate on `character`.
 * `stdlib_stringlist_type`: A derived type that is a 1-dimensional list of
-  strings.
+  strings
 * `stdlib_strings`: Provides a number of inquiry and manipulation procedures that
-  complement the intrinsic set.
-* `stdlib_version`: Allows querying the version of the stdlib library build.
+  complement the intrinsic set
+* `stdlib_version`: Allows querying the version of the stdlib library build
 
 which brings us to a total of 23 modules in stdlib.
 You can read about these modules in more detail on the
@@ -165,7 +166,7 @@ Give it a read and let us know how it can be improved.
 
 The [Fortran Discourse](https://fortran-lang.discourse.group) is as active
 as ever, with new users joining daily.
-There are currently 338 active users out of a total of 535 registered users.
+There are currently 338 active users out of a total of 537 registered users.
 The Fortran Discourse is a great place to ask for help with Fortran code, post
 a Fortran job opening, and discuss anything Fortran-related.
 
@@ -197,10 +198,10 @@ It is based on the classic
 [FFTPACK library from Netlib](http://www.netlib.org/fftpack/).
 fftpack was adopted by Fortran-lang in an effort to provide:
 
-* Community-maintained FFT library
+* A community-maintained FFT library
 * Bug fixes to the existing codebase
 * Modern interfaces on top of the existing API
-* fpm package for easy use as a dependency
+* fpm package for easy use as a dependency.
 
 ### test-drive
 
