@@ -11,16 +11,16 @@ __huge__(3) - \[NUMERIC MODEL\] Largest number of a type and kind
 ```fortran
 result = huge(x)
 
-   TYPE(kind=KIND) function huge(x) result(answer)
-   TYPE(kind=KIND) :: x
+   function huge(x) result(answer)
+   TYPE(kind=KIND),intent(in) :: x
    TYPE(kind=KIND) :: answer
 ```
-   where TYPE may be _real_ or _integer_ and KIND is any supported
+   where __TYPE__ may be _real_ or _integer_ and __KIND__ is any supported
    associated _kind_.
 
 ## __Description__
 
-__huge__(x) returns the largest number that is not an infinity for the
+__huge(x)__ returns the largest number that is not an infinity for the
 kind and type of __x__.
 
 ## __Arguments__
@@ -41,7 +41,6 @@ Sample program:
 
 ```fortran
 program demo_huge
-! or, "why I have my own NINT function"
 implicit none
 character(len=*),parameter :: f='(i2,1x,2(i11,1x),f14.0:,1x,l1,1x,a)'
 integer :: i,j,k,biggest
@@ -52,7 +51,7 @@ real :: v, w
 
    ! advanced
    biggest=huge(0)
-   ! be careful when using integers in computation
+   ! be careful of overflow when using integers in computation
    do i=1,14
       j=6**i   ! Danger, Danger
       w=6**i   ! Danger, Danger
@@ -72,33 +71,18 @@ Results:
   1.1754944E-38  2.225073858507201E-308
 
     1      6           6             6. T
-
     2      36          36            36. T
-
     3      216         216           216. T
-
     4      1296        1296          1296. T
-
     5      7776        7776          7776. T
-
     6      46656       46656         46656. T
-
     7      279936      279936        279936. T
-
     8      1679616     1679616       1679616. T
-
     9      10077696    10077696      10077696. T
-
     10     60466176    60466176      60466176. T
-
     11     362797056   362797056     362797056. T
-
-    12 -2118184960 -2147483648
-           2176782336. F wrong for j and k and w
-
-    13     175792128 -2147483648   13060694016. F wrong for j and k
-           and w
-
+    12    -2118184960 -2147483648    2176782336. F wrong for j and k and w
+    13     175792128  -2147483648   13060694016. F wrong for j and k and w
     14     1054752768 -2147483648   78364164096. F wrong for j and k and w
 ```
 ## __Standard__

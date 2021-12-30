@@ -11,9 +11,9 @@ __adjustr__(3) - \[CHARACTER:WHITESPACE\] Right-adjust a string
 ```fortran
     result = adjustr(string)
 
-     elemental function adjustr(string)
-     character(len=*),intent(in) :: string
+     elemental function adjustr(a)
      character(len=(len(string)) :: adjustr
+     character(len=*),intent(in) :: string
 ```
 ## __Description__
 

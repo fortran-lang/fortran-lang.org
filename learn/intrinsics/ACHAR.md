@@ -11,12 +11,12 @@ __achar__(3) - \[CHARACTER:CONVERSION\] returns a character in a specified posit
 ```fortran
   result = achar(i,kind=KIND)
 
-    elemental function :: achar(i,kind=KIND)
-    character(len=1) :: achar
+    character(len=1) elemental function :: achar(i,kind=KIND)
+
     integer(kind=KIND),intent(in) :: i
-    integer(kind=ANYKIND),intent(in),optional :: KIND
+    integer(kind=KIND),intent(in),optional :: kind
 ```
-where __KIND__ and __ANYKIND__ may be any supported kind value for _integer_ types.
+where KIND may be any supported kind value for _integer_ types.
 
 ## __Description__
 
