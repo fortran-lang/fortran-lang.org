@@ -16,7 +16,7 @@ result = dim(x, y)
     type(TYPE(kind=KIND))            :: dim
     type(TYPE(kind=KIND)),intent(in) :: x, y
 ```
-where TYPE may be _real_ or _integer_ and KIND is any supported kind for the type.
+where __TYPE__ may be _real_ or _integer_ and __KIND__ is any supported kind for the type.
 ## __Description__
 
 __dim(x,y)__ returns the difference __x - y__ if the result is positive;

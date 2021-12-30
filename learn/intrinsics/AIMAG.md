@@ -12,9 +12,9 @@ __aimag__(3) - \[TYPE:NUMERIC\] Imaginary part of complex number
 ```fortran
     result = aimag(z)
 
-     complex(kind=KIND),elemental :: aimag
-
+     elemental function :: aimag(z)
      complex(kind=KIND),intent(in) :: z
+     complex(kind=KIND) :: aimag
 ```
 ## __Description__
 

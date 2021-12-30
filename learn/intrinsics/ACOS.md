@@ -10,11 +10,11 @@ __acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine (inverse cosine) function
 ```fortran
   result = acos(x)
 
-   TYPE(kind=KIND),elemental :: acos
-
+   elemental function :: acos(x)
+   TYPE(kind=KIND) :: acos
    TYPE(kind=KIND,intent(in) :: x
 ```
-where __TYPE__ may be _real_ or _complex_ and __KIND__ may be any __KIND__ supported
+where __TYPE__ may be _real_ or _complex_ and __KIND__ may be any kind supported
 by the associated type.
 
 ## __Description__

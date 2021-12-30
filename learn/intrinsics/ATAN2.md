@@ -19,9 +19,13 @@ __atan2(y, x)__ computes the arctangent of the complex number
 This function can be used to transform from Cartesian into polar
 coordinates and allows to determine the angle in the correct quadrant.
 To convert from Cartesian Coordinates __(x,y)__ to polar coordinates
-
-(r,theta): $$ \begin{aligned} r &= \sqrt{x**2 + y**2} \\ \theta
-&= \tan**{__-1__}(y / x) \end{aligned} $$
+$(r,\theta)$:
+$$
+\begin{aligned}
+r &= \sqrt{x^2 + y^2} \\
+\theta &= \tan^{-1}(y / x)
+\end{aligned}
+$$
 
 ## __Arguments__
 

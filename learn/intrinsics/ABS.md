@@ -11,11 +11,11 @@ __abs__(3) - \[NUMERIC\] Absolute value
 ```fortran
   result = abs(a)
 
-   TYPE(kind=KIND) elemental function abs(a)
-
+   elemental function abs(a)
+   TYPE(kind=KIND) abs(a)
    TYPE(kind=KIND),intent(in) :: a
 ```
-where the TYPE and KIND is determined by the type and type attributes
+where the __TYPE__ and __KIND__ is determined by the type and type attributes
 of __a__, which may be any _real_, _integer_, or _complex_ value.
 
 If the type of __a__ is _cmplx_ the type returned will be _real_ with

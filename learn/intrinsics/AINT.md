@@ -13,7 +13,6 @@ __aint__(3) - \[NUMERIC\] Truncate to a whole number
 result = aint(x)
 
    real(kind=kind(x)),elemental  :: aint
-
    real(kind=kind(x)),intent(in) :: x
 ```
 or
@@ -21,7 +20,6 @@ or
 result = aint(x, KIND)
 
    real(kind=KIND),elemental     :: aint
-
    integer,intent(in),optional   :: KIND
    real(kind=kind(x)),intent(in) :: x
 ```
