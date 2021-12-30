@@ -89,4 +89,4 @@ end program demo_sqrt
 
 FORTRAN 77 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

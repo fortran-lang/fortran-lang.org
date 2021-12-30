@@ -76,4 +76,4 @@ end program demo_new_line
 
 Fortran 2003 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

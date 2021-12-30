@@ -68,4 +68,4 @@ FORTRAN 77 and later; for a _complex_ argument - Fortran 2008 and later
 
 Inverse function: [__cos__(3](COS))
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

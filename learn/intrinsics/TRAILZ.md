@@ -115,4 +115,4 @@ Fortran 2008 and later
 [__poppar__(3)](POPPAR),
 [__leadz__(3)](LEADZ)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

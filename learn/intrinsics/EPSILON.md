@@ -128,4 +128,4 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

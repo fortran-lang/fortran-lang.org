@@ -11,14 +11,15 @@ __adjustr__(3) - \[CHARACTER:WHITESPACE\] Right-adjust a string
 ```fortran
     result = adjustr(string)
 
-     character(len=(len(string)) elemental function adjustr(a)
-
+     elemental function adjustr(a)
+     character(len=(len(string)) :: adjustr
      character(len=*),intent(in) :: string
 ```
 ## __Description__
 
-__adjustr(string)__ will right-adjust a string by removing trailing
-spaces. Spaces are inserted at the start of the string as needed.
+__adjustr(string)__ right-adjusts a string by removing trailing
+spaces. Spaces are inserted at the start of the string as needed to
+retain the original length.
 
 ## __Arguments__
 
@@ -39,39 +40,36 @@ Sample program:
 program demo_adjustr
 implicit none
 integer :: right
-character(len=*),parameter :: bracket='("[",a,"]")'
 character(len=20) :: str = ' sample string '
-character(len=:),allocatable :: astr
-   call number_line()
+character(len=:),allocatable :: str2
+   ! print a short number line
+   write(*,'(a)')repeat('1234567890',5)
+
    !
    ! basic usage
+   !
    str = adjustr(str)
-   write(*,bracket) str
+   write(*,'(a)') str
 
-   ! exploring usage:
-   ! An allocatable string and arbitrary margin.
-   ! Set a right margin and adjust to it. Note
-   ! this would truncate if the margin is less
-   ! than the length of STR
-   right=50
-   astr=adjustr(str//repeat(' ',max(0,right-len(str))))
-   write(*,bracket) astr
    !
-   call number_line()
+   ! elemental
    !
-contains
-   subroutine number_line()
-   ! print a short number line
-      write(*,bracket)repeat('1234567890',5)
-   end subroutine number_line
+   write(*,'(a)')adjustr([character(len=50) :: &
+   '  first           ', &
+   '     second       ', &
+   '         third    ' ])
+    
+   write(*,'(a)')repeat('1234567890',5)
 end program demo_adjustr
 ```
 Results:
 ```text
-   [12345678901234567890123456789012345678901234567890]
-   [       sample string]
-   [                                     sample string]
-   [12345678901234567890123456789012345678901234567890]
+   12345678901234567890123456789012345678901234567890
+          sample string
+                                                first
+                                               second
+                                                third
+   12345678901234567890123456789012345678901234567890
 ```
 ## __Standard__
 
@@ -81,4 +79,4 @@ Fortran 95 and later
 
 [__adjustl__(3)](ADJUSTL)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

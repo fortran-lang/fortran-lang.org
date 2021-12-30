@@ -265,4 +265,4 @@ of arguments, and search for certain arguments:
     [__repeat__(3)](REPEAT), 
     [__trim__(3)](TRIM)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

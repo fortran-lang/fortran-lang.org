@@ -100,4 +100,4 @@ end program demo_conjg
 
 FORTRAN 77 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

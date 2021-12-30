@@ -102,9 +102,6 @@ and the following Copyright guidelines.
 
 ## Text Content Copyrights
 
-Each document file should indicate any specific license under which the
-document falls.
-
 Many of the documents presented here are modified versions of man-pages from the
 [Fortran Wiki](https://fortranwiki.org)
 and as such are available under the terms of the GNU
@@ -118,6 +115,14 @@ Software Foundation, with no invariant sections, front-cover texts,
 or back-cover texts).
 
 If you contribute new material you thereby agree to release it under
-the MIT license.
+the MIT license, and should indicate this by placing MIT on the
+specially-formatted last line. For example, change
+```text
+###### fortran-lang intrinsic descriptions
+```
+to
+```text
+###### fortran-lang intrinsic descriptions (Iicense: MIT)
+```
 
 ###### Written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) [kramdown](https://kramdown.gettalong.org/syntax.html)

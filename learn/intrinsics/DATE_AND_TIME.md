@@ -116,4 +116,4 @@ Fortran 95 and later
  - [datetime](https://github.com/wavebitscientific/datetime-fortran)
  - [datetime-fortran](https://github.com/wavebitscientific/datetime-fortran)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

@@ -86,4 +86,4 @@ Fortran 2003 and later
 [__get\_command\_argument__(3)](GET_COMMAND_ARGUMENT),
 [__command\_argument\_count__(3)](COMMAND_ARGUMENT_COUNT)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

@@ -77,4 +77,4 @@ Fortran 95 and later
 [__int__(3)](INT),
 [__selected_int_kind__(3)](SELECTED_INT_KIND)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

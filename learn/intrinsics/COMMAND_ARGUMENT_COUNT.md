@@ -63,4 +63,4 @@ Fortran 2003 and later
 [__get\_command__(3)](GET_COMMAND),
 [__get\_command\_argument__(3)](GET_COMMAND_ARGUMENT)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

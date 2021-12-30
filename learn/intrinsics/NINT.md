@@ -123,4 +123,4 @@ FORTRAN 77 and later, with KIND argument - Fortran 90 and later
 [__ceiling__(3)](CEILING),
 [__floor__(3)](FLOOR)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

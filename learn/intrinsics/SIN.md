@@ -132,4 +132,4 @@ FORTRAN 77 and later
 [__cos__(3)](COS),
 [__tan__(3)](TAN)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))

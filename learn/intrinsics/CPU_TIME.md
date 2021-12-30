@@ -74,4 +74,4 @@ Fortran 95 and later
 [__system\_clock__(3)](SYSTEM_CLOCK),
 [__date\_and\_time__(3)](DATE_AND_TIME)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))
