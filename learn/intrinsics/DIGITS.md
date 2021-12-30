@@ -7,11 +7,16 @@ permalink: /learn/intrinsics/DIGITS
 
 __digits__(3) - \[NUMERIC MODEL\] Significant digits function
 
-
 ## __Syntax__
 ```fortran
 result = digits(x)
+    function digits(x)
+    type(integer(kind=kind(0)))      :: digits
+    type(TYPE(kind=KIND)),intent(in) :: x(..)
 ```
+where TYPE may be _integer_ or _real_ and KIND is any kind supported by
+TYPE.
+
 ## __Description__
 
 __digits(x)__ returns the number of significant digits of the internal
@@ -22,11 +27,11 @@ floating point representation, a default real number would likely return
 ## __Arguments__
 
   - __x__
-    : The type may be _integer_ or _real_.
+    : The type may be a scalar or array of type _integer_ or _real_.
 
 ## __Returns__
 
-The return value is of type _integer_.
+The return value is of type _integer_ of default kind.
 
 ## __Examples__
 
@@ -74,4 +79,4 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
