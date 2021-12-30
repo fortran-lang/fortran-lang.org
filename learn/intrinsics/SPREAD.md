@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SPREAD
 ## __Name__
 
 __spread__(3) - \[ARRAY CONSTRUCTION\] Add a dimension to an array
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

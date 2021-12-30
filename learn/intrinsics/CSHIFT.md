@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/CSHIFT
 ## __Name__
 
 __cshift__(3) - \[TRANSFORMATIONAL\] Circular shift elements of an array
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

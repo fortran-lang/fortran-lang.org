@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/LOGICAL
 ## __Name__
 
 __logical__(3) - \[TYPE:LOGICAL\] Converts one kind of _logical_ variable to another
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

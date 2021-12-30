@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SHIFTR
 ## __Name__
 
 __shiftr__(3) - \[BIT:SHIFT\] shift bits right
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

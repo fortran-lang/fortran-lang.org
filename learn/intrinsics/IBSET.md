@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IBSET
 ## __Name__
 
 __ibset__(3) - \[BIT:SET\] Set bit
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

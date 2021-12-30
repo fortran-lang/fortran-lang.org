@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IBCLR
 ## __Name__
 
 __ibclr__(3) - \[BIT:SET\] Clear bit
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

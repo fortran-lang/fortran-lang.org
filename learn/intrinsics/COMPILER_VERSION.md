@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/COMPILER_VERSION
 ## __Name__
 
 __compiler\_version__(3) - \[COMPILER INQUIRY\] Compiler version string
-(GFDL)
+
 
 ## __Syntax__
 

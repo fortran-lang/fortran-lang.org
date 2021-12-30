@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ATANH
 ## __Name__
 
 __atanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic tangent function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

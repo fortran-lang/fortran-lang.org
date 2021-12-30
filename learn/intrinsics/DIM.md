@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/DIM
 ## __Name__
 
 __dim__(3) - \[NUMERIC\] Positive difference
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

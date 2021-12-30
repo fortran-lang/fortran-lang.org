@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/KIND
 ## __Name__
 
 __kind__(3) - \[KIND INQUIRY\] Kind of an entity
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

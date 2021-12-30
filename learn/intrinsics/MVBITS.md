@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MVBITS
 ## __Name__
 
 __mvbits__(3) - \[BIT:COPY\] Move bits from one integer to another
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

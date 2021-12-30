@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/FRACTION
 ## __Name__
 
 __fraction__(3) - \[MODEL\_COMPONENTS\] Fractional part of the model representation
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

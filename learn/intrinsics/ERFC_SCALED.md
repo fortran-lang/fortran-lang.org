@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ERFC_SCALED
 ## __Name__
 
 __erfc\_scaled__(3) - \[MATHEMATICS\] Error function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran
@@ -17,8 +17,10 @@ result = erfc_scaled(x)
 __erfc\_scaled__(x) computes the exponentially-scaled complementary
 error function of __x__:
 
-$$ e\*\*{x\*\*2} \\frac{2}{\\sqrt{\\pi}} \\int\_{x}\*\*{\\infty}
-e\*\*{__-t__\*\*2} dt. $$
+$$
+e^{x^2} \frac{2}{\sqrt{\pi}} \int_{x}^{\infty}
+e^{-t^2} dt.
+$$
 
 ## __Arguments__
 

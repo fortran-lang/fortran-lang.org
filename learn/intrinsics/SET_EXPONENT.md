@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SET_EXPONENT
 ## __Name__
 
 __set\_exponent__(3) - \[MODEL\_COMPONENTS\] Set the exponent of the model
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

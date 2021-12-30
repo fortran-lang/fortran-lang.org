@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/POPPAR
 ## __Name__
 
 __poppar__(3) - \[BIT:COUNT\] Parity of the number of bits set
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/CO_MIN
 ## __Name__
 
 __co\_min__(3) - \[COLLECTIVE\] Minimal value on the current set of images
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

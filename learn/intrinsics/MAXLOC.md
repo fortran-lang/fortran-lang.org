@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MAXLOC
 ## __Name__
 
 __maxloc__(3) - \[ARRAY:LOCATION\] Location of the maximum value within an array
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

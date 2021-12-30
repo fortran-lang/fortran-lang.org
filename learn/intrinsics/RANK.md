@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/RANK
 ## __Name__
 
 __rank__(3) - \[ARRAY INQUIRY\] Rank of a data object
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

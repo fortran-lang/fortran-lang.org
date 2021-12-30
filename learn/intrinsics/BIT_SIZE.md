@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/BIT_SIZE
 ## __Name__
 
 __bit\_size__(3) - \[BIT:INQUIRY\] Bit size inquiry function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

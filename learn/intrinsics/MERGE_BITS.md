@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MERGE_BITS
 ## __Name__
 
 __merge\_bits__(3) - \[BIT:COPY\] Merge of bits under mask
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

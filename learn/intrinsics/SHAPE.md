@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SHAPE
 ## __Name__
 
 __shape__(3) - \[ARRAY INQUIRY\] Determine the shape of an array
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MINLOC
 ## __Name__
 
 __minloc__(3) - \[ARRAY:LOCATION\] Location of the minimum value within an array
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

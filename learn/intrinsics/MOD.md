@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MOD
 ## __Name__
 
 __mod__(3) - \[NUMERIC\] Remainder function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/TRANSPOSE
 ## __Name__
 
 __transpose__(3) - \[ARRAY MANIPULATION\] Transpose an array of rank two
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

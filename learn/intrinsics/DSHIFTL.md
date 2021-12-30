@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/DSHIFTL
 ## __Name__
 
 __dshiftl__(3) - \[BIT:COPY\] combines bits of arguments __i__ and __j__
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

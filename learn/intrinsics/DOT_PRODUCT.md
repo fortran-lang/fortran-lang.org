@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/DOT_PRODUCT
 ## __Name__
 
 __dot\_product__(3) - \[TRANSFORMATIONAL\] Dot product function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

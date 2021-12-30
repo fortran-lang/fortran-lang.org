@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/LGE
 ## __Name__
 
 __lge__(3) - \[CHARACTER:COMPARE\] Lexical greater than or equal
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

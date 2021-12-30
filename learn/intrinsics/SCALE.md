@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SCALE
 ## __Name__
 
 __scale__(3) - \[MODEL\_COMPONENTS\] Scale a real value by a whole power of the radix
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

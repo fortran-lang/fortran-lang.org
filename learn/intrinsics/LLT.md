@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/LLT
 ## __Name__
 
 __llt__(3) - \[CHARACTER:COMPARE\] Lexical less than
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/EXPONENT
 ## __Name__
 
 __exponent__(3) - \[MODEL\_COMPONENTS\] Exponent function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

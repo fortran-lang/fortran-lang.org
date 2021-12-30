@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ATOMIC_FETCH_XOR
 ## __Name__
 
 __atomic\_fetch\_xor__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise XOR operation with prior fetch
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

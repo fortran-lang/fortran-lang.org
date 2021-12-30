@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/LOG_GAMMA
 ## __Name__
 
 __log\_gamma__(3) - \[MATHEMATICS\] Logarithm of the Gamma function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

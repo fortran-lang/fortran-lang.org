@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ICHAR
 ## __Name__
 
 __ichar__(3) - \[CHARACTER:CONVERSION\] Character-to-integer conversion function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

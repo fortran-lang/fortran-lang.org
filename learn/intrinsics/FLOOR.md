@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/FLOOR
 ## __Name__
 
 __floor__(3) - \[NUMERIC\] Integer floor function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

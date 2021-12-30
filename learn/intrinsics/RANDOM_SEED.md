@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/RANDOM_SEED
 ## __Name__
 
 __random\_seed__(3) - \[MATHEMATICS:RANDOM\] Initialize a pseudo-random number sequence
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MOVE_ALLOC
 ## __Name__
 
 __move\_alloc__(3) - \[\] Move allocation from one object to another
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

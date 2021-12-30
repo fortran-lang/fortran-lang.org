@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/NEAREST
 ## __Name__
 
 __nearest__(3) - \[MODEL\_COMPONENTS\] Nearest representable number
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

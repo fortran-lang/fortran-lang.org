@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SIZE
 ## __Name__
 
 __size__(3) - \[ARRAY INQUIRY\] Determine the size of an array
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

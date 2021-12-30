@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/BESSEL_Y0
 ## __Name__
 
 __bessel\_y0__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 0
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

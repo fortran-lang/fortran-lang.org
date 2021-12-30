@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ATOMIC_DEFINE
 ## __Name__
 
 __atomic\_define__(3) - \[ATOMIC\] Setting a variable atomically
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

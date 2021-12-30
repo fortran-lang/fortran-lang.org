@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ANINT
 ## __Name__
 
 __anint__(3) - \[NUMERIC\] Nearest whole number
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

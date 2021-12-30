@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/NORM2
 ## __Name__
 
 __norm2__(3) - \[MATHEMATICS\] Euclidean vector norm
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

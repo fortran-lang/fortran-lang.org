@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/RESHAPE
 ## __Name__
 
 __reshape__(3) - \[ARRAY RESHAPE\] Function to reshape an array
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

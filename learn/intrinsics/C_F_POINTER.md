@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/C_F_POINTER
 ## __Name__
 
 __c\_f\_pointer__(3) - \[ISO\_C\_BINDING\] Convert C into Fortran pointer
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

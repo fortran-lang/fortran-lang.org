@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/RANGE
 ## __Name__
 
 __range__(3) - \[NUMERIC MODEL\] Decimal exponent range of a real kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

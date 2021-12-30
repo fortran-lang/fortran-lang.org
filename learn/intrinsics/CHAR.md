@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/CHAR
 ## __Name__
 
 __char__(3) - \[CHARACTER\] Character conversion function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

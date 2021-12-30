@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IS_CONTIGUOUS
 ## __Name__
 
 __is\_contiguous__(3) - \[ARRAY INQUIRY\] test if object is contiguous
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

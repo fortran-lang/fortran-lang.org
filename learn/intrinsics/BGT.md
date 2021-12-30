@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/BGT
 ## __Name__
 
 __bgt__(3) - \[BIT:COMPARE\] Bitwise greater than
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

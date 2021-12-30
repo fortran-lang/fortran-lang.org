@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/TRIM
 ## __Name__
 
 __trim__(3) - \[CHARACTER:WHITESPACE\] Remove trailing blank characters of a string
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

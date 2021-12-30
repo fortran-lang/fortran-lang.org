@@ -7,7 +7,7 @@ permalink: /learn/intrinsics/PRESENT
 
 __present__(3) - [STATE\] Determine whether an optional dummy argument
                  is specified
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/STORAGE_SIZE
 ## __Name__
 
 __storage\_size__(3) - \[BIT:INQUIRY\] Storage size in bits
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

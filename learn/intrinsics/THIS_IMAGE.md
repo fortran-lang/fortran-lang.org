@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/THIS_IMAGE
 ## __Name__
 
 __this\_image__(3) - \[COLLECTIVE\] Cosubscript index of this image
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

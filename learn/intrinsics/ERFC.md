@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ERFC
 ## __Name__
 
 __erfc__(3) - \[MATHEMATICS\] Complementary error function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

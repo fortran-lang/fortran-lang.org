@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/C_F_PROCPOINTER
 ## __Name__
 
 __c\_f\_procpointer__(3) - \[ISO\_C\_BINDING\] Convert C into Fortran procedure pointer
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/CEILING
 ## __Name__
 
 __ceiling__(3) - \[NUMERIC\] Integer ceiling function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/BESSEL_YN
 ## __Name__
 
 __bessel\_yn__(3) - \[MATHEMATICS\] Bessel function of the second kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

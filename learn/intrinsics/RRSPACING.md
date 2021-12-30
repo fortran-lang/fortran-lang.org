@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/RRSPACING
 ## __Name__
 
 __rrspacing__(3) - \[MODEL\_COMPONENTS\] Reciprocal of the relative spacing
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

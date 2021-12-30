@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/REPEAT
 ## __Name__
 
 __repeat__(3) - \[CHARACTER\] Repeated string concatenation
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

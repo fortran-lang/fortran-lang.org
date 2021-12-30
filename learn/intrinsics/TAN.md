@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/TAN
 ## __Name__
 
 __tan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Tangent function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

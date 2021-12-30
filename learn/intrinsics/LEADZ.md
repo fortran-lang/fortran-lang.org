@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/LEADZ
 ## __Name__
 
 __leadz__(3) - \[BIT:COUNT\] Number of leading zero bits of an integer
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

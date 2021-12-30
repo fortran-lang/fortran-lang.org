@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SIGN
 ## __Name__
 
 __sign__(3) - \[NUMERIC\] Sign copying function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

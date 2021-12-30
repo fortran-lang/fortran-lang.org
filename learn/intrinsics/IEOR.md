@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IEOR
 ## __Name__
 
 __ieor__(3) - \[BIT:LOGICAL\] Bitwise logical exclusive or
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

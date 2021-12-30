@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/UNPACK
 ## __Name__
 
 __unpack__(3) - \[ARRAY CONSTRUCTION\] Store the elements of a vector in an array of higher rank
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

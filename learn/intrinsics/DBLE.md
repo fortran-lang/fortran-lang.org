@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/DBLE
 ## __Name__
 
 __dble__(3) - \[TYPE:NUMERIC\] Double conversion function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/NUM_IMAGES
 ## __Name__
 
 __num\_images__(3) - \[COLLECTIVE\] Number of images
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

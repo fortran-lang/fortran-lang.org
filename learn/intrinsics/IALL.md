@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IALL
 ## __Name__
 
 __iall__(3) - \[BIT:LOGICAL\] Bitwise and of array elements
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

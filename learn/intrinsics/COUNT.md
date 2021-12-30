@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/COUNT
 ## __Name__
 
 __count__(3) - \[ARRAY REDUCTION\] Count function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

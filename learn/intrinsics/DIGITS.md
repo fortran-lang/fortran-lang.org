@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/DIGITS
 ## __Name__
 
 __digits__(3) - \[NUMERIC MODEL\] Significant digits function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

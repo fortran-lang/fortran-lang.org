@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/TANH
 ## __Name__
 
 __tanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic tangent function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

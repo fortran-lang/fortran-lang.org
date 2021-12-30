@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/RANDOM_NUMBER
 ## __Name__
 
 __random\_number__(3) - \[MATHEMATICS:RANDOM\] Pseudo-random number
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

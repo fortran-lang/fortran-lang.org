@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IMAGE_INDEX
 ## __Name__
 
 __image\_index__(3) - \[COLLECTIVE\] Cosubscript to image index conversion
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IOR
 ## __Name__
 
 __ior__(3) - \[BIT:LOGICAL\] Bitwise logical inclusive or
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

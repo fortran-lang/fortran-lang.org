@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MAXEXPONENT
 ## __Name__
 
 __maxexponent__(3) - \[NUMERIC MODEL\] Maximum exponent of a real kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

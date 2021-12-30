@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/BESSEL_JN
 ## __Name__
 
 __bessel\_jn__(3) - \[MATHEMATICS\] Bessel function of the first kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

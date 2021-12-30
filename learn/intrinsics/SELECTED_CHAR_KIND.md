@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SELECTED_CHAR_KIND
 ## __Name__
 
 __selected\_char\_kind__(3) - \[KIND\] Choose character kind such as "Unicode"
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

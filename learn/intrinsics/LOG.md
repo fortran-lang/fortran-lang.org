@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/LOG
 ## __Name__
 
 __log__(3) - \[MATHEMATICS\] Logarithm function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

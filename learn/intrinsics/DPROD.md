@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/DPROD
 ## __Name__
 
 __dprod__(3) - \[NUMERIC\] Double product function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

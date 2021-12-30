@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/ATOMIC_ADD
 ---
 ## __Name__
 
-__atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation (GFDL)
+__atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation 
 
 ## __Syntax__
 ```fortran

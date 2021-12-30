@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ATOMIC_OR
 ## __Name__
 
 __atomic\_or__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

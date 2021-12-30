@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MAX
 ## __Name__
 
 __max__(3) - \[NUMERIC\] Maximum value of an argument list
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

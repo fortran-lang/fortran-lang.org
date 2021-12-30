@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ERF
 ## __Name__
 
 __erf__(3) - \[MATHEMATICS\] Error function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran
@@ -14,8 +14,10 @@ result = erf(x)
 ```
 ## __Description__
 
-__erf__(x) computes the error function of __x__, defined as $$
-\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{__-t__^2} dt. $$
+__erf__(x) computes the error function of __x__, defined as 
+$$
+\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{__-t__^2} dt.
+$$
 
 ## __Arguments__
 

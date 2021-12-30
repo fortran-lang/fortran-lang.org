@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/AINT
 ## __Name__
 
 __aint__(3) - \[NUMERIC\] Truncate to a whole number
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

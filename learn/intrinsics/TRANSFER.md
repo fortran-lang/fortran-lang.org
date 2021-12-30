@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/TRANSFER
 ## __Name__
 
 __transfer__(3) - \[TYPE:MOLD\] Transfer bit patterns
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

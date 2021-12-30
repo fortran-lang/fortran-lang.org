@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/FINDLOC
 ## __Name__
 
 __findloc__(3) - \[ARRAY:LOCATION\] Location of first element of ARRAY identified by MASK along dimension DIM having a value
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IANY
 ## __Name__
 
 __iany__(3) - \[BIT:LOGICAL\] Bitwise or of array elements
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/CMPLX
 ## __Name__
 
 __cmplx__(3) - \[TYPE:NUMERIC\] Complex conversion function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

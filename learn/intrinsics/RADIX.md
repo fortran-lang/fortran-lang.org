@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/RADIX
 ## __Name__
 
 __radix__(3) - \[NUMERIC MODEL\] Base of a model number
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

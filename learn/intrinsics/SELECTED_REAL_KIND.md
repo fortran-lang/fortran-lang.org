@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SELECTED_REAL_KIND
 ## __Name__
 
 __selected\_real\_kind__(3) - \[KIND\] Choose real kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

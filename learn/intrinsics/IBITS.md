@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IBITS
 ## __Name__
 
 __ibits__(3) - \[BIT:COPY\] Bit extraction
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

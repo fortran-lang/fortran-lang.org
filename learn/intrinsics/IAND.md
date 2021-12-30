@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IAND
 ## __Name__
 
 __iand__(3) - \[BIT:LOGICAL\] Bitwise logical and
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

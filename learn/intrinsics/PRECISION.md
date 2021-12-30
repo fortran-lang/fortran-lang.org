@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/PRECISION
 ## __Name__
 
 __precision__(3) - \[NUMERIC MODEL\] Decimal precision of a real kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

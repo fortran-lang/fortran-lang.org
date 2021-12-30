@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/IACHAR
 ## __Name__
 
 __iachar__(3) - \[CHARACTER:CONVERSION\] Code in ASCII collating sequence
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/TINY
 ## __Name__
 
 __tiny__(3) - \[NUMERIC MODEL\] Smallest positive number of a real kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

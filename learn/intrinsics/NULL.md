@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/NULL
 ## __Name__
 
 __null__(3) - \[TRANSFORMATIONAL\] Function that returns a disassociated pointer
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

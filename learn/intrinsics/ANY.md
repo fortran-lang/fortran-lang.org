@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ANY
 ## __Name__
 
 __any__(3) - \[ARRAY REDUCTION\] determines if any of the values in the logical array are true.
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

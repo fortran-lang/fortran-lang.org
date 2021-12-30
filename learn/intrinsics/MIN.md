@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MIN
 ## __Name__
 
 __min__(3) - \[NUMERIC\] Minimum value of an argument list
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

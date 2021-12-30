@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SPACING
 ## __Name__
 
 __spacing__(3) - \[MODEL\_COMPONENTS\] Smallest distance between two numbers of a given type
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

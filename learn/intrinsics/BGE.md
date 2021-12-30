@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/BGE
 ## __Name__
 
 __bge__(3) - \[BIT:COMPARE\] Bitwise greater than or equal to
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/COMPILER_OPTIONS
 ## __Name__
 
 __compiler\_options__(3) - \[COMPILER INQUIRY\] Options passed to the compiler
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

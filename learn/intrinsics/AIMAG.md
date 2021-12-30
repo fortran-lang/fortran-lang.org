@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/AIMAG
 ## __Name__
 
 __aimag__(3) - \[TYPE:NUMERIC\] Imaginary part of complex number
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

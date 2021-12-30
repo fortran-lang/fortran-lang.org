@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/MODULO
 ## __Name__
 
 __modulo__(3) - \[NUMERIC\] Modulo function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

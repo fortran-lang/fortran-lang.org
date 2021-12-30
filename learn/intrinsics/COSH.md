@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/COSH
 ## __Name__
 
 __cosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic cosine function
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

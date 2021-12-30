@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SELECTED_INT_KIND
 ## __Name__
 
 __selected\_int\_kind__(3) - \[KIND\] Choose integer kind
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

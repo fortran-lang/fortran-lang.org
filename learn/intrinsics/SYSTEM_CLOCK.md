@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/SYSTEM_CLOCK
 ## __Name__
 
 __system\_clock__(3) - \[SYSTEM:TIME\] Return numeric data from a real-time clock.
-(GFDL)
+
 
 ## __Syntax__
 ```fortran
@@ -69,6 +69,7 @@ implicit none
 integer, parameter :: wp = kind(1.0d0)
 integer :: count, count_rate, count_max
 integer :: start, finish
+real    :: time_read
 
    call system_clock(count, count_rate, count_max)
    write(*,*) count, count_rate, count_max

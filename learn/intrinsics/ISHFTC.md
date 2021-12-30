@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/ISHFTC
 ## __Name__
 
 __ishftc__(3) - \[BIT:SHIFT\] Shift bits circularly
-(GFDL)
+
 
 ## __Syntax__
 ```fortran

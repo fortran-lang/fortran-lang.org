@@ -6,7 +6,7 @@ permalink: /learn/intrinsics/BESSEL_J0
 ## __Name__
 
 __bessel\_j0__(3) - \[MATHEMATICS\] Bessel function of the first kind of order 0
-(GFDL)
+
 
 ## __Syntax__
 ```fortran
