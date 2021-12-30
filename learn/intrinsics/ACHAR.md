@@ -165,4 +165,4 @@ FORTRAN 77 and later, with KIND argument Fortran 2003 and later
 - [M_attr module](https://github.com/urbanjost/M_attr) for controlling ANSI-compatible terminals
 
 
-###### fortran-lang intrinsic descriptions (license: MIT))
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost

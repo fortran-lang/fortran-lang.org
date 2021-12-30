@@ -127,4 +127,4 @@ Typical Results:
 
 Fortran 2003 and later
 
-###### fortran-lang intrinsic descriptions (license: MIT))
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost

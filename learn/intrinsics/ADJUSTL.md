@@ -11,8 +11,8 @@ __adjustl__(3) - \[CHARACTER:WHITESPACE\] Left-adjust a string
 ```fortran
     result = adjustl(string)
 
-     elemental function adjustr(string)
-     character(len=(len(string)) :: adjustr
+     character(len=(len(string)) elemental function adjustr(a)
+
      character(len=*),intent(in) :: string
 ```
 ## __Description__
@@ -66,4 +66,4 @@ Fortran 95 and later
 
 [__adjustr__(3)](ADJUSTR)
 
-###### fortran-lang intrinsic descriptions (license: MIT))
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost

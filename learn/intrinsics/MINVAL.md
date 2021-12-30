@@ -147,4 +147,4 @@ Fortran 95 and later
 [__min__(3)](MIN),
 [__minloc__(3)](MINLOC)
 
-###### fortran-lang intrinsic descriptions (license: MIT))
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost

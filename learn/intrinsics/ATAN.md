@@ -82,4 +82,4 @@ arguments Fortran 2008 or later
 
 [__atan2__(3)](ATAN2), [__tan__(3)](TAN)
 
-###### fortran-lang intrinsic descriptions (license: MIT))
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost

@@ -95,4 +95,4 @@ Results:
 
 Fortran 2008 and later
 
-###### fortran-lang intrinsic descriptions (license: MIT))
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
