@@ -3,6 +3,7 @@ Summarize PRs for fortran-lang within a certain month.
 Requires PyGithub.
 """
 import datetime
+from dateutil.relativedelta import relativedelta
 import os
 from collections import namedtuple
 from typing import Optional
@@ -62,7 +63,7 @@ def main(smonth: Optional[str], token: Optional[str], skip_children: bool):
         t_a = datetime.datetime(now.year, now.month, 1)
     else:
         t_a = datetime.datetime.strptime(smonth, "%Y-%m")
-    t_b = datetime.datetime(t_a.year, t_a.month+1, 1)
+    t_b = t_a + relativedelta(months=1)
 
     # GitHub connection
     if token is None:
