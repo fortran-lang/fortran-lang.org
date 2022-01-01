@@ -26,11 +26,11 @@ Here's what's new and ongoing in the fortran-lang.org repo:
   Use HEAD to reference default branch
 * [#355](https://github.com/fortran-lang/fortran-lang.org/pull/355):
   2021 review article draft
+* [#356](https://github.com/fortran-lang/fortran-lang.org/pull/356) (WIP):
+  Adding Fortran Error Handler to packages index
 
 ### Work in progress
 
-* [#356](https://github.com/fortran-lang/fortran-lang.org/pull/356) (WIP):
-  Adding Fortran Error Handler to packages index
 * [#347](https://github.com/fortran-lang/fortran-lang.org/pull/347) (WIP):
   Fortran Intrinsics
 
