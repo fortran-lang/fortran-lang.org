@@ -156,8 +156,8 @@ Here's what's new in fpm:
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
 
-* Use it and let us know what you think! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/main/PACKAGING.md)
-to learn how to build your package with fpm, and the [manifest reference](https://github.com/fortran-lang/fpm/blob/main/manifest-reference.md)
+* Use it and let us know what you think! Read the [fpm packaging guide](https://fpm.fortran-lang.org/en/tutorial)
+to learn how to build your package with fpm, and the [manifest reference](https://fpm.fortran-lang.org/en/spec/manifest.html)
 to learn what are all the things that you can specify in the fpm.toml file.
 
 * Browse existing *fpm* packages on the [fortran-lang website](https://fortran-lang.org/packages/fpm)
@@ -202,6 +202,7 @@ commenting in any of these repositories:
 * [fortran-lang/stdlib-cmake-example](https://github.com/fortran-lang/stdlib-cmake-example)
 * [fortran-lang/fpm](https://github.com/fortran-lang/fpm)
 * [fortran-lang/fpm-registry](https://github.com/fortran-lang/fpm-registry)
+* [fortran-lang/fpm-docs](https://github.com/fortran-lang/fpm-docs)
 * [fortran-lang/setup-fpm](https://github.com/fortran-lang/setup-fpm)
 * [fortran-lang/fpm-haskell](https://github.com/fortran-lang/fpm-haskell)
 * [fortran-lang/fortran-lang.org](https://github.com/fortran-lang/fortran-lang.org)
