@@ -16,8 +16,8 @@ __command\_argument\_count__(3) - \[SYSTEM:COMMAND LINE\] Get number of command 
 ```
 ## __Description__
 
-__command\_argument\_count()__ returns the number of arguments passed on the
-command line when the containing program was invoked.
+   __command\_argument\_count()__ returns the number of arguments passed
+   on the command line when the containing program was invoked.
 
 ## __Arguments__
 

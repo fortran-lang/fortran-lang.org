@@ -11,7 +11,13 @@ __range__(3) - \[NUMERIC MODEL\] Decimal exponent range of a real kind
 ## __Syntax__
 ```fortran
 result = range(x)
+
+      function range (x)
+      integer :: range
+      type(TYPE,kind=KIND),intent(in) :: x
 ```
+   where TYPE is _real_ or _cmplpex_ and KIND is any kind supported by 
+   TYPE.
 ## __Description__
 
 __range(x)__ returns the decimal exponent range in the model of the type

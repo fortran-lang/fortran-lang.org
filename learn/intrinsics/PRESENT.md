@@ -8,10 +8,12 @@ permalink: /learn/intrinsics/PRESENT
 __present__(3) - [STATE\] Determine whether an optional dummy argument
                  is specified
 
-
 ## __Syntax__
 ```fortran
 result = present(a)
+
+   function present (a)
+   logical :: present
 ```
 ## __Description__
 
