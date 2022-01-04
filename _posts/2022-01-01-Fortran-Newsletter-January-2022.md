@@ -143,7 +143,7 @@ Here's what's new in fpm:
 * [#642](https://github.com/fortran-lang/fpm/pull/642) (WIP):
   Replace polymorphic assignment with move_alloc
 * [#630](https://github.com/fortran-lang/fpm/pull/630) (WIP):
-  just allow . on new subcommand instead of changing canonical path pro…
+  allow backfilling of current directory in fpm-new subcommand
 * [#622](https://github.com/fortran-lang/fpm/pull/622) (WIP):
   Cleanup the backend output
 * [#608](https://github.com/fortran-lang/fpm/pull/608) (WIP):
