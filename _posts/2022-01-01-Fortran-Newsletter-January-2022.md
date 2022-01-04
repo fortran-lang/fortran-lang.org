@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: January 2022"
 category: newsletter
-author: Milan Curcic, Sebastian Ehlert, Jérémie Vandenplas, Alexis Perry-Holby
+author: Milan Curcic, Sebastian Ehlert, Jérémie Vandenplas, Alexis Perry-Holby, Ondřej Čertík
 ---
 
 Happy New Year and welcome to the January 2022 edition of the monthly Fortran 
