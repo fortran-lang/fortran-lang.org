@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: January 2022"
 category: newsletter
-author: Milan Curcic, Sebastian Ehlert, Jérémie Vandenplas
+author: Milan Curcic, Sebastian Ehlert, Jérémie Vandenplas, Alexis Perry-Holby
 ---
 
 Happy New Year and welcome to the January 2022 edition of the monthly Fortran 
@@ -173,7 +173,97 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
-TODO @AlexisPerry
+Recent development updates:
+
+* FIR
+    * Add fir.box_isarray, fir.box_isptr and fir.box_isalloc conversion.
+    * Add !fir.vector type conversion
+    * Add type conversion for `fir.boxchar`
+    * Add !fir.alloca conversion
+    * Add placeholder conversion pattern for disptach operations
+    * Add fir.select_case conversion
+    * Add !fir.field type conversion
+    * Transform `IsPresentOpConversion` and `AbsentOpConversion`
+    * Add type conversion for FIR heap type
+    * Add type conversion for FIR integer kind
+    * Add !fir.len type conversion
+    * Transform `fir.emboxchar` to a sequence of LLVM MLIR
+    * Add fir.select_type conversion placeholder
+    * Remove extra return in SelectTypeOpConversion
+    * Transform `fir.unboxchar` to a sequence of LLVM MLIR
+    * Add fir.global_len conversion placeholder
+    * Add the FIR LLVMPointer Type
+    * Add fir.cmpc conversion
+    * Add fir.gentypedesc conversion
+    * Transform `fir.boxchar_len` to a sequence of LLVM MLIR
+    * Add missing `HasParent` in `fir_DTEntryOp`
+    * Add fir.string_lit conversion
+    * Add conversion patterns for slice, shape, shapeshift and shift ops
+    * Add fir.box_tdesc conversion
+    * !fir.tdesc type conversion
+    * Add fir.constc conversion
+    * Add fir.embox conversion
+    * Notify conversion failure for Proc ops, types
+    * Add tests for mlir::ComplexType conversion
+    * Add `fir.end` conversion placeholder
+    * Transform `fir.field_index` to a sequence of LLVM MLIR
+    * Add a factory class for creating Complex Ops
+    * Add fir.no_reassoc conversion
+    * Set !fir.len_param_index conversion to unimplemented
+    * Add base for runtime builder unittests
+    * Add fir transformational intrinsic builder
+    * Add assignment runtime API builder
+    * Add data flow optimization pass
+    * Add array value copy pass
+    * Add fir reduction builder
+    * Add fir numeric intrinsic runtime call builder
+    * Add fircg.ext_embox conversion
+    * Add fir derived type runtime builder
+    * Add fir character builder
+    * Add fircg.ext_array_coor conversion
+    * Upstream conversion of the XRebox Op
+    * Convert fir.allocmem and fir.freemem operations to calls to malloc and free, respectively
+* Runtime
+    * Fix vector cshift runtime with non zero lower bounds
+    * Respect NO_STOP_MESSAGE=1 in runtime
+    * Runtime performance improvements to real formatted input
+    * Allow write after non advancing read in IO runtime
+    * Fix reversed comparison in RESHAPE() runtime
+    * Define & implement a lowering support API IsContiguous() in runtime
+    * Don't close stderr in runtime (fixes STOP output)
+    * Return arrays in Transfer runtime with SIZE argument
+    * Fix INQUIRE(FILE=,NAME=)
+    * Add ragged array runtime functions
+* Allow exterior branch to outermost WHERE construct statement
+* Fix ORDER= argument to RESHAPE
+* Fix rounding edge case in F output editing
+* Handle ENTRY names in IsPureProcedure() predicate
+* Allow implicit procedure pointers to associate with explicit procedures
+* Fix a bug in INQUIRE(IOLENGTH=) output
+* Remove default argument from function template specialization
+* Check ArrayRef base for contiguity in IsSimplyContiguousHelper
+* Deal with negative character lengths in semantics
+* Fix INQUIRE(PAD=) and (POSITION=) for predefined units
+* Add a semantics test for co_sum
+* Fix off-by-one results from folding MAXEXPONENT and MINEXPONENT
+* Skip `Fortran STOP:` before message when NO_STOP_MESSAGE is set
+* Fix printing of constc and parsing of  #fir.real
+* Predefine unit 0 connected to stderr
+* Add -fno-automatic, refine IsSaved()
+* Correct the argument keyword for AIMAG(Z=...)
+* Inclusive language: remove instances of master
+* Return true in IsSymplyContiguous for allocatables
+* Fix usage & catch errors for MAX/MIN with keyword= arguments
+* Re-fold bounds expressions in DATA implied DO loops
+* Correct INQUIRE(POSITION= & PAD=)
+* Rearrange prototype & code placement of IsCoarray()    
+* Replace notifyMatchFailure with TODO hard failures
+* TargetRewrite: Rewrite fir.address_of(func)
+* Fix folding of EXPONENT() intrinsic function
+* OPEN(RECL=) handling for sequential formatted I/O
+* Avoid potential deadlock in CloseAll()
+
+Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
 ### LFortran
 
