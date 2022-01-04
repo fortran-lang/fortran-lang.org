@@ -2,6 +2,147 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 642,
+            "user": "awvwgk",
+            "date": "2021-12-27 12:57:24+00:00",
+            "title": "Replace polymorphic assignment with move_alloc",
+            "text": "allows building with GCC 5 (conda-forge Windows toolchain)",
+            "comments": []
+        },
+        {
+            "number": 638,
+            "user": "awvwgk",
+            "date": "2021-12-19 10:13:34+00:00",
+            "title": "Creating compiler toolchains",
+            "text": "We currently detect our compiler toolchain by identifying it from the Fortran compiler, with the default being gfortran. This is somewhat suboptimal since it doesn't account for the C compiler and because changes in the PATH are not correctly considered in our toolchain.\nHere is a proposal for creating an fpm compiler command inspired by spack compiler:\n\nallow to find installed compilers by searching the PATH for standard names (done automatically on first invocation)\ninspection/modification of existing compiler toolchains possible (checksum?)\navailable toolchains are user settings in ~/.config/fpm/toolchain/*.toml or ~/.config/fpm/toolchain.toml (individual files might be easier to share/reuse)\nspecify the default toolchain in ~/.config/fpm/config.toml\nthe commands for --compiler, --c-compiler, ... are passed to fpm compiler internally (create new toolchain on demand)\ntoolchain name is used to prefix build output directory (maybe include a digest/slug?)\npossibility to perform an integrity check of toolchain (in case of system upgrade, ...)",
+            "comments": []
+        },
+        {
+            "number": 637,
+            "user": "urbanjost",
+            "date": "2021-12-15 11:16:09+00:00",
+            "title": "minor bug when a program file does not contain a PROGRAM directive",
+            "text": "Description\nA program directive is optional, but if your main program does not contain a PROGRAM directive it is not identified as a program. It would be non-trivial (I think) to scan a file and stop on a subroutine or function defininition and then ignoring comments to decide a file is a main program source  (and not an INCLUDE file) by seeing if code remains with a more general file parser, but should the documentation mention a PROGRAM directive is mandatory for fpm?  Or maybe the message could mention if a .f90/.f file is skipped?\nExpected Behaviour\nA program would be built\nVersion of fpm\n0.5.0\nPlatform and Architecture\nAll\nAdditional Information\nNo response",
+            "comments": []
+        },
+        {
+            "number": 636,
+            "user": "awvwgk",
+            "date": "2021-12-14 22:16:11+00:00",
+            "title": "Remove duplicated documentation from this repo",
+            "text": "Now that we have a dedicated repository for the fpm documentation we should try to minimize the duplication and overlap of different information sources.\n\n move everything from the ford pages section: https://fortran-lang.github.io/fpm/page/index.html\n move markdown documents:\n\n https://github.com/fortran-lang/fpm/blob/main/PACKAGING.md\n https://github.com/fortran-lang/fpm/blob/main/manifest-reference.md\navailable at: https://fpm.fortran-lang.org/en/spec/manifest.html\n\n\n check wiki for salvageable documentation: https://github.com/fortran-lang/fpm/wiki",
+            "comments": []
+        },
+        {
+            "number": 635,
+            "user": "awvwgk",
+            "date": "2021-12-13 21:40:25+00:00",
+            "title": "Only compile source of dependencies needed for project",
+            "text": "Not sure whether we currently have a mechanism to discard disconnected target graphs from the compilation which are not needed for any module in the library. It could be beneficial to only compile source code we actually use in our project, however we have to be careful to not discard non-module functions (either bind(c) or declared outside of a module).\nThis way we could depend on stdlib without having to worry about a too large single file version which can't be compiled anymore and lose our most important bootstrap mechanism.",
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-12-14 08:38:02+00:00",
+                    "text": "For stdlib specifically, I've been thinking it would be nice to have the possibility to only download/build selected modules specified in the manifest. I think what you are suggesting here is precisely this, however fpm would still be required to parse everything."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-12-15 12:32:37+00:00",
+                    "text": "This should be possible and is something I have thought would be useful.\n\n... however we have to be careful to not discard non-module functions\n\nThe same goes for submodule objects which are not technically part of the module dependency tree (hence #556)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-15 12:45:15+00:00",
+                    "text": "The same goes for submodule objects which are not technically part of the module dependency tree (hence #556).\n\nWould a weak/link-time dependency of the archive or the executable target help to capture the complete graph?"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-12-15 12:50:51+00:00",
+                    "text": "Would a weak/link-time dependency of the archive or the executable target help to capture the complete graph?\n\nYes, I think something like that would work."
+                }
+            ]
+        },
+        {
+            "number": 634,
+            "user": "p-costa",
+            "date": "2021-12-12 22:44:51+00:00",
+            "title": "Better extraction of the Fortran compiler from the MPI wrapper",
+            "text": "This PR adds a very minor change.\nFirst, it checks the MPI wrapper flag -show instead of -show-me:command, since the latter is absent in libraries like MPICH, while -show seems ubiquitous (at least in MPICH, OpenMPI, and Spectrum MPI have it).\nSecond, it strips the output string into several parts and fetches the first (command) part, to handle command outputs like:\n$ mpifort --show\n/usr/bin/gfortran -I/usr/include -pthread -I/usr/lib/openmpi -L/usr/lib/openmpi -Wl,-rpath -Wl,/usr/lib/openmpi -Wl,--enable-new-dtags -lmpi_usempif08 -lmpi_usempi_ignore_tkr -lmpi_mpifh -lmpi`;\neven with the previous flag, the current implementation would not detect the compiler correctly in some instances like the following output I got from Spectrum MPI.\n$ mpif90 -showme:command\ngfortran -I/long_path_name/spectrum_mpi/10.4.0/binary/lib/fortsupport_gfortran\nBut perhaps at a later stage, one could do better as suggested in #354.\nThis seems like a very minor fix, so I did not open an issue as suggested in the contributing guidelines. However, if it is best, I can close this and open an issue first.",
+            "comments": [
+                {
+                    "user": "p-costa",
+                    "date": "2021-12-12 23:23:48+00:00",
+                    "text": "One issue that this PR does not solve is that outputs like the following:\n\n$ mpifort -show\ngfortran-11 -g -framework OpenCL (...)\nor\n\n$ mpifort -show\nxlf_r -I/long_path_name/compilers/cuda/10.1/none/include -lmpifort -lmpi -lcuda\nwill remain undetected since they do not match precisely gfortran or xlf90."
+                }
+            ]
+        },
+        {
+            "number": 633,
+            "user": "awvwgk",
+            "date": "2021-12-12 19:49:00+00:00",
+            "title": "Automatic location of package manifest interfers with commands independent project root",
+            "text": "Description\nUsing an fpm command which does not require to be in the project root will still attempt to find a package manifest.\nFor fpm new this can produce a spurious printout in the best case\n\u276f fpm new example\n + mkdir -p example\n + cd example\n + mkdir -p example/src\n + mkdir -p example/app\n + mkdir -p example/test\n + git init example\nInitialized empty Git repository in /home/awvwgk/projects/src/git/example/.git/\nfpm: Leaving directory '/home'\n\nOr create the new project in an unexpected location when inside another fpm project.\nExpected Behaviour\nHave a way for plugins and commands to require knowing the location of the package manifest. Only change directory if package manifest is actually required by command / plugin.\nVersion of fpm\n0.5.0\nPlatform and Architecture\nall\nAdditional Information\nNo response",
+            "comments": []
+        },
+        {
+            "number": 632,
+            "user": "tueda",
+            "date": "2021-12-11 08:01:55+00:00",
+            "title": "Module interface files of dev-dependencies don't need to be installed",
+            "text": "Description\nIf I understand correctly, dev-dependencies in the fpm.toml file specifies dependencies for development (e.g., tests), and this dependency should not be exposed to dependent projects in any way. But when installing a library by fpm install, fpm 0.5.0 seems to copy module interface files of dev-dependencies of the library, which should not happen.\nSteps to reproduce the problem:\nfpm new bug --lib --test\ncd bug\nsed -i 's/library = false/library = true/' fpm.toml\necho '[dev-dependencies]' >>fpm.toml\necho 'test-drive.git = \"https://github.com/fortran-lang/test-drive\"' >>fpm.toml\nfpm install --prefix $(pwd)\nHere, the sed ... and echo ... commands write the following lines in fpm.toml:\n[install]\nlibrary = true\n[dev-dependencies]\ntest-drive.git = \"https://github.com/fortran-lang/test-drive\"\nThen, fpm install causes installation of .mod files of dev-dependencies (testdrive.mod and testdrive_version.mod in this example):\n# Update: build/gfortran_E691F5CC75D6381A/bug/libbug.a -> /home/tueda/tmp/20211211/bug/lib\n# Update: build/gfortran_E691F5CC75D6381A/bug.mod -> /home/tueda/tmp/20211211/bug/include\n# Update: build/gfortran_E691F5CC75D6381A/testdrive.mod -> /home/tueda/tmp/20211211/bug/include\n# Update: build/gfortran_E691F5CC75D6381A/testdrive_version.mod -> /home/tueda/tmp/20211211/bug/include\n\nExpected Behaviour\nfpm install should not install module interface files of dev-dependencies.\nVersion of fpm\n0.5.0\nPlatform and Architecture\nUbuntu 20.04.2 (5.10.60.1-microsoft-standard-WSL2), x86_64\nAdditional Information\nfpm 0.5.0 and gfortran 11.2.0_3 installed via Homebrew.",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-13 21:08:36+00:00",
+                    "text": "Indeed, target specific dependencies and development dependencies shouldn't get installed. The installation step for the modules is implemented here\n\n  \n    \n      fpm/src/fpm/cmd/install.f90\n    \n    \n        Lines 72 to 73\n      in\n      d99ad59\n    \n    \n    \n    \n\n        \n          \n           call install_module_files(installer, targets, error) \n        \n\n        \n          \n           call handle_error(error) \n        \n    \n  \n\n\nby filtering out all modules from the targets:\n\n  \n    \n      fpm/src/fpm/cmd/install.f90\n    \n    \n         Line 119\n      in\n      d99ad59\n    \n    \n    \n    \n\n        \n          \n           call filter_modules(targets, modules) \n        \n    \n  \n\n\nThe implementation of the filter step can be found here:\n\n  \n    \n      fpm/src/fpm_targets.f90\n    \n    \n        Lines 679 to 700\n      in\n      d99ad59\n    \n    \n    \n    \n\n        \n          \n           subroutine filter_modules(targets, list) \n        \n\n        \n          \n               type(build_target_ptr), intent(in) :: targets(:) \n        \n\n        \n          \n               type(string_t), allocatable, intent(out) :: list(:) \n        \n\n        \n          \n            \n        \n\n        \n          \n               integer :: i, j, n \n        \n\n        \n          \n            \n        \n\n        \n          \n               n = 0 \n        \n\n        \n          \n               call resize(list) \n        \n\n        \n          \n               do i = 1, size(targets) \n        \n\n        \n          \n                   associate(target => targets(i)%ptr) \n        \n\n        \n          \n                       if (.not.allocated(target%source)) cycle \n        \n\n        \n          \n                       if (target%source%unit_type == FPM_UNIT_SUBMODULE) cycle \n        \n\n        \n          \n                       if (n + size(target%source%modules_provided) >= size(list)) call resize(list) \n        \n\n        \n          \n                       do j = 1, size(target%source%modules_provided) \n        \n\n        \n          \n                           n = n + 1 \n        \n\n        \n          \n                           list(n)%s = join_path(target%output_dir, & \n        \n\n        \n          \n                               target%source%modules_provided(j)%s) \n        \n\n        \n          \n                       end do \n        \n\n        \n          \n                   end associate \n        \n\n        \n          \n               end do \n        \n\n        \n          \n               call resize(list, n) \n        \n\n        \n          \n           end subroutine filter_modules \n        \n    \n  \n\n\nAn additional scope information to only select module files of required projects could be passed, but I'm currently not sure whether the targets still know which project they are associated to. I think we have to install all module files from the whole dependency tree of the library, since we include all those sources in the archive at the moment."
+                }
+            ]
+        },
+        {
+            "number": 630,
+            "user": "urbanjost",
+            "date": "2021-12-08 15:59:20+00:00",
+            "title": "just allow . on new subcommand instead of changing canonical path pro\u2026",
+            "text": "The previous change to make canon_path(3f) technically more correct or like realpath(3c) exposed other uses of the routine not compatible with a real realpath(3c) behavior, so making simple change to special-case the \".\" pathname or a null pathname in the new subcommand so that\nfpm new --backfill\nfpm new . --backfill\nwork; as currently the --backfill option requires a pathname including at least the base directory name, which is non-intuitive.\nor it cannot be used from within the actual project main directory.",
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2021-12-08 16:07:35+00:00",
+                    "text": "Note the change is made such that if the canonical name is subsequently returned by canon_path(3f) the code will still work, the change of \".\" to the current directory will just become redundant."
+                }
+            ]
+        },
+        {
+            "number": 629,
+            "user": "urbanjost",
+            "date": "2021-12-08 15:39:22+00:00",
+            "title": "make canon_path more canonical",
+            "text": "making canon_path more like realpath exposed uses of canon_path not compatible with a realpath call; so treating . or a missing name as a special case directly in the new subcommand.",
+            "comments": []
+        },
+        {
+            "number": 628,
+            "user": "urbanjost",
+            "date": "2021-12-08 14:32:12+00:00",
+            "title": "make canon_path more canonical",
+            "text": "canon_path is intended to be replaced with an equivalent of realpath(3c), and since there is already a procedure to get the current directory, a step towards canon_path returning what a realpath(3c) would is to replace a leading \".\" with the current directory.\nThis also allows the new subcommand to use the pathname \".\"  when the --backfill option is present. It has been a non-intuitive feature of fpm that a backfill requires a full pathname, as in\nfpm new `pwd` --backfill\ninstead of\nfpm new --backfill\nfpm new . --backfill",
+            "comments": []
+        },
+        {
+            "number": 627,
+            "user": "urbanjost",
+            "date": "2021-12-08 02:43:58+00:00",
+            "title": "only the file main.f90 is built if only one file exists in app/",
+            "text": "Description\nauto-build of files in the app/ directory only occurs if the file main.f90 exists. Even the case where main.f90 is renamed to main.F90\nis not built.\nfpm new bug\ncd bug\nmv app/main.f90 app/main.F90\ntree\n\u251c\u2500\u2500 app\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 main.F90\n\u251c\u2500\u2500 fpm.toml\n\u2514\u2500\u2500 README.md\n\n1 directory, 3 files\n fpm build\n<ERROR>*cmd_build*:package error:Neither library nor executable found, there is nothing to do\nSTOP 1\nThis is true in general. If I have only the file app/myprogram.f90 in app/ it is not built automatically, but\nif I leave the trivial app/main.f90 file generated by fpm new and add the file app/myprogram.f90 both\nprograms are built just using build fpm.\nExpected Behaviour\nI expect that with auto-build on any programs in the app/ directory would be built, and that it would not require app/main.f90 to be present; as the src/ directory does not require src/main.f90 to be present for an auto-build to work.\nIf the file is explicitly added to the fpm.toml file it is built, but I do not expect that to be required.\nAlso, somewhat confusingly, if I have app/main.f90 and app/main.F90  in the above I get \"main\" and \"bug\" built; I might expect an error to occur indicating there is a duplicate and for main.F90 to also be building an executable called \"bug\" but that is maybe more arguable.\nVersion of fpm\n0.4.0\nPlatform and Architecture\nAll\nAdditional Information\nAlso, reserving the name \"main.f90\"  is perhaps OK, but it seems more natural for the new subcommand to create a file called\n\"package_name\".f90 instead of \"main.f90\"; but that does not get built either unless this behavior (requiring main.f90 to exist to auto-build).  Looks like instead of testing for main.f90 testing if there are contents in the app/ directory would correct at least part of this (not seeing if filenames are the same ignoring suffixes would need another change though, I think).",
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-13 21:11:49+00:00",
+                    "text": "This could be an issue with how we handle the default executable, test and example target. In case of automatic detection we actually don't have to create those targets in the manifest because they will be found later, this might be something that is controlled completely by the setup of the manifest data types.\nThe build table is parsed before we parse the executables and the defaults are applied even later."
+                }
+            ]
+        },
+        {
             "number": 625,
             "user": "ivan-pi",
             "date": "2021-11-27 23:33:55+00:00",
@@ -17,6 +158,11 @@
                     "user": "rouson",
                     "date": "2021-11-30 09:12:21+00:00",
                     "text": "I think this is unnecessary and not necessarily advisable unless required to address a specific problem.   See my comments in the cited Discourse thread."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-12-01 13:14:44+00:00",
+                    "text": "Given that no specific problem has been encountered yet, I will close this for the time-being."
                 }
             ]
         },
@@ -115,6 +261,26 @@
                     "user": "LKedward",
                     "date": "2021-11-30 16:16:19+00:00",
                     "text": "somewhat ironically, I immediately miss being able to get all the messages on a built project. Is that something you were going to build back in?\n\nI agree we should build this in but I'm not sure what the user interface would be right now (fpm log, fpm build --log?) and so I suggest leaving this for a future PR."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-04 10:46:25+00:00",
+                    "text": "A minor issue I encountered is that the output is not correctly aligned, the compiling... case starts a column before the done and failed output.\n fpm_backend_console.f90                done.\n fpm_constants.f90                      done.\n fpm_manual.f90                         done.\n fpm_strings.f90                        done.\nscript.f90                             compiling...\nconstants.f90                          compiling...\nversion.f90                            compiling...\n\nAnother thing, building a deeply nested project like TOML Fortran leads to printout like this\n + mkdir -p build/dependencies\n color.f90                              done.\n constants.f90                          done.\n version.f90                            done.\n tomlf.c                                done.\n datetime.f90                           done.\n error.f90                              done.\n verify.f90                             done.\n diagnostic.f90                         done.\n main.f90                               done.\n convert.f90                            done.\n utils.f90                              done.\n value.f90                              done.\n keyval.f90                             done.\n base.f90                               done.\n sort.f90                               done.\n vector.f90                             done.\n structure.f90                          done.\n array.f90                              done.\n table.f90                              done.\n type.f90                               done.\n ser.f90                                done.\n tokenizer.f90                          done.\n keyval.f90                             done.\n merge.f90                              done.\n character.f90                          done.\n array.f90                              done.\n table.f90                              done.\n build.f90                              done.\n de.f90                                 done.\n all.f90                                done.\n tomlf.f90                              done.\n libtoml-f.a                            done.\n toml-f                                 done.\n[100%] Project compiled successfully.\n\nWhere files with different paths but identical basename look like they are appearing twice in the compilation step."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2021-12-04 11:42:48+00:00",
+                    "text": "First of all, thanks to this PR, this gives the user experience a big step up.\nAnd, is it possible to add output path information of the target binaries to the --verbose information? It contains hash values that are easy for users to know, that will be useful.\n# `fpm build --verbose` info\n <INFO> BUILD_NAME: build\\gfortran\n <INFO> COMPILER:  gfortran\n <INFO> C COMPILER:  gcc\n <INFO> COMPILER OPTIONS:   -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fcheck=bounds -fcheck=array-temps -fbacktrace -fcoarray=single\n <INFO> C COMPILER OPTIONS:\n <INFO> LINKER OPTIONS:\n <INFO> INCLUDE DIRECTORIES:  []\n[100%] Project compiled successfully.\nFor example, when I first used fpm build, I couldn't know exactly where the generated binary was in unless: fpm run --runner file.\nProject is up to date\nbuild\\gfortran_2A42023B310FA28D\\app\\fpm.exe: PE32+ executable (console) x86-64, for MS Windows"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-12-06 09:02:54+00:00",
+                    "text": "A minor issue I encountered is that the output is not correctly aligned, the compiling... case starts a column before the done and failed output.\n\nAh yes, I'll sort that out.\n\nWhere files with different paths but identical basename look like they are appearing twice in the compilation step.\n\nI'll have to have a think about what the best way to address this is. Including full paths by default may lead to a lot of redundant output noise."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2021-12-06 09:07:16+00:00",
+                    "text": "And, is it possible to add output path information of the target binaries to the --verbose information? It contains hash values that are easy for users to know, that will be useful.\n\nThanks @zoziha - the output path hash was removed from the verbose summary information because it technically varies on a per-file basis (it can be different for different files with different flags). However, you can run fpm build --list to quickly get the output paths before building your project."
                 }
             ]
         },
@@ -133,7 +299,7 @@
                 {
                     "user": "urbanjost",
                     "date": "2021-11-23 02:51:11+00:00",
-                    "text": "I tend to break my tests into a confidence test that is very quick but exercises a few key features, a collection of short tests that do coverage, and what I usually call benchmark tests that are long-running. When I have moved those to fpm I have been breaking them up by name with the globbing feature like \"run test 'bench_', run test 'general_' and run test confidence; and in one case I made the test program a program that takes parameters that select which directory to run and put the other test programs into directories and did not find any of those quite hit the mark, so I think I will take  a look at how pytest does it. Any other examples of models to try?  I was thinking about lists of tests or directories that you could give a name to in the fpm.toml file, and then do something like \"run test -type plot\" or \"run test -type benchmark\", and earlier I had a PR that allowed for a \"y/n\" reply to a prompt that no one else seemed to like so I didn't pursue it."
+                    "text": "I tend to break my tests into a confidence test that is very quick but exercises a few key features, a collection of short tests that do coverage, and what I usually call benchmark tests that are long-running. When I have moved those to fpm I have been breaking them up by name with the globbing feature like \"run test 'bench_*', run test 'general_*' and run test confidence; and in one case I made the test program a program that takes parameters that select which directory to run and put the other test programs into directories and did not find any of those quite hit the mark, so I think I will take  a look at how pytest does it. Any other examples of models to try?  I was thinking about lists of tests or directories that you could give a name to in the fpm.toml file, and then do something like \"fpm run test -type plot\" or \"fpm run test -type benchmark\", and earlier I had a PR that allowed for a \"y/n\" reply to a prompt that no one else seemed to like so I didn't pursue it."
                 }
             ]
         },
@@ -492,6 +658,11 @@
                     "user": "urbanjost",
                     "date": "2021-11-30 03:54:50+00:00",
                     "text": "It says commonmark is a subset of MyST so I made a commonmark subdirectory in the fpm-tools/docs directory but I do not have an easy way to test it that I know of.  Do those look good?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-14 22:01:03+00:00",
+                    "text": "New docs are up, lets move all further discussion about the documentation to https://github.com/fortran-lang/fpm-docs"
                 }
             ]
         },
@@ -4543,7 +4714,7 @@
             "user": "rouson",
             "date": "2021-04-01 14:47:53+00:00",
             "title": "Let's change the name of the default branch to \"main\"",
-            "text": "Please see https://www.zdnet.com/article/github-to-replace-master-with-main-starting-next-month/.",
+            "text": "Please see https://www.zdnet.com/article/github-to-replace-master-with-main-starting-next-month/.\nBeside fpm those repositories are currently using master as name for the default branch\n\n https://github.com/fortran-lang/stdlib\n https://github.com/fortran-lang/stdlib-docs\n https://github.com/fortran-lang/fpm-haskell\n https://github.com/fortran-lang/fpm-registry\n https://github.com/fortran-lang/fortran-lang.org\n https://github.com/fortran-lang/talks\n https://github.com/fortran-lang/benchmarks\n https://github.com/fortran-lang/fftpack",
             "comments": [
                 {
                     "user": "milancurcic",
@@ -4558,7 +4729,7 @@
                 {
                     "user": "awvwgk",
                     "date": "2021-04-01 15:35:46+00:00",
-                    "text": "I'm all for migrating the default branch name, but I don't think it makes much sense unless it happens for all @fortran-lang repositories. Beside fpm those repositories are currently using master as name for the default branch\n\nhttps://github.com/fortran-lang/stdlib\nhttps://github.com/fortran-lang/stdlib-docs\nhttps://github.com/fortran-lang/fpm-haskell\nhttps://github.com/fortran-lang/fpm-registry\nhttps://github.com/fortran-lang/fortran-lang.org\nhttps://github.com/fortran-lang/talks\nhttps://github.com/fortran-lang/benchmarks"
+                    "text": "I'm all for migrating the default branch name, but I don't think it makes much sense unless it happens for all @fortran-lang repositories."
                 },
                 {
                     "user": "milancurcic",
@@ -5013,6 +5184,21 @@
                     "user": "awvwgk",
                     "date": "2021-11-24 09:37:03+00:00",
                     "text": "Note that the formula above is outdated. I'm maintaining a tap for fpm at https://github.com/awvwgk/homebrew-fpm for my programming course. However, I didn't get it to build on Linuxbrew so far, due to the choice of GFortran default version.\nThere is no downside submitting it, but I'm not a brew user. Feel free to submit the formula if you like."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-30 09:43:42+00:00",
+                    "text": "Homebrew does only accept stable software in homebrew-core (e.g. LFortran got rejected), therefore I don't think it makes send to submit fpm there. However, I can offer to migrate my tap to the @fortran-lang namespace if there is interest and we can maintain Fortran related packages collaboratively."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2021-12-30 22:04:04+00:00",
+                    "text": "@awvwgk I'm interested in this and, as I mentioned above, I think it will do a lot to increase the likelihood of people adopting fpm.  Many novice users who are unfamiliar with building open-source software might not try a package that's not available via package manager."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-30 22:39:25+00:00",
+                    "text": "Thanks, Damian. I'm looking for at least one user interested in maintaining this tap together with me. If you want I can add you as a collaborator to the repo."
                 }
             ]
         },
@@ -6538,6 +6724,11 @@
                     "user": "certik",
                     "date": "2021-02-12 14:39:49+00:00",
                     "text": "@awvwgk finally somebody is doing it! Thanks for the link."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2021-12-13 19:15:46+00:00",
+                    "text": "@wclodius2 @jvdp1 This might be needed to allow using C++ in the fpm version of stdlib (wclodius2/stdlib#6)"
                 }
             ]
         },
@@ -17040,6 +17231,11 @@
                     "user": "certik",
                     "date": "2021-02-19 16:52:25+00:00",
                     "text": "I just created an issue #365 where we should discuss where to host such packages."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2021-12-14 08:27:22+00:00",
+                    "text": "Just ticked off two more packages from @jacobwilliams. Thanks Jacob for your effort."
                 }
             ]
         },
