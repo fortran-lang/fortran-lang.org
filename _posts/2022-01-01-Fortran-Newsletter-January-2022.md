@@ -184,6 +184,14 @@ you are interested. We will help you get up to speed.
 
 ## Events
 
+* fpm has a new documentation website hosted at
+  [fpm.fortran-lang.org](https://fpm.fortran-lang.org/).
+  This website will provide user-oriented tutorials and how-to guides, as well
+  as developer-oriented reference documents and specifications.
+  We welcome all contributions to the fpm documentation, including translations
+  to other languages.
+  Please visit the [fpm-docs repo](https://github.com/fortran-lang/fpm-docs) to
+  get started.
 * We had our 21st Fortran Monthly call on December 14.
   You can watch the recording below:
   <iframe width="560" height="315" src="https://www.youtube.com/embed/NSvL2yrefH8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
