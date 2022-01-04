@@ -267,7 +267,15 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 
 ### LFortran
 
-TODO @certik
+* Beginning of refactoring of ASR (Abstract Semantic Representation) into a standalone library
+* New intrinsics: mvbits, bge, bgt, ble, blt, ibits
+* generic procedure resolution fixes
+* FreeBSD fixes
+* Implement `.xor.` (LFortran as well as GFortran extension)
+* Fixes to large integers (BigInt) handling
+* Added support for `private`, `final` attributes in derived types/classes
+
+The following people contributed code in December 2021: Ondřej Čertík, Gagandeep Singh, Harris Snyder
 
 We are looking for new contributors. Please do not hesitate to contact us if
 you are interested. We will help you get up to speed.
