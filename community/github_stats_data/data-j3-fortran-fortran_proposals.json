@@ -2,6 +2,35 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 241,
+            "user": "jacobwilliams",
+            "date": "2021-12-13 02:38:00+00:00",
+            "title": "for loop",
+            "text": "Not sure if this has already been proposed or not. But I keep wishing Fortran had something like the python for style loops like this:\nfor x in [10, 23, 1]:\n   do_something(x)\nor with zip:\nfor x,y in zip([10,23,1], ['a', 'b', 'cc']):\n  do_something(x,y)\nof course, the fortran way would be something like that:\ninteger :: i  ! just a counter\ninteger,dimension(3),parameter :: vals = [10, 23, 1]\ncharacter(len=2),dimension(3),parameter :: cals = ['a ', 'b ', 'cc']\ndo i = 1, 3\n  call do_something(vals(i), cals(i))\nend do\nWhat do people think?\nI don't know what the syntax would be...\nfor (x => [10, 23, 1], c => ['a ', 'b ', 'cc'])\n  call do_something(x,c)\nend for",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2021-12-13 05:48:18+00:00",
+                    "text": "Yes, Julia also has this feature. I think this can be done, it would bring Fortran closer to Python and Julia."
+                },
+                {
+                    "user": "cmacmackin",
+                    "date": "2021-12-13 18:57:32+00:00",
+                    "text": "I like the idea. I think maybe we should use something different than pointer assignment for the syntax though. This is because\n\nIt makes it look like the counter variable is being associated with the entire array.\nUsing a new operator (e.g., ->) leaves open the possibility that it could be overridden for derived types, giving the possibility of custom iterators.\n\nWe don't need to think out all the technicalities of how such custom iterators would be implemented right now, but we can at least leave the possibility open for the future."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2021-12-13 21:17:17+00:00",
+                    "text": "Another option is a new .in. operator."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-12-14 15:44:11+00:00",
+                    "text": "I have wanted the same thing and support the proposal, but note that Impure elemental subroutines can simulate for loops over collections"
+                }
+            ]
+        },
+        {
             "number": 240,
             "user": "ivan-pi",
             "date": "2021-11-11 11:11:53+00:00",
@@ -625,6 +654,16 @@
                     "user": "FortranFan",
                     "date": "2021-08-28 21:57:00+00:00",
                     "text": "I didn't understand your argument. Can you elaborate on this? My understanding is that Rust does not have exceptions\n\n@certik, when I mentioned \"exception\" I only meant it as in ordinary English usage as illustrated in this quote! :-)"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-12-08 16:20:52+00:00",
+                    "text": "Besides making end associate optional, an alternative would be to allow end associate to pertain to a list of named variables, so that the sample code in the OP could be written\nassociate(val1 => (some_expr))\n  associate(val2 => val1 + another_expr)\n    associate(val3 => val2 + yet_another_expr)\n      result = val1 + val2 * val3\nend associate (val1, val2, val3)\n\nIt would resemble the syntax deallocate(val1, val2, val3). I don't mind a single end associate statement, but having many end associate statements at the end of a program unit is so verbose and tedious that many Fortranners will use good old local variables instead."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2021-12-17 16:38:12+00:00",
+                    "text": "As an alternative to a bunch of end associate statements at the end of a program unit, one could introduce a statement\nend associate_all that terminates all associations previously defined."
                 }
             ]
         },
@@ -7438,6 +7477,11 @@
                     "user": "ivan-pi",
                     "date": "2020-10-15 13:46:50+00:00",
                     "text": "Perhaps of interest: Algorithm 1005: Fortran Subroutines for Reverse Mode Algorithmic Differentiation of BLAS Matrix Operations. I could not find the actual Fortran routines. But it shows at least there is still large interest in having the possibility to automatically differentiate Fortran programs that rely on BLAS. Hopefully, LAPACK follows (in the paper they already show discuss algorithmic differentiation of the Cholesky decomposition).\n\nThe routines are now available on the ACM page: https://dl.acm.org/doi/10.1145/3382191"
+                },
+                {
+                    "user": "dalon-work",
+                    "date": "2021-12-20 19:31:40+00:00",
+                    "text": "CppCon 2021 recently posted a talk about implementing AD in LLVM as a plugin, using the compiler directly, instead of any language-level constructs. I assume this would affect Flang as well.\nhttps://youtu.be/1QQj1mAV-eY?t=2240\nAt the end he describes an effort to make this part of the C++ standard somehow."
                 }
             ]
         },
