@@ -64,7 +64,7 @@ complex :: cx
 
    ! exp(3) is the inverse function of log(3) so
    ! the real compoenent of the input must be less than or equal to 
-   write(*,*)'maximum real real component',log(huge(0.0)) 
+   write(*,*)'maximum real component',log(huge(0.0)) 
    ! or for double precision
    write(*,*)'maximum doubleprecision real component',log(huge(0.0d0)) 
 
@@ -79,7 +79,7 @@ Results:
  given the complex value  (3.000000,4.000000)
  exp(x) is (-13.12878,-15.20078)
  is the same as (-13.12878,-15.20078)
- maximum real real component   88.72284    
+ maximum real component   88.72284    
  maximum doubleprecision real component   709.782712893384     
 ```
 ## __Standard__
