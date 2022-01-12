@@ -5,7 +5,7 @@ permalink: /learn/intrinsics/MVBITS
 ---
 ## __Name__
 
-__mvbits__(3) - \[BIT:COPY\] Move bits from one integer to another
+__mvbits__(3) - \[BIT:COPY\] reproduce bit patterns found in one integer in another
 
 
 ## __Syntax__
@@ -14,9 +14,9 @@ call mvbits(from, frompos, len, to, topos)
 ```
 ## __Description__
 
-__mvbits(3f)__ copies a range of adjacent bits from a specified position
-in the _integer_ __from__ to a specified position in __to__ (which is
-an integer of the same kind as __from__).  It otherwise leaves the bits
+__mvbits(3f)__ copies a bit pattern found in a range of adjacent bits in
+the _integer_ __from__ to a specified position in another integer __to__
+(which is of the same kind as __from__).  It otherwise leaves the bits
 in __to__ as-is.
 
 The bit positions copied must exist within the value of __from__.
@@ -31,7 +31,7 @@ The bits are numbered __0__ to __bit_size(i)-1__, from right to left.
     : An _integer_ to read bits from.
   - __frompos__
     : __frompos__ is the position of the first bit to copy. It is a
-    nonnegative _integer_ value <= __bit_size(from)__.
+    nonnegative _integer_ value < __bit_size(from)__.
   - __len__
     : A nonnegative _integer_ value that indicates how many bits to
     copy from __from__. It must not specify copying bits past the end
@@ -61,9 +61,28 @@ The bits are numbered __0__ to __bit_size(i)-1__, from right to left.
       program demo_mvbits
       use,intrinsic :: iso_fortran_env,  only : int8, int16, int32, int64
       implicit none
-      integer(kind=int32) :: abcd_int
-      character(len=*),parameter :: fmt= '(g0,t30,a,t40,b0)'
-      
+      integer(kind=int32) :: intfrom, intto, abcd_int
+      character(len=*),parameter :: bits= '(g0,t30,b32.32)'
+      character(len=*),parameter :: fmt= '(g0,t30,a,t40,b32.32)'
+
+         intfrom=huge(0)  ! all bits are 1 accept the sign bit
+	 intto=0          ! all bits are 0
+
+         !! CHANGE BIT 0
+         ! show the value and bit pattern
+         write(*,bits)intfrom,intfrom
+         write(*,bits)intto,intto
+
+         ! copy bit 0 from intfrom to intto to show the rightmost bit changes
+         !          (from,    frompos, len,    to, topos)
+         call mvbits(intfrom,       0,   1, intto,     0) ! change bit 0
+         write(*,bits)intto,intto
+
+         !! COPY PART OF A VALUE TO ITSELF
+	 call mvbits(intfrom,0,1,intfrom,31) ! can copy bit from a value to itself
+         write(*,bits)intfrom,intfrom
+
+         !! MOVING BYTES AT A TIME
          ! make native integer value with bit patterns
          ! that happen to be the same as the beginning of the alphabet
 	 ! to make it easy to see the bytes are reversed
@@ -86,8 +105,8 @@ The bits are numbered __0__ to __bit_size(i)-1__, from right to left.
       !               
       integer(kind=int32), intent(in)  :: intin
       integer(kind=int32) :: intout
-        ! copy bytes from input value to new position in output value
-        !call mvbits(from,  frompos, len,   to,     topos)
+         ! copy bytes from input value to new position in output value
+         !          (from,  frompos, len,     to, topos)
          call mvbits(intin,       0,   8, intout,    24) ! byte1 to byte4
          call mvbits(intin,       8,   8, intout,    16) ! byte2 to byte3
          call mvbits(intin,      16,   8, intout,     8) ! byte3 to byte2
@@ -98,10 +117,16 @@ The bits are numbered __0__ to __bit_size(i)-1__, from right to left.
 ```
   Results:
 ```text
+
+   2147483647                   01111111111111111111111111111111
+   0                            00000000000000000000000000000000
+   1                            00000000000000000000000000000001
+   -1                           11111111111111111111111111111111
     native
-   1684234849                   abcd      1100100011000110110001001100001
+   1684234849                   abcd      01100100011000110110001001100001
     non-native
-   1633837924                   dcba      1100001011000100110001101100100
+   1633837924                   dcba      01100001011000100110001101100100
+================================================================================
 ```
 ## __Standard__
 
@@ -121,3 +146,4 @@ Fortran 95 and later
 [__ieor__(3)](IEOR)
 
 ###### fortran-lang intrinsic descriptions (License: MIT) @urbanjost
+
