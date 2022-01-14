@@ -26,20 +26,17 @@ Unavailable time and date _character_ parameters return blanks.
 ## __Arguments__
 
   - __date__
-    : The type shall be _character(len=8)_ or larger, and of default
-    kind. __date__ has the form ccyymmdd.
+    : A character string of default kind of the form CCYYMMDD, of length 8 or larger.
 
   - __time__
-    : The type shall be _character(len=10)_ or larger, and of default
-    kind. __time__ has the form hhmmss.sss.
+    : A character string of default kind of the form HHMMSS.SSS, of length 10 or larger.
 
   - __zone__
-    : The type shall be _character(len=5)_ or larger, and of default
-    kind. __zone__ has form (+-)hhmm, representing the difference with
-    respect to Coordinated Universal Time (UTC).
+    : A character string of default kind of the form (+-)HHMM, of length 5 or larger,
+    representing the difference with respect to Coordinated Universal Time (UTC).
 
   - __values__
-    : An _integer_ array of eight elements. On return __values__ contains:
+    : An _integer_ array of eight elements that contains:
 
       - __values__(1)
       : The year
