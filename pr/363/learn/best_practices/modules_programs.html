@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Modules and Programs - Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/363/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/363/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/best_practices/modules_programs" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/363/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/363/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/363" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 363</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/363/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/363/" class="navbar-brand">
+		    <img src="/pr/363/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/363/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/363/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/363/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/363/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/363/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/363/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+    
+  
+
+  <a href="/pr/363/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index 
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Fortran Best Practices</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><a href="/pr/363/learn/best_practices">
+        Introduction</a></li>
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/style_guide">
+          Fortran Style Guide</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/floating_point">
+          Floating Point Numbers</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/integer_division">
+          Integer Division</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li>
+          <b><a href="/pr/363/learn/best_practices/modules_programs">
+            Modules and Programs</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/arrays">
+          Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/multidim_arrays">
+          Multidimensional Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/element_operations">
+          Element-wise Operations on Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/allocatable_arrays">
+          Allocatable Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/file_io">
+          File Input/Output</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/callbacks">
+          Callbacks</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/363/learn/best_practices/type_casting">
+          Type Casting in Callbacks</a></li>
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Modules and Programs</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+      </div>
+
+      <p>Modules are the preferred way create modern Fortran libraries and applications.
+As a convention, one source file should always contain only one module, while
+the module name should match the filepath to allow easy navigation in larger
+projects. It is also recommended to prefix module names with the library name
+to avoid name clashes when used as dependency in other projects.</p>
+
+<p>An example for such a module file is given here</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">!&gt; Interface to TOML processing library.</span><span class="w">
+</span><span class="c1">!&gt;</span><span class="w">
+</span><span class="c1">!&gt; ...</span><span class="w">
+</span><span class="k">module</span><span class="w"> </span><span class="n">fpm_toml</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">fpm_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">error_t</span><span class="p">,</span><span class="w"> </span><span class="n">fatal_error</span><span class="p">,</span><span class="w"> </span><span class="n">file_not_found_error</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">fpm_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">tomlf</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">toml_table</span><span class="p">,</span><span class="w"> </span><span class="n">toml_array</span><span class="p">,</span><span class="w"> </span><span class="n">toml_key</span><span class="p">,</span><span class="w"> </span><span class="n">toml_stat</span><span class="p">,</span><span class="w"> </span><span class="n">get_value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+    </span><span class="p">&amp;</span><span class="w"> </span><span class="n">set_value</span><span class="p">,</span><span class="w"> </span><span class="n">toml_parse</span><span class="p">,</span><span class="w"> </span><span class="n">toml_error</span><span class="p">,</span><span class="w"> </span><span class="n">new_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_array</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
+    </span><span class="p">&amp;</span><span class="w"> </span><span class="n">toml_serializer</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">read_package_file</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">toml_table</span><span class="p">,</span><span class="w"> </span><span class="n">toml_array</span><span class="p">,</span><span class="w"> </span><span class="n">toml_key</span><span class="p">,</span><span class="w"> </span><span class="n">toml_stat</span><span class="p">,</span><span class="w"> </span><span class="n">get_value</span><span class="p">,</span><span class="w"> </span><span class="n">set_value</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">new_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_array</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">toml_error</span><span class="p">,</span><span class="w"> </span><span class="n">toml_serializer</span><span class="p">,</span><span class="w"> </span><span class="n">toml_parse</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+  </span><span class="c1">!&gt; Process the configuration file to a TOML data structure</span><span class="w">
+  </span><span class="k">subroutine</span><span class="w"> </span><span class="n">read_package_file</span><span class="p">(</span><span class="n">table</span><span class="p">,</span><span class="w"> </span><span class="n">manifest</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span><span class="w">
+    </span><span class="c1">!&gt; TOML data structure</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="n">toml_table</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">table</span><span class="w">
+    </span><span class="c1">!&gt; Name of the package configuration file</span><span class="w">
+    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">manifest</span><span class="w">
+    </span><span class="c1">!&gt; Error status of the operation</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="n">error_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">out</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">error</span><span class="w">
+    </span><span class="c1">! ...</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">read_package_file</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">fpm_toml</span><span class="w">
+</span></code></pre></div></div>
+
+<p>There are a few things in this example module to highlight. First, every module
+starts with comments documenting the purpose and content of the module.
+Similarly, every procedure starts with a comment briefly describing its
+purpose and the intent of the dummy arguments. Documentation is one of the most
+important parts of creating long-living software, regardless of language.</p>
+
+<p>Second, imports (<em>use</em>) and exports (<em>public</em>) are explicitly given, this
+allows on a glance at the module source to check the used and available
+procedures, constants and derived types. The imports are usually limited
+to the module scope rather than reimported in every procedure or interface
+scope. Similarly, exports are made explicitly by adding a <em>private</em> statement
+on a single line and explicitly listing all exported symbols in <em>public</em>
+statements.</p>
+
+<p>Finally, the <code class="highlighter-rouge">implicit none</code> statement works for the whole module and there
+is no need to repeat it within each procedure.</p>
+
+<p>Variables inside a module are static (<em>implicitly saved</em>). It is highly
+recommended to limit the usage of module variables to constant expressions,
+like parameters or enumerators only or export them as <em>protected</em> rather
+than <em>public</em>.</p>
+
+<p>Submodules can be used to break long dependency chains and shorten recompilation
+cascades in Fortran programs. They also offer the possibility to provide specialized
+and optimized implementations without requiring the use of preprocessor.</p>
+
+<p>An example from the Fortran standard library is the quadrature module, which
+only defines interfaces to module procedures, but no implementations</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">!&gt; Numerical integration</span><span class="w">
+</span><span class="c1">!&gt;</span><span class="w">
+</span><span class="c1">!&gt; ...</span><span class="w">
+</span><span class="k">module</span><span class="w"> </span><span class="n">stdlib_quadrature</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">qp</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">trapz</span><span class="w">
+  </span><span class="c1">! ...</span><span class="w">
+
+  </span><span class="c1">!&gt; Integrates sampled values using trapezoidal rule</span><span class="w">
+  </span><span class="k">interface</span><span class="w"> </span><span class="n">trapz</span><span class="w">
+    </span><span class="k">pure</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dx</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integral</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="w">
+    </span><span class="k">module</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_x_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integral</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_x_dp</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w"> </span><span class="n">trapz</span><span class="w">
+
+  </span><span class="c1">! ...</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="n">stdlib_quadrature</span><span class="w">
+</span></code></pre></div></div>
+
+<p>While the implementation is provided in separate submodules like the one for the
+trapezoidal integration rule given here.</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">!&gt; Actual implementation of the trapezoidal integration rule</span><span class="w">
+</span><span class="c1">!&gt;</span><span class="w">
+</span><span class="c1">!&gt; ...</span><span class="w">
+</span><span class="k">submodule</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_quadrature</span><span class="p">)</span><span class="w"> </span><span class="n">stdlib_quadrature_trapz</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">stdlib_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">check</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+  </span><span class="k">pure</span><span class="w"> </span><span class="k">module</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">dx</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integral</span><span class="w">
+    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w">
+
+    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">size</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+    </span><span class="k">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">
+      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_dp</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w">
+    </span><span class="k">case</span><span class="w"> </span><span class="n">default</span><span class="w">
+      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">n</span><span class="mi">-1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5_dp</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">select</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">trapz_dx_dp</span><span class="w">
+
+  </span><span class="c1">! ...</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">submodule</span><span class="w"> </span><span class="n">stdlib_quadrature_trapz</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Note that the module procedures do not have to be implemented in the same submodule.
+Several submodules can be used to reduce the compilation load for huge modules.</p>
+
+<p>Finally, when setting up a program, it is recommended to keep the actual implementations
+in the program body at minimum. Reusing implementations from modules allows you to write 
+reusable code and focus the program unit on conveying user input to the respective library 
+functions and objects.</p>
+
+
+      <div class="container-flex">
+
+        
+          
+            <a href="/pr/363/learn/best_practices/integer_division" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        
+
+        
+          
+          <a href="/pr/363/learn/best_practices/arrays"
+          style="margin-left: auto;">
+            <h3>
+              Next
+              <i class="fas fa-arrow-circle-right"></i>
+            </h3>
+          </a>
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/363/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/363/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/363/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/363/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/363/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.org/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/363/assets/js/fortranlang.js"></script>
+    <script src="/pr/363/assets/js/page_nav.js"></script>
+    <script src="/pr/363/assets/js/gh-contributors.js"></script>
+    <script src="/pr/363/assets/js/package_search.js"></script>
+    <script src="/pr/363/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
