@@ -81,7 +81,7 @@ we compile our program.
 Quite often, we do not know how big our array needs to be until we run our program, for example, if we are reading data from a file of unknown size.
 
 For this problem, we need `allocatable` arrays.
-These are _allocated_ while the program is runnning once we know how big the array needs to be.
+These are _allocated_ while the program is running once we know how big the array needs to be.
 
 __Example:__ allocatable arrays
 ```fortran
