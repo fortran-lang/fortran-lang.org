@@ -6,7 +6,20 @@
         fortranLang.loadJSON(fortranLang.baseurl+'/packages/package_index.json', search);
 
     }
+    
+function query_params(query) {
+    query = query.split('+').join(' ');
 
+    var params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(query)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
     
     function search(data){
         // Called after json data is loaded
@@ -15,7 +28,7 @@
         projects = data.projects;
 
         // Get search string
-        var queryString = fortranLang.findGetParameter('query').replace(/\+/g," ").replace(/"/g,'');
+        var queryString = query_params(fortranLang.findGetParameter('query'));
         document.getElementById('search-query').value = queryString;
 
         results = searchProjects(queryString,projects);
