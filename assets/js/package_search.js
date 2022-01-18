@@ -11,17 +11,15 @@ function query_params(query) {
     query = query.split('+').join(' ');
 
     var params = {},
-        tokens,qstring='',
+        tokens,
         re = /[?&]?([^=]+)=([^&]*)/g;
 
     while (tokens = re.exec(query)) {
-        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+        params['1'] = decodeURIComponent(tokens[2]);
     }
-    for( var i =0; i<query.length;i++){
-		qstring= qstring+params[i];
-		}
+    
 
-    return qstring;
+    return params['1'];
 }
     
     function search(data){
