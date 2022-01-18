@@ -26,7 +26,7 @@ function query_params(query) {
         //
         
         projects = data.projects;
-        alert(fortranLang.findGetParameter('query'));
+        
         // Get search string
         var queryString = query_params(fortranLang.findGetParameter('query'));
         document.getElementById('search-query').value = queryString;
