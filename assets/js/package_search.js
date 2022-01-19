@@ -15,7 +15,7 @@
         projects = data.projects;
         
         // Get search string
-		var query = fortranLang.findGetParameter('query').split('+').join(' ');
+		var query = window.location.href.split('+').join(' ');
 		
 		var tokens,queryString,
         re = /[?&]?([^=]+)=([^&]*)/g;
