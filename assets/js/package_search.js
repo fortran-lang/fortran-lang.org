@@ -17,12 +17,14 @@
         // Get search string
 		var query = fortranLang.findGetParameter('query').split('+').join(' ');
 		
-		var tokens,
+		var tokens,queryString,
         re = /[?&]?([^=]+)=([^&]*)/g;
-		tokens = re.exec(query);
+		 
 		
-		
-        var queryString = decodeURIComponent(tokens[2]);
+		while (tokens = re.exec(query)) {
+        queryString = decodeURIComponent(tokens[2]);
+    }
+	
 
         document.getElementById('search-query').value = queryString;
 
