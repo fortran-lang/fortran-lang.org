@@ -7,29 +7,23 @@
 
     }
     
-function query_params(query) {
-    query = query.split('+').join(' ');
 
-    var params = {},
-        tokens,
-        re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(query)) {
-        params['1'] = decodeURIComponent(tokens[2]);
-    }
-    
-
-    return params['1'];
-}
     
     function search(data){
         // Called after json data is loaded
-        //
         
         projects = data.projects;
         
         // Get search string
-        var queryString = query_params(fortranLang.findGetParameter('query'));
+		var query = fortranLang.findGetParameter('query').split('+').join(' ');
+		
+		var tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+		tokens = re.exec(query);
+		
+		
+        var queryString = decodeURIComponent(tokens[2]);
+
         document.getElementById('search-query').value = queryString;
 
         results = searchProjects(queryString,projects);
