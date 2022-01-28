@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Fortran newsletter: January 2022"
+title: "Fortran newsletter: February 2022"
 category: newsletter
 author: Jérémie Vandenplas
 ---
