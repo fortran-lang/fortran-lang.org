@@ -160,7 +160,7 @@ you are interested. We will help you get up to speed.
   get started.
 * We had our 22st Fortran Monthly call on January 17.
   You can watch the recording below:
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/NSvL2yrefH8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/93AObg7HsqM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 As usual, subscribe to the [mailing list](https://groups.io/g/fortran-lang) and/or
 join the [Discourse](https://fortran-lang.discourse.group) to stay tuned with the future meetings.
