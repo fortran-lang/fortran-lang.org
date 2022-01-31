@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: February 2022"
 category: newsletter
-authors: Jérémie Vandenplas, Alexis Perry-Holby
+authors: Jérémie Vandenplas, Alexis Perry-Holby, Sebastian Ehlert
 ---
 
 Welcome to the February 2022 edition of the monthly Fortran newsletter.
@@ -94,6 +94,19 @@ Here's what's new in fpm:
   Respect user provided main-files
 * [#645](https://github.com/fortran-lang/fpm/pull/645):
   Update module output directory command for flang-new/f18
+* [fpm-docs#47](https://github.com/fortran-lang/fpm-docs/pull/47)
+  [fpm-docs#46](https://github.com/fortran-lang/fpm-docs/pull/46)
+  [fpm-docs#45](https://github.com/fortran-lang/fpm-docs/pull/45)
+  [fpm-docs#44](https://github.com/fortran-lang/fpm-docs/pull/44)
+  [fpm-docs#41](https://github.com/fortran-lang/fpm-docs/pull/41)
+  [fpm-docs#39](https://github.com/fortran-lang/fpm-docs/pull/39):
+  French translation
+* [fpm-docs#43](https://github.com/fortran-lang/fpm-docs/pull/43):
+  Add testing workflow for source examples
+* [fpm-docs#40](https://github.com/fortran-lang/fpm-docs/pull/40):
+  Update Spanish translation
+* [fpm-docs#37](https://github.com/fortran-lang/fpm-docs/pull/37):
+  zh_CN: Update Chinese translations
 
 ### Work in progress
 
@@ -113,6 +126,10 @@ Here's what's new in fpm:
   Add parent packages into dependency tree
 * [#498](https://github.com/fortran-lang/fpm/pull/498) (WIP):
   Compiler flags profiles
+- [fpm-docs#42](https://github.com/fortran-lang/fpm-docs/issues/42) (WIP):
+  Dutch translation
+- [fpm-docs#48](https://github.com/fortran-lang/fpm-docs/pull/48) (WIP):
+  Chinese translation improvements
 
 `fpm` is still in early development and we need as much help as we can get.
 Here's how you can help today:
