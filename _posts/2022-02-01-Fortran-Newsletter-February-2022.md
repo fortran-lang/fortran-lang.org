@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: February 2022"
 category: newsletter
-author: Jérémie Vandenplas
+authors: Jérémie Vandenplas, Alexis Perry-Holby
 ---
 
 Welcome to the February 2022 edition of the monthly Fortran newsletter.
@@ -136,7 +136,42 @@ environment in which new open source Fortran projects are created and published 
 
 Recent development updates:
 
-TO DO
+* FIR
+    * Keep runtime function name in comment
+    * Add a conversion for !fir.coordinate_of
+    * Add a new memory allocation rewrite pass.
+    * Correct and reenable test that was removed by MLIR.
+    * Fix overallocation by fir-to-llvm-ir pass
+* OpenMP
+    * Add some semantic checks for threadprivate and declare target directives
+* Simplify RaggedArrayHeader and make it plain C struct
+* Fix folding of ac-implied-do indices in structure constructors
+* Avoid code duplication in mixed expressions
+* Add test with shape for allocmem and freemem
+* Make the frontend driver error out when requesting multiple actions
+* Add semantics tests for co_reduce, co_min, and co_max
+* Use GNUInstallDirs to support custom installation dirs.
+* Enable support for conversion of recursive record types
+* Separate temporary and user-specified object files
+* update to reflect MLIR LLVM::GEPOp changes
+* Do not lose call in shape inquiry on function reference
+* Fix the documentation on how to build flang
+* Add tests for converting arrays and refs to arrays
+* Make the "flang" wrapper script check the Bash version
+* Fix handling of space between # and name in preprocessor stringification
+* RESHAPE(PAD=) can be arbitrary array rank
+* Any type can appear in a structure constructor for an unlimited polymorphic allocatable component
+* Implement semantics for DEC STRUCTURE/RECORD
+* Extension: initialization of LOGICAL with INTEGER & vice versa
+* Allow initialization in blank COMMON
+* Support extension intrinsic function variations on ABS
+* Allow pointers to non-sequence types in sequence types
+* "CFI" types for Fortran REAL and COMPLEX kinds 2, 3, 10, 16
+* Legacy extension: non-character formats
+* Signal runtime error on WRITE after ENDFILE
+* Don't blank-fill remaining lines in internal output
+* Accept ENTRY names in generic interfaces
+* Support substring references in NAMELIST input
 
 Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
