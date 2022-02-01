@@ -2,6 +2,133 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 247,
+            "user": "awvwgk",
+            "date": "2022-01-27 19:49:05+00:00",
+            "title": "Require ABI compatibility in ISO_Fortran_binding.h",
+            "text": "Following a discussion on the Fortran-lang discourse (https://fortran-lang.discourse.group/t/2652) about ABI compatibility with ISO_Fortran_binding.h, I want to open this thread to discuss whether it is possible / feasible to require ABI compatibility for the CFI_* procedures and descriptors in a future revision on the standard.\nMotivation\n\nC provides a remarkable ABI compatibility across different compilers, which is available in Fortran via the Fortran 2008 and earlier bind(c) and iso_c_binding constructs\nextending this promise of ABI compatibility to the CFI_* procedures and descriptors would allow to develop robust interfaces from other languages to Fortran, which can work for all available conforming Fortran compilers\na language that cannot parse the C header should be able to define an interface via the CFI_* procedures, e.g. it should be possible with the Fortran 2008 C intercompatibility features to define the CFI_* descriptors and procedures independently of the actual vendor\n\nProposed changes\n\ndefine order of components in CFI_* descriptors\ndefine that the CFI_* procedures must be implemented as functions and cannot be macros which resolve to different functions\ndefine a robust way to store vendor specific data without interfering with ABI compatibility (e.g. as void* pointer in descriptor)\n\nThis is my first time contributing here. I'm looking forward to your feedback.",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2022-01-27 20:01:53+00:00",
+                    "text": "You would also need to:\n\ndefine specific integer values for all of the macros for CFI_type_XXX codes, attributes, &c.\ndefine specific types for all of the CFI typedefs (CFI_rank_t, CFI_index_t, CFI_attribute_t, &c.)\ndefine specific values for the CFI_XXX error codes\nconvince vendors to make necessary incompatible changes to their products\nconvince their users to recompile their codes\n\nSee https://github.com/llvm/llvm-project/blob/main/flang/include/flang/ISO_Fortran_binding.h for a complete example."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-01-27 20:41:14+00:00",
+                    "text": "convince vendors to make necessary incompatible changes to their products\nconvince their users to recompile their codes\n\n\nIndeed, this is an issue. It would be ABI breakage rather than API breakage, given that ABI compatibility is not guaranteed at the moment it might be feasible and still be a backwards compatible change in the standard. Correct?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-01-27 20:58:07+00:00",
+                    "text": "convince vendors to make necessary incompatible changes to their products\nconvince their users to recompile their codes\n\n\nIndeed, this is an issue. It would be ABI breakage rather than API breakage, given that ABI breakage is not guaranteed at the moment it might be feasible and still be a backwards compatible change in the standard. Correct?\n\nI don't understand your question; but changing any of the values, types, or component orders in a compiler's ISO_Fortran_binding.h file is going to be a change that would prevent previously-compiled code from successfully linking with newly-compiled code when C interoperability is being used.  (Or even when it is not -- f18 uses this \"interoperable\" descriptor as its only Fortran data descriptor as well.)\nIf J3 had done a better job defining ISO_Fortran_binding.h with specific types, values, and struct layouts, we would have be able to use interoperable interfaces to link Fortran code compiled with different Fortran compilers, not just with C.  So what you propose would be great, had it been done 14 year ago.  At this point, though, it seems vanishingly unlikely that you would be able to convince any vendor to change their ISO_Fortran_binding.h file."
+                }
+            ]
+        },
+        {
+            "number": 246,
+            "user": "rikardn",
+            "date": "2022-01-25 09:30:18+00:00",
+            "title": "A simpler sign function",
+            "text": "The current SIGN function is called the \"sign transfer function\" and takes two arguments making it a bit surprising. A plain one argument SIGN-function for all numeric types would be a nice addition.",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-01-25 15:06:16+00:00",
+                    "text": "Indeed, it is confusing to me also. I would expect a function that you call just like sign(x)."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2022-01-25 16:15:41+00:00",
+                    "text": "I always have to look up what the two argument are. And then also empirically figure out what it's going to do with 0."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-01-25 16:25:57+00:00",
+                    "text": "Exactly, in fact I don't remember right now which ways the arguments to sign go. I have to look it up every single time."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-01-25 17:10:07+00:00",
+                    "text": "What would a one-argument SIGN function compute?  (If it's -1, 0, or 1, then Fortran already has that.  Oops, no, it doesn't, I confused it with \"signum\" in Haskell)"
+                },
+                {
+                    "user": "rikardn",
+                    "date": "2022-01-25 18:26:17+00:00",
+                    "text": "As far as I can read in \"Modern Fortran explained\" by Metcalf et al. the only function named SIGN is the sign(a, b). The proposal would be to have a one argument version sign(a) that would return -1, 0 or 1 for all numeric a. I see that the current sign doesn't return 0, but instead give a positive sign for 0.\nI found the rationale for the sign(a, b). It is required by the IEEE 754 floating point standard to have a function\nsourceFormat copySign(source, source) (section 5.5.1 in IEEE Std 754-2008). This would be the current sign function in Fortran. This also explains why 0.0 would be positive since this number has the sign bit set to 0 in the IEEE 754 representation. Potentially -0.0 would give the opposite sign. With this background perhaps the proposed one argument sign would add to the confusion."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-01-25 20:45:47+00:00",
+                    "text": "That's the \"signum\" function of mathematics (and Haskell).  I was wrong when I said it was in Fortran -- the standard has a \"signum\" function, but it's in a code example."
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2022-01-26 16:36:18+00:00",
+                    "text": "Maybe we should add signum. Too late for 202x, but 202y...\nOr would there be any issue with having the second argument to \"sign\" become optional?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-01-26 16:48:02+00:00",
+                    "text": "Maybe we should add signum. Too late for 202x, but 202y...\nOr would there be any issue with having the second argument to \"sign\" become optional?\n\nHaving the same name mean two completely different things based on the argument count?  Yes, that's an issue."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-01-26 19:35:25+00:00",
+                    "text": "Another \"issue\": if the second (B=) argument to SIGN were made optional, one wouldn't necessarily know at compilation time whether the intrinsic was meant to be a sign transfer or a signum until run time if the actual argument were an optional dummy argument being forwarded, a pointer, or an allocatable."
+                }
+            ]
+        },
+        {
+            "number": 245,
+            "user": "klausler",
+            "date": "2022-01-23 20:06:59+00:00",
+            "title": "Why enforce C1406?",
+            "text": "\"C1406 (R1409) A scoping unit shall not directly reference an intrinsic module and a nonintrinsic module of the same name.\"\nIt might be confusing to have (say) a user-defined ISO_FORTRAN_ENV module in a program and reference it in a scope along with the intrinsic module of the same name, but so long as the USE statements are qualified with INTRINSIC and NON_INTRINSIC, there's no ambiguity.  So why impose this constraint?  It feels a bit like a restriction from an early implementation was resolved by fiat.\n(The constraint would have some justification if Fortran had module-qualified name references, but it doesn't.)",
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2022-01-25 21:41:03+00:00",
+                    "text": "One possible justification for C1406 has occurred to me: after the first USE, INTRINSIC or USE, NON_INTRINSIC of a particular module name in a scoping unit, later USE statements of the same module name don't have to also include the explicit INTRINSIC/NON_INTRINSIC.  It's not much, but it's reasonable.  Closing this issue."
+                }
+            ]
+        },
+        {
+            "number": 244,
+            "user": "omaclaren",
+            "date": "2022-01-12 00:00:20+00:00",
+            "title": "Allow array comprehension syntax in implied do loop",
+            "text": "I would love the ability to do array comprehensions (a la Julia), i.e. the analogue of list comprehensions (Python, Haskell etc) in modern Fortran. This would be a syntactic extension to implied do loops as discussed here:\nhttps://fortran-lang.discourse.group/t/array-comprehensions-in-fortran/2517\nA suggested syntax (with example implementation) is given in this thread:\nhttps://fortran-lang.discourse.group/t/array-comprehensions-in-fortran/2517/10\nwhich is:\nlhs = [(some_expression(i), i = initial, final, step where condition(i))]\n\nThe thread also discusses why do concurrent doesn't quite work for this, even though it supports a condition (in short, the size and indexing of the array satisfying the condition are not known in advance).\nThis is also essentially a shorthand for (the more functional programming version):\na = [(i = initial, final, step)]\nb = pack(some_expression(a), condition(a))\n\nbut avoids having to explicitly construct a and then filter (pack) it. Array/list comprehensions are widely used for array construction as well as data analysis in e.g. Python.\nFinally, this relates somewhat to issues #116 and #241, in that these + the current syntax might allow expressions like\n[(some_expression(ai), for ai in array where condition(ai))]\n\nwhich would allow for even more simple, flexible array construction/filtering in the style of list comprehensions.\nI believe these extensions are very much in the 'spirit' of expressing mathematical concepts in modern Fortran, being based directly on the mathematical concept of set comprehensions, e.g. (https://en.wikipedia.org/wiki/List_comprehension)\n\nIt follows the form of the mathematical set-builder notation (set comprehension) as distinct from the use of map and filter functions\n\nwhile also being close to an existing construct (implied do loops).\nThanks!\n(edit: fixed some typos)",
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-01-12 18:20:33+00:00",
+                    "text": "Thanks for proposing this! I've been missing exactly this feature from Fortran also."
+                },
+                {
+                    "user": "jvdp1",
+                    "date": "2022-01-12 18:51:22+00:00",
+                    "text": "Similarly to this idea, there is also trueloc and falseloc recently introduced in stdlib"
+                }
+            ]
+        },
+        {
+            "number": 243,
+            "user": "Beliavsky",
+            "date": "2022-01-10 17:50:30+00:00",
+            "title": "Let new_line() be the same as new_line('A')",
+            "text": "Can the argument of the new_line function be made optional, so that new_line() is equivalent to new_line('A')? I don't often see Fortranners specify a character kind, and new_line will often be concatenated with character variables or literals of the default kind, so if the argument is made optional, in most cases just new_line() will be what they want.",
+            "comments": []
+        },
+        {
+            "number": 242,
+            "user": "plevold",
+            "date": "2022-01-03 15:02:18+00:00",
+            "title": "Relax restrictions on actual argument for allocatable polymorphic dummy argument with intent(in) and intent(out)",
+            "text": "If I'm reading the standard correctly, then section 12.5.2.5 \u00a72 puts restrictions on actual arguments where the dummy argument is allocatable and polymorphic:\n\nThe actual argument shall be polymorphic if and only if the associated dummy argument is polymorphic, and either both the actual and dummy arguments shall be unlimited polymorphic, or the declared type of the actual argument shall be the same as the declared type of the dummy argument.\n\nand the following Note 12.27:\n\nThe dynamic type of a polymorphic allocatable or pointer dummy argument may change as a result of execution of an ALLOCATE statement or pointer assignment in the subprogram. Because of this the corresponding actual argument needs to be polymorphic and have a declared type that is the same as the declared type of the dummy argument or an extension of that type. However, type compatibility requires that the declared type of the dummy argument be the same as, or an extension of, the type of the actual argument. Therefore, the dummy and actual arguments need to have the same declared type.\n\nI believe this is too restrictive for arguments with intent(in) and intent(out):\nWhen the intent is in then it is sufficient that the actual argument is type compatible with the dummy argument as no allocate or redefinition can take place (though an allocated check can). This will also make the use of a dummy allocatable consistent with a dummy optional.\nWhen the intent is out then it is sufficient that the actual argument is type compatible with the dummy argument because the dummy argument can (should) not be used before it has been allocated inside the subprogram.\nHere is a simple example that illustrates how the latter could be useful:\nmodule some_mod\n    implicit none\n\n    type, abstract :: base_t\n    end type\n\n\n    type, abstract, extends(base_t) :: sub_t\n        integer :: i\n    end type\n\n\n    type, extends(sub_t) :: my_t\n        integer :: j\n    end type\n\n\ncontains\n\n\n    subroutine sub1(val)\n        class(sub_t), allocatable, intent(out) :: val\n\n        val = my_t(3, 4)\n    end subroutine\n\nend module\n\n\nprogram main\n    use some_mod\n\n    class(base_t), allocatable :: base\n\n    ! This works, but is very verbose\n    block\n        class(sub_t), allocatable :: sub\n\n        call sub1(sub)\n        call move_alloc(sub, base)\n    end block\n\n    ! However this porduces a compile error\n    call sub1(base)\n\n    select type(base)\n        type is (my_t)\n            print *, base%i, base%j\n    end select\nend program",
+            "comments": []
+        },
+        {
             "number": 241,
             "user": "jacobwilliams",
             "date": "2021-12-13 02:38:00+00:00",
@@ -27,6 +154,11 @@
                     "user": "Beliavsky",
                     "date": "2021-12-14 15:44:11+00:00",
                     "text": "I have wanted the same thing and support the proposal, but note that Impure elemental subroutines can simulate for loops over collections"
+                },
+                {
+                    "user": "waynelapierre",
+                    "date": "2022-01-20 18:45:19+00:00",
+                    "text": "how about this syntax?\ndo [x, y] .in. [[10, 23, 1], ['a', 'b', 'cc']]\n  do_something(x, y)\nend do"
                 }
             ]
         },
