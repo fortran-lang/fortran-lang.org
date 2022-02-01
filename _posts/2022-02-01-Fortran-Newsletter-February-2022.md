@@ -194,11 +194,56 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 
 ### LFortran
 
-TO DO
+**Compiling `stdlib` with `lfortran`**
 
+- [stdlib: Implement `AINT` intrinsic Procedure](https://gitlab.com/lfortran/lfortran/-/merge_requests/1638)
+- [Draft: [Sprint] Bug fixing to compile stdlib with LFortran](https://gitlab.com/lfortran/lfortran/-/merge_requests/1644)
 
-We are looking for new contributors. Please do not hesitate to contact us if
-you are interested. We will help you get up to speed.
+**Addition of ASR Optimization Passes**
+
+- [Added pass for converting division to multiplication operation](https://gitlab.com/lfortran/lfortran/-/merge_requests/1647)
+- [Adding LLVM backend for flip sign](https://gitlab.com/lfortran/lfortran/-/merge_requests/1649)
+
+**`libasr`**
+
+- [Move more header files into libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1620)
+- [Move exception.h to libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1621)
+- [Move string_utils.h/cpp to libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1622)
+- [Move location.h to libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1623)
+- [Move stacktrace.h/cpp to libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1624)
+- [Move colors.h and asr_scopes.h to libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1625)
+- [Move bwriter.h and modfile.h to libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1626)
+- [Move config.h to libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1627)
+- [CI: do not run parent cmake in libasr test](https://gitlab.com/lfortran/lfortran/-/merge_requests/1628)
+- [Split serialization.h/cpp](https://gitlab.com/lfortran/lfortran/-/merge_requests/1629)
+- [Nullify in ASR, LLVM, scalar types](https://gitlab.com/lfortran/lfortran/-/merge_requests/1630)
+- [Remove unused SymbolTable::get_hash()](https://gitlab.com/lfortran/lfortran/-/merge_requests/1631)
+- [Separate evaluators into LFortran and libasr parts](https://gitlab.com/lfortran/lfortran/-/merge_requests/1632)
+- [utils.h and parser.h split into lfortran/libasr parts](https://gitlab.com/lfortran/lfortran/-/merge_requests/1633)
+- [Expose rl_path from libasr](https://gitlab.com/lfortran/lfortran/-/merge_requests/1634)
+- [CI: build libasr in an isolated directory](https://gitlab.com/lfortran/lfortran/-/merge_requests/1635)
+- [Use the libasr's CMakeLists in LFortran's one](https://gitlab.com/lfortran/lfortran/-/merge_requests/1636)
+- [Refactored `libasr/pass` framework and some bug fixes](https://gitlab.com/lfortran/lfortran/-/merge_requests/1645)
+
+**Miscellaneous**
+
+- [fixes for windows compilation (defining NOMINMAX), installation-instructions for Windows/Visual Studio](https://gitlab.com/lfortran/lfortran/-/merge_requests/1639)
+- [Update gitignore](https://gitlab.com/lfortran/lfortran/-/merge_requests/1643)
+- [Update ASR from LPython](https://gitlab.com/lfortran/lfortran/-/merge_requests/1646)
+- [Abstracting out, visit_Program, visit_Subroutine, visit_Function, state variables from passes](https://gitlab.com/lfortran/lfortran/-/merge_requests/1648)
+- [Draft: Add a test for pywrap](https://gitlab.com/lfortran/lfortran/-/merge_requests/1637)
+- [Fix order deps ordered](https://gitlab.com/lfortran/lfortran/-/merge_requests/1640)
+- [link to static zlib to avoid runtime dependency](https://gitlab.com/lfortran/lfortran/-/merge_requests/1641)
+
+**Contributors**
+
+- [Ondřej Čertík](https://gitlab.com/certik)
+- [Gagandeep Singh](https://gitlab.com/czgdp18071)
+- [Dominic Poerio](https://gitlab.com/dpoe)
+- [Tobias Loew](https://gitlab.com/tobias-loew)
+- [Thirumalai Shaktivel](https://gitlab.com/Thirumalai-Shaktivel)
+
+We are looking for new contributors. Please do not hesitate to contact us if you are interested. We will help you get up to speed.
 
 ## Events
 
