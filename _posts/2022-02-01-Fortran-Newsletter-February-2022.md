@@ -197,7 +197,7 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 **Compiling `stdlib` with `lfortran`**
 
 - [stdlib: Implement `AINT` intrinsic Procedure](https://gitlab.com/lfortran/lfortran/-/merge_requests/1638)
-- [Draft: [Sprint] Bug fixing to compile stdlib with LFortran](https://gitlab.com/lfortran/lfortran/-/merge_requests/1644)
+- [Draft: Sprint Bug fixing to compile stdlib with LFortran](https://gitlab.com/lfortran/lfortran/-/merge_requests/1644)
 
 **Addition of ASR Optimization Passes**
 
