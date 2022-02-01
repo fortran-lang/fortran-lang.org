@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: February 2022"
 category: newsletter
-authors: Jérémie Vandenplas, Alexis Perry-Holby, Sebastian Ehlert
+authors: Jérémie Vandenplas, Alexis Perry-Holby, Sebastian Ehlert, Gagandeep Singh, Milan Curcic
 ---
 
 Welcome to the February 2022 edition of the monthly Fortran newsletter.
