@@ -149,3 +149,26 @@ program allocatable_string
 end program allocatable_string
 ```
 
+
+## Array of strings
+
+The length of all strings in the array must be the same. The length assigned is typically the length of the longest element.
+
+
+__Example:__ allocatable character string
+```fortran
+program string_array
+  implicit none
+
+  character(len=10), dimension(2) :: keys, vals
+  integer                         :: i
+
+  keys = [character(len=10) :: "user", "dbname"]
+  vals = [character(len=10) :: "ben", "motivation"]
+
+  do i = 1, size(keys)
+    print *, keys(i), ": ", vals(i)
+  end do
+
+end program string_array
+```
