@@ -155,7 +155,7 @@ end program allocatable_string
 The length of all strings in the array must be the same. The length assigned is typically the length of the longest element.
 
 
-__Example:__ allocatable character string
+__Example:__ string array
 ```fortran
 program string_array
   implicit none
