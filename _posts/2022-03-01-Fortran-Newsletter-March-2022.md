@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: March 2022"
 category: newsletter
-author: Milan Curcic
+authors: Milan Curcic, Alexis Perry-Holby
 ---
 
 Welcome to the February March edition of the monthly Fortran newsletter.
@@ -132,7 +132,120 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
-TODO @alexisperry
+Recent development updates:
+
+* FIR
+    * Initial lowering for empty program
+    * Upstream partial lowering of COMMAND_ARGUMENT_COUNT intrinsic
+    * Add lowering placeholders
+    * Add lowering for basic empty SUBROUTINE
+    * Upstream partial lowering of EXIT intrinsic
+    * Lower basic STOP statement
+    * Lower PAUSE statement
+    * Add lowering for integer constant
+    * Lower integer constant code for STOP stmt
+    * Add fir.array_access op
+    * Add fir.array_amend operation definition
+    * Handle logical constant value for quiet in STOP stmt
+    * Upstream partial lowering of GET_COMMAND_ARGUMENT intrinsic
+    * Basic local variable lowering
+    * Add lowering for ASCII character constant
+    * Handle character constant for error code in STOP stmt
+    * Upstream partial lowering of GET_ENVIRONMENT_VARIABLE intrinsic
+    * Add missing CFI case for REAL and COMPLEX
+    * Add support for lowering the goto statement
+    * Add type conversion for !fir.box<none>
+    * Add FIRInlinerInterface
+    * Lower simple RETURN statement
+    * Upstream fix to allocmem codegen to deal with missing dimensions for sequence of character types
+    * Lower basic function with scalar integer/logical return value
+    * Enable scalar real type in lowering
+    * Enable complex type in function lowering
+    * Handle lowering of ranked array
+    * Lower simple scalar assignment
+    * Lower scalar negation
+    * Lower basic binary operation for scalars
+    * Initial patch to lower a Fortran intrinsic
+    * Lower real constant
+    * Lower complex constant
+    * Lower function and subroutine calls
+    * Handle allocatable dummy arguments
+    * Lower allocatable assignment for scalar
+    * Simple array assignment lowering
+    * Lower simple character return
+    * Lower Fortran intrinsic to a runtime call/llvm intrinsic
+    * Lower integer comparison operation
+    * Lower real comparison operations
+    * Lower logical comparison and logical operations
+    * Lower power operations
+    * Add complex operations lowering tests
+    * Lower basic IO statement
+    * Handle dynamic array lowering
+* Driver
+    * Add support for `-emit-mlir`
+    * Add support for `-emit-llvm`
+    * Make `flang-new` always generate run-time type info
+    * Add support for `--target`/`--triple`
+* OpenMP
+    * Added OpenMP 5.0 specification based semantic checks for atomic update construct
+    * The device expression must evaluate to a non-negative integer value
+    * Remove clauses from OpenMP Dialect that are handled by the flang frontend instead:
+        * private, firstprivate, lastprivate, shared, default, copyin, copyprivate
+* Runtime
+    * Implement a runtime routine to report fatal errors with source position
+    * Rename the runtime routine that reports a fatal user error
+    * runtime perf: larger I/O buffer growth increments
+    * Add runtime interface for GET_COMMAND
+    * Upstream runtime changes for inquiry intrinsics
+* Improve error message (initialized variable in pure subprogram)
+* Accept BOZ literals for some actual arguments
+* Accept sparse argument keyword names for MAX/MIN
+* Accept INDEX(..., BACK=array)
+* Fix OPEN/WRITE(SIGN='SUPPRESS')
+* Handle FLUSH(unknown unit)
+* Allow explicit '+' in NAMELIST input subscripts
+* Extension: skip over NAMELIST groups
+* Add array operations documentation
+* Fix crash from USE-associated defined I/O subprograms
+* Allow INQUIRE() on a child unit in user-defined I/O procedure
+* Don't drop format string for external child I/O
+* Support DECIMAL='COMMA' mode in namelist I/O
+* Update tco tool pipline and add translation to LLVM IR
+* Add MemoryAllocation pass to the pipeline
+* Add ieee_is_normal/ieee_is_negative to ieee_arithmetic module.
+* Add a custom target for the "flang" wrapper script.
+* split character procedure arguments in target-rewrite pass
+* Expand the semantics test for co_sum
+* Correct interpretation of RECL=
+* Distinguish intrinsic from non-intrinsic modules
+* Make NEWUNIT= use a range suitable for INTEGER(KIND=1) and recycle unit numbers
+* Modify right modes for READ/WRITE vs OPEN
+* Add a semantics test for co_broadcast
+* catch implicit interface incompatibility with global scope symbol
+* Add an assert to guard against nullptr dereferencing
+* Fix FlangOptimizerTests link on Solaris
+* Handle "type(foo) function f" when foo is defined in f
+* Refine pointer/target test for ASSOCIATED intrinsic
+* Allow mixed association of procedure pointers and targets
+* Fix edge case in USE-associated generics
+* Fail at link time if derived type descriptors were not generated
+* Allow for deferred-length character in EstablishDescriptor
+* Allow DATA initialization of derived types w/ allocatable components
+* Accept NULL(mold=x) as constant component value in constant structure constructor
+* Ensure a characterized ENTRY in a PURE subprogram is also marked PURE
+* Accept structure constructor value for polymorphic component
+* Remove deprecated parser/printer/verifier utilities
+* Accept pointer assignment w/ remapping to function result
+* Allow extension cases of EQUIVALENCE with optional warnings
+* Handle CALL C_F_POINTER(without SHAPE=)
+* Make source location more accurate for actual arguments
+* Add Win32 to the list of supported triples
+* Allow tabs as white space in formats
+* Do not print format tabs
+* Catch I/O of bad derived type at compile time
+* Allow more concurrently open NEWUNIT= values, with recycling
+
+Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
 
 ### LFortran
 
