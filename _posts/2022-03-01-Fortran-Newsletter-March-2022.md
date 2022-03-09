@@ -249,7 +249,7 @@ Call notes are recorded and available upon request [here](https://docs.google.co
 
 ### LFortran
 
-* LFortran is participating in GSoC, please see https://gitlab.com/lfortran/lfortran/-/wikis/GSoC%202022%20Student%20Instructions for instructions how to apply
+* LFortran is participating in GSoC, please see [GSoC 2022 Student Instructions for LFortran](https://gitlab.com/lfortran/lfortran/-/wikis/GSoC%202022%20Student%20Instructions) for instructions how to apply
 * 19 Merge Requests merged
 * New ASR optimizations
 * Addes support for fma (fused-multiply add) in LLVM
