@@ -255,6 +255,13 @@ We are looking for new contributors. Please do not hesitate to contact us if you
 
 ## Events
 
+* Fortran-lang has been selected as a mentoring organization for Google Summer of Code 2022!
+  Thanks to everybody who helped prepare the application.
+  [GSoC](https://summerofcode.withgoogle.com/) is Google's global, online program that allows newcomers to open-source to work on a project and get paid for it. 
+  See the [Fortran-lang GSoC 2022 page](https://summerofcode.withgoogle.com/programs/2022/organizations/fortran-lang) for information about the projects and how to apply.
+  Applications for contributors open **April 4** and close **April 19**.
+  To learn more about GSoC and what has changed since last year, please see the [GSoC 2022 announcement](https://opensource.googleblog.com/2021/11/expanding-google-summer-of-code-in-2022.html).
+  If you'd like to participate as a contributor or a mentor, please let us know in this thread and we'll help you get started.
 * Fortran-lang community now maintains a modernized fork of the classic library
   [minpack](https://github.com/fortran-lang/minpack). Give it a try!
 * We had our 23rd Fortran Monthly call on February 15.
