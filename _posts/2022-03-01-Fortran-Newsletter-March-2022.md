@@ -5,7 +5,7 @@ category: newsletter
 author: Milan Curcic, Alexis Perry-Holby, Ondřej Čertík
 ---
 
-Welcome to the February March edition of the monthly Fortran newsletter.
+Welcome to the March edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.
 
