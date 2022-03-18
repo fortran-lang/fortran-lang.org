@@ -25,11 +25,15 @@ Things to consider before choosing a text editor:
 ## Configuring VS Code
 
 With the editor opened, at the main UI, at the buttoned-column on the left, there is a *four-square-shaped* icon to open the Marketplace for extensions. 
-Install [Modern Fortran by Miguel Carvajal](https://marketplace.visualstudio.com/items?itemName=krvajalm.linter-gfortran) for syntax highlighting, linting and Language Server support.
+Install [Modern Fortran](https://marketplace.visualstudio.com/items?itemName=krvajalm.linter-gfortran) for syntax highlighting, linting and Language Server support and formatting.
 
-The following are not essential but more advanced users might find useful:
-- [Remote - WSL by Microsoft](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
-- [GitLens - Git supercharged by Eric Amodio](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+### Additional Tools
+
+The following extensions are not essential but most users might find them useful:
+
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) for advanced Git visualization and operations.
+- [CMake](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) for full-featured CMake integration in VS Code.
+- [Remote Development](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) for working with containers, on a remote machines, or in the Windows Subsystem for Linux (WSL).
 - [Even Better TOML by tamasfe](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml). For Fortran developers that are using the new [fpm](https://github.com/fortran-lang/fpm) *Fortran Package Manager*, a TOML language support might come in handy.
 
 ## Configuring SublimeText
