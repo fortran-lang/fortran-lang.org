@@ -171,15 +171,15 @@ program string_array
 
   contains
 
-    subroutine show(akeys, avals)
-      character(len=*), intent(in) :: akeys(:), avals(:)
-      integer                      :: i
+  subroutine show(akeys, avals)
+    character(len=*), intent(in) :: akeys(:), avals(:)
+    integer                      :: i
 
-      do i = 1, size(akeys)
-        print *, akeys(i), ": ", avals(i)
-      end do
+    do i = 1, size(akeys)
+      print *, akeys(i), ": ", avals(i)
+    end do
 
-    end subroutine show
+  end subroutine show
 
 end program string_array
 ```
