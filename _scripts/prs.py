@@ -23,6 +23,7 @@ def _maybe_prog(pl: github.PaginatedList.PaginatedList, desc: str):
     try:
         from tqdm import tqdm
     except ImportError:
+
         def tqdm(pl, *args, **kwargs):
             return pl
 
@@ -33,12 +34,14 @@ _Prs = namedtuple("Prs", "merged wip")
 
 
 def get_prs(
-    repo: github.Repository.Repository, 
+    repo: github.Repository.Repository,
     t_a: datetime.datetime,
     t_b: datetime.datetime,
-):    
+):
     merged = []  # PRs merged during the month
-    pl = repo.get_pulls("closed", sort="updated", direction="desc")  # most recently *updated* first
+    pl = repo.get_pulls(
+        "closed", sort="updated", direction="desc"
+    )  # most recently *updated* first
     for pr in _maybe_prog(pl, desc=repo.name):
         if pr.merged:
             if t_a <= pr.merged_at < t_b:
@@ -50,9 +53,9 @@ def get_prs(
 
     wip = []  # WIP PRs (not merged, still open at this time)
     for pr in repo.get_pulls("open"):
-        if pr.created_at < t_b: # and pr.updated_at >= t_a:
+        if pr.created_at < t_b:  # and pr.updated_at >= t_a:
             wip.append(pr)
-    
+
     return _Prs(merged, wip)
 
 
@@ -78,34 +81,40 @@ def main(smonth: Optional[str], token: Optional[str], skip_children: bool):
 
         # Get main repo data
         prs = get_prs(org.get_repo(reponame), t_a, t_b)
-        
+
         # Get child repo data
-        related_prs = {
-            name: get_prs(org.get_repo(name), t_a, t_b)
-            for name in CHILD_REPONAMES.get(reponame, [])
-        } if not skip_children else {}
+        related_prs = (
+            {
+                name: get_prs(org.get_repo(name), t_a, t_b)
+                for name in CHILD_REPONAMES.get(reponame, [])
+            }
+            if not skip_children
+            else {}
+        )
 
         print("## merged\n")
         for pr in prs.merged:
             print(f"* [#{pr.number}]({pr.html_url}):\n  {pr.title}")
         for child_reponame, child_prs in related_prs.items():
             for pr in child_prs.merged:
-                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`):\n  {pr.title}")
+                print(
+                    f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`):\n  {pr.title}"
+                )
 
         print("\n## WIP\n")
         for pr in prs.wip:
             print(f"* [#{pr.number}]({pr.html_url}) (WIP):\n  {pr.title}")
         for child_reponame, child_prs in related_prs.items():
             for pr in child_prs.wip:
-                print(f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`; WIP):\n  {pr.title}")
+                print(
+                    f"* [#{pr.number}]({pr.html_url}) (`{child_reponame}`; WIP):\n  {pr.title}"
+                )
 
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="summarize PRs for fortran-lang"
-    )
+    parser = argparse.ArgumentParser(description="summarize PRs for fortran-lang")
     parser.add_argument(
         "--month",
         action="store",
