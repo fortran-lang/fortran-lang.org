@@ -152,7 +152,10 @@ end program allocatable_string
 
 ## Array of strings
 
-The length of all strings in the array must be the same. The length assigned is typically the length of the longest element.
+An array of strings can be expressed in Fortran as an array of `character` variables.
+All elements in a `character` array have equal length.
+However, strings of varying lengths can be provided as input to the array constructor, as shown in the example below.
+They will be truncated or right-padded with spaces if they are longer or shorter, respectively, than the declared length of the `character` array.
 
 
 __Example:__ string array
