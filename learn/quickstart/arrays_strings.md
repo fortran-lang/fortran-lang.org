@@ -161,8 +161,8 @@ program string_array
   implicit none
   character(len=10), dimension(2) :: keys, vals
 
-  keys = [character(len=10)        :: "user", "dbname"]
-  vals = [character(len=10)        :: "ben", "motivation"]
+  keys = [character(len=10) :: "user", "dbname"]
+  vals = [character(len=10) :: "ben", "motivation"]
 
   call show(keys, vals)
 
