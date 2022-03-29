@@ -176,7 +176,7 @@ program string_array
     integer                      :: i
 
     do i = 1, size(akeys)
-      print *, akeys(i), ": ", avals(i)
+      print *, trim(akeys(i)), ": ", trim(avals(i))
     end do
 
   end subroutine show
