@@ -53,7 +53,7 @@ if (stat /= 0) then
 end if
 ```
 
-Note that *iomsg* requires a fixed-length character variable with sufficent storage
+Note that *iomsg* requires a fixed-length character variable with sufficient storage
 size to hold the error message.
 
 Similarly, writing to a file happens by using the *status* and *action* keyword.
