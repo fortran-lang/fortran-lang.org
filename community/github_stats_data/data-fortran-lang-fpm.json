@@ -2,20 +2,340 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 685,
+            "user": "arteevraina",
+            "date": "2022-03-30 02:38:56+00:00",
+            "title": "fix: function for getting executable path",
+            "text": "In this PR, the function get_command_path, earlier used to give us the fpm.exe or fpm based on the Operating System. But, that should be supplied to the execute_command_line  instead of getting it from the function.  This also makes the function more cleaner and does not need to deal with the checks for identifying the Operating System.",
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 684,
+            "user": "arteevraina",
+            "date": "2022-03-29 15:17:13+00:00",
+            "title": "fix: remove remove unnecessary space in fpm new cmd",
+            "text": "This Pull Request removed leading space in fpm new command.",
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 681,
+            "user": "rouson",
+            "date": "2022-03-18 23:56:02+00:00",
+            "title": "Producing shared libraries",
+            "text": "Description\nIs anyone working on enabling fpm to build shared libraries?  I would like to offer fpm as an alternative way to build OpenCoarrays.  In thinking through what fpm won't be able to match relative to the current cmake build system generator, an ability to produce shared libraries seems like a useful one at least for system administrators.  This feature request overlaps some with issue  #524.\nPossible Solution\nI don't know enough to suggest possible solutions.\nAdditional Information\nNo response",
+            "labels": [
+                "enhancement"
+            ],
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-19 08:23:01+00:00",
+                    "text": "No, this is currently not possible. See my answer in #655 for things to consider in case anyone wants to pick this up."
+                }
+            ]
+        },
+        {
+            "number": 679,
+            "user": "awvwgk",
+            "date": "2022-03-15 20:01:18+00:00",
+            "title": "Release version 0.6.0",
+            "text": "Tracking issue for release of version 0.6.0, feel free to associate required features to the v0.6.0 milestone.\nThe release process is described here.",
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 678,
+            "user": "arteevraina",
+            "date": "2022-03-15 15:15:45+00:00",
+            "title": "Error while running tests in new-test directory",
+            "text": "Description\nI am currently playing around with fpm repo and I noticed a bug. When you run fpm test new-test command in terminal it will pop up an error message like this.\n\nI suppose that this might be coming because fpm new command that is run in test requires a directory name as well that may be missing while executing the command in test.\nExpected Behaviour\nThis message should not come up. As user of fpm will get confused if all the tests are passing then why is the error coming up.\nVersion of fpm\n0.5.0 , alpha\nPlatform and Architecture\nUbuntu 20.04\nAdditional Information\nNo response",
+            "labels": [
+                "bug"
+            ],
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-03-16 17:20:13+00:00",
+                    "text": "I think you are confusing the output message from the new_test.f90 driver with a genuine error. The driver aims to test different variations of the new subcommand.\nThe output you see comes from running this string as the input command:\n\n  \n    \n      fpm/test/new_test/new_test.f90\n    \n    \n         Line 16\n      in\n      86a8e2f\n    \n  \n  \n    \n\n        \n          \n           ' new', & \n        \n    \n  \n\n\nHere's how to get the same output directly:\nivan@maxwell:~/Documents/fpm$ fpm new\n       <USAGE> fpm new NAME [[--lib|--src] [--app] [--test] [--example]]|[--full|--bare] [--backfill]\n\n<ERROR>directory name required\nSTOP 1\n\nArguably, we could do with a better error message. As I understand it, the message \"directory name required\" is referring to the missing NAME argument expected by the command.\nConcerning the expected behavior, this will only be confusing for fpm developers who actually bother to run the fpm tests."
+                },
+                {
+                    "user": "arteevraina",
+                    "date": "2022-03-20 15:38:05+00:00",
+                    "text": "Sure, got it. This is the actual behaviour of the command. Looks good :)"
+                }
+            ]
+        },
+        {
+            "number": 677,
+            "user": "LKedward",
+            "date": "2022-03-14 15:26:23+00:00",
+            "title": "Fix issue with backend pretty output",
+            "text": "Not sure if anyone else has encountered this issue where 'pretty' output is messed up if the console is not scrolled to the bottom.\nThis PR fixes that.",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2022-03-14 15:31:28+00:00",
+                    "text": "CI failure appears to be due to the latest release of FORD (6.1.9) @ZedThree"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-14 15:33:42+00:00",
+                    "text": "Best pin the Ford version for now and report the issue uncovered by our CI upstream.\nReported in Fortran-FOSS-Programmers/ford#399"
+                },
+                {
+                    "user": "ZedThree",
+                    "date": "2022-03-14 18:16:01+00:00",
+                    "text": "FORD 6.1.10 just released with this fixed. I've checked the docs build for this branch locally :)"
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2022-03-14 19:47:02+00:00",
+                    "text": "Thanks both!"
+                }
+            ]
+        },
+        {
+            "number": 676,
+            "user": "LKedward",
+            "date": "2022-03-13 18:13:28+00:00",
+            "title": "Tree shaking for modules",
+            "text": "Experimental changes to implement limited dependency tree-shaking/pruning just for modules (#635)\n\nSource parsing is updated to detect files that only contain modules (FPM_UNIT_MODULE)\n\nIf a source contains anything outside of a module, then that source cannot be pruned\nPruning is only supported for modules with an end module statement since this is used to detect if anything is outside a module. Modules without an end module statement will always be built and linked.\n\n\nNew prune_build_targets subroutine to perform tree-shaking/pruning of supported modules\n\nSupported modules are pruned by recursively enumerating used module dependencies down from the executables\nIf there are no executables, then module dependencies are enumerated from all sources in the top-level package (so only modules from dependencies are pruned)\nSubmodules are pruned if their parents aren't used anywhere\nSources that are not pure modules (FPM_UNIT_SUBPROGRAM) are never pruned\n\n\n\nPlease test and give feedback; there are possibly more edge cases that I have not considered.\nTODO:\n\n Further testing\n Prune based on root package modules when no executables\n Add --all--no-prune flag to fpm build to skip pruning",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-14 01:14:57+00:00",
+                    "text": "This is a very exciting update, thank you for working on it. I will test it this week. For the skip pruning option, I suggest a --no-prune flag as it's more specific, and it may be that --all will be more appropriate for some other feature."
+                }
+            ]
+        },
+        {
+            "number": 675,
+            "user": "wiremoons",
+            "date": "2022-03-13 14:42:37+00:00",
+            "title": "Fix for backtrace error when file not found in: src/fpm_source_parsing.f90",
+            "text": "When using fpm run and a source file stated in a projects fpm.toml is missing a backtrace would be generated - example below:\n% fpm run\n + mkdir -p build/dependencies\nAt line 86 of file ./src/fpm_source_parsing.f90\nFortran runtime error: Cannot open file 'app/aoc_day02_p2.f90': No such file or directory\n\nError termination. Backtrace:\n#0  0x104ea9147\n#1  0x104ea9dbf\n#2  0x104eaa743\n#3  0x104f6f553\n#4  0x104f6f787\n#5  0x104a85e0f\n#6  0x104a87db7\n#7  0x104a8b837\n#8  0x104a6311b\n#9  0x104a64af3\n#10  0x104a612a3\n#11  0x104adbf2f\nThis patch checks for the files existence, before any further parsing is attempted.\nAfter applying this proposed fix, when a file is missing (as in the example above) then an error is shown instead of the backtrace:\n% fpm run\n<ERROR>*cmd_run*:model error:'app/aoc_day02_p2.f90' could not be found, check if the file exists\nSTOP 1\nUses the fpm subroutine file_not_found_error which I hope is the correct action to perform on the error.",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-13 15:30:31+00:00",
+                    "text": "We should already have a function called exists to check whether a file is present."
+                },
+                {
+                    "user": "wiremoons",
+                    "date": "2022-03-13 16:08:31+00:00",
+                    "text": "We should already have a function called exists to check whether a file is present.\n\nYes - that would be useful so it is available for any other file handling in fpm.\nAny suggestions on the best fpm project file to locate the function in - assuming its use would be project wide?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-13 16:15:09+00:00",
+                    "text": "Yes - that would be useful so it is available for any other file handling in fpm.\n\nI meant we already have such a function: https://fortran-lang.github.io/fpm/proc/exists.html"
+                },
+                {
+                    "user": "wiremoons",
+                    "date": "2022-03-13 16:51:19+00:00",
+                    "text": "I meant we already have such a function: https://fortran-lang.github.io/fpm/proc/exists.html\n\nThanks @awvwgk. There is a lot of useful functions in that fpm_filesystem module. A lot of them would be useful in stdlib too, perhaps in the stdlib_io module, so others could use them as well?   Just a thought..."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-13 17:02:11+00:00",
+                    "text": "Fpm and stdlib have a somewhat ambivalent relation at the moment. While we would really like to use stdlib in fpm the size of the stdlib dependency would block us from bootstrapping fpm and on the other hand we have stdlib which currently can't be built with fpm directly but needs a separate deployment step.\nBoth issues could be fixed on the fpm side:\n\nsupport tree shaking to only require the relevant components of stdlib\nprovide fypp support or CMake build file generation in fpm and build stdlib with fpm\n\nFurther, in fpm our development cycles so far were much faster than stdlib, when implementing features in fpm new filesystem functions are just a byproduct, while in stdlib it takes weeks to months to hammer out the API and get the required patches merged.\nI think this are the reasons why we didn't really see much overlap and exchange yet between fpm and stdlib, but this shouldn't discourage anyone from porting features available in fpm to stdlib to make them available for the wider Fortran ecosystem and in the long-run also in fpm again or even better try to make stdlib usage in fpm more feasible by improving fpm for stdlib."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-03-13 18:22:36+00:00",
+                    "text": "Great analysis. Can't the fpm modules also be used as a dependency in other fpm projects?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-13 18:38:22+00:00",
+                    "text": "Indeed you can depend on fpm like on every other fpm project."
+                }
+            ]
+        },
+        {
+            "number": 671,
+            "user": "zoziha",
+            "date": "2022-03-09 05:50:08+00:00",
+            "title": "Add `library-dir` to support `-Lpath`",
+            "text": "Add library-dir in fpm.toml to support -Lpath;\n Use the compiled minpack as a demo of this new feature;\n Update tests.\n\nDescription\n-Lpath makes it possible to distribute large libraries such as stdlib, OpenBLAS, HDF5, MKL, etc., and to package compiled .mod and .a/.dll/.so/.dll.a files into fpm distribution.",
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 670,
+            "user": "zoziha",
+            "date": "2022-03-09 05:42:55+00:00",
+            "title": "Add `-Lpath` to support compiled native packages, and distribute compiled binary fpm packages",
+            "text": "Description\nThis might be a very small feature addition, but it seems significant.\nBy adding the library-dir tag to fpm.toml, makes fpm easier to call the local link library, and distribute the link library as an fpm package.\nThis enables closed-source linked libraries to be distributed as fpm packages as well, which is beneficial for the distribution of some large base and commercial libraries, like OpenBLAS, MKL?\nPossible Solution\nAdd library-dir tag to fpm.toml to support -Lpath option.\nAdditional Information\nNo response",
+            "labels": [
+                "enhancement"
+            ],
+            "comments": [
+                {
+                    "user": "zoziha",
+                    "date": "2022-03-09 14:55:57+00:00",
+                    "text": "I created a fgsl fpm package (zoziha/fgsl-binary-objs) with only the fgsl.mod file, which is callable under msys2 environment.\nIt is possible to distribute the link library of fgsl (libfgsl.dll.a) in zoziha/fgsl-binary-objs if the -Lpath feature is supported.\nTo this end, we need to set specific versions and branches for such link library packages to deal with different operating systems, compilers, and CPU architectures."
+                }
+            ]
+        },
+        {
+            "number": 669,
+            "user": "urbanjost",
+            "date": "2022-03-04 18:07:52+00:00",
+            "title": "ar(1) commands fail by exceeding command length allowed by EXECUTE_COMMAND_LINE(3f)",
+            "text": "Description\nBuild fails for large library builds when the ar command becomes long. The command needs broken into multiple commands but not too many or it dramatically slows down a build.\nExpected Behaviour\nWhile using fpm on a large build I ran into a problem on a Linux\nbox where there appears to be a limit on the length of a command\nnot matching a shell or system limit. It also does not seem to\nbe related to the LEN limit on stdout.\nWith gfortran, a command > 2**17 characters (131072) and with\nifort > 2**15 characters (32802) causes errors. Unfortunately\na build of part of LAPACK requires 156343 characters in the\nar(1) command. This seems long, but is only 2 216, files in the\nlibrary, as the pathnames are rather long.\nI have not found anything that documents the limits, but the\nar(1) command should only do a certain number of files per command\nor this will limit the use of fpm(1) on large projects.\nIt may apply to MSWindows as well or to other compilers. For the\npurposes of performance I think we do not want to go one file at\na time, but that is the safer solution.\nDoing the single command on my platform took around 1 sec, doing\nthe commands serially took from nine minutes for a fresh build to\nforty minutes for replacing.\nI placed the ar(1) command fpm(1) was failing on in the file 'x'\nand ran the following till it failed to get a rough idea of where\nit fails at. The error messages that are produced are\n! ifort: Invalid command supplied to EXECUTE_COMMAND_LINE                               \n! gfortran:Termination status of the command-language interpreter cannot be obtained                                                                                                                                                                                       \n\nprogram testit\nuse M_io, only: gulp\nuse M_strings, only: split, join\nimplicit none\ninteger :: cmdstat,exitstat,i\ncharacter(len=256) :: message\ncharacter(len=:),allocatable :: pageout(:) ! array to hold file in memory\ncharacter(len=:),allocatable :: words(:)   ! array to hold words\ncharacter(len=:),allocatable :: string\n   call gulp('x',pageout)\n   call split(pageout(1),words)\n   deallocate(pageout)  ! release memory\n   do i=3,size(words)\n      string=join(words(:i),' ')\n      call execute_command_line(string, exitstat=exitstat,cmdstat=cmdstat,wait=.true.,cmdmsg=message)\n      print *, \"length was \",len(string),\" Exit status was \", exitstat, cmdstat\n      if(exitstat.ne.0.or.cmdstat.ne.0)then\n         write(*,*)trim(message)\n         stop\n      endif\n   enddo\nend program testit\nThe file \"x\" is a very long ar(1) command generated by trying to build https://github.com/urbanjost/spag_lapack\nar -rs build/gfortran_2A42023B310FA28D/spag_lapack/libspag_lapack.a build/gfortran_2A42023B310FA28D/spag_lapack/src_deprecated_cggsvd.f90.o ...\n\nVersion of fpm\n0.5.0\nPlatform and Architecture\nAll\nAdditional Information\nCurious about what the limit is on other platforms; and if anyone knows of a way to query the limit that is standard. The shell being called may have a limit as well, but this appears (so far) to be a limit imposed by the compilers.\nPS:\nnvfortran limit appears to be same as gfortran limit 2**17 characters.",
+            "labels": [
+                "bug"
+            ],
+            "comments": [
+                {
+                    "user": "urbanjost",
+                    "date": "2022-03-04 23:35:33+00:00",
+                    "text": "Looking at the code, it looks like instead of adding new code to split the commands that it would work to say once over a certain size to use a response file which looks to already be dealing with a similar problem that occurs with much shorter commands on MSWIndows.  Anyone confirm this?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-05 07:20:30+00:00",
+                    "text": "We can use response files on Linux, however on MacOS I wasn't able to get those working."
+                }
+            ]
+        },
+        {
+            "number": 674,
+            "user": "Beliavsky",
+            "date": "2022-03-04 15:19:32+00:00",
+            "title": "Stdlib does not build with fpm on Windows, because of directory separator",
+            "text": "I run\nc:\\fortran\\public_domain\\github\\stdlib>git checkout stdlib-fpm\nBranch 'stdlib-fpm' set up to track remote branch 'stdlib-fpm' from 'origin'.\nSwitched to a new branch 'stdlib-fpm'\n\nThen\nc:\\fortran\\public_domain\\github\\stdlib>fpm build --profile release\n + mkdir build\\dependencies\nInitialized empty Git repository in c:/fortran/public_domain/github/stdlib/build/dependencies/test-drive/.git/\nFrom https://github.com/fortran-lang/test-drive\n * tag               v0.4.0     -> FETCH_HEAD\n + mkdir build\\gfortran_EDF3F128DBFCA123\\stdlib\n + gfortran -c .\\.\\src\\stdlib_array.f90  -O3 -funroll-loops -Wimplicit-interface -fPIC -fmax-errors=1 -fcoarray=single -J build\\gfortran_EDF3F128DBFCA123\\stdlib -I build\\gfortran_EDF3F128DBFCA123\\stdlib  -o build\\gfortran_EDF3F128DBFCA123\\stdlib\\src_stdlib_array.f90.o\nf951.exe: Warning: Nonexistent include directory 'build\\gfortran_EDF3F128DBFCA123\\stdlib/' [-Wmissing-include-dirs]\nf951.exe: Warning: Nonexistent include directory 'build\\gfortran_EDF3F128DBFCA123\\stdlib/' [-Wmissing-include-dirs]\n<similar errors snipped>\n\nI think it's because of the / directory separator used (note the last warnings), since I get\nc:\\fortran\\public_domain\\github\\stdlib>dir build\\gfortran_EDF3F128DBFCA123\\stdlib/\nInvalid switch - \"\".\n\nbut when I change the last / to \\ the command works:\nc:\\fortran\\public_domain\\github\\stdlib>dir build\\gfortran_EDF3F128DBFCA123\\stdlib\\\n Volume in drive C has no label.\n Volume Serial Number is ECC7-1C96\n\n Directory of c:\\fortran\\public_domain\\github\\stdlib\\build\\gfortran_EDF3F128DBFCA123\\stdlib\n\n03/04/2022  10:07 AM    <DIR>          .\n03/04/2022  10:06 AM    <DIR>          ..\n03/04/2022  10:07 AM            54,195 build_dependencies_test-drive_src_testdrive.F90.o\n03/04/2022  10:07 AM                23 build_dependencies_test-drive_src_testdrive.F90.o.digest\n03/04/2022  10:07 AM             1,104 build_dependencies_test-drive_src_testdrive_version.f90.o\n03/04/2022  10:07 AM                23 build_dependencies_test-drive_src_testdrive_version.f90.o.digest\n03/04/2022  10:06 AM             3,355 src_stdlib_array.f90.o\n03/04/2022  10:06 AM                23 src_stdlib_array.f90.o.digest\n03/04/2022  10:06 AM               434 src_stdlib_kinds.f90.o\n03/04/2022  10:06 AM                23 src_stdlib_kinds.f90.o.digest\n03/04/2022  10:07 AM               964 src_stdlib_system.F90.o\n03/04/2022  10:07 AM                23 src_stdlib_system.F90.o.digest\n03/04/2022  10:07 AM               916 src_stdlib_version.f90.o\n03/04/2022  10:07 AM                23 src_stdlib_version.f90.o.digest\n03/04/2022  10:06 AM               730 stdlib_array.mod\n03/04/2022  10:06 AM               450 stdlib_kinds.mod\n03/04/2022  10:07 AM               270 stdlib_system.mod\n03/04/2022  10:07 AM               458 stdlib_version.mod\n03/04/2022  10:07 AM             4,028 testdrive.mod\n03/04/2022  10:07 AM               527 testdrive_version.mod\n              18 File(s)         67,569 bytes\n               2 Dir(s)   2,149,904,384 bytes free",
+            "labels": [
+                "bug",
+                "os-windows"
+            ],
+            "comments": [
+                {
+                    "user": "arjenmarkus",
+                    "date": "2022-03-04 15:22:50+00:00",
+                    "text": "Yes, it seems the dir command cannot handle forward slashes - this in\ncontrast to \"cd\". Very awkward.\n\nOp vr 4 mrt. 2022 om 16:19 schreef Beliavsky ***@***.***>:\n\u2026\n I run\n\n c:\\fortran\\public_domain\\github\\stdlib>git checkout stdlib-fpm\n Branch 'stdlib-fpm' set up to track remote branch 'stdlib-fpm' from 'origin'.\n Switched to a new branch 'stdlib-fpm'\n\n Then\n\n c:\\fortran\\public_domain\\github\\stdlib>fpm build --profile release\n  + mkdir build\\dependencies\n Initialized empty Git repository in c:/fortran/public_domain/github/stdlib/build/dependencies/test-drive/.git/\n From https://github.com/fortran-lang/test-drive\n  * tag               v0.4.0     -> FETCH_HEAD\n  + mkdir build\\gfortran_EDF3F128DBFCA123\\stdlib\n  + gfortran -c .\\.\\src\\stdlib_array.f90  -O3 -funroll-loops -Wimplicit-interface -fPIC -fmax-errors=1 -fcoarray=single -J build\\gfortran_EDF3F128DBFCA123\\stdlib -I build\\gfortran_EDF3F128DBFCA123\\stdlib  -o build\\gfortran_EDF3F128DBFCA123\\stdlib\\src_stdlib_array.f90.o\n f951.exe: Warning: Nonexistent include directory 'build\\gfortran_EDF3F128DBFCA123\\stdlib/' [-Wmissing-include-dirs]\n f951.exe: Warning: Nonexistent include directory 'build\\gfortran_EDF3F128DBFCA123\\stdlib/' [-Wmissing-include-dirs]\n <similar errors snipped>\n\n I think it's because of the / directory separator used (note the last\n warnings), since I get\n\n c:\\fortran\\public_domain\\github\\stdlib>dir build\\gfortran_EDF3F128DBFCA123\\stdlib/\n Invalid switch - \"\".\n\n but when I change the last / to \\ the command works:\n\n c:\\fortran\\public_domain\\github\\stdlib>dir build\\gfortran_EDF3F128DBFCA123\\stdlib\\\n  Volume in drive C has no label.\n  Volume Serial Number is ECC7-1C96\n\n  Directory of c:\\fortran\\public_domain\\github\\stdlib\\build\\gfortran_EDF3F128DBFCA123\\stdlib\n\n 03/04/2022  10:07 AM    <DIR>          .\n 03/04/2022  10:06 AM    <DIR>          ..\n 03/04/2022  10:07 AM            54,195 build_dependencies_test-drive_src_testdrive.F90.o\n 03/04/2022  10:07 AM                23 build_dependencies_test-drive_src_testdrive.F90.o.digest\n 03/04/2022  10:07 AM             1,104 build_dependencies_test-drive_src_testdrive_version.f90.o\n 03/04/2022  10:07 AM                23 build_dependencies_test-drive_src_testdrive_version.f90.o.digest\n 03/04/2022  10:06 AM             3,355 src_stdlib_array.f90.o\n 03/04/2022  10:06 AM                23 src_stdlib_array.f90.o.digest\n 03/04/2022  10:06 AM               434 src_stdlib_kinds.f90.o\n 03/04/2022  10:06 AM                23 src_stdlib_kinds.f90.o.digest\n 03/04/2022  10:07 AM               964 src_stdlib_system.F90.o\n 03/04/2022  10:07 AM                23 src_stdlib_system.F90.o.digest\n 03/04/2022  10:07 AM               916 src_stdlib_version.f90.o\n 03/04/2022  10:07 AM                23 src_stdlib_version.f90.o.digest\n 03/04/2022  10:06 AM               730 stdlib_array.mod\n 03/04/2022  10:06 AM               450 stdlib_kinds.mod\n 03/04/2022  10:07 AM               270 stdlib_system.mod\n 03/04/2022  10:07 AM               458 stdlib_version.mod\n 03/04/2022  10:07 AM             4,028 testdrive.mod\n 03/04/2022  10:07 AM               527 testdrive_version.mod\n               18 File(s)         67,569 bytes\n                2 Dir(s)   2,149,904,384 bytes free\n\n\n \u2014\n Reply to this email directly, view it on GitHub\n <fortran-lang/fpm#674>, or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AAN6YR5KEAWM2BK7DWXNXCLU6ISZBANCNFSM5P52GS7A>\n .\n Triage notifications on the go with GitHub Mobile for iOS\n <https://apps.apple.com/app/apple-store/id1477376905?ct=notification-email&mt=8&pt=524675>\n or Android\n <https://play.google.com/store/apps/details?id=com.github.android&referrer=utm_campaign%3Dnotification-email%26utm_medium%3Demail%26utm_source%3Dgithub>.\n\n You are receiving this because you are subscribed to this thread.Message\n ID: ***@***.***>"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-12 20:48:33+00:00",
+                    "text": "I wonder how the forward slash enters, checking the printed command-line there is no forward slash present\n + gfortran ... -J build\\gfortran_EDF3F128DBFCA123\\stdlib -I build\\gfortran_EDF3F128DBFCA123\\stdlib ...\nf951.exe: Warning: Nonexistent include directory 'build\\gfortran_EDF3F128DBFCA123\\stdlib/' [-Wmissing-include-dirs]\n\nAlso, it seems like f951 rather than gfortran is reporting the error here, could f951 see something different than what we invoked gfortran with? If so this would be a bug in your GFortran distribution, rather than fpm."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-12 20:49:33+00:00",
+                    "text": "Could you check whether this is a general problem or just specific to stdlib?"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2022-03-13 22:35:36+00:00",
+                    "text": "Short answer -- the command in the initial post work fine with the gfortran binary from https://github.com/LKedward/quickstart-fortran\nI usually use GNU Fortran (GCC) 12.0.1 20220213 from equation.com on Windows.\nMy c:\\fortran\\test directory has a file twice.f90 subdirectory gf, and on Windows I get\nc:\\fortran\\test>gfortran -c -J gf twice.f90\nf951.exe: Warning: Nonexistent include directory 'gf/' [-Wmissing-include-dirs]\n\nalthough this works fine with quickstart-fortran. On WSL2 in the corresponding directory /mnt/c/fortran/test the same command works.\nSo the problem seems to be with the equation.com build of gfortran. I may contact them."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-13 22:41:22+00:00",
+                    "text": "@Beliavsky there is a great distribution of GCC/MinGW by Brecht Sanders at https://winlibs.com/, it also comes with snapshot versions of the latest GCC development builds and I think Laurence @LKedward uses it for the quickstart-fortran installer as well."
+                }
+            ]
+        },
+        {
+            "number": 666,
+            "user": "everythingfunctional",
+            "date": "2022-03-02 17:28:49+00:00",
+            "title": "New output for fpm test and/or fpm run breaks my CI",
+            "text": "Description\nfpm run or fpm test now includes Project up to date as part of the output produced if the project has already been built as part of PR #622. The test suite for my iso_varying_string library is now failing because one of the tests is for a procedure that does output, and this extra output is unexpected.\nThis is probably something I need to devise a better solution for in my test suite, but was an unexpected change. I think it deserves a bit of discussion whether we want this behavior though.\nExpected Behaviour\nfpm test or fpm run shouldn't output anything extra if the project is already up to date.\nVersion of fpm\ncurrent\nPlatform and Architecture\nLinux\nAdditional Information\nNo response",
+            "labels": [
+                "bug"
+            ],
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-02 18:00:51+00:00",
+                    "text": "Good question and I agree. I think it's also idiomatic for a UNIX-style CLI application to emit no output if there is no error and there's nothing to report.\nBut I think this issue title can be more clear if re-written as \"Should fpm build emit output if the project is up-to-date?\", as fpm test and fpm run both implicitly invoke fpm_build, if I understand it correctly. I think the answer is no, it should not."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-02 18:34:26+00:00",
+                    "text": "I'm not opposed to fpm build reporting up-to-date, as make would do, but it probably shouldn't be said for fpm run or fpm test. That complicates things a bit, but maybe not too much."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2022-03-04 18:01:23+00:00",
+                    "text": "All messages that are informative should not appear unless the --verbose|-V switch is present; other possibilities are all messages go to stderr instead of stdout; and/or the user can set a verbosity level including no messages.  Having messages like that appear when using --list and --runner broke a lot of my scripts where I just wanted a pathname. Somewhat ironic it appears to have showed up along with the quiet mode for  building :>"
+                }
+            ]
+        },
+        {
             "number": 665,
             "user": "freevryheid",
             "date": "2022-02-28 17:38:04+00:00",
             "title": "add clean command",
             "text": "Only tested on linux.\nCloses #454",
             "labels": [],
-            "comments": []
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-03-15 04:46:40+00:00",
+                    "text": "Instead of asking at a prompt, why not to also add fpm clean -f that would simply delete it without asking?"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-03-15 11:25:59+00:00",
+                    "text": "Would it make sense to reuse the build subcommand for this purpose? E.g. in git, you make a new branch with git branch <branch_name> and you delete it with git branch -d <branch_name>.\nFollowing this line of reasoning, we could perhaps have\n\nfpm build --d, delete with prompt confirmation\nfpm build --D, forced delete (or --df perhaps)\n\nIn any case, I think it's worth some debate whether this should be a new subcommand or a subcommand option."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2022-03-15 12:26:09+00:00",
+                    "text": "Would it be too complicated to have both?\nI think those are two distinct, typical use cases:\n\nyou want to \"clean\" and then decide what to do (e.g. follow-up with fpm run or fpm test, etc...)\nyou know already you want to re-build or re-run and then you'll use the flags -d or -D"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-03-15 12:49:13+00:00",
+                    "text": "I fail to see how those two cases are distinct unless you mean fpm build -D would first delete the folder and then re-build afterward?\nMy motivation to comment was primarily because introducing a new subcommand should not be taken lightly. The sub-command clean could potentially be given a different role, e.g\n\nremoving unused variables and other semantically meaningful source code transformations that lead to \"clean\" code,\nprettifying/linting (indentation, casing, etc.)\nremoving unused packages or other superfluous entries from the package manifest\n\nI do like the analogy between fpm clean and the common make clean rule, in the sense that this command serves to return your project directory into it's initial state."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2022-03-15 12:54:07+00:00",
+                    "text": "I fail to see how those two cases are distinct unless you mean fpm build -D would first delete the folder and then re-build afterward?\n\nYes, this is what I meant. So I might have misinterpreted your comment then, sorry.\n\nI do like the analogy between fpm clean and the common make clean rule, in the sense that this command serves to return your project directory into it's initial state.\n\nAgreed. A lot of people, I suspect, would be familiar with make clean."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-15 14:10:59+00:00",
+                    "text": "Indeed, I often delete things by git clean -dfx, but this does not delete the dependencies, because those are typically git repositories and git doesn't remove them even with git clean -dfx. So I then have to manually remove. If we go with a new command fpm clean, then we can follow the same approach as git:\n\nfpm clean cleans but asks first, skip dependencies\nfpm clean -f cleans without asking, but skips dependencies\nfpm clean -df cleans without asking, including dependencies\n\nIf we add it to fpm build, then something similar can be done. I agree with @ivan-pi that adding a new command should not be taken lightly. Cargo has cargo clean. I think fpm clean -df would be used a lot, certainly by me.\nJust yesterday I wrongly specified a branch of a dependency (master instead of a main), fpm failed and it kept failing even after removing the build directory. So fpm clean -df would fix it.\nOverall, I think it's fine to add fpm clean."
+                },
+                {
+                    "user": "epagone",
+                    "date": "2022-03-15 14:52:21+00:00",
+                    "text": "Yes fpm build -d is also a possible option, however I caution against this because under normal operation it should not be necessary for users to frequently do clean+build. This would imply some deficiency with fpm (e.g. #463).\n\nGood point and I agree. With this observation in mind, I'll take back my previous preference to provide also clean+build, clean+run, etc... fpm clean (with the proposed optional flags) should be enough."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-03-15 17:36:49+00:00",
+                    "text": "After reviewing cargo clean and all of your comments I concede that a separate sub-command, like suggested in this PR, is fine."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2022-03-15 19:44:08+00:00",
+                    "text": "Thanks for the discussion everyone, I think we've come to a decision on the specification for this as outline in Ondrej's comment. Andre @freevryheid, are you happy to update this PR accordingly?"
+                },
+                {
+                    "user": "freevryheid",
+                    "date": "2022-03-16 10:59:04+00:00",
+                    "text": "Thanks, I'll give it a shot."
+                }
+            ]
         },
         {
             "number": 664,
             "user": "freevryheid",
             "date": "2022-02-23 20:17:14+00:00",
             "title": "fpm clean",
-            "text": "Description\nProposing adding a new fpm command to delete the build folder. Sometimes, for whatever reason, programs fail to compile and the quick solution is to delete the build folder and recompile.  This happens when files are moved or new dependencies added/removed, etc - I haven't bothered keeping track.\nPossible Solution\nNot sure we have a cross platform solution handy, but thinking along the lines of a system call: rm -rf build\nAdditional Information\nCan users have/use a custom folder other than 'build'?\nDependency .git folders within build have write-protected files - force the delete.",
+            "text": "Description\nProposing adding a new fpm command to delete the build folder. Sometimes, for whatever reason, programs fail to compile and the quick solution is to delete the build folder and recompile.  This happens when files are moved or new dependencies added/removed or changing the project name midway through development.\nPossible Solution\nNot sure we have a cross platform solution handy, but thinking along the lines of a system call: rm -rf build\nAdditional Information\nCan users have/use a custom folder other than 'build'?\nDependency .git folders within build have write-protected files - force the delete.",
             "labels": [
                 "enhancement"
             ],
@@ -29,6 +349,11 @@
                     "user": "urbanjost",
                     "date": "2022-03-01 03:04:08+00:00",
                     "text": "I think this would also close #454\nNote that this depends on fpm(1) always executing in the top directory of the project as implemented which is currently the case, but might not be a given in the future as mentioned in previous discussions. It might be best if the procedure independently made sure what directory the commands are executed in."
+                },
+                {
+                    "user": "freevryheid",
+                    "date": "2022-03-04 15:10:49+00:00",
+                    "text": "I've added the calling directory to settings if needed in the future. Also fixed the tests failing on added help clean text."
                 }
             ]
         },
@@ -1703,7 +2028,23 @@
             "labels": [
                 "enhancement"
             ],
-            "comments": []
+            "comments": [
+                {
+                    "user": "LKedward",
+                    "date": "2022-03-15 14:10:59+00:00",
+                    "text": "Thanks @wyphan and @zoziha - fpm was not originally envisaged to be a binary package manager (I think), because of fundamental incompatibilities between different compilers and different versions. As already pointed out, every combination of operating system + compiler + compiler version requires its own binary distribution to ensure compatibility. The binary packages would therefore only be useable by those who have a supported OS+compiler+compiler version combination. Instead, I would recommend linking against a binary package installed by your system package manager. Currently the main difficulty with this is correctly locating these system-installed packages (see #330).\nYour proposed use-case of using optimised LAPACK is already possible with fpm by linking against a system-installed implementation. For example, to use OpenBLAS, you can add the following to your fpm.toml:\n[build]\nlink = \"openblas\""
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2022-03-15 16:12:18+00:00",
+                    "text": "I also agree that we should be careful about publishing binary-only fpm packages, which creates a certain complexity and compatibility.\nMaybe I think it's more important:\nHow to make the package can be installed locally and easily linked by fpm, maybe we can create a unique file path for fpm, store these libraries, and add it to the environment path by default; fpm as a build system, linking with native libraries is required.\nThe effect of link='openblas' is because we can add the library to the LIBRARY_PATH environment variable, but the search of .mod files is also a problem (currently external-modules only supports relative paths).\nMaybe we shouldn't publish binary-only fpm packages, but can add fpm.toml index for libraries installed locally by fpm to facilitate fpm parsing and calling?\nLink\n\nHow to link locally built third party libraries (fpm discussion)\nAuto-install (fpm discussion)"
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-03-15 16:33:39+00:00",
+                    "text": "The reason I called it \"metapackage\" instead of package is that it doesn't actually download and install the binary files for MKL, AOCL, etc. It only detects an existing installation and makes it available to fpm. Sort of like what spack external find foo does."
+                }
+            ]
         },
         {
             "number": 565,
@@ -2867,6 +3208,16 @@
                     "user": "awvwgk",
                     "date": "2021-10-28 07:17:54+00:00",
                     "text": "From Cargo's experience I would say it's definitely viable.\n\nWe have discarded constraints present in Cargo in the past, e.g. having the link field restricted to a single library. Also, in this case the workaround would have been to declare multiple local subpackages which each link against one library and depend on each other in the order of the link line. Not sure if this approach is used in any Rust project, but I found the idea impractical.\nLocal subpackages seem to be Cargo's way to work around deliberate restrictions of the package manifest. The question is whether this way is convenient enough in practice for our users."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2022-03-18 23:46:21+00:00",
+                    "text": "Earlier in this thread, I mentioned wanting to produce multiple libraries from one project for my work on a successor to OpenCoarrays.  The aforementioned package is now open-source and had its first release earlier this month: Caffeine.  It currently uses [GASNet-EX] as the back end communication software with plans to add alternative MPI and OpenSHMEM back ends.  From last year's discussion, it seemed that fpm already had some of the basic infrastructure to satisfy the request described in this issue.   Does anyone know whether the ability to produce to multiple libraries will appear in an upcoming release?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-19 08:27:12+00:00",
+                    "text": "Contributor time is always the constraint for implementing new features. I started working introducing an [executable] table beside the [[executable]] array of tables a while ago and noticed some issues which make this change somewhat non-straight-forward. I didn't really continue to explore it for the [[library]] array of tables further."
                 }
             ]
         },
@@ -5940,6 +6291,31 @@
                     "user": "awvwgk",
                     "date": "2021-10-06 20:12:14+00:00",
                     "text": "I opened msys2/MINGW-packages#9727 to make git an optional dependency for fpm in the MSYS2 package."
+                },
+                {
+                    "user": "oarcelus",
+                    "date": "2022-03-08 12:51:02+00:00",
+                    "text": "Hi, thanks for this. I love using MSYS2 aswell, I am encountering an issue however.\nAfter running pacman -S mingw-w64-x86_64-fpm, I find that the installation is successful, but I cannot find the 'fpm' executable anywhere in my system. It is definitely not included in the /usr/bin/ path as the rest of the packages that I try to install."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-08 13:10:35+00:00",
+                    "text": "What terminal are you using, we don't package fpm for all terminals."
+                },
+                {
+                    "user": "oarcelus",
+                    "date": "2022-03-08 13:21:13+00:00",
+                    "text": "I am using the default one after installing msys, so MinTTy I believe"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-08 13:25:58+00:00",
+                    "text": "I would assume the default terminal means the msys one for you, which is the least functional terminal available.\nYou have a couple of terminals available: msys, mingw32, mingw64, ucrt64, clang32, and clang64. You to have start the terminal you installed mingw-w64-<arch>-fpm for, where <arch> is either i686 (mingw32), x86_64 (mingw64) or ucrt-x86_64 (ucrt64)."
+                },
+                {
+                    "user": "zoziha",
+                    "date": "2022-03-08 13:38:49+00:00",
+                    "text": "Or you manually check the path where your fpm.exe is installed, maybe C:\\msys64\\mingw64\\bin\\fpm.exe, then add C:\\msys64\\mingw64\\bin to the environment path, so that you can use it in CMD/Powershell/Bash/Fish .."
                 }
             ]
         },
@@ -18971,13 +19347,13 @@
     "issue_labels": {
         "enhancement": "New feature or request",
         "bug": "Something isn't working",
+        "os-windows": "Issues specific to the MS Windows operating system",
         "user experience": "issue regarding issue experience with fpm",
         "good first issue": "Good for newcomers",
         "easy": "Difficulty level is easy and good for starting into this project",
         "documentation": "Improvements or additions to documentation",
         "specification": "Issue regarding fpm manifest and model",
         "automation": "Automated workflows for this project",
-        "os-windows": "Issues specific to the MS Windows operating system",
         "duplicate": "This issue or pull request already exists",
         "packaging": "Related to porting or packaging a project to fpm",
         "medium": "Difficulty level is medium",
