@@ -144,6 +144,95 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
+Recent development updates:
+
+* FIR
+    * Lower IO open and close statements
+    * Lower basic IO file statements
+    * Lower inquire statement
+    * Handle module in lowering pass
+    * Lower more cases of assignments on allocatable variables
+    * Add lowering for host association
+    * Lower allocate and deallocate statements
+    * Lower sum intrinsic
+    * Lower computed and assigned goto
+    * Lower associate construct
+    * Update ArrayValueCopy to support array_amend and array_access
+    * Lower more array character cases
+    * Lower basic derived types
+    * Lower where statement
+    * Lower general forall statement
+    * Lower pointer component in derived type
+    * Lower of elemental calls in array expression
+    * Add tests for allocatable global
+    * Add support for linkonce_odr in FIR
+    * Lower elemental calls
+    * Lower ALL intrinsic
+    * Lower common block
+    * Lower format statement
+    * Write a pass to annotate constant operands on FIR ops
+    * Lower ANY intrinsic
+    * Add support for lowering the dot_product intrinsic
+    * Add support for lowering the dim intrinsic
+    * Add support for lowering of the ibits intrinsic
+    * Lower more pointer assignments/disassociation cases
+    * Lower entry statement
+    * Lower alternate return
+    * Lower allocated intrinsic
+    * Add lowering for the following character related intrinsics: len, len_trim, lge, lgt, lle and llt
+    * Adds lowering for min/max intrinsics: max, maxloc, maxval, minloc, minval
+    * Lower random_[init|number|seed] intrinsics
+    * Lower date_and_time and cpu_time intrinsics
+    * Lower system_clock intrinsic
+    * Add support for lowering of the ibset intrinsic
+    * Lower transfer instrinsic
+    * Lower adjustl and adjustr intrinsics
+    * Lower count intrinsic
+    * Add lowering for the set_exponent intrinsic
+* Driver
+    * Add support for -debug-dump-pft
+    * Add support for -S and implement -c/-emit-obj
+    * Add support for -mllvm
+* OpenMP
+    * [mlir]Generating enums in accordance with the guidelines
+    * Added basic connect to lower OpenMP constructs
+    * Support for dump OpenMP/OpenACC declarative directives PFT in module
+    * Add OpenMP and OpenACC flags to bbc
+* Allow data transfer stmt control list errors to be caught
+* Extension: don't require commas between most edit descriptors in formats
+* Fix result type of "procedure(abs) :: f"
+* Catch READ/WRITE on direct-access file without REC=
+* Honor RECL= in list-directed/namelist output
+* Accommodate module subprograms defined in the same module
+* Extend ProvenanceRange::Suffix() to handle crash case
+* Remove bogus messages for actual/dummy procedure argument compatibility
+* Support PDT type descriptors in codegen
+* Handle optional TARGET associate in ASSOCIATED runtime
+* Generate PDT runtime type info in the type definition scope
+* Accommodate arrays with a zero-extent dimension in location folding
+* Avoid crash case in provenance mapping
+* Make per-argument intrinsic error messages more localized
+* Use faster path for default formatted character input
+* Runtime validation of SPREAD(DIM=dim) argument
+* Make uninitialized allocatable components explicitly NULL() in structure constructors
+* Fix module file missing USE for shadowed derived type
+* Add nonfatal message classes
+* Distinguish usage and portability warning messages
+* Use unix logical representation for fir.logical
+* Fix extent computation in finalization
+* Fix processing ModuleLikeUnit evaluationList
+* Do not return true for pointer sub-object in IsPointerObject
+* Fix DYLIB builds
+* Improve runtime crash messages
+* Add runtime support for GET_COMMAND
+* IEEE_ARITHMETIC must imply USE IEEE_EXCEPTIONS
+* LBOUND() edge case: empty dimension
+* Hanlde COMPLEX 2/3/10 in runtime TypeCode(cat, kind)
+* fulfill -Msave/-fno-automatic in main programs too
+* Relax fir.rebox verifier with characters
+
+Call notes are recorded and available upon request [here](https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY). Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.
+
 ### LFortran
 
 We are looking for new contributors. Please do not hesitate to contact us if you are interested. We will help you get up to speed.
