@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: April 2022"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Alexis Perry-Holby
 ---
 
 Welcome to the April edition of the monthly Fortran newsletter.
