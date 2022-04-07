@@ -2,6 +2,306 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 256,
+            "user": "sblionel",
+            "date": "2022-03-28 13:55:27+00:00",
+            "title": "Option to have interoperable types packed",
+            "text": "I was helping someone in the ifort forum where they wanted to declare a derived type for the BMP (bitmap) file header. This is a 14-byte structure with two misaligned 32-bit integers. The problem is that there is no standard Fortran way to declare this. A SEQUENCE type allows the compiler to insert padding but doesn't specify it - some compilers do by default, some don't. An interoperable type requires padding if the \"companion C processor\" would do so, and in the absence of #pragma pack, they generally would.\nI would like to see an option for declaring an interoperable type that says \"do what the C processor would do if #pragma pack were in effect\". A possible syntax would be:\ntype, bind(C,PACK) :: mytype\nGiven my usual dislike of one-way options, I'd also want to see NOPACK as a choice.",
+            "labels": [
+                "unsubmitted",
+                "Fortran 202y",
+                "Clause 7",
+                "Clause 18"
+            ],
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2022-03-28 19:43:02+00:00",
+                    "text": "Some target architectures signal bus errors on misaligned memory references; others don't (at least not on some types of references) but can suffer silent performance degradation.  So supporting misaligned components in general would be hard to make portable.  You'd have to worry about whether to allow them as actual arguments and pointer targets, too.\nPossible alternative solution for this use case, assuming that it was trying to use unformatted I/O on BMP files: make unformatted I/O of sequence &/or interoperable types skip over padding; i.e., the on-disk data would be packed, but the in-core data would be aligned.  Easy to do, and wouldn't affect \"normal\" programs a all.\nAre there use cases for misaligned components other than serialization and deserialization?  It seems like this BMP case could also be handled in portable Fortran pretty easily with TRANSFER to/from a byte array."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2022-03-28 21:13:16+00:00",
+                    "text": "There are numerous APIs I have seen with misaligned fields, and the C headers for them have #pragma pack. I agree, and in fact suggested to the user, that TRANSFER here would not be too annoying, but I can imagine other cases where it would be more complex. As I see it, this is an improvement to interoperability that is easy to explain and has minimal impact on the language."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-28 21:26:53+00:00",
+                    "text": "Be advised, \"#pragma pack\" is not part of a C/C++ standard; neither is GCC's __attribute__((packed)).\nWill there be restrictions on references to misaligned components?  Pointers to them?  Usage as actual arguments?  This is a feature that will have some subtle implications, if you want misaligned components to be first-class variables.  For example, passing a misaligned component as an actual argument associated with an dummy with the TARGET attribute requires additional semantics in the subclause that effectively limits the lifetime of validity of a pointer that's been aimed at the dummy argument, so as to allow for copy in/out.\n(Unless you want to simply state that the program does anything but TRANSFER() and unformatted I/O with misaligned components at its own risk, which would be what \"minimal impact\" on Fortran would have to look like.)"
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2022-03-29 07:08:32+00:00",
+                    "text": "Thanks for that insight, @klausler . I am not conversant with the C standard and had thought that #pragma pack was standard. Now that I know it isn\u2019t, I would not support this.\nI don\u2019t see the issues you do with misaligned components - Fortran programs deal with these all the time in other contexts."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-29 16:41:14+00:00",
+                    "text": "Thanks for that insight, @klausler . I am not conversant with the C standard and had thought that #pragma pack was standard. Now that I know it isn\u2019t, I would not support this.\nI don\u2019t see the issues you do with misaligned components - Fortran programs deal with these all the time in other contexts.\n\n#pragma  is standard, but the specific pragmas are not.  #pragma pack is certainly a de facto standard.  I think that you could define this feature in a usable way without needed to define it in terms of ISO C/C++ standards."
+                }
+            ]
+        },
+        {
+            "number": 255,
+            "user": "aradi",
+            "date": "2022-03-17 09:57:20+00:00",
+            "title": "Forbidden assignment for derived types",
+            "text": "When designing robust containers, it would be handy, if the assignment could be forbidden. Currently, this is only possible with overriding the assignment an raise an error at run-time, if it was invoked, but it would be desirable to get a compile time error instead.\nThe program below (as a very simple model for a container with finalizer) results in a double deallocation. If the assignment could be forbidden, the compiler would refuse to compile it.\nmodule mytype_module\n  implicit none\n\n  type :: mytype\n    integer, pointer :: ptr(:) => null()\n  contains\n    ! Forbid this type in any assignments (proposed syntax)\n    ! generic :: assignment(=) => null()\n    final :: mytype_final\n  end type mytype\n\ncontains\n\n  subroutine mytype_final(this)\n    type(mytype), intent(inout) :: this\n    if (associated(this%ptr)) deallocate(this%ptr)\n  end subroutine mytype_final\n\nend module mytype_module\n\n\nprogram test_mytype\n  use mytype_module\n  implicit none\n\n  type(mytype), allocatable :: inst1, inst2\n\n  allocate(inst1)\n  allocate(inst1%ptr(100), source=0)\n  ! This should generate a compiler error\n  inst2 = inst1\n  deallocate(inst1)\n  ! This will cause havoc due to double deallocation\n  deallocate(inst2)\n\nend program test_mytype\nOne would have to think, how deal with this during type extension, but probably would following work:\n\nAn extending type inherits the forbidden assignment from the parent type.\nAn extending type can not declare the assignment forbidden, if it was not done so in the parent type.\nAn extending type is allowed to declare a defined assignment, even if the assignment was forbidden in the parent type.",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2022-03-17 16:18:18+00:00",
+                    "text": "Fortran has intrinsic (\"default\") assignment, type-bound defined assignment (scalar only), and defined assignment via INTERFACE.  Which of these do you propose to disable with the new feature?"
+                },
+                {
+                    "user": "aradi",
+                    "date": "2022-03-17 16:44:20+00:00",
+                    "text": "I'd say all of them, if possible, otherwise it would not make much sense. A type with a disabled assignment should not be accepted as argument of a subroutine which is in an interface assignment(=) block. A type with disabled assignment should not be allowed to stay on the LHS or RHS of an assignment a = b, independent, whether the defined or the intrinsic assignment would have to be invoked in the particular case."
+                }
+            ]
+        },
+        {
+            "number": 254,
+            "user": "klausler",
+            "date": "2022-03-14 18:11:52+00:00",
+            "title": "Explicit lower bounds should be respected",
+            "text": "subroutine gotcha(a)\n  real, intent(in) :: a(42:)\n  print *, lbound(a, dim=1)\nend subroutine\n\ncan print 42 or 1 depending on the size of the assumed-shape dummy argument.\nThis behavior is needlessly confusing, prevents a compiler from accepting some usage of LBOUND() in constant expressions, and raises obvious questions about underspecified semantics in the CFI_xxx APIs that establish lower bounds.\nEither LBOUND() should be adjusted or a new intrinsic function that is LBOUND() without the astonishing semantics should be added, and the semantics of lower bounds in the CFI_xxx APIs clarified in this edge case.",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-03-14 18:25:15+00:00",
+                    "text": "It seems it prints 1 for this:\nprogram x\nreal :: b(0)\ncall gotcha(b)\n\ncontains\n\nsubroutine gotcha(a)\n  real, intent(in) :: a(42:)\n  print *, lbound(a, dim=1)\nend subroutine\n\nend\nAnd 42 for any other size of b."
+                },
+                {
+                    "user": "nncarlson",
+                    "date": "2022-03-14 21:59:43+00:00",
+                    "text": "Wow, I was not aware of this bizarre special case behavior of lbound until now.  What on earth was the motivation?  I often use the dim argument (I find it a real nuisance that lbound returns an array for a rank-1 array) assuming that it did the sensible thing. I've apparently just been lucky so far, but am wiser now."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-14 22:05:26+00:00",
+                    "text": "LBOUND() without DIM= also substitutes 1 for an explicit lower bound on an empty dimension."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-14 22:30:19+00:00",
+                    "text": "I find it a real nuisance that lbound returns an array for a rank-1 array\n\nThe same here. It just doesn't seem worth it, so I just use the default lower bound 1 in most of my procedures.\nRegarding the motivation for the above behavior, this program:\nprogram x\n\n    real :: b(0)\n\n    call gotcha(b)\n\ncontains\n\nsubroutine gotcha(a)\n  real, intent(in) :: a(42:)\n  print *, lbound(a, dim=1)\n  print *, ubound(a, dim=1)\nend subroutine\n\nend\nPrints:\n           1\n           0\n\nSo if you loop from lbound to ubound, the loop will be empty (as it should). So that works. Probably it would have been better if the program above printed:\n42\n41\n\nOr something like that."
+                }
+            ]
+        },
+        {
+            "number": 253,
+            "user": "everythingfunctional",
+            "date": "2022-03-13 01:54:21+00:00",
+            "title": "Simple Functions in Constant Expressions",
+            "text": "The 202X standard will include a new attribute for procedures, simple. If a procedure is simple it depends on, and uses only its arguments, and calls only simple procedures. This means that, in theory, if a simple function's arguments are themselves constant expressions, it could be evaluated before program startup. I contend that this would be quite valuable for defining named constants of derived types whose components are private. For example given a string type defined like\nmodule string_m\n  implicit none\n  private\n  public :: string_t\n  type :: string_t\n    private\n    character(len=:), allocatable :: str_\n  end type\n\n  interface string_t\n    module procedure constructor\n  end interface\ncontains\n  simple function constructor(str) result(string)\n    character(len=*), intent(in) :: str\n    type(string_t) :: string\n\n    string%str_ = str\n  end function\nend module\nIt should be possible to define something like the following\ntype(string_t), parameter :: lines(*) =  &\n    [ string_t(\"Hello, World!\") &\n    , string_t(\"It's a great day!\") &\n    , string_t(\"Hooray Fortran!\") &\n    ]",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "FortranFan",
+                    "date": "2022-03-13 02:39:43+00:00",
+                    "text": "@everythingfunctional ,\nSIMPLE procedures, as developed in Fortran 202X, are not limited by constant expression considerations.\nPlease see this #214 which proposes CONSTEXPR procedures instead for user-defined functions in constant expressions.  There is a reason for this: there are certain difficult complications with Fortran standard semantics when it comes to allowing executable statements and constructs in constant expressions.\nConsider the string%str_ = str statement in your example code: I will spare commentary but you know there is a lot \"underneath\" this statement with allocation-upon-assignment that many a implementation handles only during run-time.   For these, what you propose is effectively a no-no.\nI have surmised improved compile-time computing is only amenable in Fortran with a rather limited set of instructions.  Having the ability to define them as CONSTEXPR procedures that essentially only include constant expression statements themselves which then enable certain code reuse and yield all the attendant benefits will be a good one to achieve for enhanced compile-time computing in Fortran 202Y.\nHence it will be helpful if you and others who see value in this proposal would also give a thumbs up for #214.\nThank you,"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-16 17:15:33+00:00",
+                    "text": "@FortranFan , you honed right in on the complications and saw through my attempt not to specifically mention them. However, your assumption that constant expressions must be known at compile time is not quite true. In fact, the standard says nothing about compile time. It would be perfectly reasonable for constant expressions to be computed immediately prior to program execution (i.e. at program startup). In fact there are languages which do this. I believe initializing a constant value of a type with pointer members in C++ (i.e. it's components must be allocated on the heap), or even just a user defined constructor, is done exactly this way.\nPart of my reason for asking for this feature is specifically because I want to be able to define constants of types with allocatable components. Let alone be able to have those types keep their components private. I'll admit there might be some complications involved with this that I'm not quite seeing, but as far as being able to implement such a feature, I think it's absolutely feasible within the current standard."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-03-22 03:59:18+00:00",
+                    "text": "@everythingfunctional wrote Mar. 16, 2022 1:15 PM EDT:\n\nyour assumption that constant expressions must be known at compile time is not quite true. In fact, the standard says nothing about compile time. It would be perfectly reasonable for constant expressions to be computed immediately prior to program execution (i.e. at program startup). In fact there are languages which do this.\n\nNote\n\nmy comments re: compile-time were only directed at the practitioners particularly with what they understand now re: the use of Fortran with current processors that involve compilation.  And how getting a fair amount of computing completed during that compilation phase can be beneficial in their programs.  I understand clearly the language standard says nothing about compile-time.\nFrom the language standard point-of-view, the existing semantics appear to be such at almost anything which constitutes an executable-construct is effectively a no-no in constant expressions, particularly what the language defines as action-stmt notwithstanding the assignment-stmt here refers to a variable and not a named constant:\nSure it may be viable with some processors to compute certain expressions and instructions prior to execution.  But as noticed time and again that does not help one bit with proposals to the standard.  The suggested changes and extensions have to fit with the entirety of the existing semantics and that is where the problems lie given how the \"limitations\" have been built into the language with constant expressions.\n\n\nI really think an attempt to get the standard to allow SIMPLE functions in constant expressions will not gain traction with the committee."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-22 16:34:22+00:00",
+                    "text": "Poor persevering programmers preparing processors for practitioners can, perhaps, put some run-time \"constant\" expressions into play (initializer expressions), but perusing your published PDF produces a plethora of prohibited possibilities.  A plurality of points where \"scalar-int-constant-expr\" appears must positively produce proper constants, per se, post parsing.  Ponder real(kind=simplefunc()) :: x patiently."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-22 16:48:06+00:00",
+                    "text": "real(kind=simplefunc()) :: x\n\nI see. This actually does pose a potential problem if the expression cannot be fully evaluated at compile time. But I still contend that CONSTEXPR would restrict one to what is effectively already doable via named constants (i.e. the parameter attribute).\nPerhaps I'm trying to apply this idea too broadly by utilizing an already existing aspect of the language. Perhaps what I'm really after is a new designation, something like \"initialization expression\". These could include the use of simple functions, and many places that require constant expressions now, could be relaxed to allow for initialization expressions. The kind value for an intrinsic type would then be a place that still requires a constant expression."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-22 18:42:01+00:00",
+                    "text": "real(kind=simplefunc()) :: x\n\nIn LFortran we do two passes over the AST (Abstract Syntax Tree, the result of parsing), in the first pass we figure out types of all functions and variables (symbols), and we evaluate an expression like kind = simplefunc(), and currently such expressions can only use constants, arithmetic operations and intrinsic function calls, so it can be straightforwardly evaluated in the compiler itself, without executing any Fortran code (for example if you call sin(x), then we call our own implementation in C++). Then in the second pass we finish compiling the bodies of all functions and resolve all variables to (now existing) symbols in the symbol table.\nThis approach would obviously break if simplefunc() is a user defined function, as it would require to compile this function first and execute it, while figuring out the types of symbols.\nHowever, I think that can be done, I think one can allow executing of any function at compile time: as long as the function(s) can be actually compiled (all the types are known), then we can execute them while still compiling other code. Perhaps we can restrict it to only allow calling user defined functions from other modules, so we can still use the above two pass approach for a given module, but if another module is already compiled, we can execute functions from it. For example the Jai language allows executing of any code (including the whole program!) at compile time.\nThere is also a security and a performance implication: right now no user code is being run at compile time, only code that is already implemented in the compiler, so as long as there are no bugs in the compiler, it is currently safe to compile the whole code. Once we allow executing any random code at compile time, all kinds of things can happen:\n\nThe code could be malicious, so it could potentially be unsafe to compile Fortran code\nIt could take a very long time (including never finishing!) to compile Fortran code, if the user function is slow"
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2022-03-24 16:50:34+00:00",
+                    "text": "I may be an idiot, but how does using SIMPLE functions in initialization expressions work in a world of separate compilation? Only the interface may be known at compile time, not the implementation."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 17:08:16+00:00",
+                    "text": "how does using SIMPLE functions in initialization expressions work in a world of separate compilation?\n\nThe expression isn't computed at compile time, it's computed at run time, prior to beginning execution of the main program."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 17:14:33+00:00",
+                    "text": "In fact, it's a bit odd to me that compilers felt it acceptable that\nreal, parameter :: y = sin(1.0)\nprint *, y\nand\nreal :: x, y\n\nx = 1.0\ny = sin(x)\nprint *, y\nmight produce different outputs, since one math library would be used at compile time, but a different one used at run time."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 18:28:49+00:00",
+                    "text": "I did think of a case that a proposal will need to prevent, a named constant defined in terms of a simple function that references it. I.e.\nmodule foo\n  implicit none\n\n  integer, parameter :: UH_OH = bar()\ncontains\n  simple function bar()\n    integer :: bar\n\n    bar = UH_OH\n  end function\nend module"
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2022-03-24 18:30:10+00:00",
+                    "text": "Yeah, that was the sort of thing I was thinking."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-24 18:33:36+00:00",
+                    "text": "might produce different outputs, since one math library would be used at compile time, but a different one used at run time.\n\nWith optimizations enabled, as a user I would expect both to produce a compile time value, in this case identical value computed using the compile time (slow but more accurate) math library."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 18:44:19+00:00",
+                    "text": "As a user, I'd expect the following program to always output \"T\", no matter what. But what are the actual chances of that? You can easily link to a math library that is different from the one used by the compiler. The choice of optimizations and link time options should not affect whether this program outputs \"T\" or \"F\". x = sin(1.0) should always be computed at program startup time, not compile time. If that's true, why can't user defined simple functions also be used there?\nprogram huh\n  implicit none\n  real, parameter :: x = sin(1.0)\n  real :: y\n\n  y = 1.0\n  print *, x == sin(y)\nend program"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-24 18:47:33+00:00",
+                    "text": "Regarding your last example, one approach could be that the compiler only uses the \"more accurate\" math library when optimizations are enabled, thus this should still return T in most simple cases. In the standard \"Debug\" mode, the compiler can call the exact same math library for both compile time and runtime, thus also returning T.\nOn a broader issue, I never compare floating point numbers directly like this, but always with abs(x - sin(y)) < eps, in which case this will return T no matter what."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 18:52:55+00:00",
+                    "text": "the compiler can call the exact same math library for both compile time and runtime\n\nThe compiler doesn't know the runtime math library. I.e.\n$ gfortran -c huh.f90 -o huh.o\n$ ld huh.o -lmkl -lgfortran -o huh # I don't know exactly what all the necessary libraries are, but you get the idea"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-24 18:53:25+00:00",
+                    "text": "As a user, I'd expect the following program to always output \"T\", no matter what.\n\nThat expectation turns out to be impossible in the face of separate compilation and link steps."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 19:00:44+00:00",
+                    "text": "That expectation turns out to be impossible in the face of separate compilation and link steps.\n\nI think that's an artifact of current implementations, not a required implication of the standard. Nothing says that sin(1.0) must be evaluated at compile time, even in a constant expression. That calculation could be deferred to program startup and still be in conformance with the standard."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-24 19:03:02+00:00",
+                    "text": "As @klausler said, if you want separate compilation and link steps, and as you @everythingfunctional showed that you can choose the runtime library later, it's hard to do, except deferring the evaluation of sin to runtime, but the problem is, as @klausler's example above (real(kind=simplefunc()) :: x) shows, sometimes you need to evaluate it at compile time, you can't defer it to runtime. I do think in most practical cases, such as your floating point example, things can be done at runtime though, just not in all cases."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-24 19:05:25+00:00",
+                    "text": "real(kind=merge(kind(0.d0), kind(0.), sin(1.0) < cos(1.0)) :: x"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 19:20:26+00:00",
+                    "text": "real(kind=merge(kind(0.d0), kind(0.), sin(1.0) < cos(1.0)) :: x\n\n\nThat one is at least definitely standards conforming. How about this one though?\nreal(kind=real_kinds(int(sin(1.5707963)))) :: x\nWhether or not that is standards conforming depends on the quality of the implementation of the sin function used at compile time. IMHO the allowance of implementation dependent functions in constant expressions was a mistake. To allow that mistake to get in the way of adding a feature to the language that implies deferring calculations of some constants to program startup time is a further mistake in my mind."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-24 19:46:21+00:00",
+                    "text": "selected_real_kind is implementation-dependent, but I never see it used outside a constant expression that's necessary for typing at compilation time.\nIt is a strength of Fortran that nearly every intrinsic function, including most functions in the IEEE intrinsic modules, is available for use in constant expressions.  It takes a huge amount of effort to implement them fully -- see f18's here for an example that's nearly complete -- but it gives Fortran one of its few advantages over C++."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 20:16:33+00:00",
+                    "text": "selected_real_kind is implementation-dependent, but I never see it used outside a constant expression that's necessary for typing at compilation time.\n\nIt seems I keep making broad generalizations where I should be more reserved and nuanced. I do appreciate all the insights this discussion has elicited.\nIt seems defining what I'm after will require more effort than I initially anticipated, but I'm still convinced much of it should be technically feasible and desirable. Being able to write what I have in my initial example is still something worth working towards I think."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-24 20:28:27+00:00",
+                    "text": "@everythingfunctional if you are ok with manually inlining your functions, it looks like you can already do quite a bit at compile time: https://fortran-lang.discourse.group/t/computing-at-compile-time/3044"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 20:37:42+00:00",
+                    "text": "That is a cool demonstration, but it still lacks two features I'd like.\n\nto be able to reuse somebody's existing library without having to manually inline all their calculations\nbe able to define constants of derived types with private and/or allocatable components"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-24 21:00:01+00:00",
+                    "text": "to be able to reuse somebody's existing library without having to manually inline all their calculations\n\n\nAllowing statement functions in constant expressions and modules would cover most of the use cases for that need, and would be way easier to implement than a constexpr function.  Yes, I know about statement functions being obsolescent, but they've been in the language since literally day 1 (longer than functions and subroutines) and aren't going anywhere.\n\n\nbe able to define constants of derived types with private and/or allocatable components\n\n\nWhat's wrong with using a function from the type's definition module to construct and return these, other than being unable to reference that function from an initialization expression?"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-24 22:22:33+00:00",
+                    "text": "other than being unable to reference that function from an initialization expression\n\nthat's exactly what I'm after\n\nAllowing statement functions in constant expressions and modules\n\nThat's an interesting idea, but are statement functions pure or simple? If you could designate them simple, I think that could be workable."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-24 23:01:35+00:00",
+                    "text": "Statement functions can be considered pure if they reference only pure functions.  They're just wrappers around expressions, and contain no statements per se.  They can similarly also be considered simple if they reference no variables other than their arguments.  Either way, it's a trivial derived attribute."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-24 23:12:05+00:00",
+                    "text": "other than being unable to reference that function from an initialization expression\n\nthat's exactly what I'm after\n\nInitializers of variables, default initializers of components, or both?  They're not exactly the same problem, and may have distinct solution options."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-25 00:55:11+00:00",
+                    "text": "Both. But I think allowing it in default initialization of components requires at least thinking about the context of initialization of variables. For example\ntype :: foo\n  integer :: bar = baz()\nend type\ntype(foo), parameter :: buzz = foo()\nOrdinarily the intrinsic structure constructor has optional arguments for components with default initializers, and they can be used to initialize a named constant of that type. So by allowing simple functions to be used in default initialization of components, you're kind of forced to allow them for named constants by proxy. That or carve out a weird exception for types who's default initializers aren't constant expressions.\nI think a spec like:\nAn initialization expression may contain a constant expression, or simple functions with actual arguments that are themselves initialization expressions.\nAn initialization expression can be used to define the value of a named constant, the initial value of a saved variable or the default value of a component of a derived type.\nA named constant whose value is not a constant expression may not be used in a constant expression.\nThat last statement is the weird bit with strange complications/implications, but gets around the problems in real(kind=simplefunc()) :: x because the kind parameter still requires a constant expression.\nThere's probably still some problematic aspects I haven't considered somewhere in there, but it seems like the right direction."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-03-28 02:11:40+00:00",
+                    "text": "Just wanted to share experiences from the C++ world involving this kind of stuff.\nhttps://youtu.be/OcyAmlTZfgg"
+                }
+            ]
+        },
+        {
+            "number": 252,
+            "user": "egiovan",
+            "date": "2022-03-12 10:41:34+00:00",
+            "title": "Array broadcasting in expressions ",
+            "text": "Array broadcasting is very common in Python with numpy and in Matlab.\nBoradcasting means that in an array expression if an array has a unitary dimension along an axis that dimension is automatically expanded to match the size of the other array. For example if an array has size [3,1] and another has size [1,4] both array are expanded as they have size [3,4]. In the actual Fortran one has to use spread to achieve the same result.\nAnother nice feature of numpy is the possibility to add unitary dimensions on the fly with None. Python example:\na = np.ones(2)\nb= np.ones(3)\na[:,None] * b[None,:]\n\nMoreover some functions that reduce the dimensionality like sum can have an extra arguments keepdims that doesn't reduce the dimensionality but make that dimension unitary. This is useful as one can write (in Python) somenthing like:\na/np.mean(a, axis=0,keepdims=True)\nSo I suggest the following feature:\nUse the symbol \"+\" (or whatever other symbol) to add a dimension to a section of an array. The function sum and other that reduce the dimensionality should have an extra keyword argument like keepdims that doesn't eliminate that dimension.\nAs an example:\ninteger :: a(3), b(4), c(3,4), d(4), i\na = [(i=1,3)]\nb = [(i=1,4)]\nc = a(:,+) + b(+,:)\nd = c/sum(c, dim=1, keepdim=.true.)\n\nContrary  what happen to Matlab and Python adding the extra dimension is obligatory (no implicit unary dimensions).",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-03-12 14:45:25+00:00",
+                    "text": "@egiovan good idea especially about making it explicit. Do you know if this approach would allow all NumPy's broadcasting features? Or is there still some broadcasting operation in NumPy that your proposal still would not allow?"
+                },
+                {
+                    "user": "egiovan",
+                    "date": "2022-03-13 10:37:48+00:00",
+                    "text": "As far as I know it is all you need.\nNumpy has also functions that returns broadcasted views of list of  arrays like:\nhttps://numpy.org/doc/stable/reference/generated/numpy.broadcast_arrays.html\nI think the broadcasted view can be obtained with a stride equal to zero. But it would be a mess as it cannot be definable, in python there is a warning when you try to assign values to broadcasted views. so I'm contrary to import a feature like this one.\nWhile sections with added unitary dimensions are perfectly safe, definable, etc.\nThe point is that you may not know, in general, if an expression will involve broadcasting at compile time (except for those simple examples), so at run time the processor has to check the extent of all the arrays involved in the array expression, and that may affect the speed. On the other hand it may be safer to require the processor to report if in array expressions the dimensions are not compatible. It may make the program a little slower but safer (with an explicit loop the burden should be all on the shoulder of the programmer)."
+                },
+                {
+                    "user": "egiovan",
+                    "date": "2022-03-13 13:11:03+00:00",
+                    "text": "To make things more explicit one can add an attribute to arrays, like broadcastable which indicates that any unitary dimension of that array can be expanded.\nA section with an added dimension with \"+\" like in the previous example will be broadcastable, and the return of a function like the sum with keepdim will be broadcastable.\nAll other array expressions can remain as before, without the overhead to check the extent of all the involved arrays.\nBroadcastable pointers may have additional unitary dimension added in pointer assignments, like in\nptr(:, +) => b"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-03-14 17:54:11+00:00",
+                    "text": "SPREAD can be implemented without duplicating data.  This proposal seems to me to boil down to an automatic application of a non-duplicating SPREAD.  It might be better to use SPREAD and insist on better implementations."
+                },
+                {
+                    "user": "egiovan",
+                    "date": "2022-03-14 18:15:02+00:00",
+                    "text": "I think it will also be clearer. For example:\ninteger :: a(2), b(3), c(4), d(2,3,4)\n\nd = a(: , + , +) * b(+, : ,+) * c(+, +, :) \n\nI wouldn't use spread in that case, it will be a mess.\nI would use a \"do concurrent\" in actual Fortran\ninteger :: i, j, k\ndo concurrent(i=1:2, j=1:3, k=1:4)\n   d(i, j, k) = a(i) * b(j) * d(k)\nenddo"
+                }
+            ]
+        },
+        {
+            "number": 251,
+            "user": "everythingfunctional",
+            "date": "2022-03-03 02:39:48+00:00",
+            "title": "Usable polymorphism in coarrays",
+            "text": "Currently there are constraints preventing the use of polymorphism in coarrays. Specifically\n\nC917 (R911) Except as an actual argument to an intrinsic inquiry function or as the designator in a type parameter inquiry, a data-ref shall not be a coindexed object that has a polymorphic allocatable potential subobject component.\n\nand\n\nC918 Except as an actual argument to an intrinsic inquiry function or as the designator in a type parameter inquiry, if the rightmost part-ref is polymorphic, no other part-ref shall be coindexed.\n\nI suspect that it would be possible to rewrite these constraints in such a way to allow reference to a polymorphic entity on another image without allowing one image to perform an allocation on another. My proposed rewriting would be\n\nC917 If data-ref is a coindexed object that has a polymorphic allocatable potential subobject component it shall not appear in a variable definition context\n\nand\n\nC918 If the rightmost part-ref is polymorphic and any other part-ref is coindexed, the data-ref shall not appear in a variable definition context.\n\nI'm not sure if I've got the wording quite right, but I think this is doable.",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "klausler",
+                    "date": "2022-03-07 17:16:13+00:00",
+                    "text": "These new versions of the constraints would be easy to check, and I haven't been able to come up with a failure mode that they might enable.  SGTM."
+                }
+            ]
+        },
+        {
             "number": 250,
             "user": "Soulagenda",
             "date": "2022-02-18 04:08:03+00:00",
@@ -37,6 +337,11 @@
                     "user": "certik",
                     "date": "2022-02-10 23:24:12+00:00",
                     "text": "One could perhaps allow the same labels and variable names, but not allowing to jump to them if they are the same. But the parsing can indeed be quite tricky, we should only do it if it doesn't complicate the parser further."
+                },
+                {
+                    "user": "egiovan",
+                    "date": "2022-03-09 17:40:02+00:00",
+                    "text": "One may restrict the alphanumeric line label only to continue statements except when continue is terminating a loop.\nStrictly  speaking the assign statement is deleted feature, but I understand that the compilers have to support it anyway.\nAs a deleted feature it may continue to use only numeric labels.  The same for the do, the label if present, should be numeric. Moreover the new syntax may have the precedence.\nSo your first case will be illegal, the second compilation error as assign needs a numeric label, the third compilation error without an enddo, and the last one  print *,\"or this one\" as the new syntax should take the precedence."
                 }
             ]
         },
@@ -880,6 +1185,21 @@
                     "user": "Beliavsky",
                     "date": "2021-12-17 16:38:12+00:00",
                     "text": "As an alternative to a bunch of end associate statements at the end of a program unit, one could introduce a statement\nend associate_all that terminates all associations previously defined."
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2022-03-02 20:19:00+00:00",
+                    "text": "If end associate is made optional in general, I assume it would still be required if the associate appeared in a loop. Maybe you could make a rule that any associate in a loop created in a loop is automatically ended upon leaving the loop, but that seems tricky."
+                },
+                {
+                    "user": "Meriipu",
+                    "date": "2022-03-12 05:12:09+00:00",
+                    "text": "Besides making end associate optional, an alternative would be to allow end associate to pertain to a list of named variables, so that the sample code in the OP could be written\nassociate(val1 => (some_expr))\n  associate(val2 => val1 + another_expr)\n    associate(val3 => val2 + yet_another_expr)\n      result = val1 + val2 * val3\nend associate (val1, val2, val3)\n\nIt would resemble the syntax deallocate(val1, val2, val3). I don't mind a single end associate statement, but having many end associate statements at the end of a program unit is so verbose and tedious that many Fortranners will use good old local variables instead.\n\nIf verbosity from repeated statements is the issue why not just:\nassociate (val1 => expr1, val2 => expr2, ...)\nend associate\n\nor (with the alignment/spacing of personal preference):\nassociate (val1 => expr1, &\n           val2 => expr2, &\n           ...)\nend associate\n\ninstead? Assuming there is not some syntax ambiguities to associate I overlook here or there not being anything else I have misunderstood.\nI do not like the asymmetry between the 3 opening statements and the single close, and I really would not consider having many end associates to be \"verbose and tedious\" at all (and rather that it helps readability a bunch).\nnot too fond of short semi-cryptic (possibly inline) declarations like mut -- Fortran is not Rust after all."
+                },
+                {
+                    "user": "Meriipu",
+                    "date": "2022-03-12 05:16:50+00:00",
+                    "text": "Oh right, I see now that the second associate depends on the value of the first so that combining them would not work too well, sorry.\nI still stand by what I said about asymmetry though."
                 }
             ]
         },
@@ -3705,6 +4025,11 @@
                     "user": "certik",
                     "date": "2020-07-03 21:41:11+00:00",
                     "text": "@shahmoradi I moved your comment to #174, let's discuss there. This issue #162 is for proposals that are already approved for 202X."
+                },
+                {
+                    "user": "h-vetinari",
+                    "date": "2022-03-23 01:16:59+00:00",
+                    "text": "Is there a good place to track the status/timeline of 202x? The WG5 page says:\n\nDevelopment Schedule\nThis is the current development schedule (see N2135) for Fortran 202x. See the Glossary for definitions of terms.\n\nStarted planning further revision 2017-06\nChoose issues that need attention 2018-06\nPreliminary choice of technical content 2019-08\nFinal choice of technical content 2020-06\nCD constructed 2021-06\nCD ballot initiated 2021-07\n\n\nthough the document from which this originates seems to be from 2017. I also looked at https://fortran-lang.org/ and https://fortran-lang.discourse.group/."
                 }
             ]
         },
@@ -6807,6 +7132,26 @@
                     "user": "certik",
                     "date": "2021-08-26 04:29:03+00:00",
                     "text": "Re: \"what should compilers do?\", in the context of this thread, well I think they should unburden themselves from having to implement any new feature in fixed-form source once this outmoded source form can be marked as retired officially in the standard.\n\nThe biggest issue with fixed-form is that white space is irrelevant. For LFortran I tried to see how far you can get with parsing fixed-form as if it was free-form, so you just fix the columns and some other slight differences in a prescanner, and then use the same tokenizer and parser. And it turns out most of SciPy seems to parse just fine. There are some slight issues, but I am hoping to implement few more heuristics to make it useful for people. The SciPy developers would be ok with changing their fixed-form a bit so that it can parse. If there is demand for a better fixed-form parser, then we'll have to implement the full fixed-form parser, as a separate parser."
+                },
+                {
+                    "user": "Meriipu",
+                    "date": "2022-03-22 08:18:26+00:00",
+                    "text": "(...)\nand the reason why we cannot just have\nenum some_type\n    a, b, c, d, end, e, endenum, f\nend enum\nis that end and endenum can be confused with end enum when parsing (especially if the optional space is omitted). I think that's probably true, but I think the modern standard could be modified to require end if, end function, end enum to be always written with a space in between.\n\nunless I misunderstand, this would break even more code (including conforming free-form code) than some of the more conservative suggestions? And perhaps be excessively normative about code style."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2022-03-22 12:28:10+00:00",
+                    "text": "@Meriipu, no, that's not correct. The only restriction is that a source line cannot look like an END statement (see @klausler 's post above). The syntax you show would be acceptable in fixed and free form (though not otherwise currently valid syntax.)"
+                },
+                {
+                    "user": "Meriipu",
+                    "date": "2022-03-22 13:01:57+00:00",
+                    "text": "I was referring to the suggestion at the end of the quoted text (emphasized in bold) from the comment #108 (comment) which I took to mean to enforce the optional space (in e.g. endif vs end if) as mandatory."
+                },
+                {
+                    "user": "sblionel",
+                    "date": "2022-03-22 13:08:51+00:00",
+                    "text": "Oops - failed to read carefully. Sorry.\nI'm still of the opinion that there's no good reason to delete fixed form, nor introduce new features valid only in free form. Yes, one can construct syntax that doesn't work, but so what? Other syntax, consistent with the language, is possible, as repeatedly demonstrated over the years."
                 }
             ]
         },
@@ -10714,6 +11059,16 @@
                     "user": "certik",
                     "date": "2019-10-31 23:10:42+00:00",
                     "text": "@FortranFan, @rweed thanks for the feedback. I think we are all in full agreement how this should work. I just posted in a similar spirit at https://groups.google.com/d/msg/comp.lang.fortran/dFenjU25o9k/TaLSwNS3DQAJ.\nNow, in order to move forward from here, can you please both help me in the issue #26 to formalize what you just wrote above? We need two documents:\n\n\na document that will summarize how we want to work in this repository and that proposal does not require any changes how the committee itself works. Well, except one change: the committee must give feedback to any solid proposal submitted to it at any meeting.\n\n\na formal proposal to the committee how the committee itself should work and why. That will require changes to the committee. As such, the committee might say no, and explain why. And we will work as community to address such objections.\n\n\nIt's important however to have this written up in documents, and truly think all the arguments out (let's collaborate on that), so that when committee members read it, they can say: \"These are really good points, why don't we try that?\". Such a document also gives me and many others on the committee something to bring up and collect feedback on. (As opposed to just a GitHub issue.)\n\nIf you are for it, why don't you just post a draft of such documents into #26 as comments, and then we'll create a PR and create an actual document, once we can agree on the wording."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2022-03-06 17:09:12+00:00",
+                    "text": "Why not just make this the default behavior of allocate? Is there ever a situation where you want the current behavior (crashing if it is allocated?) I would say no."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-06 17:37:00+00:00",
+                    "text": "Is there ever a situation where you want the current behavior (crashing if it is allocated?)\n\nI think I want this behavior while developing, to catch double allocation bugs. I think the user should specifically say when reallocation is wanted, otherwise it should give an error."
                 }
             ]
         },
@@ -13477,6 +13832,11 @@
                     "user": "vansnyder",
                     "date": "2021-01-21 02:09:49+00:00",
                     "text": "During the development of Fortran 90, back when it was still called Fortran 8x, there was a proposal for an AUTOMATIC attribute. When RECURSIVE was added, the argument was that every variable that isn't SAVE is automatic. The standard's definition of \"automatic variable\" was needlessly narrowed to one that used a variable to specify a bound or length parameter. I no longer have records from that time; I sent them to the Computer History Museum. Loren Meissner is the curator for them.\nHad the AUTOMATIC attribute been retained, an obvious definition of AUTOMATIC with initialization would have meant automatic initialization, not SAVE. Specifying the AUTOMATIC attribute without initialization would simply confirm what we already say now. Explicitly specifying AUTOMATIC and SAVE for a particular variable should be prohibited. Explicitly specified AUTOMATIC would override default SAVE. AUTOMATIC would naturally be prohibited for storage-associated variables.\nOnce AUTOMATIC is defined that way, all that is necessary to provide default values for absent optional arguments is to define an absent OPTIONAL argument that has initialization to be a local automatic variable.\nThe PRESENT intrinsic should still be available to inquire whether there was an associated actual argument. Even if there's a value for a local variable acting in lieu of the absent dummy argument, it's still useful to know whether the actual argument was present."
+                },
+                {
+                    "user": "Youjunhu",
+                    "date": "2022-03-25 06:22:16+00:00",
+                    "text": "\"Same syntax as Python keyword args, so it would be intuitive to Python developers learning Fortran;\"\n\"keyword argument\" is only relevant when you call a function.\nThe definition of a function does not care which argument will be called with the arg=value style.\nThe correct word should be \"default argument\"."
                 }
             ]
         },
@@ -14921,11 +15281,12 @@
     "issue_labels": {
         "unsubmitted": "Has not been submitted to the committee yet",
         "Fortran 202y": "Proposals targeting the standard after 202x",
+        "Clause 7": "Standard Clause 7: Types",
+        "Clause 18": "Interoperability with C",
         "Fortran 202x": "Proposal targeting the next Fortran standard",
         "duplicate": "This issue or pull request already exists",
         "meta": "Related to this repository",
         "in progress": "J3 is moving forward",
-        "Clause 7": "Standard Clause 7: Types",
         "under consideration": "Has been submitted to the committee",
         "Clause 11": "Standard Clause 11: Execution control",
         "Clause 10": "Standard Clause 10: Expressions and assignment",
