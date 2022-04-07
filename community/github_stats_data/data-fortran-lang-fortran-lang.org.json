@@ -2,6 +2,191 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 386,
+            "user": "Beliavsky",
+            "date": "2022-03-29 17:31:38+00:00",
+            "title": "Hello World for Windows",
+            "text": "The Hello World page mentions how to install gfortran on Windows but is otherwise oriented towards Unix-like operating systems. If it is supposed to be equally usable for someone on Windows, here are some suggestions:\nIt says\nTo check if you have gfortran setup correctly, open a terminal and run the following command\nWindows Terminal now starts out with Powershell. I think Fortran compilers and batch files were made to be used with CMD, which you can get by typing cmd at a Powershell prompt.\nIt says to compile with\ngfortran hello.f90 -o hello\nbut on Windows there is a convention to give executable files a .exe suffix.\nIt says to use\n$> ./hello\nto run the executable, but in Windows you would run .\\hello.exe or probably just hello.exe.",
+            "labels": [
+                "learn"
+            ],
+            "comments": []
+        },
+        {
+            "number": 385,
+            "user": "zoziha",
+            "date": "2022-03-26 08:54:40+00:00",
+            "title": "Should the fortran-lang website provide a download link for the fortran compiler?",
+            "text": "For beginners, log on to the Fortran-lang website and click get_started to learn, but if they want to download the Fortran compiler, they will be confused, why Fortran does not provide a set of direct links to download the Fortran compiler like other languages. Such as python, julia, R, go, dotnet ...\n\n\n\nFortran\nDescription\n\n\n\n\nGet Started\nDownload\n\n\n\nI know Fortran is different from many languages. There are many manufacturers that provide compilers for Fortran.\nLinux distribution system package repository generally have gfortran, but for windows system, if I am a beginner, I can't get the gfortran compiler well through the fortran-lang website (https://fortran-lang.org/compilers/).\nIs it worth it to add some Fortran compiler download links, and what is a reasonable way to do it?  Should some latest version of fortran compiler be recommended?",
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 384,
+            "user": "ashirrwad",
+            "date": "2022-03-22 21:19:04+00:00",
+            "title": "Resolves typos #377",
+            "text": "Fixed the already stated typos in the issues and some new ones that fall under better practices.",
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 383,
+            "user": "gnikit",
+            "date": "2022-03-18 14:59:41+00:00",
+            "title": "Updated VS Code extensions",
+            "text": "Modern Fortran now supports natively Language Server support (FORTRAN Intellisense), formatting (fprettify and findent)",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-03-18 15:43:01+00:00",
+                    "text": "Should we still keep the other links in a section like \"Other tools\", so that people can discover them?"
+                },
+                {
+                    "user": "gnikit",
+                    "date": "2022-03-18 17:52:23+00:00",
+                    "text": "I think the \"Other tools\" section should be kept mostly because VSCode without GitLens for big projects is rough.\nThe  extensions that I would vouch for are:\n\nGitLens which is crucial IMO\nRemote Development for SSHing into workstations, WSL and spinning up containers\n\nI would consider adding the CMake extension from Microsoft simply because a lot of people might find it useful (I prefer the command line, but to each their own).\nI am not familiar with the TOML extension but I suspect it might be useful for fpm dev work"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-18 17:59:01+00:00",
+                    "text": "If you want, just put the links that you removed in this PR to the \"Other Tools\" or \"Additional Tools\" section, and we can merge it."
+                },
+                {
+                    "user": "gnikit",
+                    "date": "2022-03-18 18:20:36+00:00",
+                    "text": "So I think this is a good place for new VS Code users that want to code in Fortran to start. I believe it should be okay now.\nAs for the tools I completely removed, unfortunately they don't play well with the main Fortran extension anymore, so I would not recommend anyone to install them alongside Modern Fortran.\nThese extensions would attempt to do the same thing as Modern Fortran but given that they would have the same \"priority\" I don't know what would happen.\ne.g. Having installed both Modern Fortran >= 3.0.0 and FOTRAN Intellisense would lead to multiple duplicate hover messages. GoTo Definition/Implementations would lead to undefined behaviour and using any of the new fortls arguments in your settings would cause FORTRAN Intellisense to crash.\nI think the fprettify extension would also have problems with auto-formatting OnSave which some people have enabled globally (and also the behaviour would be undefined).\nthe breaking point extension I think it has become redundant for Modern Fortran since 2019 when I added full-blown debugger support.\nThere is another Fortran extension (I think called fortran) which does not have any of these features so I suspect users would need these extensions to have a IDE-like experience in VSCode, but then again that project has not been updated since 2017, so I would not recommend users to use it."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-03-20 19:13:56+00:00",
+                    "text": "Thanks for the discussion and feedback everybody. I think we can go ahead and merge."
+                }
+            ]
+        },
+        {
+            "number": 382,
+            "user": "freevryheid",
+            "date": "2022-03-07 15:22:41+00:00",
+            "title": "learn - string arrays",
+            "text": "The quickstart tutorials have a section on arrays and strings but don't address string arrays. Googling this I found differences in approaches depending on the compiler used. I propose expanding the tutorial to indicate best practice and standard approach.",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "freevryheid",
+                    "date": "2022-03-07 15:24:02+00:00",
+                    "text": "PR: #381"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2022-03-27 20:30:39+00:00",
+                    "text": "I have a tweet prepared on arrays of strings:\nAn implied do loop with TRIM is often used to print an array of\ncharacter variables, since they may be padded by blanks and TRIM is\nnot elemental. A function can join trimmed strings as shown.\nmodule join_mod\nimplicit none\ncontains\npure function join(words,sep) result(text)\n! trim and join words with separator sep\ncharacter (len=*), intent(in) :: words(:)\ncharacter (len=*), intent(in) :: sep\ncharacter (sum(len_trim(words)) + & ! len_trim is elemental\n          (size(words)-1)*len(sep)) :: text\ninteger :: i,n\nn = size(words)\nwrite (text,\"(*(a))\") (trim(words(i)),sep,i=1,n-1), &\n                       trim(words(n))\nend function join\nend module join_mod\n!\nprogram trim_loop\nuse join_mod, only: join\nimplicit none\ninteger              :: i\ninteger, parameter   :: nelem = 3, nlen = 10\ncharacter (len=nlen) :: elem(nelem) = &\n   [character (len=nlen) :: \"Hydrogen\", \"Helium\", \"Lithium\"]\nprint \"(a,i0,a,*(1x,a,:,','))\",\"The first \",nelem,\" elements by \" // &\n      \"atomic # are\",elem ! trailing spaces in elem are printed\nprint \"(a,i0,a,*(1x,a,:,','))\",\"The first \",nelem,\" elements by \" // &\n      \"atomic # are\",(trim(elem(i)),i=1,nelem)\nprint \"(a,i0,a,1x,a)\",\"The first \",nelem,\" elements by \" // &\n      \"atomic # are\",join(elem,\", \") // \".\"\n! \"atomic # are\",trim(elem) ! invalid since TRIM not elemental\nend program trim_loop\n! output:\n! The first 3 elements by atomic # are Hydrogen  , Helium    , Lithium   \n! The first 3 elements by atomic # are Hydrogen, Helium, Lithium\n! The first 3 elements by atomic # are Hydrogen, Helium, Lithium.\n\nSome past tweets about character variables are listed here. Anything can be reused."
+                }
+            ]
+        },
+        {
+            "number": 381,
+            "user": "freevryheid",
+            "date": "2022-03-04 17:01:18+00:00",
+            "title": "add string array to learn",
+            "text": "None",
+            "labels": [
+                "learn"
+            ],
+            "comments": [
+                {
+                    "user": "freevryheid",
+                    "date": "2022-03-07 14:47:26+00:00",
+                    "text": "Update the example to show how this string array is passed to another function."
+                },
+                {
+                    "user": "freevryheid",
+                    "date": "2022-03-21 18:24:00+00:00",
+                    "text": "yep, noticed that too - I was wondering why the code didn't change - let me\nfix that.\n\u2026\nOn Mon, Mar 21, 2022 at 1:12 PM Milan Curcic ***@***.***> wrote:\n ***@***.**** commented on this pull request.\n ------------------------------\n\n In learn/quickstart/arrays_strings.md\n <#381 (comment)>\n :\n\n > @@ -149,3 +149,34 @@ program allocatable_string\n  end program allocatable_string\n  ```\n\n +\n +## Array of strings\n +\n +The length of all strings in the array must be the same. The length assigned is typically the length of the longest element.\n\n Good catch, thanks. I noticed that you resolved the suggestions without\n committing them. Did you mean to do that?\n\n \u2014\n Reply to this email directly, view it on GitHub\n <#381 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AACFSLSMU4CMIB5WLFSSRHLVBC3ZXANCNFSM5P6B5M4A>\n .\n You are receiving this because you authored the thread.Message ID:\n ***@***.***>\n\n\n-- \nAndre"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-29 18:30:21+00:00",
+                    "text": "Great, I'll go ahead and merge, thank you again."
+                }
+            ]
+        },
+        {
+            "number": 380,
+            "user": "Beliavsky",
+            "date": "2022-03-02 16:53:07+00:00",
+            "title": "Create an introductory Fortran101 Twitter channel that repeats tweets annually",
+            "text": "Twitter FortranTip started with the basics, such as intrinsic data types and loops. Now the audience has grown, and I don't want to repeat the basics and waste the time of experienced Fortranners. Just as universities repeat introductory courses annually, it may be worthwhile to create a Fortran101 Twitter channel (the name is currently available) that starts from scratch on a periodic basis, with announced start and end dates, recycling and improving FortranTip tweets (which have the unlicense license). Fortran novices could subscribe for a while and unsubscribe when they have \"graduated\". FortranTips are listed by date here, and I would like to create another page listing them by topic, maybe using the table of contents of Metcalf/Reid/Cohen. That would enable Fortran101 to be more orderly in covering the language than FortranTip has been.\nRunning one Twitter channel is enough for me. If anyone likes the idea please run with it.",
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 379,
+            "user": "milancurcic",
+            "date": "2022-03-02 04:36:03+00:00",
+            "title": "Newsletter for March 2022",
+            "text": "Let's plan to merge by Monday, March 7.\n\n GitHub stats data\n PR list\n Flang updates by @AlexisPerry\n LFortran updates by @certik or @czgdp1807\n\nThank you!",
+            "labels": [],
+            "comments": [
+                {
+                    "user": "AlexisPerry",
+                    "date": "2022-03-03 16:23:09+00:00",
+                    "text": "Please see PR milancurcic#5 for Flang updates.  Thanks!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-08 15:23:17+00:00",
+                    "text": "@certik and @czgdp1807 any chance we can get LFortran updates in today? Thank you!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-08 17:03:04+00:00",
+                    "text": "Yes, we'll get it done today."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-09 19:55:52+00:00",
+                    "text": "I am writing it up now, I didn't get to it yesterday, sorry about that."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-09 20:01:36+00:00",
+                    "text": "No worries and thank you! Please add your name to the author list and merge when you're ready."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-03-09 20:18:16+00:00",
+                    "text": "Ok, I am done!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-10 01:05:37+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2022-03-10 01:07:18+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/379/"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-10 01:11:11+00:00",
+                    "text": "Thank you all. Will merge."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-10 01:11:31+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2022-03-10 01:11:51+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
             "number": 378,
             "user": "Beliavsky",
             "date": "2022-02-17 14:35:46+00:00",
@@ -30,6 +215,16 @@
                     "user": "Beliavsky",
                     "date": "2022-02-14 13:50:11+00:00",
                     "text": "\"descriptor\" not \"discriptor\" at https://fortran-lang.org/learn/best_practices/arrays\nWhen I get up to 5 typos I may submit a patch."
+                },
+                {
+                    "user": "ashirrwad",
+                    "date": "2022-03-22 21:29:01+00:00",
+                    "text": "Hi I found a few more typos and fixed them along with the ones stated in this issue. Refer to PR #384"
+                },
+                {
+                    "user": "Beliavsky",
+                    "date": "2022-03-27 00:17:26+00:00",
+                    "text": "At https://fortran-lang.org/learn/quickstart/variables, \"order or precedence\" should be \"order of precedence\" (\"or\" should be \"of\").\nOn the same page,\narea = pi * radius**2.0\nshould be\narea = pi * radius**2"
                 }
             ]
         },
@@ -565,7 +760,18 @@
             "labels": [
                 "bug"
             ],
-            "comments": []
+            "comments": [
+                {
+                    "user": "zmoon",
+                    "date": "2022-03-21 19:11:53+00:00",
+                    "text": "Maybe the requirements.txt should go inside the _scripts directory?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-03-31 01:12:22+00:00",
+                    "text": "OK, done, let me know if it's good to go."
+                }
+            ]
         },
         {
             "number": 358,
@@ -735,7 +941,7 @@
         },
         {
             "number": 353,
-            "user": "dvz0",
+            "user": "ghost",
             "date": "2021-12-17 12:51:53+00:00",
             "title": "Add MCST LCC C, C++ and Fortran compiler",
             "text": "Hello!\nI recently started learning Fortran and I like it. In Russia we have our own proprietary processor architectures Elbrus a.k.a. e2k and SPARC a.k.a. MCST-R (licensed by Sun) developed by the MCST (Moscow Center of SPARC Technologies) company. Also, MCST has own C, C++ and Fortran proprietary compiler named LCC. I think it is worth mentioning in the list of available compilers. Unfortunately, I haven't had a chance to try it yet, since the processors are not yet available to individuals.\nThanks.",
@@ -11878,8 +12084,8 @@
         }
     ],
     "issue_labels": {
-        "easy": "Difficulty level is easy and good for starting into this project",
         "learn": "Related to the learning resources",
+        "easy": "Difficulty level is easy and good for starting into this project",
         "bug": "Something isn't working",
         "news": "Related to announcements and newsletters on the webpage",
         "duplicate": "This issue or pull request already exists",
