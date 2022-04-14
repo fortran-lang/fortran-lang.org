@@ -13,18 +13,15 @@
         // Called after json data is loaded
         
         projects = data.projects;
-        
+	    
+        // In the earlier code there has been an error in the regex implemented in  function fortranLang.findGetParameter('query')
+	// Opened a new Issue for this  #388
+	    
+	    
+        var url = new URL(window.location.href); //converts the url from index page and extracts the parameter "query" 
+       
         // Get search string
-		var query = window.location.href.split('+').join(' ');
-		
-		var tokens,queryString,
-        re = /[?&]?([^=]+)=([^&]*)/g;
-		 
-		
-		while (tokens = re.exec(query)) {
-        queryString = decodeURIComponent(tokens[2]);
-    }
-	
+        var queryString = url.searchParams.get("query");
 
         document.getElementById('search-query').value = queryString;
 
