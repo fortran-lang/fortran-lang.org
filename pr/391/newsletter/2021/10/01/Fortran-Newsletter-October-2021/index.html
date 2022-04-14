@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Fortran newsletter: October 2021 - Fortran Programming Language</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/391/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/391/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/newsletter/2021/10/01/Fortran-Newsletter-October-2021/" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/391/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/391/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/391" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 391</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/391/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/391/" class="navbar-brand">
+		    <img src="/pr/391/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/391/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/391/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/391/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/391/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/391/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/391/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+    <div class="newsletter col-wide">
+
+      <a href="/pr/391/news" > < Back to news</a>
+
+      <h1>Fortran newsletter: October 2021</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <p><i>October 01, 2021</i></p>
+        
+          <p><b>Authors:</b> Laurence Kedward, Alexis Perry-Holby, Ondřej Čertík</p>
+        
+      </div>
+
+      <p>Welcome to the October 2021 edition of the monthly Fortran newsletter.
+The newsletter comes out at the beginning of every month and details
+Fortran news from the previous month.</p>
+
+<ul id="page-nav"></ul>
+
+<h2 id="fortran-langorg">fortran-lang.org</h2>
+
+<p>This month we’ve had several updates to the website:</p>
+
+<ul>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/305">#305</a>:
+September newsletter draft</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/300">#300</a>:
+Add QCxMS to package index</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/302">#302</a>:
+Update Silverfrost compiler description.</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/307">#307</a>:
+Fixed typo</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/308">#308</a>:
+remove excess ‘mpi’ tag from fortran2018-examples</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/246">#246</a>:
+Transferring fortran90.org “Fortran Best Practices” into a mini-book</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/314">#314</a>:
+grammar and spelling from issue #313</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/317">#317</a>:
+more grammar, spelling, and rewording for Fortran Best Practices</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/324">#324</a>:
+replaced “be found be found” with “be found”</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/320">#320</a>:
+Alternative approach to avoiding integer division</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/328">#328</a>:
+Add incompact3d to package index</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/333">#333</a>:
+Add fparser to package index</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/335">#335</a>:
+Adding two more packages to the index</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/334">#334</a>:
+Add pFlogger to package index</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/336">#336</a>:
+One more package</li>
+</ul>
+
+<h3 id="work-in-progress">Work in progress</h3>
+
+<ul>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/329">#329</a> (WIP):
+Quantum Information book, WSL GUI, and typos</li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org/pull/201">#201</a> (WIP):
+Draft: Internationalization for fortran-lang</li>
+</ul>
+
+<p><a href="https://github.com/fortran-lang/fortran-lang.org/issues">Let us know</a>
+if you have any suggestions for the website and its content.
+We welcome any new contributors to the website and the tutorials page in particular - see the
+<a href="https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md">contributor guide</a>
+for how to get started.</p>
+
+<h2 id="fortran-standard-library">Fortran Standard Library</h2>
+
+<p>Here’s what’s new in stdlib:</p>
+
+<ul>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/509">#509</a>:
+fixed typo</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/503">#503</a>:
+refactor documentation regarding consistency</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/511">#511</a>:
+Correctly set CMAKE_INSTALL_MODULEDIR cache variable</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/513">#513</a>:
+Update issue templates</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/523">#523</a>:
+Rename config.yaml -&gt; config.yml</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/508">#508</a>:
+github-ci: add fpm support</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/475">#475</a>:
+Generating sorting subroutines specific to <code class="highlighter-rouge">character</code> type with fypp</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/525">#525</a>:
+Add files generated by tests to gitignore</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/529">#529</a>:
+Add maintainer entry to fpm manifest</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/530">#530</a>:
+Make it clearer how the user can control compiler optimization</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/528">#528</a>:
+Reduce redundancy caused by optional arguments</li>
+  <li><a href="https://github.com/fortran-lang/stdlib-cmake-example/pull/3">#3</a> (<code class="highlighter-rouge">stdlib-cmake-example</code>):
+Add example integration with test-drive</li>
+</ul>
+
+<h3 id="work-in-progress-1">Work in progress</h3>
+
+<ul>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/543">#543</a> (WIP):
+Fix string concat</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/539">#539</a> (WIP):
+Add function gcd</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/538">#538</a> (WIP):
+Bump stdlib version to 0.1.0</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/537">#537</a> (WIP):
+Add a changelog for the current features of stdlib</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/536">#536</a> (WIP):
+Fix conversion warnings</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/521">#521</a> (WIP):
+Ensure module output directory is generated in configure stage</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/520">#520</a> (WIP):
+[stdlib_io] add <code class="highlighter-rouge">disp</code>(display your data).</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/517">#517</a> (WIP):
+adding SPEC_TEMPLATE.md #504</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/514">#514</a> (WIP):
+pop, drop &amp; get with basic range feature for stringlist</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/500">#500</a> (WIP):
+Selection algorithms</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/499">#499</a> (WIP):
+[stdlib_linalg] matrix property checks</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/498">#498</a> (WIP):
+[stdlib_math] add <code class="highlighter-rouge">arg/argd/argpi</code></li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/494">#494</a> (WIP):
+Add testing module to allow better structuring of test suites</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/491">#491</a> (WIP):
+Stdlib linked list</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/488">#488</a> (WIP):
+[stdlib_math] add <code class="highlighter-rouge">is_close</code> routines.</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/473">#473</a> (WIP):
+Error stop improvements</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/455">#455</a> (WIP):
+stdlib_hash: waterhash algorithm</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/452">#452</a> (WIP):
+Implementation of a map data type</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/363">#363</a> (WIP):
+Sorting string’s characters according to their ASCII values</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/353">#353</a> (WIP):
+Initial checkin for a module for tolerant comparison of reals</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/286">#286</a> (WIP):
+Probability Distribution and Statistical Functions – Beta Distribution Module</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/278">#278</a> (WIP):
+Probability Distribution and Statistical Functions – Gamma Distribution Module</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/276">#276</a> (WIP):
+Probability Distribution and Statistical Functions – Exponential Distribution Module</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/273">#273</a> (WIP):
+Probability Distribution and Statistical Functions – Normal Distribution Module</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/272">#272</a> (WIP):
+Probability Distribution and Statistical Functions – Uniform Distribution Module</li>
+  <li><a href="https://github.com/fortran-lang/stdlib/pull/189">#189</a> (WIP):
+Initial implementation of COO / CSR sparse format</li>
+</ul>
+
+<p>Please help improve stdlib by testing and <a href="https://github.com/fortran-lang/stdlib/issues?q=is%3Apr+is%3Aopen+label%3A%22reviewers+needed%22">reviewing pull requests</a>!</p>
+
+<p>The candidate for file system operations to be included in stdlib is being developed by
+<a href="https://github.com/MarDiehl">@MarDiehl</a> and <a href="https://github.com/arjenmarkus">@arjenmarkus</a>
+in <a href="https://github.com/MarDiehl/stdlib_os">this repository</a>.
+Please try it out and let us know how it works, if there are any issues, or if the API can be improved.</p>
+
+<h2 id="fortran-package-manager">Fortran Package Manager</h2>
+
+<p>Here’s what’s new in fpm:</p>
+
+<ul>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/521">#521</a>:
+expand tabs</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/557">#557</a>:
+Update installer script to update subprojects first</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/558">#558</a>:
+Add issue templates</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/565">#565</a>:
+Default branch renaming aftermath</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/562">#562</a>:
+Add new distributions where fpm is available to README</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/563">#563</a>:
+Add workflow to create single source fpm version</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/564">#564</a>:
+Separate upload stage in CI testing</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/572">#572</a>:
+Build no tests by default</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/549">#549</a>:
+Allow setting, archiver, C compiler flags and linker flags from commandline</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/578">#578</a>:
+help text was truncated</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/579">#579</a>:
+Fix dir not getting removed after testing fpm</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/584">#584</a>:
+Actually read environment variables</li>
+</ul>
+
+<h3 id="work-in-progress-2">Work in progress</h3>
+
+<ul>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/575">#575</a> (WIP):
+Enable multiple build output directories</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/569">#569</a> (WIP):
+Add workflow for continuous delivery</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/539">#539</a> (WIP):
+Add parent packages into dependency tree</li>
+  <li><a href="https://github.com/fortran-lang/fpm/pull/498">#498</a> (WIP):
+Compiler flags profiles</li>
+</ul>
+
+<p><code class="highlighter-rouge">fpm</code> is still in early development and we need as much help as we can get.
+Here’s how you can help today:</p>
+
+<ul>
+  <li>
+    <p>Use it and let us know what you think! Read the <a href="https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md">fpm packaging guide</a>
+to learn how to build your package with fpm, and the <a href="https://github.com/fortran-lang/fpm/blob/HEAD/manifest-reference.md">manifest reference</a>
+to learn what are all the things that you can specify in the fpm.toml file.</p>
+  </li>
+  <li>Browse existing <em>fpm</em> packages on the <a href="https://fortran-lang.org/packages/fpm">fortran-lang website</a></li>
+  <li>Browse the <a href="https://github.com/fortran-lang/fpm/issues">open issues</a> and see if you can help implement any fixes or features.</li>
+  <li>Adapt your Fortran package for fpm and submit it to the <a href="https://github.com/fortran-lang/fpm-registry">Registry</a>.</li>
+  <li>Improve the documentation.</li>
+</ul>
+
+<p>The short-term goal of fpm is to make development and installation of Fortran packages with dependencies easier.
+Its long term goal is to build a rich and decentralized ecosystem of Fortran packages and create a healthy
+environment in which new open source Fortran projects are created and published with ease.</p>
+
+<h2 id="compilers">Compilers</h2>
+
+<h3 id="flang">Flang</h3>
+
+<p>Recent development updates:</p>
+
+<ul>
+  <li>New Driver and CMake integration:
+    <ul>
+      <li>flang-omp-report plugin - first full fledged frontend plugin has been contributed</li>
+      <li>CMake integration - waiting on a new PR</li>
+      <li>Code-generation work is ongoing - task list has been presented to the community for discussion and approval</li>
+    </ul>
+  </li>
+  <li>FIR (Fortran IR - a dialect of MLIR):
+    <ul>
+      <li>Fortran 95 lowering and runtime support is nearing completion</li>
+      <li>Code upstreaming has begun again</li>
+    </ul>
+  </li>
+  <li>OpenMP
+    <ul>
+      <li>Merged: Critical, collapse clause, Fixes for SNAP.</li>
+      <li>In review: Firstprivate, Ordered, MLIR definitions for a few target side constructs, semantic checks for atomic, critical, sections, simd</li>
+      <li>OpenMP 5.0 metadirective</li>
+    </ul>
+  </li>
+  <li>Runtime
+    <ul>
+      <li>Change complex type define in runtime for clang-cl</li>
+      <li>Implement READ(SIZE=) and INQUIRE(IOLENGTH=) in runtime</li>
+      <li>GET_COMMAND_ARGUMENT runtime implementation, handling the LENGTH, VALUE, STATUS and ERRMSG parameters.</li>
+      <li>COMMAND_ARGUMENT_COUNT runtime implementation</li>
+      <li>Add POSIX implementation for SYSTEM_CLOCK</li>
+      <li>Fix WRITE after BACKSPACE on variable-length file</li>
+      <li>Implement Posix version of DATE_AND_TIME runtime</li>
+    </ul>
+  </li>
+  <li>Ported test scripts to Python, enables testing on Windows</li>
+  <li>More precise checks for NULL() operands</li>
+  <li>Enforce array conformance in actual arguments to ELEMENTALs</li>
+  <li>Constant folding for COUNT, SQRT, HYPOT, CABS, CSHIFT, EOSHIFT, PACK, UNPACK, and TRANSPOSE</li>
+  <li>Make this_image() an intrinsic function</li>
+  <li>Revamp C1502 checking of END INTERFACE [generic-spec]</li>
+  <li>Accept SIZE(assumed-rank, DIM=n)</li>
+  <li>Validate SIZE(x,DIM=n) dimension for assumed-size array x</li>
+  <li>Catch errors with intrinsic array inquiry functions</li>
+  <li>Correct overflow detection in folding of real-&gt;integer conversions</li>
+  <li>Upgrade warning to error in case of PURE procedure</li>
+  <li>Enforce fixed form rules about END continuation</li>
+  <li>Enforce specification function rules on callee, not call</li>
+  <li>Catch error: base of DATA statement object can’t be a pointer</li>
+  <li>Represent parentheses around derived types</li>
+  <li>Enforce constraint: defined ass’t in WHERE must be elemental</li>
+  <li>Catch branching into FORALL/WHERE constructs</li>
+  <li>Implement semantic checks for ELEMENTAL subprograms</li>
+  <li>Signal EOR in non advancing IO and move to next record</li>
+  <li>Extension: reduced scope for some implied DO loop indices</li>
+  <li>Take result length into account in ApplyElementwise folding</li>
+  <li>Apply double precision KindCode in specific proc interface</li>
+</ul>
+
+<p>Call notes are recorded and available upon request <a href="https://docs.google.com/document/d/10T-S2J3GrahpG4Ooif93NSTz2zBW0MQc_RlwHi0-afY">here</a>. Please contact Alexis Perry-Holby at aperry@lanl.gov for document access.</p>
+
+<h3 id="lfortran">LFortran</h3>
+
+<ul>
+  <li>81
+<a href="https://gitlab.com/lfortran/lfortran/-/merge_requests?scope=all&amp;state=merged">merged</a>
+Merge Requests in September 2021</li>
+  <li>LFortran Minimum Viable Product (MVP) <a href="https://lfortran.org/blog/2021/09/lfortran-minimum-viable-product-mvp/">released</a></li>
+  <li>LFortran 0.13.0, 0.13.1 and 0.14.0 released in September</li>
+  <li>The following people have contributed code to LFortran in September:
+    <ul>
+      <li>Ondřej Čertík</li>
+      <li>Gagandeep Singh</li>
+      <li>Carlos Une</li>
+      <li>Thirumalai Shaktivel</li>
+      <li>Harris M. Snyder</li>
+      <li>Sebastian Ehlert</li>
+      <li>Mengjia Lyu</li>
+    </ul>
+  </li>
+  <li>Many people have reported bugs (thank you all!)</li>
+  <li>Main features implemented in September:
+    <ul>
+      <li>Operator overloading (ASR, LLVM)</li>
+      <li>Goto (ASR, LLVM)</li>
+      <li>Runtime library improvements: <code class="highlighter-rouge">iand</code>, <code class="highlighter-rouge">len</code>, <code class="highlighter-rouge">trim</code>, <code class="highlighter-rouge">len_trim</code></li>
+      <li>Interactive mode: get complex numbers, intrinsic functions working
+(Windows, macOS, Linux)</li>
+      <li>New driver options: –fast, –symtab-only, –target</li>
+    </ul>
+  </li>
+</ul>
+
+<p>We are looking for new contributors. Please do not hesitate to contact us if
+you are interested. We will help you get up to speed.</p>
+
+<h2 id="events">Events</h2>
+
+<ul>
+  <li>We had our 16th Fortran Monthly call on September 22.
+You can watch the recording below:
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/ssqjsdBmnqc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+  </li>
+  <li>The second international Fortran Conference (FortranCon) 2021 was held virtually on September 23-24
+Video recordings of the talks will be made available soon.
+For more information, visit the <a href="https://tcevents.chem.uzh.ch/event/14/">FortranCon website</a>.</li>
+</ul>
+
+<p>As usual, subscribe to the <a href="https://groups.io/g/fortran-lang">mailing list</a> and/or
+join the <a href="https://fortran-lang.discourse.group">Discourse</a> to stay tuned with the future meetings.</p>
+
+<h2 id="contributors">Contributors</h2>
+
+<p>We thank everybody who contributed to fortran-lang in the past month by
+commenting in any of these repositories:</p>
+
+<ul>
+  <li><a href="https://github.com/fortran-lang/stdlib">fortran-lang/stdlib</a></li>
+  <li><a href="https://github.com/fortran-lang/stdlib-cmake-example">fortran-lang/stdlib-cmake-example</a></li>
+  <li><a href="https://github.com/fortran-lang/fpm">fortran-lang/fpm</a></li>
+  <li><a href="https://github.com/fortran-lang/fpm-registry">fortran-lang/fpm-registry</a></li>
+  <li><a href="https://github.com/fortran-lang/setup-fpm">fortran-lang/setup-fpm</a></li>
+  <li><a href="https://github.com/fortran-lang/fpm-haskell">fortran-lang/fpm-haskell</a></li>
+  <li><a href="https://github.com/fortran-lang/fortran-lang.org">fortran-lang/fortran-lang.org</a></li>
+  <li><a href="https://github.com/fortran-lang/benchmarks">fortran-lang/benchmarks</a></li>
+  <li><a href="https://github.com/fortran-lang/fortran-forum-article-template">fortran-lang/fortran-forum-article-template</a></li>
+  <li><a href="https://github.com/fortran-lang/fftpack">fortran-lang/fftpack</a></li>
+  <li><a href="https://github.com/j3-fortran/fortran_proposals">j3-fortran/fortran_proposals</a></li>
+</ul>
+
+<div id="gh-contributors" data-startdate="September 01 2021" data-enddate="September 30 2021" height="500px"></div>
+
+
+    </div>
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/391/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/391/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/391/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/391/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/391/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.org/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/391/assets/js/fortranlang.js"></script>
+    <script src="/pr/391/assets/js/page_nav.js"></script>
+    <script src="/pr/391/assets/js/gh-contributors.js"></script>
+    <script src="/pr/391/assets/js/package_search.js"></script>
+    <script src="/pr/391/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
