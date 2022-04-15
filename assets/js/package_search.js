@@ -13,8 +13,7 @@
         // Called after json data is loaded
         
         projects = data.projects;
-	    
-	    
+	
         var url = new URL(window.location.href); //converts the url from index page and extracts the parameter "query" 
        
         // Get search string
