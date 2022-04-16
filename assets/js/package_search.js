@@ -6,16 +6,19 @@
         fortranLang.loadJSON(fortranLang.baseurl+'/packages/package_index.json', search);
 
     }
+    
 
     
     function search(data){
         // Called after json data is loaded
-        //
         
         projects = data.projects;
-
+	
+        var url = new URL(window.location.href); //converts the url from index page and extracts the parameter "query" 
+       
         // Get search string
-        var queryString = fortranLang.findGetParameter('query').replace(/\+/g," ").replace(/"/g,'');
+        var queryString = url.searchParams.get("query");
+
         document.getElementById('search-query').value = queryString;
 
         results = searchProjects(queryString,projects);
