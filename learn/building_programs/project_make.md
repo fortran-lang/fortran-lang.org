@@ -228,7 +228,7 @@ BEGIN {
 # - the first argument ($1) should be the whole word module
 # - the second argument ($2) should be a valid module name
 $1 ~ /^module$/ &&
-$2 ~ /^[a-zA-Z][a-zA-Z1-9_]*$/ {
+$2 ~ /^[a-zA-Z][a-zA-Z0-9_]*$/ {
     # count module names per file to avoid having modules twice in our list
     if (modc[FILENAME,$2]++ == 0) {
         # add to the module list, the generated module name is expected
@@ -241,7 +241,7 @@ $2 ~ /^[a-zA-Z][a-zA-Z1-9_]*$/ {
 # - the first argument ($1) should be the whole word use
 # - the second argument ($2) should be a valid module name
 $1 ~ /^use$/ &&
-$2 ~ /^[a-zA-Z][a-zA-Z1-9_]*,?$/ {
+$2 ~ /^[a-zA-Z][a-zA-Z0-9_]*,?$/ {
     # Remove a trailing comma from an optional only statement
     gsub(/,/, "", $2)
     # count used module names per file to avoid using modules twice in our list
