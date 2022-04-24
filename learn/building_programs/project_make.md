@@ -262,7 +262,7 @@ $2 ~ /^["'].+["']$/ {
     # count included files per file to avoid having duplicates in our list
     if (incc[FILENAME,$2]++ == 0) {
         # Add the included file to our list, this might be case-sensitive
-        inc[++ii] = sprintf("$(%s) += %s", FILENAME, $2)
+        inc[++ii] = sprintf("$(%s) += $(%s)", FILENAME, $2)
     }
 }
 
