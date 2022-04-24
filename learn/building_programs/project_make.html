@@ -1010,7 +1010,7 @@ it is just expanded to the object files as well.</p>
 <span class="c1"># - the first argument ($1) should be the whole word module</span>
 <span class="c1"># - the second argument ($2) should be a valid module name</span>
 <span class="nv">$1</span> <span class="o">~</span> <span class="sr">/^module$/</span> <span class="o">&amp;&amp;</span>
-<span class="nv">$2</span> <span class="o">~</span> <span class="sr">/^</span><span class="se">[</span><span class="sr">a-zA-Z</span><span class="se">][</span><span class="sr">a-zA-Z1-9_</span><span class="se">]</span><span class="sr">*$/</span> <span class="p">{</span>
+<span class="nv">$2</span> <span class="o">~</span> <span class="sr">/^</span><span class="se">[</span><span class="sr">a-zA-Z</span><span class="se">][</span><span class="sr">a-zA-Z0-9_</span><span class="se">]</span><span class="sr">*$/</span> <span class="p">{</span>
     <span class="c1"># count module names per file to avoid having modules twice in our list</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">modc</span><span class="p">[</span><span class="kc">FILENAME</span><span class="p">,</span><span class="nv">$2</span><span class="p">]</span><span class="o">++</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1"># add to the module list, the generated module name is expected</span>
@@ -1023,7 +1023,7 @@ it is just expanded to the object files as well.</p>
 <span class="c1"># - the first argument ($1) should be the whole word use</span>
 <span class="c1"># - the second argument ($2) should be a valid module name</span>
 <span class="nv">$1</span> <span class="o">~</span> <span class="sr">/^use$/</span> <span class="o">&amp;&amp;</span>
-<span class="nv">$2</span> <span class="o">~</span> <span class="sr">/^</span><span class="se">[</span><span class="sr">a-zA-Z</span><span class="se">][</span><span class="sr">a-zA-Z1-9_</span><span class="se">]</span><span class="sr">*,</span><span class="se">?</span><span class="sr">$/</span> <span class="p">{</span>
+<span class="nv">$2</span> <span class="o">~</span> <span class="sr">/^</span><span class="se">[</span><span class="sr">a-zA-Z</span><span class="se">][</span><span class="sr">a-zA-Z0-9_</span><span class="se">]</span><span class="sr">*,</span><span class="se">?</span><span class="sr">$/</span> <span class="p">{</span>
     <span class="c1"># Remove a trailing comma from an optional only statement</span>
     <span class="nb">gsub</span><span class="p">(</span><span class="sr">/,/</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$2</span><span class="p">)</span>
     <span class="c1"># count used module names per file to avoid using modules twice in our list</span>
@@ -1044,7 +1044,7 @@ it is just expanded to the object files as well.</p>
     <span class="c1"># count included files per file to avoid having duplicates in our list</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">incc</span><span class="p">[</span><span class="kc">FILENAME</span><span class="p">,</span><span class="nv">$2</span><span class="p">]</span><span class="o">++</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1"># Add the included file to our list, this might be case-sensitive</span>
-        <span class="nx">inc</span><span class="p">[</span><span class="o">++</span><span class="nx">ii</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"$(%s) += %s"</span><span class="p">,</span> <span class="kc">FILENAME</span><span class="p">,</span> <span class="nv">$2</span><span class="p">)</span>
+        <span class="nx">inc</span><span class="p">[</span><span class="o">++</span><span class="nx">ii</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">"$(%s) += $(%s)"</span><span class="p">,</span> <span class="kc">FILENAME</span><span class="p">,</span> <span class="nv">$2</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 
