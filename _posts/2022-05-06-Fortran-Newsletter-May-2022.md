@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: May 2022"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Alexis Perry-Holby
 ---
 
 Welcome to the May edition of the monthly Fortran newsletter.
@@ -162,7 +162,148 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
-TODO @alexisperry
+Recent development updates:
+
+* FIR
+    * Lower various intrinsics:
+        * character related intrinsics, array related intrinsics, index intrinsics, present, exit, btest, ceiling, nearest, scale, matmul, trim, transpose, command, environment, repeat, aint, anint, cmplx, conjg, dble, dprod, sign, spacing, rrspacing, merge intrinsics, lbound, ubound, ior, exp, log, log10, sqrt, atan, sinh, cosh, sin, cos, mvbits, achar
+    * Add IO lowering test
+    * Add more lowering tests for dummy arguments
+    * Add equivalence lowering tests
+    * Add array constructor lowering tests
+    * Lower more array expressions
+    * Lower statement function
+    * Lower length on character storage
+    * Lower select case statement
+    * Add OpenMP Conversion patterns
+    * Lower procedure designator
+    * Lower boxed procedure
+    * Flush and master constructs
+    * Add lowering C interoperability test
+    * Add misc lowering tests
+    * Handle zero extent case in LBOUND
+    * Lower some coarray statements to their runtime function
+    * Options to lower math intrinsics to relaxed, precise variants
+    * Lower optionals in GET_COMMAND_ARGUMENT and  GET_ENVIRONMENT_VARIABLE
+    * Added lowering support for atomic read and write constructs
+    * fix LBOUND lowering with KIND and no DIM arguments
+    * Keep fully qualified !fir.heap type for fir.freemem op
+    * Update the conversion code for fir.coordinate_of
+    * Set lower bounds of array section fir.embox to one
+    * Fix fir.embox codegen with constant interior shape
+    * Do not fold fir.box_addr when it has a slice
+* Driver
+    * Make --version and -version consistent with clang
+    * Add support for -mmlir
+    * Make the plugin API independent of the driver internals
+    * Add support for generating executables
+* OpenMP
+    * Lowering critical construct
+    * Added assembly format for omp.wsloop and remove parseClauses
+    * Added lowering support for sections construct
+    * Added ReductionClauseInterface
+    * Added parallel sections translation
+    * Revert "[Flang][OpenMP] Add semantic check for OpenMP Private, Firstprivate and Lastprivate clauses."
+    * Added allocate clause translation for OpenMP block constructs
+    * Support export/import OpenMP Threadprivate Flag
+    * Add implementation of privatisation
+    * Add checks and tests for hint clause and fix empty hint
+* OpenACC
+    * Lower enter data directive
+    * Lower exit data directive
+    * Lower init/shutdown directive
+    * Lower update directive
+    * Lower data directive
+    * Lower wait directive
+* Runtime
+    * Error recovery improvement in runtime (IOMSG=)
+    * Initial UTF-8 support in runtime I/O
+    * Ensure PointerDeallocate actually deallocate pointers
+    * Add runtime API to catch unit number out of range
+    * Prefer process time over thread time in CPU_TIME
+    * Raise FP exceptions from runtime conversion to binary
+    * Preserve effect of positioning in record in non-advancing output
+    * Don't skip input spaces when they are significant
+    * Fix ENDFILE for formatted stream output
+    * Don't emit empty lines for bad writes
+    * Ignore leading spaces even in BZ mode
+    * Fix edge-case FP input bugs
+    * Enforce some limits on kP scale factors
+    * Signal record read overrun when PAD='NO'
+    * Fix KIND=16 real/complex component I/O
+    * Fix total MAXLOC/MINLOC for non-integer data
+* Handle allocatable components when creating array temps
+* [Parser] Add a node for individual sections in sections construct
+* Add explanatory messages to grammar for language extensions
+* Convert RUNTIME_CHECK to better error for user errors in transformational.cpp
+* Accept legacy aliases for intrinsic function names
+* Expose error recovery cases in external I/O
+* Fix crash: ENTRY with generic interface of the same name
+* Fold DBLE
+* Single construct translation from PFT to FIR
+* UBOUND() edge case: empty dimension
+* Make not yet implemented messages more consistent
+* Fix LBOUND rewrite on descriptor components
+* Ensure descriptor lower bounds are LBOUND compliant
+* Fix cycle-catcher in procedure characterization
+* Fix bogus error from assignment to CLASS(*)
+* Mark C_ASSOCIATED specific procedures as PURE
+* Catch bad OPEN(STATUS=) cases
+* Fold NEAREST() and its relatives
+* Prevent undefined behavior in character MAXLOC folding
+* Fix invalid overflow check
+* Skip D when including D debug line
+* Allow user to recover from bad edit descriptor with INTEGER
+* Fold instantiated PDT character component length when needed
+* Add one semantic check for allocatable/pointer argument association
+* [cmake] Make CMake copy "omp_lib.h" into the build directory
+* Handle dynamically optional argument in EXIT
+* Fix semantic analysis for "forall" targeted by "label"
+* Emit a portability warning for padding in COMMON
+* Expand the num_images test coverage
+* Fold IBITS() intrinsic function
+* Error handling for out-of-range CASE values
+* Respect left tab limit with Tn editing after ADVANCE='NO'
+* Allow IMPLICIT NONE(EXTERNAL) with GenericDetails
+* Do not ICE on out-of-range data statement designator
+* Fix ICE for sqrt(0.0) evaluation
+* Fix float-number representation bug
+* Fix intrinsic interface for DIMAG/DCONJG
+* Improve appearance of message attachments
+* Fix combining cases of USE association & generic interfaces
+* Defer all function result type processing
+* Always encode multi-byte output in UTF-8
+* Fix shape analysis of RESHAPE result
+* Use full result range for clock_gettime implementation of SYSTEM_CLOCK
+* Correct interaction between generics and intrinsics
+* Make F0.1 output editing of zero edge case consistent
+* Inner INTRINSIC must not shadow host generic
+* Local generics must not shadow host-associated generics
+* Fix TYPE/CLASS IS (T(...)) in SELECT TYPE
+* Allow modification of construct entities
+* Defer NAMELIST group item name resolution
+* Accept TYPE(intrinsic type) in declarations only for non-extension type
+* Finer control over error recovery with GetExpr()
+* Handle parameter-dependent types in PDT initializers
+* Upgrade short actual character arguments to errors
+* Allow POINTER attribute statement on procedure interfaces
+* Accept KIND type parameter inquiries on RE, IM, etc.
+* Add & use a better visit()
+* Fix regression with recent work on intrinsic/generic interactions
+* Do not pass derived type by descriptor when not needed
+* Fix LBOUND() folding for constant arrays
+* Set LBOUND() folding for (x) expression as ones
+* Semantics limits on kP scale factors
+* Do not ICE on recursive function definition in function result
+* Fold transformational bessels when host runtime has bessels
+* Do not create arith.extui with same from/to type
+* Disambiguate F(X)=Y case where F is a function returning a pointer
+* Avoid global name conflict when BIND(C,NAME=) is used
+* Accept "INFINITY" as real input
+* Add semantic checks for intrinsic function REDUCE()
+* Fix crash from PDT component init in module file
+
+Call notes are recorded and publicly available [here](https://docs.google.com/document/d/1Z2U5UAtJ-Dag5wlMaLaW1KRmNgENNAYynJqLW2j2AZQ/edit).
 
 ### LFortran
 
