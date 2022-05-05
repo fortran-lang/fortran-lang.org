@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: May 2022"
 category: newsletter
-author: Milan Curcic, Alexis Perry-Holby
+author: Milan Curcic, Alexis Perry-Holby, Giannis Nikiteas
 ---
 
 Welcome to the May edition of the monthly Fortran newsletter.
@@ -316,6 +316,7 @@ We are looking for new contributors. Please do not hesitate to contact us if you
 * We had our 25th Fortran Monthly call on April 22.
   You can watch the recording below:
   <iframe width="560" height="315" src="https://www.youtube.com/embed/8-_ll4f0gN8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+* Visual Studio Code's popular [Modern Fortran](https://marketplace.visualstudio.com/items?itemName=fortran-lang.linter-gfortran) extension joined the [fortran-lang GitHub](https://github.com/fortran-lang/vscode-fortran-support) organization.
 
 Join and follow the [Fortran Discourse](https://fortran-lang.discourse.group)
 to stay tuned with the future meetings.
