@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: May 2022"
 category: newsletter
-author: Milan Curcic, Alexis Perry-Holby, Giannis Nikiteas
+author: Milan Curcic, Alexis Perry-Holby, Giannis Nikiteas, Gagandeep Singh
 ---
 
 Welcome to the May edition of the monthly Fortran newsletter.
@@ -73,7 +73,7 @@ Work in progress:
 * [#652](https://github.com/fortran-lang/stdlib/pull/652) (WIP):
   Feature: loadtxt skiprows and max_rows
 * [#625](https://github.com/fortran-lang/stdlib/pull/625) (WIP):
-  Gamma special function 
+  Gamma special function
 * [#611](https://github.com/fortran-lang/stdlib/pull/611) (WIP):
   Hash maps
 * [#604](https://github.com/fortran-lang/stdlib/pull/604) (WIP):
@@ -307,7 +307,61 @@ Call notes are recorded and publicly available [here](https://docs.google.com/do
 
 ### LFortran
 
-TODO @certik
+**Compiling `stdlib` with `lfortran`**
+
+- [Fixes for intrinsics while compiling `stdlib` using `lfortran`](https://gitlab.com/lfortran/lfortran/-/merge_requests/1718)
+- [Draft: Stdlib sprint](https://gitlab.com/lfortran/lfortran/-/merge_requests/1719)
+- [Draft: Sprint Compiling stdlib with LFortran](https://gitlab.com/lfortran/lfortran/-/merge_requests/1689)
+
+**Addition of ASR Optimization Passes**
+
+- [Implementing dead code elemination optimization](https://gitlab.com/lfortran/lfortran/-/merge_requests/1688)
+- [Supporting duplication of Function/Subroutine calls](https://gitlab.com/lfortran/lfortran/-/merge_requests/1686)
+- [Implementing loop unrolling optimization for fixed sized loops](https://gitlab.com/lfortran/lfortran/-/merge_requests/1681)
+
+**`libasr`**
+
+- [AST->ASR: Remove current_body](https://gitlab.com/lfortran/lfortran/-/merge_requests/1720)
+- [Added support keyword argument in class procedures](https://gitlab.com/lfortran/lfortran/-/merge_requests/1717)
+- [Implementing ArrayBound node to replace `lbound`, `ubound` as function calls](https://gitlab.com/lfortran/lfortran/-/merge_requests/1715)
+- [Implementing `Block` and `BlockCall`](https://gitlab.com/lfortran/lfortran/-/merge_requests/1714)
+- [Made scope private in SymbolTable struct and added interface methods to modify scope](https://gitlab.com/lfortran/lfortran/-/merge_requests/1711)
+- [Removing dead code which treats size intrinsic as function](https://gitlab.com/lfortran/lfortran/-/merge_requests/1710)
+- [Implementing `ArraySize` node to replace function call to `size`](https://gitlab.com/lfortran/lfortran/-/merge_requests/1708)
+- [Fixing adjustl](https://gitlab.com/lfortran/lfortran/-/merge_requests/1707)
+- [Implementing AssociateBlock](https://gitlab.com/lfortran/lfortran/-/merge_requests/1706)
+- [Move ASR.asdl into the src/libasr directory](https://gitlab.com/lfortran/lfortran/-/merge_requests/1703)
+- [Fixing handling of return type](https://gitlab.com/lfortran/lfortran/-/merge_requests/1699)
+- [Fill function in FunctionCall of len expr of Character type after completing symbol table](https://gitlab.com/lfortran/lfortran/-/merge_requests/1698)
+- [Fixing inline function calls pass to skip intrinsics](https://gitlab.com/lfortran/lfortran/-/merge_requests/1694)
+- [Draft: ASR: Add all intrinsic operations into ASR itself](https://gitlab.com/lfortran/lfortran/-/merge_requests/1700)
+
+
+**WASM**
+
+- [Wasm backend](https://gitlab.com/lfortran/lfortran/-/merge_requests/1713)
+- [draft: Wasm Intial Base](https://gitlab.com/lfortran/lfortran/-/merge_requests/1704)
+- [draft: Compiling LFortran to WASM](https://gitlab.com/lfortran/lfortran/-/merge_requests/1705)
+
+
+**Miscellaneous**
+
+- [bind(c): Fix call_fortran_i64](https://gitlab.com/lfortran/lfortran/-/merge_requests/1723)
+- [bind(c): Add tests for i64, f32, f64](https://gitlab.com/lfortran/lfortran/-/merge_requests/1722)
+- [Fix a bug in a test](https://gitlab.com/lfortran/lfortran/-/merge_requests/1721)
+- [Add a test for calling Fortran from C](https://gitlab.com/lfortran/lfortran/-/merge_requests/1716)
+- [Update ASR from LPython](https://gitlab.com/lfortran/lfortran/-/merge_requests/1712)
+- [CI: add git safe.directory](https://gitlab.com/lfortran/lfortran/-/merge_requests/1702)
+- [Update ASR from LPython](https://gitlab.com/lfortran/lfortran/-/merge_requests/1701)
+- [Update ASR from LPython](https://gitlab.com/lfortran/lfortran/-/merge_requests/1696)
+- [Adding and Improving tests](https://gitlab.com/lfortran/lfortran/-/merge_requests/1695)
+- [Remove --target install and CMAKE_INSTALL_PREFIX from build1.sh](https://gitlab.com/lfortran/lfortran/-/merge_requests/1709)
+
+**Contributors**
+
+- [Gagandeep Singh](https://gitlab.com/czgdp18071)
+- [Ondřej Čertík](https://gitlab.com/certik)
+- [Ubaid Shaikh](https://gitlab.com/shaikhubaid769)
 
 We are looking for new contributors. Please do not hesitate to contact us if you are interested. We will help you get up to speed.
 
