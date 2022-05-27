@@ -10,17 +10,11 @@ jobs:
     - name: Checkout page source
       uses: actions/checkout@v2
       
-    - name: open source directory
-      run: cd sphinx
-      
     - name: Setup Python
       uses: actions/setup-python@v1
 
     - name: Install sphinx
       run: pip3 install --user -r requirements.txt
-      
-    - name: ls source directory
-      run: ls
       
     - name: Build page
       run: make html
