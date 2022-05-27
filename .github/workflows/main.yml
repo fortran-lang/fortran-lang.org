@@ -1,0 +1,34 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout page source
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v1
+
+    - name: Install sphinx
+      run: pip3 install --user -r requirements.txt
+      
+    - name: open build directory
+      run: cd sphinx
+      
+    - name: Build page
+      run: make html
+      
+    - run: touch _build/html/.nojekyll
+
+    - name: Deploy documentation
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      if: github.event_name == 'push' && github.repository == 'henilp105/fortran-lang.org' && github.ref == 'refs/heads/master/sphinx'
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: deploy
+        FOLDER: _build/html
+        CLEAN: true
