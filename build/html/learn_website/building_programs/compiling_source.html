@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>&lt;no title&gt; &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <p>The first step in the build process is to compile the source code. The
+output from this step is generally known as the object code — a set of
+instructions for the computer generated from the human-readable source
+code. Different compilers will produce different object codes from the
+same source code and the naming conventions are different.</p>
+<p>The consequences:</p>
+<ul class="simple">
+<li><p>If you use a particular compiler for one source file, you need to use
+the same compiler (or a compatible one) for all other pieces. After
+all, a program may be built from many different source files and the
+compiled pieces have to cooperate.</p></li>
+<li><p>Each source file will be compiled and the result is stored in a file
+with an extension like &quot;.o&quot; or &quot;.obj&quot;. It is these object files that are
+the input for the next step: the link process.</p></li>
+</ul>
+<p>Compilers are complex pieces of software: they have to understand the
+language in much more detail and depth than the average programmer. They
+also need to understand the inner working of the computer. And then,
+over the years they have been extended with numerous options to
+customise the compilation process and the final program that will be
+built.</p>
+<p>But the basics are simple enough. Take the gfortran compiler, part of
+the GNU compiler collection. To compile a simple program as the one
+above, that consists of one source file, you run the following command,
+assuming the source code is stored in the file &quot;hello.f90&quot;:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ gfortran -c hello.f90
+</pre></div>
+</div>
+<p>This results in a file &quot;hello.o&quot; (as the gfortran compiler uses &quot;.o&quot; as
+the extension for the object files).</p>
+<p>The option &quot;-c&quot; means: only compile the source files. If you were to
+leave it out, then the default action of the compiler is to compile the
+source file and start the linker to build the actual executable program.
+The command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ gfortran hello.f90
+</pre></div>
+</div>
+<p>results in an executable file, &quot;a.out&quot; on Linux or &quot;a.exe&quot; on
+Windows.</p>
+<p>Some remarks:</p>
+<ul class="simple">
+<li><p>The compiler may complain about the contents of the source file, if it
+finds something wrong with it — a typo for instance or an unknown
+keyword. In that case the compilation process is broken off and you will
+not get an object file or an executable program. For instance, if
+the word &quot;program&quot; was inadvertently typed as &quot;prgoram&quot;:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ gfortran hello3.f90
+hello.f90:1:0:
+
+    <span class="m">1</span> <span class="p">|</span> prgoram hello
+      <span class="p">|</span>
+Error: Unclassifiable statement at <span class="o">(</span><span class="m">1</span><span class="o">)</span>
+hello3.f90:3:17:
+
+    <span class="m">3</span> <span class="p">|</span> end program hello
+      <span class="p">|</span>                 <span class="m">1</span>
+Error: Syntax error <span class="k">in</span> END PROGRAM statement at <span class="o">(</span><span class="m">1</span><span class="o">)</span>
+f951: Error: Unexpected end of file <span class="k">in</span> <span class="s1">&#39;hello.f90&#39;</span>
+</pre></div>
+</div>
+<p>Using this compilation report you can correct the source code and try
+again.</p>
+<ul class="simple">
+<li><p>The step without &quot;-c&quot; can only succeed if the source file contains a
+main program — characterised by the <code class="docutils literal notranslate"><span class="pre">program</span></code> statement in Fortran.
+Otherwise the link step will complain about a missing &quot;symbol&quot;, something
+along these lines:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ gfortran hello2.f90
+/usr/lib/../lib64/crt1.o: In <span class="k">function</span> <span class="sb">`</span>_start<span class="s1">&#39;:</span>
+<span class="s1">(.text+0x20): undefined reference to `main&#39;</span>
+collect2: error: ld returned <span class="m">1</span> <span class="nb">exit</span> status
+</pre></div>
+</div>
+<p>The file &quot;hello2.f90&quot; is almost the same as the file &quot;hello.f90&quot;, except
+that the keyword <code class="docutils literal notranslate"><span class="pre">program</span></code> has been replaced by the keyword <code class="docutils literal notranslate"><span class="pre">subroutine</span></code>.</p>
+<p>The above examples of output from the compiler will differ per compiler
+and platform on which it runs. These examples come from the gfortran
+compiler running in a Cygwin environment on Windows.</p>
+<p>Compilers also differ in the options they support, but in general:</p>
+<ul class="simple">
+<li><p>Options for optimising the code — resulting in faster programs or
+smaller memory footprints;</p></li>
+<li><p>Options for checking the source code — checks that a variable is not
+used before it has been given a value, for instance or checks if some
+extension to the language is used;</p></li>
+<li><p>Options for the location of include or module files, see below;</p></li>
+<li><p>Options for debugging.</p></li>
+</ul>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/building_programs/compiling_source.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

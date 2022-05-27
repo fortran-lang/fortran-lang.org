@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Distributing the tabulation program &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <p>When you distribute your programs, there are a number of options you can
+choose from:</p>
+<ol class="arabic simple">
+<li><p>Distribute the entire source code</p></li>
+<li><p>Distribute a pre-built executable program</p></li>
+<li><p>Distribute static or dynamic libraries that people can use</p></li>
+</ol>
+<p><strong>Option 1: Distribute the entire source code</strong></p>
+<p>By far the simplest — for you as a programmer — is this one: you leave it
+up to the user to build it on their own machine. Unfortunately, that
+means you will have to have a user-friendly build system in place and
+the user will have to have access to suitable compilers. For build systems:
+see the previous section.</p>
+<p><strong>Option 2: Distribute a pre-built executable program</strong></p>
+<p>A pre-built program that does not need to be customised, other than via its
+input, will still need to come with the various run-time libraries and will
+be specific to the operating system/environment it was built for.</p>
+<p>The set of run-time libraries differs per operating system and compiler version.
+For a freely available compiler like gfortran, the easiest thing is to ask the
+user to install that compiler on their system. In the case of Windows: the Cygwin
+environment may be called for.</p>
+<p>Alternatively, you can supply copies of the run-time libraries together with your
+program. Put them in the directory where they can be found at run-time.</p>
+<p>Note: On Windows, the Intel Fortran comes with a set of <em>redistributable</em> libraries.
+These will need to be made available.</p>
+<p>In general: use a tool like &quot;ldd&quot; or &quot;dependency walker&quot; to find out what
+libraries are required and consult the documentation of the compiler.</p>
+<p>If your program does allow customisation, consider using dynamic libraries for this.
+More is said about this below.</p>
+<p><strong>Option 3: Distribute static or dynamic libraries that people can use</strong></p>
+<p>This option is a combination of the first two options. It does put some burden on
+the user, as they must create a main program that calls your routines in the
+proper way, but they do not need to know much about the build system you used.
+You will have to deal with the run-time libraries, though.</p>
+<p>If you choose this option, besides the compiled libraries, you will also need to
+supply the module intermediate files. These files are compiler-specific, but so are
+the static libraries you build.</p>
+<section id="distributing-the-tabulation-program">
+<h1>Distributing the tabulation program<a class="headerlink" href="#distributing-the-tabulation-program" title="Permalink to this headline">¶</a></h1>
+<p>As shown above, the tabulation program can be built with the user-defined function
+in a dynamic library. This enables you to:</p>
+<ul class="simple">
+<li><p>Ship the executable (with the appropriate run-time libraries)</p></li>
+<li><p>Provide a skeleton version of the module, something like:</p></li>
+</ul>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">module </span><span class="n">user_functions</span><span class="w"></span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">contains</span>
+
+<span class="kt">real </span><span class="k">function </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="c">!DEC$ ATTRIBUTES DLLEXPORT :: f</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">! your function body goes here</span>
+
+<span class="k">end function </span><span class="n">f</span><span class="w"></span>
+
+<span class="k">end module </span><span class="n">user_functions</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Provide a basic build script with a command like:</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gfortran -o functions.dll functions.f90 -shared
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifort -exe:functions.dll functions.f90 -dll
+</pre></div>
+</div>
+<p>As said, you cannot control that the user has done the right thing — any
+DLL &quot;functions.dll&quot; with a function <code class="docutils literal notranslate"><span class="pre">f</span></code> would be accepted, but not necessarily
+lead to a successful run.</p>
+<p>An alternative set-up would be to change the main program into a subroutine
+and have the function as an argument:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">module </span><span class="n">tabulation</span><span class="w"></span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">contains</span>
+
+<span class="k">subroutine </span><span class="n">tabulate</span><span class="p">(</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">interface</span>
+<span class="k">        </span><span class="kt">real </span><span class="k">function </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">        </span><span class="k">end function </span><span class="n">f</span><span class="w"></span>
+<span class="w">    </span><span class="k">end interface</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">! your implementation goes here</span>
+
+<span class="k">end subroutine </span><span class="n">tabulate</span><span class="w"></span>
+
+<span class="k">end module </span><span class="n">tabulation</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Then provide a skeleton main program:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">tabulate_f</span><span class="w"></span>
+<span class="w">    </span><span class="k">use </span><span class="n">tabulation</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">tabulate</span><span class="p">(</span><span class="w"> </span><span class="n">func1</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+
+<span class="k">contains</span>
+
+<span class="kt">real </span><span class="k">function </span><span class="n">func1</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">! your function body goes here</span>
+
+<span class="k">end function </span><span class="n">func1</span><span class="w"></span>
+
+<span class="k">end program </span><span class="n">tabulate_f</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The advantage is that the compiler can check the interface of the
+function that is passed and that the user has more freedom in the use of the
+functionality provided by your library.</p>
+</section>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/building_programs/distributing.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

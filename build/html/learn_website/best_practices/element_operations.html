@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>&lt;no title&gt; &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <p>There are three approaches to perform element-wise operations on arrays when using subroutines and functions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">elemental</span></code> procedures</p></li>
+<li><p><em>explicit-shape</em> arrays</p></li>
+<li><p>implementing the operation for vectors and write simple wrapper
+subroutines (that use <code class="docutils literal notranslate"><span class="pre">reshape</span></code> internally) for each array shape</p></li>
+</ul>
+<p>In the first approach, one uses the <code class="docutils literal notranslate"><span class="pre">elemental</span></code> keyword to create a
+function like this:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">elemental function </span><span class="n">nroot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mf">1._dp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="k">end function</span><span class="w"></span>
+</pre></div>
+</div>
+<p>All arguments (in and out) must be scalars. You can then use this
+function with arrays of any (compatible) shape, for example:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">)</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">1._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="mf">0._dp</span><span class="p">])</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">1._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="mf">0._dp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]))</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mf">1._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="mf">0._dp</span><span class="p">])</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The output will be:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="mf">3.0000000000000000</span><span class="w"></span>
+<span class="mf">1.0000000000000000</span><span class="w">        </span><span class="mf">2.0000000000000000</span><span class="w">        </span><span class="mf">3.0000000000000000</span><span class="w">        </span><span class="mf">3.1622776601683795</span><span class="w"></span>
+<span class="mf">1.0000000000000000</span><span class="w">        </span><span class="mf">2.0000000000000000</span><span class="w">        </span><span class="mf">3.0000000000000000</span><span class="w">        </span><span class="mf">3.1622776601683795</span><span class="w"></span>
+<span class="mf">1.0000000000000000</span><span class="w">        </span><span class="mf">1.5874010519681994</span><span class="w">        </span><span class="mf">1.7320508075688772</span><span class="w">        </span><span class="mf">1.5848931924611136</span><span class="w"></span>
+<span class="mf">2.0000000000000000</span><span class="w">        </span><span class="mf">1.5874010519681994</span><span class="w">        </span><span class="mf">1.4142135623730951</span><span class="w">        </span><span class="mf">1.3195079107728942</span><span class="w"></span>
+</pre></div>
+</div>
+<p>In the above, typically <code class="docutils literal notranslate"><span class="pre">n</span></code> is a parameter and <code class="docutils literal notranslate"><span class="pre">x</span></code> is the array of an
+arbitrary shape, but as you can see, Fortran does not care as long as
+the final operation makes sense (if one argument is an array, then the
+other arguments must be either arrays of the same shape or scalars). If
+it does not, you will get a compiler error.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">elemental</span></code> keyword implies the <code class="docutils literal notranslate"><span class="pre">pure</span></code> keyword, so the procedure
+must be pure. It results that <code class="docutils literal notranslate"><span class="pre">elemental</span> <span class="pre">procedures</span></code> can only use <code class="docutils literal notranslate"><span class="pre">pure</span></code> procedures and have no side effects.</p>
+<p>If the elemental procedure algorithm can be made faster using array
+operations inside, or if for some reasons the arguments must be arrays of
+incompatible shapes, then one should use the other two approaches. One
+can make <code class="docutils literal notranslate"><span class="pre">nroot</span></code> operate on a vector and write a simple wrapper for
+other array shapes, e.g.:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">function </span><span class="n">nroot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mf">1._dp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="k">end function</span>
+
+<span class="k">function </span><span class="n">nroot_0d</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="w"></span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">end function</span>
+
+<span class="k">function </span><span class="n">nroot_2d</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"></span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">nroot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">)])),</span><span class="w"> </span><span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)])</span><span class="w"></span>
+<span class="k">end function</span><span class="w"></span>
+</pre></div>
+</div>
+<p>And use as follows:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot_0d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">)</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">1._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="mf">0._dp</span><span class="p">])</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot_2d</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">1._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="mf">0._dp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]))</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This will print:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="mf">3.0000000000000000</span><span class="w"></span>
+<span class="mf">1.0000000000000000</span><span class="w">        </span><span class="mf">2.0000000000000000</span><span class="w">        </span><span class="mf">3.0000000000000000</span><span class="w">        </span><span class="mf">3.1622776601683795</span><span class="w"></span>
+<span class="mf">1.0000000000000000</span><span class="w">        </span><span class="mf">2.0000000000000000</span><span class="w">        </span><span class="mf">3.0000000000000000</span><span class="w">        </span><span class="mf">3.1622776601683795</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Or one can use <em>explicit-shape</em> arrays as
+follows:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">function </span><span class="n">nroot</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="mf">1._dp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="k">end function</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Use as follows:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">9._dp</span><span class="p">])</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">1._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="mf">0._dp</span><span class="p">])</span><span class="w"></span>
+<span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">nroot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">1._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">4._dp</span><span class="p">,</span><span class="w"> </span><span class="mf">9._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="mf">0._dp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]))</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The output is the same as before:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="mf">3.0000000000000000</span><span class="w"></span>
+<span class="mf">1.0000000000000000</span><span class="w">        </span><span class="mf">2.0000000000000000</span><span class="w">        </span><span class="mf">3.0000000000000000</span><span class="w">        </span><span class="mf">3.1622776601683795</span><span class="w"></span>
+<span class="mf">1.0000000000000000</span><span class="w">        </span><span class="mf">2.0000000000000000</span><span class="w">        </span><span class="mf">3.0000000000000000</span><span class="w">        </span><span class="mf">3.1622776601683795</span><span class="w"></span>
+</pre></div>
+</div>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/best_practices/element_operations.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

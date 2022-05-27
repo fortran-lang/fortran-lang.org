@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Windows &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <p>GFortran is the name of the <a class="reference external" href="https://gcc.gnu.org/fortran/">GNU Fortran project</a>. The main <a class="reference external" href="https://gcc.gnu.org/wiki/GFortran">wiki</a> page offers many helpful links about GFortran, as well as Fortran in general. In this guide, the installation process for GFortran on Windows, Linux, macOS and OpenBSD is presented in a beginner-friendly format based on the information from <a class="reference external" href="https://gcc.gnu.org/wiki/GFortranBinaries">GFortranBinaries</a>.</p>
+<section id="windows">
+<h1>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h1>
+<p>Three sources provide quick and easy way to install GFortran compiler on Windows:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="http://www.equation.com/servlet/equation.cmd?fa=fortran">http://www.equation.com</a>, provides 32 and 64-bit x86
+executables of the latest (10.2) gcc-version.</p></li>
+<li><p><a class="reference external" href="https://jmeubank.github.io/tdm-gcc/articles/2020-03/9.2.0-release">TDM GCC</a>, provides 32 and 64-bit x86 executables of the 9.2 gcc-version.</p></li>
+<li><p><a class="reference external" href="http://mingw-w64.org/doku.php/download/mingw-builds">MinGW-w64</a> provides a 64-bit x86 executable of the 8.1.0 gcc-version.</p></li>
+</ol>
+<p>In all the above choices, the process is straightforward—just download the installer and follow the installation wizard.</p>
+<section id="unix-like-development-on-windows">
+<h2>Unix-like development on Windows<a class="headerlink" href="#unix-like-development-on-windows" title="Permalink to this headline">¶</a></h2>
+<p>For those familiar with a unix-like development environment, several emulation options are available on Windows each of which provide packages for gfortran:</p>
+<ul class="simple">
+<li><p><strong>Cygwin:</strong> A runtime environment that provides POSIX compatibility to Windows;</p></li>
+<li><p><strong>MSYS2:</strong> A collection of Unix-like development tools, based on modern Cygwin and MinGW-w64;</p></li>
+<li><p><strong>Windows Subsystem for Linux (WSL):</strong> An official compatibility layer for running Linux binary executables on Windows. With <a class="reference external" href="https://github.com/microsoft/wslg">Windows Subsystem for Linux GUI</a> one can run text editors and other graphical programs.</p></li>
+</ul>
+<p>All of the above approaches provide access to common shells such as bash and development tools including GNU coreutils, Make, CMake, autotools, git, grep, sed, awk, ssh, etc.</p>
+<p>We recommend the WSL environment for those looking for a Unix-like development environment on Windows.</p>
+</section>
+</section>
+<section id="linux">
+<h1>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h1>
+<section id="debian-based-debian-ubuntu-mint-etc">
+<h2>Debian-based (Debian, Ubuntu, Mint, etc...)<a class="headerlink" href="#debian-based-debian-ubuntu-mint-etc" title="Permalink to this headline">¶</a></h2>
+<p>Check whether you have gfortran already installed</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which gfortran
+</pre></div>
+</div>
+<p>If nothing is returned then gfortran is not installed.
+To install gfortran type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install gfortran
+</pre></div>
+</div>
+<p>to check what version was installed type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gfortran --version
+</pre></div>
+</div>
+<p>You can install multiple versions up to version 9 by typing the version number immediately after &quot;gfortran&quot;, e.g.:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install gfortran-7 
+</pre></div>
+</div>
+<p>To install the latest version 10 you need first to add / update the following repository and then install:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt update
+sudo apt install gfortran-10
+</pre></div>
+</div>
+<p>Finally, you can switch between different versions or set the default one with the <strong>update-alternatives</strong> (<a class="reference external" href="https://manpages.ubuntu.com/manpages/trusty/man8/update-alternatives.8.html#:~:text=update%2Dalternatives%20creates%2C%20removes%2C,system%20at%20the%20same%20time.">see manpage</a>). There are many online tutorials on how to use this feature. A well structured one using as an example C and C++ can be found <a class="reference external" href="https://linuxconfig.org/how-to-switch-between-multiple-gcc-and-g-compiler-versions-on-ubuntu-20-04-lts-focal-fossa">here</a>, you can apply the same logic by replacing either <code class="docutils literal notranslate"><span class="pre">gcc</span></code> or <code class="docutils literal notranslate"><span class="pre">g++</span></code> with <code class="docutils literal notranslate"><span class="pre">gfortran</span></code>.</p>
+</section>
+<section id="rpm-based-red-hat-linux-centos-fedora-opensuse-mandrake-linux">
+<h2>RPM-based (Red Hat Linux, CentOS, Fedora, openSuse, Mandrake Linux)<a class="headerlink" href="#rpm-based-red-hat-linux-centos-fedora-opensuse-mandrake-linux" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo yum install gcc-gfortran
+</pre></div>
+</div>
+<p>Since Fedora 22, <code class="docutils literal notranslate"><span class="pre">dnf</span></code> is the default package manager for Fedora:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo dnf install gcc-gfortran
+</pre></div>
+</div>
+</section>
+<section id="arch-based-arch-linux-antergos-manjaro-etc">
+<h2>Arch-based (Arch Linux, Antergos, Manjaro, etc...)<a class="headerlink" href="#arch-based-arch-linux-antergos-manjaro-etc" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo pacman -S gcc-fortran
+</pre></div>
+</div>
+</section>
+</section>
+<section id="macos">
+<h1>macOS<a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h1>
+<section id="xcode">
+<h2>Xcode<a class="headerlink" href="#xcode" title="Permalink to this headline">¶</a></h2>
+<p>If you have Xcode installed, open a terminal window and type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xcode-select --install
+</pre></div>
+</div>
+</section>
+<section id="binaries">
+<h2>Binaries<a class="headerlink" href="#binaries" title="Permalink to this headline">¶</a></h2>
+<p>Go to <a class="reference external" href="https://github.com/fxcoudert/gfortran-for-macOS/releases">fxcoudert/gfortran-for-macOS</a> to directly install binaries.</p>
+</section>
+<section id="homebrew">
+<h2>Homebrew<a class="headerlink" href="#homebrew" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew install gcc
+</pre></div>
+</div>
+</section>
+<section id="fink">
+<h2>Fink<a class="headerlink" href="#fink" title="Permalink to this headline">¶</a></h2>
+<p>GNU-gcc Package <a class="reference external" href="https://pdb.finkproject.org/pdb/browse.php?summary=GNU+Compiler+Collection+Version">link</a></p>
+</section>
+<section id="macports">
+<h2>MacPorts<a class="headerlink" href="#macports" title="Permalink to this headline">¶</a></h2>
+<p>Search for available gcc versions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>port search gcc
+</pre></div>
+</div>
+<p>Install a gcc version:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo port install gcc10
+</pre></div>
+</div>
+</section>
+</section>
+<section id="openbsd">
+<h1>OpenBSD<a class="headerlink" href="#openbsd" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pkg_add g95
+</pre></div>
+</div>
+<p>On OpenBSD, the GFortran executable is named <code class="docutils literal notranslate"><span class="pre">egfortran</span></code>. To test it, type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>egfortran -v
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="opencoarrays">
+<h1>OpenCoarrays<a class="headerlink" href="#opencoarrays" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://www.opencoarrays.org/">OpenCoarrays</a> is an open-source software project that produces an application binary interface (ABI) used by the GNU Compiler Collection (GCC) Fortran front-end to build executable programs that leverage the parallel programming features of Fortran 2018. Since OpenCoarrays is not a separate compiler, we include it here, under gfortran.</p>
+<p>While with gfortran you can compile perfectly valid code using coarrays, the generated binaries will only run in a single image (<em>image</em> is a Fortran term for a parallel process), that is, in serial mode. OpenCoarrays allows running code in parallel on shared- and distributed-memory machines, similar to MPI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cafrun -n &lt;number_of_images&gt; &lt;executable_name&gt;
+</pre></div>
+</div>
+<p>The process of installation is provided in a clear and comprehensive manner on the official site.</p>
+<p>We emphasize that native installation on Windows is not possible. It is only possible through WSL.</p>
+</section>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/os_setup/install_gfortran.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
