@@ -15,10 +15,13 @@ jobs:
 
     - name: Install sphinx
       run: pip3 install --user -r requirements.txt
-    
+      
+    - name: open build directory
+      run: cd sphinx
+      
     - name: Build page
       run: make html
-
+      
     - run: touch _build/html/.nojekyll
 
     - name: Deploy documentation
