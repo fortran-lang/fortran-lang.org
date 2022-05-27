@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>&lt;no title&gt; &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <p>Almost all programs, except for the simplest, are built up from
+different pieces. We are going to examine such a situation in
+more detail.</p>
+<p>Here is a general program for tabulating a function (source code in
+&quot;tabulate.f90&quot;):</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">tabulate</span><span class="w"></span>
+<span class="w">    </span><span class="k">use </span><span class="n">user_functions</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">real</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">xbegin</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Please enter the range (begin, end) and the number of steps:&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">read</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w">  </span><span class="n">xbegin</span><span class="p">,</span><span class="w"> </span><span class="n">xend</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">steps</span><span class="w"></span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xbegin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">xend</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">xbegin</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">steps</span><span class="w"></span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(2f10.4)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end do</span>
+<span class="k">end program </span><span class="n">tabulate</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Note the <code class="docutils literal notranslate"><span class="pre">use</span></code> statement — this will be where we define the function <code class="docutils literal notranslate"><span class="pre">f</span></code>.</p>
+<p>We want to make the program general, so keep the
+specific source code — the implementation of the function <code class="docutils literal notranslate"><span class="pre">f</span></code> —
+separated from the general source code. There are several ways to
+achieve this, but one is to put it in a different source file. We can
+give the general program to a user and they provide a specific source code.</p>
+<p>Assume for the sake of the example that the function is implemented in a
+source file &quot;function.f90&quot; as:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">module </span><span class="n">user_functions</span><span class="w"></span>
+<span class="w">    </span><span class="k">implicit none</span>
+<span class="k">contains</span>
+
+<span class="kt">real </span><span class="k">function </span><span class="n">f</span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">    </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="k">end function </span><span class="n">f</span><span class="w"></span>
+
+<span class="k">end module </span><span class="n">user_functions</span><span class="w"></span>
+</pre></div>
+</div>
+<p>To build the program with this specific function, we need to compile two
+source files and combine them via the link step into one executable
+program. Because the program &quot;tabulate&quot; depends on the module
+&quot;function&quot;, we need to compile the source file containing our module
+first. A sequence of commands to do this is:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ gfortran -c functions.f90
+$ gfortran tabulate.f90 functions.o
+</pre></div>
+</div>
+<p>The first step compiles the module, resulting in an object file
+&quot;functions.o&quot; and a module intermediate file, &quot;user_functions.mod&quot;. This module
+file contains all the information the compiler needs to determine that
+the function <code class="docutils literal notranslate"><span class="pre">f</span></code> is defined in this module and what its interface is. This
+information is important: it enables the compiler to check that you call
+the function in the right way. It might be that you made a mistake and
+called the function with two arguments instead of one. If the compiler
+does not know anything about the function's interface, then it cannot
+check anything.</p>
+<p>The second step invokes the compiler in such a way that:</p>
+<ul class="simple">
+<li><p>it compiles the file &quot;tabulate.f90&quot; (using the module file);</p></li>
+<li><p>it invokes the linker to combine the object files tabulate.o and functions.o into an
+executable program — with the default name &quot;a.out&quot; or &quot;a.exe&quot; (if you
+want a different name, use the option &quot;-o&quot;).</p></li>
+</ul>
+<p>What you do not see in general is that the linker also adds a number of
+extra files in this link step, the run-time libraries. These run-time
+libraries contain all the &quot;standard&quot; stuff — low-level routines that do
+the input and output to screen, the <code class="docutils literal notranslate"><span class="pre">sin</span></code> function and much more.</p>
+<p>If you want to see the gory details, add the option &quot;-v&quot;. This instructs
+the compiler to report all the steps that are in detail.</p>
+<p>The end result, the executable program, contains the compiled source
+code and various auxiliary routines that make it work. It also contains
+references to so-called dynamic run-time libraries (in Windows: DLLs, in
+Linux: shared objects or shared libraries). Without these run-time
+libraries the program will not start.</p>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/building_programs/linking_pieces.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

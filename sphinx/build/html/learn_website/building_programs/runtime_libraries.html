@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>&lt;no title&gt; &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <p>To illustrate that even a simple program depends on external run-time
+libraries, here is the output from the <code class="docutils literal notranslate"><span class="pre">ldd</span></code> utility that reports such
+dependencies:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ ldd tabulate.exe
+        ntdll.dll <span class="o">=</span>&gt; /cygdrive/c/WINDOWS/SYSTEM32/ntdll.dll <span class="o">(</span>0x7ff88f2b0000<span class="o">)</span>
+        KERNEL32.DLL <span class="o">=</span>&gt; /cygdrive/c/WINDOWS/System32/KERNEL32.DLL <span class="o">(</span>0x7ff88e450000<span class="o">)</span>
+        KERNELBASE.dll <span class="o">=</span>&gt; /cygdrive/c/WINDOWS/System32/KERNELBASE.dll <span class="o">(</span>0x7ff88b9e0000<span class="o">)</span>
+        cygwin1.dll <span class="o">=</span>&gt; /usr/bin/cygwin1.dll <span class="o">(</span>0x180040000<span class="o">)</span>
+        cyggfortran-5.dll <span class="o">=</span>&gt; /usr/bin/cyggfortran-5.dll <span class="o">(</span>0x3efd20000<span class="o">)</span>
+        cygquadmath-0.dll <span class="o">=</span>&gt; /usr/bin/cygquadmath-0.dll <span class="o">(</span>0x3ee0b0000<span class="o">)</span>
+        cyggcc_s-seh-1.dll <span class="o">=</span>&gt; /usr/bin/cyggcc_s-seh-1.dll <span class="o">(</span>0x3f7000000<span class="o">)</span>
+</pre></div>
+</div>
+<p>Other compilers or other versions of the same compiler will probably
+require different dynamic libraries. As long as you run the program on
+the same computer — or, more accurately, within the same environment —
+there should be no problem. However, when such a library cannot be
+found, you will get (hopefully) an error message and the program stops
+immediately.</p>
+<p>Therefore it is good to know what libraries are required. On Linux and
+Linux-like environments, the <code class="docutils literal notranslate"><span class="pre">ldd</span></code> utility is a great help. On Windows,
+you may want to use the <code class="docutils literal notranslate"><span class="pre">dependency</span> <span class="pre">walker</span></code> (the latest version, which
+works very nicely with Windows 10, is found here: <a class="reference external" href="https://github.com/lucasg/Dependencies">https://github.com/lucasg/Dependencies</a>)</p>
+<p>Another thing you should know is where the program tries to find these
+libraries. That is a vast subject in its own right and full of
+complications and history. Here we merely scratch the surface:</p>
+<p><em>On Linux:</em></p>
+<ul class="simple">
+<li><p>The environment variable <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> is used. It consists of a
+list of directories to be searched, each directory separated via colons
+(:) from the others. For instance: <code class="docutils literal notranslate"><span class="pre">/usr/lib:/usr/local/lib</span></code> — typical
+system directories.</p></li>
+<li><p>At the link step you can also use an option to set <code class="docutils literal notranslate"><span class="pre">RPATH</span></code>, a list
+of directories that is put into the executable file itself.</p></li>
+<li><p>Then there are several system directories that are searched.</p></li>
+</ul>
+<p><em>On Windows:</em></p>
+<ul class="simple">
+<li><p>The directory containing the executable program may also contain
+dynamic libraries.</p></li>
+<li><p>The environment variable &quot;PATH&quot; is used. Again a list of directories
+to be searched, but now the separating character is the semicolon (;).</p></li>
+<li><p>A set of system directories is searched.</p></li>
+</ul>
+<p>Unfortunately, the details can change from one version of the operating
+system to the next. The above is merely an indication — use tools like
+&quot;ldd&quot; or &quot;dependency walker&quot; to find out what libraries are loaded and
+where they are found.</p>
+<p>If you want to share your program with colleagues or clients or simply
+users all over the world, you will have to take care that, besides the
+program, you also distribute the libraries it depends on. For more
+information: see below.</p>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/building_programs/runtime_libraries.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
