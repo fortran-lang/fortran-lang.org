@@ -7,17 +7,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: open source directory
+      run: cd sphinx
+      
     - name: Checkout page source
       uses: actions/checkout@v2
-
+     
     - name: Setup Python
       uses: actions/setup-python@v1
 
     - name: Install sphinx
       run: pip3 install --user -r requirements.txt
-      
-    - name: open build directory
-      run: cd sphinx
       
     - name: Build page
       run: make html
