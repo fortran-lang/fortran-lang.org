@@ -60,11 +60,11 @@ jobs:
         touch ../${{env.PUBLISH_DIR}}/.nojekyll
 
     # Commit and push changes to remote/gh-pages
-#    - name: Commit and push to gh-pages
- #     uses: EndBug/add-and-commit@v4.4.0
-  #    with:
-   #     cwd: ${{env.PUBLISH_DIR}}
-    #    message: "Jekyll build, commit ${{github.sha}} (on:push)"
-     #   ref: 'gh-pages'
-     # env:  
-     #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Commit and push to gh-pages
+      uses: EndBug/add-and-commit@v4.4.0
+      with:
+        cwd: ${{env.PUBLISH_DIR}}
+        message: "Jekyll build, commit ${{github.sha}} (on:push)"
+        ref: 'gh-pages'
+      env:  
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
