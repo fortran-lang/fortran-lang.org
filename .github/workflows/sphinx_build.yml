@@ -21,11 +21,11 @@ jobs:
       
     - run: touch build/html/.nojekyll
 
-    - name: Commit and push to gh-pages sphinx
-      uses: EndBug/add-and-commit@v4.4.0
+    - name: Deploy documentation
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      if: github.event_name == 'push' && github.repository == 'henilp105/fortran-lang.org' && github.ref == 'refs/heads/master'
       with:
-        cwd: ${{env.PUBLISH_DIR}}
-        message: "sphinx build, commit ${{github.sha}} (on:push)"
-        ref: 'gh-pages'
-      env:  
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: build/html
+        CLEAN: true
