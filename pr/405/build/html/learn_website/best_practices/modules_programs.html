@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>&lt;no title&gt; &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <p>Modules are the preferred way create modern Fortran libraries and applications.
+As a convention, one source file should always contain only one module, while
+the module name should match the filepath to allow easy navigation in larger
+projects. It is also recommended to prefix module names with the library name
+to avoid name clashes when used as dependency in other projects.</p>
+<p>An example for such a module file is given here</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="c">!&gt; Interface to TOML processing library.</span>
+<span class="c">!&gt;</span>
+<span class="c">!&gt; ...</span>
+<span class="k">module </span><span class="n">fpm_toml</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">fpm_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">error_t</span><span class="p">,</span><span class="w"> </span><span class="n">fatal_error</span><span class="p">,</span><span class="w"> </span><span class="n">file_not_found_error</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">fpm_strings</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">string_t</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">tomlf</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">toml_table</span><span class="p">,</span><span class="w"> </span><span class="n">toml_array</span><span class="p">,</span><span class="w"> </span><span class="n">toml_key</span><span class="p">,</span><span class="w"> </span><span class="n">toml_stat</span><span class="p">,</span><span class="w"> </span><span class="n">get_value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="p">&amp;</span><span class="w"> </span><span class="n">set_value</span><span class="p">,</span><span class="w"> </span><span class="n">toml_parse</span><span class="p">,</span><span class="w"> </span><span class="n">toml_error</span><span class="p">,</span><span class="w"> </span><span class="n">new_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_array</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">    </span><span class="p">&amp;</span><span class="w"> </span><span class="n">toml_serializer</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span>
+<span class="nb">  </span><span class="k">implicit none</span>
+<span class="k">  private</span>
+
+<span class="k">  public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">read_package_file</span><span class="w"></span>
+<span class="w">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">toml_table</span><span class="p">,</span><span class="w"> </span><span class="n">toml_array</span><span class="p">,</span><span class="w"> </span><span class="n">toml_key</span><span class="p">,</span><span class="w"> </span><span class="n">toml_stat</span><span class="p">,</span><span class="w"> </span><span class="n">get_value</span><span class="p">,</span><span class="w"> </span><span class="n">set_value</span><span class="w"></span>
+<span class="w">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">new_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_table</span><span class="p">,</span><span class="w"> </span><span class="n">add_array</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span>
+<span class="nb">  </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">toml_error</span><span class="p">,</span><span class="w"> </span><span class="n">toml_serializer</span><span class="p">,</span><span class="w"> </span><span class="n">toml_parse</span><span class="w"></span>
+
+<span class="k">contains</span><span class="w"></span>
+
+<span class="w">  </span><span class="c">!&gt; Process the configuration file to a TOML data structure</span>
+<span class="w">  </span><span class="k">subroutine </span><span class="n">read_package_file</span><span class="p">(</span><span class="n">table</span><span class="p">,</span><span class="w"> </span><span class="n">manifest</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c">!&gt; TOML data structure</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">toml_table</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">table</span><span class="w"></span>
+<span class="w">    </span><span class="c">!&gt; Name of the package configuration file</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">manifest</span><span class="w"></span>
+<span class="w">    </span><span class="c">!&gt; Error status of the operation</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">error_t</span><span class="p">),</span><span class="w"> </span><span class="k">allocatable</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+<span class="w">    </span><span class="c">! ...</span>
+<span class="w">  </span><span class="k">end subroutine </span><span class="n">read_package_file</span><span class="w"></span>
+
+<span class="k">end module </span><span class="n">fpm_toml</span><span class="w"></span>
+</pre></div>
+</div>
+<p>There are a few things in this example module to highlight. First, every module
+starts with comments documenting the purpose and content of the module.
+Similarly, every procedure starts with a comment briefly describing its
+purpose and the intent of the dummy arguments. Documentation is one of the most
+important parts of creating long-living software, regardless of language.</p>
+<p>Second, imports (<em>use</em>) and exports (<em>public</em>) are explicitly given, this
+allows on a glance at the module source to check the used and available
+procedures, constants and derived types. The imports are usually limited
+to the module scope rather than reimported in every procedure or interface
+scope. Similarly, exports are made explicitly by adding a <em>private</em> statement
+on a single line and explicitly listing all exported symbols in <em>public</em>
+statements.</p>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">implicit</span> <span class="pre">none</span></code> statement works for the whole module and there
+is no need to repeat it within each procedure.</p>
+<p>Variables inside a module are static (<em>implicitly saved</em>). It is highly
+recommended to limit the usage of module variables to constant expressions,
+like parameters or enumerators only or export them as <em>protected</em> rather
+than <em>public</em>.</p>
+<p>Submodules can be used to break long dependency chains and shorten recompilation
+cascades in Fortran programs. They also offer the possibility to provide specialized
+and optimized implementations without requiring the use of preprocessor.</p>
+<p>An example from the Fortran standard library is the quadrature module, which
+only defines interfaces to module procedures, but no implementations</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="c">!&gt; Numerical integration</span>
+<span class="c">!&gt;</span>
+<span class="c">!&gt; ...</span>
+<span class="k">module </span><span class="n">stdlib_quadrature</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">qp</span><span class="w"></span>
+<span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  private</span>
+
+<span class="k">  public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">trapz</span><span class="w"></span>
+<span class="w">  </span><span class="c">! ...</span>
+
+<span class="w">  </span><span class="c">!&gt; Integrates sampled values using trapezoidal rule</span>
+<span class="w">  </span><span class="k">interface </span><span class="n">trapz</span><span class="w"></span>
+<span class="w">    </span><span class="k">pure module function </span><span class="n">trapz_dx_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dx</span><span class="w"></span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">integral</span><span class="w"></span>
+<span class="w">    </span><span class="k">end function </span><span class="n">trapz_dx_dp</span><span class="w"></span>
+<span class="w">    </span><span class="k">module function </span><span class="n">trapz_x_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">integral</span><span class="w"></span>
+<span class="w">    </span><span class="k">end function </span><span class="n">trapz_x_dp</span><span class="w"></span>
+<span class="w">  </span><span class="k">end interface </span><span class="n">trapz</span><span class="w"></span>
+
+<span class="w">  </span><span class="c">! ...</span>
+<span class="k">end module </span><span class="n">stdlib_quadrature</span><span class="w"></span>
+</pre></div>
+</div>
+<p>While the implementation is provided in separate submodules like the one for the
+trapezoidal integration rule given here.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="c">!&gt; Actual implementation of the trapezoidal integration rule</span>
+<span class="c">!&gt;</span>
+<span class="c">!&gt; ...</span>
+<span class="k">submodule</span><span class="w"> </span><span class="p">(</span><span class="n">stdlib_quadrature</span><span class="p">)</span><span class="w"> </span><span class="n">stdlib_quadrature_trapz</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">stdlib_error</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">check</span><span class="w"></span>
+<span class="w">  </span><span class="k">implicit none</span>
+
+<span class="k">contains</span>
+
+<span class="k">  pure module function </span><span class="n">trapz_dx_dp</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">integral</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dx</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">integral</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="w"></span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_dp</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="k">case </span><span class="n">default</span><span class="w"></span>
+<span class="w">      </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">2</span><span class="p">:</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5_dp</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span><span class="w"></span>
+<span class="w">    </span><span class="k">end select</span>
+<span class="k">  end function </span><span class="n">trapz_dx_dp</span><span class="w"></span>
+
+<span class="w">  </span><span class="c">! ...</span>
+<span class="k">end submodule </span><span class="n">stdlib_quadrature_trapz</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Note that the module procedures do not have to be implemented in the same submodule.
+Several submodules can be used to reduce the compilation load for huge modules.</p>
+<p>Finally, when setting up a program, it is recommended to keep the actual implementations
+in the program body at minimum. Reusing implementations from modules allows you to write
+reusable code and focus the program unit on conveying user input to the respective library
+functions and objects.</p>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/best_practices/modules_programs.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

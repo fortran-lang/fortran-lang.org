@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+
+<html lang="None">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Naming Convention &#8212; Fortran-lang.org website 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <section id="naming-convention">
+<h1>Naming Convention<a class="headerlink" href="#naming-convention" title="Permalink to this headline">¶</a></h1>
+<p>Ultimately this is a matter of preference. Here is a style guide that we
+like and that seems to be prevalent in most scientific codes (as well as
+the Fortran standard library), and you are welcome to follow it.</p>
+<ol class="arabic simple">
+<li><p>Use lowercase for all Fortran constructs (<code class="docutils literal notranslate"><span class="pre">do</span></code>, <code class="docutils literal notranslate"><span class="pre">subroutine</span></code>,
+<code class="docutils literal notranslate"><span class="pre">module</span></code>, ...).</p></li>
+<li><p>Follow short mathematical notation for mathematical
+variables/functions (<code class="docutils literal notranslate"><span class="pre">Ylm</span></code>, <code class="docutils literal notranslate"><span class="pre">Gamma</span></code>, <code class="docutils literal notranslate"><span class="pre">gamma</span></code>, <code class="docutils literal notranslate"><span class="pre">Enl</span></code>, <code class="docutils literal notranslate"><span class="pre">Rnl</span></code>, ...).</p></li>
+<li><p>For other names use all lowercase: try to keep names to one or two
+syllables; if more are required, use underscores to clarify
+(<code class="docutils literal notranslate"><span class="pre">sortpair</span></code>, <code class="docutils literal notranslate"><span class="pre">whitechar</span></code>, <code class="docutils literal notranslate"><span class="pre">meshexp</span></code>, <code class="docutils literal notranslate"><span class="pre">numstrings</span></code>, <code class="docutils literal notranslate"><span class="pre">linspace</span></code>,
+<code class="docutils literal notranslate"><span class="pre">meshgrid</span></code>, <code class="docutils literal notranslate"><span class="pre">argsort</span></code>, <code class="docutils literal notranslate"><span class="pre">spline</span></code>, <code class="docutils literal notranslate"><span class="pre">spline_interp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">spline_interpolate</span></code>, <code class="docutils literal notranslate"><span class="pre">stoperr</span></code>, <code class="docutils literal notranslate"><span class="pre">stop_error</span></code>, <code class="docutils literal notranslate"><span class="pre">meshexp_der</span></code>).</p></li>
+</ol>
+<p>For example &quot;spline interpolation&quot; can be shortened to
+<code class="docutils literal notranslate"><span class="pre">spline_interpolation</span></code>, <code class="docutils literal notranslate"><span class="pre">spline_interpolate</span></code>, <code class="docutils literal notranslate"><span class="pre">spline_interp</span></code>, <code class="docutils literal notranslate"><span class="pre">spline</span></code>,
+but not to <code class="docutils literal notranslate"><span class="pre">splineint</span></code> (&quot;int&quot; could mean integration, integer, etc. ---
+too much ambiguity, even in the clear context of a computational code).
+This is in contrast to <code class="docutils literal notranslate"><span class="pre">get_argument()</span></code> where <code class="docutils literal notranslate"><span class="pre">getarg()</span></code> is perfectly
+clean and clear.</p>
+<p>The above are general guidelines. In general, choosing the right name
+certainly depends on the word being truncated as to whether the first
+syllable is sufficient. Usually it is but clearly not always. Thus some
+thought should go into step &quot;try to keep names to 2 syllables or less&quot;
+since it can really affect the indicativeness and simplicity. Simple
+consistent naming rules are a real help in this regard -- for both
+collaboration and for one's own sanity when going back to some old code
+you haven't seen in while.</p>
+</section>
+<section id="indentation">
+<h1>Indentation<a class="headerlink" href="#indentation" title="Permalink to this headline">¶</a></h1>
+<p>Use a consistent indentation to make your code readable.
+The amount of indentation is a matter of preference, the most common choices
+are two, three or four spaces.</p>
+</section>
+<section id="comparison-to-other-languages">
+<h1>Comparison to Other Languages<a class="headerlink" href="#comparison-to-other-languages" title="Permalink to this headline">¶</a></h1>
+<p>On the other hand, in most of the rest of the programming world, where
+the main focus is, in one form or another, on defining and using large
+sets of complex objects, with tons of properties and behaviors, known
+only in the code in which they are defined (as opposed to defined by the
+same notation throughout the literature), it makes more sense to use
+longer, more descriptive names. The naming conventions one sees used in
+more general-purpose languages such as C++ and Python, therefore, are
+perfectly consistent with their more general-purpose missions. But
+Fortran has a different mission (numerical scientific computing).</p>
+</section>
+
+<div class="section">
+   
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Fortran-lang.org website</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../learn/index.html">Learn</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Fortran Community.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/learn_website/best_practices/style_guide.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
