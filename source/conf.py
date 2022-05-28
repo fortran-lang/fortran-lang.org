@@ -113,9 +113,14 @@ html_theme_options = {
 }
 
 
+html_sidebars = {
+    "learn/**": [*]
+}
+
 html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
 html_baseurl = "https://henilp105.github.io/fortran-lang.org/"
+
 
 master_doc = 'index'
 
