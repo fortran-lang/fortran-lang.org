@@ -82,7 +82,6 @@ html_theme_options = {
         },
     ],
     "show_prev_next": True,
-    "page_sidebar_items": [],
     "footer_items": ["copyright"],
     "navbar_align": "content",
     "navbar_start": ["navbar-logo"],
@@ -110,11 +109,6 @@ html_theme_options = {
             "icon": "fas fa-rss",
         },
     ]
-}
-
-
-html_sidebars = {
-    "learn/**": []
 }
 
 html_title = "Fortran Programming Language"
