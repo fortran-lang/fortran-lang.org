@@ -36,7 +36,9 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "sphinx.ext.intersphinx",
+
 ]
+
 myst_enable_extensions = [
     "colon_fence",
     "deflist",
@@ -82,6 +84,7 @@ html_theme_options = {
         },
     ],
     "show_prev_next": True,
+    "page_sidebar_items": [],
     "footer_items": ["copyright"],
     "navbar_align": "content",
     "navbar_start": ["navbar-logo"],
@@ -115,10 +118,7 @@ html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
 html_baseurl = "https://henilp105.github.io/fortran-lang.org/"
 
-
 master_doc = 'index'
-
-panels_add_bootstrap_css = False
 
 blog_path = "news"
 blog_post_pattern = "_posts/*/*"

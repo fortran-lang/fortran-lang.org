@@ -30,5 +30,5 @@ Please help us improve them by contributing content or reporting issues.
 ````{toctree}
 :maxdepth: 2
 :hidden:
-Learn <learn/quickstart/index>
+Learn <learn/index>
 ````
