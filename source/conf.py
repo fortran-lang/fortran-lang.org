@@ -114,7 +114,7 @@ html_theme_options = {
 
 
 html_sidebars = {
-    "learn/**": [*]
+    "learn/**": []
 }
 
 html_title = "Fortran Programming Language"
