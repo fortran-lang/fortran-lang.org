@@ -81,6 +81,7 @@ html_theme_options = {
             "href": "images/favicon.ico",
         },
     ],
+    "show_prev_next": True,
     "page_sidebar_items": [],
     "footer_items": ["copyright"],
     "navbar_align": "content",
