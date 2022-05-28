@@ -69,8 +69,8 @@ program array_slice
 end program array_slice
 ```
 
-{% include note.html content="Fortran arrays are stored in _column-major_ order; the first
-index varies fastest." %}
+>Fortran arrays are stored in _column-major_ order; the first
+index varies fastest.
 
 ## Allocatable (dynamic) arrays
 
@@ -102,8 +102,8 @@ program allocatable
 end program allocatable
 ```
 
-{% include note.html content="Allocatable local arrays are deallocated automatically
-when they go out of scope." %}
+Allocatable local arrays are deallocated automatically
+when they go out of scope.
 
 
 ## Character strings

@@ -19,8 +19,8 @@ There are 5 built-in data types in Fortran:
 Before we can use a variable, we must _declare_ it; this tells the compiler
 the variable type and any other variable attributes.
 
-{% include note.html content="Fortran is a _statically typed_ language, which means the type of each
-variable is fixed when the program is compiled---variable types cannot change while the program is running." %}
+>Fortran is a _statically typed_ language, which means the type of each
+variable is fixed when the program is compiled---variable types cannot change while the program is running.
 
 ## Declaring variables
 
@@ -51,16 +51,16 @@ program variables
 end program variables
 ```
 
-{% include note.html content="Fortran code is __case-insensitive__; you don't have to worry about the
-capitalisation of your variable names, but it's good practice to keep it consistent." %}
+>Fortran code is __case-insensitive__; you don't have to worry about the
+capitalisation of your variable names, but it's good practice to keep it consistent.
 
 Note the additional statement at the beginning of the program: `implicit none`.
 This statement tells the compiler that all variables will be explicitly declared; without 
 this statement variables will be implicitly typed according to the letter they begin with.
 
-{% include important.html content="Always use the `implicit none` statement at
+>Always use the `implicit none` statement at
 the beginning of each program and procedure. Implicit typing is considered bad practice in 
-modern programming since it hides information leading to more program errors." %}
+modern programming since it hides information leading to more program errors.
 
 
 Once we have declared a variable, we can assign and reassign values to it using the assignment operator `=`.
@@ -79,9 +79,9 @@ Characters are surrounded by either single (`'`) or double quotes (`"`).
 
 Logical or boolean values can be either `.true.` or `.false.`.
 
-{% include important.html title="Watch out" content="for assignment at declaration: `integer :: amount = 1`. 
+>Watch out" content="for assignment at declaration: `integer :: amount = 1`. 
 __This is NOT a normal initialisation;__ it implies the `save` attribute which means that the variable retains
-its value between procedure calls. Good practice is to initialise your variables separately to their declaration." %}
+its value between procedure calls. Good practice is to initialise your variables separately to their declaration.
 
 
 ## Standard input / output
@@ -187,7 +187,7 @@ program float
 end program float
 ```
 
-{% include important.html content="Always use a `kind` suffix for floating-point literal constants." %}
+>Always use a `kind` suffix for floating-point literal constants.
 
 __Example:__ C-interoperable `kind`s
 ```fortran

@@ -3,15 +3,15 @@
 # Learn
 
 :::{note}
-This section contains practical guides and recipes for fortran lang.
+This section contains practical guides for Fortran.
 :::
 
 :::{toctree}
 Quickstart <quickstart/index>
-i3 <quickstart/hello_world>
-i6 <quickstart/variables>
-i1 <quickstart/arrays_strings>
-i4 <quickstart/operators_control_flow>
-i5 <quickstart/organising_code>
-i2  <quickstart/derived_types>
+Hello world <quickstart/hello_world>
+Variables <quickstart/variables>
+Arrays strings <quickstart/arrays_strings>
+Operators control flow <quickstart/operators_control_flow>
+Organising Flow<quickstart/organising_code>
+Derived Types  <quickstart/derived_types>
 :::

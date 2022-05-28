@@ -209,13 +209,12 @@ that any given loop iteration does not depend on the prior execution of other lo
 These requirements place restrictions on what can be placed within the loop body.
 
 
-{% capture note %}
-Simply replacing a `do` loop with a `do concurrent` does not guarantee parallel execution.
-The explanation given above does not detail all the requirements that need to be met in order to write a correct `do concurrent` loop.
-Compilers are also free to do as they see fit, meaning they may not optimize the loop (e.g., a small number of iterations doing a simple calculation, like the below example).
-In general, compiler flags are required to activate possible parallelization for `do concurrent` loops.
-{% endcapture %}
-{% include important.html content=note %}
+
+>Simply replacing a `do` loop with a `do concurrent` does not guarantee parallel execution.
+>The explanation given above does not detail all the requirements that need to be met in order to write a correct `do concurrent` loop.
+>Compilers are also free to do as they see fit, meaning they may not optimize the loop (e.g., a small number of iterations doing a simple calculation, like the >below example).
+>In general, compiler flags are required to activate possible parallelization for `do concurrent` loops.
+
 
 __Example:__ `do concurrent()` loop
 

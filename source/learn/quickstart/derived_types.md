@@ -3,8 +3,8 @@ layout: book
 title: Derived types
 permalink: /learn/quickstart/derived_types
 ---
-
-As discussed previously in [Variables]({{site.baseurl}}/learn/quickstart/variables), there are five built-in data types in Fortran. A _derived type_ is a special form of data type that can encapsulate other built-in types as well as other derived types. It could be considered equivalent to _struct_ in the C and C++ programming languages.
+# Derived Types
+As discussed previously in [Variables](variables), there are five built-in data types in Fortran. A _derived type_ is a special form of data type that can encapsulate other built-in types as well as other derived types. It could be considered equivalent to _struct_ in the C and C++ programming languages.
 
 ## A quick take on derived types
 
@@ -75,7 +75,7 @@ end type
 - `extends(`_parent_`)`, where _parent_ is the name of a previously declared derived type from which the current derived type will inherit all its members and functionality
 - `abstract` -- an object oriented feature that is covered in the advanced programming tutorial
 
-{% include note.html content="If the attribute `bind(c)` or the statement `sequence` is used, then a derived type cannot have the attribute `extends` and vice versa." %}
+>If the attribute `bind(c)` or the statement `sequence` is used, then a derived type cannot have the attribute `extends` and vice versa.
 
 The `sequence` attribute may be used only to declare that the following  members should be accessed in the same order as they are defined within the derived type. 
 
@@ -90,7 +90,7 @@ end type
 type(t_pair) :: pair
 pair = t_pair(1, 0.5)
 ```
-{% include note.html content="The use of the statement `sequence` presupposes that the data types defined below are neither of `allocatable` nor of `pointer` type. Furthermore, it does not imply that these data types will be stored in memory in any particular form, i.e., there is no relation to the `contiguous` attribute." %}
+>The use of the statement `sequence` presupposes that the data types defined below are neither of `allocatable` nor of `pointer` type. Furthermore, it does not imply that these data types will be stored in memory in any particular form, i.e., there is no relation to the `contiguous` attribute.
 
 The _access-type_ attributes `public` and `private`, if used, declare that all member-variables declared below will be automatically assigned the attribute accordingly. 
 
@@ -114,7 +114,7 @@ struct c_struct {
   int i;
 };
 ```
-{% include note.html content="A fortran derived type with the attribute `bind(c)` cannot have the `sequence` and `extends` attributes. Furthermore it cannot contain any Fortran `pointer` or `allocatable` types." %}
+>A fortran derived type with the attribute `bind(c)` cannot have the `sequence` and `extends` attributes. Furthermore it cannot contain any Fortran `pointer` or `allocatable` types.
 
 `parameterized-declaration-list` is an optional feature. If used, then the parameters must be listed in place of `[parameterized-definition-statements]` and must be either `len` or `kind` parameters or both. 
 
@@ -248,7 +248,7 @@ end type
 
 A derived type can contain functions or subroutines that are *bound* to it. We'll refer to them as _type-bound procedures_. Type-bound procedures follow the `contains` statement that, in turn, follows all member variable declarations.
 
-{% include note.html content="It is impossible to describe type-bound procedures in full without delving into OOP features of modern Fortran. For now we'll focus on a simple example to show their basic use." %}
+>It is impossible to describe type-bound procedures in full without delving into OOP features of modern Fortran. For now we'll focus on a simple example to show their basic use.
 
 Here's an example of a derived type with a basic type-bound procedure:
 

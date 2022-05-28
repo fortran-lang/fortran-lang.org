@@ -13,13 +13,12 @@ sd_hide_title: true
 Fortran Lang
 ^^^
 
-lang
+Fortran Lang
 :::
 
 Welcome to the documentation for the Fortran .
 
-This documentation is divided into four parts.
-Select one of the topics below to continue.
+
 
 ::::{note}
 These pages are currently under construction.
@@ -31,4 +30,6 @@ Please help us improve them by contributing content or reporting issues.
 :maxdepth: 2
 :hidden:
 Learn <learn/index>
+Compilers<compilers>
+News<news>
 ````
