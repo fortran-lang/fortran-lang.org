@@ -61,6 +61,7 @@ language = 'None'
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
+html_additional_pages = {'index': 'index.html'}
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -87,7 +88,7 @@ html_theme_options = {
     "show_prev_next": True,
     "page_sidebar_items": [],
     "footer_items": ["copyright"],
-    "navbar_align": "content",
+    "navbar_align": "right",
     "navbar_start": ["navbar-logo"],
     "navbar_center": ["navbar-nav"],
     "navbar_end": ["navbar-icon-links"],

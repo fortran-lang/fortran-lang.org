@@ -32,4 +32,5 @@ Please help us improve them by contributing content or reporting issues.
 Learn <learn/index>
 Compilers<compilers>
 News<news>
+Community <_static/community/index.html>
 ````
