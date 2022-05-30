@@ -14,7 +14,7 @@ a Fortran compiler set up.
 >compiler to produce a machine executable that can be run.
 
 
-## Compiler setup
+# Compiler setup
 
 In this tutorial, we'll work with the free and open source 
 [GNU Fortran compiler (gfortran)](https://gcc.gnu.org/fortran/), 

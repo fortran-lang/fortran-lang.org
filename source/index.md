@@ -31,6 +31,6 @@ Please help us improve them by contributing content or reporting issues.
 :hidden:
 Learn <learn/index>
 Compilers<compilers>
-News<news>
+News<news/index>
 Community <_static/community/index.html>
 ````

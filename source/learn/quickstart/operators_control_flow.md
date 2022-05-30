@@ -16,7 +16,7 @@ There are two main forms of controlling program flow:
 
 
 
-## Logical operators
+# Logical operators
 Before we use a conditional branching operator, we need to be able to form
 a logical expression.
 

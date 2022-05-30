@@ -4,7 +4,7 @@ title: Quickstart tutorial
 permalink: /learn/quickstart/index
 ---
 
-## Quickstart
+# Quickstart
 
 This quickstart tutorial gives an overview of the Fortran programming language
 and its syntax for common structured programming concepts including:

@@ -16,7 +16,7 @@ where each value is accessed using one or more indices.
 >that the first element along any dimension is at index 1.
 
 
-## Array declaration
+# Array declaration
 
 We can declare arrays of any type. There are two common notations for declaring array variables:
 using the `dimension` attribute or by appending the array dimensions in parentheses to the variable name.

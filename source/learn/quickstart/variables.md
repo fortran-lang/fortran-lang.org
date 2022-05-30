@@ -22,7 +22,7 @@ the variable type and any other variable attributes.
 >Fortran is a _statically typed_ language, which means the type of each
 variable is fixed when the program is compiled---variable types cannot change while the program is running.
 
-## Declaring variables
+# Declaring variables
 
 The syntax for declaring variables is:
 
