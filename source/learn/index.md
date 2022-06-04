@@ -1,5 +1,8 @@
-(how-to)=
-
+---
+layout: page
+title: Learn Fortran 
+navbar: Learn
+---
 # Learn
 
 :::{note}
