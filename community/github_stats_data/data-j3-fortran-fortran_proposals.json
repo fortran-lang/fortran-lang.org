@@ -2,6 +2,249 @@
     "name": "j3-fortran/fortran_proposals",
     "issues": [
         {
+            "number": 263,
+            "user": "8bitmachine",
+            "date": "2022-05-22 15:19:07+00:00",
+            "title": "Upper/Lower case variable names",
+            "text": "Currently Fortran ignores case for variable names. Originally using capitals,  editors currently use, almost exclusively, lower case as typed and which many seem to prefer.\nHowever, I would propose to allow upper and lower case to be used distinctly. This would require a new directive element such as\nCASE SENSITIVE\nwhich if absent allows the compiler to continue to ignore case.\nas I would find it convenient to be able to use both in variable names.\nIt will mean having to pay attention when used, such as m and M, when for example nested loops or indirect references may need several integers such as i,j,k,m,n; while real variables could use M,N etc.\nThis should not preclude the use of engineering notation like k or K (which would also be useful) if these are attached to real numbers as that should be implicit in the context.",
+            "is_open": true,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-22 15:25:38+00:00",
+                    "text": "This is gonna be interesting if implemented. IMHO it's definitely gonna break backwards compatibility. Unless you have a really strong reason why Fortran should treat VAR, var, Var, or vAr (pun intended) differently, other than making it behave more like C/C++, Python, and all the other programming languages that are case-sensitive.\nAlso, I would suggest something other than CASE for the keyword since that's already in use for SELECT CASE and will trip not only lexers, but also syntax highlighting!"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-22 15:32:35+00:00",
+                    "text": "@8bitmachine do you want to be using k and K for two different variables?\nIf you just want this feature to make the compiler enforce case sensitivity, that could already be implemented in compilers without changing the standard: the compiler could warn you if you use a variable name in a case insensitive manner."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-22 18:45:48+00:00",
+                    "text": "@certik\nYes, that is the idea. I like minimal typing and often use M for a matrix (real) and want to then use m as an index if needed, for example, especially if references are indirect (as in mapping a physical grid to a matrix location).\nOr I may want k for an index and K for Boltzmann's constant. So yes, and it will make Fortran more C-like.\nReading data using engineering notation is not a problem if using ASCII as k and K are identifiable.\nWhile I'm at it, has anyone suggested making pi (=3.14159265358979323 etc) a standard variable?"
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-23 10:09:38+00:00",
+                    "text": "@certik - Another point is that if a compiler does the job without changing the standard then that means portability is at risk.\nI don't think this should be a compiler function. Unless Fortran demands compilers meet a standard critierion for this."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-23 11:46:41+00:00",
+                    "text": "Above I suggested it could be a compiler function only to warn about inconsistent case. Since you want to allow making k and K to be two different variables, that would have to be a change in the standard."
+                }
+            ]
+        },
+        {
+            "number": 262,
+            "user": "ZedThree",
+            "date": "2022-05-13 14:14:13+00:00",
+            "title": "Scoped enums",
+            "text": "This paper recommends that the new typed enumerators have values scoped to the type, and not to the enclosing scope.\n\nThe authors strongly believe that the current proposal for typed\nenumerators, as described in J3/21-120 and subsequent revisions, be\namended so that enumerator names are class two names. That is,\nenumerator names must be local to each enumeration type and not in\nthe surrounding scope. Some suggestions for syntax are made.",
+            "is_open": true,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-05-13 14:25:20+00:00",
+                    "text": "@ZedThree thanks a lot for writing this up! I will read it carefully soon and provide feedback.\nLet's iterate on this. Everybody, go ahead and provide feedback as well please."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-13 16:56:50+00:00",
+                    "text": "I completely agree that the current 202X typed enumerators are ridiculous and should be deleted or replaced.  Thank you for writing this up.  There is zero chance that J3 will fix this, but maybe we implementers can agree on a better common solution.\nThree suggestions:\n(1) The syntax \"T%E\" is ambiguous at parsing time with a component reference.  Consider another symbol, please.  \"T:E\" would work.  So would \"T_E\" if you want really easy implementation.\n(2) The class-1 scoping of the current 202X misfeature could be retained with a keyword, like \"ENUM, OPEN\" or something.\n(3) We have to also have optional value initializers for interoperability.\nIf an unambiguous syntax is used for literal constant enumerators, all of this would be trivial to implement in f18.  A syntax that's ambiguous with component references could be made to work -- misparses one way or the other would have to be detected and repaired once the symbol table is in hand, as I have to do for statement function definitions vs array element assignments, function calls vs array references, array slices vs substrings, &c. &c. -- but would be a harder sell to me if anybody wanted a demonstrable prototype in short order."
+                },
+                {
+                    "user": "ZedThree",
+                    "date": "2022-05-13 17:13:53+00:00",
+                    "text": "@klausler Thanks for your comments, it's good to hear from an implementer!\n(1) The appeal of % is that (to me at least) it feels quite intuitive what it means, but if it's impediment to implementation, that's certainly a strike against it. : feels quite overloaded already, maybe ::? Or even the ugly %%? Early revisions suggested enum_name(value_name) as a way to resolve conflicts. Could that be made to work?\nDo you think if this had a straw poll for syntax, it would help?\n(2) Indeed, or perhaps import which is already used for similar purposes in interfaces. I'm not proposing that feature here though, as I thought this might stand a better chance by keeping the scope (ha) limited.\n(3) I'm not sure what you mean -- could you elaborate?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-13 17:36:43+00:00",
+                    "text": "(1) The syntax of accessing the enumerators T%E should be designed to be consistent with the potential namespaces for modules proposal (#1), which have a similar issue: some_module%some_function(). As well as if Fortran was to get namespaces (#87), they should use a consistent syntax. As an example, C++ uses . for \"derived types\", but :: for namespaces and enumerations (in C++ it seems the enumerators are both global as well as accessible locally using :: for enum, but only locally for enum class). So if we go with T:E, then also some_module:some_function() should work. What about T::E, some_module::some_function()?"
+                },
+                {
+                    "user": "plevold",
+                    "date": "2022-05-14 17:20:57+00:00",
+                    "text": "I think T::E makes the most sense both for namespaces and for enums (and nopass procedures for that matter). This is common in multiple similar programming languages. Insisting on that Fortran syntax should be \"unique\" only makes it confusing for newcomers. As a comparison, Rust is considered to be \"the C++ replacement\" and has adopted much of its syntax like :: for namspaces and <> for generics.\n@ZedThree It might be worth pointing out in the paper that with the current Fortran standard it's trivial to implement a strongly typed and properly namespaced enum. I've often done it in my code like the example below. It should be easy to reduce the amount of boilerplate code with e.g. fypp or maybe even compiler preprocessors as well. This begs the question if an arguably worse implementation is even needed in the standard.\nmodule animal_mod\n    implicit none\n\n    private\n    public animal_t, animals\n\n    type :: animal_t\n        private\n        integer :: id\n    contains\n        generic :: operator(==) => equals\n        generic :: operator(/=) => not_equals\n\n        procedure, private :: equals, not_equals\n    end type\n\n    type :: animals_t\n        type(animal_t) :: dog = animal_t(1)\n        type(animal_t) :: cat = animal_t(2)\n        type(animal_t) :: bird = animal_t(3)\n        type(animal_t) :: fox = animal_t(4)\n    end type\n\n    type(animals_t), parameter :: animals = animals_t()\n\ncontains\n\n    logical elemental function equals(a,b)\n        class(animal_t), intent(in) :: a\n        type(animal_t), intent(in) :: b\n        equals = a%id == b%id\n    end function equals\n\n\n    logical elemental function not_equals(a,b)\n        class(animal_t), intent(in) :: a\n        type(animal_t), intent(in) :: b\n        not_equals = .not. a == b\n    end function not_equals\n\nend module\n\nprogram  main\n    use animal_mod, only: animal_t, animals\n    implicit none\n\n    write(*,*) what_says(animals%dog)\n    write(*,*) what_says(animals%cat)\n    write(*,*) what_says(animals%bird)\n    write(*,*) what_says(animals%fox)\n\ncontains\n\n    pure function what_says(animal) result(sound)\n        type(animal_t), intent(in) :: animal\n        character(len=:), allocatable :: sound\n\n        if (animal == animals%dog) then\n            sound = 'woof'\n        else if (animal == animals%cat) then\n            sound = 'meow'\n        else if (animal == animals%bird) then\n            sound = 'tweet'\n        else\n            sound = '???'\n        end if\n    end function\n\nend program\nProgram output:\n woof\n meow\n tweet\n ???"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-14 23:24:33+00:00",
+                    "text": "it's trivial to implement a strongly typed and properly namespaced enum. I've often done it in my code like the example below. It should be easy to reduce the amount of boilerplate code with e.g. fypp or maybe even compiler preprocessors as well. This begs the question if an arguably worse implementation is even needed in the standard.\n\nAn important need with proper enums is use with SELECT CASE constructs that no \"roll your own\" types permit."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-14 23:42:06+00:00",
+                    "text": "Let's iterate on this. Everybody, go ahead and provide feedback as well please.\n\nHonestly, @certik , at this stage the \"ball\" is in WG5's side of the \"court\".  The current design was passed by J3 with no objections by any of the voting members.  You can now be completely certain J3's position will be \"There will be no further action on these suggestions at this time.\"\nThe only viable option is to submit a request with WG5 to withdraw the enumeration type feature from Fortran 202X.  A good design can then be considered as a fresh slate toward Fortran 202Y."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-14 23:57:05+00:00",
+                    "text": "This paper recommends that the new typed enumerators have values scoped to the type, and not to the enclosing scope.\n..\n\n@ZedThree , there are few use cases which are supported by the 'enumeration type` as currently included in draft Fortran 202X.\nIn my opinion, to pick one missing use case that is of interest to the authors and proposing something to get that addressed is just not right.  I can't give a big enough down vote on this, it is thumbing its nose at all the other use cases."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-15 01:57:06+00:00",
+                    "text": "@FortranFan, can you formulate what you propose should be done? Do you like the enumerations as proposed in 2X more than this proposal?"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-15 01:58:26+00:00",
+                    "text": "@FortranFan, can you formulate what you propose should be done?\n\nSubmit a request with WG5 to withdraw the enumeration type feature from Fortran 202X."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-15 23:41:52+00:00",
+                    "text": "Is there any essential difference between this specific proposal -- putting enumerators into a scope and requiring some kind of syntax that names the scope and the enumerator wherever an enumerator appears -- and using distinct prefixes on the enumerators?  It seems to me that we're just saving some typing here."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-16 03:01:09+00:00",
+                    "text": "If you use distinct/unique prefixes (and are willing to accept this downside) then I think there is no difference."
+                },
+                {
+                    "user": "ZedThree",
+                    "date": "2022-05-16 08:16:23+00:00",
+                    "text": "@FortranFan :\n\n@ZedThree , there are few use cases which are supported by the 'enumeration type` as currently included in draft Fortran 202X.\nIn my opinion, to pick one missing use case that is of interest to the authors and proposing something to get that addressed is just not right. I can't give a big enough down vote on this, it is thumbing its nose at all the other use cases.\n\nI disagree, the existing proposal supports most use cases even if it is missing several features that would support more use cases, the main two being the ability to specify the underlying type, and values for individual enumerators. Both of these could be added in F202Y without breaking code that uses the current spec, and could be vendor extensions until then. I certainly disagree that this is \"thumbing its nose at other use cases\" -- this proposal is about enhancing all use cases, and not about any particular use case.\nThe existing spec certainly has its flaws and the final form seems to have ignored a couple of decades of language research and innovation, but I don't think it is so flawed that it should be completely thrown out.\n@klausler :\n\nIs there any essential difference between this specific proposal -- putting enumerators into a scope and requiring some kind of syntax that names the scope and the enumerator wherever an enumerator appears -- and using distinct prefixes on the enumerators? It seems to me that we're just saving some typing here.\n\nIt's not just about saving typing, although that is part of it, it's about building in best coding practice. Rather than having to teach new developers \"you should always add a unique prefix to enum names, because sometimes it's important, and if you don't you might have to rename each individual enumerator when you use them\", we can just teach them how to use them and that's enough.\nMore concretely, here's an example:\n! Existing spec using renaming:\nuse colour_mod, only: colour_t, colour_red => red, colour_green => green, colour_blue => blue\nuse alert_mod, only: alert_t, alert_red => red, alert_amber => amber, alert_green => green\n! or with prefixes:\nuse colour_mod, only: colour_t, colour_red, colour_green, colour_blue\nuse alert_mod, only: alert_t, alert_red, alert_amber, alert_green\n\n! This proposal:\nuse colour_mod, only: colour_t\nuse alert_mod, only: alert_t"
+                },
+                {
+                    "user": "plevold",
+                    "date": "2022-05-16 13:49:55+00:00",
+                    "text": "An important need with proper enums is use with SELECT CASE constructs that no \"roll your own\" types permit.\n\n@FortranFan that's true, but with the proposed select case statement my understanding is that you will only save a few keystrokes. Sure, the code\nif (animal == dog) then\n    sound = 'woof'\nelse if (animal == cat) then\n    sound = 'meow'\nelse if (animal == bird) then\n    sound = 'tweet'\nelse\n    sound = '???'\nend if\ncould be rewritten to\nselect case(animal)\ncase (dog)\n    sound = 'woof'\ncase (cat)\n    sound = 'meow'\ncase (bird)\n    sound = 'tweet'\ncase default\n    sound = '???'\nend select\nThat should give you 114 non-whitespace characters instead of 123 and maybe somewhat better readability. The behavior is exactly the same though.\nOn the other hand, if the Fortran compiler would require that the select case statement was exhaustive, either by including all enum variants or by having a case default statement then there would be an actual advantage of using select case over if-s.\n\nIs there any essential difference between this specific proposal -- putting enumerators into a scope and requiring some kind of syntax that names the scope and the enumerator wherever an enumerator appears -- and using distinct prefixes on the enumerators? It seems to me that we're just saving some typing here.\n\n@klausler in addition to the example by @ZedThree another advantage of using scope instead of a prefix is that (a future) Fortran standard could allow the scope to be omitted in case (...)-statements since the enum type is already known from the select case (var) line. For example,\nselect case(animal)\ncase (animal_t::dog)\n    sound = 'woof'\ncase (animal_t::cat)\n    sound = 'meow'\ncase (animal_t::bird)\n    sound = 'tweet'\ncase default\n    sound = '???'\nend select\ncould be simplified to\nselect case(animal)\ncase (dog)\n    sound = 'woof'\ncase (cat)\n    sound = 'meow'\ncase (bird)\n    sound = 'tweet'\ncase default\n    sound = '???'\nend select\nstill without the risk of naming collisions. This is for example allowed in Java switch-statements."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-16 15:39:49+00:00",
+                    "text": "If you're just saving typing, it's not worth the effort and drama.  Add int values and I/O and you'd have something.\nSELECT CASE is O(1) or O(log2(N)).  An IF cascade is O(N).  More important, a SELECT CASE with no default can be checked at compilation time for missing values."
+                },
+                {
+                    "user": "plevold",
+                    "date": "2022-05-16 15:58:39+00:00",
+                    "text": "@klausler good point about the performance differences. So with the current proposal one would have to choose between performance (with enumeration type) or maintainability (with a custom implementation). In my experience, maintainability trumps performance in large software projects unless the penalty is absolutely prohibiting.\n\nMore important, a SELECT CASE with no default can be checked at compilation time for missing values.\n\nAbsolutely agree. My understanding is that with the current 202X proposal compilers are not required to give an error on missing values, but maybe I've misread something?"
+                },
+                {
+                    "user": "ZedThree",
+                    "date": "2022-05-16 16:23:06+00:00",
+                    "text": "As far as I can see it, these are the missing features that one would want from an enum in a modern language:\n\nproper scope\nexhaustive select case\ncustom values\ncustom underlying type\nproper I/O using the enumerator name (reflection)*\n\nOf these, I think the first two cannot be implemented in a future standard without breaking backwards-compatibility, while the other three can. Are there others? I'm ignoring proper sum/algebraic types here, because I think they would only be usable with proper generic typing support.\nSeveral people that have knowledge of how the committee works have said this proposal doesn't stand any chance of getting accepted. Is \"kill/delay typed enumerations\" more likely to get accepted instead?\n21-110 is the paper that stripped down the much nicer 19-216. Does anybody have any insight into what the committee thought was too complicated about 19-216?\n\n* Weirdly, the current spec has some degree of reflection with next()/previous() and enum_type(1)/huge(enum_type), not seen in many other languages"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-16 16:29:06+00:00",
+                    "text": "Of these, I think the first two cannot be implemented in a future standard without breaking backwards-compatibility, while the other three can. Are there others? I'm ignoring proper sum/algebraic types here, because I think they would only be usable with proper generic typing support.\n\nProper sum types as in ML/O'Caml/Haskell would want their constructors (including nullary ones) to be available in the declaration scope anyway.\n\nSeveral people that have knowledge of how the committee works have said this proposal doesn't stand any chance of getting accepted. Is \"kill/delay typed enumerations\" more likely to get accepted instead?\n\nNo.  There's huge overlap between WG5 and J3.  J3 asking WG5 for permission to defer the feature involves the same group of people taking off their J3 hats, donning their WG5 hats, and saying \"no\" to themselves."
+                },
+                {
+                    "user": "ZedThree",
+                    "date": "2022-05-16 16:36:32+00:00",
+                    "text": "No. There's huge overlap between WG5 and J3. J3 asking WG5 for permission to defer the feature involves the same group of people taking off their J3 hats, donning their WG5 hats, and saying \"no\" to themselves\n\nI'm sorry, I am entirely ignorant of the structure here. There's no chance of changing J3's mind on this then either?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-16 16:56:23+00:00",
+                    "text": "@ZedThree there is always a chance. That's why I asked you to write this up. Even if they say no, we can require the committee to provide a response why the paper was not accepted. Furthermore, it provides guidance to compiler developers to implement as extensions.\nThere is committee politics and how it operates, but I urge all participants here to stay away from that, as it is not productive (or move it to a separate \"meta\" issue). In this issue, let's focus on having free discussion about what makes sense to do for enumerations.\nPeter K. has good points about it being \"not worth doing\", as it is \"just syntax\". But, isn't most of Fortran \"just nice syntax'? It absolutely is, and that is why I like it. And I think having modern enumerations in the language should be the goal, and we should not be discouraged. Peter H.'s arguments thus resonate with me. Finally, I think @FortranFan's main argument is that this proposal doesn't go far enough, and thus is not worth it, but I think it's a step in the right direction and most importantly: it allows to add the other things in backwards compatible manner. If this proposal is not accepted, and the current F2023 enumerations go in, then I think we can't change the scope without breaking backwards compatibility."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-16 16:58:50+00:00",
+                    "text": "No. There's huge overlap between WG5 and J3. J3 asking WG5 for permission to defer the feature involves the same group of people taking off their J3 hats, donning their WG5 hats, and saying \"no\" to themselves\n\nI'm sorry, I am entirely ignorant of the structure here. There's no chance of changing J3's mind on this then either?\n\nWG5 is the ISO (international) standard committee for Fortran.  J3 is the old name for the American standard committee for Fortran.  WG5 comes up with lists of work items for each new standard, and asks J3 to define them; J3 writes draft international standards, gives them to WG5, and they get approved as ISO standards.  J3 also takes care of corrections and interpretation requests.\nOne problem with this arrangement is that it has no feedback loop that includes implementation experience or even broad review before WG5 hands ideas off to J3, and in the 3+ decades since the structure was established, there's a sad history of not-completely-thought-through changes being set permanently into the language.  That's why we have PDTs still not being implemented widely enough to be portable after 20 years; a DO CONCURRENT construct that is serial; and soon, rank-agnostic array indexing.  And we don't have simple things like pointers to immutable data.  It is a mess."
+                },
+                {
+                    "user": "plevold",
+                    "date": "2022-05-16 17:49:29+00:00",
+                    "text": "I'm ignoring proper sum/algebraic types here, because I think they would only be usable with proper generic typing support.\n\nI think proper sum types has a lot use cases without proper generic types (and even more with it). How JSON values are parsed in Rust is a good practical example: When reading data at a given path, e.g. root[\"foo\"][\"bar\"] you get back a Value enum:\npub enum Value {\n    Null,\n    Bool(bool),\n    Number(Number),\n    String(String),\n    Array(Vec<Value>),\n    Object(Map<String, Value>),\n}\nWhile the data of the Array and Object variants use generics this enum doesn't. If Fortran enumration types had support for different types it would be possible to implement this kind of interface in Fortran as well without any additional language features.\nFor reference, the alternative \"object oriented\" approach (one that is possible to implement in Fortran today) would be to use an abstract base class:\ntype, abstract :: json_value_t\nend type\n\ntype, extends(json_value_t) :: json_bool_t\n    logical :: value\nend type\n\ntype, extends(json_value_t) :: json_number_t\n    real(dp) :: value\nend type\nAnd so on. This approach is (of course) very verbose and does not provide much type safety: While you could select type on a class(json_value_t) variable there's no way of knowing that you've covered all possible variations since inheritance is not an finite set . Even a type outside this hypothetical JSON parsing library could extend json_value_t."
+                }
+            ]
+        },
+        {
+            "number": 261,
+            "user": "thomas-robinson",
+            "date": "2022-05-13 12:30:43+00:00",
+            "title": "BIND (python)",
+            "text": "Binding routines in C is great.  I would like to see more languages that could use the BIND specifier.\nfunction pyfunction (args) result (res) BIND(python, name=\"pyfunction\")\nWith an increasing number of machine learning algorithms being written in python, utilizing python is going to be important to HPC applications that are written in Fortran in the future.",
+            "is_open": true,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-13 13:20:00+00:00",
+                    "text": "This is a brilliant idea, since it removes an intermediary C layer (Cython\nor Numba) and lets Python interface directly to Fortran.\n\nIMHO Fortran has to be the secret sauce to NumPy being fast even though\nPython is an interpreted language, because AFAIK NumPy leverages either MKL\nor OpenBLAS to do the heavy lifting.\n\nSummoning @pearu (Quansight) here.\n\u2026\nOn Fri, May 13, 2022, 08:31 Tom Robinson ***@***.***> wrote:\n Binding routines in C is great. I would like to see more languages that\n could use the BIND specifier.\n\n function pyfunction (args) result (res) BIND(python, name=\"pyfunction\")\n\n With an increasing number of machine learning algorithms being written in\n python, utilizing python is going to be important to HPC applications that\n are written in Fortran in the future.\n\n \u2014\n Reply to this email directly, view it on GitHub\n <#261>, or\n unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AMERY5FUGIAE6LPDSCWAEB3VJZDP7ANCNFSM5V3HYN3A>\n .\n You are receiving this because you are subscribed to this thread.Message\n ID: ***@***.***>"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-13 22:21:19+00:00",
+                    "text": "Great idea. Note that there are two directions:\n\nCalling Python from Fortran: https://gitlab.com/lfortran/lfortran/-/issues/44\nCalling Fortran from Python: https://gitlab.com/lfortran/lfortran/-/issues/133\n\nSee the above two issues for examples of syntax. For calling Python from Fortran (the first issue), I had in mind some syntax of the kind:\nuse, external(python) :: numpy, only: sin\nprint *, sin(5)\nBut using your proposal, it could also be just:\ninterface\n    function sin(x) result(r) bind(python, name=\"numpy.sin\")\n    real, intent(in) :: x\n    real :: r\n    end function\nend interface\nprint *, sin(5.0)\nAnd one would declare it by hand to work for arrays (of all dimensions) as well. One can then create numpy.f90 Fortran module which would have all these declarations (and possibly making the function sin generic over all scalars and arrays), so that it is easy to use."
+                },
+                {
+                    "user": "h-vetinari",
+                    "date": "2022-05-15 17:21:49+00:00",
+                    "text": "This is a brilliant idea, since it removes an intermediary C layer (Cython or Numba) and lets Python interface directly to Fortran. IMHO Fortran has to be the secret sauce to NumPy being fast even though Python is an interpreted language, because AFAIK NumPy leverages either MKL or OpenBLAS to do the heavy lifting.\n\nIndeed both numpy and scipy rely on BLAS/LAPACK; both tend to use openblas by default, but are fully functional with MKL (in fact, it's the default in conda-forge on windows) as well as the netlib/blis flavours. The use of BLAS/LAPACK is indeed a key pillar of the performance and will not change.\nAdditionally, scipy has a non-trivial amount of native fortran code (and a lot of historical packaging/distribution complications stem from that; see also the entire f2py effort), though nowadays the native fortran tends to get slowly replaced by C/C++ code (often through cython/pythran transpilation) not least due to a shortage of reviewer's expertise (resp. availability of the few that do know).\n\nSummoning @pearu (Quansight) here.\n\nSince Pearu can be hard to reach, adding some more numpy/scipy maintainers for visibility: @rgommers @seberg @tylerjereddy"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-05-15 21:53:33+00:00",
+                    "text": "I'm interested how this would work from the perspective of the Fortran processor (jargon for Fortran compiler). From the perspective of Fortran calling Python would a Fortran processor embed Python (either CPython, PyPy, or perhaps HPy)? This would mean inserting calls to Py_Initialize() and Py_FinalizeEx() and handling all the data-conversion using functions from Python's C API when needed. Or would it use a static Python compiler such as Cython, Nuitka, LPython, and others?\nWould interoperability be limited to numeric scalars, and strings, NumPy arrays covering compatible NumPy data types or more ambitiously, would it also cover Python sequence types including lists and tuples, and mapping types such as dictionaries, etc.?\nCould decorators be used on the Python side to expose functions and classes for use in Fortran (i.e. generate the Fortran module, interfaces, and wrapper code automatically)? What about Python type annotations; could these be used for static typing?\nFor Python calling Fortran on the other hand, bind(Python) would effectively be like a \"standardized\" form of the F2PY tool and language extensions?\nIt might also be wise to follow the development of the Python array API standard, and see how it can work with Fortran interoperability."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-15 22:51:39+00:00",
+                    "text": "@ivan-pi excellent questions. For LFortran I want to pursue what I always wanted as a user, that is, \"all the way\". So all Fortran features would be wrapped, and all (or almost all) Python features would be usable. And yes, all the things you mentioned have to be resolved, and there is more than one way to resolve them.\nBut for a standard, I would start at the lowest denominator, that is, just annotating Fortran functions (to be called from Python) and Fortran interfaces (for Python functions to be called from Fortran). The standard would not specify how the compiler should actually implement it, it would only standardize the syntax and how it should behave in Fortran from the user's perspective. However, even this minimal approach has challenges: what features to allow, so initially integers/floats and arrays. But if arrays, are we going to interoperate with NumPy only, or other packages too? Etc.\nA feature like this should require a prior compiler implementation and experience to make sure we like all the details before standardizing."
+                },
+                {
+                    "user": "HaoZeke",
+                    "date": "2022-05-16 11:37:34+00:00",
+                    "text": "Thanks for bringing this up! @pearu and I had a short chat about this. I'm going to summarize some of the discussion (any mistakes / omissions are mine).\nFrom a technical / standards perspective I'm not sure this proposal would hold a lot of water.\n\nFor an interpreted language, calling a compiled language will always have to be embedding not inter-op.\n\nAt best what can be done is that a compiled Fortran code can be linked to Python (or imported as a shared library)\n\n\nSimilar considerations exist from the other side, even if the standard requires (for example) that Fortran supports an intrinsic for starting up a co-processor (Python) the problem would be defining what would happen for say, co-arrays\nThe data structures themselves are implementation specific in Python and have no high level inter-op with Fortran (e.g. dictionaries)\n\nThis is assuming that some other structures like arrays are considered to be handled by the buffer protocol\n\n\nThe language standard would require many changes for the Python interpreters as well (e.g. what about the GC?)\n\nAs far as the Fortran language is concerned, Python is essentially a high level C library currently, and given the differences in language design (interpreted / compiled) this seems to be the only feasible way forward.\nA better candidate might be bind(cpp) which would also allow the language to grow very rapidly.\nI personally do not believe it is healthy for the language standard to special case interacting with a sub-project like Cython or the other statically compiled variants of Python, since they implement a subset of Python; though in theory one might propose bind(cython) as an approach.\nSimilarly, typing in Python is 100% optional, so for the same reason it would be difficult to describe a language binding which requires it.\nNote that none of these concerns are valid for user-binding generation codes (f2py, f90wrap, fmodpy, lfortran etc.), which have the happy circumstance of being able to define their own scope to be more narrow than the language specification.\nAlso, as @certik pointed out, we should have working implementations and experience. By that measure, this might be a bit premature. There are many approaches gaining traction jointly and converging towards a consolidated image of what Python looks like when interoperated with Fortran. Some are:\n\nThe bind(c) variants (e.g. fmodpy, f90wrap)\n\nf2py also has a developmental interest in special casing for bind(c)\n\n\nThe wrappers generated in Fortran approach (and pointers for users) (e.g. f2py)\nThe cython binding generation of LFortran\nThe LPython approach to compiling Python down to a common subset (shared with Fortran)\n\nThese are just some off the top of my head, and apologies to any projects I missed. Once these user-land approaches have stabilized (and efforts are ongoing to keep communication open so there's no fragmentation of the ecosystem), then and only then would it make sense to have the standards committee consider such a proposal.\nApart from ease of user-experience, at this moment I do not think there are any intrinsic functions or compatibility requests / helpers (e.g. those found in iso_c_binding) which would be required (and are not covered by existing stipulations).\n(not including features requested for other purposes which would help this, like generics support)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-16 11:48:27+00:00",
+                    "text": "I agree with @HaoZeke. In addition however I will also say that as a user, I think I would want this. Even more, as a user, I just want to use any Python library and I don't even want to write the wrappers and everything should just work. And from Python I just want to import any Fortran library and everything should just work."
+                },
+                {
+                    "user": "jeffhammond",
+                    "date": "2022-05-20 11:08:18+00:00",
+                    "text": "The reason Fortran can interoperate with C is that C is unique in having a well-defined ABI.  Python doesn't even require types, so it can't begin to have an ABI, so the task proposed here is impossible.  The only reasonable way to interoperate Python and Fortran is to use the C interoperability capability of both."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-05-20 13:25:12+00:00",
+                    "text": "Python (or specifically CPython) does have a stable C ABI: https://docs.python.org/3/c-api/stable.html#stable-application-binary-interface\nOf course it's not an ISO standard like C and Fortran, but many of us do not care in practice."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-20 14:41:37+00:00",
+                    "text": "The reason Fortran can interoperate with C is that C is unique in having a well-defined ABI. Python doesn't even require types, so it can't begin to have an ABI, so the task proposed here is impossible. The only reasonable way to interoperate Python and Fortran is to use the C interoperability capability of both.\n\nI think that the point of having Python <-> Fortran interoperability is to automate and hide the use of the C ABI so that it's not a big deal to haul data between the languages or to invoke procedures, especially Python calling Fortran."
+                },
+                {
+                    "user": "thomas-robinson",
+                    "date": "2022-05-20 14:56:37+00:00",
+                    "text": "If C is interoperable with python, and C is interoperable with Fortran, then there should be some way to eliminate the C middle man. As a user, it would provide a lot of convenience and allow for easy usage of python that is being used for accelerated computing."
+                },
+                {
+                    "user": "jeffhammond",
+                    "date": "2022-05-22 19:58:53+00:00",
+                    "text": "I'd like to see a proper implementation of this in one of the major Fortran compilers and a report on the implementation difficulty before considering this."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-22 23:14:34+00:00",
+                    "text": "a proper implementation of this in one of the major Fortran compilers\n\nWhat is a \"major Fortran compiler\"?  It's a rhetorical question!  The very notion of it sounds rather discriminatory and unconvincing."
+                },
+                {
+                    "user": "HaoZeke",
+                    "date": "2022-05-22 23:31:33+00:00",
+                    "text": "a proper implementation of this in one of the major Fortran compilers\n\nWhat is a \"major Fortran compiler\"? It's a rhetorical question! The very notion of it sounds rather discriminatory and unconvincing.\n\nPerhaps lets leave this as something to be revisited when there is a complete set of bindings of enough language features in any user-land library or compiler."
+                },
+                {
+                    "user": "HaoZeke",
+                    "date": "2022-05-22 23:33:20+00:00",
+                    "text": "If C is interoperable with python, and C is interoperable with Fortran, then there should be some way to eliminate the C middle man. As a user, it would provide a lot of convenience and allow for easy usage of python that is being used for accelerated computing.\n\nThe problem is that this is not exactly true. Not all of Python is compatible with Fortran in a transparent way.\nAlso, C is not completely interoperable with Fortran, and the primary argument is still that from a language perspective, unless we would like to make statements about the GC and other interpreted features, binding Python-C should be left to user-code.\nCurrently some common features can be emulated / bound, and perhaps many more can be, but to say that there is immediately a way to embed an interpreted language with a compiled one because they have bindings to a common language might be premature."
+                }
+            ]
+        },
+        {
             "number": 260,
             "user": "klausler",
             "date": "2022-04-26 19:09:14+00:00",
@@ -93,6 +336,26 @@
                     "user": "womenflyplanes",
                     "date": "2022-04-25 14:14:22+00:00",
                     "text": "Bye the way, how long has fortran had multidimensional arrays?\nLW\n\u2026\nOn Mon, 25 Apr 2022, Lenore Mullin wrote:\n Exactly!\n\n On Mon, Apr 25, 2022 at 8:40 AM Luther Woodrum ***@***.***> wrote:\n       That's very funny.\n       I was the one who first implemented mulidimensionaional arrays\n       of more than two. All the ones before that were only for\n       matrices, two dimensions.\n\n       I implemented 7 dimensions.\n\n       LW\n\n       On Sun, 24 Apr 2022, Lenore Mullin wrote:\n\n       > Ken never had indexing either. Luther was the first to\n       introduce any kind of\n       > indexing in APL.BTW, he also has mucho patents on his sorting\n       algorithms.\n       >\n       > On Sun, Apr 24, 2022 at 1:37 PM Lenore Mullin\n       ***@***.***>\n       > wrote:\n       >\u00a0 \u00a0 \u00a0 \u00a0That\u2019s because it was Luther\u2019s idea not Kens.\n       > That\u2019s why it\u2019s not in kens book .\n       >\n       >\n       > On Sun, Apr 24, 2022 at 1:21 PM Walter Spector\n       > ***@***.***> wrote:\n       >\n       >\u00a0 \u00a0 \u00a0 \u00a0LOL!\u00a0 Yes, I learned a bit about APL back in college (on\n       a\n       >\u00a0 \u00a0 \u00a0 \u00a0DECsystem-10).\u00a0 My copy of the classic Sandra Pakin\n       >\u00a0 \u00a0 \u00a0 \u00a0APL/360 manual from those days uses the terms \"grade up\"\n       >\u00a0 \u00a0 \u00a0 \u00a0and \"grade down\" for the respective operators.\u00a0 So I\n       >\u00a0 \u00a0 \u00a0 \u00a0thought it was fun that the HPF group used the same for\n       >\u00a0 \u00a0 \u00a0 \u00a0their functions.\u00a0 It is also interesting that HPF 1 only\n       >\u00a0 \u00a0 \u00a0 \u00a0had the grade functions.\u00a0 HPF 2.0 added the sort\n       >\u00a0 \u00a0 \u00a0 \u00a0functions.\n       >\u00a0 \u00a0 \u00a0 \u00a0\u00a0\n       >\u00a0 \u00a0 \u00a0 \u00a0I also have a copy of Ken Iversons \"A Programming\n       >\u00a0 \u00a0 \u00a0 \u00a0Language\".\u00a0 It has quite a lot of prose on ranking and\n       >\u00a0 \u00a0 \u00a0 \u00a0sorting, but doesn't specifically use those terms.\n       >\u00a0 \u00a0 \u00a0 \u00a0\u00a0\n       >\u00a0 \u00a0 \u00a0 \u00a0Walter\n       >\u00a0 \u00a0 \u00a0 \u00a0\u00a0\n       >\u00a0 \u00a0 \u00a0 \u00a0-----Original Message-----\n       >\u00a0 \u00a0 \u00a0 \u00a0From: j3-fortran/fortran_proposals\n       >\u00a0 \u00a0 \u00a0 \u00a0Sent: Apr 24, 2022 10:00 AM\n       >\u00a0 \u00a0 \u00a0 \u00a0To: j3-fortran/fortran_proposals\n       >\u00a0 \u00a0 \u00a0 \u00a0Cc: Walter Spector , Author\n       >\u00a0 \u00a0 \u00a0 \u00a0Subject: Re: [j3-fortran/fortran_proposals] Add simple\n       >\u00a0 \u00a0 \u00a0 \u00a0sorting intrinsics (Issue #258)\n       >\u00a0 \u00a0 \u00a0 \u00a0\u00a0\n       >\u00a0 \u00a0 \u00a0 \u00a0\u00a0\n       >\u00a0 \u00a0 \u00a0 \u00a0Mathematical definitions are in my dissertation. If\n       you\u2019d\n       >\u00a0 \u00a0 \u00a0 \u00a0like to speak to the original designer and implementor\n       >\u00a0 \u00a0 \u00a0 \u00a0grade up and down in APL It is Luther Woodrum and he can\n       >\u00a0 \u00a0 \u00a0 \u00a0be reached at\n       >\u00a0 \u00a0 \u00a0 \u00a0***@***.*** ***@***.***)\n       >\u00a0 \u00a0 \u00a0 \u00a0\u2014\n       >\u00a0 \u00a0 \u00a0 \u00a0Reply to this email directly, view it onGitHub(#258 (comment)\n       ent-11\n       >\u00a0 \u00a0 \u00a0 \u00a007878967), orunsubscribe(https://github.com/notifications/unsubscribe-auth/ABCNQO35Q4BDQ\n       OVONHV2BV3V\n       >\u00a0 \u00a0 \u00a0 \u00a0GV44TANCNFSM5UGOXWPQ).\n       >\u00a0 \u00a0 \u00a0 \u00a0You are receiving this because you authored the\n       >\u00a0 \u00a0 \u00a0 \u00a0thread.Message ID:\n       >\n       >\u00a0 \u00a0 \u00a0 \u00a0\u00a0\n       >\n       >\u00a0 \u00a0 \u00a0 \u00a0\u2014\n       >\u00a0 \u00a0 \u00a0 \u00a0Reply to this email directly, view it on GitHub, or\n       >\u00a0 \u00a0 \u00a0 \u00a0unsubscribe.\n       >\u00a0 \u00a0 \u00a0 \u00a0You are receiving this becauseyoucommented.[ABVSNFEJ7TVCTOPYCEAQSIDVGV7LFA5CNFSM5UGOXWP2YY3PNVWWK3TUL52HS\n       4DF\n       >\u00a0 \u00a0 \u00a0 \u00a0VREXG43VMVBW63LNMVXHJKTDN5WW2ZLOORPWSZGOIIEPFVA.gif]\n       >\u00a0 \u00a0 \u00a0 \u00a0Message ID:\n       >\u00a0 \u00a0 \u00a0\n       ***@***.***>\n       >\n       > --\n       > \"Great spirits have always encountered violent opposition from\n       > mediocre minds\" - Albert Einstein\n       >\n       >\n       >\n       > --\n       > \"Great spirits have always encountered violent opposition from\n       mediocre\n       > minds\" - Albert Einstein\n       >\n       >\n\n --\n \"Great spirits have always encountered violent opposition from mediocre\n minds\" - Albert Einstein"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-08 00:49:27+00:00",
+                    "text": "This seems a duplicate of #101.\nUpdate: the #101 is not a duplicate, but a similar proposal. See the clarification below."
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2022-05-08 04:17:21+00:00",
+                    "text": "-----Original Message-----\nFrom: j3-fortran/fortran_proposals\nSent: May 7, 2022 5:49 PM\nTo: j3-fortran/fortran_proposals\nCc: Walter Spector , Author\nSubject: Re: [j3-fortran/fortran_proposals] Add simple sorting intrinsics (Issue #258)\n\u00a0\n\u00a0\nThis seems a duplicate of #101 (#101).\n\n\u00a0\nYes and no.\u00a0 The stdlib procedures ORD_SORT, SORT_INDEX, and SORT, implemented in #101 are a great start.\u00a0 But as mentioned, my proposal is a little different.\u00a0 In particular:\n\u00a0\n1.) Functional form.\u00a0 This would allow use in expressions rather than subroutine calls.\u00a0 It also avoids the need to allocate and make a copy of the input array in the case where the original unsorted input data needs to be maintained as is.\n\u00a0\n2.) Explicit GRADE functions - SORT_INDEX does an in-place sort of its input argument and also returns the index array.\u00a0 Again very often reordering the input array is not wanted.\u00a0 Just the indices for use in later permutations.\u00a0 (For example, obtaining the index array for keys in arrays of derived types.)\u00a0 And again functional form would allow use in expressions.\n\u00a0\n3.) Encoding the sort order in the entry point name.\u00a0 This eliminates run-time checking of required order.\u00a0 While it is a cheap test, in practice in my 40+ years of programming, one tends to know which direction is desired at compile time.\u00a0 Though in the case of GRADE functions, there should probably be an optional argument to maintain stability or not.\n\u00a0\nAdditionally thread #101 has some later messages about search procedures such as binary search.\u00a0 Over the\u00a0 years I've encountered numerous examples of Fortran applications with homegrown binary search procedures.\u00a0 However they are easy enough to write that I don't have strong feelings about including them or not.\u00a0 In any event, they sound be under a different proposal thread.\n\u00a0\nIf I should add these comments to #101 instead, then that would be fine.\n\u00a0\nWalter"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-08 04:26:29+00:00",
+                    "text": "@w6ws, let's keep this issue here, separate from #101. I can see that they are similar, but distinct proposals, so let's keep both issues open. I wasn't sure if you were aware of the work at #101, but it's now clarified."
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2022-05-09 21:03:59+00:00",
+                    "text": "Bye the way, how long has fortran had multidimensional arrays? LW\n\nSince Fortran I in 1956, if you mean 1, 2, or 3-dimensional arrays. I believe that was the case for Fortan II and Fortran 66.\nFortran 77 upped the limit to 7 dimensions, which appears to be the limit in Fortran 90, 95, and 2003.\nFortran 2008 increased the limit to 15 dimensions, but as the sum of dimensions and co-dimensions of an array (or coarray)."
                 }
             ]
         },
@@ -102,7 +365,7 @@
             "date": "2022-04-21 01:49:36+00:00",
             "title": "Allow more readable integer assignment in the namelist input",
             "text": "I have been using namelist input files extensively in my codes. While they are very useful, one weak point is that integer assignment allows only this kind of \"raw\" notation\n...\npar%nsteps = 1000000\npar%nsteps2 = 100000\npar%nsteps3 = 10000000\n...\n\n(here, par is some parameter object). Very often, the number of steps like above is rather large, which is often not very readable. I tried using the usual notation like\n...\npar%nsteps = 10**6\npar%nsteps2 = 10**5\npar%nsteps3 = 10**7\n...\n\nbut it interferes with the special meaning of * in the namelist and results in a runtime error. So I wish some other syntax would be available, e.g.,\n...\npar%nsteps = 1_000_000\npar%nsteps2 = 100_000\npar%nsteps3 = 10_000_000\n...\n\nor\n...\npar%nsteps = 10^6\npar%nsteps2 = 10^5\npar%nsteps3 = 10^7\n...\n\nIf the symbols like * or ^ are not acceptable, some kind of \"math\" string (e.g. m\"...\") may be useful for internal conversion (from math strings to integer in this case).\n...\npar%nsteps = m\" 10**6 \"\npar%nsteps2 = m\" 10**5 \"\npar%nsteps3 = m\" 10**7 \"\n...\n\nApart from the specific syntax, I hope I can also write nsteps = 2 * 10^7 rather than nsteps = 20000000, because I need to count the number of zeros every time with mouse cursor.\n(Edit) Because the math evaluation like sqrt() seems like too far as a request, I deleted it from the original post. My intention is not a \"general\" expression evaluator, but just the above kind of large integers (at the moment).",
-            "is_open": true,
+            "is_open": false,
             "labels": [
                 "Clause 8"
             ],
@@ -437,6 +700,26 @@
                     "user": "klausler",
                     "date": "2022-03-07 17:16:13+00:00",
                     "text": "These new versions of the constraints would be easy to check, and I haven't been able to come up with a failure mode that they might enable.  SGTM."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-05-17 20:01:43+00:00",
+                    "text": "I've come up with an example program that violates the current constraints, but does not violate my proposed new constraints.\nprogram\nimplicit none\n\ntype, abstract :: parent\nend type\n\ntype, extends(parent) :: child\n   character(len=:), allocatable :: message\nend type\n\ntype :: wrapper\n  class(parent), allocatable :: item\nend type\n\ntype(wrapper) :: coarray[*]\n\nif (this_image() == 1) then\n  coarray%item = child(\"Hello, World!\")\nend if\nsync all\nif (this_image() /= 1) then\n  coarray%item = coarray[1]%item\nend\nselect type (the_item => coarray%item)\ntype is (child)\n  print *, the_item%message\nend select"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-17 20:21:56+00:00",
+                    "text": "I concur that this example violates the named constraints in a way that makes them seem surprising.\nHowever, there is a possible implementation motivation for those constraints that has occurred to me: a polymorphic component that is not deallocated/disassociated will need some means to identify its dynamic type, and that's typically implemented by means of a pointer to some kind of compiler-created type description record (which also holds the information necessary for I/O, overrideable TBP bindings, finalization, &c.).  A type description record pointer from one image would have to be usable (or identical) to its analog on the local image in order to serve as the RHS of an allocating LHS (as above), to work with SELECT TYPE and SAME_TYPE_AS, and handle I/O.  This is an implementation requirement that comes for free in some coarray implementation models -- MPI ranks all running the same executable, for example -- but might require pointer mapping or be simply impossible in some other coarray implementation models.\nSo I encourage you to bring the possible relaxation of these constraints up for discussion, but be advised, it may not be the no-brainer that we (or at least I) though it would be."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-17 20:34:39+00:00",
+                    "text": "@everythingfunctional wrote May 17, 2022 4:01 PM EDT:\n\nI've come up with an example program that violates the current constraints\n\nWhat do the current compiler implementations detect and report with this program?\nHere I mean besides the first line itself where program-name is missing, or line 19 with the typo where end if was intended, and so forth."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-05-17 21:52:53+00:00",
+                    "text": "coarray[1]%item violates C918. I'll fix the example and report the messages issued by the various compilers I have access to."
                 }
             ]
         },
@@ -1518,7 +1801,7 @@
             "date": "2021-07-30 22:54:00+00:00",
             "title": "Eliminate implicit mapping",
             "text": "Issue #90 proposes to eliminate implicit typing in Fortran.  There is strong resistance to this, there being a major concern that to \"eliminate implicit typing\", if pursued with any seriousness, will require a deletion of the IMPLICIT statement from the language.  There is great worry some existing code would break as a result.\nCan the Fortran community then coalesce to a somewhat simpler proposal, to eliminate implicit mapping instead?\nThe main aspect of such a proposal is to primarily change one sentence in the section on IMPLICIT statement to introduce the following:\n\"If a mapping is not specified for a letter, the default for a program unit or an interface body shall be NULL, and the default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit\"\nNote the current Fortran standard (document 18-007r1) instead states in section 8.7 IMPLICIT STATEMENT page 114, paragraph 3, lines 32-34, \"If a mapping is not specified for a letter, the default for a program unit or an interface body is default integer if the letter is I, J, ..., or N and default real otherwise, and the default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit.\"\nThis one sentence in the current standard effectively ends up achieving backward compatibility with code written from the days of FORTRAN I where \"ICARUS was an integer unless specified as REAL\", to paraphrase a long-standing joke with FORTRAN!\nBut now almost all the code written from the days of FORTRAN 77 then has tried to avoid the fate of the legend and not drown while trying to only take flight via the explicit use of the IMPLICIT statement, IMPLICIT NONE overwhelmingly but IMPLICIT INTEGER(I-N), xx(A-H, O-Z) {xx = DOUBLE PRECISION, REAL, REAL*8, etc.].  This proposal intends not to affect in any adverse manner any such existing code that makes explicit use of IMPLICIT statements.\nThe intended benefit of this one change is to set in motion finally a positive change where IMPLICIT NONE becomes the default in any and all program units and in all the interface bodies, gone will be the need to ensure the inclusion of implicit none in a list of explicit interfaces:\ninterface\n   function foo(..) result(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end function\n   function bar(..) result(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end function\n   subroutine foobar(..)\n      [import .. ]\n      implicit none !<-- Per current standard, forget this and face peril\n      ..\n   end subroutine\nend interface\nAlmost every processor tries to offer a compiler option to enforce the gist of this proposal, with fpm and LFortran considering making this even the default.  Why not standardize all such good intent?\nWhat say you all, can you support this for Fortran 202Y?  Please keep in mind even with 202Y, it may be year 2040 by the time this can become practicable.  Is it not time now to start giving this a serious consideration?",
-            "is_open": true,
+            "is_open": false,
             "labels": [
                 "Clause 8"
             ],
@@ -1537,6 +1820,31 @@
                     "user": "jacobwilliams",
                     "date": "2021-09-20 16:56:17+00:00",
                     "text": "Ah, I see what you are saying now (based on your comments here. What you are calling \"implicit mapping\" here, I was calling \"implicit typing\" in #90. I never proposed getting rid of the implicit statements (I don't think that's a good idea and will never happen anyway). So, this is the same thing I was proposing."
+                },
+                {
+                    "user": "p-pap",
+                    "date": "2022-05-25 15:23:41+00:00",
+                    "text": "implicit none should be the default for any code written in Fortran 90 or later. This is not the case and that only causes trouble. How often you forgot to type implicit none then spent time trying to figure out what's wrong with your code, just because you mistyped a variable somewhere - but the compiler happily accepts it, just because you forgot the goddamn implicit none in the beginning? It happened more than once to me, and the workaround to prevent it from happening again is to enable extra compiler warnings, so that the compiler will at least complain about such a mistyped variable. The worst bug is the one you assume it can't ever happen."
+                },
+                {
+                    "user": "Carltoffel",
+                    "date": "2022-05-26 07:26:22+00:00",
+                    "text": "My idea to solve this:\n\nin fixed form code\n\nbusiness as usual\n\n\nin free form code\n\nusing any implicit statement results in a warning (this warning should show up at any warning level)\nthe compiler accepts no implicit typing (unless explicitly enabled) and raises an error, if a variable without type declaration occurs"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-30 19:35:03+00:00",
+                    "text": "I don't understand how these proposals differ -- both just make IMPLICIT NONE the default, yes?\nI doubt that could possibly gain approval for Fortran 202Y for 3<=Y<\u221e, but one thing that could find support: in MODULE FUNCTION and MODULE SUBROUTINE interface blocks in (sub)modules, automatically inherit the implicit mappings or IMPLICIT NONE from the (sub)module.  There is little-to-no legacy to worry about with separate module procedure interfaces and I don't ever see anybody remembering to put any kind of IMPLICIT statement in them."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2022-05-30 20:58:48+00:00",
+                    "text": "Yes, frankly, I think this is the same as #90. We don't need two of them. We should discuss it there."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-30 22:59:33+00:00",
+                    "text": "@jacobwilliams , with issue #90 with \"eliminate implicit typing\", it was entirely unspecific as to what was implied, perhaps removal of IMPLICIT statement altogether even?  I explained this previously to you upthread:\n#218 (comment)\nYou effectively had a \"one-liner\" initially that was provocative and which was not received well.\nGiven above, ideally you would have closed issue #90 so the discussion can move to the specific suggestions in this thread.  But you insist otherwise, so I will close this thread."
                 }
             ]
         },
@@ -2114,7 +2422,13 @@
             "labels": [
                 "Clause 8"
             ],
-            "comments": []
+            "comments": [
+                {
+                    "user": "septcolor",
+                    "date": "2022-05-09 17:00:24+00:00",
+                    "text": "I would also like to have some more \"direct\" method for holding or representing an array of pointers and an array of polymorphic variables (rather than wrapping them in a different derived type for every such case). To do so, in addition to literals like above, I wonder it may be useful to consider a builtin container type like\nlist(real) :: xs                          !! a list of primitive values\nlist(real, pointer) :: ps            !! a list of pointers\nlist(foo_t, allocatable) :: foos   !! a list of allocatable class variables\n\nthat supports\nxs% append( y )\nps% reserve( 10 )\nps( 5 ) => q\nfoos% reserve( 10 )\nallocate( foo_child_t :: foos( 5 ) )\n\n(just a rough sketch but close to what I would like to have). Here I think having the attributes like \"pointer\" or \"allocatable\" to be part of list is crucial (apart from specific syntax), such that one can distinguish whether the components have such attribute when passed to different routines. I am still not sure whether this kind thing can play well with generics, but I guess it is at least closer to what std::vector<T*> in C++ is doing. Also, I think that the very reason for \"why Fortran is considered weak for unstructured data\" (discussed in some forum thread) is deeply related to this inconvenience / awkwardness of handling such \"non-rectangular\" data."
+                }
+            ]
         },
         {
             "number": 196,
@@ -6019,6 +6333,11 @@
                     "user": "certik",
                     "date": "2021-10-27 14:17:22+00:00",
                     "text": "Also proposed at https://fortran-lang.discourse.group/t/make-line-continuation-operator-optional/2176."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-22 14:36:17+00:00",
+                    "text": "I would certainly like to have implicit line continuation. The & & thing is quite clunky."
                 }
             ]
         },
@@ -6915,6 +7234,16 @@
                     "user": "veryreverie",
                     "date": "2021-05-31 08:53:16+00:00",
                     "text": "I think that there are two independent proposals here, which I would separate as:\n\nFunction objects, i.e. types which overload the () operator, probably using operator(()) syntax. Ideally these objects would also be useable in procedure(func) contexts.\nOverloadable array slice syntax. i.e. allowing user-defined procedures to take a:b:c slices as arguments. This could possibly be done by definining an intrinsic type slice with components %first, %last and %stride\n\nI think both proposals would make the language more intuitive, but I think the two should be evaluated separately, on their own merits. If both were implemented, I see no reason to limit the slice syntax to only be useable with the function object syntax."
+                },
+                {
+                    "user": "perazz",
+                    "date": "2022-06-03 16:44:41+00:00",
+                    "text": "I'm bringing back this discussion following what's been under discussion here.\nI think having an accessor operator would be a very useful way to enable derived types/classes to be treated like arrays.\nThe points for having it should be that all functions operating on arrays should also have validity on derived types with the accessor operator.\nHere's one simple example I have in mind:\ntype :: symmetric_matrix\n   integer, len :: n\n   real :: data((n**2+n)/2)\n\n   contains\n\n   ! This should be pure and elemental OR pointer\n   procedure, private, pass(this) :: sym_access\n  \n   ! The accessor needs something to define its dimensions\n   generic :: accessor(:,:) => sym_access\n\nend type symmetric_matrix\n\ncontains\n\n! Point to symmetric data\nelemental integer function sym_ptr(this,i,j) result(ptr)\n   class(symmetric_matrix), intent(in) :: this\n   integer, intent(in) :: i,j\n\n   integer :: row,col,ptr\n\n   row = merge(i,j,i>=j)\n   col = merge(j,i,i>=j)\n\n   ! Get pointer to data\n   ptr = this%n*(col-1)-((col-1)*(col-2))/2 + (row-col+1)\n\nend function sym_ptr\n\nelemental real function sym_access(this,i,j) result(aij)\n   class(symmetric_matrix), intent(in) :: this\n   integer, intent(in) :: i,j\n\n   integer :: ptr\n\n   ptr = sym_ptr(this,i,j)\n   aij = this%data(ptr) \nend function sym_access\n\n! pointer version\nfunction sym_access(this,i,j) result(aij)\n   class(symmetric_matrix), intent(in) :: this\n   integer, intent(in) :: i,j\n   real, pointer :: aij\n   integer :: ptr\n\n  if (i>=1 .and. j>=1) then \n    ptr = sym_ptr(this,i,j)\n    aij => this%data(ptr) \n  else\n    nullify(aij)\n endif\nend function sym_access\n\n\nI haven't thought about all the implications on sliced array indexing/ stride/etc. but if there's an elemental way to compute that, maybe it's straightforward.\nActually, a compiler may like more the pointer version for its' ability to return null and hence catch out-of-bounds access, or maybe not.\nMy two cents,\nFederico"
+                },
+                {
+                    "user": "perazz",
+                    "date": "2022-06-03 16:47:24+00:00",
+                    "text": "On the usage standpoint, imagine all array-based syntax to be enabled by that, like:\nforall(i=1:N,j=1:N,j<=i) sym_mat(i,j) = blabla\n! array-like dimensions to work on are specified by the accessor interface\nsum(sym_mat,2)\nsum(sym_mat,1)\n\netc."
                 }
             ]
         },
@@ -9074,6 +9403,86 @@
                     "user": "certik",
                     "date": "2021-01-12 20:33:31+00:00",
                     "text": "Thanks @elecprog for writing down the assumptions that you used. Under your assumptions I think your proposal could work.\nThe issue that we have is that we can't get a community agreement on the assumptions. I have seen opposition to the assumption 2., and consequently also 1. I personally agree with 2. (i.e., implicit by default being more evil), but some others disagreed (older code not compiling being more evil: Fortran historically tries very hard to compile older code, so I understand this position)."
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2022-05-25 15:03:12+00:00",
+                    "text": "FYI:\n\nHow to solve the same numerical Problem in 7 different Programming Languages\nsubsequent discussion on fortran-lang Discourse"
+                },
+                {
+                    "user": "jacobwilliams",
+                    "date": "2022-05-30 20:57:56+00:00",
+                    "text": "I think we spook people when we talk about tools and code changes. The proposal should be this and only this:\n\nThe feature in Fortran that automatically sets the type of undeclared I-N variables to integer and other variables to real is deleted.\nNo other language changes related to this are done. implicit none is still valid, implicit double precision (a-h,o-z), etc. are all still valid. implicit none becomes redundant, but that's OK (just like recursive was made redundant in a recent standard, but is still valid)\nCode that has undeclared variables (or variables not covered by an implicit statement) is now a syntax error.\nBUT, the compiler vendors are expected to provide a command line argument (e.g., -f-allow-implicit-typing that reenables it, so undeclared variables will work the same way they always have for those users not able or willing to modify their code.\n\nThat's it. Very simple and doesn't change the behavior of any code. All the maintainers of a legacy code has to do is add a single command-line argument to their build system. They don't have to change a single line of code if they don't want to.\nBut, the important part is that new codes no longer have to type \"implicit none\" everywhere. We get that automatically. Implicit typing no longer has to be explained on page 1 of the Fortran Getting Started manual, it's moved into the appendix, and new users who want to write modern code never have to worry about it or even know it ever existed. An entire class of bugs that have plagued Fortran programmers for decades will disappear forever. We can finally move on."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-31 01:15:49+00:00",
+                    "text": "J3 will sometimes change the semantics of newer conforming code, but it is very unlikely that they would change the semantics of a large proportion of older code so as to require a new compiler option to make existing (c)makefiles and source code continue to work.\nI suggest that we define a new distinct Modern Fortran source file name suffix that would imply free source form and a few modest incompatible semantic changes: default IMPLICIT NONE(TYPE,EXTERNAL) and corrected DO CONCURRENT semantic guarantees are obvious possibilities.  (I have a list, but the specific details don't matter as much as the general idea.)  Get a few compilers to recognize the new suffix -- I think that it would not be a hard sell, at least for me -- and you'll have what you want without affecting any older codes.\n(Addendum: This could of course also be done with a compiler directive !dir$ modern but that kind of defeats the purpose of making things less mysterious for newcomers.  And my list includes: enable cpp-like preprocessing, disable deprecated features, disallow non-module subprograms, and give up on things like LEN parameters to PDTs that are still not widely avaiable.)"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-31 15:11:36+00:00",
+                    "text": "@jacobwilliams here are my suggestions:\n\nRemove the last bullet (expect compiler arguments), it's a non-starter for a proposal to J3.\nThe first 3 bullets are redundant statements. Distill into the simplest and clearest message possible. Perhaps this is something along the lines of \"Implicit typing must be enabled with the implicit statement\", or similar. I'm not proficient enough yet with standardese to express it more appropriately.\nResearch what edits to the standard would need to be made to implement this; this is not required at this stage (idea pitch), but it would be helpful to demonstrate that this would be indeed a small change to the standard from an editorial point of view.\nWrite the proposal; research past successful proposals to get an idea for the style, structure, and contents. Include a thorough list of concrete downsides and upsides to this change. I suggest not writing in absolutes like \"nobody's code will break\" or \"everybody wants this\" if you want it taken seriously.\nSubmit a proposal as a PR in this repo. This will serve as the first filter before it's uploaded to J3. The sooner the better.\nFind a J3 member to champion your proposal.\nJoin J3.\n\nI think the proposal may have a slightly better chance if it proposes for marking default implicit typing as obsolescent rather than deleted. Traditionally features have been sunset gradually (obsolescent first, delete second), but there have been discussions about changing this process and deleting features on a shorter fuse."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-06-01 01:19:12+00:00",
+                    "text": "@milancurcic wrote May 31, 2022 11:11 AM EDT:\n\n3. Research what edits to the standard would need to be made to implement this; this is not required at this stage (idea pitch), but it would be helpful to demonstrate that this would be indeed a small change to the standard from an editorial point of view.\n\nI have done the \"research\" and as I pointed in issue #218 my observation is only one sentence needs to be modified in the standard (18-007r1 document as proxy) which is in section 8.7 IMPLICIT STATEMENT page 114, paragraph 3, lines 32-34.\nIn order to achieve the desired change, the relevant sentence can be changed to something along the lines of:\n\"If a mapping is not specified for a letter, the default for a program unit or an interface body shall be NULL, and the default for a BLOCK construct, internal subprogram, or module subprogram is the mapping in the host scoping unit\"\nReaders can peruse 18-007r1 document or issue #218 for what the standard states currently."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-06-01 02:09:05+00:00",
+                    "text": "my observation is only sentence needs to be modified in the standard\n\n@jacobwilliams , I hope you will be leading this based on your prior comment and your insistence on closing issue #218 even though so many things are on the wrong track here in this thread, starting with your poorly worded title itself.\nIt should be obvious to any reader the root matter is mostly non-technical, it is a vision thingy really for Fortran to head in the direction of explicit declarations.  All indications are most on the committee do not align with any such vision, or any vision period.  Most voting members would rather live with the status quo for eternity.  There is a monumental hurdle to be overcome here.\nSo I hope you will follow all the right steps from this point forward - which are all administrative \"process\" and the \"right manners\" based as laid out by @milancurcic - in order to try to bring about the right influence on the committee(s).\nPerhaps you want to watch this video first and do as indicated to avoid the \"no soup for you\" fate."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-06-01 02:30:05+00:00",
+                    "text": "Everybody, let's be nice to each other. We are all in the same boat. As I mentioned at the Discourse thread, LFortran already \"eliminated implicit typing\" by default, and I encourage other compilers to follow suit.\nRegarding the standard, @jacobwilliams, do you want to take a lead on this?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-06-01 17:30:56+00:00",
+                    "text": "Has there been a WG5 or J3 proposal paper in the past to make implicit none(type) the default?  The archive isn't very searchable and it only goes back to 2006, so maybe I've missed a paper on this topic."
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2022-06-02 15:28:31+00:00",
+                    "text": "Since implicit none was introduced in Fortran 1990, I suspect that any papers that reference making it a default only exist in hard-copy form. Here's what I can see in my offline archive of all the digital papers I have laid my hands on. There are 442 references to the phrase, but most are in program examples.\nPaper 03-153.txt, around line 78:\nj. WG5 was undecided whether the default implicit rules in a\nsubmodule should be those of its parent or implicit none and\nencourages J3 to consider this further.\n\nA vote on submodules and implicit none was recorded in 03-210.txt, near line 206:\nThe default implicit rules for a submodule are those of \nits Parent, Implicit none, usual Default rules\nor Undecided?                                           P I D U\n                                                        4 5 0 3\n\nWe should probably ask Peter's question in comp.lang.fortran."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-06-02 16:02:58+00:00",
+                    "text": "Thanks @gklimowicz ! So that is interesting: nobody voted for the \"usual Default rules\". Most people voted for \"Implicit none\" to be the default.\nAlso: there where only 12 people voting. There are already 10 participants who commented in this issue, and 23 (!) who upvoted the issue. So to me it means that there is clear interest in revisiting this."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-06-02 16:58:51+00:00",
+                    "text": "Inventing the implicit typing behavior for a new feature like submodules wouldn't affect any existing code, of course.  But it's odd, given this vote, that submodules (and more important, separate module procedure interfaces) ended up with the same old rules by the time they were published in F'2008.\nI look forward to seeing what happens when a proposal that would require source changes to legacy codes is put forward.  Is somebody going to write this up as an official paper?"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-06-02 20:50:03+00:00",
+                    "text": "Is somebody going to write this up as an official paper?\n\nBased on the thumbs up voting trail upthread, I expect @jacobwilliams and the nice folks will write up the \"official\" paper."
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-06-02 20:59:49+00:00",
+                    "text": "any papers that reference making it a default\n\nI hope any such papers and prior votes are only of historic interest.\nAny proposals, if present at all to make implicit none the default, clearly got voted down ultimately and that's why the standard is the way it is now with implicit mapping rules pervasive across all the program units.\nI will hope past performance of the committee(s) is not indicative of future results."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-06-02 21:16:01+00:00",
+                    "text": "any papers that reference making it a default\n\nI hope any such papers and prior votes are only of historic interest.\nAny proposals, if present at all to make implicit none the default, clearly got voted down ultimately and that's why the standard is the way it is now with implicit mapping rules pervasive across all the program units.\nI will hope past performance of the committee(s) is not indicative of future results.\n\nWill you champion this paper at J3, if it is written?"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-06-03 01:21:34+00:00",
+                    "text": "any papers that reference making it a default\n\nI hope any such papers and prior votes are only of historic interest.\nAny proposals, if present at all to make implicit none the default, clearly got voted down ultimately and that's why the standard is the way it is now with implicit mapping rules pervasive across all the program units.\nI will hope past performance of the committee(s) is not indicative of future results.\n\nWill you champion this paper at J3, if it is written?\n\n@klausler , sincere apologies if the question was not addressed to me - I have presumed as such because my comments got quoted.\nMy response will be as follows: assuming the paper is a single topic one and it focuses on doing away with the implicit mapping along the lines of a possible one-sentence change (see above), meaning a minimally complicated brief paper honed in to make implicit none the default, I will be more than eager to lend it my fullest support in any way possible including all J3 discussions where I might be able to contribute and particularly with any straw votes.  And if I were a full voting member, I would have been more than eager to champion it also, alas I am not.  My gut feel though is getting a commercial vendor or two who are full voting members to champion a paper can prove to be a far positive influence."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-06-03 17:06:00+00:00",
+                    "text": "any papers that reference making it a default\n\nI hope any such papers and prior votes are only of historic interest.\nAny proposals, if present at all to make implicit none the default, clearly got voted down ultimately and that's why the standard is the way it is now with implicit mapping rules pervasive across all the program units.\nI will hope past performance of the committee(s) is not indicative of future results.\n\nWill you champion this paper at J3, if it is written?\n\n@klausler , sincere apologies if the question was not addressed to me - I have presumed as such because my comments got quoted.\nMy response will be as follows: assuming the paper is a single topic one and it focuses on doing away with the implicit mapping along the lines of a possible one-sentence change (see above), I will be more than eager to lend it my fullest support in any J3 discussion where I can contribute and particularly with any straw votes. And if I were a full voting member, I would have more than eager to champion it also, alas I am not. My gut feel though is getting a commercial vendor or two who are full voting members to champion a paper can prove to be a far positive influence.\n\nYou should write the paper, then, to ensure that it matches your concept of the change."
                 }
             ]
         },
@@ -10226,6 +10635,96 @@
                     "user": "certik",
                     "date": "2019-11-11 21:14:30+00:00",
                     "text": "@FortranFan thank you, I think it looks great!"
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-22 15:04:08+00:00",
+                    "text": "I have also made a request which is based on a similar concept that numbers declared with REAL(8) for example are exactly that. The issue is that if a number is not specified to be \"doubnle precision\" then at least one compilier will only assign 4-byte precision even though a number is declared 8 bytyes.\nFor example:\nREAL(8) :: x=3.\nPRINT*,'x=',x\nmay print out\n3.00000001254321\nor some such.\nThis is only fixable (in my compiler) if the statement\nREAL(8) :: x=3.0d0 is used.\nNot even REAL(8) :: x=3.0E0 worked.\nSo my request is that variables declared as REAL(8) (or other) are recognised as 8 byte precision and not left to a compiler preference.\nFollowing on from this, the \"D\" designator is past its due date and should be obsoleted.\nFurthermore, requring the decimal point to indicate a real number is also past due.\nUnless this is already implemented, I would like to see\nREAL(8) ::one=1\nbe sufficient to specify the variable one as 1.0000000000000 etc and not have to type the decimal pont - in otherwords, because the variable is declared real, it should implcitly understand that without a decimal point."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-22 15:34:46+00:00",
+                    "text": "My understanding is that REAL(8) :: x=3 is declaring an integer 3 (exact) and then implicitly casting it to a kind=8 floating point number. So it should print exactly 3.0000000000000000 (or similar)."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-22 17:49:15+00:00",
+                    "text": "You are right, but my concern is that something like\nREAL(8)::x=4.1\ndoes not default to 8 byte precision (at least not with the compiler I am using, but it can be forced by setting promote REAL(4) to REAL (8).\nMy point is that in order to drop the D descriptor Fortran should require all initialisations to implicitly set the target accuracy.\nWhat happens currently is that REAL(8) :: x=4.1 assigns an 8 byte space but only specifies 4 bytes of precision, leaving the LSB's undefined (random numbers)."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-22 18:06:22+00:00",
+                    "text": "Yes, that is a common problem, and discussed in quite a few issues here and at Fortran discourse. If you read through the prior discussion, there are quite a few arguments why it might be difficult to fix this. So in order for any such proposal to succeed, you have to address the prior points."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-22 23:37:38+00:00",
+                    "text": "You are right, but my concern is that something like REAL(8)::x=4.1 does not default to 8 byte precision (at least not with the compiler I am using, but it can be forced by setting promote REAL(4) to REAL (8). My point is that in order to drop the D descriptor Fortran should require all initialisations to implicitly set the target accuracy. What happens currently is that REAL(8) :: x=4.1 assigns an 8 byte space but only specifies 4 bytes of precision, leaving the LSB's undefined (random numbers).\n\nAll bits are completely well defined, just not to what you think they should be.  Come on."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-23 09:35:51+00:00",
+                    "text": "@klausler - What was the point of your comment?\nFortran as a language has strict rules. But if users want to bring it up to date and elminate some of the more outdated quirks things like D descriptor then surely defining constants properly is mandatory? And making number implementation compatible with future capabilities at the same time. It won't be long before REAL(16) is needed if not already by some programmers.\nEven a floating point chip designed decades ago did a better job (and that tended to work with 96 bit precision).\n@certik - do you have a link to where the previous points have been raised?"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-23 14:02:02+00:00",
+                    "text": "I think Peter's point was that the current standard defines exactly what happens and it has its logic and motivation and it is (relatively) consistent. I agree.\nBut in my experience this is a point of confusion to almost every single new person to Fortran. I'll find the links to prior discussions later today."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-23 14:55:25+00:00",
+                    "text": "My point is that claiming that the lower order bits of the result of a 32-bit to 64-bit floating-point conversion are undefined random garbage is complete nonsense.\nIf you don't like D numbers, use a modern suffix."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-23 15:38:58+00:00",
+                    "text": "@klausler - Well, filling in with zeros to extend the data is one approach, but do you agree that the bits ought to have been extended to ensure that the number is consistent with the specified one when converted back from binary to decimal?\nI was somewhat glib, technically corrected. But the digits may as well have been random for the effect they have as to avoid this some additional work is needed (like using D, still).\nI am not sure what the motivation was but no doubt Fortran developers will know.\nI'm not that new to Fortran BTW, but I do have some wishes for future releases."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-23 15:53:48+00:00",
+                    "text": "@8bitmachine I think what @klausler meant is the representation of a number as sign, mantissa, and exponent bits in the floating-point representation as dictated by IEEE 754 standard. If you know the nuances of the mantissa bits, I think you should arrive at the conclusion that it is impossible to have a one-to-one mapping between binary and decimal for floating-point numbers. I suggest you grab a copy of the latest Fortran standard interpretation document J3/18-007r1 and look into the following:\n\nsection 7.4.3 on \"Numeric intrinsic types\"\nsection 16.9.160 on the definition of the \"REAL()\" intrinsic function\nsection 17 \"Exceptions and IEEE Arithmetic\"."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-23 16:12:20+00:00",
+                    "text": "@klausler - Well, filling in with zeros to extend the data is one approach, but do you agree that the bits ought to have been extended to ensure that the number is consistent with the specified one when converted back from binary to decimal?\n\nEvery binary number with a finite number of digits can be represented by a decimal number with a finite number of digits, but the converse is not true."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-23 16:20:46+00:00",
+                    "text": "I do know that decimal numbers and binary numbers do not have exact equvialents, of course.\nMy point is that, and I do not seem to be the only person, I would much prefer that when a compiler sees\nreal(8)::x=4.1, to continue with  my earlier example, it translates and stores the number as\n4010666666666666 rather than 4010666660000000 (both hexadecimal).\nRather than having to use a suffix, although that would appear to be the current BKM."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-24 14:30:02+00:00",
+                    "text": "I would also add that it seems to me that selected_real_kind has not actually helped.\nMost computer systems these days implement the IEEE number formats in full. Therefore, unlike earlier times, 32, 64 and extended precisions are well established and should be the primary defaults. Fortran should in my view recognise that.\nIf particular programs need greater resolution than offered by real(8) or real(16) then perhaps the argument needs to be as to what the next resolution standard should be. selected_real_kind does not really assure of a particular resolution only a minimum which might be met.\nHaving to specify a real with a suffix seems to be as an imposition similar to requiring the D descriptor.\nNo doubt Fortran community will tell me \"selected_real_kind\" is a step forward. As a long time user of Fortran, I'm asking for a simpler option, not a more complicated one."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-24 14:34:27+00:00",
+                    "text": "There are already `real32` and `real64` kinds defined in `ISO_FORTRAN_ENV`,\nisn't that enough?\n\u2026\nOn Tue, May 24, 2022, 10:30 8bitmachine ***@***.***> wrote:\n I would also add that it seems to me that selected_real_kind has not\n actually helped.\n Most computer systems these days implement the IEEE number formats in\n full. Therefore, unlike earlier times, 32, 64 and extended precisions are\n well established and should be the primary defaults. Fortran should in my\n view recognise that.\n If particular programs need greater resolution than offered by real(8) or\n real(16) then perhaps the argument needs to be as to what the next\n resolution standard should be. selected_real_kind does not really assure of\n a particular resolution only a minimum which might be met.\n Having to specify a real with a suffix seems to be as an imposition\n similar to requiring the D descriptor.\n No doubt Fortran community will tell me \"selected_real_kind\" is a step\n forward. As a long time user of Fortran, I'm asking for a simpler option,\n not a more complicated one.\n\n \u2014\n Reply to this email directly, view it on GitHub\n <#78 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AMERY5DY47TZ3BQA4HFNPZDVLTRXLANCNFSM4JLXUJZA>\n .\n You are receiving this because you commented.Message ID:\n ***@***.***>"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-24 15:25:07+00:00",
+                    "text": "The problem here is that you're trying to change part of the language that is not context-sensitive into something that is.  The type of a numeric literal (in Fortran and every other programming language that I know!) is self evident from the characters that constitute that literal.  3.14 is default REAL in Fortran in every context, and double in C/C++ in every context.\nSo you want to change that.  Fine.  What you need to do next is (1) figure out a way to not invalidate hundreds of millions of lines of existing code by changing the interpretation of their numeric literals and (2) figure out a way of defining, in a very precise and airtight way, how the context would affect the interpretation of numeric literals.\nLast, you may not like SELECTED_REAL_KIND or the real kind parameters in the intrinsic modules, but you're going to have to use those kind names even if you somehow come up with useful semantics for the REAL(KIND=k) type-declaration-stmt.  REAL(8) should be universally portable, but it isn't, thanks to one vendor."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-24 19:56:08+00:00",
+                    "text": "@wyphan\nIndeed, that sort of adds to my point that while selected_real_kind appears to offer a great flexibility in practice almost all, at least all the programs I have seen in industrial use, have used real(8) which I assume is the same as real64 ISO_FORTRAN_ENV which I would use if my compiler had it. I've never needed greater than that either, so real(4) and real(8) should have been sufficient. It also means I question the development of selected-real_kind if it was not going to offer guaranteed formats, as many of the possible real/exponent combinations won't be available or used. Must have seemed a good idea at the time.\n@klausler, yes it may be that REAL(8) and REAL(4) would indeed set the context. I'm sure that is not beyond the capabilities of Fortran programmers. It is difficult to see, though, how extending a real(4) to a real(8) by zeroing the additional bits was a better solution as the context has changed for those variables defined as real(8). Presumably, like myself, programmers wishing to use 8 byte precision were expecting the context to change.\nI guess I'll define real(r8) as a selected real kind (15,307) and have done with it. Does not alter my wish for a simpler system.\nTherefore, if programmers are using some form of selected_real_kind definition a new term would only apply to"
+                },
+                {
+                    "user": "w6ws",
+                    "date": "2022-05-24 23:37:13+00:00",
+                    "text": "There are at least two compilers I know of that, by default, use kind=1 for single precision and kind=2 for double precision.\u00a0 They are the NAG Fortran compiler and the Silverfrost FTN95 compiler.\u00a0 There may be others.\u00a0 But these are two I can know of off the top of my head.\u00a0 In both cases, compiler options can be used to change the defaults to byte-oriented kinds.\n\u00a0\nAs previously mentioned, the real solution is use kind=real32 and kind=real64 from ISO_FORTRAN_ENV.\u00a0 For constants, you could write for example:\n\u00a0\n\u00a0 use iso_fortran_env\n\u00a0 ...\n\u00a0 real(real64), parameter :: pi = 3.141592654_real64\u00a0 ! Poor approximation\n\u00a0\nOr if you've been defining your own 'r4' and 'r8' kinds:\n\u00a0\n\u00a0 use iso_fortran_env\n\u00a0 ...\n\u00a0 integer, parameter :: r4 = real32, r8 = real64\n\u00a0 ...\n\u00a0 real(r8), parameter :: pi = 3.141592654_r8\u00a0 ! Poor approximation\n\u00a0\nWhich compiler are you using that doesn't support ISO_FORTRAN_ENV?\n\u00a0\nWalter\n\u00a0\n-----Original Message-----\nFrom: j3-fortran/fortran_proposals\nSent: May 24, 2022 12:56 PM\nTo: j3-fortran/fortran_proposals\nCc: Subscribed\nSubject: Re: [j3-fortran/fortran_proposals] Default KINDs for constants and intrinsics (#78)\n\u00a0\n\u00a0\n@wyphan (https://github.com/wyphan)\nIndeed, that sort of adds to my point that while selected_real_kind appears to offer a great flexibility in practice almost all, at least all the programs I have seen in industrial use, have used real(8) which I assume is the same as real64 ISO_FORTRAN_ENV which I would use if my compiler had it. I've never needed greater than that either, so real(4) and real(8) should have been sufficient. It also means I question the development of selected-real_kind if it was not going to offer guaranteed formats, as many of the possible real/exponent combinations won't be available or used. Must have seemed a good idea at the time.\n@klausler (https://github.com/klausler), yes it may be that REAL(8) and REAL(4) would indeed set the context. I'm sure that is not beyond the capabilities of Fortran programmers. It is difficult to see, though, how extending a real(4) to a real(8) by zeroing the additional bits was a better solution as the context has changed for those variables defined as real(8). Presumably, like myself, programmers wishing to use 8 byte precision were expecting the context to change.\nI guess I'll define real(r8) as a selected real kind (15,307) and have done with it. Does not alter my wish for a simpler system.\nTherefore, if programmers are using some form of selected_real_kind definition a new term would only apply to\n\u2014\nReply to this email directly, view it on GitHub (#78 (comment)), or unsubscribe (https://github.com/notifications/unsubscribe-auth/ABCNQOY6TVWJ4RSC7XR26H3VLUX6HANCNFSM4JLXUJZA).\nYou are receiving this because you are subscribed to this thread.Message ID:\n\n\u00a0"
+                },
+                {
+                    "user": "FortranFan",
+                    "date": "2022-05-25 15:29:09+00:00",
+                    "text": "What you need to do next is (1) figure out a way to not invalidate hundreds of millions of lines of existing code by changing the interpretation of their numeric literals and (2) figure out a way of defining, in a very precise and airtight way, how the context would affect the interpretation of numeric literals.\n\n@8bitmachine , why not upvote the original post?  It addresses the challenges thrown here by @klausler.  Should there be any gaps or limitations or wrinkles with the proposal in the original post, the standard committee should and can step up to iron them out, if they can be influenced to again take up a solution to the situation.  Note the proposal in the original post nearly had made its way into Fortran 2008 but was only deferred due to non-technical aspects.\nConsider the following program:\n   double precision :: x = 0.1\n   print \"(b0)\", x\nend\nMost processors based on the current standard will yield the following output:\n11111110111001100110011001100110100000000000000000000000000000\n\nPer your posts here and as mentioned by @certik re: many Fortranners, the above output is a bit (pun intended) confusing and can even lead to errors with unsuspecting users.\nWith the proposal in the original post, the following modification will likely give many users the output they expect and also want with a possible conforming processor in the future:\n   default real (kind=kind(1D0))   !<-- pseudo syntax\n   double precision :: x = 0.1\n   print \"(b0)\", x\nend\n11111110111001100110011001100110011001100110011001100110011010"
                 }
             ]
         },
@@ -11716,7 +12215,7 @@
                 {
                     "user": "klausler",
                     "date": "2020-11-18 00:01:41+00:00",
-                    "text": "I've checked in a description of the outstanding problems with DO CONCURRENT in the LLVM documentation.  Still not sure what we're going to do in the flang compilers -- there's good arguments for both standard conformance as well as for just doing the right thing."
+                    "text": "I've checked in a description of the outstanding problems with DO CONCURRENT in the LLVM documentation.  Still not sure what we're going to do in the flang compilers -- there's good arguments for both standard conformance as well as for just doing the right thing.\nEdit: updated link"
                 },
                 {
                     "user": "FortranFan",
@@ -11727,6 +12226,61 @@
                     "user": "klausler",
                     "date": "2020-11-18 02:27:06+00:00",
                     "text": "@klausler wrote Nov. 17, 2020 7:01 PM EST:\n\n.. Still not sure what we're going to do in the flang compilers -- there's good arguments for both standard conformance as well as for just doing the right thing.\n\nc.f. https://mailman.j3-fortran.org/pipermail/j3/2020-July/012244.html where J3 \"effectively\" suggested something which is not yet in the standard.\nSo, is it possible for flang compilers to do both!?\nThat is, first have a standard-conforming implementation of DO CONCURRENT.\nBut then also consider an \"Experimental\" edition of flang compiler(s) that attempts to do the \"right thing\", perhaps via a \"DEFAULT(SHARED)\" or some suitable extension that is Fortrannic and which can then be proposed for Fortran 202Y as further improvement to be incorporated into the standard?\n\nAnything is possible, but these are all just second-best alternatives to J3 just fixing the problems."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-23 16:00:11+00:00",
+                    "text": "Hi @klausler , now that my Google Summer of Code project proposal for DO CONCURRENT support in GFortran has been accepted, I'd like to set up a meeting to discuss about this. (I wish GitHub has a messaging feature...)\nIf you happen to be at the Fortran Discourse forums, please send me a PM with your NVIDIA email address so I can send you a calendar invite to the meeting I'm in the process of setting up with Jeff Larkin, G\u00fcray \u00d6zen, and the folks at Predictive Science who published arXiv:2110.10151 about the DO CONCURRENT implementation in NVIDIA nvfortran. Otherwise you can reach me at wileam [at] phan [dot] codes.\nOf course, anyone in this thread who is interested is welcome too."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-24 23:56:28+00:00",
+                    "text": "I have reviewed the document for LLVM Fortran that describes the problems with DO CONCURRENT in the standard language, and unfortunately nothing has changed on the language standards front since I wrote it in 2020.  In particular, nothing has been done to fix DO CONCURRENT in the draft Fortran 202X standards (apart maybe from SIMPLE procedures).  Perhaps somebody on WG5/J3 may take it up for Fortran 202Y but that is of course a long ways out."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-25 00:02:58+00:00",
+                    "text": "Perhaps somebody on WG5/J3 may take it up for Fortran 202Y but that is of course a long ways out.\n\n@klausler you have the most knowledge on this particular issue (since you wrote the Flang document!). Do you think you could please submit proposals for 2Y to fix this? I'll help champion it and advocate for it, but it would take me much longer to write up than it would take for you, since you have thought about all the details here and what needs to be done."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-25 00:56:59+00:00",
+                    "text": "My 2019 paper, which was ignored by J3, remains my favored solution; recycle it if you like.  It would be nice if the semantics of locality specifiers with regard to pointers and ASSOCIATE/SELECT TYPE names would also be clarified, too, as being invalid for LOCAL()."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2022-05-25 01:42:07+00:00",
+                    "text": "A J3 mailing list discussion  of this topic spanned 44 emails over 11 days in July 2020.   I wrote email 42 attempting to crystallize the discussion into a practice that I could teach.   My takeaway: it suffices for every do concurrent construct to include a default(none) statement obligating the programmer to declare every variable accessed inside the construct as shared, local, or local_init.  Email 43 essentially concurred and compared default(none) to implicit none so I think of default(none) as just good code hygiene and consider the issue settled for my purposes.   I would be satisfied with a compiler that parallelizes, vectorizes, or offloads do concurrent only when default(none) is present.  I therefore don't consider do concurrent broken any more than I would consider all of Fortran broken because programmers are free to not use implicit none.\nIf someone submits a Fortran 202Y proposal related to this issue, I suggest that it either involve backward-compatible changes to do concurrent or that a new feature be proposed that is syntactically similar to do concurrent but with semantics amenable to parallelization.  The new feature could be do parallel and could resemble do concurrent but with different constraints."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2022-05-25 01:51:26+00:00",
+                    "text": "@klausler could you share with us what course of action NVIDIA chose for offloading do concurrent?  If, for example, the compiler allows me pass a flag that toggles offloading off and on at compile time, I would be happy.  I would always include default(none), which at least would force me to think through locality so that I have a good understanding of whether it's safe to offload."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-25 02:02:03+00:00",
+                    "text": "The three problems with DO CONCURRENT (...) DEFAULT(NONE) are that (1) you have to name every data item in every loop in a locality clause, (2) the F'2018 locality clauses only allow simple names and (3) the semantics of pointers in locality clauses are not defined.\nA better (but not best) suggestion was to use DEFAULT(SHARED) but the problem with that is that it doesn't exist.\nSo I still recommend that the default implicit localization rule be changed (perhaps by syntax) to pertain only to names that could appear in an explicit LOCAL() clause.  The fact that it was defined so that it applies to array elements and components is accidental; if fixed, it would work the way everybody assumes that it already does."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2022-05-25 03:14:22+00:00",
+                    "text": "The three problems with DO CONCURRENT (...) DEFAULT(NONE) are that (1) you have to name every data item in every loop in a locality clause, (2) the F'2018 locality clauses only allow simple names and (3) the semantics of pointers in locality clauses are not defined.\n\nThis is helpful.  I hope the NVIDIA representative(s) on J3 can champion your suggestions.  I'd like to see these issues addressed but I would be a poor champion because I have little personal use for most of the features that break do concurrent.  It seems that the problematic features mostly involve pointers (which I rarely use), indirect addressing (which I seldom use),  or module variables (which I mostly avoid) so I wouldn't have many useful insights in any of the discussions that arise around a new proposal.\n\nA better (but not best) suggestion was to use DEFAULT(SHARED) but the problem with that is that it doesn't exist.\n\nA J3 member in the aforementioned mailing list discussion stated that default(shared) was considered by the committee and that it was decided that default(none) would be less error-prone.  A reference was made to the complexities of OpenMP's default(shared).  I don't know enough to have an opinion.  I just want to say that the suggestion was considered and another path taken for reasons that were provided.\n\nSo I still recommend that the default implicit localization rule be changed (perhaps by syntax) to pertain only to names that could appear in an explicit LOCAL() clause. The fact that it was defined so that it applies to array elements and components is accidental; if fixed, it would work the way everybody assumes that it already does.\n\nMaybe but I think the committee gives more weight to what the committee intended than to what users might incorrectly assume.  I think the unstated goal is to make the standard clear, consistent, and useful.  If it's unclear, add a note.  If it's inconsistent, fix it.   If it's clear and consistent but not useful, replace the feature much like do concurrent effectively replaces forall, but don't break existing code that relies upon the feature as long as that code has an unambiguous interpretation that is consistent with what those who wrote the standard intended.  This is just my observation of how the committee operates and I'm ok with it. It's why I usually recommend that people attend several meetings before making a proposal.  It can take some time to read the room and understand the dynamics and the implicit aims."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-25 15:37:23+00:00",
+                    "text": "Maybe but I think the committee gives more weight to what the committee intended than to what users might incorrectly assume. I think the unstated goal is to make the standard clear, consistent, and useful. If it's unclear, add a note. If it's inconsistent, fix it. If it's clear and consistent but not useful, replace the feature much like do concurrent effectively replaces forall, but don't break existing code that relies upon the feature as long as that code has an unambiguous interpretation that is consistent with what those who wrote the standard intended. This is just my observation of how the committee operates and I'm ok with it. It's why I usually recommend that people attend several meetings before making a proposal. It can take some time to read the room and understand the dynamics and the implicit aims.\n\nThere's good precedent in a similar case of J3 doing the right thing to preserve the intent of a feature.  PURE procedures have restrictions that prevent them from causing side effects. A hole was discovered by which one could sneak modification of a global variable into a PURE subprogram -- declare a derived type with an initialized pointer component outside the procedure, then within, declare a variable of that type, and then use its default initialized pointer component to write to the global variable.\nThe response, admirably, was to plug the hole.  The change might invalidate existing code, but it was the right thing to do.\nDO CONCURRENT's problems are similar. The definition of the default localization rule makes it possible to write a loop whose iterations cannot execute concurrently, even though all of the many documented restrictions in the standard are satisfied.  That's the hole in the spec.  Worse, a compiler can't always detect at compilation time whether the hole is being exploited, and may have to conservatively assume that it is.  The hole is easy to plug.  And like the hole in PURE procedures, it should be plugged."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-25 15:51:21+00:00",
+                    "text": "@klausler This is exactly why I want to start discussion. I plan to push for DEFAULT as a GNU extension and implement it accordingly during the GSoC. I'm inviting you, @jefflarkin, and @grypp from NVIDIA, Ron Caplan and Miko Stulajter from @predsci because they published arXiv:2110.10151 as the first real-world use case for DO CONCURRENT, as well as my GSoC mentors Tobias Burnus and @tschwinge from GCC/Siemens. And as I indicated before, other interested folks in this thread are welcome too. Tentatively it will be held between June 6-10, which is the week after ISC '22. Hopefully, upon successful implementation as a GNU extension, the standards committee will consider to include it in Fortran 202Y.\nEdit: after a careful re-read of R1130 in J3/18-007r1 section 11.1.7.2, turns out DEFAULT(NONE) is included in Fortran 2018, but not DEFAULT(SHARED) or any other DEFAULT arguments."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-25 15:53:19+00:00",
+                    "text": "Btw, the first thread from the discussion over the J3 mailing list that @rouson mentioned can be accessed here: https://mailman.j3-fortran.org/pipermail/j3/2020-July/012229.html"
                 }
             ]
         },
@@ -13966,6 +14520,131 @@
                     "user": "vansnyder",
                     "date": "2020-05-09 20:02:21+00:00",
                     "text": "I proposed parameterized modules in 2004. The paper was 04-383r1. It's similar in spirit to Arjen's proposal, but uses the MODULE and USE statements. It provides what Magne Haveraaen asked for in Tokyo.\n04-383r1.pdf"
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2022-05-08 16:53:04+00:00",
+                    "text": "For reference, I have been experimenting with templating using simple\nstring substitution in a Fortran preprocessor, and was considering\nrefactoring it to allow something like the following...\nThe vast majority of times I use templating it is for a generic interface.\nEssentially, a \"module procedure\" declaration could \"call\" a generic\nprocedure from the interface block with a list of tokens.\nIt would not by itself handle when conditionals are required but I\nalready had fpp(1)-like conditional directives. Even without that, a\nsubset of problems that would lend themselves to conditional processing\ncould just be handled with more complex strings (like making a token\nwith values like 'character(len=:,kind=default)' and 'type(mytype)'\ninstead of simple words).\nSupporting this only in a module would allow for the strings to be\nspecified in other places, like a PUBLIC directive instead of only\nallowing it in an interface block, but then name mangling would be harder\nto automate, but maybe something like\npublic pubname=>name(tokens ...)\nwould work as well.\ninterface swap\n   module procedure swap('REAL','REAL32')\n   module procedure swap(type='REAL',kind='REAL64')\n   module procedure swap('INTEGER','INT8')\n   module procedure swap('INTEGER','INT16')\n   module procedure swap('INTEGER','INT32')\n   module procedure swap('INTEGER','INT64')\n   module procedure swap(type='logical',)\nend interface\n\ncontains\n\n! adding the TOKENS field indicates this procedure is\n! only to be processed if referenced from an interface\n! definition. Having a default specified by NAME='string'\n! would be not just convenient, but document what strings \n! are expected and allow for them to be called by name.\n\nelemental subroutine swap(x,y) TOKENS(TYPE='integer',KIND='int32')  \n\n!@(#) M_sort::d_swap(3fp): swap two double variables\n\ninteger, parameter                 :: wp={KIND}\n{TYPE}(kind={KIND}), intent(inout) :: x,y\n{TYPE}(kind={KIND})                :: temp\n{TYPE}(kind={KIND})                :: unused\n   temp = x; x = y; y = temp\n\n   ! note an issue with using _wp here :\n   unused=10_wp  \n   unused=10.0_wp  \n\nend subroutine swap\nIf you allowed arrays to create permutations something like\n   module procedure swap('INTEGER',['INT8','INT32','INT16','INT64'])\nwould be nice, and some way to conditionally build only if a {type,kind}\nis supported, so if a compiler does not support REAL128 it could be\nskipped, or all supported kinds could be detected and used.\nSo that got me re-reading some of the links regarding templating.\nI was surprised how similiar some of the proposals were in many ways,\nand how far they dated back at first, except for syntax details; but\nthe real question to me then became whether the Fortran language itself\nshould have templating syntax or if Fortran needs a Standard-specified\npre-processor (anyway) and that templating should be included there\ninstead of in the language.\nI am wondering what the benefits are to placing templating straight into\nthe language versus Fortran developing a standard pre-processor that would\ninclude templating?\nFor example, perhaps templating might occur at run-time, or only include\nrequired instances of the routine versus a preprocessor generating a\npre-defined set? Is this seen as something that will basically be handled\nby pre-processing the code by the compiler, or something accessible at\nload/link  or run time?"
+                },
+                {
+                    "user": "vansnyder",
+                    "date": "2022-05-08 19:39:34+00:00",
+                    "text": "On Sun, 2022-05-08 at 09:53 -0700, urbanjost wrote:\n I am wondering what the benefits are to placing templating straight\n into\n the language versus Fortran developing a standard pre-processor that\n would\n include templating?\nThis was Part 3 of the Fortran standard, which essentially nobody used,\nand has been withdrawn.\n\nIt was also briefly part of the 2008 draft -- a subclause about a\nbuilt-in macro system -- which was also withdrawn.\n\nThe advantage of parameterized modules or templates is that the\nprocessor understands them. One of the goals of the current design\neffort is that there will be no syntax or semantic errors within an\ninstantiated paramaterized module or template if there are no syntax or\nsemantic errors in the parameterized module or template. This is\nenforced with adequate declarations of the parameters and their\nrelationships, checked by the processor before instantiation, which is\nnot possible with a string-substitution, token-substitution, or macro\nsystem."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2022-05-09 02:52:30+00:00",
+                    "text": "Thanks. Not totally convinced a standardized preprocessor could not be tightly bound with the processor and provide the same checks, but then it essentially might as well be part of the language, I suppose. Thanks for the clear explanation. Indeed, I can use a preprocessor on a non-Fortran program and certainly generate incorrect code with the preprocessor being completely unaware of that; but it also allows applying information conditionally using information the templating proposals do not include, such as conditional coding depending on system or processor type, and so on. So the need for a preprocessor is reduced but not eliminated. For templating alone that is a big advantage though. Since I use preprocessing for other reasons (generating documentation, conditional code selection, recording date and time of compilation, .... it seemed like \"well, let it do templating too, and keep the core language simpler\"; but your explanation drives home a major advantage for the current approaches. Thanks again, I really enjoyed that explanation."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-09 15:10:06+00:00",
+                    "text": "One of the goals of the current design effort is that there will be no syntax or semantic errors within an instantiated paramaterized module or template if there are no syntax or semantic errors in the parameterized module or template. This is enforced with adequate declarations of the parameters and their relationships, checked by the processor before instantiation, which is not possible with a string-substitution, token-substitution, or macro system.\n\nIf this is a goal, it is not possible to completely achieve it.  Not all errors stem from interactions between actual parameters to instantiations of parameterized entities.  I appreciate a desire to have better error messages than those that even good C++ compliers emit for errors in the semantics of template instantiations, but to insist that all errors can and will be detected and diagnosed prior to instantiation is not a feasible design goal."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-09 15:18:14+00:00",
+                    "text": "but to insist that all errors can and will be detected and diagnosed prior to instantiation is not a feasible design goal.\n\nI can clarify the goals: the generics subgroup is currently going with templates with \"restrictions\" (called \"strong concepts\" in the C++ world). To understand the details what it means, you can read our comparison document here:\n\nhttps://github.com/j3-fortran/generics/blob/52a9152da03b044a109aea1f9c08b3118f5db384/theory/comparison/comparison.md\n\nIt explains exactly in what sense errors will be caught and when. In short, you can indeed catch all errors before instantiating, but obviously you can only do it at the instantiation site when you know the user types, and you check them against the \"restrictions / strong concepts\", and if they pass, then you can instantiate without errors. See the document above for the details, and the kinds of error messages you can expect (showing actual error messages in Rust, Haskell for strong concepts and C++ for weak concepts). Indeed, C++ cannot catch all errors prior to instantiation (it only supports \"weak concepts\"), but Haskell, Rust and Go catch all errors prior to instantiation (\"strong concepts\"), and that is the goal for Fortran also."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-09 15:44:12+00:00",
+                    "text": "Yes, thanks, I know about concepts, and have read the design.\nHaskell doesn't really have concepts -- its typeclass constraints are really not the same thing.  Standard ML's functors and signatures are a much closer match to the idea.\nFortran mandates that a compiler enforce hundreds of constraints at compilation time.  I guarantee you that I can write a test program that violates at least one of them in an instantiation without violating any concept on a template parameter."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-09 16:58:24+00:00",
+                    "text": "@klausler I think you are onto something. What you are saying is that if you write a templated function that has an argument a of type T, which is a template with restrictions (concepts), then you use a inside the function in various constructs that the compiler is required to check, then it will be very hard or impossible to design the restrictions parts in such a way to catch all these \"checks\" without an instantiation?\nOk, here is an example:\nmodule swap_m\n    implicit none\n    private\n    public :: swap_t\n\n    template swap_t(T)\n        private\n        public :: swap\n\n        type :: T\n        end type\n\n        interface swap\n            module procedure swap_\n        end interface\n    contains\n        subroutine swap_(x, y)\n            type(T), intent(inout) :: x\n            type(T) :: tmp\n\n            tmp = x\n            x = y\n            y = tmp\n        end subroutine\n    end template\nend module\n\nHere the template T doesn't have any restrictions, in other words, you can't do much with it. The templated function swap assigns it (swaps it). Possibly the assignment operation should be specified in the restrictions for T. Can you show me an example of some more complicated function that uses T, that violates at least one of the Fortran constraints in an instantiation (without violating the \"concept/requirement\")?"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-09 17:27:08+00:00",
+                    "text": "Sure.  Write a template subprogram that abstracts the kind of a REAL argument.  In the subprogram, use the kind to deduce the next kind of REAL with higher precision -- e.g., given default real, determine double precision -- and declare a local variable with that kind.  You won't be able to instantiate this subprogram for the kind of REAL with the most precision available in the implementation, only for those with less than the maximum.  Perhaps you can devise a way for the programmer to encode a restriction on the kind of the template REAL kind, but detecting a failure to impose such a restriction would require instantiation."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-09 17:35:53+00:00",
+                    "text": "So something like this:\nsubroutine bad_swap(x, y)\ntype(T), intent(inout) :: x\ntype(T) :: tmp\nreal(kind(x)+4) :: r\n...\ntmp = x\nx = y\ny = tmp\nend subroutine\nThe natural way in my mind how to make this work is that the compiler when compiling bad_swap to some intermediate representation would figure out the restriction on kind(x)+4 being a valid real kind (say either 4 or 8), and then it would require the user to specify this restriction (somehow) in the restriction for the template T. Whether this can be done in all cases I don't know, but these are the kinds of things the generics subgroup is trying to figure out."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-09 17:39:33+00:00",
+                    "text": "I'm not sure whether `kind(x)+4` would be portable across all compilers.\nIIRC the last time I used Silverfrost FTN95 on Windows they use 1 and 2 for\nsingle and double precision, instead of the more common 4 and 8.\n\u2026\nOn Mon, May 9, 2022, 13:36 Ond\u0159ej \u010cert\u00edk ***@***.***> wrote:\n So something like this:\n\n subroutine bad_swap(x, y)\n type(T), intent(inout) :: x\n type(T) :: tmpreal(kind(x)+4) :: r\n ...\n tmp = x\n x = y\n y = tmpend subroutine\n\n The natural way in my mind how to make this work is that the compiler when\n compiling bad_swap to some intermediate representation would figure out\n the restriction on kind(x)+4 being a valid real kind (say either 4 or 8),\n and then it would require the user to specify this restriction (somehow) in\n the restriction for the template T. Whether this can be done in all cases\n I don't know, but these are the kinds of things the generics subgroup is\n trying to figure out.\n\n \u2014\n Reply to this email directly, view it on GitHub\n <#29 (comment)>,\n or unsubscribe\n <https://github.com/notifications/unsubscribe-auth/AMERY5GWP7CJNTUMUUPWUPTVJFEIJANCNFSM4JCZN74A>\n .\n You are receiving this because you are subscribed to this thread.Message\n ID: ***@***.***>"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-09 18:15:56+00:00",
+                    "text": "Obviously that's unportable as written, but the issue remains even when the code is written in a portable manner -- say selected_real_kind(p=precision(x)+1).\nAnd don't focus on patching a single hole.  The general problem is that the hundreds of compile-time constraints cannot all be checked without actually instantiating a templatized subprogram (or better, module, but those are infuriatingly excluded).\nI think this would become more obvious if J3 were to require a demonstrable prototype implementation before standardizing the feature."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-09 18:51:39+00:00",
+                    "text": "The general problem is that the hundreds of compile-time constraints cannot all be checked without actually instantiating a templatized subprogram.\n\nI don't know if this is true. If it is true however, then we cannot do \"strong concepts\", we can only do \"weak concepts\", almost for the same reason C++ is doing \"weak concepts\". That would be quite a big change in direction, so we should have a solid answer to this.\nDo you have another example of such constraints that would be hard to check without instantiating? Why can Rust and Go do it, but not Fortran? (Or Haskell, although you said it's slightly different there --- I don't know Haskell much).\nIt seems there are constraints on kind, type and rank to consider. You are right that there are hundreds of potential compile-time constraints that the compiler must check. It seems to me the compiler would simply check every statement/expression/declaration in a templatized function against the restrictions/concepts.\n\nI think this would become more obvious if J3 were to require a demonstrable prototype implementation before standardizing the feature.\n\nYes! It should be an absolute requirement for all features. @everythingfunctional and I sat down two months ago in Santa Fe and started working on a prototype in LFortran (https://gitlab.com/lfortran/lfortran/-/merge_requests/1664), but I need to focus on compiling actual projects with LFortran before I can spend more time on this. However, you might be further along with Flang, so you should consider if you can create a prototype."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-09 19:32:57+00:00",
+                    "text": "Prototyping J3's designs is J3's job, not mine.\nConstraints that are obvious concerns for a \"no need to instantiate\" design include C712, C714, C715, C718, C732-C734, C736, C737, C740, C748, C758, C764, C784, C785, C788, C791, C792, C798, C799, C7103, C7111, and that's just from a quick pass over subclause 7.  Also, detecting ambiguous generic interfaces in templatized subprograms (or derived types in them) can't be done until the interfaces that depend on template arguments are instantiated."
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-05-09 20:18:55+00:00",
+                    "text": "Prototyping J3's designs is J3's job, not mine.\n\nNot that I disagree, but which compiler should they use for prototyping? And should they really be expected to do it without help from someone on that compiler's development team?\n\nIf this is a goal, it is not possible to completely achieve it.\n\nObviously the design of a single language feature can't prevent all possible bugs, but I think we can catch a lot of them. Catching any at time of processing a template is better than waiting till instantiation (IMO). No reason to suggest that if we can't be perfect there's no reason to do it at all.\nAnd not that there's no use for trying to do something like this, but I think it might be better to not allow at first, until we can be more deliberate about it. For example, I think the template you'd want is something like the following\ntemplate foo(k)\n  integer :: k\n  require valid_but_not_largest_real_kind(k) ! We haven't even discussed this yet for value parameters\ncontains\n  function bar(x) result(y)\n    real(kind=k), intent(in) :: x\n    real(kind=k) :: y\n\n    integer, parameter :: wp = selected_real_kind(p=precision(x)+1)\n    real(kind=wp) :: tmp\n    ! now we can do the math with higher precision\n  end function\nend template\nWe haven't thought about how we could specify restrictions on the values of template parameters, but I think before we allow their use in a context where that value matters to whether the code will even compile, we should think about that."
+                },
+                {
+                    "user": "vansnyder",
+                    "date": "2022-05-09 22:00:40+00:00",
+                    "text": "On Mon, 2022-05-09 at 08:18 -0700, Ond\u0159ej \u010cert\u00edk wrote:\n > but to insist that all errors can and will be detected and\n > diagnosed prior to instantiation is not a feasible design goal.\n I can clarify the goals: the generics subgroup is currently going\n with templates with \"restrictions\" (called \"strong concepts\" in the\n C++ world). To understand the details what it means, you can read our\n comparison document here:\n  * https://github.com/j3-\n    fortran/generics/blob/52a9152da03b044a109aea1f9c08b3118f5db384/theor\n    y/comparison/comparison.md\n It explains exactly in what sense errors will be caught and when. In\n short, you can indeed catch all errors before instantiating, but\n obviously you can only do it at the instantiation site when you know\n the user types, and you check them against the \"restrictions / strong\n concepts\", and if they pass, then you can instantiate without errors.\n See the document above for the details, and the kinds of error\n messages you can expect (showing actual error messages in Rust,\n Haskell for strong concepts and C++ for weak concepts).\nThe important thing is that there will be no mysterious errors\nannounced WITHIN an instance when it is instantiated, if the template\nis syntactically and semantically correct.\n\u2026\n \u2014\n Reply to this email directly, view it on GitHub, or unsubscribe.\n You are receiving this because you commented.Message ID: <j3-\n ***@***.***>"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-09 22:13:05+00:00",
+                    "text": "Constraints that are obvious concerns for a \"no need to instantiate\" design include C712, C714, C715, C718, C732-C734, C736, C737, C740, C748, C758, C764, C784, C785, C788, C791, C792, C798, C799, C7103, C7111\n\nYes, all these would have to be checked.\n\nPrototyping J3's designs is J3's job, not mine.\n\nWe are all volunteers on J3. If you wanted to help us out, I would really appreciate it. :)"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-09 22:29:07+00:00",
+                    "text": "Constraints that are obvious concerns for a \"no need to instantiate\" design include C712, C714, C715, C718, C732-C734, C736, C737, C740, C748, C758, C764, C784, C785, C788, C791, C792, C798, C799, C7103, C7111\n\nYes, all these would have to be checked.\n\nAnd each of them is a constraint for which I could write a template example that can't be checked prior to instantiation against a specific set of template arguments.\n\n\nPrototyping J3's designs is J3's job, not mine.\n\nWe are all volunteers on J3. If you wanted to help us out, I would really appreciate it. :)\n\nI did try with DO CONCURRENT and was met with nothing but denial that there's even a problem.  No thanks."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-09 22:47:47+00:00",
+                    "text": "I did try with DO CONCURRENT\n\nNot trying to hijack this thread, but I submitted a GSoC proposal for DO CONCURRENT offloading in GFortran so am genuinely curious. Is it this one? #62"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-09 22:54:31+00:00",
+                    "text": "I did try with DO CONCURRENT\n\nNot trying to hijack this thread, but I submitted a GSoC proposal for DO CONCURRENT offloading in GFortran so am genuinely curious. Is it this one? #62\n\nYes.  DO CONCURRENT admits non-parallelizable usage that can't be detected at compilation time, and there's no standard way to promise to the compiler than a given DO CONCURRENT construct is free of such usage."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-10 01:03:37+00:00",
+                    "text": "Yes. DO CONCURRENT admits non-parallelizable usage that can't be detected at compilation time, and there's no standard way to promise to the compiler than a given DO CONCURRENT construct is free of such usage.\n\nI think that definitely would be a problem problem. I think the way forward is to implement an extension (say in Flang) that allows the user to promise to the compiler that a given construct is parallelizable, and then when we submit a paper with a prototype, I think we have a good chance to fix this."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-10 21:06:59+00:00",
+                    "text": "Here are a couple examples of templatized Fortran that I believe demonstrate violations that would require instantiation to detect.  These are obviously not tested and the syntax is almost certainly incorrect.\n  template tmplt(ty)\n    type :: ty; end type\n  contains\n    subroutine subr(x)\n        type(ty), intent(in) :: x\n        generic :: gen => inner1, inner2\n        call gen(x) ! ambiguous if instantiated with ty = real\n      contains\n        subroutine inner1(x)\n          type(ty), intent(in) :: x\n        end subroutine\n        subroutine inner2(x)\n          real, intent(in) :: x\n        end subroutine\n    end subroutine\n  end template\n\n  template tmplt(ty)\n    type :: ty; end type\n   contains\n    subroutine sub(x)\n      type, extends(ty) :: ext ! error if ty is not a derived type\n        real :: comp ! error if ty already has a component named \"comp\"\n      end type\n      type(ty) :: v\n      v = ty() ! error if ty has type parameters or components without defaults\n    end subroutine\n  end template"
+                },
+                {
+                    "user": "everythingfunctional",
+                    "date": "2022-05-10 22:02:21+00:00",
+                    "text": "template tmplt(ty)\n    type :: ty; end type\n   contains\n    subroutine sub(x)\n      type, extends(ty) :: ext ! error if ty is not a derived type\n        real :: comp ! error if ty already has a component named \"comp\"\n      end type\n      type(ty) :: v\n      v = ty() ! error if ty has type parameters or components without defaults\n    end subroutine\n  end template\n\n\nI believe we have, or intend to, prohibit extending from template type parameters, at least for now. Also, we don't assume the accessibility of an intrinsic structure, let alone user defined, constructor for a template type parameter, so that usage isn't allowed either.\nThe other example is something I'm not sure we've considered very strongly yet. We may desire preventing use of template type parameters as arguments in generic interfaces with multiple actual procedures. Not quite sure if that has all the right implications. This is something worth thinking about."
+                },
+                {
+                    "user": "vansnyder",
+                    "date": "2022-05-10 22:02:53+00:00",
+                    "text": "On Tue, 2022-05-10 at 14:07 -0700, Peter Klausler wrote:\n Here are a couple examples of templatized Fortran that I believe\n demonstrate violations that would require instantiation to detect.\n These are obviously not tested and the syntax is almost certainly\n incorrect.\nEven if the goal of preventing any constraint violations in an instance\nof a template cannot be achieved, eliminating the vast majority of\npossible situations using a parameterized module or template system is\nbetter than catching none using a string-substitution preprocessor or a\nbuilt-in token-substitution macro system.\n\u2026\n   template tmplt(ty)\n     type :: ty; end type\n   contains\n     subroutine subr(x)\n         type(ty), intent(in) :: x\n         generic :: gen => inner1, inner2\n         call gen(x) ! ambiguous if instantiated with ty = real\n       contains\n         subroutine inner1(x)\n           type(ty), intent(in) :: x\n         end subroutine\n         subroutine inner2(x)\n           real, intent(in) :: x\n         end subroutine\n     end subroutine\n   end template\n   template tmplt(ty)\n     type :: ty; end type\n    contains\n     subroutine sub(x)\n       type, extends(ty) :: ext ! error if ty is not a derived type\n         real :: comp ! error if ty already has a component named \"comp\"\n       end type\n       type(ty) :: v\n       v = ty() ! error if ty has type parameters or components without defaults\n     end subroutine\n   end template\n \u2014\n Reply to this email directly, view it on GitHub, or unsubscribe.\n You are receiving this because you commented.Message ID: <j3-\n ***@***.***>"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-10 22:02:59+00:00",
+                    "text": "Thanks Peter!\nThe first one is similar to a template specialization. I can see multiple ways forward:\n\nDo not allow generic procedures if one of the arguments is a template; and possibly create some new separate syntax for template specialization\nIf the template ty = real, use the inner2 function, as in a template specialization\n\nIn the second example, the way I understand it, it would not compile, with an error message that you are using extends(ty) on a type ty that does not allow that. It is not written in the requirements part. To fix it, you have to \"allow\" such operations explicitly, something like this:\n  template tmplt(ty)\n    type :: ty; end type\n    allow_extend(ty)\n    type_params_and_components_have_defaults(ty)\n   contains\n    subroutine sub(x)\n      type, extends(ty) :: ext ! allowed in the requirements section\n        real :: comp ! -- multiple options here, see below\n      end type\n      type(ty) :: v\n      v = ty() ! now works, as it is allowed in the requirements section\n    end subroutine\n  end template\nThe type :: ty; end type requirements says that there is a generic type ty, but you can't do much with it. You have to explicitly allow all operations that you want to do with it. I showed above how it could be done for the main two operations. Regarding the comp component, I know there was some discussion about components of templates and I can't remember right now if they decided to allow them or not. If it is not allowed, then you simply get a compiler error above. If it is allowed, then one approach is that you need to specify them in the parent template:\ntype :: ty\n    real :: comp2\nend type\n\nThat is the one and only component that is allowed (in the user type that will get passed in at call site), and it must be called comp2. Then in the extended type ext you know that comp2 is in the parent class and that comp is not there and thus you can declare it.\nMy understanding of the general approach is that initially you get compiler error for most of the usages above (and indeed you can always determine ahead of time if a given user type can be instantiated or not). Then we can add more ways to specify \"requirements\", and then you can use the template in more cases, such as your examples above, while keeping the property that if the user type satisfies the requirements, then it can always be instantiated."
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-11 01:08:50+00:00",
+                    "text": "Even if the goal of preventing any constraint violations in an instance of a template cannot be achieved, eliminating the vast majority of possible situations using a parameterized module or template system is better than catching none using a string-substitution preprocessor or a built-in token-substitution macro system.\n\nIt's a shame about the parameterized modules not being followed up on, though.  Even if modules were parameterizable only by other modules (not types or anything else), you'd have an effective and highly composable solution, and the implementation would be easy to prototype and demonstrate."
                 }
             ]
         },
@@ -15330,6 +16009,11 @@
                     "user": "aradi",
                     "date": "2021-11-26 07:10:08+00:00",
                     "text": "@sblionel Thanks for the feedback. It is promising, that at least there seems to be consensus, that this should be considered in some form. \ud83d\ude04"
+                },
+                {
+                    "user": "klausler",
+                    "date": "2022-05-18 19:38:31+00:00",
+                    "text": "For maximum safety and for best alias analysis, I believe now that additional attributes should be available for both data pointers and for data targets.\nAt present, a data pointer can be associated with any compatibly-typed object on the same image with the TARGET attribute.  I suggest that:\n\nThere be a means to restrict an associated data pointer's pointed-to object from appearing in a definition context.  Call this a read-only pointer here.  This is basically what we've been discussing so far, but not limited to a dummy argument.\nThere be a means to restrict a TARGET object so that only a read-only pointer may be associated with it.  Call this a read-only TARGET.\nThere be a means to further restrict a read-only pointer to be associated only with read-only targets.  Call this a safe read-only pointer.\n\nThe distinction between an \"unsafe\" read-only pointer and a safe read-only pointer is that alias analysis must assume that the pointed-to object of an \"unsafe\" read-only pointer might be modified by way of a non-read-only pointer.  But a safe read-only pointer's pointed-to object cannot be modified by way of a non-read-only pointer.  It is nearly as \"optimizable\" as an INTENT(IN) dummy argument.\nA read-only pointer (safe or not) would be allowed to be associated with non-local data in a PURE procedure, including the case of default pointer component initialization.\n  real :: x, y, p, q, s\n  target :: x\n  target, readonly :: y\n  pointer :: p\n  pointer, readonly :: q\n  pointer, readonly, safe :: s\n\n  p => x ! ok\n  p => y ! BAD\n  p => q ! BAD\n  p => s ! BAD\n  q => x ! ok\n  q => y ! ok\n  q => p ! ok\n  q => s | ok\n  s => x ! BAD\n  s => y ! ok\n  s => p ! BAD\n  s => q ! BAD\n  x = 1. ! ok\n  y = 1. ! ok\n  p = 1. ! ok\n  q = 1. ! BAD\n  s = 1. ! BAD\n\nIn short, a \"safe\" read-only pointer is an alias only for objects that are read-only targets.  An \"unsafe\" read-only pointer can be associated with any target."
                 }
             ]
         },
@@ -15578,6 +16262,11 @@
                     "user": "klausler",
                     "date": "2019-11-05 00:49:23+00:00",
                     "text": "I'm not sure that Fortran needs an unsigned type so much as it actually needs some unsigned operations and relations.  Be wary of simply copying-and-pasting C's unsigned types into Fortran, for they are full of pitfalls that shouldn't be perpetuated, mostly around their interactions with signed types and conversions."
+                },
+                {
+                    "user": "8bitmachine",
+                    "date": "2022-05-22 14:41:42+00:00",
+                    "text": "I too would like unsigned integers. Mainly because of bitmap,  image data, and other binary coding or data.\nI do not see that this should be a problem as it would be a new data type (not an operation, we do need a type) that existing programs would continue to default to signed integers.\nMy work around for simplicity (not elegance) is to use 16 bit integers and save the data as is in 8 bits when needed. I find that more convenient than having to check 8 bits all the time if only unsigned is needed."
                 }
             ]
         },
@@ -16078,6 +16767,11 @@
                     "user": "FortranFan",
                     "date": "2020-10-03 03:25:31+00:00",
                     "text": "@wclodius2 wrote Oct. 1, 2020\n\nThere seems to have been a consensus that there should be a poll/vote on the preferred syntax. As there has been a significant pause in postings on this issue, I think it is an appropriate to summarize our current syntactic options to prompt more suggestions for options. There are four orthogonal choices in the syntax:\nWhat word to use as the keyword\n..\n\nIf there are folks who aren't enthused by any of the keywords thus far, here's another one that can perhaps considered for the poll?  PREFIX:\nuse, prefix(ut) :: utils, only : savetxt\n..\ncall utXsavetxt(..)"
+                },
+                {
+                    "user": "aradi",
+                    "date": "2022-05-09 08:01:39+00:00",
+                    "text": "I think, the idea with prefix is a really nice one. But, maybe prefixed (as adjective) is more aligned with what we have already, e.g.\nuse, intrinsic, prefixed :: iso_fortran_env        ! if entire module name is used as prefix\nuse, intrinsic, prefixed(ife) :: iso_fortran_env  ! if specified prefix is used"
                 }
             ]
         }
