@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: December 2020"
 category: newsletter
-date: 2021-12-01 
+date: 2020-12-01 
 author: Milan Curcic, Jérémie Vandenplas, Laurence Kedward, Gary Klimowicz, Ondřej Čertík
 ---
 
