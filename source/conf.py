@@ -116,6 +116,18 @@ html_theme_options = {
     ]
 }
 
+html_sidebars = {
+    "news": [
+        "search-field.html",
+        "tagcloud.html",
+        "archives.html",
+    ],
+    "news/**": [
+        "postcard.html",
+        "recentposts.html",
+        "archives.html",
+    ],
+}
 html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
 html_baseurl = "https://henilp105.github.io/fortran-lang.org/"
@@ -123,7 +135,7 @@ html_baseurl = "https://henilp105.github.io/fortran-lang.org/"
 master_doc = 'index'
 
 blog_path = "news"
-blog_post_pattern = "_posts/*/*"
+blog_post_pattern = "news/*"
 post_redirect_refresh = 1
 post_auto_image = 1
 post_auto_excerpt = 2

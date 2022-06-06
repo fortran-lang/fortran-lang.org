@@ -31,5 +31,5 @@ Please help us improve them by contributing content or reporting issues.
 :hidden:
 Learn <learn/index>
 Compilers<compilers>
-News<news/index>
+News<news>
 ````
