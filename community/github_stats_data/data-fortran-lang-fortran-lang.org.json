@@ -2,6 +2,161 @@
     "name": "fortran-lang/fortran-lang.org",
     "issues": [
         {
+            "number": 405,
+            "user": "henilp105",
+            "date": "2022-05-28 05:00:04+00:00",
+            "title": "Sphinx learn section ",
+            "text": "None",
+            "is_open": false,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "henilp105",
+                    "date": "2022-05-28 05:00:42+00:00",
+                    "text": "#build_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2022-05-28 05:02:10+00:00",
+                    "text": "This PR has been built with Jekyll and can be previewed at: https://fortran-lang.org/pr/405/"
+                },
+                {
+                    "user": "henilp105",
+                    "date": "2022-05-28 05:04:19+00:00",
+                    "text": "#delete_preview"
+                },
+                {
+                    "user": "github-actions[bot]",
+                    "date": "2022-05-28 05:04:39+00:00",
+                    "text": "The preview build for this PR has now been deleted."
+                }
+            ]
+        },
+        {
+            "number": 404,
+            "user": "gnikit",
+            "date": "2022-05-09 17:49:56+00:00",
+            "title": "Verifying VS Code Publisher",
+            "text": "Our VS Code Publisher is register as the Fortran Lang organisation and points to the official webpage https://fortran-lang.org. Microsoft allows for Organisations to verify their publisher IDs by proving they own the domain they list see: https://code.visualstudio.com/api/working-with-extensions/publishing-extension#verify-a-publisher\nI think it would make use look substantially more official if we verified the publisher ID.\nThese are the steps that need to be made in order to verify (copy-pasted from the manager portal of the publisher ID. @awvwgk can also view them if he logs in here and goes to Verified domain)\n\nCreate a TXT record in your DNS configuration for the following hostname:_visual-studio-marketplace-fortran-lang.fortran-lang.org\nUse this code as the value for the TXT ! redacted !\nWait until your DNS configuration changes. This could take up to 72 hours.\n\nI have redacted the value of the txt file in 2. in case this information is not set through a PR on GitHub but through some private backend. If that is the case, I can send the value privately or Sebastian can get it directly.",
+            "is_open": false,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-09 18:25:25+00:00",
+                    "text": "Thanks @gnikit, the TXT record is now live."
+                },
+                {
+                    "user": "gnikit",
+                    "date": "2022-05-09 18:26:57+00:00",
+                    "text": "Awesome, thanks a lot @awvwgk @milancurcic !"
+                }
+            ]
+        },
+        {
+            "number": 403,
+            "user": "ashirrwad",
+            "date": "2022-05-06 17:04:42+00:00",
+            "title": "Add SeisSol to package index",
+            "text": "Added the SeisSol package listed on Issue: #232  to the package index.",
+            "is_open": false,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "certik",
+                    "date": "2022-05-06 17:20:41+00:00",
+                    "text": "I also thought this is a C++ project with legacy Fortran, but it seems it has physics stuff in Fortran and it is still developed in Fortran (see e.g. SeisSol/SeisSol#536), so I would say this package fits into our index.\n(If it was just Fortran wrappers, then I would say we should have a category for Fortran wrappers to other packages.)"
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-05-06 20:42:04+00:00",
+                    "text": "For the record, the developers have told me they would like to remove Fortran soon. See also the comment here: #232 (comment). If you look closer, they already have an issue to migrate the physics stuff from Fortran to C++: SeisSol/SeisSol#538."
+                },
+                {
+                    "user": "ashirrwad",
+                    "date": "2022-05-07 09:12:00+00:00",
+                    "text": "As the package was still a part of checklist on #232 and the library and its documentation showed references to Fortran usability I figured it was still up for addition. While I did stick to the guide the criterias for package addition are a bit ambiguous to me as I am new to the language. If the package doesn't meet the requirements I will add a PR to revert these changes as needed."
+                }
+            ]
+        },
+        {
+            "number": 402,
+            "user": "ivan-pi",
+            "date": "2022-05-04 19:55:58+00:00",
+            "title": "Debunking Fortran Myths",
+            "text": "There are several webpages, blogs, and articles, which try to debunk Fortran myths. I think having a QA section to help resolve misconceptions at Fortran-lang could be valuable.\nHere are a few links:\n\nMyths | FortranWiki\nDebunking the myths about Fortran | ACM Fortran Forum (a PDF is available here)\nFortran Myths & Disinformation Wanted | comp.lang.fortran\nWhy do people think Fortran programs are hard to read? | Quora\nWhy do people think Fortran is so bad? | Quora\nWill Julia replace Fortran for high performance computing? | Quora\nIs Fortran still used in 2021? | Quora\nTHE MYTHS OF FORTRAN |\u00a0The Craft of Coding (Michael Wirth has several very lucid essays about Fortran)\nFortran is still a thing | Words and Buttons Online\nDEFY, DEmystify Fortran mYths |\u00a0Szaghi\nIn Numerical Computing with Modern Fortran, pg. 58, Hanson & Hopkins write,\n\n... we attempt to convince the reader that Fortran recursion is an important and efficient programming technique. We will dispel some myths ...\n\n\nWhy Fortran? | NCAR |\u00a0DART \nFortran: Tales of the Living Dead? | The Delocalized Physicist\nWHO SAID FORTRAN IS DEAD? | Hackaday\n2.0.7 Dinosaurs | This Developer's Life\nThe Joy of Fortran | OCEANOGRAPHER'S CHOICE\n\nRoughly, I see two categories of misconceptions,\n\nthose affecting programmers with little or no prior knowledge/awareness of Fortran\nthose affecting Fortran programmers, who may only be familiar with a fraction of the standard\n\nI was thinking about this topic while watching a lecture by Dan Saks on \"Talking to C Programmers about C++\". Here's a quote he refers to on several occasions:\n\n\u201cIf you\u2019re arguing, you\u2019re losing.\u201d \u2014 Mike Thomas\n\nSome parts of the lecture are summarised here.\nPerhaps by linking such an article in replies on HackerNews, Stack OverFlow, Quora, etc., we could slowly turn the tide against misinformation surrounding Fortran.",
+            "is_open": true,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-05-04 22:57:51+00:00",
+                    "text": "The various journals from ACM have many good articles on the reasons behind Fortran:\n\nHow Not to Write FORTRAN in Any Language | acmqueue\nThe Ideal HPC Programming Language: Maybe it's Fortran. Or maybe it just doesn't matter. | acmqueue\n\nWe undertook such an exercise to get a feel for what an \"ideal\" programming language for HPC applications might look like. ... Almost immediately, we were struck by what we were seeing. ... surprisingly, the \"ideal\" programming language was basically Fortran.\n\n\nHas Fortran a future? | ACM Fortran Forum\nWhy Fortran? |\u00a0ACM Fortran Forum\nWhither Fortran? | ACM Fortran Forum\nFortran Matters | SD Times\n\nThe Fortran articles in CiSE also give many good reasons for Fortran:\n\nWhy Fortran?\nThe State of Fortran \ud83d\ude80\n\nPerhaps we could even share some of the opinions from famous (computer) scientists:\n\nFortran is harder to compete with. It has a dedicated following who [...] care little for programming languages or the finer points of computer science. They simply want to get their work done. \u2014 Bjarne Stroustrup\n\nbut I'm afraid this may backfire at some point."
+                }
+            ]
+        },
+        {
+            "number": 401,
+            "user": "milancurcic",
+            "date": "2022-04-30 20:14:34+00:00",
+            "title": "Newsletter May 2022",
+            "text": "Here's the newsletter draft:\n\n Draft text\n GitHub stats data\n Flang updates by @AlexisPerry\n LFortran updates by @certik @czgdp1807 or @HaoZeke\n\nLet's plan to merge by Friday, May 6.\nThank you!",
+            "is_open": false,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "AlexisPerry",
+                    "date": "2022-05-04 16:28:33+00:00",
+                    "text": "Please see milancurcic#7 for Flang updates.  Thanks!"
+                },
+                {
+                    "user": "gnikit",
+                    "date": "2022-05-04 22:49:03+00:00",
+                    "text": "@milancurcic would you like me to write a short announcement in May's newsletter for Modern Fortran migrating to fortran-lang?"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-04 22:55:53+00:00",
+                    "text": "@gnikit yes, please! I forgot about that. I think best to add it as a bullet point under events. Feel free to commit directly to this PR branch and add your name to the authors list. Thank you!"
+                },
+                {
+                    "user": "gnikit",
+                    "date": "2022-05-05 06:48:16+00:00",
+                    "text": "Done, I was unable to push to your branch so I opened a separate PR. I hope that's okay. see milancurcic#8"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-05 13:45:50+00:00",
+                    "text": "@czgdp1807, @HaoZeke is one of you able to put in LFortran updates?"
+                },
+                {
+                    "user": "czgdp1807",
+                    "date": "2022-05-05 13:46:36+00:00",
+                    "text": "I can do it tonight (my time) i.e., in 3 - 4 hours. @HaoZeke Feel free to go ahead if you can do it before that."
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-05 13:47:55+00:00",
+                    "text": "Thanks @czgdp1807, I really appreciate it!"
+                },
+                {
+                    "user": "czgdp1807",
+                    "date": "2022-05-05 14:51:15+00:00",
+                    "text": "I have started working on it."
+                },
+                {
+                    "user": "czgdp1807",
+                    "date": "2022-05-05 15:05:54+00:00",
+                    "text": "Done. See the LFortran updates in milancurcic#9"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-05 15:09:38+00:00",
+                    "text": "Thanks all! We have all the updates now. Let's merge later today if there are no objections."
+                }
+            ]
+        },
+        {
             "number": 400,
             "user": "p-costa",
             "date": "2022-04-24 10:02:53+00:00",
@@ -5030,6 +5185,21 @@
                     "user": "gklimowicz",
                     "date": "2022-04-27 17:02:41+00:00",
                     "text": "Out of curiosity, is anyone creating a Git project with as many of these projects as possible as submodules? I will find myself in need of as large a corpus of Fortran codes as I can lay my hands on, and these are all silos of grain for my mill."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-05-06 20:48:43+00:00",
+                    "text": "Hi @gklimowicz, I'm not aware of any of us within Fortran-Lang having done something like that. Is it compiler testing you have in mind?\nPerhaps worth asking @jeffhammond. He was recently searching for Fortran codes on Twitter."
+                },
+                {
+                    "user": "jeffhammond",
+                    "date": "2022-05-07 07:43:30+00:00",
+                    "text": "https://github.com/Beliavsky/Fortran-code-on-GitHub was useful to me. I wrote a script to clone every repo it references. Was about 25MLOC I think.\nI recommend Dalton (GitLab) and NWChem (GitHub) for Fortran testing. Those are both huge codes.  Mostly legacy stuff."
+                },
+                {
+                    "user": "gklimowicz",
+                    "date": "2022-05-07 17:43:05+00:00",
+                    "text": "@jeffhammond @Beliavsky @ivan-pi Thanks, Jeff and Ivan. I will dig into our chess-playing friend's repo and see if there is anything I've come across to suggest add to it.\nI'm planning to work on something of an over-extended Fortran semantic analyzer, so Dalton and NWChem are good, too.\nKeep those cards and letters coming. :-)"
                 }
             ]
         },
