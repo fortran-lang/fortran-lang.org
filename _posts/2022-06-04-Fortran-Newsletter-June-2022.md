@@ -2,7 +2,7 @@
 layout: post
 title: "Fortran newsletter: June 2022"
 category: newsletter
-author: Milan Curcic
+author: Milan Curcic, Alexis Perry-Holby
 ---
 
 Welcome to the June edition of the monthly Fortran newsletter.
@@ -146,7 +146,91 @@ environment in which new open source Fortran projects are created and published 
 
 ### Flang
 
-TODO @AlexisPerry
+* FIR
+    * Initial lowering of the Fortran Do loop
+    * Lower Unstructured do loops
+* Driver
+    * Define the default frontend driver triple
+    * Add support for consuming LLVM IR/BC files
+    * Add support for -save-temps
+    * Switch to the MLIR coding style in the driver
+    * Fix driver method names overridden by the plugins
+    * Support parsing response files
+    * Make driver accept -module-dir<value>
+    * Add support for generating executables on MacOSX/Darwin
+* OpenMP
+    * Add lowering stubs for OpenMP/OpenACC declarative constructs
+    * Added tests for taskwait and taskyield translation
+    * Restrict types for omp.parallel args
+    * Add omp.cancel and omp.cancellationpoint.
+    * Initial lowering of the OpenMP worksharing loop
+    * Lowering for task construct
+    * Support lowering to MLIR for ordered clause
+    * Support for Collapse
+    * Upstream the lowering of the parallel do combined construct
+    * Fix the types of worksharing-loop variables
+    * Change the OpenMP atomic read/write test cases
+* Runtime
+    * Correct emission & reading of unterminated final records
+    * Support B/O/Z editing of CHARACTER
+    * Use 1-based dim in transformational runtime error msg
+    * Change "unsupported" messages in the runtime to "not yet implemented"
+    * Fix input of NAN(...) on non-fast path
+    * Don't pad CHARACTER input at end of record unless PAD='YES'
+    * Enforce restrictions on unlimited format repetition
+    * (G0) for CHARACTER means (A), not (A0)
+    * BACKSPACE after non-advancing I/O
+    * Use proper prototypes in Fortran_main. NFCI
+    * Clean up asynchronous I/O APIs
+    * INQUIRE(UNIT=666,NUMBER=n) must set n=666
+    * Handle BACKSPACE after reading past EOF
+* Fix MAXLOC/MINLOC when MASK is scalar .FALSE. 
+* Fix UBOUND() constant folding for parentheses expr
+* Support FINDLOC/MAXLOC/MINLOC with scalar mask
+* Handle common block with different sizes in same file
+* Add one semantic check for implicit interface
+* Fix semantics check for RETURN statement
+* Fix ICE for passing a label for non alternate return arguments
+* Add ExternalNameConversionPass to pass pipeline
+* Fix AllocaOp/AllocMemOp type conversion
+* Support external procedure passed as actual argument with implicit character type
+* Fix internal error with DATA-statement style initializers
+* Upstream support for POINTER assignment in FORALL
+* Enforce a program not including more than one main program
+* Retain binding label of entry subprograms
+* Fold intrinsic inquiry functions SAME_TYPE_AS() and EXTENDS_TYPE_OF()
+* Fold intrinsic functions SPACING() and RRSPACING()
+* Operands of SIGN() need not have same kind
+* Correct folding of SPREAD() for higher ranks
+* Refine handling of short character actual arguments
+* Ensure that structure constructors fold parameter references
+* Correct actual/dummy procedure compatibility for ALLOCATABLE/POINTER functions
+* Allow PDTs with LEN parameters in REDUCE()
+* Allow NULL() actual argument for optional dummy procedure
+* Allow implicit declaration of DATA objects in inner procedures
+* Refine error checking in specification expressions
+* Reverse a reversed type compatibility check
+* Accept POINTER followed by INTERFACE
+* Allow ENTRY function result symbol usage before the ENTRY
+* Fold real-valued DIM(), MODULO() and MOD()
+* Enforce limit on rank + corank
+* Allow local variables and function result inquiries in specification expressions
+* Change "bad kind" messages in the runtime to "not yet implemented"
+* Fold complex component references
+* Fix check for assumed-size arguments to SHAPE() & al.
+* Fix a performance problem with lowering of forall loops and creating too many temporaries
+* Warn for the limit on name length
+* Install Fortran_main library
+* test conforming & non-conforming lcobound
+* Fix use-associated false-positive error
+* Fix character length calculation for Unicode component
+* Allow global scope names that clash with intrinsic modules
+* Ignore BIND(C) binding name conflicts of inner procedures
+* Allow more forward references to ENTRY names
+* Extension: Accept Hollerith actual arguments as if they were BOZ
+* Alternate entry points with unused arguments
+* Fix crash in semantics after PDT instantiation
+
 
 ### LFortran
 
