@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fortran Programming Language">
+    <title>Type Casting in Callbacks - Fortran Programming Language</title>
+    <link type="application/atom+xml" rel="alternate" href="/pr/406/news.xml" title="Fortran Newsletter" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="/pr/406/assets/css/main.css" rel="stylesheet">
+    <link href="/pr/406/assets/css/syntax.css" rel="stylesheet">
+    <link rel="canonical" href="https://fortran-lang.org/learn/best_practices/type_casting" />
+    <script src="https://kit.fontawesome.com/8d17d4fe97.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/2.0.2/octicons.min.css">
+    <link rel="stylesheet" href="/pr/406/assets/github-activity-0.1.5/github-activity-0.1.5.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.2/mustache.min.js"></script>
+    <script type="text/javascript" src="/pr/406/assets/github-activity-0.1.5/github-activity-0.1.5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header class="navbar">
+	
+	<section class="front-section shaded purple"><div class="container">
+		
+		<h3>
+		<i data-feather="git-pull-request"></i>
+		<b>Site preview: </b>you are previewing unpublished changes for
+		
+		<a href="https://github.com/fortran-lang/fortran-lang.org/pull/406" target="_blank">
+			<i class="devicon-github-plain colored"></i>
+			pull request 406</a>
+		</h3>
+	</div></section>
+	 
+    <div class="container">
+        <nav class="navbar">
+	    <div class="container-fluid">
+	    <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+		    <span class="sr-only">Toggle navigation</span>
+		    <img src="/pr/406/assets/img/icons/icon-menu.svg" alt="Toggle navigation" class="navbar-top-align">
+		</button>
+		<a href="/pr/406/" class="navbar-brand">
+		    <img src="/pr/406/assets/img/fortran_logo_256x256.png" id="navbar-logo" alt="Fortran">
+		</a>
+	    </div>
+	    <div class="collapse navbar-collapse navbar-top-align" id="menu">
+	        <ul class="nav navbar-nav navbar-right">
+		
+		    
+		    <li class="current">
+		    
+		    <a href="/pr/406/learn/">Learn</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/406/compilers/">Compilers</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/406/community/">Community</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/406/packages">Packages</a>
+		    
+			</li>
+		
+		    
+		    <li>
+		    
+		    <a href="/pr/406/news/">News</a>
+		    
+			</li>
+		
+		<li>
+			<a  href="https://fortran-lang.discourse.group/" target="_blank">
+			<i class="fab fa-discourse"></i> <i class="icon-link" >Discourse</i>
+			</a>
+		</li>
+		<li>
+			<a href="https://twitter.com/fortranlang" target="_blank">
+				<i class="fab fa-twitter"></i> <i class="icon-link" >Twitter</i>
+			</a>
+		</li>
+		<li>
+			<a  href="https://github.com/fortran-lang" target="_blank">
+				<i class="fab fa-github"></i> <i class="icon-link" >Github</i>
+			</a>
+		</li>
+		<li>
+			<a  href="/pr/406/news.xml" target="_blank">
+				<i class="fas fa-rss"></i> <i class="icon-link" >RSS Feed</i>
+			</a>
+		</li>
+		</ul>
+	    </div>
+	    </div>
+        </nav>
+    </div>
+</header>
+
+
+<section class="front-section">
+  <div class="container">
+
+    <div class="col-fixed" id="pagenav-sidebar">
+
+  <!-- Find parent book using page.permalink -->
+  <!-- NB. This search is inefficient but simplifies
+        the definition of book pages in learning.yml -->
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+    
+  
+
+  <a href="/pr/406/learn#book-index">
+    <i class="fas fa-arrow-circle-left"></i>
+    Back to Learn Fortran index 
+  </a>
+
+  <h3>
+  <i class="fas fa-book"></i>
+  Fortran Best Practices</h3>
+
+  <div class="content">
+   <!-- If this book has multiple pages -->
+
+    
+
+    <ul>
+    
+    <!-- Add link to book introduction (index) -->
+    
+      <li><a href="/pr/406/learn/best_practices">
+        Introduction</a></li>
+    
+
+    <!-- List pages in this book -->
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/style_guide">
+          Fortran Style Guide</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/floating_point">
+          Floating Point Numbers</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/integer_division">
+          Integer Division</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/modules_programs">
+          Modules and Programs</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/arrays">
+          Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/multidim_arrays">
+          Multidimensional Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/element_operations">
+          Element-wise Operations on Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/allocatable_arrays">
+          Allocatable Arrays</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/file_io">
+          File Input/Output</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li><a href="/pr/406/learn/best_practices/callbacks">
+          Callbacks</a></li>
+      
+
+    
+    
+      <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          
+
+      
+        <li>
+          <b><a href="/pr/406/learn/best_practices/type_casting">
+            Type Casting in Callbacks</a></b>
+          <ul id="page-nav"></ul>
+        </li>
+        
+        
+        
+      
+
+    
+    </ul>
+
+  
+</div>
+
+</div>
+
+
+
+    <div class="newsletter col-right">
+
+      <h1>Type Casting in Callbacks</h1>
+
+      <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
+        <i></i>
+        
+      </div>
+
+      <p>There are essentially five different ways to do type casting, each with its own
+advantages and disadvantages.</p>
+
+<p>The methods I, II and V can be used both in C and Fortran. The methods
+III and IV are only available in Fortran. The method VI is obsolete and
+should not be used.</p>
+
+<h2 id="work-arrays">Work Arrays</h2>
+
+<p>Pass a “work array” which is packed with everything needed by
+the caller and unpacked by the called routine. This is the old way –
+e.g., how LAPACK does it.</p>
+
+<p>Integrator:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">integrals</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+  </span><span class="k">interface</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">
+    </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">inout</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:)</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
+  </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">inout</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:)</span><span class="w">
+  </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">))</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Usage:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">test</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">foo</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">inout</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="p">(:)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">
+  </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">
+  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">
+  </span><span class="k">data</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w">
+  </span><span class="k">data</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="general-structure">General Structure</h2>
+
+<p>Define a general structure which encompass the variations you
+actually need (or are even remotely likely to need going forward). This
+single structure type can then change if needed as future
+needs/ideas permit but won’t likely need to change from passing, say,
+real numbers to, say, and instantiation of a text editor.</p>
+
+<p>Integrator:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">integrals</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">simpson</span><span class="p">,</span><span class="w"> </span><span class="n">context</span><span class="w">
+
+  </span><span class="k">type</span><span class="w"> </span><span class="n">context</span><span class="w">
+    </span><span class="c1">! This would be adjusted according to the problem to be solved.</span><span class="w">
+    </span><span class="c1">! For example:</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="w">
+    </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(:),</span><span class="w"> </span><span class="n">y</span><span class="p">(:)</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">z</span><span class="p">(:)</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+  </span><span class="k">interface</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">
+    </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="n">context</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">inout</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
+  </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">context</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">inout</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+  </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">))</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Usage:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">test</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">simpson</span><span class="p">,</span><span class="w"> </span><span class="n">context</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">foo</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">context</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">inout</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="o">%</span><span class="n">a</span><span class="w">
+  </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="o">%</span><span class="n">b</span><span class="w">
+  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+  </span><span class="k">data</span><span class="o">%</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w">
+  </span><span class="k">data</span><span class="o">%</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>There is only so much flexibility really needed. For example, you could
+define two structure types for this purpose, one for Schroedinger and
+one for Dirac. Each would then be sufficiently general and contain all
+the needed pieces with all the right labels.</p>
+
+<p>Point is: it needn’t be “one abstract type to encompass all” or bust.
+There are natural and viable options between “all” and “none”.</p>
+
+<h2 id="private-module-variables">Private Module Variables</h2>
+
+<p>Hide the variable arguments completely by passing in module variables.</p>
+
+<p>Integrator:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">integrals</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+  </span><span class="k">interface</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
+  </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">))</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Usage:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">test</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">foo</span><span class="w">
+
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">global_a</span><span class="p">,</span><span class="w"> </span><span class="n">global_k</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">global_a</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">global_k</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="n">global_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w">
+  </span><span class="n">global_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">)</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>However it is best to avoid such global variables – even though really
+just semi-global – if possible. But sometimes it may be the simplest
+cleanest way. However, with a bit of thought, usually there is a better,
+safer, more explicit way along the lines of II or IV.</p>
+
+<h2 id="nested-functions">Nested functions</h2>
+
+<p>Integrator:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">integrals</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+  </span><span class="k">interface</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
+  </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">))</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Usage:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
+</span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">)</span><span class="w">
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+</span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="using-typec_ptr-pointer">Using type(c_ptr) Pointer</h2>
+
+<p>In C, one would use the <code class="highlighter-rouge">void *</code> pointer. In Fortran, one can use
+<code class="highlighter-rouge">type(c_ptr)</code> for exactly the same purpose.</p>
+
+<p>Integrator:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">integrals</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">iso_c_binding</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">c_ptr</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+  </span><span class="k">interface</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w">
+    </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+    </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="n">c_ptr</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
+  </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">c_ptr</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+  </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">/</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">))</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Usage:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">test</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">iso_c_binding</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">c_ptr</span><span class="p">,</span><span class="w"> </span><span class="nb">c_loc</span><span class="p">,</span><span class="w"> </span><span class="nb">c_f_pointer</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+  </span><span class="k">public</span><span class="w"> </span><span class="n">foo</span><span class="w">
+
+  </span><span class="k">type</span><span class="w"> </span><span class="n">f_data</span><span class="w">
+    </span><span class="c1">! Only contains data that we need for our particular callback.</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">data</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">c_ptr</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">f_data</span><span class="p">),</span><span class="w"> </span><span class="k">pointer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">d</span><span class="w">
+  </span><span class="k">call</span><span class="w"> </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="k">data</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w">
+  </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="o">%</span><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">d</span><span class="o">%</span><span class="n">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">f_data</span><span class="p">),</span><span class="w"> </span><span class="k">target</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="k">data</span><span class="w">
+  </span><span class="k">data</span><span class="o">%</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w">
+  </span><span class="k">data</span><span class="o">%</span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="nb">c_loc</span><span class="p">(</span><span class="k">data</span><span class="p">))</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="mf">0._dp</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">,</span><span class="w"> </span><span class="nb">c_loc</span><span class="p">(</span><span class="k">data</span><span class="p">))</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>As always, with the advantages of such re-casting, as Fortran lets you
+do if you really want to, come also the disadvantages that fewer
+compile- and run-time checks are possible to catch errors; and with
+that, inevitably more leaky, bug-prone code. So one always has to
+balance the costs and benefits.</p>
+
+<p>Usually, in the context of scientific programming, where the main thrust
+is to represent and solve precise mathematical formulations (as opposed
+to create a GUI with some untold number of buttons, drop-downs, and
+other interface elements), simplest, least bug-prone, and fastest is to
+use one of the previous approaches.</p>
+
+<h2 id="transfer-intrinsic-function">transfer() Intrinsic Function</h2>
+
+<p>Before Fortran 2003, the only way to do type casting was using the
+<code class="highlighter-rouge">transfer</code> intrinsic function. It is functionally equivalent to the
+method V, but more verbose and more error prone. It is now obsolete and
+one should use the method V instead.</p>
+
+<p>Examples:</p>
+
+<p><a href="http://jblevins.org/log/transfer">http://jblevins.org/log/transfer</a></p>
+
+<p><a href="http://jblevins.org/research/generic-list.pdf">http://jblevins.org/research/generic-list.pdf</a></p>
+
+<p><a href="http://www.macresearch.org/advanced_fortran_90_callbacks_with_the_transfer_function">http://www.macresearch.org/advanced_fortran_90_callbacks_with_the_transfer_function</a></p>
+
+<h2 id="object-oriented-approach">Object Oriented Approach</h2>
+
+<p>The module:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">integrals</span><span class="w">
+
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integrand</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+
+  </span><span class="c1">! User extends this type</span><span class="w">
+  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">abstract</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integrand</span><span class="w">
+  </span><span class="k">contains</span><span class="w">
+    </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">),</span><span class="w"> </span><span class="k">deferred</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">eval</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+
+  </span><span class="k">abstract</span><span class="w"> </span><span class="k">interface</span><span class="w">
+    </span><span class="k">function</span><span class="w"> </span><span class="n">func</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span><span class="w">
+      </span><span class="k">import</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">integrand</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="w">
+      </span><span class="k">class</span><span class="p">(</span><span class="n">integrand</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">this</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+      </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">fx</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">interface</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">
+  </span><span class="k">class</span><span class="p">(</span><span class="n">integrand</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
+  </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)/</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">%</span><span class="n">eval</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="o">%</span><span class="n">eval</span><span class="p">((</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">f</span><span class="o">%</span><span class="n">eval</span><span class="p">(</span><span class="n">b</span><span class="p">))</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The abstract type prescribes exactly what the integration routine needs,
+namely a method to evaluate the function, but imposes nothing else on
+the user. The user extends this type, providing a concrete
+implementation of the eval type bound procedure and adding necessary
+context data as components of the extended type.</p>
+
+<p>Usage:</p>
+
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">module</span><span class="w"> </span><span class="n">example_usage</span><span class="w">
+
+  </span><span class="k">use</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">dp</span><span class="w">
+  </span><span class="k">use</span><span class="w"> </span><span class="n">integrals</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">integrand</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="w">
+  </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
+  </span><span class="k">private</span><span class="w">
+
+  </span><span class="k">public</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">foo</span><span class="w">
+
+  </span><span class="k">type</span><span class="p">,</span><span class="w"> </span><span class="k">extends</span><span class="p">(</span><span class="n">integrand</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">my_integrand</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">contains</span><span class="w">
+    </span><span class="k">procedure</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">eval</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">f</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">type</span><span class="w">
+
+</span><span class="k">contains</span><span class="w">
+
+</span><span class="k">function</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span><span class="w">
+  </span><span class="k">class</span><span class="p">(</span><span class="n">my_integrand</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">this</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">fx</span><span class="w">
+  </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="o">%</span><span class="n">a</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">this</span><span class="o">%</span><span class="n">k</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">function</span><span class="w">
+
+</span><span class="k">subroutine</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w">
+  </span><span class="kt">real</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">type</span><span class="p">(</span><span class="n">my_integrand</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">my_f</span><span class="w">
+  </span><span class="n">my_f</span><span class="o">%</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w">
+  </span><span class="n">my_f</span><span class="o">%</span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">my_f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">)</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">simpson</span><span class="p">(</span><span class="n">my_f</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_dp</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0_dp</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">subroutine</span><span class="w">
+
+</span><span class="k">end</span><span class="w"> </span><span class="k">module</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="complete-example-of-void--vs-typec_ptr-and-transfer">Complete Example of void * vs type(c_ptr) and transfer()</h2>
+
+<p>Here are three equivalent codes: one in C using <code class="highlighter-rouge">void *</code> and two codes
+in Fortran using <code class="highlighter-rouge">type(c_ptr)</code> and <code class="highlighter-rouge">transfer()</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Language  </th>
+      <th>Method</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td><code class="highlighter-rouge">void *</code></td>
+      <td><a href="https://gist.github.com/1665641">https://gist.github.com/1665641</a></td>
+    </tr>
+    <tr>
+      <td>Fortran</td>
+      <td><code class="highlighter-rouge">type(c_ptr)</code>  </td>
+      <td><a href="https://gist.github.com/1665626">https://gist.github.com/1665626</a></td>
+    </tr>
+    <tr>
+      <td>Fortran</td>
+      <td><code class="highlighter-rouge">transfer()</code></td>
+      <td><a href="https://gist.github.com/1665630">https://gist.github.com/1665630</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The C code uses the standard C approach for writing extensible libraries
+that accept callbacks and contexts. The two Fortran codes show how to do
+the same. The <code class="highlighter-rouge">type(c_ptr)</code> method is equivalent to the C version and
+that is the approach that should be used.</p>
+
+<p>The <code class="highlighter-rouge">transfer()</code> method is here for completeness only (before Fortran
+2003, it was the only way) and it is a little cumbersome, because the
+user needs to create auxiliary conversion functions for each of his
+types. As such, the <code class="highlighter-rouge">type(c_ptr)</code> method should be used instead.</p>
+
+
+      <div class="container-flex">
+
+        
+          
+            <a href="/pr/406/learn/best_practices/callbacks" style="margin-right: auto;">
+          
+            <h3><i class="fas fa-arrow-circle-left"></i>
+              Back
+            </h3>
+          </a>
+        
+
+        
+          
+        
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+    <footer>
+  <div class="container">
+    <div class="col-wide">
+    
+      <a href="/pr/406/learn/">Learn</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/406/compilers/">Compilers</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/406/community/">Community</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/406/packages">Packages</a>
+      
+        &middot;
+      
+    
+      <a href="/pr/406/news/">News</a>
+      
+    
+    </div>
+
+    <div class="col-narrow">
+      This site's source is <a href="https://github.com/fortran-lang/fortran-lang.org/">hosted on GitHub</a>.
+    </div>
+  </div>
+</footer>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+     
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/pr/406/assets/js/fortranlang.js"></script>
+    <script src="/pr/406/assets/js/page_nav.js"></script>
+    <script src="/pr/406/assets/js/gh-contributors.js"></script>
+    <script src="/pr/406/assets/js/package_search.js"></script>
+    <script src="/pr/406/assets/js/package_tags.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
