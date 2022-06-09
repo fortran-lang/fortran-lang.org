@@ -233,7 +233,235 @@ environment in which new open source Fortran projects are created and published 
 
 
 ### LFortran
+Gagandeep Singh (106):
+      Factored out visit_Declaration to visit_DeclarationUtil in CommonVisitor
+      Added test for kwargs in class procedure
+      Added support for kwargs in class procedures
+      Updated reference tests
+      Added support for i32 and i64 in repeat
+      Added mergechar in merge interface
+      Added is_iostat_eor
+      Removed compulsory evaluation of ishft
+      Updated reference tests
+      Use intrinsic type checking in assignment only when operator overloading fails
+      Perform casting in Compare only when overloaded is not available
+      Set dest_type and source_type even though casting doesn't happen
+      Use kind_value to generate type in ArraySize
+      Added test for verifying SemanticError in case of non-constant kind input
+      Updated reference tests
+      Add AssociateBlock and Block in serialization.cpp
+      Include associate_06 in the integration_tests/CMakeLists.txt
+      Take into account output kind in LLVM's ArraySize visitor
+      Added test for different output kinds in ArraySize
+      Updated reference tests
+      Import procedures for overloaded operators as well
+      Fixed tests for compiling correctly with gfortran
+      Mangle name before importing procedures under generic procs
+      Merged master into sprint_6
+      Avoid manual imports while using overloaded symbols
+      Remove symbol from to_be_imported_later
+      Added support for keyword arguments in generic procedures and fix total arguments
+      Added test for generic procedures with keyword arguments
+      Updated reference tests
+      Added intrinsics: congjz, dotproduct and updated: merge
+      Added matmul, transpose as ASR nodes
+      Added tests for matmul and transpose
+      Updated reference tests
+      Added merge, dotproduct procedures for complex type
+      Updated reference tests
+      Add support for source kwarg in allocate
+      Updated test for verifying source argument
+      Updated reference tests
+      Registered shiftr, shiftl, adjustr, lgt, llt, lge, lle, count in comptime_eval.h
+      Added shiftl, shiftr and count
+      Added more implementations for abs, mod
+      Added adjustr, lgt, llt, lle, lge for string type
+      Updated reference tests
+      Registered ieee_is_nan in comptime_eval.h
+      Added support for pack intrinsic
+      Added support for transfer intrinsic
+      Use modern Fortran syntax for array constants
+      Updated reference tests
+      ArrayTransfer -> Transfer rename
+      Added generation code for expression replacer
+      Added ReplaceArgVisitor and generalised handle_return_type
+      Added tests for verifying arg replacer in return types
+      Updated reference tests
+      Added cmplx via ComplexConstructor node
+      Updated reference tests
+      Import via use inside Function
+      Added support for matching Derived/ClassType
+      Added support for falling back to intrinsic
+      Added to test verify importing procedures inside function
+      Updated reference tests
+      Added support for passing kind parameter to floor intrinsic
+      1. Use CPtr for variables declared with type(c_ptr) 2. Set Module_t.m_intrinsic in set_intrinsic 3. Add CPtr in extract_dimensions_from_ttype
+      Updated reference tests
+      Added LLVM support for CLoc, CPtr
+      Updated reference tests
+      Added integration test for c_f_pointer
+      Added support for c_f_pointer
+      Updated reference tests
+      Added error checking for presence of shape argument in c_f_pointer call
+      Fixed ArrayConstant type and raise error is shape is not rank 1
+      Updated reference tests
+      Implemented c_f_pointer for non-array variables
+      Updated reference tests
+      Added test with pointer array variables
+      Shifted type generation to a function in LLVM backend
+      Corrected llvm::Type* for array pointer variables
+      Updated reference tests
+      1. Fixed ArrayBound for array pointers 2. Shifted argument type generation to a function and use recursion for Pointer
+      Added support for printing Pointer type
+      1. Added AssociateBlock symbol in PassVisitor 2. Fixed get_bound to return ArrayBound instead of a function call
+      Use element type in ArrayRef instead of pointer
+      Syntax improvement
+      Updated reference tests
+      Removed warnings
+      Adjust ArrayBound for ArrayConstant
+      Corrected arrays_13 by making iv, rv as target
+      Stronger verification checks for CFPointer creation
+      Support for array inputs in CFPointer
+      Improved bindc2 for array inputs in c_f_pointer
+      1. Fixed ArraySize for array pointer variables in LLVM backend. 2. Improved CFPointer in LLVM backend to not interfere with already stored array in array pointer variables 3. Improved bindc2.f90 and made it robust to cover more cases. 4. Updated reference tests
+      Fixed unused variable warnings in llvm_utils.cpp
+      Use abstract methods in CFPointer for accessing array descriptor data
+      Added test for ArrayRef in c_loc
+      Minor update in bindc2 and bindc3
+      Fixed Complex case in duplicate type and intialise type at declaration
+      Added support ArrayRef in CLoc in LLVM backend
+      Updated reference tests
+      1. Added support for CPtr in arguments and fixed llvm::Type for intent(out) for CPtr 2. Added support for constant arrays as shape in c_f_pointer
+      Updated bindc4 for verifying constant arrays in c_f_pointer
+      Updated reference tests
 
+Naman Gera (1):
+      Update the C runtime library
+
+Ondřej Čertík (136):
+      AST->ASR: Remove current_body
+      Fix a bug in a test
+      Update tests
+      bind(c): Add tests for i64, f32, f64
+      Update modules_18b.f90 to compile
+      Add tests for the other types
+      Comment out a non-working case
+      Update tests
+      bind(c): Fix call_fortran_i64
+      Update tests
+      bind(c): Add a test for i32 by value
+      LLVM: implement value arguments in bind(c) procs
+      Update tests
+      Make modules_18b.f90 compile
+      bind(c): test i64, f32, f64 by value
+      Update modules_18b to compile
+      Update tests
+      ASR: Bring updates from LPython
+      Update tests
+      ASR: Updates from LPython
+      Update the rest of the code to compile
+      Update tests
+      C++ backend: implement ComplexConstructor
+      Add the simplest test for submodules
+      Add Logical to nested_vars
+      Workaround a cmake bug
+      Add a test for bind(c) with pointers
+      Rework the AST->ASR handling of floor()
+      Implement is_intrinsic_symbol()
+      Refactor floor() into lfortran_intrinsic_math3
+      Update tests
+      Add a test case for imported derived type
+      Add value to all expr nodes except Constant
+      Update tests
+      Implement expr_type() using ExprTypeVisitor
+      Implement expr_value() using ExprValueVisitor
+      iso_c_binding: add the c_loc() function
+      Allow derived types as return values
+      ASR: Represent c_loc()
+      Add ASR test for c_loc()
+      Update tests
+      ASR: Add string conversion for derived type
+      Add a CPtr() type
+      Make c_loc() return CPtr
+      LLVM: handle CPtr in convert_args()
+      LLVM: Comment out visit_CFPointer (WIP)
+      CI: pin mkdocs-material and mkdocs versions
+      Fix spelling
+      Update tests
+      Shorten the help for --show-wat to fit 80 columns
+      Git ignore wasm_visitor.h
+      Move emit_wat out of LLVM ifdef
+      Generate wasm_visitor.h in ci/build.xsh
+      Enable WAT tests in run_tests.py
+      Add a test for WASM
+      Update reference tests
+      Implement FortranEvaluator::get_wasm()
+      Use asr_to_wasm_bytes_stream() in asr_to_wasm
+      WASM: Add 64 bit BinOp operations
+      WASM: handle i64 arguments
+      WASM: Add a test for i64
+      Move the wasm_instructions_visitor.py to libasr
+      Update ASR from LPython
+      Update tests
+      Bring more ASR improvements from LPython
+      Bring in name mangling
+      Update tests
+      Add a test for passing through pointers via C
+      LLVM: implement debug ASR printing
+      LLVM: Use `deftype` to implement interfaces
+      LLVM: Pass type(c_ptr) by value properly
+      Pass "n" by reference for now
+      Pass arguments by value for bind(c)
+      Only do the load if it is a pointer
+      LLVM: Use an ASR condition instead of LLVM one
+      lfortran_intrinsic_string: depend iso_fortran_env
+      Enable bindc_01 LLVM test
+      Add a test for pointer argument
+      Add suffixes 1/2
+      Add a callback2b test
+      Add a test for callback1b()
+      Get value to reference argument working
+      Port ASR improvements from LPython
+      Update the rest of the code to compile
+      Update tests
+      ASR sync with LPython
+
+Tapasweni Pathak (9):
+      Add markdown sample for intrinsic:math:asin
+      Add doxygen docstring in lfortran intrinsic runtime asin
+      Add comments for interface asin
+      Add doxygen comment for lfortran_sasin_api
+      Enhance presentation of information
+      use retval for return values variable
+      delete fortran doxygen comments docs
+      mkdocs: LFortran Intrinsics: asin
+      add: mkdocs: code syntax highlighting
+
+Ubaid (24):
+      Improve ceiling() test case
+      Update reference tests
+      Specifying constants as double precision
+      Update error condition check as suggested
+      Update reference tests
+      Code formatting
+      Add and improve namespace ending comments
+      Add wasm_instructions list
+      Comment out few instructions that have temporary variables
+      Add wasm_instructions_visitor script
+      Add namespace related info and pass code as function parameter in wasm_insts_visitor script
+      Add command in build0.sh to generate wasm_visitor.h
+      Add utility struct and functions defined in wasm_utils
+      Add wasm_to_wat converter
+      Include wasm_to_wat and wasm_utils in CMakeLists.txt
+      Define vector.resize()
+      Add --show-wat flag and emit_wat() function
+      Declare and define get_wat() in fortran_evaluator
+      Declare and define asr_to_wasm_bytes_stream() which stores wasm binary to memory
+      Fix warning by adding U and add comment
+      Fix missing parameters bug
+      Switch off WAT_DEBUG macro
+      Remove debugging cout statements
+      Move load_file() to top
 TODO @certik
 
 We are looking for new contributors. Please do not hesitate to contact us if you are interested. We will help you get up to speed.
