@@ -2,14 +2,108 @@
     "name": "fortran-lang/fpm",
     "issues": [
         {
+            "number": 702,
+            "user": "awvwgk",
+            "date": "2022-06-03 11:09:24+00:00",
+            "title": "Bump version to 0.6.0",
+            "text": "Feel free to merge and release following the guide at https://github.com/fortran-lang/fpm/wiki/Release-Process\nTest release at https://github.com/awvwgk/fortran-package-manager/releases/tag/v0.6.0\nCloses #679",
+            "is_open": true,
+            "labels": [],
+            "comments": []
+        },
+        {
+            "number": 701,
+            "user": "zoziha",
+            "date": "2022-05-27 19:13:24+00:00",
+            "title": "Some cleanups and minor fixes",
+            "text": "Description\nWhile using fpm and reading the fpm source code, I have found some small areas for improvement, as they tend to be small and have little impact on the overall functionality of fpm, and it doesn't seem worth it to list them as a single PR.\nUpdates\nThe work this PR does:\n\nDelete the unused fnv_1a reference;\nUpdate number_of_rows, remove unnecessary character reading;\nUpdate mkdir and os_delete_dir, the output format of which is somewhat complicated, and the current modification is unified with the following style:\n\n  \n    \n      fpm/src/fpm_filesystem.F90\n    \n    \n         Line 906\n      in\n      aec789f\n    \n  \n  \n    \n\n        \n          \n           if(echo_local) print *, '+ ', cmd \n        \n    \n  \n\n\nLogical operators using ==, /=, etc. are more intuitive and modern than .eq., .ne.;\nThe display of compilation percentage output style has been corrected;\n\n[  24%]Compiling ...  # Original\n[ 24%] Compiling ...  # Now\n\nIn the new_test test, the wildcard command line used in CMD shell on Windows did not actually take effect, which was corrected;\n\n\ud83d\udce2 PS. I made a single commit record for each fix, it would be simple enough to review them in turn.",
+            "is_open": true,
+            "labels": [],
+            "comments": [
+                {
+                    "user": "zoziha",
+                    "date": "2022-05-28 11:47:12+00:00",
+                    "text": "Thanks for reviewing, @LKedward .\n\n\nAre you able to fix this line in new-test as well: \n  \n    \n      fpm/test/new_test/new_test.f90\n    \n    \n         Line 156\n      in\n      cd8b5cc\n    \n  \n  \n    \n\n        \n          \n           rm_command = 'rmdir ' // dirs_to_be_removed // ' /s /q' \n        \n    \n  \n\n\n\n\nSorry I didn't see this line of code before, I'll update my commit to fix it.\n\n\nIn backend_output, perhaps we should just declare overall_progress with length 7 and remove the (:7) indexing?\n\n\nNice suggestion ~"
+                }
+            ]
+        },
+        {
+            "number": 700,
+            "user": "rouson",
+            "date": "2022-05-23 04:59:59+00:00",
+            "title": "Option to ignore subdirectories and/or files",
+            "text": "Description\nWhen adding fpm to a project that already has one or more non-fpm build system(s) (e.g., ones based on make or cmake), not being able to tell fpm to ignore certain subdirectories and/or files means the involved files must be moved out of the locations where fpm attempts to build every file found.  Any such directory/file moves are likely to necessitate changes to the other build system(s).  Also, there's the social issue associated with having to ask for what sometimes feels like a big change to a project.\nPossible Solution\nAdd a feature that gives users the ability to specify in the manifest that a certain subdirectory or file should be ignored.  Being able to insert something like the following in a fpm.toml file might suffice:\n[ignore]\nsrc/ignore-me\n\nAdditional Information\nNo response",
+            "is_open": true,
+            "labels": [
+                "enhancement"
+            ],
+            "comments": []
+        },
+        {
+            "number": 698,
+            "user": "wyphan",
+            "date": "2022-05-18 15:51:58+00:00",
+            "title": "fpm build failure with NAG 7.0",
+            "text": "Description\nContinuing the discussion in #690 about building fpm with NAG Fortran.\nBuilding fpm with NAG Fortran 7.0 currently gives an internal compiler error (ICE).\nPanic: fpm.F90: High word of Uindex must be zero\nInternal Error -- please report this bug\nAbort\nSee https://gist.github.com/wyphan/03b095763e25f5639db21c01e0d7cc3b for the full build log.\nExpected Behaviour\nfpm can be built with NAG nagfor.\nThis is important because NAG is arguably the most standard-conforming Fortran compiler out there.\nVersion of fpm\nLatest develop at time of writing aec789f\nPlatform and Architecture\nLinux x86_64 (CentOS 7)\nAdditional Information\nI'm not too familiar yet with the NAG compiler. I intend to submit the bug report to NAG, but will need extensive help to pinpoint where the ICE comes from, so I can make a reproducer code.",
+            "is_open": true,
+            "labels": [
+                "bug"
+            ],
+            "comments": [
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-18 16:50:27+00:00",
+                    "text": "Panic: fpm.F90: High word of Uindex must be zero\nInternal Error -- please report this bug\n\nPlease follow the suggestion in the compiler output and report this as a bug to NAG. They are taking compiler bugs very serious will most likely come back to you with a new release including a fix quickly."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-18 16:51:42+00:00",
+                    "text": "Can someone who has access to version 7.1 try to reproduce this issue? So I don't waste time performing bug isolation on a bug that is already fixed \ud83d\ude02"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-18 16:58:32+00:00",
+                    "text": "NAG 7.1 does fail at fpm_command_line.f90 with\nWarning: ./src/fpm_command_line.f90, line 607: Unused local variable FLAGS\nWarning: ./src/fpm_command_line.f90, line 1298: FNV_1A explicitly imported into FPM_COMMAND_LINE but not used\nWarning: ./src/fpm_command_line.f90, line 1298: INPUT_UNIT explicitly imported into FPM_COMMAND_LINE (as STDIN) but not used\nWarning: ./src/fpm_command_line.f90, line 1298: LOWER explicitly imported into FPM_COMMAND_LINE but not used\n[NAG Fortran Compiler normal termination, 4 warnings]\n./src/fpm_command_line.f90: In function \u2018fpm_command_line_MP_get_command_line_settings\u2019:\n./src/fpm_command_line.f90:462:39: error: invalid type argument of \u2018->\u2019 (have \u2018struct fpm_command_line_DT_fpm_build_settings\u2019)\n             install_settings = fpm_install_settings(&\n                                       ^~\n./src/fpm_command_line.f90:462:39: error: invalid type argument of \u2018->\u2019 (have \u2018struct fpm_command_line_DT_fpm_build_settings\u2019)\n             install_settings = fpm_install_settings(&\n                                       ^~\n\nMeaning I didn't reach fpm.F90 so far, the ICE could still be present."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-19 14:46:12+00:00",
+                    "text": "IIRC the ICE with 7.0 happens when bootstrapping with the single source file fpm.F90 right after it has been downloaded with curl/wget, not the main program fpm.f90 in the repo at src/fpm.f90."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-19 19:35:24+00:00",
+                    "text": "Same error as shown above using the install script with\nFC=nagfor FFLAGS=\"\" ./install.sh\n\nThe line number is a bit changed but it is the same piece of code\n[NAG Fortran Compiler normal termination, 138 warnings]\nfpm.F90: In function \u2018fpm_command_line_MP_get_command_line_settings\u2019:\nfpm.F90:11526:39: error: invalid type argument of \u2018->\u2019 (have \u2018struct fpm_command_line_DT_fpm_build_settings\u2019)\n             install_settings = fpm_install_settings(&\n                                       ^~\nfpm.F90:11526:39: error: invalid type argument of \u2018->\u2019 (have \u2018struct fpm_command_line_DT_fpm_build_settings\u2019)\n             install_settings = fpm_install_settings(&\n                                       ^~"
+                }
+            ]
+        },
+        {
+            "number": 697,
+            "user": "wyphan",
+            "date": "2022-05-18 15:44:06+00:00",
+            "title": "Remove warning message when building fpm",
+            "text": "Description\nThis is not a game-breaking bug by any means, but it would be nice if this warning message when building fpm no longer shows up at the link phase.\n/usr/bin/ld: build/gfortran_367ECB55A902040F/fpm/libfpm.a(src_fpm_filesystem.F90.o): in function `__fpm_filesystem_MOD_get_temp_filename':\n/fpm/./src/fpm_filesystem.F90:591: warning: the use of `tempnam' is dangerous, better use `mkstemp'\nExpected Behaviour\nBuilding fpm does not emit any warning messages.\nVersion of fpm\nIt's been there for a while, incuding latest develop (at the time of writing) aec789f\nPlatform and Architecture\nLinux x86_64 (Ubuntu 20.04 LTS)\nAdditional Information\nNo response",
+            "is_open": true,
+            "labels": [
+                "bug"
+            ],
+            "comments": []
+        },
+        {
             "number": 693,
             "user": "zoziha",
             "date": "2022-04-28 13:06:23+00:00",
             "title": "Fix show-model option",
             "text": "To close #615 .\nInit the f_source%link_libraries array length as 0.",
-            "is_open": true,
+            "is_open": false,
             "labels": [],
-            "comments": []
+            "comments": [
+                {
+                    "user": "zoziha",
+                    "date": "2022-05-27 19:18:45+00:00",
+                    "text": "This is a relatively small correction, mainly to initialize the length of the allocatable array f_source%link_libraries to prevent access segfaults.\nIf possible, it seems that the PR can pass ~"
+                }
+            ]
         },
         {
             "number": 692,
@@ -17,9 +111,15 @@
             "date": "2022-04-23 18:25:02+00:00",
             "title": "Fix for non-portable GFortran `-J` flag in install script",
             "text": "None",
-            "is_open": true,
+            "is_open": false,
             "labels": [],
-            "comments": []
+            "comments": [
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-18 14:41:38+00:00",
+                    "text": "Can we use cd instead of pushd to avoid the issue with non-bash shells?\n\nI wrote a custom pushd and popd (without the stack) to deal with non-bash shells, and that's the part that I need extra testing...\n\nOr if we want to stay with bash, why not just change the shebang to require a bash?\n\nI honestly prefer portability so fpm can be installed anywhere, even on minimalist distros like Alpine or TinyCore. This would be beneficial for Docker usage."
+                }
+            ]
         },
         {
             "number": 691,
@@ -63,7 +163,7 @@
             "date": "2022-04-20 00:24:06+00:00",
             "title": "Module output directory flag in bootstrap install script",
             "text": "Description\nWhen trying to build fpm with NAG Fortran compiler nagfor 7.0, I discovered that the install script currently hardcodes the GCC flag -J for where to output generated .mod module files.\n\n  \n    \n      fpm/install.sh\n    \n    \n         Line 67\n      in\n      c841456\n    \n  \n  \n    \n\n        \n          \n           $FC $FFLAGS -J $BOOTSTRAP_DIR $BOOTSTRAP_DIR/fpm.F90 -o $BOOTSTRAP_DIR/fpm \n        \n    \n  \n\n\nThis prevents compiling the bootstrap version with compilers other than gfortran.\nNAG nagfor fortunately gives a helpful error message that enabled me to figure this out:\nNAG Fortran Compiler Release 7.0(Yurakucho) Build 7003\nOption error: Unrecognised option -J\nExpected Behaviour\nI think there should be some kind of database in the install script for this particular compile flag.\nThe contents for now will be\n\n\n\nCompiler\nmodule output flag\n\n\n\n\nGCC gfortran\n-J\n\n\nNAG nagfor\n-mdir\n\n\nIntel ifort\n-module\n\n\n\nMore compilers, e.g. NVIDIA nvfortran, Cray ftn, AMD AOCC flang (= \"classic\" flang), Arm armflang, etc. can then be added as they're tested.\nVersion of fpm\n0.5.0\nPlatform and Architecture\nLinux (CentOS 7) x86\nAdditional Information\nI can also test on Windows if needed.",
-            "is_open": true,
+            "is_open": false,
             "labels": [
                 "bug"
             ],
@@ -102,6 +202,21 @@
                     "user": "wyphan",
                     "date": "2022-04-23 18:41:49+00:00",
                     "text": "Btw, building fpm with NAG 7.0 gives an internal compiler error (ICE)!\nSee https://gist.github.com/wyphan/03b095763e25f5639db21c01e0d7cc3b for more details."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-18 15:45:23+00:00",
+                    "text": "PR #692 just merged! \ud83c\udf89\nInstead of using pushd and popd, we use plain old cd following @awvwgk 's suggestion.\nBtw, should I create a separate issue for the NAG build failure and close this one?"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-18 15:46:16+00:00",
+                    "text": "Sure do this"
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-18 15:52:23+00:00",
+                    "text": "Issue #698 opened to continue the discussion there."
                 }
             ]
         },
@@ -152,7 +267,7 @@
             "user": "rouson",
             "date": "2022-04-06 22:03:34+00:00",
             "title": "Option to output dependency tree",
-            "text": "Description\nI assume that fpm constructs some form of dependency dependency tree.  It would be nice to have an option that prints the dependency tree for a project.  This is especially useful for a developer who encounters a new project that doesn't have such information in the documentation.  Specifically, if one is going to contribute to a project, dependency information can be really useful in determining the number of places that could be impacted by changes in one given place.\nPossible Solution\nAdd a --dependency-tree flag that prompts the printing of whatever data structure fpm uses to store this information.\nAdditional Information\nNo response",
+            "text": "Description\nI assume that fpm constructs some form of module dependency tree.  It would be nice to have an option that prints the dependency tree for a project.  This is especially useful for a developer who encounters a new project that doesn't have such information in the documentation.  Specifically, if one is going to contribute to a project, dependency information can be really useful in determining the number of places that could be impacted by changes in one given place.\nPossible Solution\nAdd a --dependency-tree flag that prompts the printing of whatever data structure fpm uses to store this information.\nAdditional Information\nNo response",
             "is_open": true,
             "labels": [
                 "enhancement"
@@ -162,6 +277,11 @@
                     "user": "milancurcic",
                     "date": "2022-04-07 01:06:31+00:00",
                     "text": "Similar question in #682."
+                },
+                {
+                    "user": "rouson",
+                    "date": "2022-05-01 20:13:46+00:00",
+                    "text": "@milancurcic I just realized that #682 addresses a different topic but related topic.  I'm referring to module dependencies, which might be mostly internal and could exist even in a project with no dependencies on external projects.  I've added the word \"module\" in this issue's title and initial comment to make my request more clear.  I'm seeking information that's useful for refactoring.  Seeing a module dependency tree could be very helpful in determining which modules could be impacted by changes in any given module."
                 }
             ]
         },
@@ -210,6 +330,11 @@
                     "user": "awvwgk",
                     "date": "2022-03-19 08:23:01+00:00",
                     "text": "No, this is currently not possible. See my answer in #655 for things to consider in case anyone wants to pick this up."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-20 08:05:20+00:00",
+                    "text": "Thanks @awvwgk for mentioning this in the Spack issue #79.\nSpack does handle RPATH issues quite nicely for Linux and MacOS: https://spack.readthedocs.io/en/latest/packaging_guide.html#handling-rpaths\nI'm not too familiar with DLLs to comment on how to resolve this for Windows."
                 }
             ]
         },
@@ -283,13 +408,83 @@
             "date": "2022-03-13 18:13:28+00:00",
             "title": "Tree shaking for modules",
             "text": "Experimental changes to implement limited dependency tree-shaking/pruning just for modules (#635)\n\nSource parsing is updated to detect files that only contain modules (FPM_UNIT_MODULE)\n\nIf a source contains anything outside of a module, then that source cannot be pruned\nPruning is only supported for modules with an end module statement since this is used to detect if anything is outside a module. Modules without an end module statement will always be built and linked.\n\n\nNew prune_build_targets subroutine to perform tree-shaking/pruning of supported modules\n\nSupported modules are pruned by recursively enumerating used module dependencies down from the executables\nIf there are no executables, then module dependencies are enumerated from all sources in the top-level package (so only modules from dependencies are pruned)\nSubmodules are pruned if their parents aren't used anywhere\nSources that are not pure modules (FPM_UNIT_SUBPROGRAM) are never pruned\n\n\n\nPlease test and give feedback; there are possibly more edge cases that I have not considered.\nTODO:\n\n Further testing\n Prune based on root package modules when no executables\n Add --all--no-prune flag to fpm build to skip pruning",
-            "is_open": true,
+            "is_open": false,
             "labels": [],
             "comments": [
                 {
                     "user": "milancurcic",
                     "date": "2022-03-14 01:14:57+00:00",
                     "text": "This is a very exciting update, thank you for working on it. I will test it this week. For the skip pruning option, I suggest a --no-prune flag as it's more specific, and it may be that --all will be more appropriate for some other feature."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-08 20:30:43+00:00",
+                    "text": "Thanks @awvwgk.\n\nThe initial preparation step for the tree-shaking is quite costly, for a project of mine it took ~1 min before starting the build (8 projects, 135 files, 37k LOC, tblite/tblite).\n\nOn my 2014 low-end laptop it took 26 s, which nevertheless is quite long. Granted, this is a quite large project--wIth dependencies it's over 100K LOC. I believe all dependency source files need to be parsed before the build can begin (correct me if I'm wrong). I think this project is a good test-case to use to get pruning to work the way we want it.\nHow do you suggest improving this? At the very least, we should print a message to the stdout that the pruning in progress may take a while, otherwise the user will think that fpm hung.\nA possibility is to develop a heuristic to automatically disable pruning if the size of the root project (e.g. measured in LOC) is large relative to individual dependencies. This seems quite involved to do well and could perhaps be a future GSoC project.\n\nWorse, the build eventually failed because in jacobwilliams/json-fortran a couple of modules were pruned.\n\nI can reproduce this with a minimal project that doesn't use json-fortran, but lists it as a dependency. With pruning enabled it attempts to build json-fortran (which it shouldn't), but then it either prunes out a module that's needed, or it messes up the build sequence. I can't tell yet which part of the introduced logic causes this behavior. I agree this should be resolved before moving forward."
+                },
+                {
+                    "user": "ivan-pi",
+                    "date": "2022-05-08 20:54:18+00:00",
+                    "text": "Could the long time be explained by the use of a recursive subroutine? Some profiling may explain where the majority of time is spent, and what is the bottleneck."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-08 20:56:54+00:00",
+                    "text": "On my 2014 low-end laptop it took 26 s, which nevertheless is quite long. Granted, this is a quite large project--wIth dependencies it's over 100K LOC. I believe all dependency source files need to be parsed before the build can begin (correct me if I'm wrong). I think this project is a good test-case to use to get pruning to work the way we want it.\n\nCertainly not a large one, maybe medium-sized. Large projects in the Fortran world have several million lines of codes. Another good test project is John's general-purpose-fortran.\nRegarding the bottleneck, I recommend to do some profiling. I doubt the source scanner will be a time consuming step, but I spotted a couple of quadratic scaling search loops when looking through the patch.\nIf it turns out that we cannot reduce the startup time for this feature, we have to defer the time consuming step to runtime and create the build graph dynamically. This strategy is quite successful in meson/CMake generated ninja files, which callback into their parent build system for dynamically determining dependencies, startup time is instantaneous and the dependency resolution never fails."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2022-05-09 06:33:01+00:00",
+                    "text": "Thanks all for testing and the feedback! I didn't test on a large project so that's been useful; I now realise that I missed a redundancy check from the recursive enumeration of modules, which is probably the cause of the poor scaling, so I'll add that in.\nNot sure what could be causing the other issue, I'll look into that."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2022-05-09 10:54:51+00:00",
+                    "text": "Adding the missing redundancy check to the recursive exploration has reduced the startup time for large projects. Pruning now adds about 5% to the startup time for tblite compared to the main branch on my machine. Please can you test again for yourselves since I didn't encounter startup times of the same order as you two for tblite (about 10secs on 2014 i7 prior to adding redundancy checks, and now about 2.3secs).\nThe issues with json-fortran were twofold: first, I wasn't enumerating used modules in non-module sources (which can't be pruned) and; the json sources were being misidentified as non-module sources because of preprocessor lines. I've pushed fixes and tests for these as well."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-10 21:36:10+00:00",
+                    "text": "Hmm, with the recent updates, fpm doesn't seem to prune for me. To reproduce:\nfpm new a\ncd a\n\nAdd to fpm.toml:\n[dependencies]\ntblite = { git=\"https://github.com/tblite/tblite\" }\n\nthen run fpm build. I expected fpm to not build tblite and dependencies, but it does.\nIf I run it with fpm build --no-prune, it builds more stuff, which makes me realize that the first run did prune some stuff.\nThen I compared the two and found that with --no-prune, fpm build 253 files, and 81 otherwise.\nMy question is, if I don't use a dependency at all in my programs and modules, but it's listed in fpm.toml as a dependency, is fpm with pruning expected to build some of that dependency? I didn't think so, but maybe I'm wrong."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2022-05-11 15:57:57+00:00",
+                    "text": "Thanks for checking @milancurcic - I can confirm that this is expected behavior because dftd4 (a dependency of tblite) contains a non-module source file compat.f90 which is classified as such since it contains a subroutine defined outside of a module: generate_wsc. Based on the information that fpm has, we cannot prune this file nor any of the modules it uses, hence the parts that got built in your test.\n\nMy question is, if I don't use a dependency at all in my programs and modules, but it's listed in fpm.toml as a dependency, is fpm with pruning expected to build some of that dependency?\n\nSo to answer your question directly: yes, if you don't use a dependency via a use statement then that dependency shouldn't be built, except for source files that contain functions/subroutines defined outside of a module and c source files (which we cannot currently prune based on the information that fpm has)."
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-11 16:01:53+00:00",
+                    "text": "@LKedward Ah! I forgot about that. All clear. I will continue testing with a few packages of varying sizes."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-11 16:31:40+00:00",
+                    "text": "Thanks for the fix, I can depend on json-fortran again \ud83c\udf89.\nAnother edge case for the pruning, this time a smaller project (~95k LOC in 205 files in 5 projects, s-dftd3), well not really smaller. I'm currently not enabling tests for the C-API because we haven't released an fpm version supporting it yet, but if you try to build the C-API tester it will fail due to the bind(c) API export getting pruned without any Fortran users.\nApply this patch on top of the current head:\ndiff --git a/fpm.toml b/fpm.toml\nindex 249d6db..265eeff 100644\n--- a/fpm.toml\n+++ b/fpm.toml\n@@ -24,3 +24,8 @@ dependencies.toml-f.git = \"https://github.com/toml-f/toml-f\"\n [[test]]\n name = \"tester\"\n source-dir = \"test/unit\"\n+\n+[[test]]\n+name = \"api-tester\"\n+source-dir = \"test/api\"\n+main = \"api-test.c\"\nTry to run a fresh build for the tests\n\u276f ../fortran-package-manager/_pull/676/bin/fpm test api-tester\n...\napi-tester                             failed.\n[  97%]Compiling...\n/usr/bin/ld: build/gfortran_EA1B3FB6891FF6E5/s-dftd3/test_api_api-test.c.o: in function `show_error':\n/home/awvwgk/projects/src/git/s-dftd3/test/api/api-test.c:27: undefined reference to `dftd3_get_error'\n...\n/usr/bin/ld: /home/awvwgk/projects/src/git/s-dftd3/test/api/api-test.c:178: undefined reference to `dftd3_delete_error'\ncollect2: error: ld returned 1 exit status\n<ERROR> Compilation failed for object \" api-tester \"\n<ERROR>stopping due to failed compilation\nSTOP 1\n\nSame holds for most of the projects I'm developing, they have an api.f90 file somewhere defining a C-API via bind(c) which is than consumed at least in a unit test, but usually by actual C or Python side users. You can find a similar setup in minpack as well, which is even smaller for testing this behavior."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2022-05-12 09:02:52+00:00",
+                    "text": "Thanks @awvwgk - yes this is another scenario I missed. I think it shouldn't be too difficult to detect bind(c) subroutines, just need to take care to distinguish from bind(c) interfaces.\n\nAside: It seems a shame for a package to effectively loose pruning support because it provides a C API; some possible solutions to this could be to provide the C API as a separate package or to have the C API as optional feature (#609)."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-12 20:38:56+00:00",
+                    "text": "Aside: It seems a shame for a package to effectively loose pruning support because it provides a C API; some possible solutions to this could be to provide the C API as a separate package or to have the C API as optional feature (#609).\n\nSplitting of bindings into separate projects means they will eventually become stale and out-of-sync, this is not an option for long-term maintainability.\nHaving the possibility to mark part of the code as optional features would be a solution. For the other build systems in my projects (CMake and meson) the C API is indeed optional and usually disabled when the project is included as subproject and statically linked to avoid symbols leaking from shared libraries declared in the superproject."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-06-03 11:17:09+00:00",
+                    "text": "Startup times look okay now\n\u276f fpm run --runner time -- build -C ../mctc-tools/tblite\nProject is up to date\nfpm: Entering directory '/home/awvwgk/projects/src/git/mctc-tools/tblite'\nProject is up to date\nfpm: Leaving directory '/home/awvwgk/projects/src/git/mctc-tools/tblite'\n\nreal\t0m0.790s\nuser\t0m0.739s\nsys\t0m0.043s\n\u276f time fpm build -C ../mctc-tools/tblite\nfpm: Entering directory '/home/awvwgk/projects/src/git/mctc-tools/tblite'\nProject is up to date\nfpm: Leaving directory '/home/awvwgk/projects/src/git/mctc-tools/tblite'\n\nreal\t0m0.578s\nuser\t0m0.504s\nsys\t0m0.066s"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-06-03 11:32:34+00:00",
+                    "text": "I haven't played with it further, but given @awvwgk's review I suggest to go ahead and merge."
+                },
+                {
+                    "user": "LKedward",
+                    "date": "2022-06-03 14:20:22+00:00",
+                    "text": "Thanks both for reviewing, I'll now merge."
                 }
             ]
         },
@@ -345,9 +540,15 @@
             "date": "2022-03-09 05:50:08+00:00",
             "title": "Add `library-dir` to support `-Lpath`",
             "text": "Add library-dir in fpm.toml to support -Lpath;\n Use the compiled minpack as a demo of this new feature;\n Update tests.\n\nDescription\n-Lpath makes it possible to distribute large libraries such as stdlib, OpenBLAS, HDF5, MKL, etc., and to package compiled .mod and .a/.dll/.so/.dll.a files into fpm distribution.",
-            "is_open": true,
+            "is_open": false,
             "labels": [],
-            "comments": []
+            "comments": [
+                {
+                    "user": "zoziha",
+                    "date": "2022-05-27 19:22:23+00:00",
+                    "text": "Rethinking the value of this PR, it seems that this feature does not need to be implemented. :\\\nCurrently, we can mostly set the system or temporary FPM_FFLAGS environment variable to support -Ipath/to/include and -Lpath/to/lib.\nI will close this PR tomorrow."
+                }
+            ]
         },
         {
             "number": 670,
@@ -454,6 +655,16 @@
                     "user": "urbanjost",
                     "date": "2022-03-04 18:01:23+00:00",
                     "text": "All messages that are informative should not appear unless the --verbose|-V switch is present; other possibilities are all messages go to stderr instead of stdout; and/or the user can set a verbosity level including no messages.  Having messages like that appear when using --list and --runner broke a lot of my scripts where I just wanted a pathname. Somewhat ironic it appears to have showed up along with the quiet mode for  building :>"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-18 18:55:53+00:00",
+                    "text": "It is not uncommon for build systems to report that there is no work to be done\n\u276f make\nmake: Nothing to be done for 'all'.\n\u276f ninja -C _build_gcc11/\nninja: Entering directory `_build_gcc11/'\nninja: no work to do."
+                },
+                {
+                    "user": "urbanjost",
+                    "date": "2022-05-20 14:51:31+00:00",
+                    "text": "And all that I know of write to stderr and/or have a quiet mode; as is the convention on GNU/Linux and Unix.  Even grep(1) has a quiet mode!"
                 }
             ]
         },
@@ -688,6 +899,11 @@
                     "user": "LKedward",
                     "date": "2022-02-07 14:48:42+00:00",
                     "text": "@LKedward about the changes to the manifest being included in the PR. I was thinking that since the profiles are not used yet, then we should not include it so that it does not confuse anybody.\n\nOf course, good point!"
+                },
+                {
+                    "user": "milancurcic",
+                    "date": "2022-05-07 19:10:19+00:00",
+                    "text": "This looks like it could be merged, no?"
                 }
             ]
         },
@@ -1419,7 +1635,7 @@
             "date": "2021-11-21 02:41:53+00:00",
             "title": "Trouble with `--show-model`",
             "text": "Description\nFound this while I was trying to debug an unrelated issue in fpm itself.\ncd fpm\nfpm build --show-model\nAt line 247 of file ././src/fpm_model.f90\nFortran runtime error: Index '1' of dimension 1 of array 'source%link_libraries' below lower bound of 4\n\nError termination. Backtrace:\n#0  0x7f0a0e0f9332 in ???\n#1  0x7f0a0e0f9df9 in ???\n#2  0x7f0a0e0fa40a in ???\n#3  0x4ad86b in info_srcfile\n        at ././src/fpm_model.f90:247\n#4  0x4af2fa in info_package\n        at ././src/fpm_model.f90:167\n#5  0x4a363c in info_model\n        at ././src/fpm_model.f90:277\n#6  0x4a2db9 in __fpm_model_MOD_show_model\n        at ././src/fpm_model.f90:313\n#7  0x40c527 in __fpm_MOD_cmd_build\n        at ././src/fpm.f90:285\n#8  0x4027eb in MAIN__\n        at app/main.f90:67\n#9  0x402d1b in main\n        at app/main.f90:10\n\nExpected Behaviour\nView fpm model.\nVersion of fpm\n9dc068d\nPlatform and Architecture\nLinux x64, Windows x64\nAdditional Information\nNo response",
-            "is_open": true,
+            "is_open": false,
             "labels": [
                 "bug"
             ],
@@ -1675,6 +1891,11 @@
                     "user": "urbanjost",
                     "date": "2021-11-29 00:32:42+00:00",
                     "text": "Haven't carefully read this discussion yet but I\nalways put -L and -l on the right side of my build objects in order as a result of working with single-pass left-to-right loaders; without trouble; but since multiple -flag options are allowed, perhaps a special option like --place [left|right]  that would indicate the position to place subsequent options would be a stop-gap? Although nearly a standard, not all compilers necessarily use -L and -l so just looking for those flag names might have issues"
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-26 13:35:26+00:00",
+                    "text": "@rouson Would native support for pkg-config in fpm be a solution for your library? I see that there is a generation step paring the GASNet-EX pkg-config file to build the fpm.toml at\nhttps://github.com/BerkeleyLab/caffeine/blob/96ae0a818203ed92017e79bd3debb3b2f6e3c556/install.sh#L297-L303\nWe discussed pkg-config support in #439, but didn't arrive at an agreement whether fpm should support it or no."
                 }
             ]
         },
@@ -3235,7 +3456,13 @@
             "labels": [
                 "bug"
             ],
-            "comments": []
+            "comments": [
+                {
+                    "user": "Carltoffel",
+                    "date": "2022-05-13 10:20:22+00:00",
+                    "text": "I also ran into this issue. To make some progress on this issue:\n\nThe error comes from here because none of 'library', 'executable', 'test', 'example' is allocated.\nTo be allocated 'executable', 'test' and 'example' needs to contain a 'main.f90' file.\nI tried to change these three lines to be the same as for 'library'/'src' (just check if the directory exists). But then fpm complains that it cannot find, e.g., 'example/main.f90' because it currently needs to set a default app, example, or test."
+                }
+            ]
         },
         {
             "number": 533,
@@ -18120,6 +18347,21 @@
                     "user": "certik",
                     "date": "2021-09-06 14:22:44+00:00",
                     "text": "Note that to fix this issue, I am imagining something like fpm --create-spack-package and it will take the current fpm package in the current directory, and spit out the spack Python file that can be used with Spack to build it."
+                },
+                {
+                    "user": "awvwgk",
+                    "date": "2022-05-19 06:13:12+00:00",
+                    "text": "I think rather than writing a spack package from fpm as first step, we should enable fpm to work as build system for spack by\n\nproviding a way to satisfy fpm dependencies by spack (maybe #439)\ncreate libraries usable by other spack packages (maybe #681)"
+                },
+                {
+                    "user": "certik",
+                    "date": "2022-05-19 06:32:01+00:00",
+                    "text": "@awvwgk I agree, that is higher priority."
+                },
+                {
+                    "user": "wyphan",
+                    "date": "2022-05-19 14:40:23+00:00",
+                    "text": "Like I mentioned on Fortran Discourse forum, I recently patched the fpm package in Spack with spack/spack#30158 and spack/spack#30342 . Would love to see Option 1 happen!"
                 }
             ]
         },
@@ -19879,6 +20121,11 @@
                     "user": "ivan-pi",
                     "date": "2021-12-14 08:27:22+00:00",
                     "text": "Just ticked off two more packages from @jacobwilliams. Thanks Jacob for your effort."
+                },
+                {
+                    "user": "scivision",
+                    "date": "2022-05-17 23:06:05+00:00",
+                    "text": "h5fortran and nc4fortran now work with FPM thanks to input from @milancurcic"
                 }
             ]
         },
@@ -20256,8 +20503,8 @@
         }
     ],
     "issue_labels": {
-        "bug": "Something isn't working",
         "enhancement": "New feature or request",
+        "bug": "Something isn't working",
         "os-windows": "Issues specific to the MS Windows operating system",
         "user experience": "issue regarding issue experience with fpm",
         "good first issue": "Good for newcomers",
