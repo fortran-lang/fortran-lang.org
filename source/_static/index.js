@@ -9,7 +9,7 @@ document.getElementById('templates').innerHTML = `<table jput="t_template">
  <ul>
   <tr>
     <td><li>
-    <a href="{{url}" target="_blank"><b>
+    <a href="{{url}}" target="_blank"><b>
       {{name}}</b></a>
    {{description}}</td></li>
   </tr></ul>
