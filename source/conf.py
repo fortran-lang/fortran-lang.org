@@ -36,7 +36,6 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "sphinx.ext.intersphinx",
-
 ]
 
 myst_enable_extensions = [
@@ -61,7 +60,7 @@ language = 'None'
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-html_additional_pages = {'index': 'index.html'}
+html_additional_pages = {'index': 'index.html','learn/index': 'learn.html'}
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -121,6 +120,7 @@ html_sidebars = {
         "search-field.html",
         "tagcloud.html",
         "archives.html",
+        "recentposts.html",
     ],
     "news/**": [
         "postcard.html",
