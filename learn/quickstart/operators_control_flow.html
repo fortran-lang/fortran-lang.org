@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Fortran Programming Language">
-    <title>Operators and Control Flow - Fortran Programming Language</title>
+    <title>Operators and flow control - Fortran Programming Language</title>
+    <link type="application/atom+xml" rel="alternate" href="/news.xml" title="Fortran Newsletter" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
@@ -168,6 +169,33 @@
       
     
   
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
 
   <a href="/learn#book-index">
     <i class="fas fa-arrow-circle-left"></i>
@@ -225,17 +253,49 @@
         
       
         
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
           
           
 
       
         <li><a href="/learn/quickstart/hello_world">
-          Hello World</a></li>
+          Hello world</a></li>
       
 
     
     
       <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -345,6 +405,10 @@
         
       
         
+      
+        
+      
+        
           
           
 
@@ -426,13 +490,31 @@
         
       
         
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
           
           
 
       
         <li>
           <b><a href="/learn/quickstart/operators_control_flow">
-            Operators and Control Flow</a></b>
+            Operators and flow control</a></b>
           <ul id="page-nav"></ul>
         </li>
         
@@ -443,6 +525,24 @@
     
     
       <!-- Get page title from page metadata -->
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -544,6 +644,10 @@
         
       
         
+      
+        
+      
+        
           
           
 
@@ -564,7 +668,7 @@
 
     <div class="newsletter col-right">
 
-      <h1>Operators and Control Flow</h1>
+      <h1>Operators and flow control</h1>
 
       <div style="margin-top: 0.5em; margin-bottom: 0.5em;">
         <i></i>
@@ -572,10 +676,10 @@
       </div>
 
       <p>One of the powerful advantages of computer algorithms, compared to simple mathematical formulae,
-comes in the form program <em>branching</em> whereby the program can decide which instructions to 
+comes in the form of program <em>branching</em> whereby the program can decide which instructions to
 execute next based on a logical condition.</p>
 
-<p>There two main forms of controlling program flow:</p>
+<p>There are two main forms of controlling program flow:</p>
 
 <ul>
   <li>
@@ -590,7 +694,7 @@ execute next based on a logical condition.</p>
 <p>Before we use a conditional branching operator, we need to be able to form
 a logical expression.</p>
 
-<p>To form a logical expression the following set of relational operators are available:</p>
+<p>To form a logical expression, the following set of relational operators are available:</p>
 
 <table>
   <thead>
@@ -678,12 +782,12 @@ message to describe the nature of the <code class="highlighter-rouge">angle</cod
 
 <p><strong>Example:</strong> single branch <code class="highlighter-rouge">if</code></p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">90.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is acute'</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">90.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is acute'</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
 </span></code></pre></div></div>
 
-<p>In this first example, the code within the <code class="highlighter-rouge">if</code> construct is <strong>only executed if</strong> the
+<p>In this first example, the code within the <code class="highlighter-rouge">if</code> construct is <em>only executed if</em> the
 test expression (<code class="highlighter-rouge">angle &lt; 90.0</code>) is true.</p>
 
 <div class="aside-tip">
@@ -693,30 +797,30 @@ to make code more readable.</p>
 
 </div>
 
-<p>We can add alternative branch to the construct using the <code class="highlighter-rouge">else</code> keyword:</p>
+<p>We can add an alternative branch to the construct using the <code class="highlighter-rouge">else</code> keyword:</p>
 
-<p><strong>Example:</strong> two-branch <code class="highlighter-rouge">if-else</code></p>
+<p><strong>Example:</strong> two-branch <code class="highlighter-rouge">if</code>-<code class="highlighter-rouge">else</code></p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">90.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is acute'</span><span class="w">
-  </span><span class="k">else</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is obtuse'</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">90.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is acute'</span><span class="w">
+</span><span class="k">else</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is obtuse'</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
 </span></code></pre></div></div>
 
-<p>Now there are two <em>branches</em> in the <code class="highlighter-rouge">if</code> construct, but <strong>only one branch is executed</strong> depending
+<p>Now there are two <em>branches</em> in the <code class="highlighter-rouge">if</code> construct, but <em>only one branch is executed</em> depending
 on the logical expression following the <code class="highlighter-rouge">if</code> keyword.</p>
 
 <p>We can actually add any number of branches using <code class="highlighter-rouge">else if</code> to specify more conditions:</p>
 
-<p><strong>Example:</strong> multi-branch  <code class="highlighter-rouge">if-elseif-else</code></p>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">90.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is acute'</span><span class="w">
-  </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">180.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is obtuse'</span><span class="w">
-  </span><span class="k">else</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is reflex'</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+<p><strong>Example:</strong> multi-branch  <code class="highlighter-rouge">if</code>-<code class="highlighter-rouge">else if</code>-<code class="highlighter-rouge">else</code></p>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">90.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is acute'</span><span class="w">
+</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">angle</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">180.0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is obtuse'</span><span class="w">
+</span><span class="k">else</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'Angle is reflex'</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
 </span></code></pre></div></div>
 
 <p>When multiple conditional expressions are used, each conditional expression is tested only if none of the previous
@@ -724,28 +828,30 @@ expressions have evaluated to true.</p>
 
 <h2 id="loop-constructs-do">Loop constructs (<code class="highlighter-rouge">do</code>)</h2>
 
-<p>In the following example a <code class="highlighter-rouge">do</code> loop construct is used to print out the numbers in
+<p>In the following example, a <code class="highlighter-rouge">do</code> loop construct is used to print out the numbers in
 a sequence.
 The <code class="highlighter-rouge">do</code> loop has an integer <em>counter</em> variable which is used to track which iteration of the loop
-is currently executing, in this example we use a common name for this counter variable: <code class="highlighter-rouge">i</code>.</p>
+is currently executing. In this example we use a common name for this counter variable: <code class="highlighter-rouge">i</code>.</p>
 
-<p>When we define the start of the <code class="highlighter-rouge">do</code> loop we use our counter variable name followed by an equals (<code class="highlighter-rouge">=</code>) sign
+<p>When we define the start of the <code class="highlighter-rouge">do</code> loop, we use our counter variable name followed by an equals (<code class="highlighter-rouge">=</code>) sign
 to specify the start value and final value of our counting variable.</p>
 
 <p><strong>Example:</strong> <code class="highlighter-rouge">do</code> loop</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+</span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
 </span></code></pre></div></div>
 
 <p><strong>Example:</strong> <code class="highlighter-rouge">do</code> loop with skip</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">   </span><span class="c1">! Print odd numbers</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+</span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">  </span><span class="c1">! Print odd numbers</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
 </span></code></pre></div></div>
 
 <h3 id="conditional-loop-do-while">Conditional loop (<code class="highlighter-rouge">do while</code>)</h3>
@@ -755,13 +861,14 @@ in <code class="highlighter-rouge">while()</code> evaluates to <code class="high
 
 <p><strong>Example:</strong> <code class="highlighter-rouge">do while()</code> loop</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
-    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-  </span><span class="c1">! Here i = 11</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="k">do</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+</span><span class="c1">! Here i = 11</span><span class="w">
 </span></code></pre></div></div>
 
 <h3 id="loop-control-statements-exit-and-cycle">Loop control statements (<code class="highlighter-rouge">exit</code> and <code class="highlighter-rouge">cycle</code>)</h3>
@@ -771,33 +878,35 @@ with such cases.</p>
 
 <p><code class="highlighter-rouge">exit</code> is used to quit the loop prematurely. It is usually enclosed inside an <code class="highlighter-rouge">if</code>.</p>
 
-<p><strong>Example</strong> loop with <code class="highlighter-rouge">exit</code></p>
+<p><strong>Example:</strong> loop with <code class="highlighter-rouge">exit</code></p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="w">
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
-      </span><span class="k">exit</span><span class="w"> </span><span class="c1">! Stop printing numbers</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-  </span><span class="c1">! Here i = 11</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+</span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+    </span><span class="k">exit</span><span class="w">  </span><span class="c1">! Stop printing numbers</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+</span><span class="c1">! Here i = 11</span><span class="w">
 </span></code></pre></div></div>
 
 <p>On the other hand, <code class="highlighter-rouge">cycle</code> skips whatever is left of the loop and goes into the next cycle.</p>
 
-<p><strong>Example</strong> loop with <code class="highlighter-rouge">cycle</code></p>
+<p><strong>Example:</strong> loop with <code class="highlighter-rouge">cycle</code></p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
-    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
-       </span><span class="k">cycle</span><span class="w">  </span><span class="c1">! Don't print even numbers</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+</span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">
+      </span><span class="k">cycle</span><span class="w">  </span><span class="c1">! Don't print even numbers</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
 </span></code></pre></div></div>
 <div class="aside-note">
     
-    <p><strong>Note:</strong> When used within nested loops, the <code class="highlighter-rouge">cycle</code> and <code class="highlighter-rouge">exit</code> statements operate on the inner-most loop.</p>
+    <p><strong>Note:</strong> When used within nested loops, the <code class="highlighter-rouge">cycle</code> and <code class="highlighter-rouge">exit</code> statements operate on the innermost loop.</p>
 
 </div>
 
@@ -806,46 +915,51 @@ with such cases.</p>
 <p>A recurring case in any programming language is the use of nested loops. Nested loops refer to loops that exist within another loop. Fortran allows the programmer to <em>tag</em> or <em>name</em> each loop. If loops are tagged, there are two potential benefits:</p>
 <ol>
   <li>The readability of the code may be improved (when the naming is meaningful).</li>
-  <li><code class="highlighter-rouge">exit</code> and <code class="highlighter-rouge">cycle</code> may be used with tags, which allows for a very fine-grained control of the loops.</li>
+  <li><code class="highlighter-rouge">exit</code> and <code class="highlighter-rouge">cycle</code> may be used with tags, which allows for very fine-grained control of the loops.</li>
 </ol>
 
-<p><strong>Example</strong> tagged nested loops</p>
+<p><strong>Example:</strong> tagged nested loops</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="w">
-  </span><span class="n">outer_loop</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
-    </span><span class="n">inner_loop</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
-      </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">j</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">  </span><span class="c1">! Print only pairs of i and j that add up to 10</span><span class="w">
-         </span><span class="k">cycle</span><span class="w"> </span><span class="n">outer_loop</span><span class="w">  </span><span class="c1">! Go to the next iteration of the outer loop</span><span class="w">
-      </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
-      </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'I='</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">' J='</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="s1">' Sum='</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">+</span><span class="n">i</span><span class="w">
-    </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">inner_loop</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">outer_loop</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w">
+
+</span><span class="n">outer_loop</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">
+  </span><span class="n">inner_loop</span><span class="p">:</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">  </span><span class="c1">! Print only pairs of i and j that add up to 10</span><span class="w">
+      </span><span class="k">cycle</span><span class="w"> </span><span class="n">outer_loop</span><span class="w">  </span><span class="c1">! Go to the next iteration of the outer loop</span><span class="w">
+    </span><span class="k">end</span><span class="w"> </span><span class="k">if</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'I='</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="s1">' J='</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="s1">' Sum='</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="w">
+  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">inner_loop</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">outer_loop</span><span class="w">
 </span></code></pre></div></div>
 
 <h3 id="parallelizable-loop-do-concurrent">Parallelizable loop (<code class="highlighter-rouge">do concurrent</code>)</h3>
 
-<p>The <code class="highlighter-rouge">do concurrent</code> loop is used to explicitly specify that the <em>inside of the loop has no interdependencies</em>; this informs the compiler that it may use parallelization/<em>SIMD</em> to speed-up execution of the loop and conveys programmer intention more clearly. More specifically, this means
-that any loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each <code class="highlighter-rouge">do concurrent</code> loop.
+<p>The <code class="highlighter-rouge">do concurrent</code> loop is used to explicitly specify that the <em>inside of the loop has no interdependencies</em>; this informs the compiler that it may use parallelization/<em>SIMD</em> to speed up execution of the loop and conveys programmer intention more clearly. More specifically, this means
+that any given loop iteration does not depend on the prior execution of other loop iterations. It is also necessary that any state changes that may occur must only happen within each <code class="highlighter-rouge">do concurrent</code> loop.
 These requirements place restrictions on what can be placed within the loop body.</p>
 
 <div class="aside-important">
     
-    <p><strong>Important:</strong> <code class="highlighter-rouge">do concurrent</code> is not a basic feature of Fortran. The explanation given does not detail
-all the requirements that need to be met in order to write a correct <code class="highlighter-rouge">do concurrent</code> loop. Compilers are also free to do as they see fit,
-which means they may not optimize the loop.</p>
+    <p><strong>Important:</strong> 
+Simply replacing a <code class="highlighter-rouge">do</code> loop with a <code class="highlighter-rouge">do concurrent</code> does not guarantee parallel execution.
+The explanation given above does not detail all the requirements that need to be met in order to write a correct <code class="highlighter-rouge">do concurrent</code> loop.
+Compilers are also free to do as they see fit, meaning they may not optimize the loop (e.g., a small number of iterations doing a simple calculation, like the below example).
+In general, compiler flags are required to activate possible parallelization for <code class="highlighter-rouge">do concurrent</code> loops.</p>
 
 </div>
 
-<p><strong>Example</strong> <code class="highlighter-rouge">do concurrent()</code> loop</p>
+<p><strong>Example:</strong> <code class="highlighter-rouge">do concurrent()</code> loop</p>
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159265</span><span class="w">
-  </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">result_sin</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">
-  </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
-  </span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="c1">! Careful, the syntax is slightly different</span><span class="w">
-    </span><span class="n">result_sin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">pi</span><span class="p">/</span><span class="mf">4.</span><span class="p">)</span><span class="w">
-  </span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
-  </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">result_sin</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159265</span><span class="w">
+</span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">result_sin</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w">
+</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+
+</span><span class="k">do</span><span class="w"> </span><span class="k">concurrent</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="w">  </span><span class="c1">! Careful, the syntax is slightly different</span><span class="w">
+  </span><span class="n">result_sin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pi</span><span class="p">/</span><span class="mf">4.</span><span class="p">)</span><span class="w">
+</span><span class="k">end</span><span class="w"> </span><span class="k">do</span><span class="w">
+
+</span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">result_sin</span><span class="w">
 </span></code></pre></div></div>
 
 
