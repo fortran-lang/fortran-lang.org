@@ -60,7 +60,7 @@ language = 'None'
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-html_additional_pages = {'index': 'index.html','learn/index': 'learn.html'}
+html_additional_pages = {'index': 'index.html'}
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -127,6 +127,7 @@ html_sidebars = {
         "recentposts.html",
         "archives.html",
     ],
+    "learn/index": [],
 }
 html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
