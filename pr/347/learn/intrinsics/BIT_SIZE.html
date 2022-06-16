@@ -44900,16 +44900,19 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>bit_size</strong>(3) - [BIT:INQUIRY] Bit size inquiry function
-(GFDL)</p>
+<p><strong>bit_size</strong>(3) - [BIT:INQUIRY] Bit size inquiry function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">bit_size</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">bit_size</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">
+   
+     </span><span class="k">function</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">bit_size</span><span class="w">
+     </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">ii</span><span class="w">
 </span></code></pre></div></div>
 <h2 id="description"><strong>Description</strong></h2>
 
 <p><strong>bit_size(i)</strong> returns the number of bits (integer precision plus sign
-bit) represented by the type of <strong>i</strong>.</p>
+bit) represented by the type of the <em>integer</em> <strong>i</strong>.  <strong>i</strong> can be a
+scalar or an array.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44917,14 +44920,17 @@ bit) represented by the type of <strong>i</strong>.</p>
   <li>
     <dl>
       <dt><strong>i</strong></dt>
-      <dd>The type shall be <em>integer</em>.</dd>
+      <dd>An <em>integer</em> value of any kind to determine the size of in bits.
+Because only the type of the argument is examined, the argument need
+not be defined.</dd>
     </dl>
   </li>
 </ul>
 
 <h2 id="returns"><strong>Returns</strong></h2>
-
-<p>The return value is of type <em>integer</em> of the same type as <strong>i</strong>.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Returns the number of bits used to represent a value of the type
+of __i__.  The result is a _integer_ scalar of the same kind as __i__.
+</code></pre></div></div>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
@@ -44935,26 +44941,23 @@ bit) represented by the type of <strong>i</strong>.</p>
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int64</span><span class="p">)</span><span class="w">          </span><span class="p">::</span><span class="w"> </span><span class="n">answer</span><span class="w">
 </span><span class="kt">integer</span><span class="w">                      </span><span class="p">::</span><span class="w"> </span><span class="n">ilen</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(i0)'</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int8</span><span class="p">))</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(i0)'</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int16</span><span class="p">))</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(i0)'</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int32</span><span class="p">))</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(i0)'</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int64</span><span class="p">))</span><span class="w">
-    </span><span class="n">answer</span><span class="o">=</span><span class="mi">0_int64</span><span class="w">
-    </span><span class="n">ilen</span><span class="o">=</span><span class="mi">999</span><span class="w">
-    </span><span class="c1">! notice use of INT(3)</span><span class="w">
-    </span><span class="n">ilen</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">ilen</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="n">answer</span><span class="p">)))</span><span class="w">
-    </span><span class="c1">! arguments to MIN(3) would be of different TYPES</span><span class="w">
-    </span><span class="c1">!ilen=min(ilen,bit_size(answer))</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">'(i0)'</span><span class="p">)</span><span class="n">ilen</span><span class="w">
+</span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w">   </span><span class="p">::</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">'(*(g0,1x))'</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">fmt</span><span class="p">)</span><span class="s1">'default integer size is'</span><span class="p">,</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="s1">'bits'</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">fmt</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int8</span><span class="p">)),</span><span class="w"> </span><span class="s1">'which is kind='</span><span class="p">,</span><span class="nb">kind</span><span class="p">(</span><span class="mi">0_int8</span><span class="p">)</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">fmt</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int16</span><span class="p">)),</span><span class="s1">'which is kind='</span><span class="p">,</span><span class="nb">kind</span><span class="p">(</span><span class="mi">0_int16</span><span class="p">)</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">fmt</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int32</span><span class="p">)),</span><span class="s1">'which is kind='</span><span class="p">,</span><span class="nb">kind</span><span class="p">(</span><span class="mi">0_int32</span><span class="p">)</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">fmt</span><span class="p">)</span><span class="nb">bit_size</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="mi">0_int64</span><span class="p">)),</span><span class="s1">'which is kind='</span><span class="p">,</span><span class="nb">kind</span><span class="p">(</span><span class="mi">0_int64</span><span class="p">)</span><span class="w">
+
+    </span><span class="c1">! Check size of value not explicitly defined.</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">fmt</span><span class="p">)</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nb">bit_size</span><span class="p">(</span><span class="n">answer</span><span class="p">))</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_bit_size</span><span class="w">
 </span></code></pre></div></div>
-
-<p>Expected output:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   8
-   16
-   32
-   64
+<p>Typical Results:</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   default integer size is 32 bits
+   8 which is kind= 1
+   16 which is kind= 2
+   32 which is kind= 4
+   64 which is kind= 8
    64
 </code></pre></div></div>
 
@@ -44962,7 +44965,7 @@ bit) represented by the type of <strong>i</strong>.</p>
 
 <p>Fortran 95 and later</p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit-urbanjost">fortran-lang intrinsic descriptions (License: MIT) @urbanjost</h6>
 
 
       <div class="container-flex">

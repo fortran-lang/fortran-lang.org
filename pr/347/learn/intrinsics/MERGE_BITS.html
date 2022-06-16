@@ -45092,17 +45092,43 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>merge_bits</strong>(3) - [BIT:COPY] Merge of bits under mask
-(GFDL)</p>
+<p><strong>merge_bits</strong>(3) - [BIT:COPY] Merge bits using a mask</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mergebits</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="p">)</span><span class="w">
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">merge</span><span class="err">\_</span><span class="n">bits</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">merge_bits</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">mask</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">mask</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">r</span><span class="w">
 </span></code></pre></div></div>
+<p>where the result and all input values have the same <em>integer</em> type and
+KIND with the exception that the mask and either <strong>i</strong> or <strong>j</strong> may be
+a BOZ constant.</p>
+
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>merge_bits(i, j, mask)</strong> merges the bits of <strong>i</strong> and <strong>j</strong> as determined by
-the mask. The k-th bit of the result is equal to the k-th bit of <strong>i</strong> if
-the k-th bit of <strong>mask</strong> is <strong>1</strong>; it is equal to the k-th bit of <strong>j</strong> otherwise.</p>
+<p>A common graphics operation in Ternary Raster Operations is to combine
+bits from two different sources, generally referred to as bit-blending.
+<strong>merge_bits</strong> performs a masked bit-blend of <strong>i</strong> and <strong>j</strong> using
+the bits of the <strong>mask</strong> value to determine which of the input values
+to copy bits from.</p>
+
+<p>Specifically, The k-th bit of the result is equal to the k-th bit of
+<strong>i</strong> if the k-th bit of <strong>mask</strong> is <strong>1</strong>; it is equal to the k-th bit
+of <strong>j</strong> otherwise (so all three input values must have the same number
+of bits).</p>
+
+<p>The resulting value is the same as would result from</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>__ior (iand (i, mask),iand (j, not (mask)))__
+</code></pre></div></div>
+
+<p>An exception to all values being of the same <em>integer</em> type is that <strong>i</strong>
+or <strong>j</strong> and/or the mask may be a BOZ constant (A BOZ constant means it is
+either a Binary, Octal, or Hexadecimal literal constant).  The BOZ values
+are converted to the <em>integer</em> type of the non-BOZ value(s) as if called
+by the intrinsic function <strong>int()</strong> with the kind of the non-BOZ value(s),
+so the BOZ values must be in the range of the type of the result.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -45110,32 +45136,77 @@ the k-th bit of <strong>mask</strong> is <strong>1</strong>; it is equal to the 
   <li>
     <dl>
       <dt><strong>i</strong></dt>
-      <dd>Shall be of type <em>integer</em>.</dd>
+      <dd>value to select bits from when the associated bit in the mask is <strong>1</strong>.</dd>
     </dl>
   </li>
   <li>
     <dl>
       <dt><strong>j</strong></dt>
-      <dd>Shall be of type <em>integer</em> and of the same kind as <strong>i</strong>.</dd>
+      <dd>value to select bits from when the associated bit in the mask is <strong>0</strong>.</dd>
     </dl>
   </li>
   <li>
     <dl>
       <dt><strong>mask</strong></dt>
-      <dd>Shall be of type <em>integer</em> and of the same kind as <strong>i</strong>.</dd>
+      <dd>a value whose bits are used as a mask to select bits from <strong>i</strong> and <strong>j</strong></dd>
     </dl>
   </li>
 </ul>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The result is of the same type and kind as <strong>i</strong>.</p>
+<p>The bits blended from <strong>i</strong> and <strong>j</strong> using the mask <strong>mask</strong>. It is the
+same type as <strong>i</strong> if <strong>i</strong> is of type <em>integer</em>, otherwise the same type
+as <strong>j</strong>.</p>
+
+<h2 id="example"><strong>Example</strong></h2>
+
+<p>program demo_merge_bits
+use,intrinsic :: iso_fortran_env,  only : int8, int16, int32, int64
+implicit none
+integer(kind=int16) :: if_one,if_zero,msk
+character(len=<em>),parameter :: fmt=’(</em>(g0, 1X))’</p>
+
+<p>! basic usage
+   print *,’MERGE_BITS( 5,10,41) should be 3.=&gt;’,merge_bits(5,10,41)
+   print *,’MERGE_BITS(13,18,22) should be 4.=&gt;’,merge_bits(13,18,22)</p>
+
+<p>! use some values in base2 illustratively:
+   if_one =int(b’1010101010101010’,kind=int16)
+   if_zero=int(b’0101010101010101’,kind=int16)</p>
+
+<p>msk=int(b’0101010101010101’,kind=int16)
+   print ‘(“should get all zero bits =&gt;”,b16.16)’, &amp;
+   &amp; merge_bits(if_one,if_zero,msk)</p>
+
+<p>msk=int(b’1010101010101010’,kind=int16)
+   print ‘(“should get all ones bits =&gt;”,b16.16)’, &amp;
+   &amp; merge_bits(if_one,if_zero,msk)</p>
+
+<p>! using BOZ values
+   print fmt, &amp;
+   &amp; merge_bits(32767_int16,    o’12345’,         32767_int16), &amp;
+   &amp; merge_bits(o’12345’   , 32767_int16, b’0000000000010101’), &amp;
+   &amp; merge_bits(32767_int16,    o’12345’,             z’1234’)</p>
+
+<p>! a do-it-yourself equivalent for comparision and validation
+   print fmt, &amp;
+   &amp; ior(iand(32767_int16, 32767_int16),                   &amp;
+   &amp;   iand(o’12345’, not(32767_int16))),                  &amp;</p>
+
+<p>&amp; ior(iand(o’12345’, int(o’12345’, kind=int16)),        &amp;
+   &amp;   iand(32767_int16, not(int(o’12345’, kind=int16)))), &amp;</p>
+
+<p>&amp; ior(iand(32767_int16, z’1234’),                       &amp;
+   &amp;   iand(o’12345’, not(int( z’1234’, kind=int16))))</p>
+
+<p>end program demo_merge_bits</p>
 
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>Fortran 2008 and later</p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit-urbanjost">fortran-lang intrinsic descriptions (License: MIT) @urbanjost</h6>
 
 
       <div class="container-flex">

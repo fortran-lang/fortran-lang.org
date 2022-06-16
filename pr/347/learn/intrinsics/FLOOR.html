@@ -44998,17 +44998,22 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>floor</strong>(3) - [NUMERIC] Integer floor function
-(GFDL)</p>
+<p><strong>floor</strong>(3) - [NUMERIC] function to return largest integral value not greater than argument</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="p">)</span><span class="w">
-</span></code></pre></div></div>
-<h2 id="description"><strong>Description</strong></h2>
+<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="p">)</span><span class="w">
 
-<p><strong>floor</strong>(a) returns the greatest integer less than or equal to <strong>a</strong>.
+    </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">KIND</span><span class="p">)</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">floor</span><span class="w">
+    </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
+    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">IKIND</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="nb">KIND</span><span class="w">
+</span></code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>where __KIND__ is any valid value for type _integer_. ## __Description__
+</code></pre></div></div>
+
+<p><strong>floor(a)</strong> returns the greatest integer less than or equal to <strong>a</strong>.
 That is, it picks the whole number at or to the left of the value on
-the number line  <strong>-huge(int(a,kind=KIND))</strong> to <strong>huge(int(a),kind=KIND)</strong>.</p>
+the scale <strong>-huge(int(a,kind=KIND))-1</strong> to <strong>huge(int(a),kind=KIND)</strong>.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -45022,8 +45027,8 @@ the number line  <strong>-huge(int(a,kind=KIND))</strong> to <strong>huge(int(a)
   <li>
     <dl>
       <dt><strong>kind</strong></dt>
-      <dd>(Optional) An <em>integer</em> initialization expression indicating the kind
-parameter of the result.</dd>
+      <dd>(Optional) A scalar <em>integer</em> constant initialization expression
+indicating the kind parameter of the result.</dd>
     </dl>
   </li>
 </ul>
@@ -45051,14 +45056,22 @@ integer type.</p>
    </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">-2.7</span><span class="p">,</span><span class="w">  </span><span class="mf">-2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">-2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">-1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">-0.5</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
    </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">0.0</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span><span class="w">
    </span><span class="p">&amp;</span><span class="w">  </span><span class="mf">+0.5</span><span class="p">,</span><span class="w">  </span><span class="mf">+1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+1.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.2</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">+2.7</span><span class="w">  </span><span class="p">])</span><span class="w">
+
+   </span><span class="c1">! note even a small deviation from the whole number changes the result</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w">      </span><span class="p">[</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">2.0</span><span class="o">-</span><span class="nb">epsilon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span><span class="mf">2.0</span><span class="mi">-2</span><span class="o">*</span><span class="nb">epsilon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)]</span><span class="w">
+   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="nb">floor</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span><span class="mf">2.0</span><span class="o">-</span><span class="nb">epsilon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span><span class="mf">2.0</span><span class="mi">-2</span><span class="o">*</span><span class="nb">epsilon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)])</span><span class="w">
+
+   </span><span class="c1">! A=Nan, Infinity or  &lt;huge(0_KIND)-1 &lt; A &gt; huge(0_KIND) is undefined</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_floor</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   63.2900009   63
-  -63.5900002  -64
-   -3     -3     -3     -2     -2     -1
-   -1      0      0      1      1      2
-    2      2      2
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      63.29000              63
+     -63.59000             -64
+             -3          -3          -3          -2          -2          -1
+             -1           0           0           1           1           2
+              2           2           2
+      2.000000       2.000000       2.000000    
+              2           1           1
 </code></pre></div></div>
 
 <h2 id="standard"><strong>Standard</strong></h2>
@@ -45075,7 +45088,7 @@ integer type.</p>
 <a href="INT"><strong>int</strong>(3)</a>,
 <a href="SELECTED_INT_KIND"><strong>selected_int_kind</strong>(3)</a></p>
 
-<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit-urbanjost">fortran-lang intrinsic descriptions (license: MIT) @urbanjost</h6>
 
 
       <div class="container-flex">

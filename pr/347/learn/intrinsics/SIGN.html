@@ -45180,66 +45180,74 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>sign</strong>(3) - [NUMERIC] Sign copying function
-(GFDL)</p>
+<p><strong>sign</strong>(3) - [NUMERIC] Sign copying function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">))</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="nb">sign</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w">
 </span></code></pre></div></div>
-<h2 id="description"><strong>Description</strong></h2>
+<p>where TYPE may be <em>real</em> or <em>integer</em> and KIND is any supported kind for the type.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## __Description__
 
-<p><strong>sign</strong>(a,b) returns the value of <strong>a</strong> with the sign of <strong>b</strong>.</p>
+__sign__(a,b) returns the value of __a__ with the sign of __b__.
 
-<h2 id="arguments"><strong>Arguments</strong></h2>
 
-<ul>
-  <li>
-    <dl>
-      <dt><strong>a</strong></dt>
-      <dd>Shall be of type <em>integer</em> or <em>real</em></dd>
-    </dl>
-  </li>
-  <li>
-    <dl>
-      <dt><strong>b</strong></dt>
-      <dd>Shall be of the same type and kind as A</dd>
-    </dl>
-  </li>
-</ul>
+For processors that distinguish between positive and negative zeros  __sign()__ may be used to 
+distinguish between __real__ values 0.0 and −0.0. SIGN (1.0, -0.0) will 
+return −1.0 when a negative zero is distinguishable.
 
-<h2 id="returns"><strong>Returns</strong></h2>
+    29  1 Description. Magnitude of A with the sign of B.
+      
 
-<p>The kind of the return value is that of <strong>a</strong> and <strong>b</strong>. If <strong>b &gt;= 0</strong> then the
-result is <strong>abs(a)</strong>, else it is -__abs(a)__.</p>
 
-<h2 id="examples"><strong>Examples</strong></h2>
+## __Arguments__
 
-<p>Sample program:</p>
+  - __a__
+    : Shall be of type _integer_ or _real_
 
-<div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_sign</span><span class="w">
-</span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="mi">-12</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="mi">-12</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="mi">-12</span><span class="p">,</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+  - __b__
+    : Shall be of the same type and kind as __a__
 
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="mf">-12.</span><span class="p">,</span><span class="mf">1.</span><span class="p">)</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="mf">-12.</span><span class="p">,</span><span class="mf">0.</span><span class="p">)</span><span class="w">
-   </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="mf">-12.</span><span class="p">,</span><span class="mf">-1.</span><span class="p">)</span><span class="w">
-</span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_sign</span><span class="w">
-</span></code></pre></div></div>
+## __Returns__
+
+The kind of the return value is the magnitude of __a__ with the sign of  __b__. That is, 
+
+     -  If __b \&gt;= 0__ then the result is __abs(a)__
+     -  else if __b &lt; 0__ it is -__abs(a)__.
+     - if __b__ is _real_ and the processor distinguishes between __-0.0__ and __0.0__ then the
+       result is __-abs(a)__
+
+## __Examples__
+
+Sample program:
+
+```fortran
+program demo_sign
+implicit none
+   print *,  sign( -12,  1 )
+   print *,  sign( -12,  0 )
+   print *,  sign( -12, -1 )
+
+   print *,  sign( -12.0, [1.0, 0.0, -1.0] )
+
+   print *,  'can I distinguise 0 from -0? ', sign( 1.0, -0.0 ) .ne. sign( 1.0, 0.0 )
+end program demo_sign
+</code></pre></div></div>
 <p>Results:</p>
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             12
              12
             -12
-      12.0000000    
-      12.0000000    
-     -12.0000000    
+      12.00000       12.00000      -12.00000    
+    can I distinguise 0 from -0?  F
 </code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>FORTRAN 77 and later</p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit">fortran-lang intrinsic descriptions (license: MIT)</h6>
 
 
       <div class="container-flex">

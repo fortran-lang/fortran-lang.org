@@ -44962,12 +44962,17 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>digits</strong>(3) - [NUMERIC MODEL] Significant digits function
-(GFDL)</p>
+<p><strong>digits</strong>(3) - [NUMERIC MODEL] Significant digits function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">digits</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">function</span><span class="w"> </span><span class="nb">digits</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span><span class="w">      </span><span class="p">::</span><span class="w"> </span><span class="nb">digits</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="err">..</span><span class="p">)</span><span class="w">
 </span></code></pre></div></div>
+<p>where TYPE may be <em>integer</em> or <em>real</em> and KIND is any kind supported by
+TYPE.</p>
+
 <h2 id="description"><strong>Description</strong></h2>
 
 <p><strong>digits(x)</strong> returns the number of significant digits of the internal
@@ -44981,14 +44986,14 @@ floating point representation, a default real number would likely return
   <li>
     <dl>
       <dt><strong>x</strong></dt>
-      <dd>The type may be <em>integer</em> or <em>real</em>.</dd>
+      <dd>The type may be a scalar or array of type <em>integer</em> or <em>real</em>.</dd>
     </dl>
   </li>
 </ul>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value is of type <em>integer</em>.</p>
+<p>The return value is of type <em>integer</em> of default kind.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
@@ -45034,7 +45039,7 @@ floating point representation, a default real number would likely return
 <a href="SPACING"><strong>spacing</strong>(3)</a>,
 <a href="TINY"><strong>tiny</strong>(3)</a></p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit-urbanjost">fortran-lang intrinsic descriptions (license: MIT) @urbanjost</h6>
 
 
       <div class="container-flex">

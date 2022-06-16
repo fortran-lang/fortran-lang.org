@@ -44960,15 +44960,20 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>dble</strong>(3) - [TYPE:NUMERIC] Double conversion function
-(GFDL)</p>
+<p><strong>dble</strong>(3) - [TYPE:NUMERIC] Double conversion function</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dble</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">dble</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)))</span><span class="w">     </span><span class="p">::</span><span class="w"> </span><span class="nb">dble</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">a</span><span class="w">
 </span></code></pre></div></div>
+<p>where TYPE may be <em>integer</em>, <em>real</em>, or <em>complex</em> and KIND any kind
+supported by the TYPE.</p>
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>dble(a)</strong> Converts <strong>a</strong> to double precision real type.</p>
+<p><strong>dble(a)</strong> Converts <strong>a</strong> to double precision <em>real</em> type.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44983,7 +44988,9 @@
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value is of type <em>doubleprecision</em>.</p>
+<p>The return value is of type <em>doubleprecision</em>. For <em>complex</em> input,
+the returned value has the magnitude and sign of the real component
+of the input value.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
@@ -45009,7 +45016,7 @@
 <p><a href="FLOAT"><strong>float</strong>(3)</a>,
 <a href="REAL"><strong>real</strong>(3)</a></p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit-urbanjost">fortran-lang intrinsic descriptions (license: MIT) @urbanjost</h6>
 
 
       <div class="container-flex">

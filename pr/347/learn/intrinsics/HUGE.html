@@ -45015,16 +45015,16 @@
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">huge</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">
 
-   </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">huge</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span><span class="w">
-   </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
+   </span><span class="k">function</span><span class="w"> </span><span class="nb">huge</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span><span class="w">
+   </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
    </span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">answer</span><span class="w">
 </span></code></pre></div></div>
-<p>where TYPE may be <em>real</em> or <em>integer</em> and KIND is any supported
+<p>where <strong>TYPE</strong> may be <em>real</em> or <em>integer</em> and <strong>KIND</strong> is any supported
    associated <em>kind</em>.</p>
 
 <h2 id="description"><strong>Description</strong></h2>
 
-<p><strong>huge</strong>(x) returns the largest number that is not an infinity for the
+<p><strong>huge(x)</strong> returns the largest number that is not an infinity for the
 kind and type of <strong>x</strong>.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
@@ -45050,7 +45050,6 @@ largest value supported by the specified model.</p>
 <p>Sample program:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_huge</span><span class="w">
-</span><span class="c1">! or, "why I have my own NINT function"</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">f</span><span class="o">=</span><span class="s1">'(i2,1x,2(i11,1x),f14.0:,1x,l1,1x,a)'</span><span class="w">
 </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">biggest</span><span class="w">
@@ -45061,7 +45060,7 @@ largest value supported by the specified model.</p>
 
    </span><span class="c1">! advanced</span><span class="w">
    </span><span class="n">biggest</span><span class="o">=</span><span class="nb">huge</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w">
-   </span><span class="c1">! be careful when using integers in computation</span><span class="w">
+   </span><span class="c1">! be careful of overflow when using integers in computation</span><span class="w">
    </span><span class="k">do</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">14</span><span class="w">
       </span><span class="n">j</span><span class="o">=</span><span class="mi">6</span><span class="o">**</span><span class="n">i</span><span class="w">   </span><span class="c1">! Danger, Danger</span><span class="w">
       </span><span class="n">w</span><span class="o">=</span><span class="mi">6</span><span class="o">**</span><span class="n">i</span><span class="w">   </span><span class="c1">! Danger, Danger</span><span class="w">
@@ -45080,33 +45079,18 @@ largest value supported by the specified model.</p>
   1.1754944E-38  2.225073858507201E-308
 
     1      6           6             6. T
-
     2      36          36            36. T
-
     3      216         216           216. T
-
     4      1296        1296          1296. T
-
     5      7776        7776          7776. T
-
     6      46656       46656         46656. T
-
     7      279936      279936        279936. T
-
     8      1679616     1679616       1679616. T
-
     9      10077696    10077696      10077696. T
-
     10     60466176    60466176      60466176. T
-
     11     362797056   362797056     362797056. T
-
-    12 -2118184960 -2147483648
-           2176782336. F wrong for j and k and w
-
-    13     175792128 -2147483648   13060694016. F wrong for j and k
-           and w
-
+    12    -2118184960 -2147483648    2176782336. F wrong for j and k and w
+    13     175792128  -2147483648   13060694016. F wrong for j and k and w
     14     1054752768 -2147483648   78364164096. F wrong for j and k and w
 </code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
@@ -45131,7 +45115,7 @@ largest value supported by the specified model.</p>
 <a href="SPACING"><strong>spacing</strong>(3)</a>,
 <a href="TINY"><strong>tiny</strong>(3)</a></p>
 
-<h6 id="fortran-lang-intrinsic-descriptions-urbanjost">fortran-lang intrinsic descriptions (@urbanjost)</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit-urbanjost">fortran-lang intrinsic descriptions (license: MIT) @urbanjost</h6>
 
 
 

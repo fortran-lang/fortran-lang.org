@@ -44964,16 +44964,20 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>dim</strong>(3) - [NUMERIC] Positive difference
-(GFDL)</p>
+<p><strong>dim</strong>(3) - [NUMERIC] Positive difference</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dim</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w">
+
+    </span><span class="k">elemental</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="nb">dim</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">))</span><span class="w">            </span><span class="p">::</span><span class="w"> </span><span class="nb">dim</span><span class="w">
+    </span><span class="k">type</span><span class="p">(</span><span class="k">TYPE</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="nb">KIND</span><span class="p">)),</span><span class="k">intent</span><span class="p">(</span><span class="k">in</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w">
 </span></code></pre></div></div>
+<p>where TYPE may be <em>real</em> or <em>integer</em> and KIND is any supported kind for the type.</p>
 <h2 id="description"><strong>Description</strong></h2>
 
 <p><strong>dim(x,y)</strong> returns the difference <strong>x - y</strong> if the result is positive;
-otherwise returns zero.</p>
+otherwise it returns zero.</p>
 
 <h2 id="arguments"><strong>Arguments</strong></h2>
 
@@ -44994,33 +44998,39 @@ otherwise returns zero.</p>
 
 <h2 id="returns"><strong>Returns</strong></h2>
 
-<p>The return value is of type <em>integer</em> or <em>real</em>.</p>
+<p>The return value is the same type and kind as the input arguments <strong>x</strong> and <strong>y</strong>.</p>
 
 <h2 id="examples"><strong>Examples</strong></h2>
 
 <p>Sample program:</p>
 
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">program</span><span class="w"> </span><span class="n">demo_dim</span><span class="w">
-</span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">real_kinds</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">
-</span><span class="p">&amp;</span><span class="w"> </span><span class="n">real32</span><span class="p">,</span><span class="w"> </span><span class="n">real64</span><span class="p">,</span><span class="w"> </span><span class="n">real128</span><span class="w">
+</span><span class="k">use</span><span class="p">,</span><span class="w"> </span><span class="k">intrinsic</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">real64</span><span class="w">
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
-</span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
+</span><span class="kt">integer</span><span class="w">           </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
 </span><span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real64</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="w">
     </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dim</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">)</span><span class="w">
-    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dim</span><span class="p">(</span><span class="mf">4.345_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">2.111_real64</span><span class="p">)</span><span class="w">
+    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">dim</span><span class="p">(</span><span class="mf">4.321_real64</span><span class="p">,</span><span class="w"> </span><span class="mf">1.111_real64</span><span class="p">)</span><span class="w">
     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w">
     </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w">
+    </span><span class="c1">! elemental</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="w">
+    </span><span class="k">print</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="nb">dim</span><span class="p">(</span><span class="mi">-10</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">-10</span><span class="p">,</span><span class="mi">-20</span><span class="p">])</span><span class="w">
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_dim</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              0
-      2.2339999999999995     
+      3.21000000000000     
+              0           0           1
+              0           0           2
+              0           0          10
 </code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
 <p>FORTRAN 77 and later</p>
 
-<h6 id="fortran-lang-intrinsic-descriptions">fortran-lang intrinsic descriptions</h6>
+<h6 id="fortran-lang-intrinsic-descriptions-license-mit">fortran-lang intrinsic descriptions (license: MIT)</h6>
 
 
       <div class="container-flex">

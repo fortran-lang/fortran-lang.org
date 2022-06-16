@@ -45154,8 +45154,7 @@
 
       <h2 id="name"><strong>Name</strong></h2>
 
-<p><strong>reshape</strong>(3) - [ARRAY RESHAPE] Function to reshape an array
-(GFDL)</p>
+<p><strong>reshape</strong>(3) - [ARRAY RESHAPE] Function to reshape an array</p>
 
 <h2 id="syntax"><strong>Syntax</strong></h2>
 <div class="language-fortran highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="nb">shape</span><span class="p">,</span><span class="w"> </span><span class="n">pad</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span><span class="w">
@@ -45211,14 +45210,22 @@ assumed.</dd>
 </span><span class="k">implicit</span><span class="w"> </span><span class="k">none</span><span class="w">
 </span><span class="kt">integer</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">i</span><span class="w">
 </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span><span class="w">
+</span><span class="kt">real</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">xx</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w">
+</span><span class="kt">real</span><span class="p">,</span><span class="k">allocatable</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="n">v</span><span class="p">(:)</span><span class="w">
     </span><span class="c1">! x is originally a vector with four elements</span><span class="w">
-    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w">                     </span><span class="c1">! prints "4"</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">shape</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c1">! what is the current shape of the array?</span><span class="w">
     </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="nb">shape</span><span class="p">(</span><span class="nb">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]))</span><span class="w">    </span><span class="c1">! prints "2 2"</span><span class="w">
+
+    </span><span class="c1">! pack any array into a vector</span><span class="w">
+    </span><span class="n">xx</span><span class="o">=</span><span class="mf">1.0</span><span class="w">
+    </span><span class="n">v</span><span class="o">=</span><span class="nb">reshape</span><span class="p">(</span><span class="n">xx</span><span class="p">,[</span><span class="nb">size</span><span class="p">(</span><span class="n">xx</span><span class="p">)])</span><span class="w">
+    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="nb">shape</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="nb">ubound</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> 
 </span><span class="k">end</span><span class="w"> </span><span class="k">program</span><span class="w"> </span><span class="n">demo_reshape</span><span class="w">
 </span></code></pre></div></div>
 <p>Results:</p>
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   4
-   2 2
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>              4
+              2           2
+             12          12
 </code></pre></div></div>
 <h2 id="standard"><strong>Standard</strong></h2>
 
