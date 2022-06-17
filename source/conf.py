@@ -13,7 +13,15 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+import yaml
+from pathlib import Path
+#print("learn section")
+conf = yaml.safe_load(Path('_data/learning.yml').read_text())
+print(conf['books'])
 
+conf['reference_books'] = conf['reference-books']
+conf['reference_courses'] = conf['reference-courses']
+conf['reference_links'] = conf['reference-links']
 
 # -- Project information -----------------------------------------------------
 
@@ -36,6 +44,7 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "sphinx.ext.intersphinx",
+    "sphinx_jinja",
 ]
 
 myst_enable_extensions = [
@@ -62,6 +71,10 @@ language = 'None'
 exclude_patterns = []
 html_additional_pages = {'index': 'index.html'}
 
+jinja_contexts = {
+    'first_ctx': {'topics': {'a': 'b', 'c': 'd'}},
+    'conf':conf,
+}
 
 # -- Options for HTML output -------------------------------------------------
 
