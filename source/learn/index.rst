@@ -11,7 +11,7 @@ Getting Started
 
     {% for j in books %}
 
-   * `{{j.title}} <{{j.link}}>`_ {{j.description}}
+   * `{{j.title}} <{{"https://henilp105.github.io/fortran-lang.org"+j.link}}>`_ {{j.description}}
 
    
     {% endfor %}
