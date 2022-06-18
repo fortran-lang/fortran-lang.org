@@ -17,7 +17,7 @@ import yaml
 from pathlib import Path
 #print("learn section")
 conf = yaml.safe_load(Path('_data/learning.yml').read_text())
-print(conf['books'])
+#print(conf['books'])
 
 conf['reference_books'] = conf['reference-books']
 conf['reference_courses'] = conf['reference-courses']
@@ -72,7 +72,6 @@ exclude_patterns = []
 html_additional_pages = {'index': 'index.html'}
 
 jinja_contexts = {
-    'first_ctx': {'topics': {'a': 'b', 'c': 'd'}},
     'conf':conf,
 }
 
@@ -141,6 +140,7 @@ html_sidebars = {
         "archives.html",
     ],
     "learn/index": [],
+    "compilers": [],
 }
 html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
