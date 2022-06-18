@@ -7,24 +7,31 @@ permalink: /learn/intrinsics/RADIX
 
 __radix__(3) - \[NUMERIC MODEL\] Base of a model number
 
-
 ## __Syntax__
 ```fortran
 result = radix(x)
+
+   function radix(x) result(r)
+   TYPE(kind=KIND),intent(in) :: x(..)
+   integer :: r
 ```
+where TYPE is _integer_ or _real_ and KIND is any kind supported by
+the type.
 ## __Description__
 
 __radix(x)__ returns the base of the model representing the entity __x__.
+This helps to allow for a generic model to be modeled in general, but
+on a binary computer will just always return 2.
 
 ## __Arguments__
 
   - __x__
-    : Shall be of type _integer_ or _real_
+    : The type of this value (a scalar or array) is used to determine
+    which type model to query
 
 ## __Returns__
 
-The return value is a scalar of type _integer_ and of the default integer
-kind.
+the base of the model for values the same type as __x__
 
 ## __Examples__
 
@@ -67,5 +74,4 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
-
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (license:MIT) @urbanjost

@@ -6,7 +6,14 @@ permalink: /learn/intrinsics/IACHAR
 ## __Name__
 
 __iachar__(3) - \[CHARACTER:CONVERSION\] Code in ASCII collating sequence
-
+```fortran
+   elemental function iachar(c,KIND) result(i)
+   integer(kind=KIND) :: i
+   character(len=1),intent(in) :: c
+   integer,intent(in),optional :: KIND
+```
+The return value is of type _integer_ and of kind __KIND__. If __KIND__ is absent,
+the return value is of default integer kind.
 
 ## __Syntax__
 ```fortran
@@ -15,21 +22,28 @@ result = iachar(c, kind)
 ## __Description__
 
 __iachar__(c) returns the code for the ASCII character in the first
-character position of C.
+character position of __c__.
+
+   If __c__ is an ASCII character (ie. in the collating sequence defined
+   by ISO 646:1983) the result is the position of __c__ in that sequence
+   and is in the range 0 to 127.
+
+   An undefined value is returned if __c__ is not in the ASCII collating
+   sequence.
 
 ## __Arguments__
 
   - __c__
-    : Shall be a scalar _character_, with _intent(in)_
+    : The character determines the value of the ADE
+    (ASCII Decimal Equivalent) that will be returned.
 
   - __kind__
-    : (Optional) An _integer_ initialization expression indicating the kind
+    :  An _integer_ initialization expression indicating the kind
     parameter of the result.
 
 ## __Returns__
-
-The return value is of type _integer_ and of kind __kind__. If __kind__ is absent,
-the return value is of default integer kind.
+   The _integer_ code for the first character in __c__. It represents
+   the position of the character in the ASCII collating sequence.
 
 ## __Examples__
 
@@ -38,6 +52,9 @@ Sample program:
 ```fortran
 program demo_iachar
 implicit none
+
+write(*,*)iachar(['a','z','A','Z'])
+
 ! create function to convert uppercase letters to lowercase
    write(*,'(a)')lower('abcdefg ABCDEFG')
 contains
@@ -62,6 +79,7 @@ end program demo_iachar
 ```
   Results:
 ```text
+             97         122          65          90
    abcdefg abcdefg
 ```
 ## __Note__
@@ -91,4 +109,4 @@ of arguments, and search for certain arguments:
     [__len__(3)](LEN),
     [__repeat__(3)](REPEAT), [__trim__(3)](TRIM)
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (license MIT) @urbanjost

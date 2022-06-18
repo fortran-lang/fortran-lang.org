@@ -43,22 +43,25 @@ and __isxdigit__(3c); but for a string as well an an array of characters.
 ## __Arguments__
 
   - __string__
-    : Shall be of type _character_.
+    : String to test for characters not in __set__
 
   - __set__
-    : Shall be of type _character_.
+    : set of characters that are acceptable to find in __string__.
 
   - __back__
-    : shall be of type _logical_.
+    : If .true. the rightmost position of any character not in __set__
+    is returned, otherwise the leftmost position is returned if any
+    non-matching character is found.
 
   - __kind__
-    : An _integer_ initialization expression indicating the kind
-    parameter of the result.
+    : An _integer_ initialization expression indicating the kind parameter
+    of the result.  If __kind__ is absent, the return value is of default
+    integer kind.
 
 ## __Returns__
 
-The return value is of type _integer_ and of kind __kind__. If __kind__
-is absent, the return value is of default integer kind.
+The location of a character in __string__ not found in __set__ or zero
+if all characters in __string__ are in the test.
 
 ## __Examples__
 
@@ -67,20 +70,28 @@ Sample program I:
 ```fortran
 program demo_verify
 implicit none
+! some useful character sets
 character(len=*),parameter :: int='0123456789'
 character(len=*),parameter :: hex='abcdef0123456789'
 character(len=*),parameter :: low='abcdefghijklmnopqrstuvwxyz'
 character(len=*),parameter :: upp='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
 character(len=20):: string='   Howdy There!'
 character(len=6) :: strings(2)=["Howdy ","there!"]
 character(len=2) :: sets(2)=["de","gh"]
-    
-   write(*,*)'first non-blank character ',verify(string, ' ')
-   ! NOTE: same as len_trim(3)
-   write(*,*)'last non-blank character',verify(string, ' ',back=.true.)
 
    ! first non-lowercase non-blank character
-   write(*,*) verify(string,low//' ')          
+   if(verify(string,low).eq.0)then
+       write(*,*) '['//string//'] is all lowercase letters'
+   else
+       write(*,*) '['//string//'] is not all lowercase letters'
+   endif
+    
+   write(*,'(*(g0))')'first non-blank character in ['&
+   & //string//'] is at column ',verify(string, ' ')
+
+   ! NOTE: same as len_trim(3)
+   write(*,*)'last non-blank character',verify(string, ' ',back=.true.)
 
    !! elemental -- using arrays for both strings and for sets
    
@@ -127,9 +138,9 @@ end program demo_verify
 ```
   Results:
 ```text
-    first non-blank character            4
+    [   Howdy There!     ] is not all lowercase letters
+   first non-blank character in [   Howdy There!     ] is at column 4
     last non-blank character          15
-              4
               1           1
     last non-letter           6           6
               6           6
