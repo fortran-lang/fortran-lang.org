@@ -7,7 +7,6 @@ permalink: /learn/intrinsics/MAX
 
 __max__(3) - \[NUMERIC\] Maximum value of an argument list
 
-
 ## __Syntax__
 ```fortran
 result = max(a1, a2, a3, ...)
