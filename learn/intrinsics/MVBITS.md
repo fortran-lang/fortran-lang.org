@@ -145,5 +145,5 @@ Fortran 95 and later
 [__ior__(3)](IOR),
 [__ieor__(3)](IEOR)
 
-###### fortran-lang intrinsic descriptions (License: MIT) @urbanjost
+###### fortran-lang intrinsic descriptions (license MIT) @urbanjost
 
