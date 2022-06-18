@@ -9,7 +9,7 @@ __merge\_bits__(3) - \[BIT:COPY\] Merge bits using a mask
 
 ## __Syntax__
 ```fortran
-result = merge\_bits(i, j, mask)
+result = merge_bits(i, j, mask)
 
     elemental function merge_bits(i,j,mask) result(r)
     integer(kind=KIND) ,intent(in) :: i, j, mask
@@ -61,7 +61,7 @@ same type as __i__ if __i__ is of type _integer_, otherwise the same type
 as __j__.
 
 ## __Example__
-
+```fortran
 program demo_merge_bits
 use,intrinsic :: iso_fortran_env,  only : int8, int16, int32, int64
 implicit none
@@ -90,7 +90,7 @@ character(len=*),parameter :: fmt='(*(g0, 1X))'
    & merge_bits(o'12345'   , 32767_int16, b'0000000000010101'), &
    & merge_bits(32767_int16,    o'12345',             z'1234')
 
-   ! a do-it-yourself equivalent for comparision and validation
+   ! a do-it-yourself equivalent for comparison and validation
    print fmt, &
    & ior(iand(32767_int16, 32767_int16),                   &
    &   iand(o'12345', not(32767_int16))),                  &
@@ -102,9 +102,19 @@ character(len=*),parameter :: fmt='(*(g0, 1X))'
    &   iand(o'12345', not(int( z'1234', kind=int16))))
 
 end program demo_merge_bits
+```
+  Results:
+```text
+    MERGE_BITS( 5,10,41) should be 3.=>           3
+    MERGE_BITS(13,18,22) should be 4.=>           4
+   should get all zero bits =>0000000000000000
+   should get all ones bits =>1111111111111111
+   32767 32751 5877
+   32767 32767 5877
+```
 
 ## __Standard__
 
 Fortran 2008 and later
 
-###### fortran-lang intrinsic descriptions (License: MIT) @urbanjost
+###### fortran-lang intrinsic descriptions (license MIT) @urbanjost
