@@ -60,7 +60,7 @@ Unavailable time and date _character_ parameters return blanks.
 Sample program:
 
 ```fortran
-program demo_time_and_date
+program demo_date_and_time
 implicit none
 character(len=8)     :: date
 character(len=10)    :: time
@@ -83,7 +83,7 @@ integer,dimension(8) :: values
      & values(6),' - The minutes of the hour', &
      & values(7),' - The seconds of the minute', &
      & values(8),' - The milliseconds of the second'
-end program demo_time_and_date
+end program demo_date_and_time
 ```
 Results:
 ```
