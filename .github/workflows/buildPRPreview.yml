@@ -98,28 +98,3 @@ jobs:
       with:
         name: pr
         path: pr/
-        
-    - name: Checkout page source
-      uses: actions/checkout@v2
-      
-    - name: Setup Python
-      uses: actions/setup-python@v1
-
-    - name: Install sphinx
-      run: pip3 install --user -r requirements.txt
-      
-    - name: Build page
-      run: make html
-      
-    - run: touch build/html/.nojekyll
-
-    - name: Deploy documentation sphinx
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      if: github.event_name == 'push' && github.repository == 'henilp105/fortran-lang.org' && github.ref == 'refs/heads/master'
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: build/html
-        name: pr
-        path: pr/${{github.event.issue.number}}
-        CLEAN: false
