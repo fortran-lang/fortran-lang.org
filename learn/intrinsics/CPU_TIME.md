@@ -17,15 +17,15 @@ __cpu\_time__(3) - \[SYSTEM:TIME\] return CPU processor time in seconds
 Returns a _real_ value representing the elapsed CPU time in seconds. This
 is useful for testing segments of code to determine execution time.
 
-The exact definition of time is left imprecise because of the
-variability in what different processors are able to provide.
+The exact definition of time is left imprecise because of the variability
+in what different processors are able to provide.
 
 If no time source is available, TIME is set to a negative value.
 
 Note that TIME may contain a system dependent, arbitrary offset and may
 not start with 0.0. For cpu\_time the absolute value is meaningless.
-Only differences between subsequent calls, as shown in the example
-below, should be used.
+Only differences between subsequent calls, as shown in the example below,
+should be used.
 
 A processor for which a single result is inadequate (for example, a
 parallel processor) might choose to provide an additional version for
