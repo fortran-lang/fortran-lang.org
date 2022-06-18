@@ -28,7 +28,7 @@ Here's what's new and ongoing in the fortran-lang.org repo:
 [Let us know](https://github.com/fortran-lang/fortran-lang.org/issues)
 if you have any suggestions for the website and its content.
 We welcome any new contributors to the website and the tutorials page in particular - see the
-[contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/master/CONTRIBUTING.md)
+[contributor guide](https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md)
 for how to get started.
 
 ## Fortran Standard Library

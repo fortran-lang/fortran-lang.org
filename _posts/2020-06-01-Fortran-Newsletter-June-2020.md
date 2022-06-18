@@ -85,7 +85,7 @@ that uses this functionality.
 fpm is still in very early development, and we need as much help as we can get.
 Here's how you can help today:
 
-* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/master/PACKAGING.md) to learn how to build your package with fpm.
+* Try to use it. Does it work? No? Let us know! Read the [fpm packaging guide](https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md) to learn how to build your package with fpm.
 * Browse the [open issues](https://github.com/fortran-lang/fpm/issues) and see if you can help implement any fixes or features.
 * Adapt your Fortran package for fpm.
 * Improve the documentation.
@@ -113,10 +113,10 @@ join the [Discourse](https://fortran-lang.discourse.group) to stay tuned.
 Virtual participation is enabled for both attendees and speakers.
 Registration is free and due by June 1, 2020.
 There are quite a few submissions from the fortran-lang community:
-A talk on [stdlib](https://github.com/fortran-lang/talks/tree/master/FortranCon2020-stdlib) by Jeremie Vandenplas,
-one about the [Fortran Package Manager (fpm)](https://github.com/fortran-lang/talks/tree/master/FortranCon2020-fpm) by Brad Richardson,
+A talk on [stdlib](https://github.com/fortran-lang/talks/tree/HEAD/FortranCon2020-stdlib) by Jeremie Vandenplas,
+one about the [Fortran Package Manager (fpm)](https://github.com/fortran-lang/talks/tree/HEAD/FortranCon2020-fpm) by Brad Richardson,
 a talk on [LFortran compiler](https://gitlab.com/lfortran/talks/fortrancon-2020-talk) by Ondřej Čertík,
-as well as one about [building the Fortran community](https://github.com/fortran-lang/talks/tree/master/FortranCon2020-community)
+as well as one about [building the Fortran community](https://github.com/fortran-lang/talks/tree/HEAD/FortranCon2020-community)
 by Milan Curcic.
 * J3/WG5 joint meeting, originally slated for October 12-16 in Las Vegas, Nevada, has been [cancelled](https://mailman.j3-fortran.org/pipermail/j3/2020-May/012034.html).
 However, the work on proposals for the Fortran Standard doesn't stop.

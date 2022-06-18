@@ -47,7 +47,7 @@ In this case no array copy is done, which has the advantage that the shape and s
 information is automatically passed along and checked at compile and optionally at
 runtime.
 Similarly, array strides can be passed without requiring a copy of the array but as
-*assumed-shape* discriptor:
+*assumed-shape* descriptor:
 
 ```fortran
 real(dp) :: r(10)
@@ -80,7 +80,7 @@ end subroutine h
 
 The actual rank can be queried at runtime using the ``select rank`` construct.
 This easily allows to create more generic functions that have to deal with
-differnet array ranks.
+different array ranks.
 
 *Explicit-shape* arrays can be useful for returning data from functions.
 Most of their functionality can be provided by *assumed-shape* and *assumed-rank*

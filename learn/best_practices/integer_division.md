@@ -8,7 +8,7 @@ Fortran distinguishes between floating point and integer arithmetic.  It is
 important to note that division for integers is always using integer
 arithmetic. Furthermore, while Fortran uses the standard order-of-operations
 (e.g. multiplication and division preceed addition and subtraction, in the
-absence of parenthesis), operations of the same precedance are evaluated from
+absence of parenthesis), operations of the same precedence are evaluated from
 left to right.  Consider the following example for integer division of an odd
 number:
 

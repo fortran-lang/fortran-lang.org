@@ -5,7 +5,7 @@ permalink: /learn/best_practices/floating_point
 ---
 
 The default representation of floating point numbers is using single precision
-(usually 32 bits / 4 bytes). For most application a higher precision is required.
+(usually 32 bits / 4 bytes). For most applications a higher precision is required.
 For this purpose a custom kind parameter can be defined.
 The recommended way of defining kind parameters is to use
 
@@ -90,5 +90,5 @@ a = 3 * 1.0_dp / 4  ! 'a' is equal to 0.75_dp
 ```
 
 To print floating point numbers without losing precision use the unlimited
-format specificer ``(g0)`` or the exponential representation ``(es24.16e3)``,
+format specifier ``(g0)`` or the exponential representation ``(es24.16e3)``,
 which will give you 17 significant digits of printout.
