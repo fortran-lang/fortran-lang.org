@@ -16,7 +16,7 @@ result = range(x)
       integer :: range
       type(TYPE,kind=KIND),intent(in) :: x
 ```
-   where TYPE is _real_ or _cmplpex_ and KIND is any kind supported by 
+   where TYPE is _real_ or _complex_ and KIND is any kind supported by 
    TYPE.
 ## __Description__
 

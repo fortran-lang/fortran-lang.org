@@ -73,4 +73,4 @@ Fortran 2008 and later
 
 - [Wikipedia:error function](https://en.wikipedia.org/wiki/Error_function)
 
-###### fortran-lang intrinsic descriptions license: MIT)
+###### fortran-lang intrinsic descriptions license: MIT) @urbanjost
