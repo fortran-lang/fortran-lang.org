@@ -44993,7 +44993,7 @@ in radians such that (see <em>Euler’s formula</em>):</p>
 <p>if 
      <strong>cx=(re,im)</strong> 
 then 
-     <strong>exp(cx)=exp(re)*cmplx(cos(im),sin(im))</strong></p>
+     <strong>exp(cx)=exp(re)*cmplx(cos(im),sin(im),kind=kind(cx))</strong></p>
 
 <p>Since <strong>exp</strong>(3) is the inverse function of <strong>log</strong>(3) the maximum valid magnitude
 of the <em>real</em> component of <strong>x</strong> is <strong>log(huge(x))</strong>.</p>
@@ -45039,7 +45039,7 @@ of the <em>real</em> component of <strong>x</strong> is <strong>log(huge(x))</st
    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'is the same as'</span><span class="p">,</span><span class="nb">exp</span><span class="p">(</span><span class="n">re</span><span class="p">)</span><span class="o">*</span><span class="nb">cmplx</span><span class="p">(</span><span class="nb">cos</span><span class="p">(</span><span class="n">im</span><span class="p">),</span><span class="nb">sin</span><span class="p">(</span><span class="n">im</span><span class="p">),</span><span class="nb">kind</span><span class="o">=</span><span class="nb">kind</span><span class="p">(</span><span class="n">cx</span><span class="p">))</span><span class="w">
 
    </span><span class="c1">! exp(3) is the inverse function of log(3) so</span><span class="w">
-   </span><span class="c1">! the real compoenent of the input must be less than or equal to </span><span class="w">
+   </span><span class="c1">! the real component of the input must be less than or equal to </span><span class="w">
    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'maximum real component'</span><span class="p">,</span><span class="nb">log</span><span class="p">(</span><span class="nb">huge</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span><span class="w"> 
    </span><span class="c1">! or for double precision</span><span class="w">
    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="s1">'maximum doubleprecision component'</span><span class="p">,</span><span class="nb">log</span><span class="p">(</span><span class="nb">huge</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">))</span><span class="w"> 

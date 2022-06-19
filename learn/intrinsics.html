@@ -44882,32 +44882,39 @@ enter “./fman –help” for directions.</p>
     <p><a href="http://www.urbanjost.altervista.org/SUPPLEMENTS/fortran.tgz">man pages</a> A gzipped tar(1) file containing
 early versions of man-pages derived from the markdown documents.</p>
 
-    <p>Typical installation on a Linux platform, but it varies</p>
+    <p>Typical installation on a Linux platform as an administrator ( but it varies) :</p>
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># as the administrator</span>
 <span class="nb">cd</span> /usr/share
 <span class="nb">tar </span>xvfz /tmp/fortran.tgz
 <span class="nb">cd </span>man
-mand <span class="nt">-c</span>
+mandb <span class="nt">-c</span>
 </code></pre></div>    </div>
-    <p>then anyone on that plaform can enter commands like (see man(1))</p>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># as a user, placing the files in ~/man:</span>
-<span class="nb">cd 
-tar </span>xvfz /tmp/fortran.tgz
-<span class="nb">cd </span>man
-mand <span class="nt">-c</span>
-<span class="nb">export </span><span class="nv">MANPATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$MANPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/man"</span>
-<span class="nb">export </span><span class="nv">MANWIDTH</span><span class="o">=</span>80
-</code></pre></div>    </div>
+    <p>then anyone on that plaform can enter commands like</p>
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>man sinh.3fortran     <span class="c"># specifically show Fortran sinh(3) documentation</span>
 man <span class="nt">-k</span> <span class="nb">.</span> <span class="nt">-s</span> 3fortran  <span class="c"># list all fortran pages</span>
 man <span class="nt">-s</span> 3fortran <span class="nt">--regex</span> <span class="s1">'.*'</span> |col <span class="nt">-b</span> <span class="c"># show all Fortran intrinsics</span>
 </code></pre></div>    </div>
-
-    <p>Still debating whether having to keep the document limited to ANSI
-characters is worth-while so these formats can be generated, and
-still having issues converting the markdown to the proper formats.</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>See man(1) (ie. enter "man man") for more information.
+</code></pre></div>    </div>
   </li>
 </ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>If you can only install the pages on your own ID, try
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     <span class="c"># as a user, placing the files in ~/man:</span>
+     <span class="nb">cd 
+     tar </span>xvfz /tmp/fortran.tgz
+     <span class="nb">cd </span>man
+     mandb <span class="nt">-c</span>
+     <span class="nb">export </span><span class="nv">MANPATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$MANPATH</span><span class="s2">:</span><span class="nv">$HOME</span><span class="s2">/man"</span>
+     <span class="nb">export </span><span class="nv">MANWIDTH</span><span class="o">=</span>80
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Still debating whether having to keep the document limited to ANSI
+ characters is worth-while so these formats can be generated, and
+ still having issues converting the markdown to the proper formats.
+</code></pre></div></div>
 
 <h2 id="text-content-copyrights">Text Content Copyrights</h2>
 
@@ -44929,7 +44936,7 @@ specially-formatted last line. For example, change</p>
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>###### fortran-lang intrinsic descriptions
 </code></pre></div></div>
 <p>to</p>
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>###### fortran-lang intrinsic descriptions (Iicense: MIT)
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>###### fortran-lang intrinsic descriptions (Iicense: MIT) @urbanjost
 </code></pre></div></div>
 
 <h6 id="written-in-markdown-kramdown">Written in <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown</a> <a href="https://kramdown.gettalong.org/syntax.html">kramdown</a></h6>
