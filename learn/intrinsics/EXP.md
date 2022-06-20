@@ -22,7 +22,7 @@ in radians such that (see _Euler's formula_):
 if 
      __cx=(re,im)__ 
 then 
-     __exp(cx)=exp(re)*cmplx(cos(im),sin(im))__
+     __exp(cx)=exp(re)*cmplx(cos(im),sin(im),kind=kind(cx))__
 
 Since __exp__(3) is the inverse function of __log__(3) the maximum valid magnitude
 of the _real_ component of __x__ is __log(huge(x))__.
@@ -63,7 +63,7 @@ complex :: cx
    write(*,*)'is the same as',exp(re)*cmplx(cos(im),sin(im),kind=kind(cx))
 
    ! exp(3) is the inverse function of log(3) so
-   ! the real compoenent of the input must be less than or equal to 
+   ! the real component of the input must be less than or equal to 
    write(*,*)'maximum real component',log(huge(0.0)) 
    ! or for double precision
    write(*,*)'maximum doubleprecision component',log(huge(0.0d0)) 

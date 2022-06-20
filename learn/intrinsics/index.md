@@ -72,28 +72,32 @@ and the following Copyright guidelines.
    - [man pages](http://www.urbanjost.altervista.org/SUPPLEMENTS/fortran.tgz) A gzipped tar(1) file containing
      early versions of man-pages derived from the markdown documents.
 
-     Typical installation on a Linux platform, but it varies
+     Typical installation on a Linux platform as an administrator ( but it varies) :
 ```bash
      # as the administrator
      cd /usr/share
      tar xvfz /tmp/fortran.tgz
      cd man
-     mand -c
+     mandb -c
 ```
-     then anyone on that plaform can enter commands like (see man(1))
+     then anyone on that plaform can enter commands like 
+```bash
+     man sinh.3fortran     # specifically show Fortran sinh(3) documentation
+     man -k . -s 3fortran  # list all fortran pages
+     man -s 3fortran --regex '.*' |col -b # show all Fortran intrinsics
+```
+    See man(1) (ie. enter "man man") for more information.
+    
+    If you can only install the pages on your own ID, try
+
 ```bash
      # as a user, placing the files in ~/man:
      cd 
      tar xvfz /tmp/fortran.tgz
      cd man
-     mand -c
+     mandb -c
      export MANPATH="$MANPATH:$HOME/man"
      export MANWIDTH=80
-```
-```bash
-     man sinh.3fortran     # specifically show Fortran sinh(3) documentation
-     man -k . -s 3fortran  # list all fortran pages
-     man -s 3fortran --regex '.*' |col -b # show all Fortran intrinsics
 ```
 
      Still debating whether having to keep the document limited to ANSI
@@ -122,7 +126,7 @@ specially-formatted last line. For example, change
 ```
 to
 ```text
-###### fortran-lang intrinsic descriptions (Iicense: MIT)
+###### fortran-lang intrinsic descriptions (Iicense: MIT) @urbanjost
 ```
 
 ###### Written in [Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) [kramdown](https://kramdown.gettalong.org/syntax.html)

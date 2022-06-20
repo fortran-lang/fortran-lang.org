@@ -68,4 +68,4 @@ end program demo_bit_size
 
 Fortran 95 and later
 
-###### fortran-lang intrinsic descriptions (License: MIT) @urbanjost
+###### fortran-lang intrinsic descriptions (license MIT) @urbanjost
