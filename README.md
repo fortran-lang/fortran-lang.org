@@ -53,3 +53,26 @@ bundle exec jekyll serve --watch
 ```
 
 Open `http://localhost:4000` to view the website.
+
+
+## Setup for Sphinx build of Site
+
+This assumes that you already have a recent version of python
+For example on Ubuntu 18.04, do:
+
+To install the dependencies of this project, use Bundler:
+
+```
+pip3 install --user -r requirements.txt
+```
+
+### Serving locally
+
+Execute the following command:
+
+```
+make html
+```
+
+Open the build folder of the directory in browser to view the website.
+
