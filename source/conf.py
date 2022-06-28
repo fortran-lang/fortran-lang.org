@@ -1,4 +1,4 @@
-# Configuration file for the Sphinx documentation builder.
+# Confi#print(conf['books'])guration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
@@ -18,7 +18,7 @@ from pathlib import Path
 #print("learn section")
 conf = yaml.safe_load(Path('_data/learning.yml').read_text())
 #print(conf['books'])
-
+print(ablog.recent(5, pagename))
 conf['reference_books'] = conf['reference-books']
 conf['reference_courses'] = conf['reference-courses']
 conf['reference_links'] = conf['reference-links']
