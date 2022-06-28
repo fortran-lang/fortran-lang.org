@@ -1,4 +1,4 @@
-# Confi#print(conf['books'])guration file for the Sphinx documentation builder.
+# Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
@@ -18,7 +18,7 @@ from pathlib import Path
 #print("learn section")
 conf = yaml.safe_load(Path('_data/learning.yml').read_text())
 #print(conf['books'])
-print(ablog.recent(5, pagename))
+
 conf['reference_books'] = conf['reference-books']
 conf['reference_courses'] = conf['reference-courses']
 conf['reference_links'] = conf['reference-links']
@@ -70,6 +70,7 @@ language = 'None'
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 html_additional_pages = {'index': 'index.html'}
+suppress_warnings = ["myst.header"]
 
 jinja_contexts = {
     'conf':conf,
@@ -95,7 +96,7 @@ html_theme_options = {
             "rel": "icon",
             "href": "images/favicon.ico",
         },
-    ],
+    ],'body_max_width': '10%',
     "show_prev_next": True,
     "page_sidebar_items": [],
     "footer_items": ["copyright"],
@@ -139,8 +140,9 @@ html_sidebars = {
         "recentposts.html",
         "archives.html",
     ],
-    "learn/index": [],
+   "learn/index": [],
     "compilers": [],
+    "community": [],
 }
 html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
@@ -156,7 +158,7 @@ post_auto_excerpt = 2
 
 def hide_h1_on_index_pages(app, pagename, templatename, context, doctree):
     if pagename in ["index", "learn", "compilers", "community", "packages"]:
-        app.add_css_file("css/hide_h1.css")
+        app.add_css_file("css/custom.css")
 
 def setup(app):
     app.connect('html-page-context', hide_h1_on_index_pages)
