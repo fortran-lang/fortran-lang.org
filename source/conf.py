@@ -96,7 +96,7 @@ html_theme_options = {
             "rel": "icon",
             "href": "images/favicon.ico",
         },
-    ],'body_max_width': '10%',
+    ],
     "show_prev_next": True,
     "page_sidebar_items": [],
     "footer_items": ["copyright"],
@@ -158,7 +158,7 @@ post_auto_excerpt = 2
 
 def hide_h1_on_index_pages(app, pagename, templatename, context, doctree):
     if pagename in ["index", "learn", "compilers", "community", "packages"]:
-        app.add_css_file("css/custom.css")
+        app.add_css_file("css/hide_h1.css")
 
 def setup(app):
     app.connect('html-page-context', hide_h1_on_index_pages)
