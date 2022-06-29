@@ -261,7 +261,7 @@
          <div class="d-none d-xl-block col-xl-4 py-md-2 bd-content col-narrow fortran_sidebar">
             <br><br><br>
             <h2><i class="far fa-newspaper"></i> News</h2>
-
+            <a href="news.html" id="news"></a>
             <p><a href="news.html">More…</a></p>
             </br>
             <a class="twitter-timeline" data-height="500"
@@ -298,6 +298,62 @@
    </div>
    <!-- Scripts loaded after <body> so the DOM is not blocked -->
    <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+   <script>
+      // Changes XML to JSON
+      function xmlToJson(xml) {
+
+         // Create the return object
+         var obj = {};
+
+         if (xml.nodeType == 1) { // element
+            // do attributes
+            if (xml.attributes.length > 0) {
+               obj["@attributes"] = {};
+               for (var j = 0; j < xml.attributes.length; j++) {
+                  var attribute = xml.attributes.item(j);
+                  obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+               }
+            }
+         } else if (xml.nodeType == 3) { // text
+            obj = xml.nodeValue;
+         }
+
+         // do children
+         if (xml.hasChildNodes()) {
+            for (var i = 0; i < xml.childNodes.length; i++) {
+               var item = xml.childNodes.item(i);
+               var nodeName = item.nodeName;
+               if (typeof (obj[nodeName]) == "undefined") {
+                  obj[nodeName] = xmlToJson(item);
+               } else {
+                  if (typeof (obj[nodeName].push) == "undefined") {
+                     var old = obj[nodeName];
+                     obj[nodeName] = [];
+                     obj[nodeName].push(old);
+                  }
+                  obj[nodeName].push(xmlToJson(item));
+               }
+            }
+         }
+         return obj;
+      }
+      var news = {};
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+      // xml file to Javascript object
+      $.get('https://fortran-lang.org/news.xml', function (data) {
+         news = xmlToJson(data);
+         for (var i = 0; i < 5; i++) {
+            var post = news['feed']['entry'][i]['title']['#text'];
+            var d = new Date(news['feed']['entry'][i]['updated']['#text'].slice(0, 10));
+            post_data = document.getElementById("news").innerHTML + post + " \t " + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear() + "<br>";
+            document.getElementById("news").innerHTML = post_data;
+         }
+
+      });
+
+   </script>
    <footer class="footer mt-5 mt-md-0">
       <div class="container">
          <div class="footer-item">
