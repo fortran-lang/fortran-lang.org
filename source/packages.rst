@@ -24,8 +24,7 @@ Find a Package
         <br>
         See
 	        <a href="https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/PACKAGES.md" target="_blank">
-          <igithub-plain colored"></i> here</a> for how to get your project listed.
-     class="devicon-    <br>
+          <i class="devicon-github-plain colored"></i>here</a> for how to get your project listed.  <br>
           Use the box above to search the package index by keyword, package name, or author username.
         </td>
         <td> 
