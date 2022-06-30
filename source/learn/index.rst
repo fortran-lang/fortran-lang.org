@@ -1,5 +1,5 @@
 .. raw:: html
-
+    
     <p style="text-align: center;font-size:36px;"><b>Learn Fortran</b></p>
     <p style="text-align: center;font-size:24px;">Learning resources for beginners and experts alike</p>
    
@@ -13,10 +13,10 @@
                      Try the quickstart Fortran tutorial, to
                      get an overview of the language syntax and capabilities.
                   </p>
-                  <a class="button center" href="/learn/quickstart">
+                  <a  href="https://henilp105.github.io/fortran-lang.org/learn/quickstart/index.html">
                      <i class="fas fa-book"></i>
                      <b> Quickstart tutorial</b>
-                  </a>
+                  </a><br>
                </td>
     
       <td>
@@ -43,7 +43,7 @@
 
     {% for j in books %}
     {% if j.category == 'Getting started' %}
-    `{{j.title}} <{{"https://henilp105.github.io/fortran-lang.org"+j.link}}>`_ 
+    `{{j.title}} <{{"https://henilp105.github.io/fortran-lang.org"+j.link+"/index.html"}}>`_ 
      {{j.description}}
     {% endif %}
     {% endfor %}
@@ -56,7 +56,7 @@
 
     {% for j in books %}
     {% if j.category == 'Fortran Documentation' %}
-    `{{j.title}} <{{"https://henilp105.github.io/fortran-lang.org"+j.link}}>`_ 
+    `{{j.title}} <{{"https://henilp105.github.io/fortran-lang.org"+j.link+"/index.html"}}>`_ 
       {{j.description}}
     {% endif %}
     {% endfor %}
@@ -101,3 +101,4 @@ In print
    * {{j.author}} {{j.year}} `{{j.title}} <{{j.url}}>`_ {{j.edition}} {{j.location}}{{j.publisher}}
    
     {% endfor %}
+
