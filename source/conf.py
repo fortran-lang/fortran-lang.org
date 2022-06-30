@@ -15,10 +15,86 @@
 # sys.path.insert(0, os.path.abspath('.'))
 import yaml
 from pathlib import Path
+from collections import Counter
+import json
 #print("learn section")
 conf = yaml.safe_load(Path('_data/learning.yml').read_text())
 #print(conf['books'])
+fortran_index = yaml.safe_load(Path('_data/package_index.yml').read_text())
 
+fortran_index_tags = []
+fortran_index_tags_50 = []
+fortran_index_categories = []
+fortran_index_libraries = []
+fortran_index_data_types = []
+fortran_index_strings = []
+fortran_index_programming = []
+fortran_index_graphics = []
+fortran_index_interfaces = []
+fortran_index_examples = []
+fortran_index_scientific = []
+fortran_index_io = []
+fortran_index_numerical = []
+fortran_index_fpm = []
+
+for i in fortran_index:
+    try:
+        for j in str(i['tags']).split():
+            fortran_index_tags.append(j)
+    except KeyError:
+        print("")
+    if "libraries" in i['categories'].split():
+        fortran_index_libraries.append(i)
+    if "data-types" in i['categories'].split():
+        fortran_index_data_types.append(i)
+    if "strings" in i['categories'].split():
+        fortran_index_strings.append(i)
+    if "programming" in i['categories'].split():
+        fortran_index_programming.append(i)
+    if "graphics" in i['categories'].split():
+        fortran_index_graphics.append(i)
+    if "interfaces" in i['categories'].split():
+        fortran_index_interfaces.append(i)
+    if "examples" in i['categories'].split():
+        fortran_index_examples.append(i)
+    if "scientific" in i['categories'].split():
+        fortran_index_scientific.append(i)
+    if "io" in i['categories'].split():
+        fortran_index_io.append(i)
+    if "numerical" in i['categories'].split():
+        fortran_index_numerical.append(i)
+    if "fpm" in i['categories'].split():
+        fortran_index_fpm.append(i)
+
+fortran_tags = {
+  "fortran_tags": "tags"
+}
+fortran_index_tags = Counter(fortran_index_tags)
+a = sorted(fortran_index_tags.items(), key=lambda x: x[1],reverse=True)
+
+#print(fortran_index_libraries)
+for k in range(50):
+    fortran_index_tags_50.append(a[k][0])
+
+for i in fortran_index:
+    for j in i['categories'].split():
+        fortran_index_categories.append(j)
+
+fortran_index_categories  = list(set(fortran_index_categories))
+#print(fortran_index_categories) 
+
+fortran_tags['fpm'] =  fortran_index_fpm
+fortran_tags['numerical'] =  fortran_index_numerical
+fortran_tags['io'] =  fortran_index_io
+fortran_tags['scientific'] =  fortran_index_scientific
+fortran_tags['examples'] =  fortran_index_examples
+fortran_tags['interfaces'] =  fortran_index_interfaces
+fortran_tags['graphics'] =  fortran_index_graphics
+fortran_tags['programming'] =  fortran_index_programming
+fortran_tags['strings'] =  fortran_index_strings
+fortran_tags['data_types'] =  fortran_index_data_types
+fortran_tags['libraries'] =  fortran_index_libraries
+fortran_tags['tags'] =  fortran_index_tags_50
 conf['reference_books'] = conf['reference-books']
 conf['reference_courses'] = conf['reference-courses']
 conf['reference_links'] = conf['reference-links']
@@ -74,7 +150,9 @@ suppress_warnings = ["myst.header"]
 
 jinja_contexts = {
     'conf':conf,
+    'fortran_index':fortran_tags,
 }
+
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -142,7 +220,9 @@ html_sidebars = {
     ],
    "learn/index": [],
     "compilers": [],
+    "packages": [],
     "community": [],
+    "packages/**": [],
 }
 html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
