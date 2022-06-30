@@ -26,3 +26,10 @@ Demonstration codes and templates for Fortran
 
     Tags: {{j.tags}} 
     {% endfor %}
+
+
+------------
+
+.. raw:: html
+    
+    See<a href="https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/PACKAGES.md" target="_blank"><i class="devicon-github-plain colored"></i> here</a> for how to get your project listed.

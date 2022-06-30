@@ -25,3 +25,10 @@ Libraries for plotting data, handling images and generating user interfaces
 
     Tags: {{j.tags}} 
     {% endfor %}
+
+
+------------
+
+.. raw:: html
+    
+    See<a href="https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/PACKAGES.md" target="_blank"><i class="devicon-github-plain colored"></i> here</a> for how to get your project listed.
