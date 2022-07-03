@@ -35,7 +35,6 @@ fortran_index_examples = []
 fortran_index_scientific = []
 fortran_index_io = []
 fortran_index_numerical = []
-fortran_index_fpm = []
 
 for i in fortran_index:
     try:
@@ -63,8 +62,6 @@ for i in fortran_index:
         fortran_index_io.append(i)
     if "numerical" in i['categories'].split():
         fortran_index_numerical.append(i)
-    if "fpm" in i['categories'].split():
-        fortran_index_fpm.append(i)
 
 fortran_tags = {
   "fortran_tags": "tags"
@@ -83,7 +80,6 @@ for i in fortran_index:
 fortran_index_categories  = list(set(fortran_index_categories))
 #print(fortran_index_categories) 
 
-fortran_tags['fpm'] =  fortran_index_fpm
 fortran_tags['numerical'] =  fortran_index_numerical
 fortran_tags['io'] =  fortran_index_io
 fortran_tags['scientific'] =  fortran_index_scientific
@@ -208,7 +204,6 @@ html_theme_options = {
 
 html_sidebars = {
     "news": [
-        "search-field.html",
         "tagcloud.html",
         "archives.html",
         "recentposts.html",
