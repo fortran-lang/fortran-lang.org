@@ -44,25 +44,54 @@ Browse Packages by Category
 --------------------------
 
 `Data types and containers <packages/data-types.html>`_
-  Libraries for advanced data types and container classes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Libraries for advanced data types and container classes
+
 `Interface libraries <packages/interfaces.html>`_
-  Libraries that interface with other systems, languages, or devices
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Libraries that interface with other systems, languages, or devices
+
 `Libraries <packages/libraries.html>`_
-  Fortran libraries for general programming tasks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fortran libraries for general programming tasks
+
 `Input, output and parsing  <packages/io.html>`_
-  Libraries for reading, writing and parsing files and inputs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Libraries for reading, writing and parsing files and inputs
+
 `Graphics, plotting and user interfaces <packages/graphics.html>`_
-  Libraries for plotting data, handling images and generating user interfaces
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Libraries for plotting data, handling images and generating user interfaces
+
 `Examples and templates <packages/examples.html>`_
-  Demonstration codes and templates for Fortran
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Demonstration codes and templates for Fortran
+
 `Numerical projects <packages/numerical.html>`_
-  Fortran libraries for linear algebra, optimization, root-finding etc.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fortran libraries for linear algebra, optimization, root-finding etc.
+
 `Programming utilities <packages/programming.html>`_
-  Error handling, logging, documentation and testing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Error handling, logging, documentation and testing
+
 `Characters and strings <packages/strings.html>`_
-  Libraries for manipulating characters and strings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Libraries for manipulating characters and strings
+
 `Scientific Codes <packages/scientific.html>`_
-  Applications and libraries for applied mathematical and scientific problems
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Applications and libraries for applied mathematical and scientific problems
 
 
 ------------
