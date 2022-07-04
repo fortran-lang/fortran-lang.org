@@ -60,7 +60,7 @@ Open `http://localhost:4000` to view the website.
 This assumes that you already have a recent version of python
 For example on Ubuntu 18.04, do:
 
-To install the dependencies of this project, use Bundler:
+To install the dependencies of this project, use commamd:
 
 ```
 pip3 install --user -r requirements.txt
@@ -74,5 +74,5 @@ Execute the following command:
 make html
 ```
 
-Open the build folder of the directory in browser to view the website.
+Open the build/html folder of the directory in browser to view the website.
 
