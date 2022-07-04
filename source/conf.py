@@ -68,7 +68,10 @@ fortran_tags = {
 }
 fortran_index_tags = Counter(fortran_index_tags)
 a = sorted(fortran_index_tags.items(), key=lambda x: x[1],reverse=True)
-
+for i in a:
+    if i[0]=="None":
+        a.remove(i)
+        
 #print(fortran_index_libraries)
 for k in range(50):
     fortran_index_tags_50.append(a[k][0])
@@ -114,9 +117,17 @@ extensions = [
     "ablog",
     "myst_parser",
     "sphinx_design",
-    "sphinx_copybutton",
+    "sphinx_copybutton",                                   
     "sphinx.ext.intersphinx",
     "sphinx_jinja",
+    'matplotlib.sphinxext.plot_directive',
+    'IPython.sphinxext.ipython_directive',
+    'IPython.sphinxext.ipython_console_highlighting',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.inheritance_diagram',
+    'numpydoc',
 ]
 
 myst_enable_extensions = [
