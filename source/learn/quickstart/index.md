@@ -13,3 +13,15 @@ types, variables, arrays, control flow and functions.
 The contents of this tutorial are shown in the navigation bar on the left with the current page highlighted bold.
 
 Use the _Next_ button at the bottom to start the tutorial with a _Hello World_ example.
+
+````{toctree}
+:maxdepth: 2
+:hidden:
+arrays_strings <arrays_strings>
+hello_world <hello_world>
+operators_control_flow <operators_control_flow>
+variables <variables>
+derived_types <derived_types>
+index <index>
+organising_code <organising_code>
+````

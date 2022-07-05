@@ -48,3 +48,16 @@ connection to the console etc.) it took.
 Fortunately, as a programmer in a high-level language you do not need to
 consider all these details. In fact, this is the sort of things that is
 taken care of by the build process: the compiler and the linker.
+
+````{toctree}
+:hidden:
+build_tools <build_tools>
+include_files <include_files>
+managing_libraries <managing_libraries>
+compiling_source <compiling_source>
+index <index>
+project_make <project_make>
+distributing <distributing>
+linking_pieces <linking_pieces>
+runtime_libraries <runtime_libraries>
+````

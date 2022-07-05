@@ -25,3 +25,13 @@ If you have already set up your environment, you may skip this tutorial and move
 - - -
 
 *The choice of text editors and IDEs has been controversial among the developers. What you choose is a matter of personal taste. Every solution comes with its own pros and cons. For that reason, in this guide, we will not push the reader towards one or another direction. We will, however, present a list of the most popular tools.*
+
+````{toctree}
+:hidden:
+choose_compiler <choose_compiler>
+index <index>
+text_editors <text_editors>
+ides <ides>
+install_gfortran <install_gfortran>
+tips <tips>
+````
