@@ -193,8 +193,7 @@ def Sort_Tuple(tup):
                 temp = tup[j]
                 tup[j]= tup[j + 1]
                 tup[j + 1]= temp
-    login.append(i[0])
-    contributions.append(i[1])
+    return tup
 
 Sort_Tuple(a)
 for i in a:
