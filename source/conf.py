@@ -17,6 +17,7 @@ import yaml
 from pathlib import Path
 from collections import Counter
 import json
+import requests
 #print("learn section")
 conf = yaml.safe_load(Path('_data/learning.yml').read_text())
 #print(conf['books'])
@@ -71,7 +72,7 @@ a = sorted(fortran_index_tags.items(), key=lambda x: x[1],reverse=True)
 for i in a:
     if i[0]=="None":
         a.remove(i)
-        
+
 #print(fortran_index_libraries)
 for k in range(50):
     fortran_index_tags_50.append(a[k][0])
@@ -81,7 +82,6 @@ for i in fortran_index:
         fortran_index_categories.append(j)
 
 fortran_index_categories  = list(set(fortran_index_categories))
-#print(fortran_index_categories) 
 
 fortran_tags['numerical'] =  fortran_index_numerical
 fortran_tags['io'] =  fortran_index_io
@@ -117,7 +117,7 @@ extensions = [
     "ablog",
     "myst_parser",
     "sphinx_design",
-    "sphinx_copybutton",                                   
+    "sphinx_copybutton",
     "sphinx.ext.intersphinx",
     "sphinx_jinja",
     'matplotlib.sphinxext.plot_directive',
@@ -128,6 +128,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.inheritance_diagram',
     'numpydoc',
+    'sphinx_charts.charts',
 ]
 
 myst_enable_extensions = [
@@ -151,7 +152,7 @@ language = 'None'
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = [ 'build/*']
 html_additional_pages = {'index': 'index.html'}
 suppress_warnings = ["myst.header"]
 
@@ -173,7 +174,50 @@ html_theme = "pydata_sphinx_theme"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+a=[]
+login=[]
+contributions=[]
+info = requests.get('https://api.github.com/repos/fortran-lang/fortran-lang.org/contributors').text
 
+d = json.loads(info)
+
+for i in range(len(d)):
+  a.append((d[i]['login'],d[i]['contributions']))
+
+def Sort_Tuple(tup):
+    lst = len(tup)
+    for i in range(0, lst):
+
+        for j in range(0, lst-i-1):
+            if (tup[j][0] > tup[j + 1][0]):
+                temp = tup[j]
+                tup[j]= tup[j + 1]
+                tup[j + 1]= temp
+    login.append(i[0])
+    contributions.append(i[1])
+
+Sort_Tuple(a)
+for i in a:
+  login.append(i[0])
+  contributions.append(i[1])
+
+test_chart = {"data": [
+      {
+        "x": login,
+        "y": contributions,
+      }
+    ],
+    "layout": {
+      "margin": {
+        "t": 15,
+        "b": 30,
+        "r": 15,
+        "l": 35
+      }
+    }
+  }
+with open("charts/fortran-lang.org.json", "w") as f:
+    json.dump(test_chart, f)
 
 html_theme_options = {
     "favicons" : [
