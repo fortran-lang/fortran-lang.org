@@ -5,6 +5,9 @@
 
 ------------
 
+.. |license| image:: https://img.shields.io/badge/license-grey
+.. |version| image:: https://img.shields.io/badge/version-grey
+
 Applications and libraries for applied mathematical and scientific problems
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -24,6 +27,9 @@ Applications and libraries for applied mathematical and scientific problems
     {{j.description}} 
 
     Tags: {{j.tags}} 
+
+    {% if j.license is defined %}|license| : {{j.license}}{% endif %}
+    {% if j.version is defined %}|version| : {{j.version}}{% endif %}
     {% endfor %}
 
 

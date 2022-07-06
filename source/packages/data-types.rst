@@ -5,6 +5,10 @@
 
 ------------
 
+.. |license| image:: https://img.shields.io/badge/license-grey
+.. |version| image:: https://img.shields.io/badge/version-grey
+
+
 Libraries for advanced data types and container classes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -24,6 +28,9 @@ Libraries for advanced data types and container classes
     {{j.description}} 
 
     Tags: {{j.tags}} 
+    
+    {% if j.license is defined %}|license| : {{j.license}}{% endif %}
+    {% if j.version is defined %}|version| : {{j.version}}{% endif %}
     {% endfor %}
 
 

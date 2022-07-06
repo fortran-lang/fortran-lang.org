@@ -5,6 +5,9 @@
 
 ------------
 
+.. |license| image:: https://img.shields.io/badge/license-grey
+.. |version| image:: https://img.shields.io/badge/version-grey
+
 Error handling, logging, documentation and testing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -24,6 +27,9 @@ Error handling, logging, documentation and testing
     {{j.description}} 
 
     Tags: {{j.tags}} 
+
+    {% if j.license is defined %}|license| : {{j.license}}{% endif %}
+    {% if j.version is defined %}|version| : {{j.version}}{% endif %}
     {% endfor %}
 
 

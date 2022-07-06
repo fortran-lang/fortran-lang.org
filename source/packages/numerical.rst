@@ -5,6 +5,9 @@
 
 ------------
 
+.. |license| image:: https://img.shields.io/badge/license-grey
+.. |version| image:: https://img.shields.io/badge/version-grey
+
 Libraries for reading, writing and parsing files and inputs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -24,6 +27,9 @@ Libraries for reading, writing and parsing files and inputs
     {{j.description}} 
 
     Tags: {{j.tags}} 
+
+    {% if j.license is defined %}|license| : {{j.license}}{% endif %}
+    {% if j.version is defined %}|version| : {{j.version}}{% endif %}
     {% endfor %}
 
 

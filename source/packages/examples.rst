@@ -5,6 +5,9 @@
 
 ------------
 
+.. |license| image:: https://img.shields.io/badge/license-grey
+.. |version| image:: https://img.shields.io/badge/version-grey
+
 Demonstration codes and templates for Fortran
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -25,6 +28,9 @@ Demonstration codes and templates for Fortran
     {{j.description}} 
 
     Tags: {{j.tags}} 
+    
+    {% if j.license is defined %}|license| : {{j.license}}{% endif %}
+    {% if j.version is defined %}|version| : {{j.version}}{% endif %}
     {% endfor %}
 
 
