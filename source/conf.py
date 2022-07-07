@@ -174,16 +174,6 @@ html_theme = "pydata_sphinx_theme"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-a=[]
-login=[]
-contributions=[]
-info = requests.get('https://api.github.com/repos/fortran-lang/fortran-lang.org/contributors').text
-
-d = json.loads(info)
-
-for i in range(len(d)):
-  a.append((d[i]['login'],d[i]['contributions']))
-
 def Sort_Tuple(tup):
     lst = len(tup)
     for i in range(0, lst):
@@ -195,12 +185,19 @@ def Sort_Tuple(tup):
                 tup[j + 1]= temp
     return tup
 
-Sort_Tuple(a)
-for i in a:
-  login.append(i[0])
-  contributions.append(i[1])
-
-test_chart = {"data": [
+def plot_graphs(graph):
+  a=[]
+  login=[]
+  contributions=[]
+  info = requests.get('https://api.github.com/repos/fortran-lang/'+graph+'/contributors').text
+  d = json.loads(info)
+  for i in range(len(d)):
+    a.append((d[i]['login'],d[i]['contributions']))
+  Sort_Tuple(a)
+  for i in a:
+    login.append(i[0])
+    contributions.append(i[1])
+  test_chart = {"data": [
       {
         "x": login,
         "y": contributions,
@@ -215,8 +212,12 @@ test_chart = {"data": [
       }
     }
   }
-with open("charts/fortran-lang.org.json", "w") as f:
+  print(test_chart)
+  with open("charts/"+graph+".json", "w") as f:
     json.dump(test_chart, f)
+graphs =["fortran-lang.org","fpm","stdlib"]
+for i in graphs:
+  plot_graphs(i)
 
 html_theme_options = {
     "favicons" : [

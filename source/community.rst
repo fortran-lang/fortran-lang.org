@@ -131,9 +131,17 @@ We are grateful for every contribution made by all members of the community.
 
    </script>-->
 
+
 .. chart:: charts/fortran-lang.org.json
 
     Fortran-lang.org Contributors
 
+.. chart:: charts/fpm.json
+
+    fpm Contributors
+
+.. chart:: charts/stdlib.json
+
+    stdlib Contributors
 
 
