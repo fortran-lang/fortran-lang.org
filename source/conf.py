@@ -123,6 +123,15 @@ def github_info(list):
         print("")
 
 github_info(fortran_index_data_types)
+github_info(fortran_index_numerical)
+github_info(fortran_index_io)
+github_info(fortran_index_scientific)
+github_info(fortran_index_examples)
+github_info(fortran_index_interfaces)
+github_info(fortran_index_graphics)
+github_info(fortran_index_programming)
+github_info(fortran_index_strings)
+github_info(fortran_index_libraries)
 print(fortran_index_data_types)
 fortran_tags['numerical'] =  fortran_index_numerical
 fortran_tags['io'] =  fortran_index_io

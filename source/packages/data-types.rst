@@ -5,12 +5,12 @@
 
 ------------
 
-.. |license| image:: https://img.shields.io/badge/license:-grey
-.. |stars| image:: https://img.shields.io/badge/stars:-grey
-.. |forks| image:: https://img.shields.io/badge/forks:-grey
-.. |lastcommit| image:: https://img.shields.io/badge/last%20commit:-grey
-.. |issues| image:: https://img.shields.io/badge/issues:-grey
-.. |release| image:: https://img.shields.io/badge/Release:-grey
+.. |license| image:: https://img.shields.io/badge/license-grey
+.. |stars| image:: https://img.shields.io/badge/stars-grey
+.. |forks| image:: https://img.shields.io/badge/forks-grey
+.. |lastcommit| image:: https://img.shields.io/badge/last%20commit-grey
+.. |issues| image:: https://img.shields.io/badge/issues-grey
+.. |release| image:: https://img.shields.io/badge/Release-grey
 
 Libraries for advanced data types and container classes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,7 +20,6 @@ Libraries for advanced data types and container classes
     {% for j in data_types|sort(attribute='name') %}
     {% if j.github is defined %}
     `{{j.name}} <{{"https://github.com/"+j.github}}>`_   
-    
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     {% elif j.gitlab is defined%}
     `{{j.name}} <{{"https://gitlab.com/"+j.gitlab}}>`_   
@@ -33,8 +32,8 @@ Libraries for advanced data types and container classes
 
     Tags: {{j.tags}} 
     
-    |release| {{j.release}}   |license| {{j.license}}  |stars| {{j.stars}}  |forks| {{j.forks}}  |lastcommit| {{j.last_commit}}  |issues| {{j.issues}}  
-    
+    |release| : {{j.release}}   |license| : {{j.license}}  |stars| : {{j.stars}}  |forks| :{{j.forks}}  |lastcommit| : {{j.last_commit}}  |issues| : {{j.issues}}  
+
     {% endfor %}
 
 
