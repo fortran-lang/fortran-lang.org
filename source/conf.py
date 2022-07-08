@@ -122,8 +122,8 @@ def github_info(list):
     except KeyError:
         print("")
 
-github_info(fortran_index_numerical)
-print(fortran_index_numerical)
+github_info(fortran_index_data_types)
+print(fortran_index_data_types)
 fortran_tags['numerical'] =  fortran_index_numerical
 fortran_tags['io'] =  fortran_index_io
 fortran_tags['scientific'] =  fortran_index_scientific
