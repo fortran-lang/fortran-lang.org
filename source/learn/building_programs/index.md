@@ -55,7 +55,6 @@ build_tools <build_tools>
 include_files <include_files>
 managing_libraries <managing_libraries>
 compiling_source <compiling_source>
-index <index>
 project_make <project_make>
 distributing <distributing>
 linking_pieces <linking_pieces>

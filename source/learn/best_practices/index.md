@@ -21,7 +21,6 @@ arrays <arrays>
 floating_point <floating_point>
 multidim_arrays <multidim_arrays>
 callbacks <callbacks>
-index <index>
 style_guide <style_guide>
 element_operations <element_operations>
 integer_division <integer_division>

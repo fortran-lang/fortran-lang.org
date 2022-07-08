@@ -22,6 +22,5 @@ hello_world <hello_world>
 operators_control_flow <operators_control_flow>
 variables <variables>
 derived_types <derived_types>
-index <index>
 organising_code <organising_code>
 ````

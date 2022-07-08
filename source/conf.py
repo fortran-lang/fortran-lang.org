@@ -268,7 +268,7 @@ html_sidebars = {
         "recentposts.html",
         "archives.html",
     ],
-   "learn/index": [],
+   "learn/**/**": ['localtoc.html'],
     "compilers": [],
     "packages": [],
     "community": [],
