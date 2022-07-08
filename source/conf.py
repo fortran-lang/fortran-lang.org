@@ -18,6 +18,7 @@ from pathlib import Path
 from collections import Counter
 import json
 import requests
+import datetime
 #print("learn section")
 conf = yaml.safe_load(Path('_data/learning.yml').read_text())
 #print(conf['books'])
@@ -83,6 +84,46 @@ for i in fortran_index:
 
 fortran_index_categories  = list(set(fortran_index_categories))
 
+def github_info(list):
+  for i in list:
+    try:
+        info = requests.get('https://api.github.com/repos/'+i['github']).text
+        d = json.loads(info)
+        if type(d['forks_count']) is type(None):
+            d['forks_count'] = 0
+        if type(d['open_issues_count']) is type(None):
+            d['open_issues_count'] = 0
+        if type(d['stargazers_count']) is type(None):
+            d['stargazers_count'] = 0
+        try:
+            if str(d['license']['name']) =='null':
+                print('hello')
+                d['license']['name'] = 'null'
+            i['license'] = d['license']['name']
+        except TypeError:
+            print("")
+            d['license'] = 'null'
+        #print(d['forks_count'],d['open_issues_count'],d['stargazers_count'])
+        i['forks'] = d['forks_count']
+        i['issues'] = d['open_issues_count']
+        i['stars'] = d['stargazers_count']
+        info = requests.get('https://api.github.com/repos/'+i['github']+'/commits/'+d['default_branch']).text
+        d = json.loads(info)
+        monthinteger = int(d['commit']['author']['date'][5:7])
+        month = datetime.date(1900, monthinteger, 1).strftime('%B')
+        i['last_commit'] = month+" "+d['commit']['author']['date'][:4]
+        info = requests.get('https://api.github.com/repos/'+i['github']+'/releases/latest').text
+        d = json.loads(info)
+        #print(d)
+        try:
+            i['release'] = d['tag_name']
+        except KeyError:
+            print("")
+    except KeyError:
+        print("")
+
+github_info(fortran_index_numerical)
+print(fortran_index_numerical)
 fortran_tags['numerical'] =  fortran_index_numerical
 fortran_tags['io'] =  fortran_index_io
 fortran_tags['scientific'] =  fortran_index_scientific
