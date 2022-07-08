@@ -29,10 +29,6 @@ Libraries for advanced data types and container classes
 
     Tags: {{j.tags}} 
 
-    {% if j.github is defined %}
-    {% image https://img.shields.io/github/license/{{j.github}}?style=flat-square %}
-    {% endif %}
-    
     {% if j.license is defined %}|license| : {{j.license}}{% endif %}
     {% if j.version is defined %}|version| : {{j.version}}{% endif %}
     {% endfor %}
