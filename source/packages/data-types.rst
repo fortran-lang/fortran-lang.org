@@ -6,7 +6,7 @@
 ------------
 
 .. |license| image:: https://img.shields.io/badge/license-grey
-.. |version| image:: https://img.shields.io/badge/version-grey
+.. |version| image:: https://img.shields.io/badge/fortran-lang/for/license
 
 
 Libraries for advanced data types and container classes
@@ -28,6 +28,10 @@ Libraries for advanced data types and container classes
     {{j.description}} 
 
     Tags: {{j.tags}} 
+
+    {% if j.github is defined %}
+    {% image https://img.shields.io/github/license/{{j.github}}?style=flat-square %}
+    {% endif %}
     
     {% if j.license is defined %}|license| : {{j.license}}{% endif %}
     {% if j.version is defined %}|version| : {{j.version}}{% endif %}
