@@ -26,13 +26,14 @@ jobs:
       
     - name: fortran_package 
       run: python fortran_package.py
-    
+      
     - name: Commit files # transfer the new html files back into the repository
       run: |
-        git config --local user.name "henilp105"
+        git config --local user.name "henilp105" 
         git add fortran_learn.json
-	git add fortran_package.json
-	git commit -m "fortran_package"
+        git add fortran_package.json
+        git commit -m "fortran package"
+	
     - name: Push changes # push the output folder to your repo
       uses: ad-m/github-push-action@master
       with:
