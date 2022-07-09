@@ -1,0 +1,40 @@
+# Github action to build github activity
+#
+
+name: fortran_packages 
+
+
+on:
+  schedule:
+    - cron: "0 2 * * *" 
+  push:
+    branches: [ master ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: checkout source
+      uses: actions/checkout@v2
+   
+    - name: Setup Python
+      uses: actions/setup-python@v1
+
+    - name: Install github-activity
+      run: pip3 install --user -r requirements.txt
+      
+    - name: fortran_package 
+      run: python fortran_package.py
+    
+    - name: Commit files # transfer the new html files back into the repository
+      run: |
+        git config --local user.name "henilp105" 
+        git add fortran_package.json
+        git add fortran_learn.json
+        git commit -m "fortran_package"
+    - name: Push changes # push the output folder to your repo
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.METRICS_TOKEN }}
+        force: true
