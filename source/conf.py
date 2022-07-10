@@ -23,7 +23,7 @@ import datetime
 info = requests.get('https://raw.githubusercontent.com/henilp105/fortran-lang.org/master/fortran_learn.json').text
 conf = json.loads(info)
 info = requests.get('https://raw.githubusercontent.com/henilp105/fortran-lang.org/master/fortran_package.json').text
-fortran_index = json.loads(info)
+fortran_tags = json.loads(info)
 
 # -- Project information -----------------------------------------------------
 
