@@ -158,10 +158,7 @@ def plot_graphs(graph):
   info = requests.get('https://api.github.com/repos/fortran-lang/'+graph+'/contributors').text
   d = json.loads(info)
   for i in range(len(d)):
-    try:
         a.append((d[i]['login'],d[i]['contributions']))
-    except:
-        print("")
   Sort_Tuple(a)
   for i in a:
     login.append(i[0])
