@@ -9,6 +9,7 @@ import pytz
 from collections import OrderedDict
 import numpy as np
 
+months = ["Unknown", "January","Febuary","March", "April","May","June","July","August","September","October","November","December"]
 #print("learn section")
 info = requests.get('https://raw.githubusercontent.com/fortran-lang/fortran-lang.org/master/_data/package_index.yml').text
 fortran_index = yaml.safe_load(info)
@@ -105,7 +106,7 @@ def github_info(list):
         info = requests.get('https://api.github.com/repos/'+i['github']+'/commits/'+d['default_branch'], headers=headers).text
         d = json.loads(info)
         monthinteger = int(d['commit']['author']['date'][5:7])
-        month = datetime.date(1900, monthinteger, 1).strftime('%B')
+        month = months[monthinteger]
         i['last_commit'] = month+" "+d['commit']['author']['date'][:4]
         info = requests.get('https://api.github.com/repos/'+i['github']+'/releases/latest', headers=headers).text
         d = json.loads(info)
@@ -155,7 +156,7 @@ fpm_commits =[]
 stdlib_monthly =[]
 stdlib_commits =[]
 
-months = ["Unknown", "January","Febuary","March", "April","May","June","July","August","September","October","November","December"]
+
 def monthly_graph(repo):
   info = requests.get('https://api.github.com/repos/fortran-lang/'+repo+'/stats/code_frequency').text
   d = json.loads(info)
