@@ -152,6 +152,7 @@ html_sidebars = {
         "archives.html",
     ],
    "learn/**": [],
+   "learn":[],
     "compilers": [],
     "packages": [],
     "community": [],
