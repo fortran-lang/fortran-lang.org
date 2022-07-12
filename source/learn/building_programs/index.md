@@ -50,7 +50,6 @@ consider all these details. In fact, this is the sort of things that is
 taken care of by the build process: the compiler and the linker.
 
 ````{toctree}
-:hidden:
 build_tools <build_tools>
 include_files <include_files>
 managing_libraries <managing_libraries>

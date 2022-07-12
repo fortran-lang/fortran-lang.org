@@ -110,11 +110,12 @@ html_theme_options = {
         },
     ],
     "show_prev_next": True,
+    "show_nav_level": 4,
     "page_sidebar_items": [],
     "footer_items": ["copyright"],
     "navbar_align": "right",
     "navbar_start": ["navbar-logo"],
-    "navbar_center": ["navbar-nav"],
+    # "navbar_center": ["navbar-nav"],
     "navbar_end": ["theme-switcher.html","navbar-icon-links"],
     "icon_links": [
         {
@@ -151,8 +152,8 @@ html_sidebars = {
         "recentposts.html",
         "archives.html",
     ],
-   "learn/**": [],
-   "learn":[],
+    "learn/**": ["sidebar-nav-bs.html"],
+    "learn":[],
     "compilers": [],
     "packages": [],
     "community": [],
@@ -169,10 +170,3 @@ blog_post_pattern = "news/*"
 post_redirect_refresh = 1
 post_auto_image = 1
 post_auto_excerpt = 2
-
-def hide_h1_on_index_pages(app, pagename, templatename, context, doctree):
-    if pagename in ["index", "learn", "compilers", "community", "packages"]:
-        app.add_css_file("css/hide_h1.css")
-
-def setup(app):
-    app.connect('html-page-context', hide_h1_on_index_pages)
