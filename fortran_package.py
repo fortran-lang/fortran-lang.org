@@ -158,7 +158,7 @@ stdlib_commits =[]
 
 
 def monthly_graph(repo):
-  info = requests.get('https://api.github.com/repos/fortran-lang/'+repo+'/stats/code_frequency').text
+  info = requests.get('https://api.github.com/repos/fortran-lang/'+repo+'/stats/code_frequency', headers=headers).text
   d = json.loads(info)
   c = 0
   monthly_commits=[]
@@ -189,18 +189,6 @@ def monthly_graph(repo):
       }
     }
   }
-  if repo =='fortran-lang.org':
-    fortran_monthly = monthly_commits
-    fortran_commits = commits
-  if repo =='fpm':
-    fpm_monthly = monthly_commits
-    fpm_commits = commits
-   # print(fpm_monthly , fpm_commits)
-  if repo =='stdlib':
-    stdlib_monthly = monthly_commits
-    stdlib_commits = commits
-    #print(stdlib_monthly , stdlib_commits)
-  print(test_chart)
   with open("source/charts/"+repo+".json", "w") as f:
         json.dump(test_chart, f)
 graphs =["fortran-lang.org","fpm","stdlib"]
