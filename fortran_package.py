@@ -3,6 +3,7 @@ from pathlib import Path
 from collections import Counter
 import json
 import requests
+from requests.structures import CaseInsensitiveDict
 import datetime
 #print("learn section")
 info = requests.get('https://raw.githubusercontent.com/fortran-lang/fortran-lang.org/master/_data/package_index.yml').text
@@ -10,6 +11,9 @@ fortran_index = yaml.safe_load(info)
 #print(conf['books'])
 info = requests.get('https://raw.githubusercontent.com/fortran-lang/fortran-lang.org/master/_data/learning.yml').text
 conf = yaml.safe_load(info)
+headers = CaseInsensitiveDict()
+headers["Authorization"] = "Basic aGVuaWxwMTA1OmdocF9TQTZxaHFBYmZVVGNkaEZHc0tnbnllN25vcndUSzk0T0dTVGg="
+#this auth token is only meant for fortran github api use. please DONT misuse it.
 
 fortran_index_tags = []
 fortran_index_tags_50 = []
@@ -74,7 +78,7 @@ fortran_index_categories  = list(set(fortran_index_categories))
 def github_info(list):
   for i in list:
     try:
-        info = requests.get('https://api.github.com/repos/'+i['github']).text
+        info = requests.get('https://api.github.com/repos/'+i['github'], headers=headers).text
         d = json.loads(info)
         if type(d['forks_count']) is type(None):
             d['forks_count'] = 0
@@ -94,12 +98,12 @@ def github_info(list):
         i['forks'] = d['forks_count']
         i['issues'] = d['open_issues_count']
         i['stars'] = d['stargazers_count']
-        info = requests.get('https://api.github.com/repos/'+i['github']+'/commits/'+d['default_branch']).text
+        info = requests.get('https://api.github.com/repos/'+i['github']+'/commits/'+d['default_branch'], headers=headers).text
         d = json.loads(info)
         monthinteger = int(d['commit']['author']['date'][5:7])
         month = datetime.date(1900, monthinteger, 1).strftime('%B')
         i['last_commit'] = month+" "+d['commit']['author']['date'][:4]
-        info = requests.get('https://api.github.com/repos/'+i['github']+'/releases/latest').text
+        info = requests.get('https://api.github.com/repos/'+i['github']+'/releases/latest', headers=headers).text
         d = json.loads(info)
         #print(d)
         try:
@@ -139,3 +143,50 @@ with open("fortran_package.json", "w") as f:
     json.dump(fortran_tags, f)
 with open("fortran_learn.json", "w") as f:
     json.dump(conf, f)
+def Sort_Tuple(tup):
+    lst = len(tup)
+    for i in range(0, lst):
+
+        for j in range(0, lst-i-1):
+            if (tup[j][0] > tup[j + 1][0]):
+                temp = tup[j]
+                tup[j]= tup[j + 1]
+                tup[j + 1]= temp
+    return tup
+
+def plot_graphs(graph):
+  a=[]
+  login=[]
+  contributions=[]
+  info = requests.get('https://api.github.com/repos/fortran-lang/'+graph+'/contributors', headers=headers).text
+  d = json.loads(info)
+  for i in range(len(d)):
+    try:
+        a.append((d[i]['login'],d[i]['contributions']))
+    except:
+        print("")
+  Sort_Tuple(a)
+  for i in a:
+    login.append(i[0])
+    contributions.append(i[1])
+  test_chart = {"data": [
+      {
+        "x": login,
+        "y": contributions,
+      }
+    ],
+    "layout": {
+      "margin": {
+        "t": 15,
+        "b": 30,
+        "r": 15,
+        "l": 35
+      }
+    }
+  }
+  print(test_chart)
+  with open("source/charts/"+graph+".json", "w") as f:
+    json.dump(test_chart, f)
+graphs =["fortran-lang.org","fpm","stdlib"]
+for i in graphs:
+  plot_graphs(i)
