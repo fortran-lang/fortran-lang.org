@@ -200,7 +200,7 @@ def monthly_graph(repo):
     stdlib_commits = commits
     #print(stdlib_monthly , stdlib_commits)
   print(test_chart)
-  with open("source/charts/"+graph+".json", "w") as f:
+  with open("source/charts/"+repo+".json", "w") as f:
         json.dump(test_chart, f)
 graphs =["fortran-lang.org","fpm","stdlib"]
 for i in graphs:
