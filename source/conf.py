@@ -105,6 +105,7 @@ html_theme_options = {
     "favicons" : [
         {
             "rel": "icon",
+            "sizes": "256x256",
             "href": "images/favicon.ico",
         },
     ],
@@ -114,7 +115,7 @@ html_theme_options = {
     "navbar_align": "right",
     "navbar_start": ["navbar-logo"],
     "navbar_center": ["navbar-nav"],
-    "navbar_end": ["navbar-icon-links"],
+    "navbar_end": ["theme-switcher.html","navbar-icon-links"],
     "icon_links": [
         {
             "name": "Discourse",
@@ -150,7 +151,7 @@ html_sidebars = {
         "recentposts.html",
         "archives.html",
     ],
-   "learn/index": [],
+   "learn/**": [],
     "compilers": [],
     "packages": [],
     "community": [],
