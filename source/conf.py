@@ -74,7 +74,8 @@ templates_path = ['_templates']
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'None'
+language = 'en'
+html_search_language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -115,7 +116,6 @@ html_theme_options = {
     "footer_items": ["copyright"],
     "navbar_align": "right",
     "navbar_start": ["navbar-logo"],
-    # "navbar_center": ["navbar-nav"],
     "navbar_end": ["theme-switcher.html","navbar-icon-links"],
     "icon_links": [
         {
@@ -164,6 +164,8 @@ html_logo = "_static/images/fortran-logo-256x256.png"
 html_baseurl = "https://henilp105.github.io/fortran-lang.org/"
 
 master_doc = 'index'
+
+fontawesome_link_cdn = True 
 
 blog_path = "news"
 blog_post_pattern = "news/*"
