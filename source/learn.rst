@@ -4,10 +4,10 @@ Learn
 =====
 
 .. raw:: html
-    
+
     <p style="text-align: center;font-size:36px;"><b>Learn Fortran</b></p>
     <p style="text-align: center;font-size:24px;">Learning resources for beginners and experts alike</p>
-   
+
          <h2>Getting Started</h2>
          <table cellpadding="10">
             <tr>
@@ -18,12 +18,12 @@ Learn
                      Try the quickstart Fortran tutorial, to
                      get an overview of the language syntax and capabilities.
                   </p>
-                  <a  href="https://henilp105.github.io/fortran-lang.org/learn/quickstart/index.html">
+                  <a  href="learn/quickstart/index.html">
                      <i class="fas fa-book"></i>
                      <b> Quickstart tutorial</b>
                   </a><br>
                </td>
-    
+
       <td>
 
          <h3><i class="fas fa-question-circle"></i>
@@ -48,7 +48,7 @@ Learn
 
     {% for j in books %}
     {% if j.category == 'Getting started' %}
-    `{{j.title}} <{{"https://henilp105.github.io/fortran-lang.org"+j.link+"/index.html"}}>`_ 
+    `{{j.title}} <{{"./"+j.link+"/"}}>`_
      {{j.description}}
     {% endif %}
     {% endfor %}
@@ -56,12 +56,12 @@ Learn
 .. raw:: html
 
      <h3><i class="fas fa-book"></i> Fortran Documentation</h3>
-     
+
 .. jinja:: conf
 
     {% for j in books %}
     {% if j.category == 'Fortran Documentation' %}
-    `{{j.title}} <{{"https://henilp105.github.io/fortran-lang.org"+j.link+"/index.html"}}>`_ 
+    `{{j.title}} <{{"./"+j.link+"/"}}>`_
       {{j.description}}
     {% endif %}
     {% endfor %}
@@ -74,12 +74,12 @@ On the web
 ~~~~~~~~~~
 
 .. jinja:: conf
-    
+
     {% for j in reference_links %}
-    
- 
+
+
    * `{{j.name}} <{{j.url}}>`_ {{j.description}}
-   
+
     {% endfor %}
 
 
@@ -87,12 +87,12 @@ Online Courses
 ~~~~~~~~~~~~~~
 
 .. jinja:: conf
-    
+
     {% for j in reference_courses %}
-    
- 
+
+
    * `{{j.name}} <{{j.url}}>`_ {{j.description}}
-   
+
     {% endfor %}
 
 
@@ -102,9 +102,9 @@ In print
 .. jinja:: conf
 
     {% for j in reference_books %}
-    
+
    * {{j.author}} {{j.year}} `{{j.title}} <{{j.url}}>`_ {{j.edition}} {{j.location}}{{j.publisher}}
-   
+
     {% endfor %}
 
 
