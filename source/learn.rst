@@ -1,3 +1,8 @@
+:sd_hide_title: true
+
+Learn
+=====
+
 .. raw:: html
     
     <p style="text-align: center;font-size:36px;"><b>Learn Fortran</b></p>
@@ -63,10 +68,10 @@
 
 
 Other Resources
-####
+---------------
 
 On the web
-####
+~~~~~~~~~~
 
 .. jinja:: conf
     
@@ -79,7 +84,7 @@ On the web
 
 
 Online Courses
-####
+~~~~~~~~~~~~~~
 
 .. jinja:: conf
     
@@ -92,7 +97,7 @@ Online Courses
 
 
 In print
-####
+~~~~~~~~
 
 .. jinja:: conf
 
@@ -101,3 +106,12 @@ In print
    * {{j.author}} {{j.year}} `{{j.title}} <{{j.url}}>`_ {{j.edition}} {{j.location}}{{j.publisher}}
    
     {% endfor %}
+
+
+.. toctree::
+
+   learn/quickstart/index
+   learn/best_practices/index
+   learn/os_setup/index
+   learn/building_programs/index
+   learn/intrinsics/index

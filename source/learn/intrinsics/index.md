@@ -134,7 +134,6 @@ to
 
 
 ````{toctree}
-:hidden:
 ABS <ABS>
 ICHAR <ICHAR>
 ACHAR <ACHAR>
