@@ -194,3 +194,24 @@ def monthly_graph(repo):
 graphs =["fortran-lang.org","fpm","stdlib"]
 for i in graphs:
   monthly_graph(i)
+
+contributor =[]
+contributor_repo={
+    "repo":'fortran-lang',
+}
+def contributors(repo):
+  info = requests.get('https://api.github.com/repos/'+repo+'/contributors', headers=headers).text
+  d = json.loads(info)
+  for i in d:
+    contributor.append(i['login'])
+
+graphs =["fortran-lang/fortran-lang.org","fortran-lang/fpm","fortran-lang/stdlib","j3-fortran/fortran_proposals"]
+for i in graphs:
+  contributors(i)
+
+contributor = list(set(contributor))
+contributor.sort()
+contributor_repo['contributor'] = contributor
+
+with open("contributor.json", "w") as f:
+  json.dump(contributor_repo, f)
