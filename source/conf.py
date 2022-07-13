@@ -161,7 +161,6 @@ html_sidebars = {
 }
 html_title = "Fortran Programming Language"
 html_logo = "_static/images/fortran-logo-256x256.png"
-html_baseurl = "https://henilp105.github.io/fortran-lang.org/"
 
 master_doc = 'index'
 
@@ -169,6 +168,7 @@ fontawesome_link_cdn = True
 
 blog_path = "news"
 blog_post_pattern = "news/*"
+blog_baseurl = "https://fortran-lang.org/" 
 post_redirect_refresh = 1
 post_auto_image = 1
 post_auto_excerpt = 2
