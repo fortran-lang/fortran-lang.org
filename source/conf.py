@@ -24,7 +24,8 @@ info = requests.get('https://raw.githubusercontent.com/henilp105/fortran-lang.or
 conf = json.loads(info)
 info = requests.get('https://raw.githubusercontent.com/henilp105/fortran-lang.org/master/fortran_package.json').text
 fortran_tags = json.loads(info)
-
+info = requests.get('https://raw.githubusercontent.com/henilp105/fortran-lang.org/master/contributor.json').text
+contributors = json.loads(info)
 # -- Project information -----------------------------------------------------
 
 project = 'Fortran-lang.org website'
@@ -87,6 +88,7 @@ suppress_warnings = ["myst.header"]
 jinja_contexts = {
     'conf':conf,
     'fortran_index':fortran_tags,
+    'contributors':contributors,
 }
 
 
