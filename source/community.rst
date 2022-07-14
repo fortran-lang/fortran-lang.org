@@ -1,10 +1,7 @@
 .. raw:: html
 
-    <p style="text-align: center;font-size:48px;color:#130654">Fortran-lang Community</p>
+    <p style="text-align: center;font-size:48px;">Fortran-lang Community</p>
     <p style="text-align: center;font-size:24px;">Collaboration for the advancement of Fortran</p>
-
-
-----------------------------------
 
 
 Fortran-lang Community Projects
@@ -60,7 +57,6 @@ Fortran-lang Community Projects
           <a href="https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md" target="_blank" rel="noopener"><b>
           Contributing </b></a>
         </span>  </div>
-  <div><div id="fortran-lang-gh-feed" style="height: 500px;"></div></div>
    </div>
 
 
@@ -106,7 +102,7 @@ Get Involved
         harassment-free experience for everyone.
        See the full
       <a href="https://github.com/fortran-lang/stdlib/blob/HEAD/CODE_OF_CONDUCT.md" target="_blank" rel="noopener">Code of Conduct</a>
-      </td></tr></table><br>
+      </td></tr></table>
 
 
 Fortran-lang Contributors
@@ -116,32 +112,20 @@ We are grateful for every contribution made by all members of the community.
 
 .. raw:: html
 
+    <iframe 
+    src="https://contributor-graph.vercel.app/?chart=contributorOverTime&repo=fortran-lang/fortran-lang.org,fortran-lang/fpm,fortran-lang/stdlib,j3-fortran/fortran_proposals"
+    width="700px" height="700px"
+    ></iframe>
 
-    <!--<link rel="stylesheet" href="https://unpkg.com/octicons@4.4.0/build/font/octicons.css">
-    <link rel="stylesheet" href="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.css">
-    <script type="text/javascript" src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.js"></script>
-    <script>
+source: https://git-contributor.com/
+""""""""""""""""""""""""""""""""""""
 
-   GitHubActivity.feed({
-    username: "fortran-lang",
-    selector: "#fortran-lang-gh-feed",
-    limit: 20 // optional
-  });
+Contributors:
 
-   </script>-->
+.. jinja:: contributors
 
-
-.. chart:: charts/fortran-lang.org.json
-
-    Fortran-lang.org Contributors
-
-.. chart:: charts/fpm.json
-
-    fpm Contributors
-
-.. chart:: charts/stdlib.json
-
-    stdlib Contributors
+    {% for j in contributor | batch(3, '&nbsp;') %}
+    {% for k in j %}
+    `{{k}} <{{"https://github.com/"+k}}>`_ {% endfor %}{% endfor %}
 
 
