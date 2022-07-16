@@ -13,6 +13,7 @@ and programming in general.
 
 ````{toctree}
 :maxdepth: 2
+:hidden:
 allocatable_arrays <allocatable_arrays>
 file_io <file_io>
 modules_programs <modules_programs>

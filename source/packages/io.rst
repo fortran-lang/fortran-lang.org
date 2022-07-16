@@ -1,9 +1,10 @@
-.. raw:: html
-    
-    <p style="text-align: center;font-size:36px;"><b>Featured Open Source Projects</b></p>
-    <p style="text-align: center;font-size:24px;">A rich ecosystem of high-performance code</p>
+.. div:: sd-text-center sd-fs-2 sd-font-weight-bold sd-text-primary
 
-------------
+    Featured Open Source Projects
+
+.. div:: sd-text-center sd-fs-3 
+
+    A rich ecosystem of high-performance code
 
 .. |license| image:: https://img.shields.io/badge/license-grey
 .. |stars| image:: https://img.shields.io/badge/stars-grey

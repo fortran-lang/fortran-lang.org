@@ -1,112 +1,107 @@
-.. raw:: html
+:sd_hide_title:
 
-    <p style="text-align: center;font-size:48px;">Fortran-lang Community</p>
-    <p style="text-align: center;font-size:24px;">Collaboration for the advancement of Fortran</p>
+.. |br| raw:: html
 
+     <br>
 
-Fortran-lang Community Projects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Community - The Fortran Programming Language
+###########################################
 
+.. div:: sd-text-center sd-fs-2 sd-font-weight-bold sd-text-primary
 
-.. raw:: html
+    Fortran-lang Community
 
-    <div style="display: flex; justify-content: space-around">
-  <div><h1>Fortran Standard Library (stdlib)</h1>
-    <p>A community-driven project for a de facto "standard" library for Fortran. The stdlib project is both a specification and a reference implementation, developed in cooperation with the Fortran Standards Committee.
-  </p><span style="display: inline-block;">
-        <i class="fab fa-github"></i>
-        <a href="https://github.com/fortran-lang/stdlib" target="_blank" rel="noopener"><b>
-            GitHub </b></a>
-            &ensp;
-      </span>
-      <span style="display: inline-block;">
-        <i class="fas fa-info-circle"></i>
-        <a href="https://stdlib.fortran-lang.org/" target="_blank" rel="noopener"><b>
-          Documentation </b></a>
-          &ensp;
-      </span>
-      <span style="display: inline-block;">
-        <i class="fab fa-git-alt"></i>
-        <a href="https://github.com/fortran-lang/stdlib/blob/HEAD/WORKFLOW.md" target="_blank" rel="noopener"><b>
-        Contributing </b></a>
-      </span> <h1>Fortran Package Manager (fpm)</h1> <p>A prototype project to develop a common build system for Fortran packages and their dependencies.</p>
-      <span style="display: inline-block;">
-          <i class="fab fa-github"></i>
-          <a href="https://github.com/fortran-lang/fpm" target="_blank" rel="noopener"><b>
-              GitHub </b></a>
-              &ensp;
-        </span>
-        <span style="display: inline-block;">
-          <i class="fas fa-info-circle"></i>
-          <a href="https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md" target="_blank" rel="noopener"><b>
-            Documentation </b></a>
-            &ensp;
-        </span>
-        <span style="display: inline-block;">
-          <i class="fab fa-git-alt"></i>
-          <a href="https://github.com/fortran-lang/fpm/blob/HEAD/CONTRIBUTING.md" target="_blank" rel="noopener"><b>
-          Contributing </b></a>
-        </span>  <h1>fortran-lang.org</h1> <p>This website is open source and contributions are welcome!</p><span style="display: inline-block;">
-          <i class="fab fa-github"></i>
-          <a href="https://github.com/fortran-lang/fortran-lang.org" target="_blank" rel="noopener"><b>
-              GitHub </b></a>
-              &ensp;
-        </span>
-        <span style="display: inline-block;">
-          <i class="fab fa-git-alt"></i>
-          <a href="https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md" target="_blank" rel="noopener"><b>
-          Contributing </b></a>
-        </span>  </div>
-   </div>
+.. div:: sd-text-center sd-fs-3 
 
+    Collaboration for the advancement of Fortran
+  
 
-Get Involved
------------------
+.. div:: sd-text-left sd-fs-2 sd-text-primary
 
-.. raw:: html
+    Fortran-lang Community Projects
 
-    <table>
-    <tr><td><h3>
-      <i data-feather="message-circle"></i>Join the Discussion</h3>
+.. div:: sd-text-left sd-fs-4 
 
-      The easiest way to join the community and contribute is by
-      commenting on issues and pull requests in the project
-      repositories.
+    Fortran Standard Library (stdlib)
 
-      Whether Fortran beginner or seasoned veteran, your feedback and comments are most
-      welcome in guiding the future of Fortran-lang.</td><td><h3> <i data-feather="terminal"></i>
-      Build and Test</h3>
-        Get more involved with each project by cloning, building and testing
-        it on your own machine(s) and with your own codes;
-        if something doesn't work, create an issue to let us know!
-        We value user feedback highly, be it a bug report, feature request, or
-        suggestion for documentation.
-      </p></td></tr>
-      <tr><td><h3> <i data-feather="edit"></i>
-      Contributor Guide</h3>
-      <p>
-        Want to contribute code and content?
-        Check out the contributor guides in each repository for information
-        on the project workflow and recommended practices.
-      </p>
-      <ul>
-        <li> <a href="https://github.com/fortran-lang/stdlib/blob/HEAD/WORKFLOW.md" target="_blank" rel="noopener">Contributor guide for stdlib</a> </li>
-        <li> <a href="https://github.com/fortran-lang/fpm/blob/HEAD/CONTRIBUTING.md" target="_blank" rel="noopener">Contributor guide for fpm</a> </li>
-        <li> <a href="https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md" target="_blank" rel="noopener">Contributor guide for fortran-lang.org</a> </li>
-      </ul>
+A community-driven project for a de facto 'standard' library for Fortran. The stdlib project is both a specification and a reference implementation, developed in cooperation with the Fortran Standards Committee.
 
-          </td>
-        <td>  <h3><i data-feather="smile"></i>
-      Community Conduct</h3>
-        As a community, we strive to make participation in our discussions and projects a friendly and
-        harassment-free experience for everyone.
-       See the full
-      <a href="https://github.com/fortran-lang/stdlib/blob/HEAD/CODE_OF_CONDUCT.md" target="_blank" rel="noopener">Code of Conduct</a>
-      </td></tr></table>
+`GitHub <https://github.com/fortran-lang/stdlib>`_  `Documentation <https://stdlib.fortran-lang.org/>`_  `Contributing <https://github.com/fortran-lang/stdlib/blob/HEAD/WORKFLOW.md>`_
+
+.. div:: sd-text-left sd-fs-4 
+
+    Fortran Package Manager (fpm)
+
+A prototype project to develop a common build system for Fortran packages and their dependencies.
+
+`GitHub <https://github.com/fortran-lang/fpm>`_  `Documentation <https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md>`_  `Contributing <ttps://github.com/fortran-lang/fpm/blob/HEAD/CONTRIBUTING.md>`_
+
+.. div:: sd-text-left sd-fs-4 
+
+    fortran-lang.org
+
+This website is open source and contributions are welcome!.
+
+`GitHub <https://github.com/fortran-lang/fortran-lang.org>`_  `Contributing <ttps://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md>`_
+
+.. div:: sd-text-left sd-fs-2 sd-text-primary
+
+    Get Involved
+
+.. grid:: 1 1 2 2
+    :gutter: 1
+
+    .. grid-item::
+
+        .. grid:: 1 1 1 1
+            :gutter: 1
+
+            .. grid-item-card:: Join the Discussion
+
+                The easiest way to join the community and contribute is by
+                commenting on issues and pull requests in the project
+                repositories.
+
+                Whether Fortran beginner or seasoned veteran, your feedback and comments are most
+                welcome in guiding the future of Fortran-lang.
+
+            .. grid-item-card:: Contributor Guide
+
+                Want to contribute code and content?
+                Check out the contributor guides in each repository for information
+                on the project workflow and recommended practices.
+                Contributor guide for stdlib   
+
+                `Contributor guide for stdlib <https://github.com/fortran-lang/stdlib/blob/HEAD/WORKFLOW.md>`_ |br|
+                `Contributor guide for fpm <https://github.com/fortran-lang/fpm/blob/HEAD/CONTRIBUTING.md>`_ |br|
+                `Contributor guide for fortran-lang.org <https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md>`_ 
 
 
-Fortran-lang Contributors
--------------------------
+    .. grid-item::
+
+        .. grid:: 1 1 1 1
+            :gutter: 1
+            
+            .. grid-item-card:: Build and Test
+
+                Get more involved with each project by cloning, building and testing
+                it on your own machine(s) and with your own codes;
+                if something doesn't work, create an issue to let us know!
+                We value user feedback highly, be it a bug report, feature request, or
+                suggestion for documentation.
+
+            .. grid-item-card:: Community Conduct
+
+                As a community, we strive to make participation in our discussions and projects a friendly and
+                harassment-free experience for everyone.
+                See the full  `Code of Conduct <https://github.com/fortran-lang/stdlib/blob/HEAD/CODE_OF_CONDUCT.md>`_ 
+
+
+
+
+.. div:: sd-text-left sd-fs-2 sd-text-primary
+
+    Fortran-lang Contributors
 
 We are grateful for every contribution made by all members of the community.
 
@@ -117,15 +112,22 @@ We are grateful for every contribution made by all members of the community.
     width="700px" height="700px"
     ></iframe>
 
-source: https://git-contributor.com/
-""""""""""""""""""""""""""""""""""""
+.. div:: sd-text-left sd-fs-3
+
+    source: https://git-contributor.com/
 
 Contributors:
 
 .. jinja:: contributors
 
     {% for j in contributor | batch(3, '&nbsp;') %}
-    {% for k in j %}
-    `{{k}} <{{"https://github.com/"+k}}>`_ {% endfor %}{% endfor %}
 
+    .. grid:: 3
 
+        .. grid-item-card::  `{{j[0]}} <{{"https://github.com/"+j[0]}}>`_
+
+        .. grid-item-card::  `{{j[1]}} <{{"https://github.com/"+j[1]}}>`_
+
+        .. grid-item-card::  `{{j[2]}} <{{"https://github.com/"+j[2]}}>`_
+
+    {% endfor %}

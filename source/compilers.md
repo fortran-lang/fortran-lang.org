@@ -4,7 +4,7 @@ title: Compilers
 navbar: Compilers
 ---
 
-<p style="text-align: center;font-size:36px;"><b>Fortran Compilers</b></p>
+<p style="text-align: center;font-size:36px;color:#734f96;"><b>Fortran Compilers</b></p>
 <p style="text-align: center;font-size:24px;">Fortran has over a dozen open source and commercial compilers.</p>
 
 ## Compilers

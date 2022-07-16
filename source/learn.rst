@@ -3,46 +3,65 @@
 Learn
 =====
 
-.. raw:: html
+.. |br| raw:: html
 
-    <p style="text-align: center;font-size:36px;"><b>Learn Fortran</b></p>
-    <p style="text-align: center;font-size:24px;">Learning resources for beginners and experts alike</p>
+     <br>
 
-         <h2>Getting Started</h2>
-         <table cellpadding="10">
-            <tr>
-               <td>
-                  <h3><i class="fas fa-info-circle"></i>
-                     New to Fortran</h3>
-                  <p>
-                     Try the quickstart Fortran tutorial, to
-                     get an overview of the language syntax and capabilities.
-                  </p>
-                  <a  href="learn/quickstart/index.html">
-                     <i class="fas fa-book"></i>
-                     <b> Quickstart tutorial</b>
-                  </a><br>
-               </td>
+.. div:: sd-text-center sd-fs-2 sd-font-weight-bold sd-text-primary
 
-      <td>
+    Learn Fortran
 
-         <h3><i class="fas fa-question-circle"></i>
-            Looking for help</h3>
-         <p>
-            Ask a question in the Fortran-lang discourse - a forum
-            for friendly discussion of all things Fortran.
+.. div:: sd-text-center sd-fs-3 
 
-         </p>
-         <a class="button center blue" href="https://fortran-lang.discourse.group/" target="_blank">
-            <b> <i class="fab fa-discourse"></i>
-               Fortran-lang Discourse
-         </a></b>
-      </td>
-      </tr>
-      </table>
-       <h2 id="book-index">Mini-book Tutorials</h2>
-      <h3><i class="fas fa-cubes"></i> Getting started</h3>
+    Learning resources for beginners and experts alike
+   
+.. div:: sd-fs-3 sd-font-weight-bold sd-text-primary
 
+    Getting Started
+
+.. grid:: 1 1 2 2
+    :gutter: 1
+
+    .. grid-item::
+
+        .. grid:: 1 1 1 1
+            :gutter: 1
+
+            .. grid-item-card::  :octicon:`info;1em;sd-text-info` New to Fortran
+
+                Try the quickstart Fortran tutorial, to get an overview of the language syntax and capabilities.
+                |br|
+               .. button-link:: learn/quickstart/index.html
+                  :color: primary
+
+                    :octicon:`book;1em;sd-text-info` Quickstart tutorial
+                        
+                
+
+
+    .. grid-item::
+
+        .. grid:: 1 1 1 1
+            :gutter: 1
+
+            .. grid-item-card::  :octicon:`bug;1em;sd-text-info` Looking for help
+
+                Ask a question in the Fortran-lang discourse - a forum for friendly discussion of all things Fortran.
+                |br|
+               .. button-link:: https://fortran-lang.discourse.group/s
+                  :color: primary
+
+                    :octicon:`check-circle;1em;sd-text-info` Fortran-lang Discourse
+            
+
+
+.. div:: sd-fs-3 sd-font-weight-bold sd-text-primary
+
+    Mini-book Tutorials
+
+.. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
+
+    Getting started
 
 .. jinja:: conf
 
@@ -53,9 +72,10 @@ Learn
     {% endif %}
     {% endfor %}
 
-.. raw:: html
 
-     <h3><i class="fas fa-book"></i> Fortran Documentation</h3>
+.. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
+
+    Fortran Documentation
 
 .. jinja:: conf
 
@@ -67,11 +87,13 @@ Learn
     {% endfor %}
 
 
-Other Resources
----------------
+.. div:: sd-fs-3 sd-font-weight-bold sd-text-primary
 
-On the web
-~~~~~~~~~~
+    Other Resources
+
+.. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
+
+    On the web
 
 .. jinja:: conf
 
@@ -83,8 +105,10 @@ On the web
     {% endfor %}
 
 
-Online Courses
-~~~~~~~~~~~~~~
+
+.. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
+
+    Online Courses
 
 .. jinja:: conf
 
@@ -95,9 +119,9 @@ Online Courses
 
     {% endfor %}
 
+.. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
 
-In print
-~~~~~~~~
+    In print
 
 .. jinja:: conf
 
@@ -109,7 +133,7 @@ In print
 
 
 .. toctree::
-
+   
    learn/quickstart/index
    learn/best_practices/index
    learn/os_setup/index

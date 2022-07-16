@@ -1,3 +1,9 @@
+---
+layout: book
+title: Quickstart tutorial
+permalink: /learn/quickstart/index
+---
+
 # Quickstart
 
 This quickstart tutorial gives an overview of the Fortran programming language
@@ -10,10 +16,11 @@ Use the _Next_ button at the bottom to start the tutorial with a _Hello World_ e
 
 ````{toctree}
 :maxdepth: 2
-arrays_strings
-hello_world
-operators_control_flow
-variables
-derived_types
-organising_code
+:hidden:
+arrays_strings <arrays_strings>
+hello_world <hello_world>
+operators_control_flow <operators_control_flow>
+variables <variables>
+derived_types <derived_types>
+organising_code <organising_code>
 ````

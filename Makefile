@@ -3,10 +3,13 @@
 
 # You can set these variables from the command line, and also
 # from the environment for the first two.
+LANGUAGES     ?= en de zh_CN es fr nl ja
+SPHINXINTL    ?= sphinx-intl
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
+LOCALEDIR     ?= locale
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -14,7 +17,15 @@ help:
 
 .PHONY: help Makefile
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+html: $(addprefix html/,$(LANGUAGES)) $(BUILDDIR)/html/index.html
+	@echo "Pages available at file://$$PWD/$(BUILDDIR)/html/index.html"
+
+$(addprefix html/,$(LANGUAGES)): $(MAKEFILES)
+	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)/$@" $(SPHINXOPTS) -Dlanguage=$(word 2,$(subst /, ,$@))
+
+$(BUILDDIR)/html/index.html: html/index.html
+	@cp $< $@
+
+gettext: $(MAKEFILES)
+	@$(SPHINXBUILD) -b $@ "$(SOURCEDIR)" "$(BUILDDIR)/$@" $(SPHINXOPTS)
+	@$(SPHINXINTL) update -p "$(BUILDDIR)/$@" -d locale $(addprefix -l,$(filter-out en,$(LANGUAGES)))

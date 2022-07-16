@@ -1,4 +1,10 @@
-# Arrays and strings
+---
+layout: book
+title: Arrays and strings
+permalink: /learn/quickstart/arrays_strings
+---
+
+
 
 More often than not, we need to store and operate on long lists of numbers as opposed to just the single scalar variables
 that we have been using so far; in computer programming such lists are called  _arrays_.
@@ -10,7 +16,7 @@ where each value is accessed using one or more indices.
 >that the first element along any dimension is at index 1.
 
 
-## Array declaration
+# Array declaration
 
 We can declare arrays of any type. There are two common notations for declaring array variables:
 using the `dimension` attribute or by appending the array dimensions in parentheses to the variable name.
@@ -36,7 +42,7 @@ program arrays
 end program arrays
 ```
 
-### Array slicing
+## Array slicing
 
 A powerful feature of the Fortran language is its built-in support for array operations;
 we can perform operations on all or part of an array using array _slicing_ notation:
@@ -66,7 +72,7 @@ end program array_slice
 >Fortran arrays are stored in _column-major_ order; the first
 index varies fastest.
 
-### Allocatable (dynamic) arrays
+## Allocatable (dynamic) arrays
 
 So far we have specified the size of our array in our program code---this
 type of array is known as a _static_ array since its size is fixed when
@@ -100,7 +106,7 @@ Allocatable local arrays are deallocated automatically
 when they go out of scope.
 
 
-### Character strings
+## Character strings
 
 
 __Example:__ static character string
@@ -144,7 +150,7 @@ end program allocatable_string
 ```
 
 
-### Array of strings
+## Array of strings
 
 An array of strings can be expressed in Fortran as an array of `character` variables.
 All elements in a `character` array have equal length.

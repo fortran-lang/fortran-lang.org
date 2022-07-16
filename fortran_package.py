@@ -1,3 +1,4 @@
+import sys
 import yaml
 from pathlib import Path
 from collections import Counter
@@ -9,6 +10,7 @@ import pytz
 from collections import OrderedDict
 import numpy as np
 
+print(str(sys.argv))
 months = ["Unknown", "January","Febuary","March", "April","May","June","July","August","September","October","November","December"]
 #print("learn section")
 info = requests.get('https://raw.githubusercontent.com/fortran-lang/fortran-lang.org/master/_data/package_index.yml').text
@@ -17,8 +19,7 @@ fortran_index = yaml.safe_load(info)
 info = requests.get('https://raw.githubusercontent.com/fortran-lang/fortran-lang.org/master/_data/learning.yml').text
 conf = yaml.safe_load(info)
 headers = CaseInsensitiveDict()
-headers["Authorization"] = "Basic aGVuaWxwMTA1OmdocF9TQTZxaHFBYmZVVGNkaEZHc0tnbnllN25vcndUSzk0T0dTVGg="
-#this auth token is only meant for fortran github api use. please DONT misuse it.
+headers["Authorization"] = str(sys.argv[1]) +" " +str(sys.argv[2])
 
 fortran_index_tags = []
 fortran_index_tags_50 = []
