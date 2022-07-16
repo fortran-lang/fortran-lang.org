@@ -13,6 +13,73 @@ It's derived from https://github.com/neovim/neovim.github.io.
 
 ## Setup
 
+### Build fortran-lang.org site (Sphinx Version)
+
+Build the site by invoking
+
+```
+make html
+```
+
+The website will be built in `build/html` and can be previewed by opening the page with a browser (*e.g.* firefox, chromium or similar):
+
+```
+firefox file://$PWD/build/html/en/index.html
+```
+
+By default all languages will be built.
+To limit the build to a single language subtree, *i.e.* English, use
+
+```
+make html LANGUAGES=en
+```
+
+### Update or add translations
+
+The documentation uses the
+[sphinx-intl](https://sphinx-intl.readthedocs.io/en/master/quickstart.html)
+utility to generate websites for multiple languages.
+It generates `*.po` files,
+which contain the original sentences and a placeholder for translations.
+
+To update translations run
+
+```
+make gettext
+```
+
+if you only want to update a single translation add `LANGUAGES=de` to the command.
+This command will generate the message catalog (`*.pot`) and update the `*.po` files in the *locale* directory of the respective translations.
+Then edit the `*.po` files,
+e.g. `locale/de/LC_MESSAGES/index.po`.
+In the `*.po` files are paragraphs like
+```po
+#: ../../pages/index.md:16
+msgid "Package manager and build system for Fortran"
+msgstr ""
+```
+
+The first line describes the file and line where to find the original text.
+
+The second line is the original text.
+**Don't edit this line, edit the original document instead**.
+
+The third line is meant for the translation.
+
+To continue a long string in another line,
+simply close the string in the current line with `"`
+and open another one in the line underneath. E.g.
+```
+msgstr "This is "
+"one string"
+```
+*don't forget a space between 'is' and 'one'*
+
+After adding or updating translations
+build the documentation as described above.
+
+### Build fortran-lang.org site (Jekyll Version)
+
 This assumes that you already have a recent Ruby with RubyGems.
 
 For example on Ubuntu 18.04, do:
@@ -54,25 +121,4 @@ bundle exec jekyll serve --watch
 
 Open `http://localhost:4000` to view the website.
 
-
-## Setup for Sphinx build of Site
-
-This assumes that you already have a recent version of python
-For example on Ubuntu 18.04, do:
-
-To install the dependencies of this project, use commamd:
-
-```
-pip3 install --user -r requirements.txt
-```
-
-### Serving locally
-
-Execute the following command:
-
-```
-make html
-```
-
-Open the build/html folder of the directory in browser to view the website.
 
