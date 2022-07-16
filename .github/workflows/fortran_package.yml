@@ -24,7 +24,7 @@ jobs:
       run: pip3 install --user -r requirements.txt
       
     - name: fortran_package 
-      run: python fortran_package.py
+      run: python fortran_package.py  ${{ secrets.API_TOKEN }}
       
     - name: Commit files and transfer the files back into the repository
       run: |
