@@ -1,8 +1,7 @@
 # Minimal makefile for Sphinx documentation
-#
-
 # You can set these variables from the command line, and also
-# from the environment for the first two.
+# from the environment .
+
 LANGUAGES     ?= en de zh_CN es fr nl ja
 SPHINXINTL    ?= sphinx-intl
 SPHINXOPTS    ?=
@@ -17,8 +16,8 @@ help:
 
 .PHONY: help Makefile
 
-html: $(addprefix html/,$(LANGUAGES)) $(BUILDDIR)/html/index.html
-	@echo "Pages available at file://$$PWD/$(BUILDDIR)/html/index.html"
+html: $(addprefix html/,$(LANGUAGES)) $(BUILDDIR)/html/en/index.html
+	@echo "Pages available at file://$$PWD/$(BUILDDIR)/html/en/index.html"
 
 $(addprefix html/,$(LANGUAGES)): $(MAKEFILES)
 	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)/$@" $(SPHINXOPTS) -Dlanguage=$(word 2,$(subst /, ,$@))

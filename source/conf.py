@@ -85,7 +85,7 @@ html_search_language = str(sys.argv[2][-2:])
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['learn/intrinsics/**']
 html_additional_pages = {}
 suppress_warnings = ["myst.header"]
 
