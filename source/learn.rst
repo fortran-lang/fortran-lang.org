@@ -130,3 +130,13 @@ Learn
    * {{j.author}} {{j.year}} `{{j.title}} <{{j.url}}>`_ {{j.edition}} {{j.location}}{{j.publisher}}
 
     {% endfor %}
+
+
+.. toctree::
+   :hidden:
+   
+   learn/quickstart/index
+   learn/best_practices/index
+   learn/os_setup/index
+   learn/building_programs/index
+   learn/intrinsics/index
