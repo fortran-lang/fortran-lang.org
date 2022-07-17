@@ -2,7 +2,10 @@
 layout: book
 title: Distributing your programs
 permalink: /learn/building_programs/distributing
+sd_hide_title: true
 ---
+
+# Distributing your programs
 
 When you distribute your programs, there are a number of options you can
 choose from:

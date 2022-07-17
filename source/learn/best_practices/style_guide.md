@@ -2,7 +2,10 @@
 layout: book
 title: Fortran Style Guide
 permalink: /learn/best_practices/style_guide
+sd_hide_title: true
 ---
+
+# Fortran Style Guide
 
 Naming Convention
 -----------------

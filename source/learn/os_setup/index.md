@@ -2,6 +2,7 @@
 layout: book
 title: Setting up your OS
 permalink: /learn/os_setup
+sd_hide_title: true
 ---
 <br/><br/>
 <div style="text-align:center"><span style="font-size:1.5em">A beginner's tutorial on the software that needs to be installed to start with Fortran development</span></div>
@@ -13,6 +14,8 @@ permalink: /learn/os_setup
 <span style="color:grey; font-size:0.8em">*Last update: 16-Feb-2021*</span> 
 
 ---
+
+# Setting up your OS
 
 In this mini-book we address the very first problem that many new Fortran programmers encounter. Before everything, you will need to choose a compiler and install it. Then you will need a text editor or perhaps an IDE (Integrated Development Environment). There are many options, most of them available in all major OSs (operating systems). However, the process to install and configure them greatly differs between Windows, Linux, and macOS. There are several Fortran compilers. Here, we pick those that meet certain criteria and provide a guide on how to install them in all the aforementioned OSs. A list of popular text editors and IDEs and information on how to choose between them is presented as well. 
 
@@ -28,9 +31,9 @@ If you have already set up your environment, you may skip this tutorial and move
 
 ````{toctree}
 :hidden:
-choose_compiler <choose_compiler>
-text_editors <text_editors>
+choose compiler <choose_compiler>
+text editors <text_editors>
 ides <ides>
-install_gfortran <install_gfortran>
+install gfortran <install_gfortran>
 tips <tips>
 ````

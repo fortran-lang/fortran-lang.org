@@ -3,7 +3,10 @@ layout: book
 title: Fortran Best Practices
 permalink: /learn/best_practices
 author: Ondřej Čertík, John Pask, Jed Brown, Matthew Emmett, Juan Luis Cano Rodríguez, Neil Carlson, Andrea Vigliotti, Pierre Haessig, Vincent Magnin, Sebastian Ehlert, Jeremie Vandenplas
+sd_hide_title: true
 ---
+
+# Fortran Best Practices
 
 This mini-book collects a modern canonical way of doing things in Fortran.
 It serves as a style guide and best practice recommendation for popular topics
@@ -14,15 +17,15 @@ and programming in general.
 ````{toctree}
 :maxdepth: 2
 :hidden:
-allocatable_arrays <allocatable_arrays>
-file_io <file_io>
-modules_programs <modules_programs>
+allocatable arrays <allocatable_arrays>
+file io <file_io>
+modules programs <modules_programs>
 arrays <arrays>
-floating_point <floating_point>
-multidim_arrays <multidim_arrays>
+floating point <floating_point>
+multidim arrays <multidim_arrays>
 callbacks <callbacks>
-style_guide <style_guide>
-element_operations <element_operations>
-integer_division <integer_division>
-type_casting <type_casting>
+style guide <style_guide>
+element operations <element_operations>
+integer division <integer_division>
+type casting <type_casting>
 ````

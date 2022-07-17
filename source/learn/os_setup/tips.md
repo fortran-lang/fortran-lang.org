@@ -2,7 +2,10 @@
 layout: book
 title: Smart Tips
 permalink: /learn/os_setup/tips
+sd_hide_title: true
 ---
+
+# Smart Tips
 
 To conclude, we give a few tips that may help you to choose a compiler and an editor or an IDE.
 

@@ -2,7 +2,10 @@
 layout: book
 title: Managing libraries (static and dynamic libraries)
 permalink: /learn/building_programs/managing_libraries
+sd_hide_title: true
 ---
+
+# Managing libraries (static and dynamic libraries)
 
 If you need to manage a program built of dozens of source files (and
 that is not uncommon!), the command-line needed to specify all the

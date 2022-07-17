@@ -2,7 +2,10 @@
 layout: book
 title: Compiling the source code
 permalink: /learn/building_programs/compiling_source
+sd_hide_title: true
 ---
+
+# Compiling the source code
 
 The first step in the build process is to compile the source code. The
 output from this step is generally known as the object code — a set of

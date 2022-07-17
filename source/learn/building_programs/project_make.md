@@ -2,7 +2,10 @@
 layout: book
 title: An introduction to make
 permalink: /learn/building_programs/project_make
+sd_hide_title: true
 ---
+
+# An introduction to make
 
 We briefly discussed the basics of ``make``. This chapter gives ideas
 and strategies to scale ``make`` for larger projects.

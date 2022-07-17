@@ -17,10 +17,10 @@ Use the _Next_ button at the bottom to start the tutorial with a _Hello World_ e
 ````{toctree}
 :maxdepth: 2
 :hidden:
-arrays_strings <arrays_strings>
-hello_world <hello_world>
-operators_control_flow <operators_control_flow>
+arrays strings <arrays_strings>
+hello world <hello_world>
+operators control_flow <operators_control_flow>
 variables <variables>
-derived_types <derived_types>
-organising_code <organising_code>
+derived types <derived_types>
+organising code <organising_code>
 ````

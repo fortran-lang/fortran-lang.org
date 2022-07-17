@@ -2,7 +2,10 @@
 layout: book
 title: Modules and Programs
 permalink: /learn/best_practices/modules_programs
+sd_hide_title: true
 ---
+
+# Modules and Programs
 
 Modules are the preferred way create modern Fortran libraries and applications.
 As a convention, one source file should always contain only one module, while

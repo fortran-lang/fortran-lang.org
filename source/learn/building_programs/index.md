@@ -3,7 +3,10 @@ layout: book
 title: Building programs
 permalink: /learn/building_programs
 author: Arjen Markus, Ondřej Čertík, Milan Curcic, Laurence Kedward, Brad Richardson, Jeremie Vandenplas, Sebastian Ehlert
+sd_hide_title: true
 ---
+
+# Building programs
 
 Languages like Fortran, C, C++ and Java, to name but a few, share
 certain characteristics: you write code in your language of choice but
@@ -51,12 +54,12 @@ taken care of by the build process: the compiler and the linker.
 
 ````{toctree}
 :hidden:
-build_tools <build_tools>
-include_files <include_files>
-managing_libraries <managing_libraries>
-compiling_source <compiling_source>
-project_make <project_make>
+build tools <build_tools>
+include files <include_files>
+managing libraries <managing_libraries>
+compiling source <compiling_source>
+project make <project_make>
 distributing <distributing>
-linking_pieces <linking_pieces>
-runtime_libraries <runtime_libraries>
+linking pieces <linking_pieces>
+runtime libraries <runtime_libraries>
 ````

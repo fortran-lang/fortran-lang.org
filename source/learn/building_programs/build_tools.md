@@ -2,7 +2,10 @@
 layout: book
 title: Build tools
 permalink: /learn/building_programs/build_tools
+sd_hide_title: true
 ---
+
+# Build tools
 
 Compiling your Fortran projects by hand can become quite complicated depending
 on the number of source files and the interdependencies through the module.

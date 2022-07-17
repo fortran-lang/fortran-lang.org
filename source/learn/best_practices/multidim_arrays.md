@@ -2,7 +2,10 @@
 layout: book
 title: Multidimensional Arrays
 permalink: /learn/best_practices/multidim_arrays
+sd_hide_title: true
 ---
+
+# Multidimensional Arrays
 
 Multidimensional arrays are stored in column-major order. This means the
 left-most (inner-most) index addresses elements contiguously.

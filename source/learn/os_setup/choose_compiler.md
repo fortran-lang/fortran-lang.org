@@ -2,7 +2,10 @@
 layout: book
 title: Choosing a compiler
 permalink: /learn/os_setup/choose_compiler
+sd_hide_title: true
 ---
+
+# Choosing a compiler
 
 A comprehensive list of available compilers is provided [here]({{site.baseurl}}/compilers). In this guide, we will focus only on those that are free to install and use.
 

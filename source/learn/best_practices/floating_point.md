@@ -2,7 +2,10 @@
 layout: book
 title: Floating Point Numbers
 permalink: /learn/best_practices/floating_point
+sd_hide_title: true
 ---
+
+# Floating Point Numbers
 
 The default representation of floating point numbers is using single precision
 (usually 32 bits / 4 bytes). For most applications a higher precision is required.

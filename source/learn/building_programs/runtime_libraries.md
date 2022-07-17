@@ -2,7 +2,10 @@
 layout: book
 title: Run-time libraries
 permalink: /learn/building_programs/runtime_libraries
+sd_hide_title: true
 ---
+
+## Run-time libraries
 
 To illustrate that even a simple program depends on external run-time
 libraries, here is the output from the `ldd` utility that reports such
