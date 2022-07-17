@@ -3,6 +3,7 @@ layout: book
 title: trailz
 permalink: /learn/intrinsics/TRAILZ
 ---
+# TRAILZ
 ## __Name__
 
 __trailz__(3) - \[BIT:COUNT\] Number of trailing zero bits of an integer

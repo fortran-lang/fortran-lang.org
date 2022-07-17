@@ -3,6 +3,7 @@ layout: book
 title: selected_int_kind
 permalink: /learn/intrinsics/SELECTED_INT_KIND
 ---
+# SELECTED_INT_KIND
 ## __Name__
 
 __selected\_int\_kind__(3) - \[KIND\] Choose integer kind

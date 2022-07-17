@@ -3,6 +3,7 @@ layout: book
 title: pack
 permalink: /learn/intrinsics/PACK
 ---
+# PACK
 ## __Name__
 
 __pack__(3) - \[ARRAY CONSTRUCTION\] Pack an array into an array of rank one

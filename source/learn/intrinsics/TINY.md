@@ -3,6 +3,7 @@ layout: book
 title: tiny
 permalink: /learn/intrinsics/TINY
 ---
+# TINY
 ## __Name__
 
 __tiny__(3) - \[NUMERIC MODEL\] Smallest positive number of a real kind

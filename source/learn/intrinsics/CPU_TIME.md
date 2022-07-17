@@ -3,6 +3,7 @@ layout: book
 title: cpu_time
 permalink: /learn/intrinsics/CPU_TIME
 ---
+# CPU_TIME
 ## __Name__
 
 __cpu\_time__(3) - \[SYSTEM:TIME\] return CPU processor time in seconds

@@ -3,6 +3,7 @@ layout: book
 title: mvbits
 permalink: /learn/intrinsics/MVBITS
 ---
+# MVBITS
 ## __Name__
 
 __mvbits__(3) - \[BIT:COPY\] reproduce bit patterns found in one integer in another

@@ -3,6 +3,7 @@ layout: book
 title: rank
 permalink: /learn/intrinsics/RANK
 ---
+# RANK
 ## __Name__
 
 __rank__(3) - \[ARRAY INQUIRY\] Rank of a data object

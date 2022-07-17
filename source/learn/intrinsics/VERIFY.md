@@ -3,6 +3,7 @@ layout: book
 title: verify
 permalink: /learn/intrinsics/VERIFY
 ---
+# VERIFY
 ## __Name__
 
 __verify__(3) - \[CHARACTER:SEARCH\] Scan a string for the absence of a set of characters

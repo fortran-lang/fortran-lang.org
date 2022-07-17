@@ -3,6 +3,7 @@ layout: book
 title: int
 permalink: /learn/intrinsics/INT
 ---
+# INT
 ## __Name__
 __int__(3) - \[TYPE:NUMERIC\] Convert to integer type by truncating towards zero
 

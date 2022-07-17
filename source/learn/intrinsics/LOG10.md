@@ -3,6 +3,7 @@ layout: book
 title: log10
 permalink: /learn/intrinsics/LOG10
 ---
+# LOG10
 ## __Name__
 
 __log10__(3) - \[MATHEMATICS\] Base 10 logarithm function

@@ -3,6 +3,7 @@ layout: book
 title: selected_real_kind
 permalink: /learn/intrinsics/SELECTED_REAL_KIND
 ---
+# SELECTED_REAL_KIND
 ## __Name__
 
 __selected\_real\_kind__(3) - \[KIND\] Choose real kind

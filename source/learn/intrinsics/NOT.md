@@ -3,6 +3,7 @@ layout: book
 title: not
 permalink: /learn/intrinsics/NOT
 ---
+# NOT
 ## __Name__
 __not__(3) - \[BIT:LOGICAL\] Logical negation
 

@@ -3,6 +3,7 @@ layout: book
 title: btest
 permalink: /learn/intrinsics/BTEST
 ---
+# BTEST
 ## __Name__
 
 __btest__(3) - \[BIT:INQUIRY\] Tests a bit of an _integer_ value.

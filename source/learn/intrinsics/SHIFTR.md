@@ -3,6 +3,7 @@ layout: book
 title: shiftr
 permalink: /learn/intrinsics/SHIFTR
 ---
+# SHIFTR
 ## __Name__
 
 __shiftr__(3) - \[BIT:SHIFT\] shift bits right

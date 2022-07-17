@@ -3,6 +3,7 @@ layout: book
 title: lgt
 permalink: /learn/intrinsics/LGT
 ---
+# LGT
 ## __Name__
 
 __lgt__(3) - \[CHARACTER:COMPARE\] Lexical greater than

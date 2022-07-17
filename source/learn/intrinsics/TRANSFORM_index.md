@@ -3,6 +3,7 @@ layout: book
 title: Transformational
 permalink: /learn/intrinsics/TRANSFORM_index
 ---
+# TRANSFORM_index
 ### Matrix multiplication, Dot product, array shifts,
 
 |-----------------------|||||-------------------------------------------------------------------||------------------------------------------------------------------|

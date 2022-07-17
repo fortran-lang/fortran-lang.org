@@ -3,6 +3,7 @@ layout: book
 title: co_reduce
 permalink: /learn/intrinsics/CO_REDUCE
 ---
+# CO_REDUCE
 ## __Name__
 
 __co\_reduce__(3) - \[COLLECTIVE\] Reduction of values on the current set of images

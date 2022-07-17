@@ -3,6 +3,7 @@ layout: book
 title: range
 permalink: /learn/intrinsics/RANGE
 ---
+# RANGE
 ## __Name__
 
 __range__(3) - \[NUMERIC MODEL\] Decimal exponent range of a real kind

@@ -3,6 +3,7 @@ layout: book
 title: achar
 permalink: /learn/intrinsics/ACHAR
 ---
+# ACHAR
 ## __Name__
 
 __achar__(3) - \[CHARACTER:CONVERSION\] returns a character in a specified position in the ASCII collating sequence

@@ -3,6 +3,7 @@ layout: book
 title: iany
 permalink: /learn/intrinsics/IANY
 ---
+# IANY
 ## __Name__
 
 __iany__(3) - \[BIT:LOGICAL\] Bitwise or of array elements

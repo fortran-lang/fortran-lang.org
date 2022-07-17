@@ -3,6 +3,7 @@ layout: book
 title: poppar
 permalink: /learn/intrinsics/POPPAR
 ---
+# POPPAR
 ## __Name__
 
 __poppar__(3) - \[BIT:COUNT\] Parity of the number of bits set

@@ -3,6 +3,7 @@ layout: book
 title: maskr
 permalink: /learn/intrinsics/MASKR
 ---
+# MASKR
 ## __Name__
 
 __maskr__(3) - \[BIT:SET\] Generates a right-justified mask

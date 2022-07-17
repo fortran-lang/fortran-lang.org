@@ -3,6 +3,7 @@ layout: book
 title: len_trim
 permalink: /learn/intrinsics/LEN_TRIM
 ---
+# LEN_TRIM
 ## __Name__
 
 __len\_trim__(3) - \[CHARACTER:WHITESPACE\] Length of a character entity without trailing blank characters

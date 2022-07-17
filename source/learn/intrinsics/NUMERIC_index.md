@@ -3,6 +3,7 @@ layout: book
 title: Numeric
 permalink: /learn/intrinsics/NUMERIC_index
 ---
+# NUMERIC_index
 ### Manipulation and properties of numeric values
 
 |-----------------|||||----------------------------------------------------------||------------------------------------------------|

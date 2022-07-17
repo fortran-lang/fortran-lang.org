@@ -3,6 +3,7 @@ layout: book
 title: iall
 permalink: /learn/intrinsics/IALL
 ---
+# IALL
 ## __Name__
 
 __iall__(3) - \[BIT:LOGICAL\] Bitwise and of array elements

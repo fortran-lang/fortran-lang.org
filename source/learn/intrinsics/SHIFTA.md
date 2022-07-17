@@ -3,6 +3,7 @@ layout: book
 title: shifta
 permalink: /learn/intrinsics/SHIFTA
 ---
+# SHIFTA
 ## __Name__
 
 __shifta__(3) - \[BIT:SHIFT\] shift bits right with fill

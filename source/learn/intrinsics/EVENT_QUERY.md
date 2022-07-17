@@ -3,6 +3,7 @@ layout: book
 title: event_query
 permalink: /learn/intrinsics/EVENT_QUERY
 ---
+# EVENT_QUERY
 ## __Name__
 
 __event\_query__(3) - \[COLLECTIVE\] Query whether a coarray event has occurred

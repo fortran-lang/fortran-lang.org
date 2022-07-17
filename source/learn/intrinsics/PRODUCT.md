@@ -3,6 +3,7 @@ layout: book
 title: product
 permalink: /learn/intrinsics/PRODUCT
 ---
+# PRODUCT
 ## __Name__
 
 __product__(3) - \[ARRAY REDUCTION\] Product of array elements

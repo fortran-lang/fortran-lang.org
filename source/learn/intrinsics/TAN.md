@@ -3,6 +3,7 @@ layout: book
 title: tan
 permalink: /learn/intrinsics/TAN
 ---
+# TAN
 ## __Name__
 
 __tan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Tangent function

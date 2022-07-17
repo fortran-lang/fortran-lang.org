@@ -3,6 +3,7 @@ layout: book
 title: selected_char_kind
 permalink: /learn/intrinsics/SELECTED_CHAR_KIND
 ---
+# SELECTED_CHAR_KIND
 ## __Name__
 
 __selected\_char\_kind__(3) - \[KIND\] Choose character kind such as "Unicode"

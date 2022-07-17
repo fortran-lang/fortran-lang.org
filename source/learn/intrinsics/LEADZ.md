@@ -3,6 +3,7 @@ layout: book
 title: leadz
 permalink: /learn/intrinsics/LEADZ
 ---
+# LEADZ
 ## __Name__
 
 __leadz__(3) - \[BIT:COUNT\] Number of leading zero bits of an integer

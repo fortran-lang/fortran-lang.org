@@ -3,6 +3,7 @@ layout: book
 title: co_broadcast
 permalink: /learn/intrinsics/CO_BROADCAST
 ---
+# CO_BROADCAST
 ## __Name__
 
 __co\_broadcast__(3) - \[COLLECTIVE\] Copy a value to all images the current set of images

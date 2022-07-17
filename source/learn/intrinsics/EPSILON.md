@@ -3,6 +3,7 @@ layout: book
 title: epsilon
 permalink: /learn/intrinsics/EPSILON
 ---
+# EPSILON
 ## __Name__
 
 __epsilon__(3) - \[NUMERIC MODEL\] Epsilon function

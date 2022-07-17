@@ -3,6 +3,7 @@ layout: book
 title: merge
 permalink: /learn/intrinsics/MERGE
 ---
+# MERGE
 ## __Name__
 
 __merge__(3) - \[ARRAY CONSTRUCTION\] Merge variables

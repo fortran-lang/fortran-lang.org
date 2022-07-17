@@ -3,6 +3,7 @@ layout: book
 title: transpose
 permalink: /learn/intrinsics/TRANSPOSE
 ---
+# TRANSPOSE
 ## __Name__
 
 __transpose__(3) - \[ARRAY MANIPULATION\] Transpose an array of rank two

@@ -3,6 +3,7 @@ layout: book
 title: dprod
 permalink: /learn/intrinsics/DPROD
 ---
+# DPROD
 ## __Name__
 
 __dprod__(3) - \[NUMERIC\] Double product function

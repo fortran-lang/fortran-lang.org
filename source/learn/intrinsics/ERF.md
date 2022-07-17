@@ -3,6 +3,7 @@ layout: book
 title: erf
 permalink: /learn/intrinsics/ERF
 ---
+# ERF
 ## __Name__
 
 __erf__(3) - \[MATHEMATICS\] Error function

@@ -3,6 +3,7 @@ layout: book
 title: ceiling
 permalink: /learn/intrinsics/CEILING
 ---
+# CEILING
 ## __Name__
 
 __ceiling__(3) - \[NUMERIC\] Integer ceiling function

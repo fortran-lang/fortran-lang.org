@@ -3,6 +3,7 @@ layout: book
 title: extends_type_of
 permalink: /learn/intrinsics/EXTENDS_TYPE_OF
 ---
+# EXTENDS_TYPE_OF
 ## __Name__
 
 __extends\_type\_of__(3) - \[STATE\] determine if the dynamic type of __a__ is an extension of the dynamic type of __mold__.

@@ -3,6 +3,7 @@ layout: book
 title: digits
 permalink: /learn/intrinsics/DIGITS
 ---
+# DIGITS
 ## __Name__
 
 __digits__(3) - \[NUMERIC MODEL\] Significant digits function

@@ -3,6 +3,7 @@ layout: book
 title: repeat
 permalink: /learn/intrinsics/REPEAT
 ---
+# REPEAT
 ## __Name__
 
 __repeat__(3) - \[CHARACTER\] Repeated string concatenation

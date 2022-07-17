@@ -3,6 +3,7 @@ layout: book
 title: minexponent
 permalink: /learn/intrinsics/MINEXPONENT
 ---
+# MINEXPONENT
 ## __Name__
 
 __minexponent__(3) - \[NUMERIC MODEL\] Minimum exponent of a real kind

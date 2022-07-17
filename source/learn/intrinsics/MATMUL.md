@@ -3,6 +3,7 @@ layout: book
 title: matmul
 permalink: /learn/intrinsics/MATMUL
 ---
+# MATMUL
 ## __Name__
 
 __matmul__(3) - \[TRANSFORMATIONAL\] matrix multiplication

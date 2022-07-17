@@ -3,6 +3,7 @@ layout: book
 title: bessel_y1
 permalink: /learn/intrinsics/BESSEL_Y1
 ---
+# BESSEL_Y1
 ## __Name__
 
 __bessel\_y1__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 1

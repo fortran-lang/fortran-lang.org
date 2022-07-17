@@ -3,6 +3,7 @@ layout: book
 title: huge
 permalink: /learn/intrinsics/HUGE
 ---
+# HUGE
 ## __Name__
 
 __huge__(3) - \[NUMERIC MODEL\] Largest number of a type and kind

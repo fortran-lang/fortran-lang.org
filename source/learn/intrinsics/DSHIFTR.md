@@ -3,6 +3,7 @@ layout: book
 title: dshiftr
 permalink: /learn/intrinsics/DSHIFTR
 ---
+# DSHIFTR
 ## __Name__
 
 __dshiftr__(3) - \[BIT:COPY\] combines bits of arguments __i__ and __j__

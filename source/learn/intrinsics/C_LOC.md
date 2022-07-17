@@ -3,6 +3,7 @@ layout: book
 title: c_loc
 permalink: /learn/intrinsics/C_LOC
 ---
+# C_LOC
 ## __Name__
 
 __c\_loc__(3) - \[ISO\_C\_BINDING\] Obtain the C address of an object

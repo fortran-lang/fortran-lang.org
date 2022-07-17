@@ -3,6 +3,7 @@ layout: book
 title: any
 permalink: /learn/intrinsics/ANY
 ---
+# ANY
 ## __Name__
 
 __any__(3) - \[ARRAY REDUCTION\] determines if any of the values in the logical array are true.

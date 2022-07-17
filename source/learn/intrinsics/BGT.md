@@ -3,6 +3,8 @@ layout: book
 title: bgt
 permalink: /learn/intrinsics/BGT
 ---
+# BGT
+
 ## __Name__
 
 __bgt__(3) - \[BIT:COMPARE\] Bitwise greater than

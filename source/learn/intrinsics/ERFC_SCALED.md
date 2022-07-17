@@ -3,6 +3,7 @@ layout: book
 title: erfc_scaled
 permalink: /learn/intrinsics/ERFC_SCALED
 ---
+# ERFC_SCALED
 ## __Name__
 
 __erfc\_scaled__(3) - \[MATHEMATICS\] Error function

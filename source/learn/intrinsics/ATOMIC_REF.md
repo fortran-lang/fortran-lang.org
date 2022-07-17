@@ -3,6 +3,7 @@ layout: book
 title: atomic_ref
 permalink: /learn/intrinsics/ATOMIC_REF
 ---
+# ATOMIC_REF
 ## __Name__
 
 __atomic\_ref__(3) - \[ATOMIC\] Obtaining the value of a variable atomically

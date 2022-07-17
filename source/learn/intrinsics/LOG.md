@@ -3,6 +3,7 @@ layout: book
 title: log
 permalink: /learn/intrinsics/LOG
 ---
+# LOG
 ## __Name__
 
 __log__(3) - \[MATHEMATICS\] Logarithm function

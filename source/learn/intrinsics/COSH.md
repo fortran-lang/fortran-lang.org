@@ -3,6 +3,7 @@ layout: book
 title: cosh
 permalink: /learn/intrinsics/COSH
 ---
+# COSH
 ## __Name__
 
 __cosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic cosine function

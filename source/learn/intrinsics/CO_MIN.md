@@ -3,6 +3,7 @@ layout: book
 title: co_min
 permalink: /learn/intrinsics/CO_MIN
 ---
+# CO_MIN
 ## __Name__
 
 __co\_min__(3) - \[COLLECTIVE\] Minimal value on the current set of images

@@ -3,6 +3,7 @@ layout: book
 title: tanh
 permalink: /learn/intrinsics/TANH
 ---
+# TANH
 ## __Name__
 
 __tanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic tangent function

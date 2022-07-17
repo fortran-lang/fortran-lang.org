@@ -3,6 +3,7 @@ layout: book
 title: system_clock
 permalink: /learn/intrinsics/SYSTEM_CLOCK
 ---
+# SYSTEM_CLOCK
 ## __Name__
 
 __system\_clock__(3) - \[SYSTEM:TIME\] Return numeric data from a real-time clock.

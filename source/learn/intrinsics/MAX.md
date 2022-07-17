@@ -3,6 +3,7 @@ layout: book
 title: max
 permalink: /learn/intrinsics/MAX
 ---
+# MAX
 ## __Name__
 
 __max__(3) - \[NUMERIC\] Maximum value of an argument list

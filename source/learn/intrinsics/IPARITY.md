@@ -3,6 +3,7 @@ layout: book
 title: iparity
 permalink: /learn/intrinsics/IPARITY
 ---
+# IPARITY
 ## __Name__
 
 __iparity__(3) - \[BIT:LOGICAL\] Bitwise exclusive or of array elements

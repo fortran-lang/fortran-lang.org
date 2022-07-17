@@ -3,6 +3,7 @@ layout: book
 title: min
 permalink: /learn/intrinsics/MIN
 ---
+# MIN
 ## __Name__
 
 __min__(3) - \[NUMERIC\] Minimum value of an argument list

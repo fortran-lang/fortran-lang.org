@@ -3,6 +3,7 @@ layout: book
 title: lle
 permalink: /learn/intrinsics/LLE
 ---
+# LLE
 ## __Name__
 
 __lle__(3) - \[CHARACTER:COMPARE\] Lexical less than or equal

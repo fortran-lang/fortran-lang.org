@@ -3,6 +3,7 @@ layout: book
 title: rrspacing
 permalink: /learn/intrinsics/RRSPACING
 ---
+# RRSPACING
 ## __Name__
 
 __rrspacing__(3) - \[MODEL\_COMPONENTS\] Reciprocal of the relative spacing

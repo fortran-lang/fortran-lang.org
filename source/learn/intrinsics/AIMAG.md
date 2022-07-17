@@ -3,6 +3,7 @@ layout: book
 title: aimag
 permalink: /learn/intrinsics/AIMAG
 ---
+# AIMAG
 ## __Name__
 
 __aimag__(3) - \[TYPE:NUMERIC\] Imaginary part of complex number

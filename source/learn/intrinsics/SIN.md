@@ -3,6 +3,7 @@ layout: book
 title: sin
 permalink: /learn/intrinsics/SIN
 ---
+# SIN
 ## __Name__
 
 __sin__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Sine function

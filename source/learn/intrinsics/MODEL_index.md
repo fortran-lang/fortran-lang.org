@@ -3,6 +3,7 @@ layout: book
 title: Numeric Model
 permalink: /learn/intrinsics/MODEL_index
 ---
+# MODEL_index
 ### These routines support controlling and querying the current numeric model.
 
 |----------------------|||||----------------------------------------------------------------------||-------------------------------------------------------------------|

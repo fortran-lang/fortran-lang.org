@@ -3,6 +3,7 @@ layout: book
 title: dot_product
 permalink: /learn/intrinsics/DOT_PRODUCT
 ---
+# DOT_PRODUCT
 ## __Name__
 
 __dot\_product__(3) - \[TRANSFORMATIONAL\] Dot product function

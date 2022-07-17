@@ -3,6 +3,7 @@ layout: book
 title: merge_bits
 permalink: /learn/intrinsics/MERGE_BITS
 ---
+# MERGE_BITS
 ## __Name__
 
 __merge\_bits__(3) - \[BIT:COPY\] Merge bits using a mask

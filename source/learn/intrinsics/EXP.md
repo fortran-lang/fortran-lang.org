@@ -3,6 +3,7 @@ layout: book
 title: exp
 permalink: /learn/intrinsics/EXP
 ---
+# EXP
 ## __Name__
 
 __exp__(3) - \[MATHEMATICS\] Exponential function

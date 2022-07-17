@@ -3,6 +3,7 @@ layout: book
 title: ubound
 permalink: /learn/intrinsics/UBOUND
 ---
+# UBOUND
 ## __Name__
 
 __ubound__(3) - \[ARRAY INQUIRY\] Upper dimension bounds of an array

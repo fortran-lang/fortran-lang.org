@@ -3,6 +3,7 @@ layout: book
 title: co_ubound
 permalink: /learn/intrinsics/CO_UBOUND
 ---
+# CO_UBOUND
 ## __Name__
 
 __co\_ubound__(3) - \[COLLECTIVE\] Upper codimension bounds of an array

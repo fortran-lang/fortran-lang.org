@@ -3,6 +3,8 @@ layout: book
 title: abs
 permalink: /learn/intrinsics/ABS
 ---
+# ABS
+
 ## __Name__
 
 __abs__(3) - \[NUMERIC\] Absolute value

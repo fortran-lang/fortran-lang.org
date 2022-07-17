@@ -3,6 +3,7 @@ layout: book
 title: acos
 permalink: /learn/intrinsics/ACOS
 ---
+# ACOS
 ## __Name__
 __acos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] arccosine (inverse cosine) function
 

@@ -3,6 +3,7 @@ layout: book
 title: Character
 permalink: /learn/intrinsics/CHARACTER_index
 ---
+# CHARACTER_index
 ### basic procedures specifically for manipulating _character_ variables
 
 |------------------------|||||---------------------------------------------------------------||------------------------------------------------------------------------|

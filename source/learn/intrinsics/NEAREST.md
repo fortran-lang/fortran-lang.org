@@ -3,6 +3,7 @@ layout: book
 title: nearest
 permalink: /learn/intrinsics/NEAREST
 ---
+# NEAREST
 ## __Name__
 
 __nearest__(3) - \[MODEL\_COMPONENTS\] Nearest representable number

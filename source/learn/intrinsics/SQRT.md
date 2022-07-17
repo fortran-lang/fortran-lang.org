@@ -3,6 +3,7 @@ layout: book
 title: sqrt
 permalink: /learn/intrinsics/SQRT
 ---
+# SQRT
 ## __Name__
 
 __sqrt__(3) - \[MATHEMATICS\] Square-root function

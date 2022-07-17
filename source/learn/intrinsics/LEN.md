@@ -3,6 +3,7 @@ layout: book
 title: len
 permalink: /learn/intrinsics/LEN
 ---
+# LEN
 ## __Name__
 
 __len__(3) - \[CHARACTER\] Length of a character entity

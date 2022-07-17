@@ -3,6 +3,7 @@ layout: book
 title: kind
 permalink: /learn/intrinsics/KIND
 ---
+# KIND
 ## __Name__
 
 __kind__(3) - \[KIND INQUIRY\] Kind of an entity

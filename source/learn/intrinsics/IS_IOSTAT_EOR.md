@@ -3,6 +3,7 @@ layout: book
 title: is_iostat_eor
 permalink: /learn/intrinsics/IS_IOSTAT_EOR
 ---
+# IS_IOSTAT_EOR
 ## __Name__
 
 __is\_iostat\_eor__(3) - \[STATE\] Test for end-of-record value

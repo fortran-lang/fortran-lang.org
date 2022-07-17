@@ -3,6 +3,7 @@ layout: book
 title: hypot
 permalink: /learn/intrinsics/HYPOT
 ---
+# HYPOT
 ## __Name__
 
 __hypot__(3) - \[MATHEMATICS\] returns the distance between the point and the origin.

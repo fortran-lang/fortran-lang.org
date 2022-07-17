@@ -3,6 +3,7 @@ layout: book
 title: floor
 permalink: /learn/intrinsics/FLOOR
 ---
+# FLOOR
 ## __Name__
 
 __floor__(3) - \[NUMERIC\] function to return largest integral value not greater than argument

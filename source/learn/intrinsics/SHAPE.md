@@ -3,6 +3,7 @@ layout: book
 title: shape
 permalink: /learn/intrinsics/SHAPE
 ---
+# SHAPE
 ## __Name__
 
 __shape__(3) - \[ARRAY INQUIRY\] Determine the shape of an array

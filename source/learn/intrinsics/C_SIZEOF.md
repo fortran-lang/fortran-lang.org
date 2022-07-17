@@ -3,6 +3,7 @@ layout: book
 title: c_sizeof
 permalink: /learn/intrinsics/C_SIZEOF
 ---
+# C_SIZEOF
 ## __Name__
 
 __c\_sizeof__(3) - \[ISO\_C\_BINDING\] Size in bytes of an expression

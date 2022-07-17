@@ -3,6 +3,7 @@ layout: book
 title: iand
 permalink: /learn/intrinsics/IAND
 ---
+# IAND
 ## __Name__
 
 __iand__(3) - \[BIT:LOGICAL\] Bitwise logical and

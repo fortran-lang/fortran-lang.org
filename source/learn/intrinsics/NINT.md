@@ -3,6 +3,7 @@ layout: book
 title: nint
 permalink: /learn/intrinsics/NINT
 ---
+# NINT
 ## __Name__
 
 __nint__(3) - \[TYPE:NUMERIC\] Nearest whole number

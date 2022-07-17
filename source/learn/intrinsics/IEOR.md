@@ -3,6 +3,7 @@ layout: book
 title: ieor
 permalink: /learn/intrinsics/IEOR
 ---
+# IEOR
 ## __Name__
 
 __ieor__(3) - \[BIT:LOGICAL\] Bitwise logical exclusive or

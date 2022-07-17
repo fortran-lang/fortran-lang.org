@@ -3,6 +3,7 @@ layout: book
 title: cos
 permalink: /learn/intrinsics/COS
 ---
+# COS
 ## __Name__
 
 __cos__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Cosine function

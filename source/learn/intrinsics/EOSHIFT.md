@@ -3,6 +3,7 @@ layout: book
 title: eoshift
 permalink: /learn/intrinsics/EOSHIFT
 ---
+# EOSHIFT
 ## __Name__
 
 __eoshift__(3) - \[TRANSFORMATIONAL\] End-off shift elements of an array

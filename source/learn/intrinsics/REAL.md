@@ -3,6 +3,7 @@ layout: book
 title: real
 permalink: /learn/intrinsics/REAL
 ---
+# REAL
 ## __Name__
 __real__(3) - \[TYPE:NUMERIC\] Convert to real type
 

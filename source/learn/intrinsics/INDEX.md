@@ -3,6 +3,7 @@ layout: book
 title: index
 permalink: /learn/intrinsics/INDEX
 ---
+# INDEX
 ## __Name__
 
 __index__(3) - \[CHARACTER:SEARCH\] Position of a substring within a string

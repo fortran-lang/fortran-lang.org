@@ -3,6 +3,7 @@ layout: book
 title: maxval
 permalink: /learn/intrinsics/MAXVAL
 ---
+# MAXVAL
 ## __Name__
 
 __maxval__(3) - \[ARRAY REDUCTION\] determines the maximum value in an array or row

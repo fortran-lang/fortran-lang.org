@@ -3,6 +3,7 @@ layout: book
 title: precision
 permalink: /learn/intrinsics/PRECISION
 ---
+# PRECISION
 ## __Name__
 
 __precision__(3) - \[NUMERIC MODEL\] Decimal precision of a real kind

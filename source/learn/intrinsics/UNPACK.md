@@ -3,6 +3,7 @@ layout: book
 title: unpack
 permalink: /learn/intrinsics/UNPACK
 ---
+# UNPACK
 ## __Name__
 
 __unpack__(3) - \[ARRAY CONSTRUCTION\] Store the elements of a vector in an array of higher rank

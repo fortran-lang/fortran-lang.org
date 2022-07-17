@@ -3,6 +3,7 @@ layout: book
 title: sum
 permalink: /learn/intrinsics/SUM
 ---
+# SUM
 ## __Name__
 
 __sum__(3) - \[ARRAY REDUCTION\] sum the elements of an array

@@ -3,6 +3,7 @@ layout: book
 title: modulo
 permalink: /learn/intrinsics/MODULO
 ---
+# MODULO
 ## __Name__
 
 __modulo__(3) - \[NUMERIC\] Modulo function

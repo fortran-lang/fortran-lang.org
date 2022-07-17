@@ -3,6 +3,7 @@ layout: book
 title: associated
 permalink: /learn/intrinsics/ASSOCIATED
 ---
+# ASSOCIATED
 ## __Name__
 
 __associated__(3) - \[STATE\] Status of a pointer or pointer/target pair

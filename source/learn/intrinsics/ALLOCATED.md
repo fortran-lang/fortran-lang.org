@@ -3,6 +3,7 @@ layout: book
 title: allocated
 permalink: /learn/intrinsics/ALLOCATED
 ---
+# ALLOCATED
 ## __Name__
 
 __allocated__(3) - \[ARRAY INQUIRY\] Status of an allocatable entity

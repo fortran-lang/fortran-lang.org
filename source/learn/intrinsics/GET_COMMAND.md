@@ -3,6 +3,7 @@ layout: book
 title: get_command
 permalink: /learn/intrinsics/GET_COMMAND
 ---
+# GET_COMMAND
 ## __Name__
 
 __get\_command__(3) - \[SYSTEM:COMMAND LINE\] Get the entire command line

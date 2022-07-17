@@ -3,6 +3,7 @@ layout: book
 title: random_number
 permalink: /learn/intrinsics/RANDOM_NUMBER
 ---
+# RANDOM_NUMBER
 ## __Name__
 
 __random\_number__(3) - \[MATHEMATICS:RANDOM\] Pseudo-random number

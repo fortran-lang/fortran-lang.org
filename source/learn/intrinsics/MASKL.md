@@ -3,6 +3,7 @@ layout: book
 title: maskl
 permalink: /learn/intrinsics/MASKL
 ---
+# MASKL
 ## __Name__
 
 __maskl__(3) - \[BIT:SET\] Generates a left justified mask

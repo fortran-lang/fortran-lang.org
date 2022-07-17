@@ -3,6 +3,7 @@ layout: book
 title: gamma
 permalink: /learn/intrinsics/GAMMA
 ---
+# GAMMA
 ## __Name__
 
 __gamma__(3) - \[MATHEMATICS\] Gamma function, which yields factorials for positive whole numbers

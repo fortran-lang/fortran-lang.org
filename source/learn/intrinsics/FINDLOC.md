@@ -3,6 +3,7 @@ layout: book
 title: findloc
 permalink: /learn/intrinsics/FINDLOC
 ---
+# FINDLOC
 ## __Name__
 
 __findloc__(3) - \[ARRAY:LOCATION\] Location of first element of ARRAY identified by MASK along dimension DIM having a value

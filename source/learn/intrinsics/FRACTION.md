@@ -3,6 +3,7 @@ layout: book
 title: fraction
 permalink: /learn/intrinsics/FRACTION
 ---
+# FRACTION
 ## __Name__
 
 __fraction__(3) - \[MODEL\_COMPONENTS\] Fractional part of the model representation

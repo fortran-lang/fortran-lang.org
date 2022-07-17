@@ -3,6 +3,7 @@ layout: book
 title: get_environment
 permalink: /learn/intrinsics/GET_ENVIRONMENT_VARIABLE
 ---
+# GET_ENVIRONMENT_VARIABLE
 ## __Name__
 
 __get\_environment\_variable__(3) - \[SYSTEM:ENVIRONMENT\] Get an environmental variable

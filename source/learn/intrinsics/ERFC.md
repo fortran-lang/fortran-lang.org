@@ -3,6 +3,7 @@ layout: book
 title: erfc
 permalink: /learn/intrinsics/ERFC
 ---
+# ERFC
 ## __Name__
 
 __erfc__(3) - \[MATHEMATICS\] Complementary error function

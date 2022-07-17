@@ -3,6 +3,7 @@ layout: book
 title: exponent
 permalink: /learn/intrinsics/EXPONENT
 ---
+# EXPONENT
 ## __Name__
 
 __exponent__(3) - \[MODEL\_COMPONENTS\] Exponent function

@@ -3,6 +3,7 @@ layout: book
 title: minval
 permalink: /learn/intrinsics/MINVAL
 ---
+# MINVAL
 ## __Name__
 
 __minval__(3) - \[ARRAY REDUCTION\] Minimum value of an array

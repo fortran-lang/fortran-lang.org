@@ -3,6 +3,7 @@ layout: book
 title: bit_size
 permalink: /learn/intrinsics/BIT_SIZE
 ---
+# BIT_SIZE
 ## __Name__
 
 __bit\_size__(3) - \[BIT:INQUIRY\] Bit size inquiry function

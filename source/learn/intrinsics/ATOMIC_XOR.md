@@ -3,6 +3,7 @@ layout: book
 title: atomic_xor
 permalink: /learn/intrinsics/ATOMIC_XOR
 ---
+# ATOMIC_XOR
 ## __Name__
 
 __atomic\_xor__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation

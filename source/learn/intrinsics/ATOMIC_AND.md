@@ -3,6 +3,7 @@ layout: book
 title: atomic_and
 permalink: /learn/intrinsics/ATOMIC_AND
 ---
+# ATOMIC_AND
 ## __Name__
 
 __atomic\_and__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation

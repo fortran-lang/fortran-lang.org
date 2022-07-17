@@ -3,6 +3,7 @@ layout: book
 title: "null"
 permalink: /learn/intrinsics/NULL
 ---
+# NULL
 ## __Name__
 
 __null__(3) - \[TRANSFORMATIONAL\] Function that returns a disassociated pointer

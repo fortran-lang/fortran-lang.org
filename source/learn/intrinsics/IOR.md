@@ -3,6 +3,7 @@ layout: book
 title: ior
 permalink: /learn/intrinsics/IOR
 ---
+# IOR
 ## __Name__
 
 __ior__(3) - \[BIT:LOGICAL\] Bitwise logical inclusive or

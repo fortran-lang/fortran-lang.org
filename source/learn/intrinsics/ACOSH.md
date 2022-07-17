@@ -3,6 +3,7 @@ layout: book
 title: acosh
 permalink: /learn/intrinsics/ACOSH
 ---
+# ACOSH
 ## __Name__
 
 __acosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic cosine function

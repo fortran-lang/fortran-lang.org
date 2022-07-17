@@ -3,6 +3,7 @@ layout: book
 title: co_sum
 permalink: /learn/intrinsics/CO_SUM
 ---
+# CO_SUM
 ## __Name__
 
 __co\_sum__(3) - \[COLLECTIVE\] Sum of values on the current set of images

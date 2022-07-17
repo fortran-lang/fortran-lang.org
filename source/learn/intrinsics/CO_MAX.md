@@ -3,6 +3,7 @@ layout: book
 title: co_max
 permalink: /learn/intrinsics/CO_MAX
 ---
+# CO_MAX
 ## __Name__
 
 __co\_max__(3) - \[COLLECTIVE\] Maximal value on the current set of images

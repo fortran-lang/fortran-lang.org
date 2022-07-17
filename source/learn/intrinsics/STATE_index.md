@@ -3,6 +3,7 @@ layout: book
 title: General State of variables and I/O
 permalink: /learn/intrinsics/STATE_index
 ---
+# STATE_index
 ### General and miscellaneous intrinsics
 
 |-----------||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|

@@ -3,6 +3,7 @@ layout: book
 title: random_seed
 permalink: /learn/intrinsics/RANDOM_SEED
 ---
+# RANDOM_SEED
 ## __Name__
 
 __random\_seed__(3) - \[MATHEMATICS:RANDOM\] Initialize a pseudo-random number sequence

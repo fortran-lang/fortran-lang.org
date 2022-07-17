@@ -3,6 +3,7 @@ layout: book
 title: asinh
 permalink: /learn/intrinsics/ASINH
 ---
+# ASINH
 ## __Name__
 
 __asinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic sine function

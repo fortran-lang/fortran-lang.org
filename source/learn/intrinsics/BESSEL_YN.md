@@ -3,6 +3,7 @@ layout: book
 title: bessel_yn
 permalink: /learn/intrinsics/BESSEL_YN
 ---
+# BESSEL_YN
 ## __Name__
 
 __bessel\_yn__(3) - \[MATHEMATICS\] Bessel function of the second kind

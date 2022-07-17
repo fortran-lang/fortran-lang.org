@@ -3,6 +3,7 @@ layout: book
 title: ibclr
 permalink: /learn/intrinsics/IBCLR
 ---
+# IBCLR
 ## __Name__
 
 __ibclr__(3) - \[BIT:SET\] Clear bit

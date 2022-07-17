@@ -3,6 +3,7 @@ layout: book
 title: scale
 permalink: /learn/intrinsics/SCALE
 ---
+# SCALE
 ## __Name__
 
 __scale__(3) - \[MODEL\_COMPONENTS\] Scale a real value by a whole power of the radix

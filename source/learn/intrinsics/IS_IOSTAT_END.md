@@ -3,6 +3,7 @@ layout: book
 title: is_iostat_end
 permalink: /learn/intrinsics/IS_IOSTAT_END
 ---
+# IS_IOSTAT_END
 ## __Name__
 
 __is\_iostat\_end__(3) - \[STATE\] Test for end-of-file value

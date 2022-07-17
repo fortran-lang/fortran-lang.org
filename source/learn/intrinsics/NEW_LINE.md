@@ -3,6 +3,7 @@ layout: book
 title: new_line
 permalink: /learn/intrinsics/NEW_LINE
 ---
+# NEW_LINE
 ## __Name__
 
 __new\_line__(3) - \[CHARACTER\] new-line character

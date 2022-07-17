@@ -3,6 +3,7 @@ layout: book
 title: Mathematics
 permalink: /learn/intrinsics/MATH_index
 ---
+# MATH_index
 ### General mathematical functions
 
 |--------------------|||||-----------------------------------------------------------------------||------------------------------------------------------------------|

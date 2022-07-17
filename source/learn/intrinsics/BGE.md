@@ -3,6 +3,7 @@ layout: book
 title: bge
 permalink: /learn/intrinsics/BGE
 ---
+# BGE
 ## __Name__
 
 __bge__(3) - \[BIT:COMPARE\] Bitwise greater than or equal to

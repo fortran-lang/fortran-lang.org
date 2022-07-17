@@ -3,6 +3,7 @@ layout: book
 title: storage_size
 permalink: /learn/intrinsics/STORAGE_SIZE
 ---
+# STORAGE_SIZE
 ## __Name__
 
 __storage\_size__(3) - \[BIT:INQUIRY\] Storage size in bits

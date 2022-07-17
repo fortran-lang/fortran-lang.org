@@ -3,6 +3,7 @@ layout: book
 title: lge
 permalink: /learn/intrinsics/LGE
 ---
+# LGE
 ## __Name__
 
 __lge__(3) - \[CHARACTER:COMPARE\] Lexical greater than or equal

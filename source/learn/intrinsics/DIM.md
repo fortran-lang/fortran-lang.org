@@ -3,6 +3,7 @@ layout: book
 title: dim
 permalink: /learn/intrinsics/DIM
 ---
+# DIM
 ## __Name__
 
 __dim__(3) - \[NUMERIC\] Positive difference

@@ -3,6 +3,7 @@ layout: book
 title: dble
 permalink: /learn/intrinsics/DBLE
 ---
+# DBLE
 ## __Name__
 
 __dble__(3) - \[TYPE:NUMERIC\] Double conversion function

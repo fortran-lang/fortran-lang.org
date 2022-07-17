@@ -3,6 +3,7 @@ layout: book
 title: parity
 permalink: /learn/intrinsics/PARITY
 ---
+# PARITY
 ## __Name__
 
 __parity__(3) - \[TRANSFORMATIONAL\] Reduction with exclusive __OR__()

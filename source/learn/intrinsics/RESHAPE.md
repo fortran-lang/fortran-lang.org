@@ -3,6 +3,7 @@ layout: book
 title: reshape
 permalink: /learn/intrinsics/RESHAPE
 ---
+# RESHAPE
 ## __Name__
 
 __reshape__(3) - \[ARRAY RESHAPE\] Function to reshape an array

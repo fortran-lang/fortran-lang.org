@@ -3,6 +3,7 @@ layout: book
 title: ble
 permalink: /learn/intrinsics/BLE
 ---
+# BLE
 ## __Name__
 
 __ble__(3) - \[BIT:COMPARE\] Bitwise less than or equal to

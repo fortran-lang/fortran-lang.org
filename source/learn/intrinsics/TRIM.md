@@ -3,6 +3,7 @@ layout: book
 title: trim
 permalink: /learn/intrinsics/TRIM
 ---
+# TRIM
 ## __Name__
 
 __trim__(3) - \[CHARACTER:WHITESPACE\] Remove trailing blank characters of a string

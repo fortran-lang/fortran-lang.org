@@ -3,6 +3,7 @@ layout: book
 title: size
 permalink: /learn/intrinsics/SIZE
 ---
+# SIZE
 ## __Name__
 
 __size__(3) - \[ARRAY INQUIRY\] Determine the size of an array

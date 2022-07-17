@@ -3,6 +3,7 @@ layout: book
 title: get_command_argument
 permalink: /learn/intrinsics/GET_COMMAND_ARGUMENT
 ---
+# GET_COMMAND_ARGUMENT
 ## __Name__
 
 __get\_command\_argument__(3) - \[SYSTEM:COMMAND LINE\] Get command line arguments

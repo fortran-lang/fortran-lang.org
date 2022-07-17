@@ -3,6 +3,7 @@ layout: book
 title: ibset
 permalink: /learn/intrinsics/IBSET
 ---
+# IBSET
 ## __Name__
 
 __ibset__(3) - \[BIT:SET\] Set bit

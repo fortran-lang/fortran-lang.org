@@ -3,6 +3,7 @@ layout: book
 title: c_associated
 permalink: /learn/intrinsics/C_ASSOCIATED
 ---
+# C_ASSOCIATED
 ## __Name__
 
 __c\_associated__(3) - \[ISO\_C\_BINDING\] Status of a C pointer

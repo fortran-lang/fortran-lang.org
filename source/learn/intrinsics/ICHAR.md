@@ -3,6 +3,7 @@ layout: book
 title: ichar
 permalink: /learn/intrinsics/ICHAR
 ---
+# ICHAR
 ## __Name__
 
 __ichar__(3) - \[CHARACTER:CONVERSION\] Character-to-integer conversion function

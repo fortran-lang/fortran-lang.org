@@ -3,6 +3,7 @@ layout: book
 title: char
 permalink: /learn/intrinsics/CHAR
 ---
+# CHAR
 ## __Name__
 
 __char__(3) - \[CHARACTER\] Character conversion function

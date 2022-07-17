@@ -3,6 +3,7 @@ layout: book
 title: iachar
 permalink: /learn/intrinsics/IACHAR
 ---
+# IACHAR
 ## __Name__
 
 __iachar__(3) - \[CHARACTER:CONVERSION\] Code in ASCII collating sequence

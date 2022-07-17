@@ -3,6 +3,7 @@ layout: book
 title: lbound
 permalink: /learn/intrinsics/LBOUND
 ---
+# LBOUND
 ## __Name__
 
 __lbound__(3) - \[ARRAY INQUIRY\] Lower dimension bounds of an array

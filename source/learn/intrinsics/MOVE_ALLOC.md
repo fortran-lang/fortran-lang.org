@@ -3,6 +3,7 @@ layout: book
 title: move_alloc
 permalink: /learn/intrinsics/MOVE_ALLOC
 ---
+# MOVE_ALLOC
 ## __Name__
 
 __move\_alloc__(3) - \[\] Move allocation from one object to another

@@ -3,6 +3,7 @@ layout: book
 title: ishft
 permalink: /learn/intrinsics/ISHFT
 ---
+# ISHFT
 ## __Name__
 
 __ishft__(3) - \[BIT:SHIFT\] Shift bits

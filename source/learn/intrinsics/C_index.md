@@ -3,6 +3,7 @@ layout: book
 title: C Interface
 permalink: /learn/intrinsics/C_index
 ---
+# C_index
 ### procedures useful for binding to C interfaces
 
 |--------------------|||||-----------------------------------------------------------------------------||---------------------------------------------------|

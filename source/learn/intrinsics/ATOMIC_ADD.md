@@ -3,6 +3,7 @@ layout: book
 title: atomic_add
 permalink: /learn/intrinsics/ATOMIC_ADD
 ---
+# ATOMIC_ADD
 ## __Name__
 
 __atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation 

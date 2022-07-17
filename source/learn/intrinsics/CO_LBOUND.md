@@ -3,6 +3,7 @@ layout: book
 title: co_lbound
 permalink: /learn/intrinsics/CO_LBOUND
 ---
+# CO_LBOUND
 ## __Name__
 
 __co\_lbound__(3) - \[COLLECTIVE\] Lower codimension bounds of an array

@@ -3,6 +3,7 @@ layout: book
 title: spacing
 permalink: /learn/intrinsics/SPACING
 ---
+# SPACING
 ## __Name__
 
 __spacing__(3) - \[MODEL\_COMPONENTS\] Smallest distance between two numbers of a given type

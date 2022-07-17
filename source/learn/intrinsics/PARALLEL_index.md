@@ -3,6 +3,7 @@ layout: book
 title: Parallel Programming
 permalink: /learn/intrinsics/PARALLEL_index
 ---
+# PARALLEL_index
 ### These routines support parallel programming using co_arrays and co_indexed arrays.
 
 |----------------------------||||-----------------------------------------------------------------------------||---------------------------------------------------------------|

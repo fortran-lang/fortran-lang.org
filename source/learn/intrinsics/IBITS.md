@@ -3,6 +3,7 @@ layout: book
 title: ibits
 permalink: /learn/intrinsics/IBITS
 ---
+# IBITS
 ## __Name__
 
 __ibits__(3) - \[BIT:COPY\] Bit extraction

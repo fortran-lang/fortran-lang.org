@@ -3,6 +3,7 @@ layout: book
 title: blt
 permalink: /learn/intrinsics/BLT
 ---
+# BLT
 ## __Name__
 
 __blt__(3) - \[BIT:COMPARE\] Bitwise less than

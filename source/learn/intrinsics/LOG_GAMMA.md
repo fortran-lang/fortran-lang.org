@@ -3,6 +3,7 @@ layout: book
 title: log_gamma
 permalink: /learn/intrinsics/LOG_GAMMA
 ---
+# LOG_GAMMA
 ## __Name__
 
 __log\_gamma__(3) - \[MATHEMATICS\] Logarithm of the Gamma function

@@ -3,6 +3,7 @@ layout: book
 title: sinh
 permalink: /learn/intrinsics/SINH
 ---
+# SINH
 ## __Name__
 
 __sinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic sine function

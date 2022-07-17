@@ -3,6 +3,7 @@ layout: book
 title: Array Operations
 permalink: /learn/intrinsics/ARRAY_index
 ---
+# ARRAY_index
 ### Properties and attributes of arrays
 
 |----------------------|||||-----------------------------------------------------------------------||------------------------------------------------------------------|
