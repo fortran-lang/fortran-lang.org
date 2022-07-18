@@ -16,13 +16,13 @@ help:
 
 .PHONY: help Makefile
 
-html: $(addprefix html/,$(LANGUAGES)) $(BUILDDIR)/html/en/index.html
-	@echo "Pages available at file://$$PWD/$(BUILDDIR)/html/en/index.html"
+html: $(addprefix html/,$(LANGUAGES)) $(BUILDDIR)/html/index.html
+	@echo "Pages available at file://$$PWD/$(BUILDDIR)/html/index.html"
 
 $(addprefix html/,$(LANGUAGES)): $(MAKEFILES)
 	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)/$@" $(SPHINXOPTS) -Dlanguage=$(word 2,$(subst /, ,$@))
 
-$(BUILDDIR)/html/index.html: html/index.html
+$(BUILDDIR)/html/index.html: source/html/index.html
 	@cp $< $@
 
 gettext: $(MAKEFILES)

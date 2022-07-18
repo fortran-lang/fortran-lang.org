@@ -3,7 +3,6 @@ layout: book
 title: Fortran Intrinsics
 permalink: /learn/intrinsics
 ---
-# index
 
 # Fortran Intrinsics 
 

@@ -1,6 +1,8 @@
 :sd_hide_title:
 
-:page-layout: full-width
+.. meta::
+   :description: The Fortran Programming Language
+   :keywords: Fortran, High-performance, parallel programming language
 
 The Fortran Programming Language
 ###############################
