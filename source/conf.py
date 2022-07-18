@@ -51,15 +51,9 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.intersphinx",
     "sphinx_jinja",
-    'matplotlib.sphinxext.plot_directive',
-    'IPython.sphinxext.ipython_directive',
-    'IPython.sphinxext.ipython_console_highlighting',
     'sphinx.ext.mathjax',
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.inheritance_diagram',
     'numpydoc',
-    'sphinx_charts.charts',
 ]
 
 myst_enable_extensions = [
@@ -176,7 +170,7 @@ fontawesome_link_cdn = True
 
 blog_path = "news"
 blog_post_pattern = "news/*"
-blog_baseurl = "https://fortran-lang.org/" 
+blog_baseurl = "https://fortran-lang.org/en/" 
 post_redirect_refresh = 1
 post_auto_image = 1
 post_auto_excerpt = 2
