@@ -67,7 +67,7 @@ Learn
 
     {% for j in books %}
     {% if j.category == 'Getting started' %}
-    `{{j.title}} <{{"./"+j.link+"/"}}>`_
+    `{{j.title}} <{{j.link[1:]+"/"}}>`_
      {{j.description}}
     {% endif %}
     {% endfor %}
@@ -81,7 +81,7 @@ Learn
 
     {% for j in books %}
     {% if j.category == 'Fortran Documentation' %}
-    `{{j.title}} <{{"./"+j.link+"/"}}>`_
+    `{{j.title}} <{{j.link[1:]+"/"}}>`_
       {{j.description}}
     {% endif %}
     {% endfor %}

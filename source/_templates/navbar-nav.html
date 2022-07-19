@@ -1,13 +1,7 @@
-{% if ablog %}
-{% set pcount = 1 %}
-{%- if pagename not in ('news', 'index', 'packages', 'community', 'learn', 'compilers') %}
-{%- if pagename not in ('data-types', 'examples', 'graphics', 'interfaces', 'io',
-'libraries','numerical','programming','scientific','strings') %}
-{%- if pagename not in ablog.recent(pagename) %}
 <nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
    <div class="container-xl">
       <div id="navbar-start">
-         <a class="navbar-brand" href="../../index.html">
+         <a class="navbar-brand" href="{{pathto('index',1)[:-5]}}index.html">
             <img src="https://henilp105.github.io/fortran-lang.org/en/_static/images/fortran-logo-256x256.png" class="logo"
                alt="logo">
          </a>
@@ -17,283 +11,82 @@
          <span class="navbar-toggler-icon"></span>
       </button>
       <div id="navbar-collapsible" class=" collapse navbar-collapse">
-         <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-            <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-            <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-            <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
-         </span>
+        <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
+           <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
+           <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
+           <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
+       </span>
 
-         <div class="dropdown" id="version_switcher">
-            <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button"
-               data-toggle="dropdown">
-               language
-               <span class="caret"></span>
-            </button>
-            <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0"
-               aria-labelledby="version_switcher_button">
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../../de/{{pagename}}.html"><span>de</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../../en/{{pagename}}.html"><span>en</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../../es/{{pagename}}.html"><span>es</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../../fr/{{pagename}}.html"><span>fr</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../../ja/{{pagename}}.html"><span>ja</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../../nl/{{pagename}}.html"><span>nl</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../../zh_CN/{{pagename}}.html"><span>zh_CN</span></a>
-            </div>
-         </div>
-
-         <div id="navbar-center" class="ml-auto">
-            <div class="navbar-center-item">
-               <ul id="navbar-main-elements" class="navbar-nav">
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../../learn.html">
-                        Learn
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../../compilers.html">
-                        Compilers
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../../community.html">
-                        Community
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../../packages.html">
-                        Packages
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../../news.html">
-                        News
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-         <div id="navbar-end">
-            <div class="navbar-end-item">
-
-               <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://fortran-lang.discourse.group/" rel="noopener" target="_blank"
-                        title="Discourse"><span><i class="fab fa-discourse"></i></span>
-                        <label class="sr-only">Discourse</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://twitter.com/fortranlang" rel="noopener" target="_blank"
-                        title="Twitter"><span><i class="fab fa-twitter"></i></span>
-                        <label class="sr-only">Twitter</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://github.com/fortran-lang" rel="noopener" target="_blank"
-                        title="GitHub"><span><i class="fab fa-github"></i></span>
-                        <label class="sr-only">GitHub</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="../../news/atom.xml" rel="noopener" target="_blank" title="RSS"><span><i
-                              class="fas fa-rss"></i></span>
-                        <label class="sr-only">RSS</label></a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-         <form class="bd-search d-flex align-items-center" action="../../search.html" method="get"> <i
-               class="icon fas fa-search"></i> <input type="search" class="form-control" name="q" id="search-input"
-               placeholder="Search" aria-label="Search" autocomplete="off"> </form>
-
-      </div>
-   </div>
-</nav>
+       <div class="dropdown" id="version_switcher">
+        <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button" data-toggle="dropdown">
+         language
+            <span class="caret"></span>
+        </button>
+        {%- if pathto('index',1)[:-5] =='' %}
+<div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <a class="list-group-item list-group-item-action py-1" href="../de/{{pagename}}.html"><span>de</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../en/{{pagename}}.html"><span>en</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../es/{{pagename}}.html"><span>es</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../fr/{{pagename}}.html"><span>fr</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../ja/{{pagename}}.html"><span>ja</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../nl/{{pagename}}.html"><span>nl</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../zh_CN/{{pagename}}.html"><span>zh_CN</span></a>
+    </div>
+{% elif pathto('index',1)[:-5] =='../' %}
+ 
+    <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+    <a class="list-group-item list-group-item-action py-1" href="../../de/{{pagename}}.html"><span>de</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../../en/{{pagename}}.html"><span>en</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../../es/{{pagename}}.html"><span>es</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../../fr/{{pagename}}.html"><span>fr</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../../ja/{{pagename}}.html"><span>ja</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../../nl/{{pagename}}.html"><span>nl</span></a>
+    <a class="list-group-item list-group-item-action py-1" href="../../zh_CN/{{pagename}}.html"><span>zh_CN</span></a>
+    </div>
+{% elif pathto('index',1)[:-5] =='../../' %}
+        <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0" aria-labelledby="version_switcher_button">
+        <a class="list-group-item list-group-item-action py-1" href="../../../de/{{pagename}}.html"><span>de</span></a>
+        <a class="list-group-item list-group-item-action py-1" href="../../../en/{{pagename}}.html"><span>en</span></a>
+        <a class="list-group-item list-group-item-action py-1" href="../../../es/{{pagename}}.html"><span>es</span></a>
+        <a class="list-group-item list-group-item-action py-1" href="../../../fr/{{pagename}}.html"><span>fr</span></a>
+        <a class="list-group-item list-group-item-action py-1" href="../../../ja/{{pagename}}.html"><span>ja</span></a>
+        <a class="list-group-item list-group-item-action py-1" href="../../../nl/{{pagename}}.html"><span>nl</span></a>
+        <a class="list-group-item list-group-item-action py-1" href="../../../zh_CN/{{pagename}}.html"><span>zh_CN</span></a>
+        </div>
 {% else %}
-<nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
-   <div class="container-xl">
-      <div id="navbar-start">
-         <a class="navbar-brand" href="../index.html">
-            <img src="https://henilp105.github.io/fortran-lang.org/en/_static/images/fortran-logo-256x256.png" class="logo"
-               alt="logo">
-         </a>
-      </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible"
-         aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbar-collapsible" class=" collapse navbar-collapse">
-         <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-            <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-            <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-            <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
-         </span>
-
-         <div class="dropdown" id="version_switcher">
-            <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button"
-               data-toggle="dropdown">
-               language
-               <span class="caret"></span>
-            </button>
-            <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0"
-               aria-labelledby="version_switcher_button">
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../de/{{pagename}}.html"><span>de</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../en/{{pagename}}.html"><span>en</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../es/{{pagename}}.html"><span>es</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../fr/{{pagename}}.html"><span>fr</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../ja/{{pagename}}.html"><span>ja</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../nl/{{pagename}}.html"><span>nl</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../zh_CN/{{pagename}}.html"><span>zh_CN</span></a>
-            </div>
-         </div>
-
-         <div id="navbar-center" class="ml-auto">
-            <div class="navbar-center-item">
-               <ul id="navbar-main-elements" class="navbar-nav">
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="learn.html">
-                        Learn
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="compilers.html">
-                        Compilers
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="community.html">
-                        Community
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="packages.html">
-                        Packages
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="news.html">
-                        News
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-         <div id="navbar-end">
-            <div class="navbar-end-item">
-
-               <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://fortran-lang.discourse.group/" rel="noopener" target="_blank"
-                        title="Discourse"><span><i class="fab fa-discourse"></i></span>
-                        <label class="sr-only">Discourse</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://twitter.com/fortranlang" rel="noopener" target="_blank"
-                        title="Twitter"><span><i class="fab fa-twitter"></i></span>
-                        <label class="sr-only">Twitter</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://github.com/fortran-lang" rel="noopener" target="_blank"
-                        title="GitHub"><span><i class="fab fa-github"></i></span>
-                        <label class="sr-only">GitHub</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="news/atom.xml" rel="noopener" target="_blank" title="RSS"><span><i
-                              class="fas fa-rss"></i></span>
-                        <label class="sr-only">RSS</label></a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-         <form class="bd-search d-flex align-items-center" action="../search.html" method="get"> <i
-               class="icon fas fa-search"></i> <input type="search" class="form-control" name="q" id="search-input"
-               placeholder="Search" aria-label="Search" autocomplete="off"> </form>
-
-      </div>
-   </div>
-</nav>
 {%- endif %}
-{% else %}
-<nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
-   <div class="container-xl">
-      <div id="navbar-start">
-         <a class="navbar-brand" href="../index.html">
-            <img src="https://henilp105.github.io/fortran-lang.org/en/_static/images/fortran-logo-256x256.png" class="logo"
-               alt="logo">
-         </a>
-      </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible"
-         aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbar-collapsible" class=" collapse navbar-collapse">
-         <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-            <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-            <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-            <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
-         </span>
-
-         <div class="dropdown" id="version_switcher">
-            <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button"
-               data-toggle="dropdown">
-               language
-               <span class="caret"></span>
-            </button>
-            <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0"
-               aria-labelledby="version_switcher_button">
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../de/{{pagename}}.html"><span>de</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../en/{{pagename}}.html"><span>en</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../es/{{pagename}}.html"><span>es</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../fr/{{pagename}}.html"><span>fr</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../ja/{{pagename}}.html"><span>ja</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../nl/{{pagename}}.html"><span>nl</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../../zh_CN/{{pagename}}.html"><span>zh_CN</span></a>
-            </div>
-         </div>
+    </div>
 
          <div id="navbar-center" class="ml-auto">
             <div class="navbar-center-item">
                <ul id="navbar-main-elements" class="navbar-nav">
                   <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../learn.html">
+                     <a class="reference internal nav-link"
+                        href="{{pathto('index',1)[:-5]}}learn.html">
                         Learn
                      </a>
                   </li>
                   <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../compilers.html">
+                     <a class="reference internal nav-link"
+                        href="{{pathto('index',1)[:-5]}}compilers.html">
                         Compilers
                      </a>
                   </li>
                   <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../community.html">
+                     <a class="reference internal nav-link"
+                        href="{{pathto('index',1)[:-5]}}community.html">
                         Community
                      </a>
                   </li>
                   <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../packages.html">
+                     <a class="reference internal nav-link"
+                        href="{{pathto('index',1)[:-5]}}packages.html">
                         Packages
                      </a>
                   </li>
                   <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="../news.html">
+                     <a class="reference internal nav-link"
+                        href="{{pathto('index',1)[:-5]}}news.html">
                         News
                      </a>
                   </li>
@@ -302,7 +95,7 @@
          </div>
          <div id="navbar-end">
             <div class="navbar-end-item">
-
+       
                <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
                   <li class="nav-item">
                      <a class="nav-link" href="https://fortran-lang.discourse.group/" rel="noopener" target="_blank"
@@ -320,123 +113,16 @@
                         <label class="sr-only">GitHub</label></a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="../news/atom.xml" rel="noopener" target="_blank" title="RSS"><span><i
-                              class="fas fa-rss"></i></span>
+                     <a class="nav-link" href="{{pathto('index',1)[:-5]}}news/atom.xml" rel="noopener" target="_blank"
+                        title="RSS"><span><i class="fas fa-rss"></i></span>
                         <label class="sr-only">RSS</label></a>
                   </li>
                </ul>
             </div>
-         </div>
-         <form class="bd-search d-flex align-items-center" action="../search.html" method="get"> <i
-               class="icon fas fa-search"></i> <input type="search" class="form-control" name="q" id="search-input"
-               placeholder="Search" aria-label="Search" autocomplete="off"> </form>
+         </div><form class="bd-search d-flex align-items-center" action="{{pathto('index',1)[:-5]}}search.html" method="get"> <i
+            class="icon fas fa-search"></i> <input type="search" class="form-control" name="q" id="search-input"
+            placeholder="Search" aria-label="Search" autocomplete="off"> </form>
 
       </div>
    </div>
 </nav>
-{%- endif %}
-{% else %}
-<nav class="bd-header navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main">
-   <div class="container-xl">
-      <div id="navbar-start">
-         <a class="navbar-brand" href="index.html">
-            <img src="https://henilp105.github.io/fortran-lang.org/en/_static/images/fortran-logo-256x256.png" class="logo"
-               alt="logo">
-         </a>
-      </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible"
-         aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
-         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbar-collapsible" class=" collapse navbar-collapse">
-         <span id="theme-switch" class="btn btn-sm btn-outline-primary navbar-btn rounded-circle">
-            <a class="theme-switch" data-mode="light"><i class="fas fa-sun"></i></a>
-            <a class="theme-switch" data-mode="dark"><i class="far fa-moon"></i></a>
-            <a class="theme-switch" data-mode="auto"><i class="fas fa-adjust"></i></a>
-         </span>
-
-         <div class="dropdown" id="version_switcher">
-            <button type="button" class="btn btn-sm navbar-btn dropdown-toggle" id="version_switcher_button"
-               data-toggle="dropdown">
-               language
-               <span class="caret"></span>
-            </button>
-            <div id="version_switcher_menu" class="dropdown-menu list-group-flush py-0"
-               aria-labelledby="version_switcher_button">
-               <a class="list-group-item list-group-item-action py-1" href="../de/{{pagename}}.html"><span>de</span></a>
-               <a class="list-group-item list-group-item-action py-1" href="../en/{{pagename}}.html"><span>en</span></a>
-               <a class="list-group-item list-group-item-action py-1" href="../es/{{pagename}}.html"><span>es</span></a>
-               <a class="list-group-item list-group-item-action py-1" href="../fr/{{pagename}}.html"><span>fr</span></a>
-               <a class="list-group-item list-group-item-action py-1" href="../ja/{{pagename}}.html"><span>ja</span></a>
-               <a class="list-group-item list-group-item-action py-1" href="../nl/{{pagename}}.html"><span>nl</span></a>
-               <a class="list-group-item list-group-item-action py-1"
-                  href="../zh_CN/{{pagename}}.html"><span>zh_CN</span></a>
-            </div>
-         </div>
-
-         <div id="navbar-center" class="ml-auto">
-            <div class="navbar-center-item">
-               <ul id="navbar-main-elements" class="navbar-nav">
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="learn.html">
-                        Learn
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="compilers.html">
-                        Compilers
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="community.html">
-                        Community
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="packages.html">
-                        Packages
-                     </a>
-                  </li>
-                  <li class="toctree-l1 nav-item">
-                     <a class="reference internal nav-link" href="news.html">
-                        News
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-         <div id="navbar-end">
-            <div class="navbar-end-item">
-
-               <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://fortran-lang.discourse.group/" rel="noopener" target="_blank"
-                        title="Discourse"><span><i class="fab fa-discourse"></i></span>
-                        <label class="sr-only">Discourse</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://twitter.com/fortranlang" rel="noopener" target="_blank"
-                        title="Twitter"><span><i class="fab fa-twitter"></i></span>
-                        <label class="sr-only">Twitter</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="https://github.com/fortran-lang" rel="noopener" target="_blank"
-                        title="GitHub"><span><i class="fab fa-github"></i></span>
-                        <label class="sr-only">GitHub</label></a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="news/atom.xml" rel="noopener" target="_blank" title="RSS"><span><i
-                              class="fas fa-rss"></i></span>
-                        <label class="sr-only">RSS</label></a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-         <form class="bd-search d-flex align-items-center" action="search.html" method="get"> <i
-               class="icon fas fa-search"></i> <input type="search" class="form-control" name="q" id="search-input"
-               placeholder="Search" aria-label="Search" autocomplete="off"> </form>
-
-      </div>
-   </div>
-</nav>
-{%- endif %}{%- endif %}
