@@ -108,4 +108,4 @@ If you're writing a program or a library to perform fast arithmetic computation 
         .. div:: sd-fs-5 sd-font-weight-bold 
 
             Write Fortran software
-        Or just write Fortran software for your research, business, or schoolwork. You can learn how to get started `here <learn.html>`_ .
+        Or just write Fortran software for your research, business, or schoolwork. You can learn how to `get started here <learn.html>`_ .
