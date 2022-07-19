@@ -1,31 +1,187 @@
 ---
 layout: book
 title: Numeric Model
-permalink: /learn/intrinsics/MODEL_index
+permalink: MODEL_index
 ---
 # MODEL_index
 ### These routines support controlling and querying the current numeric model.
 
-|----------------------|||||----------------------------------------------------------------------||-------------------------------------------------------------------|
-| category             ||||| page                                                                 || description                                                       |
-|----------------------|||||----------------------------------------------------------------------||-------------------------------------------------------------------|
-| *MODEL\_COMPONENTS*  ||||| [__exponent__]({{site.baseurl}}/learn/intrinsics/EXPONENT)           || &#9679; Exponent function                                         |
-| *MODEL\_COMPONENTS*  ||||| [__fraction__]({{site.baseurl}}/learn/intrinsics/FRACTION)           || &#9679; Fractional part of the model representation               |
-| *MODEL\_COMPONENTS*  ||||| [__nearest__]({{site.baseurl}}/learn/intrinsics/NEAREST)             || &#9679; Nearest representable number                              |
-| *MODEL\_COMPONENTS*  ||||| [__rrspacing__]({{site.baseurl}}/learn/intrinsics/RRSPACING)         || &#9679; Reciprocal of the relative spacing                        |
-| *MODEL\_COMPONENTS*  ||||| [__scale__]({{site.baseurl}}/learn/intrinsics/SCALE)                 || &#9679; Scale a real value                                        |
-| *MODEL\_COMPONENTS*  ||||| [__set\_exponent__]({{site.baseurl}}/learn/intrinsics/SET_EXPONENT)  || &#9679; Set the exponent of the model                             |
-| *MODEL\_COMPONENTS*  ||||| [__spacing__]({{site.baseurl}}/learn/intrinsics/SPACING)             || &#9679; Smallest distance between two numbers of a given type     |
-|----------------------|||||----------------------------------------------------------------------||-------------------------------------------------------------------|
-| *NUMERIC\_MODEL*     ||||| [__digits__]({{site.baseurl}}/learn/intrinsics/DIGITS)               || &#9679; Significant digits function                               |
-| *NUMERIC\_MODEL*     ||||| [__epsilon__]({{site.baseurl}}/learn/intrinsics/EPSILON)             || &#9679; Epsilon function                                          |
-| *NUMERIC\_MODEL*     ||||| [__huge__]({{site.baseurl}}/learn/intrinsics/HUGE)                   || &#9679; Largest number of a kind                                  |
-| *NUMERIC\_MODEL*     ||||| [__maxexponent__]({{site.baseurl}}/learn/intrinsics/MAXEXPONENT)     || &#9679; Maximum exponent of a real kind                           |
-| *NUMERIC\_MODEL*     ||||| [__minexponent__]({{site.baseurl}}/learn/intrinsics/MINEXPONENT)     || &#9679; Minimum exponent of a real kind                           |
-| *NUMERIC\_MODEL*     ||||| [__precision__]({{site.baseurl}}/learn/intrinsics/PRECISION)         || &#9679; Decimal precision of a real kind                          |
-| *NUMERIC\_MODEL*     ||||| [__radix__]({{site.baseurl}}/learn/intrinsics/RADIX)                 || &#9679; Base of a model number                                    |
-| *NUMERIC\_MODEL*     ||||| [__range__]({{site.baseurl}}/learn/intrinsics/RANGE)                 || &#9679; Decimal exponent range of a real kind                     |
-| *NUMERIC\_MODEL*     ||||| [__tiny__]({{site.baseurl}}/learn/intrinsics/TINY)                   || &#9679; Smallest positive number of a real kind                   |
-|----------------------|||||----------------------------------------------------------------------||-------------------------------------------------------------------|
-
+<table>
+  <thead>
+    <tr>
+      <th>category</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>page</th>
+      <th>&nbsp;</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>MODEL_COMPONENTS</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="EXPONENT"><strong>exponent</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Exponent function</td>
+    </tr>
+    <tr>
+      <td><em>MODEL_COMPONENTS</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="FRACTION"><strong>fraction</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Fractional part of the model representation</td>
+    </tr>
+    <tr>
+      <td><em>MODEL_COMPONENTS</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="NEAREST"><strong>nearest</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Nearest representable number</td>
+    </tr>
+    <tr>
+      <td><em>MODEL_COMPONENTS</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="RRSPACING"><strong>rrspacing</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Reciprocal of the relative spacing</td>
+    </tr>
+    <tr>
+      <td><em>MODEL_COMPONENTS</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SCALE"><strong>scale</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Scale a real value</td>
+    </tr>
+    <tr>
+      <td><em>MODEL_COMPONENTS</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SET_EXPONENT"><strong>set_exponent</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Set the exponent of the model</td>
+    </tr>
+    <tr>
+      <td><em>MODEL_COMPONENTS</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SPACING"><strong>spacing</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Smallest distance between two numbers of a given type</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="DIGITS"><strong>digits</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Significant digits function</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="EPSILON"><strong>epsilon</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Epsilon function</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="HUGE"><strong>huge</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Largest number of a kind</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MAXEXPONENT"><strong>maxexponent</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Maximum exponent of a real kind</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MINEXPONENT"><strong>minexponent</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Minimum exponent of a real kind</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="PRECISION"><strong>precision</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Decimal precision of a real kind</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="RADIX"><strong>radix</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Base of a model number</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="RANGE"><strong>range</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Decimal exponent range of a real kind</td>
+    </tr>
+    <tr>
+      <td><em>NUMERIC_MODEL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="TINY"><strong>tiny</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Smallest positive number of a real kind</td>
+    </tr>
+  </tbody>
+</table>
 ###### fortran-lang intrinsic descriptions

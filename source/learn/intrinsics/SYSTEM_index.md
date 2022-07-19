@@ -1,23 +1,106 @@
 ---
 layout: book
 title: System Environment
-permalink: /learn/intrinsics/SYSTEM_index
+permalink: SYSTEM_index
 ---
 # SYSTEM_index
 ### accessing external system information
 
-|------------------------|||||---------------------------------------------------------------------------------------------||-----------------------------------------------------|
-| category               ||||| page                                                                                        || description                                         |
-|------------------------|||||---------------------------------------------------------------------------------------------||-----------------------------------------------------|
-| *SYSTEM:COMMAND LINE*  ||||| [__command\_argument\_count__]({{site.baseurl}}/learn/intrinsics/COMMAND_ARGUMENT_COUNT)    || &#9679; Get number of command line arguments        |
-| *SYSTEM:COMMAND LINE*  ||||| [__get\_command__]({{site.baseurl}}/learn/intrinsics/GET_COMMAND)                           || &#9679; Get the entire command line                 |
-| *SYSTEM:COMMAND LINE*  ||||| [__get\_command\_argument__]({{site.baseurl}}/learn/intrinsics/GET_COMMAND_ARGUMENT)        || &#9679; Get command line arguments                  |
-| *SYSTEM:TIME*          ||||| [__cpu\_time__]({{site.baseurl}}/learn/intrinsics/CPU_TIME)                                 || &#9679; Return CPU processor time in seconds        |
-| *SYSTEM:TIME*          ||||| [__date\_and\_time__]({{site.baseurl}}/learn/intrinsics/DATE_AND_TIME)                      || &#9679; Gets current time                           |
-| *SYSTEM:TIME*          ||||| [__system\_clock__]({{site.baseurl}}/learn/intrinsics/SYSTEM_CLOCK)                         || &#9679; Return numeric data from a real-time clock. |
-| *SYSTEM:PROCESSES*     ||||| [__execute\_command\_line__]({{site.baseurl}}/learn/intrinsics/EXECUTE_COMMAND_LINE)        || &#9679; Execute a shell command                     |
-| *SYSTEM:ENVIRONMENT*   ||||| [__get\_environment\_variable__]({{site.baseurl}}/learn/intrinsics/GET_ENVIRONMENT_VARIABLE)|| &#9679; Get an environmental variable               |
-|------------------------|||||---------------------------------------------------------------------------------------------||-----------------------------------------------------|
-
+<table>
+  <thead>
+    <tr>
+      <th>category</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>page</th>
+      <th>&nbsp;</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>SYSTEM:COMMAND LINE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="COMMAND_ARGUMENT_COUNT"><strong>command_argument_count</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Get number of command line arguments</td>
+    </tr>
+    <tr>
+      <td><em>SYSTEM:COMMAND LINE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="GET_COMMAND"><strong>get_command</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Get the entire command line</td>
+    </tr>
+    <tr>
+      <td><em>SYSTEM:COMMAND LINE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="GET_COMMAND_ARGUMENT"><strong>get_command_argument</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Get command line arguments</td>
+    </tr>
+    <tr>
+      <td><em>SYSTEM:TIME</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CPU_TIME"><strong>cpu_time</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Return CPU processor time in seconds</td>
+    </tr>
+    <tr>
+      <td><em>SYSTEM:TIME</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="DATE_AND_TIME"><strong>date_and_time</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Gets current time</td>
+    </tr>
+    <tr>
+      <td><em>SYSTEM:TIME</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SYSTEM_CLOCK"><strong>system_clock</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Return numeric data from a real-time clock.</td>
+    </tr>
+    <tr>
+      <td><em>SYSTEM:PROCESSES</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="EXECUTE_COMMAND_LINE"><strong>execute_command_line</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Execute a shell command</td>
+    </tr>
+    <tr>
+      <td><em>SYSTEM:ENVIRONMENT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="GET_ENVIRONMENT_VARIABLE"><strong>get_environment_variable</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Get an environmental variable</td>
+    </tr>
+  </tbody>
+</table>
 
 ###### fortran-lang intrinsic descriptions

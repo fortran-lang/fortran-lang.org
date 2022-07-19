@@ -1,20 +1,86 @@
 ---
 layout: book
 title: Transformational
-permalink: /learn/intrinsics/TRANSFORM_index
+permalink: TRANSFORM_index
 ---
 # TRANSFORM_index
 ### Matrix multiplication, Dot product, array shifts,
 
-|-----------------------|||||-------------------------------------------------------------------||------------------------------------------------------------------|
-| category              ||||| page                                                              || description                                                      |
-|-----------------------|||||-------------------------------------------------------------------||------------------------------------------------------------------|
-| *TRANSFORMATIONAL*    ||||| [__cshift__]({{site.baseurl}}/learn/intrinsics/CSHIFT)            || &#9679; Circular shift elements of an array                      |
-| *TRANSFORMATIONAL*    ||||| [__dot\_product__]({{site.baseurl}}/learn/intrinsics/DOT_PRODUCT) || &#9679; Dot product function                                     |
-| *TRANSFORMATIONAL*    ||||| [__eoshift__]({{site.baseurl}}/learn/intrinsics/EOSHIFT)          || &#9679; End-off shift elements of an array                       |
-| *TRANSFORMATIONAL*    ||||| [__matmul__]({{site.baseurl}}/learn/intrinsics/MATMUL)            || &#9679; Matrix multiplication                                    |
-| *TRANSFORMATIONAL*    ||||| [__parity__]({{site.baseurl}}/learn/intrinsics/PARITY)            || &#9679; Reduction with exclusive OR                              |
-| *TRANSFORMATIONAL*    ||||| [__null__]({{site.baseurl}}/learn/intrinsics/NULL)                || &#9679; Function that returns a disassociated pointer            |
-|-----------------------|||||-------------------------------------------------------------------||------------------------------------------------------------------|
+<table>
+  <thead>
+    <tr>
+      <th>category</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>page</th>
+      <th>&nbsp;</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>TRANSFORMATIONAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CSHIFT"><strong>cshift</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Circular shift elements of an array</td>
+    </tr>
+    <tr>
+      <td><em>TRANSFORMATIONAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="DOT_PRODUCT"><strong>dot_product</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Dot product function</td>
+    </tr>
+    <tr>
+      <td><em>TRANSFORMATIONAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="EOSHIFT"><strong>eoshift</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● End-off shift elements of an array</td>
+    </tr>
+    <tr>
+      <td><em>TRANSFORMATIONAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MATMUL"><strong>matmul</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Matrix multiplication</td>
+    </tr>
+    <tr>
+      <td><em>TRANSFORMATIONAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="PARITY"><strong>parity</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Reduction with exclusive OR</td>
+    </tr>
+    <tr>
+      <td><em>TRANSFORMATIONAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="NULL"><strong>null</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Function that returns a disassociated pointer</td>
+    </tr>
+  </tbody>
+</table>
 
 ###### fortran-lang intrinsic descriptions

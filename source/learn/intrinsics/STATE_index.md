@@ -1,21 +1,88 @@
 ---
 layout: book
 title: General State of variables and I/O
-permalink: /learn/intrinsics/STATE_index
+permalink: STATE_index
 ---
 # STATE_index
 ### General and miscellaneous intrinsics
 
-|-----------||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
-| category  |||| page                                                                        || description                                                            |
-|-----------||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
-| *STATE*   |||| [__associated__]({{site.baseurl}}/learn/intrinsics/ASSOCIATED)              || &#9679; Status of a pointer or pointer/target pair                     |
-| *STATE*   |||| [__extends\_type\_of__]({{site.baseurl}}/learn/intrinsics/EXTENDS_TYPE_OF)  || &#9679; Determine if the dynamic type of A is an extension of the dynamic type of MOLD.    |
-| *STATE*   |||| [__is\_iostat\_end__]({{site.baseurl}}/learn/intrinsics/IS_IOSTAT_END)      || &#9679; Test for end-of-file value                                     |
-| *STATE*   |||| [__is\_iostat\_eor__]({{site.baseurl}}/learn/intrinsics/IS_IOSTAT_EOR)      || &#9679; Test for end-of-record value                                   |
-| *STATE*   |||| [__move\_alloc__]({{site.baseurl}}/learn/intrinsics/MOVE_ALLOC)             || &#9679; Move allocation from one object to another                     |
-| *STATE*   |||| [__present__]({{site.baseurl}}/learn/intrinsics/PRESENT)                    || &#9679; Determine whether an optional dummy argument is specified      |
-| *STATE*   |||| [__same\_type\_as__]({{site.baseurl}}/learn/intrinsics/SAME_TYPE_AS)        || &#9679; Query dynamic types for equality                               |
-|-----------||||-----------------------------------------------------------------------------||------------------------------------------------------------------------|
+<table>
+  <thead>
+    <tr>
+      <th>category</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>page</th>
+      <th>&nbsp;</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>STATE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ASSOCIATED"><strong>associated</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Status of a pointer or pointer/target pair</td>
+    </tr>
+    <tr>
+      <td><em>STATE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="EXTENDS_TYPE_OF"><strong>extends_type_of</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Determine if the dynamic type of A is an extension of the dynamic type of MOLD.</td>
+    </tr>
+    <tr>
+      <td><em>STATE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IS_IOSTAT_END"><strong>is_iostat_end</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Test for end-of-file value</td>
+    </tr>
+    <tr>
+      <td><em>STATE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IS_IOSTAT_EOR"><strong>is_iostat_eor</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Test for end-of-record value</td>
+    </tr>
+    <tr>
+      <td><em>STATE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MOVE_ALLOC"><strong>move_alloc</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Move allocation from one object to another</td>
+    </tr>
+    <tr>
+      <td><em>STATE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="PRESENT"><strong>present</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Determine whether an optional dummy argument is specified</td>
+    </tr>
+    <tr>
+      <td><em>STATE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SAME_TYPE_AS"><strong>same_type_as</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Query dynamic types for equality</td>
+    </tr>
+  </tbody>
+</table>
 
 ###### fortran-lang intrinsic descriptions

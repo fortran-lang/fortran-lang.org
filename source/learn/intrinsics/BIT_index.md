@@ -1,52 +1,358 @@
 ---
 layout: book
 title: Bit-level
-permalink: /learn/intrinsics/BIT_index
+permalink: BIT_index
 --
 # BIT_index-
 ### bit-level inquiry and manipulation
 
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| category       ||||| page                                                                 || description                                          |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| *BIT:COMPARE*  ||||| [__bge__]({{site.baseurl}}/learn/intrinsics/BGE)                     || &#9679; Bitwise greater than or equal to             |
-| *BIT:COMPARE*  ||||| [__bgt__]({{site.baseurl}}/learn/intrinsics/BGT)                     || &#9679; Bitwise greater than                         |
-| *BIT:COMPARE*  ||||| [__ble__]({{site.baseurl}}/learn/intrinsics/BLE)                     || &#9679; Bitwise less than or equal to                |
-| *BIT:COMPARE*  ||||| [__blt__]({{site.baseurl}}/learn/intrinsics/BLT)                     || &#9679; Bitwise less than                            |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| *BIT:INQUIRY*  ||||| [__bit\_size__]({{site.baseurl}}/learn/intrinsics/BIT_SIZE)          || &#9679; Bit size inquiry function                    |
-| *BIT:INQUIRY*  ||||| [__btest__]({{site.baseurl}}/learn/intrinsics/BTEST)                 || &#9679; Bit test function                            |
-| *BIT:INQUIRY*  ||||| [__storage\_size__]({{site.baseurl}}/learn/intrinsics/STORAGE_SIZE)  || &#9679; Storage size in bits                         |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| *BIT:COUNT*    ||||| [__leadz__]({{site.baseurl}}/learn/intrinsics/LEADZ)                 || &#9679; Number of leading zero bits of an integer    |
-| *BIT:COUNT*    ||||| [__popcnt__]({{site.baseurl}}/learn/intrinsics/POPCNT)               || &#9679; Number of bits set                           |
-| *BIT:COUNT*    ||||| [__poppar__]({{site.baseurl}}/learn/intrinsics/POPPAR)               || &#9679; Parity of the number of bits set             |
-| *BIT:COUNT*    ||||| [__trailz__]({{site.baseurl}}/learn/intrinsics/TRAILZ)               || &#9679; Number of trailing zero bits of an integer   |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| *BIT:COPY*     ||||| [__dshiftl__]({{site.baseurl}}/learn/intrinsics/DSHIFTL)             || &#9679; Combines bits of arguments __i__ and __j__   |
-| *BIT:COPY*     ||||| [__dshiftr__]({{site.baseurl}}/learn/intrinsics/DSHIFTR)             || &#9679; Combines bits of arguments __i__ and __j__   |
-| *BIT:COPY*     ||||| [__merge\_bits__]({{site.baseurl}}/learn/intrinsics/MERGE_BITS)      || &#9679; Merge of bits under mask                     |
-| *BIT:COPY*     ||||| [__mvbits__]({{site.baseurl}}/learn/intrinsics/MVBITS)               || &#9679; Move bits from one integer to another        |
-| *BIT:COPY*     ||||| [__ibits__]({{site.baseurl}}/learn/intrinsics/IBITS)                 || &#9679; Bit extraction                               |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| *BIT:SET*      ||||| [__ibclr__]({{site.baseurl}}/learn/intrinsics/IBCLR)                 || &#9679; Clear bit                                    |
-| *BIT:SET*      ||||| [__ibset__]({{site.baseurl}}/learn/intrinsics/IBSET)                 || &#9679; Set bit                                      |
-| *BIT:SET*      ||||| [__maskl__]({{site.baseurl}}/learn/intrinsics/MASKL)                 || &#9679; Left justified mask                          |
-| *BIT:SET*      ||||| [__maskr__]({{site.baseurl}}/learn/intrinsics/MASKR)                 || &#9679; Right justified mask                         |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| *BIT:LOGICAL*  ||||| [__iparity__]({{site.baseurl}}/learn/intrinsics/IPARITY)             || &#9679; Bitwise exclusive or of array elements       |
-| *BIT:LOGICAL*  ||||| [__iall__]({{site.baseurl}}/learn/intrinsics/IALL)                   || &#9679; Bitwise and of array elements                |
-| *BIT:LOGICAL*  ||||| [__iand__]({{site.baseurl}}/learn/intrinsics/IAND)                   || &#9679; Bitwise logical and                          |
-| *BIT:LOGICAL*  ||||| [__iany__]({{site.baseurl}}/learn/intrinsics/IANY)                   || &#9679; Bitwise or of array elements                 |
-| *BIT:LOGICAL*  ||||| [__ieor__]({{site.baseurl}}/learn/intrinsics/IEOR)                   || &#9679; Bitwise logical exclusive or                 |
-| *BIT:LOGICAL*  ||||| [__ior__]({{site.baseurl}}/learn/intrinsics/IOR)                     || &#9679; Bitwise logical inclusive or                 |
-| *BIT:LOGICAL*  ||||| [__not__]({{site.baseurl}}/learn/intrinsics/NOT)                     || &#9679; Logical negation                             |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
-| *BIT:SHIFT*    ||||| [__ishftc__]({{site.baseurl}}/learn/intrinsics/ISHFTC)               || &#9679; Shift bits circularly                        |
-| *BIT:SHIFT*    ||||| [__ishft__]({{site.baseurl}}/learn/intrinsics/ISHFT)                 || &#9679; Shift bits                                   |
-| *BIT:SHIFT*    ||||| [__shifta__]({{site.baseurl}}/learn/intrinsics/SHIFTA)               || &#9679; Shift bits right with fill                   |
-| *BIT:SHIFT*    ||||| [__shiftl__]({{site.baseurl}}/learn/intrinsics/SHIFTL)               || &#9679; Shift bits left                              |
-| *BIT:SHIFT*    ||||| [__shiftr__]({{site.baseurl}}/learn/intrinsics/SHIFTR)               || &#9679; Shift bits right                             |
-|----------------|||||----------------------------------------------------------------------||------------------------------------------------------|
+<table>
+  <thead>
+    <tr>
+      <th>category</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>page</th>
+      <th>&nbsp;</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>BIT:COMPARE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="BGE"><strong>bge</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise greater than or equal to</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COMPARE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="BGT"><strong>bgt</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise greater than</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COMPARE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="BLE"><strong>ble</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise less than or equal to</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COMPARE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="BLT"><strong>blt</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise less than</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>BIT:INQUIRY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="BIT_SIZE"><strong>bit_size</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bit size inquiry function</td>
+    </tr>
+    <tr>
+      <td><em>BIT:INQUIRY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="BTEST"><strong>btest</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bit test function</td>
+    </tr>
+    <tr>
+      <td><em>BIT:INQUIRY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="STORAGE_SIZE"><strong>storage_size</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Storage size in bits</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>BIT:COUNT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="LEADZ"><strong>leadz</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Number of leading zero bits of an integer</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COUNT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="POPCNT"><strong>popcnt</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Number of bits set</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COUNT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="POPPAR"><strong>poppar</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Parity of the number of bits set</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COUNT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="TRAILZ"><strong>trailz</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Number of trailing zero bits of an integer</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>BIT:COPY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="DSHIFTL"><strong>dshiftl</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Combines bits of arguments <strong>i</strong> and <strong>j</strong></td>
+    </tr>
+    <tr>
+      <td><em>BIT:COPY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="DSHIFTR"><strong>dshiftr</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Combines bits of arguments <strong>i</strong> and <strong>j</strong></td>
+    </tr>
+    <tr>
+      <td><em>BIT:COPY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MERGE_BITS"><strong>merge_bits</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Merge of bits under mask</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COPY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MVBITS"><strong>mvbits</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Move bits from one integer to another</td>
+    </tr>
+    <tr>
+      <td><em>BIT:COPY</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IBITS"><strong>ibits</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bit extraction</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>BIT:SET</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IBCLR"><strong>ibclr</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Clear bit</td>
+    </tr>
+    <tr>
+      <td><em>BIT:SET</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IBSET"><strong>ibset</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Set bit</td>
+    </tr>
+    <tr>
+      <td><em>BIT:SET</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MASKL"><strong>maskl</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Left justified mask</td>
+    </tr>
+    <tr>
+      <td><em>BIT:SET</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="MASKR"><strong>maskr</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Right justified mask</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>BIT:LOGICAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IPARITY"><strong>iparity</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise exclusive or of array elements</td>
+    </tr>
+    <tr>
+      <td><em>BIT:LOGICAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IALL"><strong>iall</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise and of array elements</td>
+    </tr>
+    <tr>
+      <td><em>BIT:LOGICAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IAND"><strong>iand</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise logical and</td>
+    </tr>
+    <tr>
+      <td><em>BIT:LOGICAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IANY"><strong>iany</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise or of array elements</td>
+    </tr>
+    <tr>
+      <td><em>BIT:LOGICAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IEOR"><strong>ieor</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise logical exclusive or</td>
+    </tr>
+    <tr>
+      <td><em>BIT:LOGICAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IOR"><strong>ior</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Bitwise logical inclusive or</td>
+    </tr>
+    <tr>
+      <td><em>BIT:LOGICAL</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="NOT"><strong>not</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Logical negation</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>BIT:SHIFT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ISHFTC"><strong>ishftc</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Shift bits circularly</td>
+    </tr>
+    <tr>
+      <td><em>BIT:SHIFT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ISHFT"><strong>ishft</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Shift bits</td>
+    </tr>
+    <tr>
+      <td><em>BIT:SHIFT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SHIFTA"><strong>shifta</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Shift bits right with fill</td>
+    </tr>
+    <tr>
+      <td><em>BIT:SHIFT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SHIFTL"><strong>shiftl</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Shift bits left</td>
+    </tr>
+    <tr>
+      <td><em>BIT:SHIFT</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="SHIFTR"><strong>shiftr</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Shift bits right</td>
+    </tr>
+  </tbody>
+</table>
 
 ###### fortran-lang intrinsic descriptions

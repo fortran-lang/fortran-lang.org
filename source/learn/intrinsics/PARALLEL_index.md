@@ -1,38 +1,226 @@
 ---
 layout: book
 title: Parallel Programming
-permalink: /learn/intrinsics/PARALLEL_index
+permalink: PARALLEL_index
 ---
 # PARALLEL_index
 ### These routines support parallel programming using co_arrays and co_indexed arrays.
 
-|----------------------------||||-----------------------------------------------------------------------------||---------------------------------------------------------------|
-| category                   |||| page                                                                        || description                                                   |
-|----------------------------||||-----------------------------------------------------------------------------||---------------------------------------------------------------|
-| *COLLECTIVE*               |||| [__co\_broadcast__]({{site.baseurl}}/learn/intrinsics/CO_BROADCAST)         || &#9679; Copy a value to all images the current set of images  |
-| *COLLECTIVE*               |||| [__co\_lbound__]({{site.baseurl}}/learn/intrinsics/CO_LBOUND)               || &#9679; Lower codimension bounds of an array                  |
-| *COLLECTIVE*               |||| [__co\_max__]({{site.baseurl}}/learn/intrinsics/CO_MAX)                     || &#9679; Maximal value on the current set of images            |
-| *COLLECTIVE*               |||| [__co\_min__]({{site.baseurl}}/learn/intrinsics/CO_MIN)                     || &#9679; Minimal value on the current set of images            |
-| *COLLECTIVE*               |||| [__co\_reduce__]({{site.baseurl}}/learn/intrinsics/CO_REDUCE)               || &#9679; Reduction of values on the current set of images      |
-| *COLLECTIVE*               |||| [__co\_sum__]({{site.baseurl}}/learn/intrinsics/CO_SUM)                     || &#9679; Sum of values on the current set of images            |
-| *COLLECTIVE*               |||| [__co\_ubound__]({{site.baseurl}}/learn/intrinsics/CO_UBOUND)               || &#9679; Upper codimension bounds of an array                  |
-| *COLLECTIVE*               |||| [__event\_query__]({{site.baseurl}}/learn/intrinsics/EVENT_QUERY)           || &#9679; Query whether a coarray event has occurred            |
-| *COLLECTIVE*               |||| [__image\_index__]({{site.baseurl}}/learn/intrinsics/IMAGE_INDEX)           || &#9679; Cosubscript to image index conversion                 |
-| *COLLECTIVE*               |||| [__num\_images__]({{site.baseurl}}/learn/intrinsics/NUM_IMAGES)             || &#9679; Number of images                                      |
-| *COLLECTIVE*               |||| [__this\_image__]({{site.baseurl}}/learn/intrinsics/THIS_IMAGE)             || &#9679; Cosubscript index of this image                       |
-|----------------------------||||-----------------------------------------------------------------------------||---------------------------------------------------------------|
-| *ATOMIC:BIT\_MANIPULATION* |||| [__atomic\_and__]({{site.baseurl}}/learn/intrinsics/ATOMIC_AND)             || &#9679; Atomic bitwise AND operation                          |
-| *ATOMIC:BIT\_MANIPULATION* |||| [__atomic\_fetch\_and__]({{site.baseurl}}/learn/intrinsics/ATOMIC_FETCH_AND)|| &#9679; Atomic bitwise AND operation with prior fetch         |
-| *ATOMIC:BIT\_MANIPULATION* |||| [__atomic\_fetch\_or__]({{site.baseurl}}/learn/intrinsics/ATOMIC_FETCH_OR)  || &#9679; Atomic bitwise OR operation with prior fetch          |
-| *ATOMIC:BIT\_MANIPULATION* |||| [__atomic\_fetch\_xor__]({{site.baseurl}}/learn/intrinsics/ATOMIC_FETCH_XOR)|| &#9679; Atomic bitwise XOR operation with prior fetch         |
-| *ATOMIC:BIT\_MANIPULATION* |||| [__atomic\_or__]({{site.baseurl}}/learn/intrinsics/ATOMIC_OR)               || &#9679; Atomic bitwise OR operation                           |
-| *ATOMIC:BIT\_MANIPULATION* |||| [__atomic\_xor__]({{site.baseurl}}/learn/intrinsics/ATOMIC_XOR)             || &#9679; Atomic bitwise OR operation                           |
-|----------------------------||||-----------------------------------------------------------------------------||---------------------------------------------------------------|
-| *ATOMIC*                   |||| [__atomic\_add__]({{site.baseurl}}/learn/intrinsics/ATOMIC_ADD)             || &#9679; Atomic ADD operation                                  |
-| *ATOMIC*                   |||| [__atomic\_cas__]({{site.baseurl}}/learn/intrinsics/ATOMIC_CAS)             || &#9679; Atomic compare and swap                               |
-| *ATOMIC*                   |||| [__atomic\_define__]({{site.baseurl}}/learn/intrinsics/ATOMIC_DEFINE)       || &#9679; Setting a variable atomically                         |
-| *ATOMIC*                   |||| [__atomic\_fetch\_add__]({{site.baseurl}}/learn/intrinsics/ATOMIC_FETCH_ADD)|| &#9679; Atomic ADD operation with prior fetch                 |
-| *ATOMIC*                   |||| [__atomic\_ref__]({{site.baseurl}}/learn/intrinsics/ATOMIC_REF)             || &#9679; Obtaining the value of a variable atomically          |
-|----------------------------||||-----------------------------------------------------------------------------||---------------------------------------------------------------|
-
+<table>
+  <thead>
+    <tr>
+      <th>category</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th>page</th>
+      <th>&nbsp;</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CO_BROADCAST"><strong>co_broadcast</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Copy a value to all images the current set of images</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CO_LBOUND"><strong>co_lbound</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Lower codimension bounds of an array</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CO_MAX"><strong>co_max</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Maximal value on the current set of images</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CO_MIN"><strong>co_min</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Minimal value on the current set of images</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CO_REDUCE"><strong>co_reduce</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Reduction of values on the current set of images</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CO_SUM"><strong>co_sum</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Sum of values on the current set of images</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="CO_UBOUND"><strong>co_ubound</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Upper codimension bounds of an array</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="EVENT_QUERY"><strong>event_query</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Query whether a coarray event has occurred</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="IMAGE_INDEX"><strong>image_index</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Cosubscript to image index conversion</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="NUM_IMAGES"><strong>num_images</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Number of images</td>
+    </tr>
+    <tr>
+      <td><em>COLLECTIVE</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="THIS_IMAGE"><strong>this_image</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Cosubscript index of this image</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>ATOMIC:BIT_MANIPULATION</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_AND"><strong>atomic_and</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic bitwise AND operation</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC:BIT_MANIPULATION</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_FETCH_AND"><strong>atomic_fetch_and</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic bitwise AND operation with prior fetch</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC:BIT_MANIPULATION</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_FETCH_OR"><strong>atomic_fetch_or</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic bitwise OR operation with prior fetch</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC:BIT_MANIPULATION</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_FETCH_XOR"><strong>atomic_fetch_xor</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic bitwise XOR operation with prior fetch</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC:BIT_MANIPULATION</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_OR"><strong>atomic_or</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic bitwise OR operation</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC:BIT_MANIPULATION</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_XOR"><strong>atomic_xor</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic bitwise OR operation</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>ATOMIC</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_ADD"><strong>atomic_add</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic ADD operation</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_CAS"><strong>atomic_cas</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic compare and swap</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_DEFINE"><strong>atomic_define</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Setting a variable atomically</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_FETCH_ADD"><strong>atomic_fetch_add</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Atomic ADD operation with prior fetch</td>
+    </tr>
+    <tr>
+      <td><em>ATOMIC</em></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td><a href="ATOMIC_REF"><strong>atomic_ref</strong></a></td>
+      <td>&nbsp;</td>
+      <td>● Obtaining the value of a variable atomically</td>
+    </tr>
+  </tbody>
+</table>
 ###### fortran-lang intrinsic descriptions
