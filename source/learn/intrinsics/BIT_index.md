@@ -2,8 +2,8 @@
 layout: book
 title: Bit-level
 permalink: BIT_index
---
-# BIT_index-
+---
+# BIT_index 
 ### bit-level inquiry and manipulation
 
 <table>
