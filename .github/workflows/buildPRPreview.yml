@@ -75,7 +75,27 @@ jobs:
         cd ${{env.SRC_DIR}}/_data
         wget ${{env.FPM_INDEX}}
         mv index.json fpm_registry_index.json
+        
+    - name: Setup Python
+      uses: actions/setup-python@v1
 
+    - name: Install sphinx
+      run: pip3 install --user -r requirements.txt
+      
+    - name: Build page
+      run: make html
+      
+    - run: touch build/html/.nojekyll
+
+    - name: Deploy documentation sphinx
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      if: github.event.issue.pull_request && contains(github.event.comment.body,'#build_preview')
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages/pr/${{github.event.issue.number}}
+        FOLDER: build/html
+        CLEAN: true
+        
     # Run Jekyll build and copy output to PUBLISH_DIR
     - name: Build Jekyll Site
       run: |
