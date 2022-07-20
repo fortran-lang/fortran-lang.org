@@ -47,10 +47,10 @@ jobs:
       uses: actions/setup-python@v1
 
     - name: Install sphinx
-      run: ls 
+      run: cd ${{env.SRC_DIR}} && pip3 install --user -r requirements.txt
       
     - name: Build page
-      run: make html
+      run: cd${{env.SRC_DIR}} && make html
       
     - run: touch build/html/.nojekyll
 
@@ -60,6 +60,6 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages/pr/${{github.event.issue.number}}
-        FOLDER: build/html
+        FOLDER: ${{env.SRC_DIR}}/build/html
         CLEAN: true
         
