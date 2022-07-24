@@ -138,18 +138,18 @@ to
 
 ````{toctree}
 :hidden:
-ARRAY_index <ARRAY_index>
-BIT_index <BIT_index>
-CHARACTER_index <CHARACTER_index>
-COMPILER_index <COMPILER_index>
-C_index <C_index>
-GNU_Free_Documentation_License <GNU_Free_Documentation_License>
-MATH_index <MATH_index>
-MODEL_index <MODEL_index>
-NUMERIC_index <NUMERIC_index>
-PARALLEL_index <PARALLEL_index>
-STATE_index <STATE_index>
-SYSTEM_index <SYSTEM_index>
-TRANSFORM_index <TRANSFORM_index>
-TYPE_index <TYPE_index>
+ARRAY_index
+BIT_index
+CHARACTER_index
+COMPILER_index
+C_index
+MATH_index
+MODEL_index
+NUMERIC_index
+PARALLEL_index
+STATE_index
+SYSTEM_index
+TRANSFORM_index
+TYPE_index
+GNU_Free_Documentation_License
 ````

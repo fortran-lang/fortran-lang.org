@@ -1,9 +1,4 @@
----
-layout: book
-title: Fortran Intrinsics
-permalink: /learn/intrinsics/GNU_Free_Documentation_License
----
-# GNU_Free_Documentation_License
+# GNU Free Documentation License
 *Version 1.2, November 2002*
 
     Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
