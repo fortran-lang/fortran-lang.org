@@ -153,7 +153,9 @@ We are grateful for every contribution made by all members of the community.
 
     source: https://git-contributor.com/
 
-Contributors:
+.. div:: sd-text-left sd-fs-4 sd-text-primary
+
+    Contributors:
 
 .. jinja:: contributors
 
@@ -161,11 +163,36 @@ Contributors:
 
     .. grid:: 3
 
-        .. grid-item-card::  `{{j[0]}} <{{"https://github.com/"+j[0]}}>`_
+        .. grid-item-card:: 
+            :shadow: none
 
-        .. grid-item-card::  `{{j[1]}} <{{"https://github.com/"+j[1]}}>`_
+            .. grid-item-card:: `{{j[0]}} <{{"https://github.com/"+j[0]}}>`_
+                    :img-top: https://github.com/{{j[0]}}.png?size=250
+                    :shadow: none
+                    :columns: 8
+                    :text-align: center
+   
+        {%- if j[1] !='&nbsp;' %}
+        .. grid-item-card:: 
+            :shadow: none
 
-        .. grid-item-card::  `{{j[2]}} <{{"https://github.com/"+j[2]}}>`_
+            .. grid-item-card:: `{{j[1]}} <{{"https://github.com/"+j[1]}}>`_
+                    :img-top: https://github.com/{{j[1]}}.png?size=250
+                    :shadow: none
+                    :columns: 8
+                    :text-align: center
+        {%- endif %}
+        {%- if j[2] !='&nbsp;' %}
+        .. grid-item-card:: 
+            :shadow: none
+
+            .. grid-item-card:: `{{j[2]}} <{{"https://github.com/"+j[2]}}>`_
+                    :img-top: https://github.com/{{j[2]}}.png?size=250
+                    :shadow: none
+                    :columns: 8
+                    :text-align: center
+        {%- endif %}
+
 
 
     {% endfor %}
