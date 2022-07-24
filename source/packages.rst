@@ -25,49 +25,39 @@ Packages - The Fortran Programming Language
     
     <form class="bd-search d-flex align-items-center" align="center" action="search.html" method="get">  <input type="search" class="form-control" name="q" id="search-input"
                placeholder="Search for a package" aria-label="Search" autocomplete="off" style='margin: auto;text-align: center;width:40em;'> </form>
-    <br>
-    <table><col width="500em" />
-    <tr><td>
-
-.. div:: sd-fs-3 
-
-    Package index
-
-.. raw:: html
-    
-    </td><td>
 
 
-.. div::  sd-fs-3 
+.. grid:: 2
 
-    Featured topics
+    .. grid-item-card::
+        :shadow: none
 
+          .. div:: sd-fs-3 
 
-.. raw:: html
-    
-    </td></tr><tr><td>
+              Package index
+          
+          .. div:: sd-fs-6 
 
-The fortran-lang package index is community-maintained and 
-lists open source Fortran-related projects.
-This includes large-scale scientific applications,
-function libraries, Fortran interfaces, and developer tools.
-|br|
-See  `here <https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/PACKAGES.md>`_ for how to get your project listed.  |br|
-Use the box above to search the package index by keyword, package name, or author username.
+            The fortran-lang package index is community-maintained and 
+            lists open source Fortran-related projects.
+            This includes large-scale scientific applications,
+            function libraries, Fortran interfaces, and developer tools.
+            |br|
+            See  `here <https://github.com/fortran-lang/fortran-lang.org/blob/HEAD/PACKAGES.md>`_ for how to get your project listed.  |br|
+            Use the box above to search the package index by keyword, package name, or author username.
 
-.. raw:: html
-    
-    </td><td> 
+    .. grid-item-card::
+        :shadow: none
 
-.. jinja:: fortran_index
+          .. div::  sd-fs-3 
 
-    {% for j in tags %}
-    `{{j}}, <{{"search.html?q="+j}}>`_ {% endfor %}
+              Featured topics
 
+          .. jinja:: fortran_index
 
-.. raw:: html
-    
-    </td></tr></table>
+              {% for j in tags %}
+              `{{j}}, <{{"search.html?q="+j}}>`_ {% endfor %}
+          
 
 .. div:: sd-fs-3 sd-font-weight-bold sd-text-primary
 
