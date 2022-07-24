@@ -28,13 +28,15 @@ Learn
             :gutter: 1
 
             .. grid-item-card::  :octicon:`info;1em;sd-text-info` New to Fortran
+                :shadow: none
 
-                Try the quickstart Fortran tutorial, to get an overview of the language syntax and capabilities.
-                |br|
-               .. button-link:: learn/quickstart/index.html
-                  :color: primary
+                Try the quickstart Fortran tutorial, to get an overview of the language syntax and capabilities. |br|
 
-                    :octicon:`book;1em;sd-text-info` Quickstart tutorial
+                 .. button-link:: learn/quickstart/index.html
+                     :color: primary
+                     :expand:
+
+                        :octicon:`book;1em;sd-text-info` Quickstart tutorial
                         
                 
 
@@ -45,13 +47,16 @@ Learn
             :gutter: 1
 
             .. grid-item-card::  :octicon:`bug;1em;sd-text-info` Looking for help
+                :shadow: none
+
 
                 Ask a question in the Fortran-lang discourse - a forum for friendly discussion of all things Fortran.
                 |br|
-               .. button-link:: https://fortran-lang.discourse.group/s
-                  :color: primary
+                 .. button-link:: https://fortran-lang.discourse.group/s
+                     :color: primary
+                     :expand:
 
-                    :octicon:`check-circle;1em;sd-text-info` Fortran-lang Discourse
+                       :octicon:`check-circle;1em;sd-text-info` Fortran-lang Discourse
             
 
 

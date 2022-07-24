@@ -4,6 +4,15 @@
 
      <br>
 
+.. raw:: html
+
+     <link rel="stylesheet" href="https://unpkg.com/octicons@4.4.0/build/font/octicons.css">
+     <link rel="stylesheet" href="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.css">
+      
+     <script type="text/javascript" src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
+     <script type="text/javascript" src="https://unpkg.com/github-activity-feed@latest/dist/github-activity.min.js"></script>
+
+
 Community - The Fortran Programming Language
 ###########################################
 
@@ -20,29 +29,53 @@ Community - The Fortran Programming Language
 
     Fortran-lang Community Projects
 
-.. div:: sd-text-left sd-fs-4 
+.. grid:: 2
 
-    Fortran Standard Library (stdlib)
+    .. grid-item-card::
+        :columns: 5
+        :shadow: none
 
-A community-driven project for a de facto 'standard' library for Fortran. The stdlib project is both a specification and a reference implementation, developed in cooperation with the Fortran Standards Committee.
+        .. div:: sd-text-left sd-fs-4 
 
-`GitHub <https://github.com/fortran-lang/stdlib>`_  `Documentation <https://stdlib.fortran-lang.org/>`_  `Contributing <https://github.com/fortran-lang/stdlib/blob/HEAD/WORKFLOW.md>`_
+            Fortran Standard Library (stdlib)
 
-.. div:: sd-text-left sd-fs-4 
+        A community-driven project for a de facto 'standard' library for Fortran. The stdlib project is both a specification and a reference implementation, developed in cooperation with the Fortran Standards Committee.
 
-    Fortran Package Manager (fpm)
+        `GitHub <https://github.com/fortran-lang/stdlib>`_  `Documentation <https://stdlib.fortran-lang.org/>`_  `Contributing <https://github.com/fortran-lang/stdlib/blob/HEAD/WORKFLOW.md>`_
 
-A prototype project to develop a common build system for Fortran packages and their dependencies.
+        .. div:: sd-text-left sd-fs-4 
 
-`GitHub <https://github.com/fortran-lang/fpm>`_  `Documentation <https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md>`_  `Contributing <ttps://github.com/fortran-lang/fpm/blob/HEAD/CONTRIBUTING.md>`_
+            Fortran Package Manager (fpm)
 
-.. div:: sd-text-left sd-fs-4 
+        A prototype project to develop a common build system for Fortran packages and their dependencies.
 
-    fortran-lang.org
+        `GitHub <https://github.com/fortran-lang/fpm>`_  `Documentation <https://github.com/fortran-lang/fpm/blob/HEAD/PACKAGING.md>`_  `Contributing <ttps://github.com/fortran-lang/fpm/blob/HEAD/CONTRIBUTING.md>`_
 
-This website is open source and contributions are welcome!.
+        .. div:: sd-text-left sd-fs-4 
 
-`GitHub <https://github.com/fortran-lang/fortran-lang.org>`_  `Contributing <ttps://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md>`_
+            fortran-lang.org
+
+        This website is open source and contributions are welcome!.
+
+        `GitHub <https://github.com/fortran-lang/fortran-lang.org>`_  `Contributing <ttps://github.com/fortran-lang/fortran-lang.org/blob/HEAD/CONTRIBUTING.md>`_
+
+
+    .. grid-item-card::
+        :columns: 7
+        :shadow: none
+
+        .. raw:: html
+
+            <div id="fortran-lang-gh-feed-sphinx" style="height: 500px;" ></div>
+            
+            <script> GitHubActivity.feed({
+            username: "fortran-lang",
+            selector: "#fortran-lang-gh-feed-sphinx",
+            limit: 20 // optional
+            });
+        
+            </script>
+
 
 .. div:: sd-text-left sd-fs-2 sd-text-primary
 
@@ -57,6 +90,7 @@ This website is open source and contributions are welcome!.
             :gutter: 1
 
             .. grid-item-card:: Join the Discussion
+                :shadow: none
 
                 The easiest way to join the community and contribute is by
                 commenting on issues and pull requests in the project
@@ -66,6 +100,7 @@ This website is open source and contributions are welcome!.
                 welcome in guiding the future of Fortran-lang.
 
             .. grid-item-card:: Contributor Guide
+                :shadow: none
 
                 Want to contribute code and content?
                 Check out the contributor guides in each repository for information
@@ -83,6 +118,7 @@ This website is open source and contributions are welcome!.
             :gutter: 1
             
             .. grid-item-card:: Build and Test
+                :shadow: none
 
                 Get more involved with each project by cloning, building and testing
                 it on your own machine(s) and with your own codes;
@@ -91,6 +127,7 @@ This website is open source and contributions are welcome!.
                 suggestion for documentation.
 
             .. grid-item-card:: Community Conduct
+                :shadow: none
 
                 As a community, we strive to make participation in our discussions and projects a friendly and
                 harassment-free experience for everyone.
@@ -130,4 +167,8 @@ Contributors:
 
         .. grid-item-card::  `{{j[2]}} <{{"https://github.com/"+j[2]}}>`_
 
+
     {% endfor %}
+
+
+  
