@@ -79,7 +79,7 @@ html_search_language = str(sys.argv[2][-2:])
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["learn/intrinsics/_pages/*.md"]
+exclude_patterns = []
 html_additional_pages = {}
 suppress_warnings = ["myst.header"]
 
@@ -117,7 +117,7 @@ html_theme_options = {
     "footer_items": ["copyright"],
     "navbar_align": "right",
     "navbar_start": ["navbar-logo"],
-    "page_sidebar_items": ['index_news.html'],
+    "page_sidebar_items": ['inpage_toc.html'],
     "navbar_end": ["theme-switcher.html","navbar-icon-links"],
     "icon_links": [
         {
@@ -156,7 +156,7 @@ html_sidebars = {
     ],
     "learn/**": ["sidebar-nav-bs.html"],
     "learn":[],
-    "index":['index_joinus.html'],
+    "index":['index_sidebar.html'],
     "compilers": [],
     "packages": [],
     "community": [],

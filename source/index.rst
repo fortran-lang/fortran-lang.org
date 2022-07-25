@@ -52,7 +52,7 @@ Fortran allows you to write code in a style that best fits your problem: imperat
     Natively parallel
 
 Fortran is a natively parallel programming language with intuitive array-like syntax to communicate data between CPUs. You can run almost the same code on a single CPU, on a shared-memory multicore system, or on a distributed-memory HPC or cloud-based system. Coarrays, teams, events, and collective subroutines allow you to express different parallel programming patterns that best fit your problem at hand.
-
+            
 .. div:: sd-fs-3 sd-font-weight-bold sd-text-primary
 
     FAQ
@@ -74,6 +74,34 @@ Fortran is mostly used in domains that adopted computation early--science and en
     Should I use Fortran for my new project?
 
 If you're writing a program or a library to perform fast arithmetic computation over large numeric arrays, Fortran is the optimal tool for the job.
+
+.. raw:: html
+
+            <div class="index_joinus_mobile">
+            <h3><p style="color:#734f96;">Join us!</p> </h3>
+            <h4> <i class="fas fa-envelope-open-text"></i> Mailing list</h4>
+            <p>Subscribe to our <a href="https://groups.io/g/fortran-lang" target="_blank">mailing list</a>
+            to discuss anything Fortran related, announce Fortran projects, discuss development
+            of core fortran-lang.org projects (stdlib, fpm), and get
+            the latest news.
+            </p>
+            <h4><i class="fab fa-discourse"></i> Discourse</h4>
+            <p>
+            Join the discussion about all things Fortran on the
+            <a href="https://fortran-lang.discourse.group" target="_blank">fortran-lang discourse.</a>
+            </p>
+            <h4><i class="fab fa-twitter"></i> Twitter</h4>
+            <a href="https://twitter.com/fortranlang" class="twitter-follow-button" data-show-count="true"
+            data-size="large">@fortranlang</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <h4><i class="fas fa-rss"></i> RSS feed</h4>
+            <p>RSS clients can follow the <a href="news/atom.xml" target="_blank">RSS feed</a>.</p>
+            <h4><i class="fab fa-github"></i> Open source</h4>
+            <p>
+            Contribute code, report bugs and request features at
+            <a href="https://github.com/fortran-lang" target="_blank">GitHub</a>.
+            </p>
+            </div>
 
 .. div:: sd-fs-3 sd-font-weight-bold sd-text-primary
 
@@ -109,3 +137,7 @@ If you're writing a program or a library to perform fast arithmetic computation 
 
             Write Fortran software
         Or just write Fortran software for your research, business, or schoolwork. You can learn how to `get started here <learn.html>`_ .
+
+
+
+          
