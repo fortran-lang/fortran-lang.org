@@ -70,10 +70,19 @@ Learn
     .. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
 
         {{j.name}}
+        
+    .. grid:: 2
     {% for b in books %}
     {% if b.category == j.name %}
-    `{{b.title}} <{{b.link[1:]+"/"}}>`_
-      {{b.description}}
+
+        .. grid-item-card::
+            :columns: 6
+            :shadow: none
+             
+            .. div:: sd-fs-5 sd-font-weight-bold sd-text-primary
+
+                :octicon:`book;1em;sd-text-info` `{{b.title}} <{{b.link[1:]+"/"}}>`_
+            {{b.description}}
     {% endif %}
     {% endfor %}
     {% endfor %}
