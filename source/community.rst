@@ -144,10 +144,8 @@ We are grateful for every contribution made by all members of the community.
 
 .. raw:: html
 
-    <iframe 
-    src="https://contributor-graph.vercel.app/?chart=contributorOverTime&repo=fortran-lang/fortran-lang.org,fortran-lang/fpm,fortran-lang/stdlib,j3-fortran/fortran_proposals"
-    width="700px" height="700px"
-    ></iframe>
+    <iframe src="https://contributor-graph.vercel.app/?chart=contributorOverTime&repo=fortran-lang/fortran-lang.org,fortran-lang/fpm,fortran-lang/stdlib,j3-fortran/fortran_proposals" 
+    onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:700px;width:100%;border:none;overflow:hidden;"></iframe>
 
 .. div:: sd-text-left sd-fs-3
 
@@ -196,6 +194,3 @@ We are grateful for every contribution made by all members of the community.
 
 
     {% endfor %}
-
-
-  
