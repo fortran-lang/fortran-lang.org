@@ -64,33 +64,19 @@ Learn
 
     Mini-book Tutorials
 
-.. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
-
-    Getting started
-
 .. jinja:: conf
 
-    {% for j in books %}
-    {% if j.category == 'Getting started' %}
-    `{{j.title}} <{{j.link[1:]+"/"}}>`_
-     {{j.description}}
+    {% for j in categories %}
+    .. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
+
+        {{j.name}}
+    {% for b in books %}
+    {% if b.category == j.name %}
+    `{{b.title}} <{{b.link[1:]+"/"}}>`_
+      {{b.description}}
     {% endif %}
     {% endfor %}
-
-
-.. div:: sd-fs-4 sd-font-weight-bold sd-text-primary
-
-    Fortran Documentation
-
-.. jinja:: conf
-
-    {% for j in books %}
-    {% if j.category == 'Fortran Documentation' %}
-    `{{j.title}} <{{j.link[1:]+"/"}}>`_
-      {{j.description}}
-    {% endif %}
     {% endfor %}
-
 
 .. div:: sd-fs-3 sd-font-weight-bold sd-text-primary
 
