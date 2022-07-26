@@ -8,7 +8,8 @@ navbar: Compilers
 <p style="text-align: center;font-size:24px;">Fortran has over a dozen open source and commercial compilers.</p>
 
 ## Compilers
-<h2> Open source compilers</h2>
+
+<p style="font-size:24px;color:#734f96;"><b>Open source compilers</b></p>
 
 <h4> <b> GNU Fortran Compiler</b></h4>
 
@@ -40,7 +41,7 @@ based on the NVIDIA/PGI commercial compiler.
 compiler.
 
 
-<h2> Commercial compilers </h2>
+<p style="font-size:24px;color:#734f96;"><b>Commercial compilers</b></p>
 
 <h4> <b> Intel</b></h4>
 

@@ -89,9 +89,12 @@ Community - The Fortran Programming Language
         .. grid:: 1 1 1 1
             :gutter: 1
 
-            .. grid-item-card:: Join the Discussion
+            .. grid-item-card::
                 :shadow: none
+                
+                .. div:: sd-text-left sd-fs-4 
 
+                    Join the Discussion
                 The easiest way to join the community and contribute is by
                 commenting on issues and pull requests in the project
                 repositories.
@@ -99,8 +102,12 @@ Community - The Fortran Programming Language
                 Whether Fortran beginner or seasoned veteran, your feedback and comments are most
                 welcome in guiding the future of Fortran-lang.
 
-            .. grid-item-card:: Contributor Guide
+            .. grid-item-card::
                 :shadow: none
+                
+                .. div:: sd-text-left sd-fs-4 
+
+                    Contributor Guide
 
                 Want to contribute code and content?
                 Check out the contributor guides in each repository for information
@@ -117,8 +124,12 @@ Community - The Fortran Programming Language
         .. grid:: 1 1 1 1
             :gutter: 1
             
-            .. grid-item-card:: Build and Test
+            .. grid-item-card:: 
                 :shadow: none
+                
+                .. div:: sd-text-left sd-fs-4 
+
+                    Build and Test
 
                 Get more involved with each project by cloning, building and testing
                 it on your own machine(s) and with your own codes;
@@ -126,8 +137,12 @@ Community - The Fortran Programming Language
                 We value user feedback highly, be it a bug report, feature request, or
                 suggestion for documentation.
 
-            .. grid-item-card:: Community Conduct
+            .. grid-item-card:: 
                 :shadow: none
+                
+                .. div:: sd-text-left sd-fs-4 
+
+                    Community Conduct
 
                 As a community, we strive to make participation in our discussions and projects a friendly and
                 harassment-free experience for everyone.
@@ -157,40 +172,20 @@ We are grateful for every contribution made by all members of the community.
 
 .. jinja:: contributors
 
-    {% for j in contributor | batch(3, '&nbsp;') %}
+    .. grid:: 6
+        :gutter: 1
 
-    .. grid:: 3
-
+    {% for j in contributor | batch(6, '&nbsp;') %}
+        
+        {% for i in j %}
+        {% if i != '&nbsp;' %}
         .. grid-item-card:: 
             :shadow: none
 
-            .. grid-item-card:: `{{j[0]}} <{{"https://github.com/"+j[0]}}>`_
-                    :img-top: https://github.com/{{j[0]}}.png?size=250
+            .. grid-item-card:: `{{i}} <{{"https://github.com/"+i}}>`_
+                    :img-top: https://github.com/{{i}}.png?size=100
                     :shadow: none
-                    :columns: 8
                     :text-align: center
-   
-        {%- if j[1] !='&nbsp;' %}
-        .. grid-item-card:: 
-            :shadow: none
-
-            .. grid-item-card:: `{{j[1]}} <{{"https://github.com/"+j[1]}}>`_
-                    :img-top: https://github.com/{{j[1]}}.png?size=250
-                    :shadow: none
-                    :columns: 8
-                    :text-align: center
-        {%- endif %}
-        {%- if j[2] !='&nbsp;' %}
-        .. grid-item-card:: 
-            :shadow: none
-
-            .. grid-item-card:: `{{j[2]}} <{{"https://github.com/"+j[2]}}>`_
-                    :img-top: https://github.com/{{j[2]}}.png?size=250
-                    :shadow: none
-                    :columns: 8
-                    :text-align: center
-        {%- endif %}
-
-
-
+        {% endif %}
+        {% endfor %}
     {% endfor %}
