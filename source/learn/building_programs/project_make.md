@@ -32,8 +32,9 @@ package index, which (at the time of writing) use build systems other
 than ``make``. This guide should present a general recommended style to write
 ``make``, but also serve as demonstration of useful and interesting features.
 
-{% include tip.html content="Even if you find ``make`` unsuitable to build your project, it is *the* tool to automate workflows defined by files. Maybe you can leverage its power in a different context." %}
-
+::::{tip}
+Even if you find ``make`` unsuitable to build your project, it is *the* tool to automate workflows defined by files. Maybe you can leverage its power in a different context.
+::::
 
 ## Getting started
 
@@ -47,7 +48,9 @@ git clone https://github.com/jacobwilliams/fortran-csv-module -b 1.2.0
 cd fortran-csv-module
 ```
 
-{% include note.html content="For this part we will work with the code from tag ``1.2.0``, to make it as reproducible as possible. Feel free to use the latest version or another project instead." %}
+::::{tip}
+For this part we will work with the code from tag ``1.2.0``, to make it as reproducible as possible. Feel free to use the latest version or another project instead.
+::::
 
 This project uses FoBiS as build system, and you can check the
 ``build.sh`` for options used with FoBiS. We are about to write a ``Makefile``
@@ -282,7 +285,8 @@ This script makes a few assumptions about the source code it parses, so it will
 not work with all Fortran code (namely submodules are not supported), but for
 this example it will suffice.
 
-{% capture note %}
+::::{tip}
+Using awk
 
 The above script uses the ``awk`` language, which is designed for the purpose
 of text stream processing and uses a C-like syntax. In ``awk`` you can define
@@ -325,8 +329,7 @@ parser can produce a significant overhead when generating dependencies for a lar
 code base. Making reasonable assumptions can simplify and speed up this step, but
 also introduces an error source in your build tools.
 
-{% endcapture %}
-{% include tip.html title="Using awk" content=note %}
+::::
 
 Make the script executable (``chmod +x gen-deps.awk``) and test it with
 ``./gen-deps.awk $(find src -name '*.[fF]90')``. You should see output like this:
@@ -462,7 +465,9 @@ Building your project with ``make`` should give an output similar to
 Once the dependency files are generated, ``make`` will only update them if the
 source changes and not require to rebuild them again for every invocation.
 
-{% include tip.html content="With correct dependencies you can leverage parallel execution of your ``Makefile``, just use the ``-j`` flag to create multiple ``make`` processes." %}
+::::{tip}
+With correct dependencies you can leverage parallel execution of your ``Makefile``, just use the ``-j`` flag to create multiple ``make`` processes.
+::::
 
 Since dependencies can now be generated automatically, there is no need to specify
 the source files explicitly, the ``wildcard`` function can be used to determine

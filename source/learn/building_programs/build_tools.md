@@ -63,10 +63,10 @@ It performs actions following rules defined in a configuration file
 called ``Makefile`` or ``makefile``, which usually leads to compiling a program
 from the provided source code.
 
-{% include tip.html
-   content="For an in-depth ``make`` tutorial lookup its info page. There is an online version of this <a href=\"https://www.gnu.org/software/make/manual/make.html\" target=\"_blank\" rel=\"noopener\">info page</a>, available."
-%}
 
+::::{tip}
+For an in-depth ``make`` tutorial lookup its info page. There is an online version of this <a href=“https://www.gnu.org/software/make/manual/make.html“ target=“_blank“ rel=“noopener“>info page, available.
+::::
 We will start with the basics from your clean source directory. Create and open
 the file ``Makefile``, we start with a simple rule called *all*:
 
@@ -85,12 +85,11 @@ First, we note that ``make`` is substituting ``$@`` for the name of the rule,
 the second thing to note is that ``make`` is always printing the command it is
 running, finally, we see the result of running ``echo "all"``.
 
-{% include note.html
-   content="We call the entry point of our ``Makefile`` always *all* by convention, but you can choose whatever name you like."
-%}
+::::{note}
+We call the entry point of our ``Makefile`` always *all* by convention, but you can choose whatever name you like.
+::::
 
-{% capture note %}
-
+::::{note}
 You should not have noticed it if your editor is working correctly,
 but you have to indent the content of a rule with a tab character.
 In case you have problems running the above ``Makefile`` and see an error like
@@ -100,8 +99,8 @@ In case you have problems running the above ``Makefile`` and see an error like
 The indentation is probably not correct. In this case replace the indentation
 in the second line with a tab character.
 
-{% endcapture %}
-{% include note.html title="Note" content=note %}
+::::
+
 
 Now we want to make our rules more complicated, therefore we add another rule:
 
@@ -119,14 +118,12 @@ Note how we declare variables in ``make``, you should always declare your local
 variables with ``:=``. To access the content of a variable we use the ``$(...)``,
 note that we have to enclose the variable name in parenthesis.
 
-{% capture note %}
-
+::::{note}
 The declaration of variables is usually done with ``:=``, but ``make`` does
 support *recursively expanded* variables as well with ``=``.
 Normally, the first kind of declaration is wanted, as they are more predictable
 and do not have a runtime overhead from the recursive expansion.
-{% endcapture %}
-{% include note.html title="Note" content=note %}
+::::
 
 We introduced a dependency of the rule all, namely the content of the variable
 ``PROG``, also we modified the printout, we want to see all the dependencies
@@ -274,8 +271,7 @@ Now you know enough about ``make`` to use it for building small projects.
 If you plan to use ``make`` more extensively, we have compiled a few tips
 for you as well.
 
-{% capture note %}
-
+::::{tip}
 In this guide, we avoided and disabled a lot of the commonly used ``make``
 features that can be particularly troublesome if not used correctly, we highly
 recommend staying away from the builtin rules and variables if you do not feel
@@ -286,8 +282,7 @@ workflows and to build small projects. But for larger projects, you will
 probably soon run against some of it limitations. Usually, ``make`` is therefore
 not used alone but combined with other tools to generate the ``Makefile``
 completely or in parts.
-{% endcapture %}
-{% include note.html title="Note" content=note %}
+::::
 
 
 ### Recursively expanded variables
@@ -314,7 +309,11 @@ You should find the expected (or maybe unexpected) printout after running ``make
     echo -I./include -I/opt/some_dep/include -O
     -I./include -I/opt/some_dep/include -O
 
-{% include note.html content="appending with ``+=`` to an undefined variable will produce a recursively expanded variable with this state being inherited for all further appending." %}
+{% include note.html content="" %}
+
+::::{tip}
+appending with ``+=`` to an undefined variable will produce a recursively expanded variable with this state being inherited for all further appending.
+::::
 
 While, it seems like an interesting feature to use, it tends to lead to
 surprising and unexpected outcomes. Usually, when defining variables like your
@@ -331,7 +330,9 @@ include_dirs += -I/opt/some_dep/include
 FFLAGS := $(include_dirs) -O
 ```
 
-{% include important.html content="always think of a ``Makefile`` as a whole set of rules, it must be parsed completely before any rule can be evaluated." %}
+::::{important}
+always think of a ``Makefile`` as a whole set of rules, it must be parsed completely before any rule can be evaluated.
+::::
 
 You can use whatever kind of variables you like most, mixing them should be done
 carefully, of course. It is important to be aware of the differences between the
@@ -449,15 +450,13 @@ to build an executable ``my_prog`` from the files ``tabulate.f90`` and
 We had not to tell ``meson`` how to build the project, it figured this out
 by itself.
 
-{% capture note %}
-
+::::{note}
 ``meson`` is a cross-platform build system, the project you just specified
 for your program can be used to compile binaries for your native operating
 system or to cross-compile your project for other platforms.
 Similarly, the ``meson.build`` file is portable and will work on different
 platforms as well.
-{% endcapture %}
-{% include note.html title="Note" content=note %}
+::::
 
 The documentation of ``meson`` can be found at the
 <a href="https://mesonbuild.com/" target="_blank" rel="noopener">meson-build webpage</a>.
@@ -468,15 +467,13 @@ The documentation of ``meson`` can be found at the
 Similar to ``meson`` CMake is a high-level build system as well and commonly
 used to build Fortran projects.
 
-{% capture note %}
-
+::::{note}
 CMake follows a slightly different strategy and provides you with a complete
 programming language to create your build files.
 This is has the advantage that you can do almost everything with CMake,
 but your CMake build files can also become as complex as the program you are
 building.
-{% endcapture %}
-{% include note.html title="Note" content=note %}
+::::
 
 Start by creating the file ``CMakeLists.txt`` with the content
 
@@ -550,12 +547,10 @@ We specified that we have a Fortran project and told CMake to create an executab
 CMake knows the details how to build the executable from the specified sources,
 so we do not have to worry about the actual steps in the build process.
 
-{% capture note %}
-
+::::{tip}
 CMake's offical reference can be found at the
 <a href="https://cmake.org/cmake/help/latest/", target="_blank" rel="noopener">CMake webpage</a>.
 It is organised in manpages, which are also available with your local CMake
 installation as well using ``man cmake``. While it covers all functionality of
 CMake, it sometimes covers them only very briefly.
-{% endcapture %}
-{% include note.html title="Note" content=note %}
+::::

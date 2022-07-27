@@ -62,6 +62,11 @@ end if
 In this first example, the code within the `if` construct is _only executed if_ the
 test expression (`angle < 90.0`) is true.
 
+::::{tip}
+It is good practice to indent code within constructs such as `if` and `do`
+to make code more readable.
+::::
+
 {% include tip.html content="It is good practice to indent code within constructs such as `if` and `do`
 to make code more readable." %}
 
@@ -179,7 +184,10 @@ do i = 1, 10
   print *, i
 end do
 ```
-{% include note.html content="When used within nested loops, the `cycle` and `exit` statements operate on the innermost loop." %}
+
+::::{note}
+When used within nested loops, the `cycle` and `exit` statements operate on the innermost loop.
+::::
 
 ### Nested loop control: tags
 
