@@ -22,9 +22,7 @@ with the license file clearly included with the source code
 - __Uniqueness__: the package shall not be a fork or minor revision of existing packages
 
 - __README__: the package shall have some form of README or landing-page clearly
-stating the package purpose and functionality. This should also contain information
-on the package dependencies and the steps required to build and run.
-
+stating the package purpose and functionality. This should also contain information on the package dependencies and the steps required to build and run.
 
 The following criteria are not required but are recommended:
 
@@ -61,7 +59,7 @@ Fortran-lang package index, as written in this document
 
 ## Package index requests
 
-Package index requests are made by pull requests against the [fortran-lang.org repository](https://github.com/fortran-lang/fortran-lang.org/).
+Package index requests are made by pull requests against the [fortran-lang.org repository](https://github.com/fortran-lang/webpage/).
 See [this guide](https://guides.github.com/activities/forking/) for guidance on forking and making pull requests.
 
 Package details are listed in the `_data/package_index.yml` data file.
@@ -94,8 +92,7 @@ Valid categories:
 - `scientific`: domain-specific scientific libraries or applications
 - `examples`: repositories offering language feature demonstrations, tutorials and benchmarks
 
-__Projects listing more than one category must provide good justification thereof 
-in the pull request.__
+__Projects listing more than one category must provide good justification thereof in the pull request.__
 
 __Notes:__
 

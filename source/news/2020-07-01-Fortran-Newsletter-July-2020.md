@@ -5,6 +5,7 @@ category: newsletter
 date: 2020-07-01
 author: Milan Curcic, Laurence Kedward, and Jérémie Vandenplas
 ---
+# Fortran newsletter: July 2020
 
 Welcome to the July 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month

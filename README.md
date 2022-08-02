@@ -1,7 +1,4 @@
-# fortran-lang.org website
-
-This repository contains the source for the fortran-lang.io website. 
-It's derived from https://github.com/neovim/neovim.github.io.
+# New fortran-lang.org website
 
 ## Contributing
 
@@ -87,47 +84,10 @@ msgstr "This is "
 After adding or updating translations
 build the documentation as described above.
 
-### Build fortran-lang.org site (Jekyll Version)
+## License
 
-This assumes that you already have a recent Ruby with RubyGems.
+This project is free software: you can redistribute it and/or modify it under the terms of the [MIT license](LICENSE).
 
-For example on Ubuntu 18.04, do:
-```
-sudo apt install ruby-dev
-```
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an _as is_ basis, without warranties or conditions of any kind, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
-### Installing Ruby gems
-
-Install Bundler, either systemwide:
-
-```
-sudo gem install bundler
-```
-
-or for the current user:
-
-```
-gem install --user-install bundler
-export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
-```
-
-In the latter case, you might want to add the `PATH` update to `.bashrc` or your shell's equivalent.
-
-To install the dependencies of this project, use Bundler:
-
-```
-bundle config set path '.bundle'
-bundle install
-```
-
-### Serving locally
-
-Execute the following command:
-
-```
-bundle exec jekyll serve --watch
-```
-
-Open `http://localhost:4000` to view the website.
-
-
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this repository by you, shall be licensed as above, without any additional terms or conditions.

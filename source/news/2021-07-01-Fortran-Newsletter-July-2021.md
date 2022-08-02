@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-07-01
 author: Laurence Kedward, Sebastian Ehlert, Ondřej Čertík, Zachary Moon, Milan Curcic
 ---
-
+# Fortran newsletter: July 2021
 Welcome to the July 2021 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.

@@ -5,6 +5,8 @@ title: Open Source Directions Fortran webinar
 category: newsletter
 ---
 
+# Open Source Directions Fortran webinar
+
 Ondřej Čertík ([@ondrejcertik](https://twitter.com/ondrejcertik)) and 
 Milan Curcic ([@realmilancurcic](https://twitter.com/realmilancurcic)) spoke 
 yesterday about the future of Fortran in Episode 40 of the Open Source 

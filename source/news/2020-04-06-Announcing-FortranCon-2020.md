@@ -5,6 +5,8 @@ title: Announcing FortranCon 2020
 category: newsletter
 ---
 
+# FortranCon 2020
+
 FortranCon 2020, the first international conference targeting the Fortran
 programming language, will take place on July 2-4, 2020, in Zürich, Switzerland.
 

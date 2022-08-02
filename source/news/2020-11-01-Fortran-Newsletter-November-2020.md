@@ -5,6 +5,7 @@ category: newsletter
 date: 2020-11-01
 author: Milan Curcic, Sebastian Ehlert, Laurence Kedward, Jeremie Vandenplas, Ivan Pribec, Ondřej Čertík, Gary Klimowicz, Brad Richardson
 ---
+# Fortran newsletter: November 2020
 
 Welcome to the November 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month and details

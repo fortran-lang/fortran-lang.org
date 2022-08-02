@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-12-29
 author: Milan Curcic, Ondřej Čertík, Laurence Kedward, Sebastian Ehlert, Jérémie Vandenplas
 ---
-
+# Fortran-lang: 2021 in review
 With another year behind us, let's review the progress that the
 Fortran-lang community has made.
 If you're new to Fortran-lang, here's a quick intro:

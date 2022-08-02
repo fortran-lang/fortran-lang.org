@@ -5,7 +5,7 @@ category: newsletter
 date: 2022-01-01
 author: Milan Curcic, Sebastian Ehlert, Jérémie Vandenplas, Alexis Perry-Holby, Ondřej Čertík
 ---
-
+# Fortran newsletter: January 2022
 Happy New Year and welcome to the January 2022 edition of the monthly Fortran 
 newsletter.
 The newsletter comes out at the beginning of every month and details

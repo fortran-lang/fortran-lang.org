@@ -5,7 +5,7 @@ category: newsletter
 date: 2022-02-01
 author: Jérémie Vandenplas, Alexis Perry-Holby, Sebastian Ehlert, Gagandeep Singh, Milan Curcic
 ---
-
+# Fortran newsletter: February 2022
 Welcome to the February 2022 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.

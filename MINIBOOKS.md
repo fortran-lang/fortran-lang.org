@@ -7,8 +7,7 @@ See [CONTRIBUTING](./CONTRIBUTING.md) for general guidance on contributing to <h
 
 ## 0. Mini-book formats
 
-Mini-books are designed to be mostly self-contained tutorials on a particular feature
-of the Fortran language.
+Mini-books are designed to be mostly self-contained tutorials on a particular feature of the Fortran language.
 
 There are two types of mini-book format:
 
@@ -23,9 +22,9 @@ The choice of book type depends on the length of your content and how you intend
 
 Consider the table of contents that will be produced:
 
-* Single-page books have __one level__ of navigation: a link for each `<h2>` heading in the tutorial
+* Single-page books have __one level__ of navigation: a link for each heading in the tutorial in inpage-toc (toc on the right hand side of the page).
 
-* Multi-page books have __two levels__ of navigation: a link for each page, and a link for each `<h2>` heading on the current page
+* Multi-page books have __two levels__ of navigation: a link for each heading in the tutorial in inpage-toc (toc on the right hand side of the page) and sidebar-toc (toc on the left hand side of the page showing different pages in directory).
 
 Single-page mini-books are simpler to produce and should be used for brief topics or short tutorials that will
 eventually be subsumed into a more-comprehensive multi-page book.
@@ -50,8 +49,8 @@ The steps required for publishing a single-page mini-book are:
 
 For single-page mini-books your tutorial will be entirely contained within a single markdown document.
 
-First create a new markdown document in the `./learn/` directory with the `.md` file extension
-and a short name that concisely describes the topic of your tutorial, _e.g._ `./learn/file_io.md`.
+First create a new markdown document in the `./learn/{{name_of_minibook}}/` directory with the `.md` file extension
+and a short name that concisely describes the topic of your tutorial, _e.g._ `./learn/{{name_of_minibook}}/file_io.md`.
 
 Open your new markdown file and add a header in the following format:
 
@@ -59,7 +58,7 @@ Open your new markdown file and add a header in the following format:
 ---
 layout: book
 title: <book-title>
-permalink: /learn/<book-filename>
+permalink: /learn/<name_of_minibook>/<book-filename>
 ---
 ```
 
@@ -76,7 +75,7 @@ __Example:__ header
 ---
 layout: book
 title: Reading and writing files in Fortran
-permalink: /learn/file_io
+permalink: /learn/file/file_io
 ---
 ```
 
@@ -91,38 +90,21 @@ the markdown implementation.
 
 ### 1.2 Structuring your mini-book with headings
 
-You should use `<h2>` headings to break-up your single-page mini-book into a logical
-structure.
-Each `<h2>` heading will show up in the hyperlinked table-of-contents.
+You should use headings to break-up your single-page mini-book into a logical structure.
+Each  heading will show up in the hyperlinked table-of-contents.
 
-In markdown, `<h2>` headings can be written as:
-
-```markdown
-
-My heading
-----------
-
-```
-
-__OR__
+In markdown, headings can be written as:
 
 ```markdown
-
-## My heading
-
-```
-
-__OR__
-
-
-```markdown
-
-## My heading ##
-
+# Heading level 1
+## Heading level 2	
+### Heading level 3	
+#### Heading level 4	
+##### Heading level 5	
+###### Heading level 6
 ```
 
 __Note:__ make sure to include a blank line before your heading.
-
 
 ### 1.3 Add your mini-book to the Learn page
 
@@ -158,15 +140,15 @@ __Example:__ `learning.yml` book entry
   - title: File input and output
     description: A tutorial on reading and writing files in Fortran
     category: Getting started
-    link: /learn/file_io
+    link: /learn/file/file_io
 
 ```
 
-Save the modified `learning.yml` data file and rebuild the website on your local machine to check the results.
+Save the modified `learning.yml` data file and run fortran_packages.py and rebuild the website on your local machine to check the results.
 If successful, a new link should appear on the _Learn_ page with the title of your new mini-book.
 
 Once you have completed your mini-book and added an entry to the `learning.yml` data file, open a pull request
-at <https://github.com/fortran-lang/fortran-lang.org> (see [CONTRIBUTING](./CONTRIBUTING.md)).
+at <https://github.com/fortran-lang/webpage> (see [CONTRIBUTING](./CONTRIBUTING.md)).
 
 
 
@@ -202,8 +184,7 @@ permalink: /learn/<book-folder>
 ---
 ```
 
-The `title` field should contain a human-readable description of your mini-book tutorial
-and this will be displayed as an `<h1>` heading at the top of this first page.
+The `title` field should contain a human-readable description of your mini-book tutorial.
 
 The `permalink` field should contain `/learn/` followed by the name of your mini-book folder.
 __There should be no trailing slash.__
@@ -238,8 +219,7 @@ permalink: /learn/<book-folder>/<page-filename>
 ---
 
 ```
-Replace `<page-title>` with the title of your new page; this will be displayed as
-an `<h1>` header at the top of the page and in the hyperlinked table-of-contents.
+Replace `<page-title>` with the title of your new page; this will be displayed in the hyperlinked table-of-contents.
 
 Replace `<page-filename>` with the name of the markdown file for your new page
 but __excluding the `.md` extension__.
@@ -254,11 +234,9 @@ permalink: /learn/coarrays/background
 ---
 ```
 
-As with single-page mini-books, you should use `<h2>` headings to break-up each
+As with single-page mini-books, you should use headings to break-up each
 page into a logical structure.
-Each `<h2>` heading on the current page will show up in the hyperlinked table-of-contents.
-
-
+Each  heading on the current page will show up in the inpage table-of-contents.
 
 
 ### 2.3 Add your mini-book to the Learn page
@@ -293,7 +271,6 @@ the `categories:` field) and is used to group tutorials on the Learn page.
 The top-level `link` field should exactly match the `permalink` field in your `index.md` file.
 
 Each `link` field under `pages` should exactly match the `permalink` field in each of your subsequent mini-book pages.
-Pages are listed in the table-of-contents in the order that they are listed under `pages`.
 
 __Example:__ `learning.yml` book entry
 
@@ -310,7 +287,7 @@ __Example:__ `learning.yml` book entry
 
 ```
 
-Save the modified `learning.yml` data file and rebuild the website on your local machine to check the results.
+Save the modified `learning.yml` data file and run fortran_package.py and rebuild the website on your local machine to check the results.
 If successful, a new link should appear on the _Learn_ page with the title of your new mini-book.
 
 Once you have completed your mini-book and added an entry to the `learning.yml` data file, open a pull request

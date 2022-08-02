@@ -6,6 +6,7 @@ date: 2020-06-01
 author: Jeremie Vandenplas, Brad Richardson, Milan Curcic and Ondřej Čertík
 ---
 
+# Fortran newsletter: June 2020
 Welcome to the June 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month
 and details Fortran news from the previous month.

@@ -127,7 +127,7 @@ Learn
 
     {% for j in reference_books %}
 
-   * {{j.author}} {{j.year}} `{{j.title}} <{{j.url}}>`_ {{j.edition}} {{j.location}}{{j.publisher}}
+   * {{j.author}} {{j.year}} `{{j.title}} <{{j.url}}>`_ {{j.edition}} {{j.location}}. {{j.publisher}}
 
     {% endfor %}
 

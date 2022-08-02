@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-12-01
 author: Milan Curcic, Sebastian Ehlert, Alexis Perry-Holby
 ---
-
+# Fortran newsletter: December 2021
 Welcome to the December 2021 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.

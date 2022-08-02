@@ -5,6 +5,7 @@ category: newsletter
 date: 2020-10-01
 author: Milan Curcic, Ondřej Čertík, Gary Klimowicz, Brad Richardson, Jérémie Vandenplas, and Laurence Kedward
 ---
+# Fortran newsletter: October 2020
 
 Welcome to the October 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month

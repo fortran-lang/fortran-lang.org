@@ -5,7 +5,7 @@ category: newsletter
 date: 2020-09-01
 author: Milan Curcic, Ondřej Čertík, Gary Klimowicz, Brad Richardson, Jérémie Vandenplas, Thomas König, and Laurence Kedward
 ---
-
+# Fortran newsletter: September 2020
 Welcome to the September 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month
 and details Fortran news from the previous month.

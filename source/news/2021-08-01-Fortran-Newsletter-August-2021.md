@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-08-01
 author: Milan Curcic, Ondřej Čertík, Laurence Kedward
 ---
-
+# Fortran newsletter: August 2021
 Welcome to the August 2021 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.

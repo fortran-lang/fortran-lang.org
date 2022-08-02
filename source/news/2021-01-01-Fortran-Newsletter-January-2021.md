@@ -5,6 +5,7 @@ category: newsletter
 date: 2021-01-01
 author: Jérémie Vandenplas, Sebastian Ehlert, Laurence Kedward, Milan Curcic, Gary Klimowicz, Ondřej Čertík
 ---
+# Fortran newsletter: January 2021
 
 Happy New Year!
 Welcome to the January 2021 edition of the monthly Fortran newsletter.

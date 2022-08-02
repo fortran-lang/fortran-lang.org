@@ -5,7 +5,7 @@ category: newsletter
 date: 2020-08-01
 author: Ondřej Čertík, Milan Curcic, Laurence Kedward, Jérémie Vandenplas, Arjen Markus and Gary Klimowicz
 ---
-
+# Fortran newsletter: August 2020
 Welcome to the August 2020 edition of the monthly Fortran newsletter.
 The newsletter comes out on the first calendar day of every month
 and details Fortran news from the previous month.

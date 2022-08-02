@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-05-18
 author: Milan Curcic, Ondřej Čertík, Sebastian Ehlert, Laurence Kedward, Arjen Markus, Brad Richardson
 ---
-
+# Fortran-lang welcomes new students to Google Summer of Code 2021
 We're happy to announce six students that will work on Fortran projects under
 the Google Summer of Code 2021 program:
 

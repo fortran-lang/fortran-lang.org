@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-03-09
 author: Ondřej Čertík, Milan Curcic, Sebastian Ehlert, Laurence Kedward, Arjen Markus, Brad Richardson, Damian Rouson, Marshall Ward
 ---
-
+# Fortran-lang accepted to Google Summer of Code 2021
 We are excited to announce that Fortran-lang has been accepted as a [Google Summer of Code (GSoC) 2021 mentoring organization](https://summerofcode.withgoogle.com/organizations/6633903353233408)! 🎉
 
 You can review our project ideas

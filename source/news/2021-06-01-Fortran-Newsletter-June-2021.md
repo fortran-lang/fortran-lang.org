@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-06-01
 author: Sebastian Ehlert, Milan Curcic, Laurence Kedward, Ondřej Čertík
 ---
-
+# Fortran newsletter: June 2021
 Welcome to the June 2021 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.

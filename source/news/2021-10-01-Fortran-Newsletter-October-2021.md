@@ -5,7 +5,7 @@ category: newsletter
 date: 2021-10-01
 author: Laurence Kedward, Alexis Perry-Holby, Ondřej Čertík
 ---
-
+# Fortran newsletter: October 2021
 Welcome to the October 2021 edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details
 Fortran news from the previous month.

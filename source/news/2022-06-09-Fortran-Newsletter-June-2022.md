@@ -5,6 +5,7 @@ title: "Fortran newsletter: June 2022"
 category: newsletter
 author: Milan Curcic, Alexis Perry-Holby, Ondřej Čertík, Henil Panchal
 ---
+# Fortran newsletter: June 2022
 
 Welcome to the June edition of the monthly Fortran newsletter.
 The newsletter comes out at the beginning of every month and details

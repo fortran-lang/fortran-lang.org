@@ -2,7 +2,7 @@
 
 Fortran-lang.org is open-source and contributions are welcome!
 
-* See [PACKAGES](./PACKAGES.md) for how to add an entry to the [Package index](https://fortran-lang.org/packages)
+* See [PACKAGES](./PACKAGES.md) for how to add an entry to the [Package index](https://fortran-lang.org/en/packages)
 
 * See [MINIBOOKS](./MINIBOOKS.md) for how to write and structure a mini-book tutorial for the [Learn](https://fortran-lang.org/learn) section
 
@@ -11,14 +11,14 @@ Fortran-lang.org is open-source and contributions are welcome!
 
 __How is the site written?__
 
-The content of the website is primarily written in a combination of Markdown, HTML and YAML (for data).
+The content of the website is primarily written in a combination of ReStructuredText, Markdown, HTML and YAML (for data).
 This source is compiled to produce pure HTML which is what you see on the final website.
 
 The website is _static_ which means that once built, the content on the site is the same for all users;
 this is in contrast to many websites that are _dynamic_, meaning they can serve different content 
 depending on the user and the inputs supplied by the user.
 
-Structural components of the website are written in the Jekyll [Liquid](https://github.com/Shopify/liquid/wiki) templating language for static features, and JavaScript for dynamic features.
+Structural components of the website are written in the Sphinx Static site generator for static features, and JavaScript for dynamic features.
 
 
 __Do I need to know HTML to contribute?__
@@ -28,29 +28,22 @@ The majority of the site content is written in [Markdown](https://github.com/ada
 
 __How is the site built?__
 
-The Fortran-lang site uses the Ruby-based [Jekyll static site generator](https://jekyllrb.com/)
-to compile the Markdown and HTML files.
-It is recommended for contributors to install Jekyll on your development computer so that changes 
-can be previewed locally, however this is not mandatory since site previews can be generated during the
-pull request process (see below for more information).
-See [README.md](README.md) for how to setup Jekyll and build the site.
+The Fortran-lang site uses the Python-based [Sphinx static site generator](https://www.sphinx-doc.org/en/master/) to compile the RST,Markdown and HTML files.
+It is recommended for contributors to install Python on your development computer so that changes can be previewed locally, however this is not mandatory since site previews can be generated during the pull request process (see below for more information).
+See [README.md](README.md) for how to setup Sphinx and build the site.
 
-The GitHub repository default branch only ever contains the 'source code' for the website, not the final
-compiled result; an automated service compiles this source code every time an update is pushed and stores
-the compiled result on the [`gh-pages`](https://github.com/fortran-lang/fortran-lang.org/tree/gh-pages) branch
-which is served up at <https://fortran-lang.org>.
+The GitHub repository default branch only ever contains the 'source code' for the website, not the final compiled result; an automated service compiles this source code every time an update is pushed and stores the compiled result on the [`gh-pages`](https://github.com/fortran-lang/webpage/tree/gh-pages) branch which is served up at <https://fortran-lang.org>.
 
-Therefore, as a contributor you only need to upload changes to the site source code and not the compiled result, because
-this is built automatically from the source code on the default branch.
+Therefore, as a contributor you only need to upload changes to the site source code and not the compiled result, because this is built automatically from the source code on the default branch.
 
 
 ## Workflow
 
-Contributions to the site are made by pull request to the github repository: <https://github.com/fortran-lang/fortran-lang.org/>.
+Contributions to the site are made by pull request to the github repository: <https://github.com/fortran-lang/webpage/>.
 
 The workflow for doing so takes the following form:
 
-1. Create/update a personal fork of fortran-lang.org
+1. Create/update a personal fork of webpage
    - (See  [github help: syncing a fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork) )
 
 2. Create a new branch in your fork
@@ -61,20 +54,19 @@ The workflow for doing so takes the following form:
 4. Push your modified branch to your fork
    - _e.g._ `git push --set-upstream origin fix-spelling-homepage`
 
-5. Create a pull request in the fortran-lang/fortran-lang.org from your modified fork branch
+5. Create a pull request in the fortran-lang/webpage from your modified fork branch
    - (See [github help: creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) )
 
-__Note: Before opening a pull request you must build your changes locally using Jekyll (see [README.md](README.md)) to verify that your changes build correctly and render as you expect.__
+__Note: Before opening a pull request you must build your changes locally using Sphinx (see [README.md](README.md)) to verify that your changes build correctly and render as you expect.__
 
 __Note: You can continue to push changes to your fork branch after you open a pull request  - the pull request will update accordingly__
 
 Your pull request will be reviewed by other members of the community who may request changes.
 GitHub provides an easy interface on its website to apply (or reject) any reviewer-suggested changes with a click of a button.
 This avoids having to manually copy suggestions to your local copy and push back again.
-If you use the "Commit suggestion" button, you will need to update the local copy on your computer using `git pull` if you
-intend to push more edits from your computer.
+If you use the "Commit suggestion" button, you will need to update the local copy on your computer using `git pull` if you intend to push more edits from your computer.
 
-Once your pull request is approved, usually by at least two other community members, it will be merged into the fortran-lang.org default branch by the maintainers at which point it will be published to the fortran-lang.org site.
+Once your pull request is approved, usually by at least two other community members, it will be merged into the webpage default branch by the maintainers at which point it will be published to the fortran-lang.org site.
 
 If required, the repository maintainers can build a public preview of your proposed changes which will be available to view at `fortran-lang.org/pr/<pr_id>/` where `<pr_id>` is the numeric identifier of your pull request.
 
@@ -103,8 +95,7 @@ This will force the GitHub content delivery network to serve you an updated vers
 
 It is recommended practice for off-site hyperlinks to open in a new tab.
 On `Fortran-lang.org` all such links will automatically be suffixed with a new-tab icon;
-this gives site users prior expectation that the link will lead them off-site while
-keeping fortran-lang.org open in a previous tab.
+this gives site users prior expectation that the link will lead them off-site while keeping fortran-lang.org open in a previous tab.
 
 __Example:__ Open link in new tab (HTML or markdown)
 ```html
@@ -113,24 +104,23 @@ __Example:__ Open link in new tab (HTML or markdown)
 
 ### Internal site links
 
-Hyperlinks that point to other parts of the fortran-lang.org website should be prefixed with `{{ site.baseurl }}` - this is important for generating pull request previews (see [here](https://byparker.com/blog/2014/clearing-up-confusion-around-baseurl/) for an explanation).
+Hyperlinks that point to other parts of the fortran-lang.org website should be prefixed with `{{pathto('index',1)[:-5]}}` - this is important for generating pull request previews (see [here](https://byparker.com/blog/2014/clearing-up-confusion-around-baseurl/) for an explanation).
 
 __Example:__ markdown link
 
 ```
-[Fortran-lang news]({{site.baseurl}}/News)
+[Fortran-lang news]({{pathto('index',1)[:-5]}}News)
 ```
 
 __Example:__ html link
 
 ```
-<a href="{{site.baseurl}}/Packages">Fortran packages</a>
+<a href="{{pathto('index',1)[:-5]}}Packages">Fortran packages</a>
 ```
 
 ### Icon packs
 
-Icons are an easy way to improve page aesthetic by breaking-up otherwise monotonic text passages
-and drawing attention to headings or key information.
+Icons are an easy way to improve page aesthetic by breaking-up otherwise monotonic text passages and drawing attention to headings or key information.
 
 Three icon packs are available for use on `fortran-lang.org`:
 
@@ -163,28 +153,32 @@ Visit the respective websites to browse available icons.
 
 ### Page contents
 
-It is sometimes useful to display a hyperlinked page contents for lengthy pages.
-There are two ways to do this on `fortran-lang.org`.
+It is sometimes useful to display a hyperlinked page contents for lengthy pages. the inpage toc tree has been automated and would generate the toc of the current page. whereas thd method to generate toc of the entire directory on `fortran-lang.org` is:
 
-__Option 1: Use the `book` layout__
+__For pages in RST:__
+add a toc tree directive at the end of the index page of the directory with the names of the all files in that directory.
 
-The `book` layout is the layout used for mini-book tutorials;
-it includes a non-scrolling sidebar which is automatically populated
-by the `<h2>` headings on the current page.
+```
+.. toctree::
+   :maxdepth: 2
 
-__Option 2:__
-
-If you just want a list of headings at the top of your page,
-include the following snippet, which will be automatically
-populated by the `<h2>` headings on the current page.
-
-```html
-<ul id="page-nav"></ul>
+   intro
+   strings
+   datatypes
+   numeric
 ```
 
-__Implementation:__
-the functionality described above is implemented in the javascript file
-[assets/js/page_nav.js](./assets/js/page_nav.js).
+__For pages in MD:__
+
+add the toc tree directive in md at the end of the index page of the directory with the names of the all files in that directory.
+
+<pre>
+````{toctree}  
+:hidden:
+ARRAY_index 
+```` 
+</pre>
+
 
 
 ## Tutorials
@@ -299,10 +293,25 @@ Use *emphasis* (`*emphasis*`/`_emphasis_`, rendered as italic) for key words/phr
 
 Avoid use of **strong** (`**strong**`, rendered as bold) within paragraphs, since bold style is used for headings, drawing attention to examples (**Example:**), admonition/aside titles, etc.
 
-Make use of the admonition/aside [includes](_includes) (*note*, *tip*, *important*) where appropriate.
-* *note*: extra information, something that might appear in a footnote
-* *tip*: information about best practices, practical tips
-* *important*: warnings, things to avoid, etc.
+Make use of the admonition/aside (*note*, *tip*, *important*) where appropriate.
+* to add a **note** to md document use:
+<pre>
+::::{note}
+extra information, something that might appear in a footnote
+::::: 
+</pre>
+* to add a **tip** to md document use:
+<pre>
+::::{tip}
+information about best practices, practical tips
+::::: 
+</pre>
+* to add an **important** text to md document use:
+<pre>
+::::{importrant}
+warnings, things to avoid, etc.
+::::: 
+</pre>
 
 Prefer including the [Oxford comma](https://en.wikipedia.org/wiki/Serial_comma). It usually makes things more clear.
 > Fortran is fast, fun, and famed.
