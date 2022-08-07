@@ -259,11 +259,16 @@ $1 ~ /^(#:?)?include$/ &&
 $2 ~ /^["'].+["']$/ {
     # Remove quotes from the included file name
     gsub(/'|"/, "", $2)
-    # count included files per file to avoid having duplicates in our list
-    if (incc[FILENAME,$2]++ == 0) {
-        # Add the included file to our list, this might be case-sensitive
-        inc[++ii] = sprintf("$(%s) += $(%s)", FILENAME, $2)
-    }
+     # Extract path of included file
+     file=FILENAME
+     gsub(".*/","",file)
+     path = FILENAME
+     gsub(file,"",path)
+     # count included files per file to avoid having duplicates in our list
+     if (incc[FILENAME,$2]++ == 0) {
+         # Add the included file to our list, this might be case-sensitive
+         inc[++ii] = sprintf("$(%s) += %s%s", FILENAME, path, $2)
+     }
 }
 
 # Finally, produce the output for make, loop over all modules, use statements
