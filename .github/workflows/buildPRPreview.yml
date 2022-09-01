@@ -68,6 +68,9 @@ jobs:
         sed -i '/baseurl:/d' _config.yml
         echo "baseurl: $(cat base_url)/${{env.BUILD_DIR}}" >> _config.yml
         echo "pull_request: ${{github.event.issue.number}}" >> _config.yml
+        
+    - name: Define output directory
+      run: cat base_url
     
     # Download latest fpm-registry index
     - name: Download fpm-registry index
