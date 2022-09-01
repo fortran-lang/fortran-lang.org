@@ -69,9 +69,6 @@ jobs:
         echo "baseurl: $(cat base_url)/${{env.BUILD_DIR}}" >> _config.yml
         echo "pull_request: ${{github.event.issue.number}}" >> _config.yml
         
-    - name: Define output directory
-      run: cd src && cat base_url && cat _config.yml
-        
     
     # Download latest fpm-registry index
     - name: Download fpm-registry index
@@ -102,3 +99,4 @@ jobs:
       with:
         name: pr
         path: pr/
+
