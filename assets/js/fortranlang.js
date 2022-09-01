@@ -1,6 +1,6 @@
 fortranLang = {
 
-baseurl: '',
+baseurl: '/fortran-lang.org',
 
 loadJSON:
     (function loadJSON(url, onLoad) {
