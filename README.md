@@ -1,5 +1,7 @@
 # fortran-lang.org website
 
+**This repository is deprecated, the new webpage can be found [here](https://github.com/fortran-lang/webpage).**
+
 This repository contains the source for the fortran-lang.io website. 
 It's derived from https://github.com/neovim/neovim.github.io.
 
