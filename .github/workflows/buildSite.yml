@@ -23,8 +23,8 @@ jobs:
     # Checkout default branch into SRC_DIR
     - name: Checkout default branch
       uses: actions/checkout@v2
-      with:
-        path: ${{env.SRC_DIR}}
+      # with:
+      #   path: ${{env.SRC_DIR}}
 
     # Checkout existing gh-pages branch into PUBLISH_DIR
     - name: Checkout gh-pages
@@ -32,7 +32,12 @@ jobs:
       with:
         path: ${{env.PUBLISH_DIR}}
         ref: 'gh-pages'
-    
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
     # Install ruby 2.7.x
     - uses: ruby/setup-ruby@v1
       with:
@@ -52,12 +57,21 @@ jobs:
         wget ${{env.FPM_INDEX}} -O ${{env.SRC_DIR}}/_data/fpm_registry_index.json
 
     # Run Jekyll build and copy output to PUBLISH_DIR
-    - name: Build Jekyll Site
+    # - name: Build Jekyll Site
+    #   run: |
+    #     cd ${{env.SRC_DIR}}
+    #     bundle exec jekyll build 
+    #     cp -r _site/* ../${{env.PUBLISH_DIR}}/
+    #     touch ../${{env.PUBLISH_DIR}}/.nojekyll
+    
+    
+    # Add redirects to new webpage
+    - name: Redirect to new web page
       run: |
-        cd ${{env.SRC_DIR}}
-        bundle exec jekyll build 
-        cp -r _site/* ../${{env.PUBLISH_DIR}}/
-        touch ../${{env.PUBLISH_DIR}}/.nojekyll
+        pip install pyyaml
+        python3 redirect.py
+        cp -r _site/* ${{env.PUBLISH_DIR}}/
+        touch ${{env.PUBLISH_DIR}}/.nojekyll
 
     # Commit and push changes to remote/gh-pages
     - name: Commit and push to gh-pages
