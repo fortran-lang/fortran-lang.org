@@ -39,22 +39,22 @@ jobs:
         python-version: "3.10"
 
     # Install ruby 2.7.x
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.7
+#     - uses: ruby/setup-ruby@v1
+#       with:
+#         ruby-version: 2.7
 
-    # Setup Jekyll in SRC_DIR
-    - name: Setup Jekyll
-      run: |
-        cd ${{env.SRC_DIR}}
-        sudo gem install bundler
-        bundle config path .bundle
-        bundle install
+#     # Setup Jekyll in SRC_DIR
+#     - name: Setup Jekyll
+#       run: |
+#         cd ${{env.SRC_DIR}}
+#         sudo gem install bundler
+#         bundle config path .bundle
+#         bundle install
     
     # Download latest fpm-registry index
-    - name: Download fpm-registry index
-      run: |
-        wget ${{env.FPM_INDEX}} -O ${{env.SRC_DIR}}/_data/fpm_registry_index.json
+#     - name: Download fpm-registry index
+#       run: |
+#         wget ${{env.FPM_INDEX}} -O ${{env.SRC_DIR}}/_data/fpm_registry_index.json
 
     # Run Jekyll build and copy output to PUBLISH_DIR
     # - name: Build Jekyll Site
