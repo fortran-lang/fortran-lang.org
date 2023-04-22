@@ -4,7 +4,6 @@ import yaml
 
 
 root: Path = Path(__file__).parent
-
 outdir: Path = root / "_site" 
 
 with open(root / "_data" / "redirects.yml", "r", encoding="utf-8") as fd:
